@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+<head><meta http-equiv="Content-Type">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" name="viewport">
+<title>creativeSol | COVID-19 Tracker | Kerala | India</title>		
+<link rel="canonical" href="http://www.creativeboard.net//" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="website" />
+<meta property="og:title"
+	content="creativeSol | COVID-19 Tracker | Kerala | India" />
+<meta property="og:url" content="http://www.creativeboard.net//" />
+<meta property="og:site_name"
+	content="creativeSol | COVID-19 Tracker | Kerala | India" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title"
+	content="creativeSol | COVID-19 Tracker | Kerala | India" />
+<meta content="Covid19 NRI,Help Desk," name="keywords">
+<meta name="description" content="COVID-19 Tracker | Kerala | India">
+<style>
+    .select-css {
+	display: block;
+	font-size: 16px;
+	font-family: sans-serif;
+	font-weight: 700;
+	color: #444;
+	line-height: 1.3;
+	padding: .6em 1.4em .5em .8em;
+	width: auto;
+	max-width: 85%;
+	box-sizing: border-box;
+	margin: 0;
+	border: 1px solid #aaa;
+	/*box-shadow: 0 1px 0 1px rgba(0,0,0,.04);*/
+	border-radius: .5em;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+	background-color: #fff;
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
+	  linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%);
+	background-repeat: no-repeat, repeat;
+	background-position: right .7em top 50%, 0 0;
+	background-size: .65em auto, 100%;
+}
+.select-css::-ms-expand {
+	display: none;
+}
+.select-css:hover {
+	border-color: #888;
+}
+.select-css:focus {
+	border-color: #aaa;
+	box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
+	box-shadow: 0 0 0 3px -moz-mac-focusring;
+	color: #222;
+	outline: none;
+}
+.select-css option {
+	font-weight:normal;
+}
+</style>
+
+<script src="<?=APPURL?>/js/highstock.js"></script>
+<script src="<?=APPURL?>/js/modules/exporting.js"></script>
+</head>
+<body>
+
+<div><h4><b>Data Source: </b> http://www.covid19india.org </h4></div>
+<select class="select-css" name="aa" onchange="createChart(eval('all_sts_daily.'+ this.value),this.options[this.selectedIndex].text);createChartCm(eval('all_sts_cumul.'+this.value),this.options[this.selectedIndex].text)"> 
+<option value="an">Andaman and Nicobar Islands</option>
+<option value="ap">Andhra Pradesh</option>
+<option value="ar">Arunachal Pradesh</option>
+<option value="as">Assam</option>
+<option value="br">Bihar</option>
+<option value="ch">Chandigarh</option>
+<option value="ct">Chhattisgarh</option>
+<option value="dd">Daman and Diu</option>
+<option value="dl">Delhi</option>
+<option value="dn">Dadra and Nagar Haveli</option>
+<option value="ga">Goa</option>
+<option value="gj">Gujarat</option>
+<option value="hp">Himachal Pradesh</option>
+<option value="hr">Haryana</option>
+<option value="jh">Jharkhand</option>
+<option value="jk">Jammu and Kashmir</option>
+<option value="ka">Karnataka</option>
+<option selected="selected" value="kl">Kerala</option>
+<option value="la">Ladakh</option>
+<option value="ld">Lakshadweep</option>
+<option value="mh">Maharashtra</option>
+<option value="ml">Meghalaya</option>
+<option value="mn">Manipur</option>
+<option value="mp">Madhya Pradesh</option>
+<option value="mz">Mizoram</option>
+<option value="nl">Nagaland</option>
+<option value="or">Odisha</option>
+<option value="pb">Punjab</option>
+<option value="py">Puducherry</option>
+<option value="rj">Rajasthan</option>
+<option value="sk">Sikkim</option>
+<option value="tg">Telangana</option>
+<option value="tn">Tamil Nadu</option>
+<option value="tr">Tripura</option>
+<option value="up">Uttar Pradesh</option>
+<option value="ut">Uttarakhand</option>
+<option value="wb">West Bengal</option>
+</select>
+
+<div id="containerCm" style="    height:100%;
+    width:100%;
+    position:;"></div>
+<div id="container" style="    height:100%;
+    width:100%;
+    position:;"></div>
+</br>
+<div id="containerCmIn" style="    height:100%;
+    width:100%;
+    position:;"></div>
+<div id="containerIn" style="    height:100%;
+    width:100%;
+    position:;"></div>
+
+<div id="pie_InGrand" style="    height:100%;
+    width:100%;
+    position:;"></div>
+
+<div id="stackplot" style="    height:100%;
+    width:100%;
+    position:;"></div>
+<div id="stackplot_per" style="    height:100%;
+    width:100%;
+    position:;"></div>
+<div id="stackbar" style="    height:100%;
+    width:100%;
+    position:;"></div>
+<div id="stackbaractive" style="    height:100%;
+    width:100%;
+    position:;"></div>
+<div id="stackbarrecovery" style="    height:100%;
+    width:100%;
+    position:;"></div>
+<div id="pie_confirm" style="    height:100%;
+    width:100%;
+    position:;"></div>
+<div id="pie_active" style="    height:100%;
+    width:100%;
+    position:;"></div>
+<div id="pie_recovered" style="    height:100%;
+    width:100%;
+    position:;o"></div>
+<div id="pie_deceased" style="    height:100%;
+    width:100%;
+    position:;"></div>
+
+<div style="text-align: center;padding-top: 1%;">
+<h4><b>feedback:</b> info@creativeboard.net </h4></p> <small>
+No Copy Right </p> Content on this page is provided for information or education purposes,</P> You are free to use any data or representation of data in this page for commercial or noncommercial uses. 
+</p> Data source : http://www.covid19india.org</small>
+</div>
+<script type="text/javascript">
+var all_sts_cumul = JSON.parse('<? echo $this->all_sts_cumul_ary_json; ?>');
+var all_sts_daily = JSON.parse('<? echo $this->all_sts_daily_ary_json; ?>');
+
+var today =  new Date(new Date().setDate(new Date().getDate()-1));
+var dd = today.getDate();
+var mm = today.getMonth()+1; 
+var yyyy = today.getFullYear();
+if(dd<10){dd='0'+dd;} 
+if(mm<10) {mm='0'+mm;} 
+today = dd+'/'+mm+'/'+yyyy;
+
+
+Highcharts.chart('stackplot_per', {    	
+    	colors: ['#2b908f','#f45b5b','black'],
+    	legend: {
+            enabled: false
+        },
+    	chart: {
+            type: 'column',
+            height :300,
+        },
+    	credits: {
+            text: 'creativeboard.net',
+            href: 'http://www.creativeboard.net/'
+        },
+	    title: {
+	        text: 
+	        'State Wise Status Percentage ('+today+')'
+	    },
+        xAxis: {
+            categories: [<?=$this->states;?>],
+        	ref: 		[<?=$this->states;?>],
+        	},
+        yAxis: {
+            min: 0,
+            //max: 5649,
+            title: {
+                text: 'Percent'
+            }
+        },
+        tooltip: {
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+            shared: true
+        },
+        
+        plotOptions: {
+        	allowPointSelect: true,
+            column: {
+                stacking: 'percent',
+            },
+            series: {
+
+                maxPointWidth: 45,
+
+            }
+        },
+        series: [
+        		{name: 'Recovered', data: <?php echo "[" . implode ( ",", $this->allState["Recovered"] ) . "]";?>,},
+        		{name: 'Active',    data: <?php echo "[" . implode ( ",", $this->allState["Active"] ) . "]";?>,},
+        		{name: 'Deceased',  data: <?php echo "[" . implode ( ",", $this->allState["Deceased"] ) . "]";?>,},
+				],
+});
+
+Highcharts.chart('stackplot', {    	
+    	colors: ['#2b908f','#f45b5b','black'],
+    	legend: {
+            enabled: false
+        },
+    	chart: {
+            type: 'bar',
+            height :700,
+        },
+    	credits: {
+            text: 'creativeboard.net',
+            href: 'http://www.creativeboard.net/'
+        },
+        title: {
+            text: 
+            'Country Status ('+today+') : State Wise <br>'+
+            'Confirmed: <?=$this->country['Confirmed'];?>, '+
+            'Recovered: <?=$this->country['Recovered'];?>, '+
+            'Deceased: <?=$this->country['Deceased'];?>, '+ 
+            'Active: <?=($this->country['Confirmed']-($this->country['Recovered']+$this->country['Deceased']));?>'
+        },
+        xAxis: {
+            categories: [<?=$this->states;?>],
+        	ref: 		[<?=$this->states;?>],
+        	},
+        yAxis: {
+            min: 0,
+            //max: 5649,
+            title: {
+                text: 'Count'
+            }
+        },
+        tooltip: {
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+            shared: true
+        },
+        
+        legend: {
+            reversed: true
+        },
+        plotOptions: {
+            series: {
+                stacking: 'normal',
+                maxPointWidth: 45,
+                pointWidth: 12
+            }
+        },
+        
+        series: [
+        		{name: 'Recovered', data: <?php echo "[" . implode ( ",", $this->allState["Recovered"] ) . "]";?>,},
+        		{name: 'Active',    data: <?php echo "[" . implode ( ",", $this->allState["Active"] ) . "]";?>,},
+        		{name: 'Deceased',  data: <?php echo "[" . implode ( ",", $this->allState["Deceased"] ) . "]";?>,},
+				],
+});
+
+
+
+Highcharts.chart('pie_confirm', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    credits: {
+            text: 'creativeboard.net',
+            href: 'http://www.creativeboard.net/'
+        },
+    title: {
+        text: 
+        'Country Status ('+today+'): State Wise <br>'+
+        'Confirmed: <?=$this->country['Confirmed'];?>'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b> Count. {point.y:.0f} </b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            size: 280,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.y:.0f} ',
+
+                
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                }
+            }
+        }
+    },
+    series: [
+{
+        name: 'Confirmed',
+        colorByPoint: true,
+        data: [
+			            
+			<?
+			asort($this->allState['Confirmed']);
+			$confirmedStates = "'". implode("','", array_keys($this->allState['Confirmed']))."'";
+			foreach ($this->allState['Confirmed'] as $sts=>$val): ?>           
+        	{
+            	name: '<?=$sts?>',
+            	y: <?=$val?>,
+            	<?php if($sts=='Kerala'){ echo'sliced: true, selected: true,'; } ?>
+            	<?php  $this->states .= "'".$sts."',"; ?>
+        	},
+        	<?php endforeach;?>
+
+        
+        ],
+        innerSize: '60%',
+        center: ['50%'],
+    },]
+});
+
+Highcharts.chart('pie_deceased', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    credits: {
+            text: 'creativeboard.net',
+            href: 'http://www.creativeboard.net/'
+        },
+    title: {
+        text: 
+        'Country Status ('+today+'): State Wise <br> Deceased: <?=$this->country['Deceased'];?> '
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b> Count. {point.y:.0f} </b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            size: 280,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.y:.0f} ',
+
+                
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                }
+            }
+        }
+    },
+    series: [
+    {
+        name: 'Deceased',
+        colorByPoint: true,
+        data: [
+			            
+			<?
+			asort($this->allState['Deceased']);
+			foreach ($this->allState['Deceased'] as $sts=>$val): ?>           
+        	{
+            	name: '<?=$sts?>',
+            	y: <?=$val?>,
+            	<?php if($sts=='Kerala'){ echo'sliced: true, selected: true,'; } ?>
+        	},
+        	<?php endforeach;?>
+
+        
+        ],
+        innerSize: '60%',
+        center: ['50%'],
+    }]
+});
+
+Highcharts.chart('pie_active', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    credits: {
+            text: 'creativeboard.net',
+            href: 'http://www.creativeboard.net/'
+        },
+    title: {
+        text: 
+        'Country Status ('+today+'): Active: <?=($this->country['Confirmed']-($this->country['Recovered']+$this->country['Deceased']));?>'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b> Count. {point.y:.0f} </b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            size: 280,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.y:.0f} ',
+
+                
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                }
+            }
+        }
+    },
+    series: [
+        {
+        name: 'Active',
+        colorByPoint: true,
+        data: [
+			            
+			<?
+			asort($this->allState['Active']);
+			$activeStates = "'". implode("','", array_keys($this->allState['Active']))."'";
+			foreach ($this->allState['Active'] as $sts=>$val): ?>           
+        	{
+            	name: '<?=$sts?>',
+            	y: <?=$val;?>,
+            	<?php if($sts=='Kerala'){ echo'sliced: true, selected: true,'; } ?>
+        	},
+        	<?php endforeach;?>
+        ],
+        innerSize: '60%',
+        center: ['50%'],
+    }]
+});
+
+
+Highcharts.chart('pie_recovered', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    credits: {
+            text: 'creativeboard.net',
+            href: 'http://www.creativeboard.net/'
+        },
+    title: {
+        text: 
+        'Country Status ('+today+'): Recovered: <?=$this->country['Recovered'];?>'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b> Count. {point.y:.0f} </b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            size: 280,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.y:.0f} ',
+
+                
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                }
+            }
+        }
+    },
+    legend: {
+        reversed: true
+    },
+    series: [
+		{
+        name: 'Recovered',
+        colorByPoint: true,
+        data: [
+			            
+			<?
+			asort($this->allState['Recovered']);
+			foreach ($this->allState['Recovered'] as $sts=>$val): ?>           
+        	{
+            	name: '<?=$sts?>',
+            	y: <?=$val?>,
+            	<?php if($sts=='Kerala'){ echo'sliced: true, selected: true,'; } ?>
+        	},
+        	<?php endforeach;?>
+
+        
+        ],
+        innerSize: '60%',
+        center: ['50%'],
+        dataLabels: {
+            allowOverlap: true,
+            enabled: true
+          },
+          showInLegend: false,
+    },]
+});
+
+
+Highcharts.chart('pie_InGrand', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    credits: {
+            text: 'creativeboard.net',
+            href: 'http://www.creativeboard.net/'
+        },
+    title: {
+        text: 
+        'Country Status ('+today+'): Confirmed: <?=$this->country['Confirmed'];?>'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b> {point.y:.0f} </b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            size: 280,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b> Count: {point.y:.0f} ',
+
+                
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                }
+            }
+        }
+    },
+    legend: {
+        reversed: false
+    },
+    series: [
+		{
+        name: 'Count',
+        colorByPoint: true,
+        data: [
+            
+
+			            
+            	{
+                	name: 'Recovered (' + <?=round($this->country['Recovered']/$this->country['Confirmed']*100,2); ?> +' %) <br>' ,
+                	y: <?=$this->country['Recovered'];?>,
+                	color:"#2b908f",
+    
+            	},
+            	
+            	{
+                	name: 'Active (' + <?=round(($this->country['Confirmed']-($this->country['Recovered']+$this->country['Deceased']))/$this->country['Confirmed']*100,2); ?> +' %) <br>' ,
+                	y: <?=($this->country['Confirmed']-($this->country['Recovered']+$this->country['Deceased']));?>,
+                	color:"#f45b5b",
+    
+            	},
+            	
+            	{
+                	name: 'Deceased (' + <?=round($this->country['Deceased']/$this->country['Confirmed']*100,2); ?> +' %) <br>' ,
+                	y: <?=$this->country['Deceased'];?>,
+                	color:"black",
+    
+            	},
+        
+        ],
+        innerSize: '60%',
+        center: ['50%'],
+        dataLabels: {
+            allowOverlap: true,
+            enabled: true
+          },
+          showInLegend: false,
+    },]
+});
+
+Highcharts.chart('stackbar', {    	
+	colors: ['#F45B5B'],
+	legend: {
+        enabled: false
+    },
+	chart: {
+        type: 'bar',
+        height :700,
+    },
+	credits: {
+        text: 'creativeboard.net',
+        href: 'http://www.creativeboard.net/'
+    },
+    title: {
+        text: 
+        'Country Status ('+today+'): State Wise <br>'+
+        'Confirmed: <?=$this->country['Confirmed'];?>'
+    },
+    xAxis: {
+        categories: [<?=$confirmedStates?>],
+    	ref: 		[<?=$confirmedStates?>],
+    	},
+    yAxis: {
+        min: 0,
+        //max: 5649,
+        title: {
+            text: 'Count'
+        }
+    },
+    tooltip: {
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+        shared: true
+    },
+    
+    plotOptions: {
+    	allowPointSelect: true,
+        column: {
+            stacking: 'number',
+        },
+        series: {
+            maxPointWidth: 45,
+            pointWidth: 12
+        }
+    },
+    series: [
+    		{name: 'Confirmed', data: <?php echo "[" . implode ( ",", $this->allState["Confirmed"] ) . "]";?>},],
+});
+
+
+Highcharts.chart('stackbaractive', {    	
+	colors: ['#F15C80'],
+	legend: {
+        enabled: false
+    },
+	chart: {
+        type: 'bar',
+        height :700,
+    },
+	credits: {
+        text: 'creativeboard.net',
+        href: 'http://www.creativeboard.net/'
+    },
+    title: {
+        text: 
+        	'Country Status ('+today+'): Active: <?=($this->country['Confirmed']-($this->country['Recovered']+$this->country['Deceased']));?>'
+    },
+    xAxis: {
+        categories: [<?=$activeStates?>],
+    	ref: 		[<?=$activeStates?>],
+    	//reversed: true,
+    	},
+    yAxis: {
+        min: 0,
+        //max: 5649,
+        title: {
+            text: 'Count'
+        }
+    },
+    tooltip: {
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+        shared: true
+    },
+    
+    plotOptions: {
+    	allowPointSelect: true,
+        column: {
+            stacking: 'number',
+        },
+        series: {
+            maxPointWidth: 45,
+            pointWidth: 12
+        }
+    },
+    series: [
+    		{name: 'Active Cases', data: <?php echo "[" . implode ( ",", $this->allState["Active"] ) . "]";?>},],
+});
+
+
+<?
+ arsort($this->allState['Recovery']);
+ $RecStates = "'". implode("','", array_keys($this->allState['Recovery']))."'";
+?>
+
+
+Highcharts.chart('stackbarrecovery', {    	
+	colors: ['green'],
+	legend: {
+        enabled: false
+    },
+	chart: {
+        type: 'line',
+        height :700,
+    },
+	credits: {
+        text: 'creativeboard.net',
+        href: 'http://www.creativeboard.net/'
+    },
+    title: {
+        text: 
+        	'Country Status ('+today+'): Recovery Rate'
+    },
+    xAxis: {
+        categories: [<?=$RecStates?>],
+    	ref: 		[<?=$RecStates?>],
+    	},
+    yAxis: {
+        min: 0,
+        max: 100,
+        title: {
+            text: 'Percent'
+        }
+    },
+    tooltip: {
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y} % </b><br/>',
+        shared: true
+    },
+    
+    plotOptions: {
+    	allowPointSelect: true,
+        column: {
+            stacking: 'number',
+        },
+        series: {
+            maxPointWidth: 45,
+            pointWidth: 12
+        }
+    },
+    series: [
+    		{name: 'Recovery Rate', data: <?php echo "[" . implode ( ",", $this->allState["Recovery"] ) . "]";?>},],
+});
+
+ var   seriesCounter = 0;
+
+/**
+ * Create the chart when all data is loaded
+ * @returns {undefined}
+ */
+function createChart(var_val,state_sel) {
+
+    Highcharts.stockChart('container', {
+
+        rangeSelector: {
+            selected: 4
+        },
+
+
+        yAxis: {
+            labels: {
+
+            },
+            plotLines: [{
+                value: 0,
+                width: 2,
+                color: 'silver'
+            }]
+        },
+
+        plotOptions: {
+            series: {
+                showInNavigator: true
+            }
+        },
+        credits: {
+            text: 'creativeboard.net',
+            href: 'http://www.creativeboard.net/'
+        },
+
+        tooltip: {
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> <br/>',
+            split: true
+        },
+
+        series: var_val
+    });
+}
+createChart(all_sts_daily.kl);
+function createChartCm(var_val,state_sel) {
+    Highcharts.stockChart('containerCm', {
+
+        rangeSelector: {
+            selected: 4
+        },
+
+        title: {
+            text: 'Covid 19 Tracking state: '+ state_sel +' | India ('+today+')'
+        },
+
+        yAxis: {
+            labels: {
+
+            },
+            plotLines: [{
+                value: 0,
+                width: 2,
+                color: 'silver'
+            }]
+        },
+
+        plotOptions: {
+            series: {
+                showInNavigator: true
+            }
+        },
+        credits: {
+            text: 'creativeboard.net',
+            href: 'http://www.creativeboard.net/'
+        },
+
+        tooltip: {
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> <br/>',
+            split: true
+        },
+
+        series: var_val
+    });
+}
+createChartCm(all_sts_cumul.kl,'Kerala');
+/*----------------------------------*/
+var seriesOptionsIn = [
+    {
+        "data": <?php echo "[" . implode ( ",", $this->india ["Confirmed"] ) . "]";?>,
+        "name":"Confirmed",
+        "color":"#ff073a",
+        "id": 'id_confirm',
+    },
+    {
+        "data": <?php echo "[" . implode ( ",", $this->india["Recovered"] ) . "]";?>,
+        "name":"Recovered",
+        "color":"#28a745",
+        "id": 'id_recovered',   
+    },
+    {
+		"data": <?php echo "[" . implode ( ",", $this->india["Deceased"] ) . "]";?>,
+        "name":"Deceased",
+        "color":"#6c757d",
+        "id": 'id_deceased',
+    },
+	
+
+
+    
+
+    
+];
+ var   seriesCounter = 0;
+
+/**
+ * Create the chart when all data is loaded
+ * @returns {undefined}
+ */
+function createChartIn() {
+
+    Highcharts.stockChart('containerIn', {
+
+        rangeSelector: {
+            selected: 4
+        },
+
+
+        yAxis: {
+            labels: {
+
+            },
+            plotLines: [{
+                value: 0,
+                width: 2,
+                color: 'silver'
+            }]
+        },
+
+        plotOptions: {
+            series: {
+                showInNavigator: true
+            }
+        },
+        credits: {
+            text: 'creativeboard.net',
+            href: 'http://www.creativeboard.net/'
+        },
+
+        tooltip: {
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> <br/>',
+            split: true
+        },
+
+        series: seriesOptionsIn,
+
+        series:[
+        	 {
+        	        "type": 'flags',
+        	        "onSeries": 'id_confirm',
+        	        "data": [{
+        	        	x: 1586217600000,
+        	            "title": 'Confirmed'
+        	        },],
+        	        "shape": 'squarepin', 
+        	        "color":"#ff073a",
+        	        tooltip: {
+        	            pointFormatter: function() {
+        	              return false
+        	            }
+        	          }
+        	    }, 
+        		 {
+        	        "type": 'flags',
+        	        "name": 'Flags on series',
+        	        "onSeries": 'id_recovered',
+        	        "data": [{
+        	        	x: 1586822400000,
+        	            "title": 'Recovered'
+        	        },],
+        	        "shape": 'squarepin', 
+        	        "color":"#28a745",
+        	        tooltip: {
+        	            pointFormatter: function() {
+        	              return false
+        	            }
+        	          }
+        	    }, 
+        		 {
+        	        "type": 'flags',
+        	        "name": 'Flags on series',
+        	        "onSeries": 'id_deceased',
+        	        "data": [{
+        	        	x: 1587427200000,
+        	            "title": 'Deceased'
+        	        },],
+        	        "shape": 'squarepin', 
+        	        "color":"#6c757d",
+        	        tooltip: {
+        	            pointFormatter: function() {
+        	              return false
+        	            }
+        	          }
+        	    }, 
+            ]
+    });
+}
+createChartIn();
+/*-------------------------------------------*/
+var seriesOptionsCmIn = [
+    {
+        "data": <?php echo "[" . implode ( ",", $this->inTotal["Confirmed"] ) . "]";?>,
+        "name":"Confirmed",
+        "color":"#ff073a"
+    },
+    {
+        "data": <?php echo "[" . implode ( ",", $this->inTotal["Recovered"] ) . "]";?>,
+        "name":"Recovered",
+        "color":"#28a745"
+    },
+    {
+		"data": <?php echo "[" . implode ( ",", $this->inTotal["Deceased"] ) . "]";?>,
+        "name":"Deceased",
+        "color":"#6c757d"
+    },
+    {
+		"data": <?php echo "[" . implode ( ",", $this->indiaActive["Active"] ) . "]";?>,
+        "name":"Active",
+        "color":"#007bff"
+    },
+];
+function createChartCmIn() {
+    Highcharts.stockChart('containerCmIn', {
+
+        rangeSelector: {
+            selected: 4
+        },
+
+        title: {
+            text: 'Covid 19 Tracking India ('+today+')'
+        },
+
+        yAxis: {
+            labels: {
+
+            },
+            plotLines: [{
+                value: 0,
+                width: 2,
+                color: 'silver'
+            }]
+        },
+
+        plotOptions: {
+            series: {
+                showInNavigator: true
+            }
+        },
+        credits: {
+            text: 'creativeboard.net',
+            href: 'http://www.creativeboard.net/'
+        },
+
+        tooltip: {
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> <br/>',
+            split: true
+        },
+
+        series: seriesOptionsCmIn
+    });
+}
+createChartCmIn();
+
+
+</script>
+
+</body>
+</html>

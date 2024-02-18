@@ -1,0 +1,112 @@
+<form method="get" id="filter" name="filter" action="empcontract">
+<div style="padding-left: 10px; padding-right: 10px;">
+	<div class="col-md-12 card" style="margin-bottom: 0px;">
+	<div class="card-block" style="padding-top: 1%;">
+	<div class="full-width">
+		<button name="cmdPrint" value="  Print  " onclick="$('#report').printElement();" class="btn btn btn-primary pull-right" style="padding: 2px 12px;">Print</button></div>
+		<h5 class="title-margin">Report: Operator Contract Status </h5>
+	</div>
+	</div>
+
+<div class="col-md-12 card" style="height: 100%; padding-left: 5px; padding-right: 5px;">
+<div id="report">
+<?php include __DIR__ . '/../../../public/css/printstyle_rpt.php.css';?>
+	<div  class="card" style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
+					<div style="margin-top: 3%;">
+						<table class="rpt_tbl">
+						<thead>
+							<tr>
+								<th width="1%" rowspan="3">
+									<div class="title-margin">
+										<img width="50" alt=""
+											src="http://<?=$_SERVER ['HTTP_HOST']?>/css/images/ast.png"
+											style="padding-top: 6px; padding-left: 0px; margin-left: 42px; margin-top: 5px;">
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<th ><div class="center" style="width: 79%;">Abdullah
+										Salem Trading Est</div></th>
+							</tr>
+							<tr>
+								<th width=""><div class="center"
+										style="margin-top: 0px; margin-bottom: 10px; width: 79%;">Operator Contract Status Report</div></th>
+							</tr>
+						</thead>
+						</table>
+					</div>
+					<table class="rpt_frame">
+			<thead>
+				<tr>
+					<th class="empty" colspan="12"></th>
+				</tr>
+				<tr>
+					<th width="5%" class="center">Sl No</th>
+					<th width="5%" class="center">File No</th>
+					<th width="9%" class="center">Name</th>
+					<th width="3%" class="center">Comp.</th>
+					<!--  <th width="5%" class="center">Designation</th>-->
+					<th width="6%" class="center">Status</th>
+					<th width="6%" class="center">Date From</th>
+					<th width="6%" class="center">Machine</th>
+					<th width="15%" class="center">Customer</th>
+					<th width="6%" class="center">Project</th>
+					<th width="6%" class="center">Location</th>
+					<th width="6%" class="center">Note</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?if(count( $this->employeeList)>0):?>
+				<?php foreach( $this->employeeList as $employee):
+				$encEmpId = $this->encode($employee['emp_id']);
+				?>
+				<tr>
+					<td class="center"><?=@++$offset;?></td>
+					<td><?=x(array('link'=>'employee/view','ref'=>$encEmpId,'label'=>$employee['emp_fileno']))?> </td>
+					<td><?=$employee['emp_fname']?>&nbsp;<?=$employee['emp_mname']?>&nbsp;<?=$employee['emp_lname']?></td>
+					<td><?=$employee['comp_disp_name']?></td>
+					<!-- <td><?//=$employee['desig_name']?></td> -->
+					<td><?=$employee['con_status']?></td>
+					<td><?=$employee['emc_date_start']?></td>
+					
+					<?php if($employee['emc_status']==2 || $employee['sts_type'] == 1 ):?>
+					<td colspan="5"></td>
+					<?php else:?>
+					<td><?=$employee['vhl_no']?></td>
+					<td><?=$employee['cust_name']?></td>
+					<td><?=$employee['emc_project']?></td>
+					<td><?=$employee['emc_location']?></td>
+					<td><?=$employee['emc_note']?></td>
+					<?php endif;?>
+					
+
+				</tr>
+				<?php endforeach?>
+			<?endif?>
+			</tbody>
+		</table>
+		<div>
+			<table class="rpt_tbl">
+				<thead>
+					<tr><?php $date = new DateTime();
+					$date = $date->format('d/m/y')?>
+						<th><div class="title-margin rpt_footer"><h5>Operator Contract Status Report (<?=$date?>)</h5></div></th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+</form>
+<script type="text/javascript">                  
+$(document).ready(function() {
+	var source = '<?=APPURL?>'+ 'erp_employee/master/getlive';
+	$('#f_company').on('change',function() {
+		getJaxData($('#f_company').val(),'f_dept',source);
+	});
+	getJaxData($('#f_company').val(),'f_dept',source);
+});
+</script>
+

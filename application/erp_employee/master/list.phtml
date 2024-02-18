@@ -1,0 +1,190 @@
+<?$offset = $this->empObj->_voffset;?>
+<form method="get" id="filter" name="filter" action="list">
+	<div class="main-content mt-0 hor-content">
+		<div class="side-app">
+			<!-- CONTAINER -->
+			<div class="main-container container">
+				<!-- PAGE-HEADER -->
+				<div class="page-header">
+					<div>
+						<h1 class="page-title">Employees</h1>
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="javascript:void(0);">Home</a>
+							</li>
+							<li class="breadcrumb-item active" aria-current="page">Employees</li>
+						</ol>
+					</div>
+					<div class="ms-auto pageheader-btn">
+                        <?=x(array('link' => 'erp_employee/master/add','label' => '<button class="btn btn-primary btn-icon text-white me-2" ><span> <i
+							class="fe fe-plus"></i>
+					</span> Add Employee</button>',array("param" => 'class="facebox"')), '<br><br>')?>
+                        <a href="javascript:void(0);"
+							class="btn btn-success btn-icon text-white"> <span> <i
+								class="fe fe-log-in"></i>
+						</span> Export
+						</a>
+					</div>
+				</div>
+				<!-- PAGE-HEADER END -->
+				<!-- ROW -->
+				<div class="row row-sm">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Filters</h3>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="file_no" class="form-label">File</label>
+                                            <?=$this->form->f_fileno->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="name" class="form-label">Name</label>
+                                            <?=$this->form->f_name->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label class="form-label"> Company</label>
+                                            <?=$this->form->f_company->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label class="form-label"> Departments</label>
+                                            <?=$this->form->f_dept->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label class="form-label"> Designation</label>
+                                            <?=$this->form->f_desig->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label class="form-label"> Nationality</label>
+                                            <?=$this->form->f_natonality->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label class="form-label"> Status</label>
+                                            <?=$this->form->f_status->show()?>
+                                        </div>
+									</div>
+								</div>
+								<button class="btn <?=$this->filter_class?> mt-4 mb-0"
+									type="submit">Filter</button>
+								<input class="btn btn-secondary mt-4 mb-0" name="clear"
+									type="submit" value="All"></input>
+							</div>
+						</div>
+					</div>
+					<!-- ROW -->
+					<div class="">
+						<div class="">
+							<div class="card">
+								<div class="card-header">
+									<h3 class="card-title">Employees</h3>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive export-table">
+										<table id="file-datatable"
+											class="table table-bordered text-nowrap key-buttons border-bottom w-100">
+											<thead>
+												<tr>
+													<th class="border-bottom-0">Sl No</th>
+													<th class="border-bottom-0">File No</th>
+													<th class="border-bottom-0">Name</th>
+													<th class="border-bottom-0">Company</th>
+													<th class="border-bottom-0">Department</th>
+													<th class="border-bottom-0">Designation</th>
+													<th class="border-bottom-0">Contact</th>
+													<th class="border-bottom-0">Status</th>
+													<th class="border-bottom-0">Edit</th>
+													<th class="border-bottom-0">View</th>
+												</tr>
+											</thead>
+											<tbody>
+                                                <?if(count($this->employeeList)>0):?>
+                                                <?php
+
+                                                    foreach ($this->employeeList as $employee) :
+                                                        $encEmpId = $this->encode($employee['emp_id']);
+                                                        ?>
+                                                <tr>
+													<td class="center">
+                                                        <?=@++$offset;?>
+                                                    </td>
+													<td>
+                                                        <?=$employee['emp_fileno']?>
+                                                    </td>
+													<td>
+                                                        <?=$employee['emp_fname']?>&nbsp;
+                                                        <?=$employee['emp_mname']?>&nbsp;
+                                                        <?=$employee['emp_lname']?>
+                                                    </td>
+													<td>
+                                                        <?=$employee['comp_disp_name']?>
+                                                    </td>
+													<td>
+                                                        <?=$employee['dept_name']?>
+                                                    </td>
+													<td>
+                                                        <?=$employee['desig_name']?>
+                                                    </td>
+													<td class="center">
+                                                        <?//=$nation[$employee['emp_nationality']]?>
+                                                        <?=$employee['emp_mobileno']?>
+                                                    </td>
+													<td class="center">
+                                                        <?php if(!$employee['emp_mstatus']):?> Active
+                                                        <?php else:?>
+                                                        <?=$employee['emp_mstatus']?>
+                                                        <?php endif;?>
+                                                        <?=x(array('link'=>'erp_employee/master/status','ref'=>array('ref'=>$encEmpId),'label'=>'<i class="fas fa-star-half-alt"></i>',array("param"=>'class="facebox"')))?>
+                                                    </td>
+													</td>
+													<td class="center">
+                                                        <?=x(array('link'=>'erp_employee/master/edit','ref'=>array('ref'=>$encEmpId),'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>
+                                                    </td>
+													<td class="center">
+                                                        <?=x(array('link'=>'erp_employee/master/view','ref'=>array('ref'=>$encEmpId),'label'=>'<i class="fas fa-search"></i>'))?>
+                                                    </td>
+												</tr>
+                                                <?php endforeach?>
+                                                <?endif?>
+                                            </tbody>
+										</table>
+                                        <?$this->empObj->pagination();?>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+
+
+</form>
+
+<script type="text/javascript">
+                    $(document).ready(function() {
+                        var source = '<?=APPURL?>' + 'erp_employee/master/getlive';
+                        $('#f_company').on('change', function() {
+                            getJaxData($('#f_company').val(), 'f_dept', source);
+                        });
+                        getJaxData($('#f_company').val(), 'f_dept', source);
+                    });
+                    </script>

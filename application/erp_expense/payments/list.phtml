@@ -1,0 +1,154 @@
+<div class="card-block" style="padding-top: 2%;">
+	<div class="full-width">
+		<?=x(array('link'=>'erp_expense/payments/add','label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')))?>
+	</div>
+	<h5 class="title-margin">List of Payments</h5>
+</div>
+<form method="get" id="filter" name="filter" action="list">
+	<div class="col-md-12 card filter-card">
+		<table class="">
+			<tr style="font-size: 0.8em;">
+				<th width="50%">Vendor</th>
+			</tr>
+			<tr>
+				<td width="50%">
+					<div class="form-group ">
+                	<?=$this->form->f_selVendor->show()?>
+              		</div>
+				</td>
+				<td width="15%" align="center">
+	              <div class="form-group ">
+					<button class="btn <?=$this->filter_class?>" type="submit" >Filter</button>
+					<input class="btn btn-secondary" name="clear" type="submit" value="All"></input>
+	              </div>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+<div class="col-md-12">
+	<div class="card">
+		<table class="table table-bordered grid">
+			<thead>
+				<tr>
+					<th width="5%" class="center">Sl No</th>
+					<th width="25%" class="center">Vendor Name</th>
+					<th width="6%" class="center">Date</th>
+					<th width="8%" class="center">Amount</th>
+					<th width="6%" class="center">Edit</th>
+					<?php if($_SESSION['user_acl']['erp_expense/payments/approval']):?>
+					<th width="6%" class="center">Approve</th>
+					<?php endif;?>
+					<th width="6%" class="center">Voucher</th>
+					<th width="6%" class="center">View</th>
+					<th width="6%" class="center">File No</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?if(count($this->paymentList)>0):?>
+				<?php foreach($this->paymentList as $pay):
+					$encPayId = $this->encode($pay['pay_id']);
+				?>
+				<tr>
+					<td class="center"><?=@++$this->offset;?></td>
+					<td><?=$pay['ven_name']?></td>
+					<td><?=$pay['pay_date']?></td>
+					<td align="right" onclick="togglenext(this);" style="cursor: pointer;"><b><?=$pay['pay_amount']?></b></td>
+					<td class="center">
+					
+					
+					<?php if(empty($pay['pay_app_status'])):?>
+						<?=x(array('link'=>'erp_expense/payments/edit','ref'=>$encPayId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>
+						<?=x(array('link'=>'erp_expense/payments/remittance','ref'=>$encPayId,'label'=>'<i class="glyphicon glyphicon glyphicon-print text-info" style="margin-left: 15px;"></i>',array("param"=>'opener')))?>  
+					<?php endif?>					
+					
+					</td>
+					<?php if($_SESSION['user_acl']['erp_expense/payments/approval']):?>
+					<td class="center">
+					<?php if($pay['pay_app_status']==0):?>
+						<?=x(array('link'=>'erp_expense/payments/approval','ref'=>$encPayId,'label'=>'<span class="glyphicon glyphicon-ok-circle" style="color:#31708f;font-size: 1.2em;"> </span>',array("param"=>'class="facebox"')))?>  
+					<?php endif?>
+					</td>
+					<?php endif;?>
+					
+					<td class="center">
+					<?php if($pay['pay_pay_status']==2):?>
+						<i class="glyphicon glyphicon-check text-info"></i>
+					<?php elseif($pay['pay_pay_status']==1):?>
+						<?=x(array('link'=>'erp_expense/payments/close','ref'=>$encPayId,'label'=>'<i class="glyphicon glyphicon-info-sign text-info"></i>',array("param"=>'class="facebox"')))?>
+					
+					<?php elseif($pay['pay_app_status']==1):?>
+						<?=x(array('link'=>'erp_expense/payments/voucher','ref'=>$encPayId,'label'=>'<i class="glyphicon glyphicon-info-sign text-info" style="color: tomato;"></i>',array("param"=>'class="facebox"')))?>
+					<?php endif?>
+					</td>
+					
+					<td class="center">
+						<?=x(array('link'=>'erp_expense/payments/view','ref'=>$encPayId,'label'=>'<i class="fas fa-search"></i>',array("param"=>'class="facebox"')))?> 
+					</td>
+					<td>
+						<?=x(array('link'=>'erp_expense/payments/editoption','ref'=>$encPayId,'label'=>$pay['pay_file_no'],array("param"=>'class="facebox"')))?>  
+					</td>
+				</tr>
+				<tr style="display:none;">
+				<td></td>
+				<td colspan="8"><?=$pay['bill_det']?></td>
+				</tr>
+				<?php endforeach?>
+			<?endif?>
+			</tbody>
+		</table>
+		<?$this->paymentObj->pagination();?>
+	</div>
+</div>
+
+</form>
+<?=x(array('link'=>'erp_report/expense/payments','label'=>'
+	<div class="col-md-3">
+		<div class="card">
+				<div class="card-block" style="background-color: ;">
+				<div class="card-block">
+					<h4 class="card-title center">Credit Payments</h4>
+					<p class="card-text">
+						<small class="text-muted"></small>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+', array("param"=>'wide_opener')),'<br><br>')?>
+<style>
+.modal-dialog{
+	width: 95%;
+}
+.pinkrow{
+	background-color: pink;
+}
+</style>
+
+<script type="text/javascript">  
+function toggleHeight(field){
+    if($(field).is(":checked")){
+		   $(field).closest('tr').addClass('pinkrow');
+		   $(field).val("1");
+    }
+    else{
+		  $(field).closest('tr').removeClass('pinkrow');
+		  $(field).val("");
+    }
+}
+$(document).on(function() {
+	$('input:checkbox.bill-select').each(function() {
+		toggleHeight(this)
+	});
+	
+});
+
+function togglenext(el){
+	if($(el).closest('tr').next('tr').css('display') == 'table-row')
+		$(el).closest('tr').next('tr').css('display','none');
+	else
+		$(el).closest('tr').next('tr').css('display','table-row');
+}
+
+
+</script>

@@ -1,0 +1,210 @@
+<div class="full-width">
+<h3 style="padding-left: 1.5em;"><?=$this->propertyDetail['prop_no']?>&nbsp;/<?=$this->propertyDetail['bld_name']?>&nbsp;/<?=$this->propertyDetail['prop_name']?></h3>			
+	<?=x(array('link'=>'erp_property/master/list','label'=>'<button class="btn btn-info pull-right" style="margin-bottom: 10px;    margin-right: 1em;    margin-top: -3em;">Back</button>'))?>
+</div>
+
+<div class="col-md-12 card1">
+	<div class="col-md-12 card" style="padding-top: 14px;">
+		<div class="">
+			<ul style="width: 100%;" class="nav nav-tabs">
+				<li class="<?=@$this->hom_class?>"><a href="#home" data-toggle="tab" aria-expanded="false">Summary</a></li>
+				<?php if($this->propertyDetail['prop_building_type']!=1):?>
+				<li class="<?=@$this->doc_class?>"><?=accx('erp_property/master/propdocs','<a href="#menu2" onclick= "getContent(\''.APPURL.'erp_property/master/propdocs\',\''.$this->param['ref'].'\',\'menu2\')" data-toggle="tab">Documents</a>');?>
+				<?php else:?>
+				<li class="<?=@$this->doc_class?>"><?=accx('erp_property/master/propdocscomm','<a href="#menu2" onclick= "getContent(\''.APPURL.'erp_property/master/propdocscomm\',\''.$this->param['ref'].'\',\'menu2\')" data-toggle="tab">Documents</a>');?>
+				<?php endif;?>
+				<li class="<?=@$this->profile_class?>"><?=accx('erp_property/master/profile','<a href="#menu4" onclick= "getContent(\''.APPURL.'erp_property/master/profile\',\''.$this->param['ref'].'\',\'menu4\')" data-toggle="tab">Profile</a>');?>
+			</ul>
+
+			<div class="tab-content">
+				<div class="tab-pane fade <?=@$this->hom_active?>" id="home">
+					<br>
+					<p></p>
+					<div class="col-md-13">
+						<div class="panel-group" id="accordion">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title1">
+										<a data-toggle="collapse" data-parent="#" href="#collapse1">Property Information</a>
+									</h4>
+								</div>
+								<div id="collapse1" class="panel-collapse">
+									<div class="panel-body">
+										<table class="table table-bordered" style="max-width: 60%;float: left; ">
+											<thead>
+												<tr>
+													<th>Property No</th>
+													<th> <?=$this->propertyDetail['prop_no']?></th>
+												</tr>
+												<tr>
+													<th>Property Building</th>
+													<th><?=$this->propertyDetail['bld_name']?></th>
+												</tr>
+												<tr>
+													<th>Proerty Name</th>
+													<th><?=$this->propertyDetail['prop_name']?></th>
+												</tr>
+												<tr>
+													<th>Category</th>
+													<th><?=$this->vtcat[$this->propertyDetail['prop_cat']]?></th>
+												</tr>
+												<tr>
+													<th>Type</th>
+													<th><?=$this->propType[$this->propertyDetail['prop_type']]?></th>
+												</tr>
+												<tr>
+													<th>Level</th>
+													<th><?=$this->propLevel[$this->propertyDetail['prop_level']]?></th>
+												</tr>
+												<tr>
+													<th>Elecricity [Meter]-[Account]-[Recharge]</th>
+													<th>[<?=$this->propertyDetail['prop_elec_meter']?>]-[<?=$this->propertyDetail['prop_elec_account']?>]-[<?=$this->propertyDetail['prop_elec_recharge']?>]</th>
+												</tr>
+												<tr>
+													<th>Water Meter No</th>
+													<th><?=$this->propertyDetail['prop_water']?></th>
+												</tr>
+												<tr>
+													<th>Remarks</th>
+													<th><?=$this->propertyDetail['prop_remarks']?></th>
+												</tr>
+												<tr>
+													<th>File No.</th>
+													<th><?=$this->propertyDetail['prop_fileno']?></th>
+												</tr>
+											</thead>
+										</table>
+										
+										<div>
+										<table class="" style="max-width: 40%; display: table;">
+											<thead>
+												<tr style="padding-left: 1em;" >
+													<th class="center" style="padding-left: 15px;"><div style="margin-top: 1em;border-style: double;">  
+													<a href = '<?=IMAGEURL?><?=$this->encode($this->propImage['file_id']);?>' class='lightbox' >								
+														<img style="padding-left: 0%; "width="380" alt="" src="<?=IMAGEURL?><?=$this->encode($this->propImage['file_id']);?>"></a>
+													</div></th>
+												</tr>
+												</thead>
+										</table></div>
+								<div style="display: table; width: 100%;"><label>Documets Details</label>
+										<table class="table table-bordered">
+											<thead>
+												<tr>
+													<th width="8%"class="center">Type</th>
+													<th width="5%"class="center">Doc No.</th>
+													<th width="12%"class="center">Agreement By</th>
+													<th width="8%"class="center">Rent Amount</th>
+													<th width="8%"class="center">Agreement Amount</th>
+													<th width="8%"class="center">Agreement Start </th>
+													<th width="4%"class="center">Agreement End</th>
+													<th width="4%"class="center">Payment Details</th>
+													<th width="10%"class="center">Payment Schedule</th>
+													<th width="5%"class="center">View</th>
+													<th width="5%"class="center">Edit</th>
+													<th width="5%"class="center">Download</th>
+												</tr>
+											</thead>
+											<tbody>
+											<?php $dup =0;?>
+											<?php
+											
+											$docCount = count($this->propDocs);
+											foreach ($this->propDocs as $doc):
+											$doi = DateTime::createFromFormat(DFS_DB,$doc['doc_issue_date']);
+											$doi = $doi->format(DF_DD);
+											$doe = DateTime::createFromFormat(DFS_DB,$doc['doc_expiry_date']);
+											$doe = $doe->format(DF_DD);
+											$encFileId = $this->encode($doc['file_id']);
+											$encDocId = $this->encode($doc['doc_id']);
+											?>
+												<tr>
+													<td><?=x(array('link'=>'erp_property/master/propdocsview','ref'=>$encDocId,'label'=>$this->docMst[$doc['doc_type']],array("param"=>'class="facebox"')))?> </td>
+													<td><?=$doc['doc_no']?></td>
+													<td><?=$doc['agr_tenant']?></td>
+													<td class="center"><?=$doc['agr_rent']?></td>
+													<td class="center"><?=$doc['agr_amount']?></td>
+													<td class="center"><?=$doi?></td>
+													<td class="center"><?=$doe?></td>
+													<td class="center"><?=$doc['agr_paydet']?></td>
+													<td align="center"> <?php if($doc['doc_type']==201):?> <?=x(array('link'=>'erp_property/master/payoptions','ref'=>$encDocId,'label'=>'<i style="font-size: 25px;" class="glyphicon glyphicon-usd text-info"></i>',array("param"=>'class="facebox"')))?><?php endif?></td>
+													<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$doc['file_exten'])))?></td>
+													<?php if($this->propertyDetail['prop_building_type']==1):?>
+													<td class="center"> <?=x(array('link'=>'erp_property/master/propdocscommedit','ref'=>$encDocId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?></td>
+													<?php else:?>
+													<td class="center"> <?=x(array('link'=>'erp_property/master/propdocsedit','ref'=>$encDocId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?></td>
+													<?php endif?>
+													<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?></td>
+												</tr>
+											<?php $dup =1; endforeach;?>
+											</tbody>
+										</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					</div>
+					<p></p>
+				<div class="tab-pane fade <?=@$this->doc_active?>" id="menu2">
+					<?php if($this->propertyDetail['prop_building_type']!=1):?>
+						<?//require "propdocs.php"?>
+					<?php else:?>
+						<? //require "propdocscomm.php"?>
+					<?php endif?>
+				</div>
+				<div class="tab-pane fade <?=@$this->profile_active?>" id="menu4">
+					<div style="padding-top: 3px;">
+						<div class="card-block" style="padding-top: 1%;">
+							<div class="full-width">
+								<button name="cmdPrint" value="  Print  " onclick="$('#report').printElement();" class="btn btn btn-primary pull-right" style="padding: 2px 12px;">Print</button></div>
+								<h5 class="title-margin">Profile Report</h5>
+							</div>
+
+					</div>
+					<? //require "profile.php";?>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php 
+$COMMDOCTYPE= DOC_TYPE_COM_PROP; $COMMDOCREFID= $this->decPropId;
+$UPDTYPE = UPD_TYP_PROP; $UPDREFID = $this->decPropId;
+if($this->propertyDetail['prop_building_type']==1){
+    viewAction(array('module'=>'erp_manage', 'controller'=>'documents', 'action'=>'documents', 'param'=>array('type'=>$COMMDOCTYPE,'ref'=>$COMMDOCREFID)));
+}
+viewAction(array('module'=>'erp_manage', 'controller'=>'updates', 'action'=>'updates', 'param'=>array('type'=>$UPDTYPE,'ref'=>$UPDREFID)));
+?>
+
+</div>
+<script type="text/javascript">           
+$(document).ready(function() {
+	$('#show_action').on('click',function() {
+		if($('#action_target').is(":visible"))
+			$('#action_target').hide();
+		else
+			$('#action_target').show();
+	});
+	$('#photo_action').on('click',function() {
+		if($('#photo_target').is(":visible"))
+			$('#photo_target').hide();
+		else
+			$('#photo_target').show();
+	});
+});
+
+function togglePhoto(){
+	if($('#photo_target').is(":visible"))
+		$('#photo_target').hide();
+	else
+		$('#photo_target').show();
+}
+
+function toggleAction(){
+	if($('#action_target').is(":visible"))
+		$('#action_target').hide();
+	else
+		$('#action_target').show();
+}
+
+</script>

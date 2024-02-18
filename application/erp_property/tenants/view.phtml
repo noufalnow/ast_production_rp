@@ -1,0 +1,68 @@
+<div class="dynamic-popup" id="dynamic-popup">
+	<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+		<h4 class="modal-title">Building Details</h4>
+	</div>
+
+		<div class="modal-body">
+			<div class="row mb-4" style="margin-top: 15px;">
+				<label class="col-sm-2 form-label">Tenant Type</label>
+				<div class="col-sm-4">
+                    <?=$this->tenantDetail['tnt_agr_type']?>
+                  </div>
+				<label class="col-sm-2 form-label">National/Expart</label>
+				<div class="col-sm-4">
+                    <?=$this->tenantDetail['tnt_expat']?>
+                  </div>
+			</div>
+			<div class="row mb-4">
+				<label class="col-sm-2 form-label">Tenant Name</label>
+				<div class="col-sm-4">
+                    <?=$this->tenantDetail['tnt_full_name']?>
+                  </div>
+				<label class="col-sm-2 form-label">Company Name</label>
+				<div class="col-sm-4">
+                    <?=$this->tenantDetail['tnt_comp_name']?>
+                  </div>
+			</div>
+			<div class="row mb-4">
+				<label class="col-sm-2 form-label">Phone No.</label>
+				<div class="col-sm-4">
+                    <?=$this->tenantDetail['tnt_phone']?>
+                  </div>
+				<label class="col-sm-2 form-label">Mobile No.</label>
+				<div class="col-sm-4">
+                    <?=$this->tenantDetail['tnt_tele']?>
+                  </div>
+			</div>
+			<div class="row mb-4">
+				<label class="col-sm-2 form-label">Id. No.</label>
+				<div class="col-sm-4">
+                    <?=$this->tenantDetail['tnt_id_no']?>
+                  </div>
+				<label class="col-sm-2 form-label">CR. No.</label>
+				<div class="col-sm-4">
+                    <?=$this->tenantDetail['tnt_crno']?>
+                  </div>
+			</div>
+			<div class="row mb-4">
+				<label class="col-sm-2 form-label">ID Copy</label>
+				<div class="col-sm-4">
+					<?=x(array('link'=>'default/default/download','ref'=>$this->encode($this->tenantDetail['idfile']),'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?>
+                  </div>
+				<label class="col-sm-2 form-label">CR Copy</label>
+				<div class="col-sm-4">
+					<?=x(array('link'=>'default/default/download','ref'=>$this->encode($this->tenantDetail['crfile']),'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?>
+
+                  </div>
+			</div>
+		</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function($) {
+	$('.modal-dialog').css('width', '850px');
+})
+</script>

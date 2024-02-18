@@ -1,0 +1,363 @@
+<div class="card-block" style="padding-top: 2%;">
+	<div class="full-width">
+		<?=x(array('link'=>'erp_vehicle/master/add','label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')),'<br><br>')?>
+	</div>
+	<h5 class="title-margin">List of Vehicles</h5>
+</div>
+<form method="get" id="filter" name="filter" action="list">
+<div class="col-md-12 card filter-card">
+		<table class="">
+			<tr style="font-size: 0.8em;">
+				<th width="15%">Vehicle No</th>
+				<th width="15%">Type</th>
+				<th width="15%">Model</th>
+				<th width="15%">Company</th>
+				<th width="15%"></th>
+			</tr>
+			<tr>
+				<td width="24%">
+					<div class="form-group ">
+                	<?=$this->form->f_vhlno->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_type->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_model->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_company->show()?>
+              		</div>
+				</td>
+				<td width="15%" align="center">
+	              <div class="form-group ">
+					<button class="btn <?=$this->filter_class?>" type="submit" >Filter</button>
+					<input class="btn btn-secondary" name="clear" type="submit" value="All"></input>
+	              </div>
+				</td>
+			</tr>
+		</table>
+	</div>
+<div class="col-md-12">
+	<div class="card">
+		<table class="table table-bordered grid">
+			<thead>
+				<tr>
+					<th width="5%" class="center">Sl No</th>
+					<th width="9%" class="center">Vehicle No</th>
+					<th width="15%" class="center">Category</th>
+					<th width="15%" class="center">Type</th>
+					<th width="15%" class="center">Model</th>
+					<th width="15%" class="center">Company</th>
+					<th width="15%" class="center">Man.</th>
+					<th width="15%" class="center">Rate</th>
+					<th width="10%" class="center">Edit</th>
+					<th width="6%" class="center">View</th>
+					<!--  <th width="6%" class="center">Delete</th>-->
+				</tr>
+			</thead>
+			<tbody>
+			<?if(count($this->vehicleList)>0):?>
+				<?php foreach($this->vehicleList as $vehivle):
+					$encVhlId = $this->encode($vehivle['vhl_id']);
+				?>
+				<tr>
+					<td class="center"><?=@++$this->offset;?></td>
+					<td><?=$vehivle['vhl_no']?></td>
+					<td><?=$vehivle['vhl_comm_status']==1?'Non Commercial':"Commercial"?></td>
+					<td><?=$vehivle['type_name']?></td>
+					<td><?=$vehivle['vhl_model']?></td>
+					<td><?=$vehivle['comp_disp_name']?></td>
+					<td><?=$this->man[$vehivle['vhl_man']]?></td>
+					<td>
+					<?php if($vehivle['vhl_rate_hour']):?>
+					Hour: <?=$vehivle['vhl_rate_hour']?><br>
+					<?php endif?>
+					<?php if($vehivle['vhl_rate_day']):?>
+					Day: <?=$vehivle['vhl_rate_day']?><br>
+					<?php endif?>
+					<?php if($vehivle['vhl_rate_month']):?>
+					Month: <?=$vehivle['vhl_rate_month']?>
+					<?php endif?>
+					</td>
+					<td class="center">
+						<?=x(array('link'=>'erp_vehicle/master/edit','ref'=>$encVhlId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>  
+					</td>
+					<td class="center">
+						<?=x(array('link'=>'erp_vehicle/master/view','ref'=>$encVhlId,'label'=>'<i class="fas fa-search"></i>'))?> 
+					</td>
+					<!--
+					<td class="center">
+						<?//=x(array('link'=>'erp_vehicle/master/delete','ref'=>$encVhlId,'label'=>'<i class="glyphicon glyphicon-trash text-danger"></i>',array("param"=>'class="facebox"')))?> 
+					</td>
+					-->
+				</tr>
+				<?php endforeach?>
+			<?endif?>
+			</tbody>
+		</table>
+		<?$this->vehicleObj->pagination();?>
+	</div>
+</div>
+</form>
+	<?=x(array('link'=>'erp_report/vehicle/vehicle','label'=>'
+		<div class="col-md-3">
+			<div class="card">
+					<div class="card-block">
+					<div class="card-block">
+						<h4 class="card-title center">Vehicles</h4>
+						<p class="card-text">
+							<small class="text-muted"></small>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	', array("param"=>'wide_opener')),'<br><br>')?>
+	
+	<?=x(array('link'=>'erp_report/vehicle/vhldocument','label'=>'
+		<div class="col-md-3">
+			<div class="card">
+					<div class="card-block">
+					<div class="card-block">
+						<h4 class="card-title center">Vehicle Document</h4>
+						<p class="card-text">
+							<small class="text-muted"></small>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	', array("param"=>'wide_opener')),'<br><br>')?>
+	
+	<?=x(array('link'=>'erp_report/vehicle/vhldocument','ref'=>array('ref'=>'exp'),'label'=>'
+		<div class="col-md-3">
+			<div class="card">
+					<div class="card-block" style="background-color: ;">
+					<div class="card-block">
+						<h4 class="card-title center">Vehicle Expiry </h4>
+						<p class="card-text">
+							<small class="text-muted"></small>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	', array("param"=>'wide_opener')),'<br><br>')?>
+		
+	<?=x(array('link'=>'erp_report/vehicle/vhlexpense','label'=>'
+		<div class="col-md-3">
+			<div class="card">
+					<div class="card-block" style="background-color: ;">
+					<div class="card-block">
+						<h4 class="card-title center">Vehicle Expense</h4>
+						<p class="card-text">
+							<small class="text-muted"></small>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	', array("param"=>'wide_opener')),'<br><br>')?>
+	
+		<?=x(array('link'=>'erp_report/vehicle/commveh','label'=>'
+		<div class="col-md-3">
+			<div class="card">
+					<div class="card-block" style="background-color: ;">
+					<div class="card-block">
+						<h4 class="card-title center">Commercial</h4>
+						<p class="card-text">
+							<small class="text-muted"></small>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	', array("param"=>'wide_opener')),'<br><br>')?>
+
+	<?=x(array('link'=>'erp_report/vehicle/vehiclecontract','label'=>'
+	<div class="col-md-3">
+		<div class="card">
+				<div class="card-block" style="background-color: ;">
+				<div class="card-block">
+					<h4 class="card-title center">Vehicle Contract</h4>
+					<p class="card-text">
+						<small class="text-muted"></small>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+', array("param"=>'wide_opener')),'<br><br>')?>
+	
+	
+	
+	
+<div>
+</div>
+
+<div class="row">
+<div class="col-md-12">
+	<div id="container-comm" style="max-width: 95%; height: 400px; margin-bottom: 20px;margin-left: 2.5%;"></div>
+</div>	
+<div class="col-md-12">
+	<div id="container-ncomm" style="max-width: 95%; height: 250px; margin-bottom: 20px;margin-left: 2.5%;"></div>
+</div>	
+
+
+
+<?php 
+$this->vehicleObj = new vehicle();
+//$this->vehicleList = $this->vehicleObj->getVehicleExpReport(@$where);
+$commVhlExpSumm = $this->vehicleObj->getVehicleExpSummary(array('comm_status'=>2));
+$nonVhlExpSumm = $this->vehicleObj->getVehicleExpSummary(array('comm_status'=>1));
+?>
+
+<script type="text/javascript">
+baseurl = '<?=APPURL?>';
+
+Highcharts.chart('container-comm', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Maintenence expenses - Commercial'
+    },
+    xAxis: {
+        type: 'category',
+        labels: {
+            rotation: -45,
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif'
+            }
+        }
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Expense'
+        }
+    },
+    legend: {
+        enabled: false
+    },
+    tooltip: {
+        pointFormat: 'RO : <b>{point.y:.1f} Rial</b>'
+    },
+
+    plotOptions: {
+    	column: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            events:{
+                click: function (event) {
+                	getOpener ('wide',baseurl+'erp_report/expense/expense/f_mainhead/3/f_vehicle/'+event.point.ownURL);
+                }
+            },  
+        }
+    },
+
+    
+    series: [{
+        name: 'Expense',
+        data: 
+            [<?foreach ($commVhlExpSumm as $summ):?>       
+   	            {
+   	                name: '<?=$summ['vhl_no']?>',
+   	                y: <?=$summ['v_sum']?>,
+   	 	            ownURL:'<?=$summ['vhl_id']?>',
+   	            },
+   	            <?php endforeach;?>
+        	],
+        dataLabels: {
+            enabled: true,
+            rotation: -90,
+            color: '#FFFFFF',
+            align: 'right',
+            format: '{point.y:.1f}', // one decimal
+            y: 10, // 10 pixels down from the top
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif'
+            }
+        }
+    }]
+});
+
+Highcharts.chart('container-ncomm', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Maintenence expenses - Non Commercial'
+    },
+    xAxis: {
+        type: 'category',
+        labels: {
+            rotation: -45,
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif'
+            }
+        }
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Expense'
+        }
+    },
+    legend: {
+        enabled: false
+    },
+    tooltip: {
+        pointFormat: 'RO : <b>{point.y:.1f} Rial</b>'
+    },
+
+    plotOptions: {
+    	column: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            events:{
+                click: function (event) {
+                	getOpener ('wide',baseurl+'erp_report/expense/expense/f_mainhead/3/f_vehicle/'+event.point.ownURL);
+                }
+            },  
+        }
+    },
+
+    
+    series: [{
+        name: 'Expense',
+        data: 
+            [<?foreach ($nonVhlExpSumm as $summ):?>       
+   	            {
+   	                name: '<?=$summ['vhl_no']?>',
+   	                y: <?=$summ['v_sum']?>,
+   	 	            ownURL:'<?=$summ['vhl_id']?>',
+   	            },
+   	            <?php endforeach;?>
+        	],
+        dataLabels: {
+            enabled: true,
+            rotation: -90,
+            color: '#FFFFFF',
+            align: 'right',
+            format: '{point.y:.1f}', // one decimal
+            y: 10, // 10 pixels down from the top
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif'
+            }
+        }
+    }]
+});
+</script>
+

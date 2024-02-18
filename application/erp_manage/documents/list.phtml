@@ -1,0 +1,66 @@
+<div class="card-block" style="padding-top: 2%;">
+	<div class="full-width">
+		<?=x(array('link'=>'update/add','label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')))?>
+	</div>
+	<h5 class="title-margin" style="padding-left: 19px;">Task/ Updates List</h5>
+</div>
+<form method="get" id="filter" name="filter" action="list">
+<div class="col-md-12">
+	<div class="card">
+		<table class="table table-bordered grid">
+			<thead>
+				<tr>
+					<th width="3%" class="center">Sl No</th>
+					<th width="5%" class="center">Category</th>
+					<th width="5%" class="center">Refrence</th>
+					<th width="7%" class="center">Reported By</th>
+					<th width="10%" class="center">Reported On</th>
+					<th width="8%" class="center">Start Date</th>
+					<th width="8%" class="center">End Date</th>
+					<th width="15%" class="center">Description</th>
+					<th width="3%" class="center">Priority</th>
+					<th width="3%" class="center">Status</th>
+					<th width="3%" class="center">Update</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?if(count( $this->updateList)>0):?>
+				<?php foreach( $this->updateList as $update):
+					$encupdateId = $this->encode($update['upd_id']);
+					$encRefId = $this->encode($update['upd_type_refid']);
+					
+					$link[1] = 'employee/view';
+					$link[2] = 'property/view';
+					$link[3] = 'vehicle/view';
+					$link[4] = 'bill/view';
+					
+				?>
+				<tr>
+					<td class="center"><?=@++ $this->offset;?></td>
+					<td><?=$update['txt_type']?> </td>
+					<td><?=x(array('link'=> $link[$update['upd_type']] .'','ref'=>$encRefId,'label'=>$update['ref_name']))?></td>
+					
+					<td><?=$update['user_name']?></td>
+					<td align="center"><?=$update['dt_created']?></td>
+					<td align="center"><?=$update['upd_dttime']?></td>
+					<td align="center"><?=$update['upd_enddttime']?></td>
+					<td><?=$update['upd_note']?></td>
+					<td align="center"><?=$update['upd_priority']?></td>
+					<td align="center"><?=$update['upd_status_label']?></td>
+					<td class="center">
+					<?php if($update['upd_status']==1):?>
+						<?=x(array('link'=>'updates/status','ref'=>$encupdateId,'label'=>'<i class="glyphicon glyphicon-hand-right text-info"></i>',array("param"=>'class="facebox"')))?>
+					<?php else:?>
+						<i class="glyphicon glyphicon-ok"></i>
+					<?php endif?>	 
+					</td>
+				</tr>
+				<?php endforeach?>
+			<?endif?>
+			</tbody>
+		</table>
+		<? $this->updatesObj->pagination();?>
+	</div>
+</div>
+</form>
+

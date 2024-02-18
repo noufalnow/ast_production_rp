@@ -1,0 +1,217 @@
+<div style="margin-top:1%;">
+	<div class="col-md-12 card filter-card" style="margin-bottom: 0px;">
+	<div class="card-block" style="padding-top: 1%;">
+	<div class="full-width">
+		<button name="cmdPrint" value="  Print  " onclick="$('#report').printElement();" class="btn btn btn-primary pull-right" style="padding: 2px 12px;">Print</button></div>
+		<h5 class="title-margin">Report: Vehicle Maintenence Expense</h5>
+	</div>
+		<form method="get" id="filter" name="filter" action="">
+		<table class="">
+			<tr style="font-size: 0.8em;">
+				<th width="15%">Category</th>
+				<th width="15%">No</th>
+				<th>Type</th>
+				<th>Model</th>
+				<th>Company</th>
+			</tr>
+			<tr>
+				<td width="15%">
+					<div class="form-group ">
+                	<?=$this->form->f_cat->show()?>
+              		</div>
+				</td>
+				<td width="15%">
+					<div class="form-group ">
+                	<?=$this->form->f_vhlno->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_type->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_model->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_company->show()?>
+              		</div>
+				</td>
+
+				<td width="15%" align="center">
+	              <div class="form-group ">
+					<button class="btn <?=$this->filter_class?>" type="submit" >Filter</button>
+					<input class="btn btn-secondary" name="clear" type="submit" value="All"></input>
+	              </div>
+				</td>
+			</tr>
+			
+			<tr style="font-size: 0.8em;">
+				<th width="10%">Par Cat.</th>
+				<th width="25%">Sub Cat.</th>
+				<th width="25%">Cat.</th>
+				<th width="15%">Expiry Month</th>
+			</tr>
+			<tr>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_pCatSelect->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_sCatSelect->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_cCatSelect->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_monthpick->show()?>
+              		</div>
+				</td>
+
+			</tr>
+			
+			
+		</table>
+	</div>
+
+<div class="col-md-12 " style="height: 100%; padding-left: 1%; padding-right: 1%;">
+<div id="report">
+<?php include __DIR__ . '/../../../public/css/printstyle_rpt.php.css';?>
+	<div  class="card" style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
+					<div style="margin-top: 3%;">
+						<table class="rpt_tbl">
+				<thead>
+					<tr>
+						<th width="1%" rowspan="3">
+							<div class="title-margin">
+								<img width="50" alt=""
+									src="http://<?=$_SERVER ['HTTP_HOST']?>/css/images/ast.png"
+									style="padding-top: 6px; padding-left: 0px; margin-left: 42px; margin-top: 5px;">
+							</div>
+						</th>
+					</tr>
+					<tr>
+						<th ><div class="center" style="width: 79%;">Abdullah
+								Salem Trading Est</div></th>
+					</tr>
+					<tr>
+						<th width=""><div class="center"
+								style="margin-top: 0px; margin-bottom: 10px; width: 79%;">Vehicle Maintenence Expense</div></th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<table class="rpt_frame">
+			<thead>
+				<tr>
+					<th class="empty" colspan="7"></th>
+				</tr>
+				<tr>
+					<th width="10%" class="center">Sl No</th>
+					<!-- <th width="9%" class="center">Commercial</th>
+					<th width="9%" class="center">Company</th>
+					<th width="9%" class="center">Type</th>
+					<th width="9%" class="center">Make</th>
+					<th width="9%" class="center">VHL.NO</th> -->
+					<th width="20%" class="center">Category</th>
+					<th width="20%" class="center">Sub Category</th>
+					<th width="20%" class="center">Child Category</th>
+					<th width="20%" class="center">Bill Date</th>
+					<th width="10%" class="center">Amount</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?if(count($this->vehicleList)>0):?>
+				<?php 
+				$pvhl= '';
+				foreach($this->vehicleList as $vehivle):
+					$encExpId = $this->encode($vehivle['exp_id']);
+				?>
+				<?php if($pvhl!= $vehivle['vhl_id'] && $pvhl!=''):?> 
+				<tr>
+					<th colspan="5" style="text-align: right;"><?=$vhlNo?> : Total Expense </th>		
+					<th ><?=number_format(@$vhlTotal,3);?></th>														
+				</tr>
+				<?php $vhlTotal = 0; endif?>
+				
+				<?php if($pvhl!= $vehivle['vhl_id']):?> 
+				<tr>
+					<th colspan="6"><?=$vehivle['vhl_no']?>-<?=$vehivle['type_name']?>-<?=$vehivle['vhl_model']?>-<?=$vehivle['comp_disp_name']?>-<?=$vehivle['vhl_comm_status']==1?'Non Commercial':"Commercial"?></th>														
+				</tr>
+				<?php $vhlTotal = 0; endif?>
+				<tr>
+					<td class="center"><?=@++$offset;?></td>
+					<!-- <td><?//=$vehivle['vhl_comm_status']==1?'Non Commercial':"Commercial"?></td>
+					<td><?//=$vehivle['comp_disp_name']?></td>
+					<td><?//=$vehivle['type_name']?></td>
+					<td><?//=$vehivle['vhl_model']?></td>
+					<td><?//=$vehivle['vhl_no']?></td>-->
+					<td><?=$vehivle['pcat']?></td>
+					<td><?=$vehivle['scat']?></td>
+					<td><?=$vehivle['ccat']?></td>
+					<td align="center">
+					<?=x(array('link'=>'erp_expense/expense/view','ref'=>$encExpId,'label'=>$vehivle['exp_billdt'],array("param"=>'class="facebox"')))?></td>
+					<td><?=$vehivle['eref_amount']?></td>															
+				</tr>
+				<?php  $pvhl = $vehivle['vhl_id'];
+						$vhlNo = $vehivle['vhl_no'];
+						$vhlTotal+=	$vehivle['eref_amount'];
+						$grndTotal+=$vehivle['eref_amount'];
+				?>
+				<?php endforeach?>
+				<tr>
+					<th colspan="5" style="text-align: right;"><?=$vhlNo?> : Total Expense </th>		
+					<th ><?=number_format(@$vhlTotal,3);?></th>													
+				</tr>
+				<tr>
+					<th class="empty" colspan="6"></th>
+				</tr>
+				<tr>
+					<th style="text-align: right;" colspan="5"> Grand Total </th>		
+					<th ><?=number_format(@$grndTotal,3);?></th>													
+				</tr>
+			<?endif?>
+			</tbody>
+		</table>
+		<div>
+			<table class="rpt_tbl">
+				<thead>
+					<tr><?php $date = new DateTime();
+					$date = $date->format('d/m/y')?>
+						<th><div class="title-margin rpt_footer"><h5>Vehicle MIS Report (<?=$date?>)</h5></div></th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+</form>
+<script type="text/javascript">           
+$(document).ready(function() {
+    $('#f_monthpick').MonthPicker({ Button: false });
+});
+$(document).ready(function() {
+	var source = '<?=APPURL?>'+ 'erp_expense/expense/getlive';
+	$('#f_pCatSelect').on('change',function() {
+		getJaxData($('#f_pCatSelect').val(),'f_sCatSelect',source,'parent');
+		$('#f_cCatSelect').empty();
+	});
+	getJaxData($('#f_pCatSelect').val(),'f_sCatSelect',source,'parent');
+
+	$('#f_sCatSelect').on('change',function() {
+		getJaxData($('#f_sCatSelect').val(),'f_cCatSelect',source,'sub');
+	});
+	getJaxData($('#f_sCatSelect').val(),'f_cCatSelect',source,'sub');
+});
+</script>

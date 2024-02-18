@@ -1,0 +1,144 @@
+<div class="col-md-9">
+<h3 style="padding-left: 1.5em;">Module Permissions</h3>			
+	<?=x(array('link'=>'default/default/dashboard','label'=>'<button class="btn btn-info pull-right" style="margin-bottom: 10px;    margin-right: 1em;    margin-top: -3em;">Back</button>'))?>
+</div>
+
+<form name="form" method="post" id="add" name="add" action="">	
+<div class="col-md-9">
+	<div class="card">
+		<div class="card-block" style="margin: 2em;">
+			<h5>Set Module Permission</h5>
+			
+				<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-3 form-label" >User Group</label>
+					<div class="col-sm-6">
+                    <?=$this->form->usergroup->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-3 form-label" >User Name</label>
+					<div class="col-sm-6">
+                    <?=$this->form->users->show()?>
+                  </div>
+				</div>
+			</div>
+    		<table class="table table-bordered grid"
+    			style="margin: 2em; width: 90%">
+    			<thead>
+    				<tr>
+	            <td width="50%"><strong>Module Name</strong></td>
+	            <td width="10%" align="center"><strong>Create</strong> <br> <input type="checkbox" id="selectAll" class="create" /></td>
+				<td width="10%" align="center"><strong>View</strong>  <br><input type="checkbox" id="selectAll" class="view" /></td>
+				<td width="10%" align="center"><strong>Update</strong>  <br><input type="checkbox" id="selectAll" class="update" /></td>
+				<td width="10%" align="center"><strong>Delete</strong>  <br><input type="checkbox" id="selectAll" class="delete" /></td>
+	          </tr></thead>
+   			<tbody>
+	         <?php foreach($this->modulesList as $modules):
+	         $encryptedModuleId = $this->encode($modules['module_id']);
+	         ?> 
+	         	<tr>
+	         		<td><div class="acclink">
+						<?=accx('acl/config/setcontrollers','<a href="javascript:;" onclick="window.location.href=\''.APPURL.'acl/config/setcontrollers/ref/'.$encryptedModuleId.'/usergroup/\'+$(\'#module_ug\').val()+\'/users/\'+$(\'#module_usr\').val()">'.strtoupper($modules['module_label']).'</a>');?>
+	         		</div>
+					</td>
+		            <td align="center"><input class="create" id="create_<?=$modules['module_id']?>" type="checkbox" value="1" name="create_<?=$modules['module_id']?>"></td>
+		            <td align="center"><input class="view" class="view" id="view_<?=$modules['module_id']?>" type="checkbox" value="1" name="view_<?=$modules['module_id']?>"></td>
+		            <td align="center"><input class="update" class="update" id="update_<?=$modules['module_id']?>" type="checkbox" value="1" name="update_<?=$modules['module_id']?>"></td>
+		            <td align="center"><input class="delete" class="delete" id="delete_<?=$modules['module_id']?>" type="checkbox" value="1" name="delete_<?=$modules['module_id']?>"></td>
+	            </tr>
+	         <?php endforeach?> 
+	        </tbody>
+	       </table>
+    		<div class="row mb-4">
+    			<div class="col-md-11">
+    				<button onclick="displayOverlay('Please wait...')" type="submit" 
+    					class="btn  btn-primary align-button"
+    					style="font-size: 120%; margin-bottom: 2em; margin-top: 1em;">Set
+    					Permission</button>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+ <?=$this->form->Submit?>
+</form>
+<script src="<?=APPURL?>js/acl_check_box.js"></script>
+<script type="text/javascript">
+$('.ajax_req').change(function () {
+	getPermission(this);
+});
+
+function getPermission(el){
+    var value = $(el).val();
+    var type = $(el).attr('id');
+    $.ajax({
+        type: 'POST',
+        url: '<?=APPURL?>acl/config/getpermission/ajax/ajax',
+        data: {
+            'id': value,
+            'type': type
+        },
+        success: function (response) {
+        	response = $.parseJSON(response);
+
+    		$('input[type=checkbox]').each(function () {
+				$(this).prop('checked', false);
+        	});
+        	
+        	$.each(response, function(index,data) {
+            	if(data.create==2)
+            		$('#create_'+index).prop('checked', true);
+            	else
+            		$('#create_'+index).prop('checked', false);
+
+            	if(data.update==2)
+            		$('#update_'+index).prop('checked', true);
+            	else
+            		$('#update_'+index).prop('checked', false);
+
+            	if(data.view==2)
+            		$('#view_'+index).prop('checked', true);
+            	else
+            		$('#view_'+index).prop('checked', false);
+
+            	if(data.del==2)
+            		$('#delete_'+index).prop('checked', true);
+            	else
+            		$('#delete_'+index).prop('checked', false);
+        		
+        	});
+
+        	if(response.length==0){
+
+        	}
+        	
+        }
+    });
+}
+
+</script> 
+
+
+
+
+<script type="text/javascript">           
+$(document).ready(function() {
+	var source = '<?=APPURL?>'+ 'admin/users/getusers';
+	$('#module_ug').on('change',function() {
+		getJaxData($('#module_ug').val(),'module_usr',source);
+	});
+	getJaxData($('#module_ug').val(),'module_usr',source);
+
+	if($('#module_usr').val())
+		getPermission($('#module_usr'));
+	else if($('#module_ug').val())
+		getPermission($('#module_ug'));
+	
+});
+</script>
+<style>
+.table-bordered thead tr:first-child {
+  border-bottom-style: double;
+  border-top: .2rem solid #e3b6f7;
+}
+</style>
+	

@@ -1,0 +1,99 @@
+<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+	<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+		<h4 class="modal-title">Update Payment Details</h4>
+	</div>
+		<form name="form" method="post" id="edit" action='erp_expense/payments/editoption/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;">
+	<div class="modal-body">
+	
+		<div class="col-md-12 card" style="padding-top: 15px; margin-bottom: 3px;"> 
+		<div style="height: 250px;overflow-y: auto">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+				<tr>
+					<th width="4%" class="center">Sl No</th>
+					<th width="15%" class="center">Ref No</th>
+					<th width="5%" class="center">Bill Dt.</th>
+					<th width="5%" class="center">Due Dt.</th>
+					<th width="5%" class="center">Company</th>
+					<th width="6%" class="center">Main Head</th>
+					<th width="35%" class="center">Particulers</th>
+					<th width="7%" class="center">Bill Amount</th>
+					<th width="7%" class="center">Discount</th>
+					<th width="7%" class="center">Payment</th>
+					<th width="7%" class="center">Balance</th>
+
+				</tr>
+			</thead>
+			<tbody>
+			<?if(count($this->paymentList)>0):?>
+				<?php foreach(@$this->paymentList as $i=>$expense):
+				//$encExpId = $this->encode($expense['exp_id']);
+				//s($expense);
+				?>
+				<tr>
+					<td class="center"><?=@++$offset;?></td>
+					<td><?=$expense['exp_refno']?></td>
+					<td><?=$expense['exp_billdt']?></td>
+					<td><?=$expense['exp_billdt']?></td>
+					<td><?=$expense['comp_disp_name']?></td>
+					<td><?=$expense['main_head']?></td>
+					<td><?=$expense['exp_details']?></td>
+					<td><?=$expense['pdet_amt_topay']?></td>
+					<td><?=$expense['pdet_amt_dis']?></td>
+					<td><?=$expense['pdet_amt_paid']?></td>	
+					<td><?=$expense['pdet_amt_bal']?></td>	
+				</tr>
+				<?php endforeach?>
+			<?endif?>
+			</tbody>
+		</table>
+		</div>
+		</div>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th width="20%" class="center">Payment Date</th>
+					<th width="20%" class="center">Mode</th>
+					<th width="20%" class="center">Cheque Details</th>
+					<th width="20%" class="center">Note</th>
+					<th width="20%" class="center">Total Amount</th>
+				</tr>
+			</thead>
+			<thead>
+				<tr>
+					<th width="20%" class="center"><?=$this->payDet['pay_paydate']?></th>
+					<th width="20%" class="center"><?=$this->payDet['pay_pay_mode']?></th>
+					<th width="20%" class="center"><?=$this->payDet['pay_chqno']?></th>
+					<th width="20%" class="center"><?=$this->payDet['pay_remarks']?></th>
+					<th width="20%" class="center"><?=$this->payDet['pay_amount']?></th>
+				</tr>
+			</thead>
+			</table>
+	</div>
+        <?php 
+                
+        if($this->payDet['file_id']):
+		$encFileId = $this->encode($this->payDet['file_id']);
+		?>
+		<div class="row mb-4">
+		<label class="col-sm-3 form-label" >Uploaded Document</label>    
+			<div class="col-sm-3">
+			<?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="glyphicon glyphicon-file text-info">'.$this->payDet['file_name'].'</i>',array("param"=>'opener')))?>
+                   </div>
+                 </div>
+		<?php endif?>
+			
+		<div class="row mb-4">
+			<label class="col-sm-2 form-label" style="text-align: right;" >Cash Flow Entry</label>
+			<div class="col-sm-6">
+              <?=$this->form2->cashFlow->show()?>
+            </div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-primary submit-alias livepost" >Update</button>
+			<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+		</div>
+	</form>	
+</div>

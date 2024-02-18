@@ -1,0 +1,544 @@
+<?php if($this->billDet['bill_app_status']==''):?>
+<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+	<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+		<h4 class="modal-title"> &nbsp; Approve Invoice No : <b> 
+											<?=$this->billInfo['bill_book_no']<>''?$this->billInfo['bill_book_no']: "AST/".sprintf("%04s", $this->billInfo['bill_id']);?>
+											</b>
+		</h4>
+	</div>
+	<div class="modal-body">	
+<div id="report" class="ribbon-box">
+			<div class="card"
+				style="border-right-width: 1px; margin-right: 0px; margin-bottom: 1pt;padding: 1%;">
+					<table class="rpt_tbl">
+						<tr>
+							<td width="95%">
+								<div style="/*padding-left: 1%; padding-right: 1%;*/">
+									<table width="95%" class="rpt_frame"
+										style="margin-bottom: -5px;">
+										<tr>
+											<? 	if($this->billInfo['bill_date']){
+												$billDt = DateTime::createFromFormat(DFS_DB,$this->billInfo['bill_date']);
+												$billDt = $billDt->format(DF_DD);
+											}
+											?>												 
+											<td style="border-color: #ababab;font-size:9pt" class="left" valign="top">Invoice No : <b> 
+											<?=$this->billInfo['bill_book_no']<>''?$this->billInfo['bill_book_no']: "AST/".sprintf("%04s", $this->billInfo['bill_id']);?>
+											</b></td>
+											<td style="border-color: #ababab;font-size:9pt" class="left" valign="top">Dated :  <b><?=$billDt;?></b>
+											<?php 
+											if($this->billInfo['bill_month']){
+												$billMth = DateTime::createFromFormat(DFS_DB,$this->billInfo['bill_month']);
+												$billMth = date_format($billMth, 'F-Y');
+												echo "<br> Bill for the month: <b> ".$billMth ."</b>";
+											}
+											?>
+											</td>
+											<td> Time Sheet: <?=x(array('link'=>'default/default/download','ref'=>$this->encFileId,'label'=>'<i class="glyphicon glyphicon-file text-info">'.$this->billInfo['file_name'].'</i>',array("param"=>'opener')))?></td>
+										</tr>
+										<tr>
+											<td style="border-color: #ababab;font-size:9pt" class="left">Buyer <b><br><?=$this->billInfo['cust_name']?></b> <br>
+											<?=$this->billInfo['con_house']?><br><?=$this->billInfo['con_street1']?> <br><?=$this->billInfo['con_place']?>
+											</td>
+
+											<td style="border-color: #ababab;font-size:9pt" class="left" valign="top">
+											
+											<table class="rpt_frame" style="margin-bottom: 0px;">
+												<tr>
+													<td style="text-align: left;">Buyer's Order No. :</td><td style="text-align: left;"> <b> <?=$this->billInfo['bill_refno']?></b> </td>
+												</tr>
+												<tr>
+													<td style="text-align: left;">WO/LPO :</td><td style="text-align: left;"> <b>
+												<?=x(array('link'=>'default/default/download','ref'=>$this->encDocFileId,'label'=>'<i class="glyphicon glyphicon-file text-info">'.$this->billInfo['agr_det'].'</i>',array("param"=>'opener')))?></b></td>
+												</tr>
+												<tr>
+													<td style="text-align: left;">WO Remarks :</td><td style="text-align: left;"><b><?=$this->billInfo['bill_wo_note']?></b></td>
+												</tr>
+												<tr>
+													<td style="text-align: left;">Location :</td><td style="text-align: left;"><b><?=$this->billInfo['bill_location']?></b></td>
+												</tr>
+											</table>
+
+											</td>
+											<td style="border-color: #ababab;font-size:9pt" class="left" valign="top" width="25%">
+											 Note/Remarks : <span style="background-color:yellow">  <?=$this->billInfo['bill_remarks'];?> </span>
+											<?if($this->billInfo['bill_cancellation_status']):?> 
+ 												<span style="color:red">C A N C E L L E D </span> <?php endif?>
+											</td>
+										</tr>
+										
+									</table>
+								</div>
+							</td>
+						</tr>
+
+					</table>
+				</div>
+				<div style="margin-bottom: 1%;" <?if(!$this->billInfo['bill_cancellation_status']):?><?php endif?> >
+					<table class="rpt_frame" style="margin-bottom: 1px;">
+						<thead>
+							<tr>
+								<th class="empty" colspan="6"></th>
+							</tr>
+							<tr style="border-bottom: 2px solid;" >
+								<th class="center" width="5%">Sl No</th>
+								<th class="center" width="58%">Description</th>
+								<th class="center" width="8%">Rate (OMR)</th>
+								<th class="center" width="3%">Quantity</th>
+								<th class="center" width="5%">Unit</th>
+								<th class="center" width="8%">Amount</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach($this->billDetails as $det):?>
+							<tr>
+								<td class="center"><?=++$i?></td>
+								<td class="left" ><?=$det['item_name']?> <?=$det['bdet_remarks']<>''?'-'.$det['bdet_remarks']:'';?></td>
+								<td align="right" ><?=$det['bdet_amt']?></td>
+								<td align="right" ><?=number_format($det['bdet_qty'],2)?></td>
+								<td class="left"> <?=$det['item_unit']?> </td>								
+								<td align="right"><?=number_format($det['bdet_qty']*$det['bdet_amt'],3)?>  <?php $grandTotal +=$det['bdet_qty']*$det['bdet_amt']; ?></td>
+							</tr>
+							<?php endforeach;?>
+							<tr>
+								<td class="center">&nbsp;</td>
+								<td class="left" >&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td style="border-top: 2pt solid;" class="center"></td>
+								<td colspan="4" align="right" style="border-top: 2pt solid;"><b>Total :</b></td>
+								<td align="right" style="border-top: 2pt solid;"><b><?=number_format($grandTotal,3)?></b></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div style="  bottom: 0;    left: 0;">
+					<table class="rpt_tbl" style="font-size: 9pt;">
+						<tr>
+							<td colspan="2" class="left">Amount Chargeable (in words) : <b><?
+							
+							$gTotal = explode ( '.', number_format($grandTotal,3));						
+							$gTotal [0]= str_replace( ',', '', $gTotal [0]);
+							$gTotal [1]= str_replace( ',', '', $gTotal [1]);
+							
+							
+							$rial = 'R.O '.translateToWords( (int)$gTotal [0] ) ;
+								
+							if ($gTotal [1] != '' && $gTotal [1] != 0)
+								$baisa = ' And Baisa ' . translateToWords( (int)$gTotal [1] );
+							echo $rial . $baisa . ' Only';
+							?></b> 							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+	<form name="form" method="post" id="edit" action='erp_invoice/bill/approval/ref/<?=$this->param['ref'];?>' style="margin-bottom: 0px;">
+			<div>
+				<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-3 form-label" >Status</label>
+					<div class="col-sm-2">
+                    <?=$this->form->status->show()?>
+                  </div>
+                  <label class="col-sm-2 form-label" >Revision Date</label>
+					<div class="col-sm-2">
+                    <?=$this->form->revdt->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-3 form-label" >Note</label>
+					<div class="col-sm-9">
+                    <?=$this->form->note->show()?>
+                  </div>
+				</div>
+		</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary submit-alias livepost" >Approve</button>
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+	</div>
+</form>	
+</div>
+<div>
+</div>
+</div>
+<script type="text/javascript">           
+$(document).ready(function() {
+    $('#f_monthpick').MonthPicker({ Button: false });
+});
+</script>
+ <style>
+th,td {
+    text-align: center;
+}
+td.left {
+    text-align: left;
+}
+.modal-dialog{
+	width: 75%;
+}
+</style>
+<?php endif?>
+<?php 
+function numtowords($num){
+	$decones = array(
+			'01' => "One",
+			'02' => "Two",
+			'03' => "Three",
+			'04' => "Four",
+			'05' => "Five",
+			'06' => "Six",
+			'07' => "Seven",
+			'08' => "Eight",
+			'09' => "Nine",
+			10 => "Ten",
+			11 => "Eleven",
+			12 => "Twelve",
+			13 => "Thirteen",
+			14 => "Fourteen",
+			15 => "Fifteen",
+			16 => "Sixteen",
+			17 => "Seventeen",
+			18 => "Eighteen",
+			19 => "Nineteen"
+	);
+	$ones = array(
+			0 => " ",
+			1 => "One",
+			2 => "Two",
+			3 => "Three",
+			4 => "Four",
+			5 => "Five",
+			6 => "Six",
+			7 => "Seven",
+			8 => "Eight",
+			9 => "Nine",
+			10 => "Ten",
+			11 => "Eleven",
+			12 => "Twelve",
+			13 => "Thirteen",
+			14 => "Fourteen",
+			15 => "Fifteen",
+			16 => "Sixteen",
+			17 => "Seventeen",
+			18 => "Eighteen",
+			19 => "Nineteen"
+	);
+	$tens = array(
+			0 => "",
+			2 => "Twenty",
+			3 => "Thirty",
+			4 => "Forty",
+			5 => "Fifty",
+			6 => "Sixty",
+			7 => "Seventy",
+			8 => "Eighty",
+			9 => "Ninety"
+	);
+	$hundreds = array(
+			"Hundred",
+			"Thousand",
+			"Million",
+			"Billion",
+			"Trillion",
+			"Quadrillion"
+	); //limit t quadrillion
+	$num = number_format($num,3,".",",");
+	$num_arr = explode(".",$num);
+	$wholenum = $num_arr[0];
+	$decnum = $num_arr[1];
+	$whole_arr = array_reverse(explode(",",$wholenum));
+	krsort($whole_arr);
+	$rettxt = "";
+	
+	foreach($whole_arr as $key => $i){
+		
+		//$i = (string) $i;
+		
+		if($i < 20){
+			$rettxt .= $ones[$i];
+		}
+		elseif($i < 100){
+			
+			$rettxt .= $tens[substr($i,0,2)];
+			$rettxt .= " ".$ones[substr($i,1,1)];
+		}
+		else{
+			$rettxt .= $ones[substr($i,0,1)]." ".$hundreds[0];
+			$rettxt .= " ".$tens[substr($i,1,1)];
+			$rettxt .= " ".$ones[substr($i,2,1)];
+		}
+		if($key > 0){
+			$rettxt .= " ".$hundreds[$key]." ";
+		}
+		
+	}
+	$rettxt = $rettxt;
+	
+	if($decnum > 0){
+		$rettxt .= " and ";
+		if($decnum < 20){
+			$rettxt .= $decones[$decnum];
+		}
+		elseif($decnum < 100){
+			$rettxt .= $tens[substr($decnum,0,1)];
+			$rettxt .= " ".$ones[substr($decnum,1,1)];
+		}
+		else{
+			$rettxt .= $ones[substr($decnum,0,1)]." ".$hundreds[0];
+			$rettxt .= " ".$tens[substr($decnum,1,1)];
+			$rettxt .= " ".$ones[substr($decnum,2,1)];
+		}
+		$rettxt = $rettxt;
+	}
+	
+	
+	
+	return $rettxt;}
+	
+	
+	
+	function number_to_word( $num = '' )
+	{
+		$num    = ( string ) ( ( int ) $num );
+		
+		if( ( int ) ( $num ) && ctype_digit( $num ) )
+		{
+			$words  = array( );
+			
+			$num    = str_replace( array( ',' , ' ' ) , '' , trim( $num ) );
+			
+			$list1  = array('','one','two','three','four','five','six','seven',
+					'eight','nine','ten','eleven','twelve','thirteen','fourteen',
+					'fifteen','sixteen','seventeen','eighteen','nineteen');
+			
+			$list2  = array('','ten','twenty','thirty','forty','fifty','sixty',
+					'seventy','eighty','ninety','hundred');
+			
+			$list3  = array('','thousand','million','billion','trillion',
+					'quadrillion','quintillion','sextillion','septillion',
+					'octillion','nonillion','decillion','undecillion',
+					'duodecillion','tredecillion','quattuordecillion',
+					'quindecillion','sexdecillion','septendecillion',
+					'octodecillion','novemdecillion','vigintillion');
+			
+			$num_length = strlen( $num );
+			$levels = ( int ) ( ( $num_length + 2 ) / 3 );
+			$max_length = $levels * 3;
+			$num    = substr( '00'.$num , -$max_length );
+			$num_levels = str_split( $num , 3 );
+			
+			foreach( $num_levels as $num_part )
+			{
+				$levels--;
+				$hundreds   = ( int ) ( $num_part / 100 );
+				$hundreds   = ( $hundreds ? ' ' . $list1[$hundreds] . ' Hundred' . ( $hundreds == 1 ? '' : 's' ) . ' ' : '' );
+				$tens       = ( int ) ( $num_part % 100 );
+				$singles    = '';
+				
+				if( $tens < 20 )
+				{
+					$tens   = ( $tens ? ' ' . $list1[$tens] . ' ' : '' );
+				}
+				else
+				{
+					$tens   = ( int ) ( $tens / 10 );
+					$tens   = ' ' . $list2[$tens] . ' ';
+					$singles    = ( int ) ( $num_part % 10 );
+					$singles    = ' ' . $list1[$singles] . ' ';
+				}
+				$words[]    = $hundreds . $tens . $singles . ( ( $levels && ( int ) ( $num_part ) ) ? ' ' . $list3[$levels] . ' ' : '' );
+			}
+			
+			$commas = count( $words );
+			
+			if( $commas > 1 )
+			{
+				$commas = $commas - 1;
+			}
+			
+			$words  = implode( ', ' , $words );
+			
+			//Some Finishing Touch
+			//Replacing multiples of spaces with one space
+			$words  = trim( str_replace( ' ,' , ',' , trim_all( ucwords( $words ) ) ) , ', ' );
+			if( $commas )
+			{
+				$words  = str_replace_last( ',' , ' and' , $words );
+			}
+			
+			return $words;
+		}
+		else if( ! ( ( int ) $num ) )
+		{
+			return 'Zero';
+		}
+		return '';
+	}
+	
+	function translateToWords($number)
+	{
+		/*****
+		 * A recursive function to turn digits into words
+		 * Numbers must be integers from -999,999,999,999 to 999,999,999,999 inclussive.
+		 *
+		 *  (C) 2010 Peter Ajtai
+		 *    This program is free software: you can redistribute it and/or modify
+		 *    it under the terms of the GNU General Public License as published by
+		 *    the Free Software Foundation, either version 3 of the License, or
+		 *    (at your option) any later version.
+		 *
+		 *    This program is distributed in the hope that it will be useful,
+		 *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+		 *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+		 *    GNU General Public License for more details.
+		 *
+		 *    See the GNU General Public License: <http://www.gnu.org/licenses/>.
+		 *
+		 */
+		// zero is a special case, it cause problems even with typecasting if we don't deal with it here
+		$max_size = pow(10,18);
+		if (!$number) return "zero";
+		if (is_int($number) && $number < abs($max_size))
+		{
+			switch ($number)
+			{
+				// set up some rules for converting digits to words
+				case $number < 0:
+					$prefix = "negative";
+					$suffix = translateToWords(-1*$number);
+					$string = $prefix . " " . $suffix;
+					break;
+				case 1:
+					$string = "one";
+					break;
+				case 2:
+					$string = "two";
+					break;
+				case 3:
+					$string = "three";
+					break;
+				case 4:
+					$string = "four";
+					break;
+				case 5:
+					$string = "five";
+					break;
+				case 6:
+					$string = "six";
+					break;
+				case 7:
+					$string = "seven";
+					break;
+				case 8:
+					$string = "eight";
+					break;
+				case 9:
+					$string = "nine";
+					break;
+				case 10:
+					$string = "ten";
+					break;
+				case 11:
+					$string = "eleven";
+					break;
+				case 12:
+					$string = "twelve";
+					break;
+				case 13:
+					$string = "thirteen";
+					break;
+					// fourteen handled later
+				case 15:
+					$string = "fifteen";
+					break;
+				case $number < 20:
+					$string = translateToWords($number%10);
+					// eighteen only has one "t"
+					if ($number == 18)
+					{
+						$suffix = "een";
+					} else
+					{
+						$suffix = "teen";
+					}
+					$string .= $suffix;
+					break;
+				case 20:
+					$string = "twenty";
+					break;
+				case 30:
+					$string = "thirty";
+					break;
+				case 40:
+					$string = "forty";
+					break;
+				case 50:
+					$string = "fifty";
+					break;
+				case 60:
+					$string = "sixty";
+					break;
+				case 70:
+					$string = "seventy";
+					break;
+				case 80:
+					$string = "eighty";
+					break;
+				case 90:
+					$string = "ninety";
+					break;
+				case $number < 100:
+					$prefix = translateToWords($number-$number%10);
+					$suffix = translateToWords($number%10);
+					$string = $prefix . " " . $suffix;
+					break;
+					// handles all number 100 to 999
+				case $number < pow(10,3):
+					// floor return a float not an integer
+					$prefix = translateToWords(intval(floor($number/pow(10,2)))) . " hundred";
+					if ($number%pow(10,2)) $suffix = " and " . translateToWords($number%pow(10,2));
+					$string = $prefix . $suffix;
+					break;
+				case $number < pow(10,6):
+					// floor return a float not an integer
+					$prefix = translateToWords(intval(floor($number/pow(10,3)))) . " thousand";
+					if ($number%pow(10,3)) $suffix = translateToWords($number%pow(10,3));
+					$string = $prefix . " " . $suffix;
+					break;
+				case $number < pow(10,9):
+					// floor return a float not an integer
+					$prefix = translateToWords(intval(floor($number/pow(10,6)))) . " million";
+					if ($number%pow(10,6)) $suffix = translateToWords($number%pow(10,6));
+					$string = $prefix . " " . $suffix;
+					break;
+				case $number < pow(10,12):
+					// floor return a float not an integer
+					$prefix = translateToWords(intval(floor($number/pow(10,9)))) . " billion";
+					if ($number%pow(10,9)) $suffix = translateToWords($number%pow(10,9));
+					$string = $prefix . " " . $suffix;
+					break;
+				case $number < pow(10,15):
+					// floor return a float not an integer
+					$prefix = translateToWords(intval(floor($number/pow(10,12)))) . " trillion";
+					if ($number%pow(10,12)) $suffix = translateToWords($number%pow(10,12));
+					$string = $prefix . " " . $suffix;
+					break;
+					// Be careful not to pass default formatted numbers in the quadrillions+ into this function
+					// Default formatting is float and causes errors
+				case $number < pow(10,18):
+					// floor return a float not an integer
+					$prefix = translateToWords(intval(floor($number/pow(10,15)))) . " quadrillion";
+					if ($number%pow(10,15)) $suffix = translateToWords($number%pow(10,15));
+					$string = $prefix . " " . $suffix;
+					break;
+			}
+		} else
+		{
+			echo "ERROR with - $number<br/> Number must be an integer between -" . number_format($max_size, 0, ".", ",") . " and " . number_format($max_size, 0, ".", ",") . " exclussive.";
+		}
+		return ucwords($string);
+	}

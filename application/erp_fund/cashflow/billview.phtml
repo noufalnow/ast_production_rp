@@ -1,0 +1,69 @@
+<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+	<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+		<h4 class="modal-title">Expense Details</h4>
+	</div>
+	<div class="modal-body">
+	
+	
+		<table class="rpt_frame">
+		<tbody>
+			<tr style="font-size: 0.8em;">
+				<th width="2%" class="center">Sl.</th>
+				<th class="text-center" style="padding-bottom: 5px;" width="40%">Details</th>
+				<th class="text-center" style="padding-bottom: 5px;" width="10%">Amount (RO)</th>
+			</tr>
+		</tbody>
+		<tbody>
+	
+		<?php $total =0; foreach ( $this->cashFlowDet as $cashdt):
+		if($cashdt['exp_cash_flow'] || $cashdt['pay_cash_flow']):
+		if($cashdt['file_id'])
+			$encFileId = $this->encode($cashdt['file_id']);?>
+					<tr index="0">
+						<td class="center"><?=@++$sl;?></td>
+						<td valign="top">
+							<div class="amtrow"><?php if($cashdt['file_id']):?>
+							<?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>$cashdt['exp_details'].$cashdt['pay_remarks'],array("param"=>'opener')))?>							
+						<?php else:?>
+							<?=$cashdt['exp_details'].$cashdt['pay_remarks'];?>
+						<?php endif;?>
+							</div>
+						</td>
+						<td style="padding-right: 5px;" valign="top" align="right">
+							<div class="amtrow"><?=$cashdt['exp_amount']?><?=$cashdt['pay_amount']?>
+							<?php $total+= ($cashdt['exp_amount']+$cashdt['pay_amount'])?></div>
+						</td>
+					</tr>
+			<?php 
+		endif;endforeach;
+		?>
+		<tr>
+				<td class="center"></td>
+				<td valign="top" align="right"> <b> Total</b></td>
+				<td style="padding-right: 5px;" valign="top" align="right">
+				<div class="amtrow"><b><?=number_format($total,3)?></b></div>
+				</td>
+		</tr>
+		<tr>
+				<td class="center"></td>
+				<td valign="top" align="right"> <b> Balance  ( <?=number_format((float) $cashdt['cf_amount'],3); ?> -  <?=number_format($total,3)?> )</b></td>
+				<td style="padding-right: 5px;" valign="top" align="right">
+				<div class="amtrow"><b><?=number_format($cashdt['cf_amount']-$total,3)?> </b></div>
+				</td>
+		</tr>
+	
+		</tbody>
+		</table>
+	
+	
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+	</div>
+</div>
+<style>
+.modal-dialog{
+	width: 65%;
+}
+</style>

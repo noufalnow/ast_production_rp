@@ -1,0 +1,362 @@
+<div class="dynamic-popup" id="dynamic-popup">
+	<!--  -->
+	<form name="form" method="post" id="edit" action='erp_invoice/bill/edit/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;">
+		<div class="modal-header">
+			<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+			<h4 class="modal-title">
+				&nbsp; Create Invoice <b>
+		
+		</div>
+		<div class="modal-body">
+			<div id="report" class="ribbon-box">
+				<div class="card"
+					style="border-right-width: 1px; margin-right: 0px; margin-bottom: 1pt; padding: 1%; background-color: #f0f1e3; border: 1px solid #457cd9;">
+					<div class="card-block">
+						<div class="row" style="margin-top: 15px;">
+							<table class="form-label" style="margin-top: 15px;"
+								width="90%">
+								<tr>
+									<th width="1%"></th>
+									<th width="8%">Company</th>
+									<td width="20%">Customer</td>
+									<th width="6%">Date</th>
+									<th width="10%">Bill Month</th>
+									<th width="10%">Review Date</th>
+									<!--<th width="10%">Ref No.</th>-->
+								</tr>
+								<tr>
+									<td></td>
+									<td valign="top"><?=$this->form->company->show()?>
+							
+									
+									<td valign="top"><?=$this->form->customer->show()?></td>
+									<td valign="top"><?=$this->form->billdt->show()?></td>
+									<td valign="top"><?=$this->form->billmonth->show()?></td>
+									<td valign="top"><?=$this->form->revdt->show()?></td>
+									<!--<td valign="top"><?//=$form->refno->show()?></td>-->
+								</tr>
+							</table>
+							<table class="form-label" style="margin-top: 15px;"
+								width="90%">
+								<tr>
+									<th width="1%"></th>
+									<th width="18%">Work Order</th>
+									<td width="12%">Note</td>
+									<th width="10%">Location</th>
+									<th width="10%">Payment Mode</th>
+								</tr>
+								<tr>
+									<td></td>
+									<td valign="top"><?=$this->form->wolpo->show()?>
+							
+									
+									<td valign="top"><?=$this->form->wonote->show()?></td>
+									<td valign="top"><?=$this->form->location->show()?></td>
+									<td valign="top"><?=$this->form->mode->show()?></td>
+								</tr>
+							</table>
+						</div>
+
+						<table class="" style="margin-top: 15px;" id="multi_table">
+							<tr style="font-size: 0.8em;">
+								<th width="39%" style="padding-bottom: 5px;">Bill Particulers</th>
+								<th width="17%" style="padding-bottom: 5px;">Remarks</th>
+								<th width="10%" style="padding-bottom: 5px;">(Quantity)</th>
+								<th width="13%" style="padding-bottom: 5px;">(Rial)</th>
+								<th width="10%" style="padding-bottom: 5px;">(Baisa)</th>
+								<th width="11%" align="center" style="padding-bottom: 5px;">(Total)</th>
+								<th width="5%" style="padding-bottom: 5px;"></th>
+							</tr>
+			<?php foreach($this->mfields as $i):?>
+			<tbody id="dup_body">
+								<tr class="dup_row" index="<?=$i?>">
+									<td>
+										<div class="mainselection" style="max-width: 400px !important;"><?=$this->form->particuler[$i]->show()?></div>
+									</td>
+									<td>
+										<div class="mainselection"><?=$this->form->remarks[$i]->show()?></div>
+									</td>
+									<td>
+										<div class="mainselection"><?=$this->form->qty[$i]->show()?></div>
+									</td>
+									<td>
+										<div class="mainselection"><?=$this->form->amount[$i]->show()?></div>
+									</td>
+									<td>
+										<div class="mainselection"><?=$this->form->baisa[$i]->show()?></div>
+									</td>
+									<td align="center">
+										<div>
+											<input class="total" type="hidden" name="total_[<?=$i?>]"
+												id="total_[<?=$i?>]" value="0">
+											<div
+												style="float: right; font-weight: bold; margin-right: 4%; padding-top: 0px; font-size: 1.8rem !important;"></div>
+										</div>
+									</td>
+									<td valign="middle">
+										<div>
+											<a style="color: blue; margin: 1px;" title="Remove" href="#"
+												onclick="delRow(this);return false;"
+												class="glyphicon glyphicon-remove"></a>
+										</div>
+									</td>
+								</tr>
+			<?php endforeach;?>
+						
+			</tbody>
+						</table>
+						<h5
+							style="margin-top: 0px; margin-bottom: 0px; padding-bottom: 4px;"></h5>
+						<div>
+							<a style="background-color: yellowgreen; margin: 1px;"
+								id="myLink" title="Add more" href="#"
+								onclick="addRow('multi_table');return false;" class="btn">More
+								(Ctrl+0)</a>
+							<div id="grandT"
+								style="border-right-width: 9px; float: right; font-size: 22pt; font-weight: bolder; margin-right: 2.3%; padding-top: -3px; color: red; border-block: outset; margin-top: 12px;">.</div>
+						</div>
+						<div class="row mb-4">
+        					<div class="col-md-6" style="margin-top: 1.5%;">
+        						<?=$this->form->note->show()?>
+        					</div>
+        				</div>	
+        				<div class="row mb-4">
+        					<div class="col-sm-2">
+        						<?=x(array('link'=>'default/default/download','ref'=>$this->encFileId,'label'=>'<i class="glyphicon glyphicon-file text-info">'.$this->billInfo['file_name'].'</i>',array("param"=>'opener')))?>
+                           </div>
+        					<div id="" class="col-sm-2">
+                             <?=$this->form->docUpdate->show()?>
+                          	</div>
+                          	<div id="docUpload" class="col-sm-4">
+                             <?=$this->form->my_files->show()?>
+                          	</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button"
+					class="btn btn-primary submit-alias livepost">Create
+					Invoice</button>
+				<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+			</div>
+	
+	</form>
+</div>
+<script type="text/javascript"> 
+var duprow = '';
+duprow = '<tr class="dup_row">' + $('#dup_body >tr:first').html() + '</tr>';
+$('.dup_row').each(function() {
+	showTotal($(this).attr('index'));
+})
+showGrandTotal();
+
+// $(duprow).replace('input_error','');
+// $(duprow).replace('select_error','');
+
+function addRow(elemId) {
+
+
+	var index = $('#' + elemId + ' tbody>tr:last').attr('index');
+	var index = parseInt(index)+1;
+	
+	//var index = $('.dup_row').length;
+	//index = parseInt(index);
+	
+	$(duprow).insertAfter($('#' + elemId + ' tbody>tr:last'));
+
+	$('#' + elemId + ' tbody>tr:last').find('.input_error').removeClass(
+			'input_error');
+	$('#' + elemId + ' tbody>tr:last').find('.select_error').removeClass(
+			'select_error');
+	$('#' + elemId + ' tbody>tr:last').find('.error_text').remove();
+	$('#' + elemId + ' tbody>tr:last').attr('index',index);
+
+	$.each($('#' + elemId + ' tr:last').find(':input'), function() {
+		$(this).val('');
+
+		var name = $(this).attr('name');
+		if (name !== undefined) {
+			var arr = name.split('[');
+			$(this).attr('id', arr[0] + '[' + index+ ']').attr(
+					'name', arr[0] + '[' + index + ']');
+		}
+		$(".chosen-select").chosen({
+			no_results_text : "Oops, nothing found!",
+		    search_contains: true,
+		    enable_split_word_search: true
+		});
+	});
+
+}
+
+$(document).ready(function($) {
+	  $('input').on('drop', function() {
+		    return false;
+		  });
+
+	$('body').on('blur', 'input.numonly', function() {
+		if ($(this).hasClass('baisa')) {
+
+			if($(this).val().length > 0)
+			{
+				$(this).val($(this).val()*1);
+			}
+			if ($(this).val() < 0)
+				$(this).val('0');
+			if ($(this).val() > 999)
+				$(this).val($(this).val().substring(0, 3));
+			else
+				zerofillPaisa(this);
+		}
+		showTotal($(this).parents('tr').attr('index'));
+		showGrandTotal();
+	});
+
+	$('body').on('keyup', 'input.numonly', function() {
+		if ($(this).hasClass('baisa')) {
+			if($(this).val().length > 0)
+			{
+				$(this).val($(this).val()*1);
+			}
+			if ($(this).val() < 0)
+				$(this).val('0');
+			if ($(this).val() > 999)
+				$(this).val($(this).val().substring(0, 3));
+			else
+				zerofillPaisa(this);
+		}
+		showTotal($(this).parents('tr').attr('index'));
+		showGrandTotal();
+
+	});
+
+});
+
+
+function zerofillPaisa(el)
+{
+	var length = $(el).val().length;
+
+	if(length==0)
+		$(el).val('000');
+	else if(length==1)
+		$(el).val('00'+$(el).val());
+	else if(length==2)
+		$(el).val('0'+$(el).val());
+
+}
+
+
+$('body').on('change', 'input.baisa', function() {
+	if($(this).val().length > 0)
+	{
+		$(this).val($(this).val()*1);
+	}
+	zerofillPaisa(this);
+});
+
+function showTotal(index) {
+
+	var qty = parseFloat($("input[name='qty[" + index + "]").val());
+	var amt = parseFloat($("input[name='amount[" + index + "]").val() + '.'
+			+ $("input[name='baisa[" + index + "]").val());
+
+	if (isNaN(qty))
+		var qty = 0;
+
+	if (isNaN(amt))
+		var amt = 0;
+
+	$("input[name='total_[" + index + "]").val(amt * qty);
+	$("input[name='total_[" + index + "]").next('div').html(
+			parseFloat(amt * qty).toFixed(3));
+	
+}
+
+function showGrandTotal() {
+	var gtotal = 0;
+	$('.total').each(function() {
+		gtotal = gtotal + parseFloat($(this).val());
+	})
+	gtotal = gtotal.toFixed(3);
+
+	
+	if(!isNaN(gtotal))
+		$('#grandT').html(gtotal);
+	else
+		$('#grandT').html('00.000');
+}
+
+function delRow(row){
+	if($('.dup_row').length>1){
+		$(row).parents('tr').remove();
+		showGrandTotal();
+	}
+	
+}
+
+$('#docUpdate1').on('click',function() {
+	typetoggle();
+});
+typetoggle();
+function typetoggle(type){
+
+	if($('#docUpdate1').prop('checked') === true)
+		$('#docUpload').show();
+	else
+		$('#docUpload').hide();
+}
+$('body').on('keydown', 'input,select,radio', function(e) {
+    if (e.key === "Enter") {
+        var self = $(this), form = self.parents('form:eq(0)'), focusable, next;
+        focusable = form.find('input,select,button,textarea,radio').filter(':visible');
+        next = focusable.eq(focusable.index(this)+1);
+        if (next.length) {
+            next.focus();
+        } else {
+            form.submit();
+        }
+        return false;
+    }
+});
+$(document).ready(function() {
+    $('#billmonth').MonthPicker({ Button: false });
+
+  setTimeout( function(){
+		document.getElementById("company").focus();
+    },500);
+});
+      
+$(document).ready(function() {
+	var source = '<?=APPURL?>'+ 'erp_manage/documents/getlive';
+	$('#customer').on('change',function() {	
+		getJaxData($('#customer').val(),'wolpo',source);
+	});
+	getJaxData($('#customer').val(),'wolpo',source);
+});
+
+</script>
+
+<style>
+.modal-dialog {
+	width: 85%;
+}
+
+input {
+	font-size: 1.3em;
+}
+
+.fig {
+	text-align: center;
+}
+
+.fig.numonly {
+	text-align: center;
+	padding-right: 20px;
+}
+
+.modal-body {
+	padding: 5px;
+}
+</style>

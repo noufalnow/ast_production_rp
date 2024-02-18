@@ -1,0 +1,399 @@
+<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+	<form name="form" method="post" id="edit" action='erp_expense/expense/edit/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;">
+	<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+			<h4 class="modal-title">Updte Expense Entry Dtails
+			<?php if($this->expDet['cb_id'] <> '' && $this->expDet['cb_type_ref']!=USER_ID):?><?php else:?>
+			<span style="float:right; color:green;">
+    			<?=$this->form->percb->show();?>                   	
+                <?=$this->form->cbamount->show()?>
+            <?php endif?>
+            </span>
+		</h4>		
+	</div>
+		<div class="modal-body">
+			<div class="row mb-4" style="">
+				<label class="col-sm-2 form-label" >Vendor</label>
+				<div class="col-sm-4">
+                <?=$this->form->selVendor->show()?>
+              </div>
+              <div id="div_vendor" class="col-sm-6">
+                <?=$this->form->vendor->show()?>
+              </div>
+			</div>
+			<div class="row mb-4" style="margin-top: 15px;">
+				<label class="col-sm-2 form-label" >Ref No:
+					</label>
+				<div class="col-sm-3">
+                <?=$this->form->refno->show()?>
+              </div>
+              	<label class="col-sm-2 form-label" style="width: 8%;">Date:
+					</label>
+				<div class="col-sm-3">
+                <?=$this->form->billdt->show()?>
+              </div>
+				<label class="col-sm-2 form-label" style="width: 8%;">Company
+					</label>
+				<div class="col-sm-2">
+                <?=$this->form->company->show()?>
+              </div>
+			</div>
+			<div class="row mb-4">
+				<label class="col-sm-2 form-label" >Main Head Type
+				</label>
+			  <div class="col-sm-4">
+                <?=$this->form->mainhead->show()?>
+              </div>
+              <div id="mh_varis" class="col-sm-6">
+                <table width="100%" id="multi_table">
+				<tr style="font-size: 0.8em;">
+					<th width="75%" style="padding-bottom: 5px;">Main Head Particulers</th>
+					<th width="20%"style="padding-bottom: 5px;">(Riyal)</th>
+					<th width="5%" style="padding-bottom: 5px;"></th>
+				</tr>
+				<?php foreach($this->mfields as $i):?>
+				<tbody id="dup_body">
+				<tr class="dup_row" index="<?=$i?>">
+					<td class="mh_emp" valign="top">
+	                	<?=$this->form->employee[$i]->show()?>
+					</td>
+					<td class="mh_prop" valign="top">
+	                	<?=$this->form->property[$i]->show()?>
+					</td>
+					<td class="mh_veh" valign="top">
+	                	<?=$this->form->vehicle[$i]->show()?>
+					</td>
+					<td valign="top">
+	                	<?=$this->form->mamount[$i]->show()?>
+					</td>
+					<td valign="middle">
+					<?php if($this->expDet['exp_app_status'] == ''):?>
+		              <div>
+						<a style="color: blue; margin: 1px;" title="Remove" href="#" onclick="delRow(this);return false;" class="glyphicon glyphicon-remove"></a>
+		              </div>
+		            <?php endif?>
+					</td>
+				</tr>
+				<?php endforeach;?>
+				</tbody>
+				</table>
+				<?php if($this->expDet['exp_app_status'] == ''):?>
+					<div><a  style="background-color: yellowgreen;margin: 1px;" id="myLink" title="Add more" href="#" onclick="addRow('multi_table');return false;" class="btn">More</a>
+					</div>
+				 <?php endif?>
+			</div>
+			</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Parent Category
+						</label>
+					<div class="col-sm-4">
+                    <?=$this->form->pCatSelect->show()?>
+                  </div>
+                  <div id="div_pcat" class="col-sm-6">
+                    <?=$this->form->pCategory->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Sub Category
+						</label>
+					<div class="col-sm-4">
+                    <?=$this->form->sCatSelect->show()?>
+                  </div>
+                  	<div  id="div_scat" class="col-sm-6">
+                    <?=$this->form->sCategory->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Child Category
+						</label>
+					<div class="col-sm-4">
+                    <?=$this->form->cCatSelect->show()?>
+                  </div>
+                  	<div id="div_ccat" class="col-sm-6">
+                    <?=$this->form->cCategory->show()?>
+                  </div>
+				</div>
+				
+				<div class="row mb-4">
+				<label class="col-sm-2 form-label" >Cash Flow Entry</label>
+					<div class="col-sm-10">
+                     <?=$this->form->cashFlow->show()?>
+                  </div>
+			  	</div>
+				
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Bill Details
+						</label>
+					<div class="col-sm-4">
+                    <?=$this->form->particulers->show()?>
+                  </div>
+                  	<div class="col-sm-2">
+                    <?=$this->form->amount->show()?>
+                  </div>
+				</div>	
+				
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Payment Mode</label>
+					<div class="col-sm-2" style="margin-top: 0.7em;">
+                    <?=$this->form->paymod->show()?>
+                  </div>
+                  <div id="id_dtdys">
+	                  <label class="col-sm-1 form-label" >Date/Days</label>
+	                  	<div id="" class="col-sm-2" style="margin-top: 0.7em;">
+	                     <?=$this->form->paydtption->show()?>
+	                  </div>
+                  </div>
+                  <div id="id_days">
+	                  <label class="col-sm-2 form-label" >Pay By Days</label>
+	                  	<div id="" class="col-sm-1">
+	                     <?=$this->form->paydays->show()?>
+	                  </div>
+                  </div>
+                  <div id="id_date">
+	                  <label class="col-sm-2 form-label" >Pay By Date</label>
+	                  	<div id="" class="col-sm-2">
+	                     <?=$this->form->payby->show()?>
+	                  </div>
+				  </div>
+				  </div>
+							
+				<div class="row mb-4">
+					<label class="col-sm-3 form-label" >Upload Document</label>
+					<div class="col-sm-1">
+					<?=x(array('link'=>'default/default/download','ref'=>$this->encFileId,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$this->expDet['file_exten'])))?>
+                    </div>
+                  <div id="" class="col-sm-2">
+                     <?=$this->form->docUpdate->show()?>
+                  </div>
+                  <div id="docUpload" class="col-sm-4">
+                     <?=$this->form->my_files->show()?>
+                  </div>
+				</div>
+				<?php if($this->expDet['exp_app_status'] == '' || in_array($this->expDet['exp_id'], $this->editIDS)):?>
+            	<div class="modal-footer">
+            		<button type="button" class="btn btn-primary submit-alias livepost" >Update</button>
+            		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+            	</div>
+				<?php endif;?>
+			</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">           
+$(document).ready(function() {
+	var source = '<?=APPURL?>'+ 'erp_expense/expense/getlive';
+	$('#pCatSelect').on('change',function() {
+		getJaxData($('#pCatSelect').val(),'sCatSelect',source,'parent');
+		$('#cCatSelect').empty();
+	});
+	getJaxData($('#pCatSelect').val(),'sCatSelect',source,'parent');
+
+	$('#sCatSelect').on('change',function() {
+		getJaxData($('#sCatSelect').val(),'cCatSelect',source,'sub');
+	});
+	getJaxData($('#sCatSelect').val(),'cCatSelect',source,'sub');
+
+	$('.mh_emp').hide();
+	$('.mh_prop').hide();
+	$('.mh_veh').hide();
+	$('#mh_varis').hide();
+
+	$('#mainhead').on('change',function() {
+		fixmainhead();
+	});
+
+
+	fixmainhead();
+
+	$('#selVendor').on('change',function() {
+		fixvendor();
+	});
+	$('#pCatSelect').on('change',function() {
+		fixPcat();
+	});
+	$('#sCatSelect').on('change',function() {
+		fixScat();
+	});
+	$('#cCatSelect').on('change',function() {
+		fixCcat();
+	});
+	fixvendor();
+	fixPcat();
+	fixScat();
+	fixCcat();
+	
+	function fixvendor(){
+		if($('#selVendor').val()==-1){
+			$('#div_vendor').show();
+		}
+		else{
+			$('#div_vendor').hide();
+		}
+	}
+	function fixPcat(){
+		if($('#pCatSelect').val()==-1){
+			$('#div_pcat').show();
+		}
+		else{
+			$('#div_pcat').hide();
+		}
+	}
+	function fixScat(){
+		if($('#sCatSelect').val()==-1){
+			$('#div_scat').show();
+		}
+		else{
+			$('#div_scat').hide();
+		}
+	}
+	function fixCcat(){
+		if($('#cCatSelect').val()==-1){
+			$('#div_ccat').show();
+		}
+		else{
+			$('#div_ccat').hide();
+		}
+	}
+
+	$('#docUpdate1').on('click',function() {
+		typetoggle();
+	});
+	typetoggle();
+	function typetoggle(type){
+
+		if($('#docUpdate1').prop('checked') === true)
+			$('#docUpload').show();
+		else
+			$('#docUpload').hide();
+	}
+
+
+	$('#id_dtdys').hide();
+	$('#id_days').hide();
+	$('#id_date').hide();
+
+	
+	$('#paymod2').on('click',function() {
+		fixcreditoptions();
+	});
+
+	$('#paymod1').on('click',function() {
+		fixcreditoptions();
+	});
+
+	$('#paydtption1').on('click',function() {
+		fixcreditdays();
+	});
+
+	$('#paydtption2').on('click',function() {
+		fixcreditdays();
+	});
+
+	function fixcreditoptions(){
+
+		if($('#paymod1').is(':checked')){
+			$('#paydtption1').prop('checked', false);
+			$('#paydtption2').prop('checked', false);
+			$('#id_dtdys').hide();
+			$('#id_days').hide();
+			$('#id_date').hide();
+		}
+		
+		if($('#paymod2').is(':checked'))
+			{
+			$('#id_dtdys').show();
+			$('#id_days').hide();
+			$('#id_date').hide();
+		}
+
+	}
+
+	function fixcreditdays(){
+
+		if($('#paydtption2').is(':checked'))
+		{
+			$('#id_days').show();
+			$('#id_date').hide();
+		}
+				
+		if($('#paydtption1').is(':checked'))
+			{
+			$('#id_days').hide();
+			$('#id_date').show();
+		}
+
+	}
+	fixcreditoptions();
+	fixcreditdays();
+
+});
+function fixmainhead(){
+	if($('#mainhead').val()==1){
+		$('.mh_emp').show();
+		$('.mh_prop').hide();
+		$('.mh_veh').hide();
+		$('#mh_varis').show();
+	}
+	else if($('#mainhead').val()==2){
+		$('.mh_prop').show();
+		$('.mh_emp').hide();
+		$('.mh_veh').hide();
+		$('#mh_varis').show();
+	}
+	else if($('#mainhead').val()==3){
+		$('.mh_veh').show();
+		$('.mh_emp').hide();
+		$('.mh_prop').hide();
+		$('#mh_varis').show();
+	}
+	else{
+		$('.mh_emp').hide();
+		$('.mh_prop').hide();
+		$('.mh_veh').hide();
+		$('#mh_varis').hide();
+	}
+}
+var duprow = '';
+duprow = '<tr class="dup_row">' + $('#dup_body >tr:first').html() + '</tr>';
+function delRow(row){
+	if($('.dup_row').length>1){
+		$(row).parents('tr').remove();
+	}
+}
+function addRow(elemId) {
+	
+	var index = $('#' + elemId + ' tbody>tr:last').attr('index');
+	var index = parseInt(index)+1;
+	
+	$(duprow).insertAfter($('#' + elemId + ' tbody>tr:last'));
+	fixmainhead();
+	$('#' + elemId + ' tbody>tr:last').find('.input_error').removeClass(
+			'input_error');
+	$('#' + elemId + ' tbody>tr:last').find('.select_error').removeClass(
+			'select_error');
+	$('#' + elemId + ' tbody>tr:last').find('.error_text').remove();
+	$('#' + elemId + ' tbody>tr:last').attr('index',index);
+
+	$.each($('#' + elemId + ' tr:last').find(':input'), function() {
+		$(this).val('');
+
+		var name = $(this).attr('name');
+		if (name !== undefined) {
+			var arr = name.split('[');
+			$(this).attr('id', arr[0] + '[' + index+ ']').attr(
+					'name', arr[0] + '[' + index + ']');
+		}
+		$(".chosen-select").chosen({
+			no_results_text : "Oops, nothing found!",
+		    search_contains: true,
+		    enable_split_word_search: true
+		});
+	});
+}
+</script>
+
+<script type="text/javascript">
+$(document).ready(function($) {
+	$('.modal-dialog').css('width', '80%');
+})
+</script>

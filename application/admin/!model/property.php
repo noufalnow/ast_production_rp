@@ -1,0 +1,602 @@
+<?php
+class property extends db_table {
+	protected $_table = "mis_property";
+	protected $_pkey = "prop_id";
+	
+
+	public function add($data) {
+		return parent::insert ( $data );
+	}
+	
+	public function getPropetyPair($cond = array()) {
+		$this->query ( "select prop_id, prop_fileno from $this->_table 
+						left join mis_building as building on building.bld_id = $this->_table.prop_building and building.deleted = 0" );
+		
+		$this->_order [] = 'bld_name ASC, prop_no asc';
+		
+		return parent::fetchPair ( $cond );
+	}
+
+	public function getPlotOptions($cond = []) {
+		$this->query ("SELECT building.bld_name,
+						       prop_cat,
+						       coalesce(count(CASE WHEN prop_status =1 THEN 1 END),0) AS vacant,
+						       coalesce(count(CASE WHEN (prop_status = 2 OR prop_status = 4) THEN 1 END),0) AS agreement
+						FROM mis_property
+						LEFT JOIN mis_building AS building ON building.bld_id = mis_property.prop_building
+						AND building.deleted = 0
+						WHERE mis_property.deleted = 0
+						  AND prop_cat IN (1,2)
+						  AND prop_status IN (1,2,4)
+						GROUP by(building.bld_name) ,
+						      prop_cat
+						ORDER BY (building.bld_name)");
+		return parent::fetchQuery ( $cond );
+	}
+	
+	public function modify($data, $cond) {
+		return parent::update ( $data, $cond );
+	}
+	
+	public function getPropertyPaginate($cond = []){
+		
+		$this->paginate ( "select $this->_table.*,
+				case when  prop_status = 1 and prop_building_type IS NULL then 'Vacant'
+					 when  prop_status = 2 and prop_building_type IS NULL then 'Agreement'
+					 when  prop_status = 3 and prop_building_type IS NULL then 'Maintenance'
+					 when  prop_status = 4 and prop_building_type IS NULL then 'Under Other Agreement'
+				end as property_status,
+				building.bld_name,
+				tnt_full_name as agr_tenant,
+                tnt_comp_name 
+				", "from $this->_table 
+				left join mis_building as building on building.bld_id = $this->_table.prop_building and building.deleted = 0
+				LEFT JOIN
+				  (SELECT doc_id,
+				          -- agr_tenant,
+						  doc_ref_id,
+						  doc_remarks,
+						  agr_paydet,
+                          agr_tnt_id
+				   FROM
+				     (SELECT max(doc_id) AS mdoc_id
+				      FROM mis_documents
+				      WHERE doc_type = 201
+				        AND deleted = 0
+				      GROUP BY doc_type,doc_ref_type,doc_ref_id)max_group
+				   LEFT JOIN mis_documents AS docs ON docs.doc_id = max_group.mdoc_id
+				   AND docs.deleted = 0) AS propdocs ON propdocs.doc_ref_id = mis_property.prop_id
+				   left join mis_tenants as tenants on tenants.tnt_id = propdocs.agr_tnt_id and tenants.deleted = 0
+				" );
+		
+		if (!empty ( $cond ['f_propno'] ))
+			$this->_where [] = "prop_no like '%' || :f_propno || '%'";
+		
+		if (!empty ( $cond ['f_fileno'] ))
+			$this->_where [] = "lower(prop_fileno) like '%' || lower(:f_fileno) || '%'";
+		
+		if (!empty ( $cond ['f_propname'] ))
+			$this->_where [] = "prop_name like '%' || :f_propname || '%'";
+		
+		if (! empty ( $cond ['f_building'] ))
+			$this->_where [] = "prop_building = :f_building";
+		
+		if (! empty ( $cond ['f_prop_cat'] ))
+		{
+			if($cond ['f_prop_cat']==3){
+				$this->_where [] = "prop_building_type = 1";
+				unset($cond ['f_prop_cat']);
+			}
+			else
+				$this->_where [] = "prop_cat = :f_prop_cat";
+		}
+
+		
+		if (!empty ( $cond ['f_tenant'] ))
+			$this->_where [] = "
+					  (((lower(tnt_full_name) like '%' || lower(:f_tenant) || '%'))
+					OR((lower(doc_remarks) like '%' || lower(:f_tenant) || '%')) 
+					OR((lower(prop_remarks) like '%' || lower(:f_tenant) || '%')) 
+					OR((lower(agr_paydet) like '%' || lower(:f_tenant) || '%'))) ";			
+		
+		if (! empty ( $cond ['f_prop_status'] ))
+			$this->_where [] = "prop_status = :f_prop_status";
+			
+		$this->_order [] = 'building.bld_name ASC, prop_fileno ASC, prop_no ASC';
+		
+		//$db= new db_table();
+		//$$db->dbug($cond);
+		
+		return parent::fetchAll ( $cond );
+	}
+	
+	public function getPropertyDet($cond) {
+		$this->query ( "select $this->_table.*, 
+				building.bld_name
+				from $this->_table 
+				left join mis_building as building on building.bld_id = $this->_table.prop_building and building.deleted = 0
+				" );
+		if (! empty ( $cond ['prop_id'] ))
+			$this->_where [] = "prop_id= :prop_id";
+		
+		if (! empty ( $cond ['prop_fileno'] ))
+			$this->_where [] = "lower(prop_fileno)= lower(:prop_fileno)";
+		
+		if (!empty ( $cond ['ex_prop_id'] ))
+			$this->_where [] = "prop_id!= :ex_prop_id";
+		
+		return parent::fetchRow ( $cond );
+	}
+	
+	public function getPropertyDetById($id){
+		return parent::getById ($id);
+	}
+	
+	public function getPropertyById($id){
+		return parent::getById ($id);
+	}
+	
+	public function deleteProperty($id) {
+		return parent::delete ( $id );
+	}
+	
+	
+	public function getPropertyMeter($cond=array()){
+
+							
+		$this->query ( "SELECT prop_id,
+				       prop_no,
+				       prop_fileno,
+				       prop_cat,
+				       prop_type,
+				       prop_level,
+				       prop_elec_meter,
+				       prop_water,
+				       prop_elec_account,
+				       prop_elec_recharge,
+				       prop_account,
+					   prop_building_type,	
+				       CASE
+				           WHEN prop_status = 1
+				                AND prop_building_type IS NULL THEN 'Vacant'
+				           WHEN prop_status = 2
+				                AND prop_building_type IS NULL THEN 'Agreement'
+				           WHEN prop_status = 3
+				                AND prop_building_type IS NULL THEN 'Maintenance'
+				           WHEN prop_status = 4
+				                AND prop_building_type IS NULL THEN 'Under Other Agreement'
+				       END AS property_status
+				FROM mis_property
+				where mis_property.deleted = 0
+				order by prop_fileno"  );
+									
+		//v($this->_qry);
+									
+		return parent::fetchQuery ( $cond );
+	}
+	
+	
+	public function getPropertyReport($cond=array()){		
+		@$cond = array_filter ( $cond );
+		if (!empty ( $cond ['f_propno'] ))
+			$where [] = "prop_no like '%' || :f_propno || '%'";
+		
+		if (!empty ( $cond ['f_propname'] ))
+			$where [] = "prop_name like '%' || :f_propname || '%'";
+		
+		if (! empty ( $cond ['f_building'] ))
+			$where [] = "prop_building = :f_building";
+		
+		if (! empty ( $cond ['f_prop_cat'] ))
+			$where [] = "prop_cat = :f_prop_cat";
+		
+		if (! empty ( $cond ['f_prop_status'] ))
+			$where [] = "prop_status = :f_prop_status";
+				
+		if (! empty ( $cond ['f_monthpick'] )){
+			$monthYear = explode('/',$cond ['f_monthpick']);
+			$where [] = "(EXTRACT(month FROM doc_expiry_month) = '$monthYear[0]' AND EXTRACT(year FROM doc_expiry_month) = '$monthYear[1]' )";
+			unset($cond ['f_monthpick']);
+		}
+			
+		$where [] = ' mis_property.deleted = 0 ';
+		$where [] = ' mis_property.prop_building_type IS NULL ';
+		$where = ' WHERE ' . implode ( ' AND ', $where );
+		
+		$this->query ( "SELECT *,
+				case when  prop_status = 1 and prop_building_type IS NULL then 'Vacant'
+					 when  prop_status = 2 and prop_building_type IS NULL then 'Agreement'
+					 when  prop_status = 3 and prop_building_type IS NULL then 'Maintenance'
+					 when  prop_status = 4 and prop_building_type IS NULL then 'Under Other Agreement'
+				end as property_status,
+                tnt_full_name as agr_tenant
+				FROM mis_property
+				LEFT JOIN mis_building as building on building.bld_id = $this->_table.prop_building and building.deleted = 0
+				LEFT JOIN
+				  (SELECT doc_id,
+				          doc_type,
+				          doc_ref_type,
+				          doc_ref_id,
+				          doc_no,
+				          doc_desc,
+				          doc_remarks,
+						  agr_mobile,
+						  to_char(doc_apply_date,'DD/MM/YYYY') as doc_apply_date,
+						  to_char(doc_issue_date,'DD/MM/YYYY') as doc_issue_date,
+						  to_char(doc_expiry_date,'DD/MM/YYYY') as doc_expiry_date,
+						  doc_expiry_date as doc_expiry_month,
+                          agr_tnt_id
+				   FROM
+				     (SELECT max(doc_id) AS mdoc_id
+				      FROM mis_documents
+				      WHERE doc_ref_type = ".DOC_TYPE_PROP."
+				        AND deleted = 0
+				      GROUP BY doc_type,doc_ref_type,doc_ref_id)max_group
+				   LEFT JOIN mis_documents AS docs ON docs.doc_id = max_group.mdoc_id
+				   AND docs.deleted = 0) AS propdocs ON propdocs.doc_ref_id = mis_property.prop_id
+                   left join mis_tenants as tenants on tenants.tnt_id = propdocs.agr_tnt_id and tenants.deleted = 0
+				$where
+				Order by building.bld_name ASC, prop_fileno ASC, prop_no ASC" );
+		
+				//v($this->_qry);
+		
+		return parent::fetchQuery ( $cond );
+	}
+	
+		
+	public function getPropertyDocReport($cond = array()){
+		@$cond = array_filter ( $cond );
+		
+		if (!empty ( $cond ['f_propno'] ))
+			$where [] = "prop_no like '%' || :f_propno || '%'";
+			
+		if (! empty ( $cond ['f_building'] ))
+			$where [] = "prop_building = :f_building";
+				
+		if (! empty ( $cond ['f_prop_cat'] ))
+			$where [] = "prop_cat = :f_prop_cat";
+
+		if (! empty ( $cond ['f_prop_type'] ))
+			$where [] = "prop_type = :f_prop_type";
+		
+		
+		if (! empty ( $cond ['f_monthpick'] )) {
+			if ($cond ['f_monthpick'] == 'past') {
+				$date = new DateTime ();
+				$where [] = "((EXTRACT(month FROM doc_expiry_month) < '" . $date->format ( 'm' ) . "' AND EXTRACT(year FROM doc_expiry_month) <= '" . $date->format ( 'Y' ) . "' ) OR
+						(EXTRACT(year FROM doc_expiry_month) < '" . $date->format ( 'Y' ) . "')) ";
+			} else if ($cond ['f_monthpick'] == 'exp') {
+				$date = new DateTime ();
+				$where [] = "((EXTRACT(month FROM doc_expiry_month) <= '" . $date->format ( 'm' ) . "' AND EXTRACT(year FROM doc_expiry_month) <= '" . $date->format ( 'Y' ) . "' ) OR
+						(EXTRACT(year FROM doc_expiry_month) < '" . $date->format ( 'Y' ) . "')) ";
+			} else {
+				$monthYear = explode ( '/', $cond ['f_monthpick'] );
+				$where [] = "(EXTRACT(month FROM doc_expiry_month) = '$monthYear[0]' AND EXTRACT(year FROM doc_expiry_month) = '$monthYear[1]' )";
+			}
+			unset ( $cond ['f_monthpick'] );
+		}
+		
+		$where [] = ' mis_property.deleted = 0 ';
+		$where [] = ' mis_property.prop_status =2 ';
+		//$where [] = ' mis_property.emp_status = 1 ';
+		// $where [] = ' doc_type !=2';
+		$where = ' WHERE ' . implode ( ' AND ', $where );
+		
+		$this->query ( "SELECT prop_id,
+				       prop_no,
+				       prop_building,
+				       prop_cat,
+				       prop_type,
+				       prop_level,
+				       propdocs.*,
+					   files.file_id,
+					   files.file_exten,
+					   build.bld_name,
+					   prop_fileno,
+                       tnt_full_name as agr_tenant
+				FROM mis_property
+				LEFT JOIN mis_building AS build ON build.bld_id = mis_property.prop_building
+				AND build.deleted = 0
+				INNER JOIN
+				  (SELECT doc_id,
+				          doc_type,
+				          doc_ref_type,
+				          doc_ref_id,
+				          doc_no,
+				          doc_desc,
+				          doc_remarks,
+				          -- agr_tenant,
+						  agr_mobile,
+						  to_char(doc_apply_date,'DD/MM/YYYY') as doc_apply_date,
+						  to_char(doc_issue_date,'DD/MM/YYYY') as doc_issue_date,
+						  to_char(doc_expiry_date,'DD/MM/YYYY') as doc_expiry_date,
+						  doc_expiry_date as doc_expiry_month,
+						  agr_amount,
+                          agr_tnt_id
+		   FROM
+		     (SELECT max(doc_id) AS mdoc_id
+		      FROM mis_documents
+		      WHERE doc_ref_type = " . DOC_TYPE_PROP . "
+							AND deleted = 0
+							GROUP BY doc_type,doc_ref_type,doc_ref_id)max_group
+							LEFT JOIN mis_documents AS docs ON docs.doc_id = max_group.mdoc_id
+							AND docs.deleted = 0) AS propdocs ON propdocs.doc_ref_id = mis_property.prop_id
+                            left join mis_tenants as tenants on tenants.tnt_id = propdocs.agr_tnt_id and tenants.deleted = 0
+							LEFT JOIN core_files as files on files.file_ref_id = propdocs.doc_id and files.deleted = 0 AND files.file_type IN(3)
+							$where
+							ORDER BY doc_type,prop_building,prop_cat DESC,doc_expiry_month ASC" );
+		
+		// q()
+		
+		return parent::fetchQuery ( $cond );
+	}
+	
+	
+	public function getPropertyPayReport($cond = array()){
+		@$cond = array_filter ( $cond );
+		
+		if (! empty ( $cond ['f_propno'] ))
+			$where [] = "prop_no like '%' || :f_propno || '%'";
+		
+		if (! empty ( $cond ['f_building'] ))
+			$where [] = "prop_building = :f_building";
+		
+		if (! empty ( $cond ['f_prop_cat'] ))
+			$where [] = "prop_cat = :f_prop_cat";
+		
+		if (! empty ( $cond ['f_prop_type'] ))
+			$where [] = "prop_type = :f_prop_type";
+		
+		if (! empty ( $cond ['f_monthpick'] )) {
+			$monthYear = explode ( '/', $cond ['f_monthpick'] );
+			$whereDate = " AND (EXTRACT(month FROM proppay.popt_date) = '$monthYear[0]' AND EXTRACT(year FROM proppay.popt_date) = '$monthYear[1]' )";
+			unset ( $cond ['f_monthpick'] );
+		}
+		
+		if (!empty ( $cond ['f_tenant'] ))
+			$where [] 	= "
+					  (((lower(tnt_full_name) like '%' || lower(:f_tenant) || '%'))
+					OR((lower(doc_remarks) like '%' || lower(:f_tenant) || '%'))
+					OR((lower(prop_remarks) like '%' || lower(:f_tenant) || '%'))
+					OR((lower(agr_paydet) like '%' || lower(:f_tenant) || '%'))) ";		
+		
+		if (! empty ( $cond ['f_date'] ))
+			$where [] = "proppay.popt_date = :f_date";
+		
+		if (! empty ( $cond ['f_status']))
+			if($cond ['f_status']==1)
+				$where [] = "cdmd_pstatus = :f_status";
+			else
+				$where [] = "(cdmd_pstatus = :f_status OR cdmd_pstatus ISNULL)";
+		
+		$where [] = ' mis_property.deleted = 0 ';
+		$where [] = ' mis_property.prop_status <> 3 ';
+		
+		//201 doc_type
+		// $where [] = ' mis_property.emp_status = 1 ';
+		// $where [] = ' doc_type !=2';
+		$where = ' WHERE ' . implode ( ' AND ', $where );
+		
+		$this->query ("SELECT prop_id,
+				       prop_no,
+				       prop_building,
+				       prop_cat,
+				       prop_type,
+				       prop_level,
+					   prop_fileno,
+				       propdocs.*,
+					   proppay.*,
+					   prop_status,
+					   cdmd_pstatus,
+
+					   case when prop_account = 8  then 'BA' when prop_account = 9 then 'BA' end as prop_account,
+
+					    CASE WHEN popt_type = 1 then 'Cash'
+						 when popt_type = 2 then 'Cheque'
+						 when popt_type = 3 then 'Not Defined'
+						 when prop_status = 1 then 'Vacant'	
+						END as popt_type,
+						popt_type as popt_type_id,
+
+					    CASE WHEN popt_bank = 1 then 'Bank Muscat'
+						 when popt_bank = 2 then 'Bank Dhofar'
+						 when popt_bank = 3 then 'NBO'
+						 when popt_bank = 4 then 'OAB'
+						 when popt_bank = 5 then 'HSBC'
+						 when popt_bank = 6 then 'FAB'
+ 						 when popt_bank = 7 then 'Bank Sohar'
+ 						 when popt_bank = 8 then 'SBI'
+						 when popt_bank = 9 then 'Bank of Baroda'
+						 when popt_bank = 10 then 'NBA'
+
+						END || '<br>' || popt_chqno as popt_bank_det,
+
+					   to_char(proppay.popt_date,'DD/MM/YYYY') as popt_date,
+					   files.file_id,
+					   files.file_exten,
+					   build.bld_name,
+                       tnt_full_name as agr_tenant 
+				FROM mis_property
+				LEFT JOIN mis_building AS build ON build.bld_id = mis_property.prop_building
+				AND build.deleted = 0
+				INNER JOIN
+				  (SELECT doc_id,
+				          doc_type,
+				          doc_ref_type,
+				          doc_ref_id,
+				          doc_no,
+				          doc_desc,
+						  agr_paydet,
+				          doc_remarks,
+				          --agr_tenant,
+						  agr_mobile,
+						  to_char(doc_apply_date,'DD/MM/YYYY') as doc_apply_date,
+						  to_char(doc_issue_date,'DD/MM/YYYY') as doc_issue_date,
+						  to_char(doc_expiry_date,'DD/MM/YYYY') as doc_expiry_date,
+						  doc_expiry_date as doc_expiry_month,
+                          agr_tnt_id
+				   FROM
+				     (SELECT max(doc_id) AS mdoc_id
+				      FROM mis_documents
+				      WHERE doc_ref_type = " . DOC_TYPE_PROP . " and doc_type = 201
+						AND deleted = 0
+						GROUP BY doc_type,doc_ref_type,doc_ref_id)max_group
+						LEFT JOIN mis_documents AS docs ON docs.doc_id = max_group.mdoc_id
+						AND docs.deleted = 0) AS propdocs ON propdocs.doc_ref_id = mis_property.prop_id
+                        left join mis_tenants as tenants on tenants.tnt_id = propdocs.agr_tnt_id and tenants.deleted = 0
+						LEFT JOIN core_files as files on files.file_ref_id = propdocs.doc_id and files.deleted = 0 AND files.file_type IN(3)
+						LEFT JOIN mis_property_payoption as proppay on proppay.popt_doc_id = propdocs.doc_id and proppay.deleted = 0 $whereDate
+						
+						LEFT JOIN mis_cash_demand AS dmd ON dmd.cdmd_type = ".CASHDMD_TYP_PROP."
+						AND dmd.cdmd_ref_id = proppay.popt_id
+						AND dmd.cdmd_oth_id = proppay.popt_doc_id
+						AND dmd.deleted = 0
+						$where
+						ORDER BY proppay.popt_date ASC, prop_fileno ASC");
+		
+						
+		
+		return parent::fetchQuery ( $cond );
+	}
+	
+	public function getPropDocExpiryReport($cond = array()){
+		$monthYear = explode('/',$cond ['f_monthpick']);
+		
+		if ($cond ['f_monthpick'] == 'past') {
+			$date = new DateTime ();
+			$where = "((EXTRACT(month FROM doc_expiry_month) < '" . $date->format ( 'm' ) . "' AND EXTRACT(year FROM doc_expiry_month) <= '" . $date->format ( 'Y' ) . "' ) OR
+						(EXTRACT(year FROM doc_expiry_month) < '" . $date->format ( 'Y' ) . "')) ";
+		} else {
+			$monthYear = explode ( '/', $cond ['f_monthpick'] );
+			$where  = " (EXTRACT(month FROM doc_expiry_month) = '$monthYear[0]' AND EXTRACT(year FROM doc_expiry_month) = '$monthYear[1]' ) ";
+		}
+		unset ( $cond ['f_monthpick'] );
+		
+		$this->query ( "SELECT count(doc_type) AS COUNT,
+                       CASE
+                           WHEN doc_type = 201 THEN 'Agreement'
+                           WHEN doc_type = 202 THEN 'Fire'
+                           WHEN doc_type = 203 THEN 'Insurance'
+                       END AS doc_type
+                FROM mis_property
+                INNER JOIN
+                  (SELECT doc_type,
+                          doc_ref_id,
+                          doc_expiry_date AS doc_expiry_month,
+                          agr_tnt_id  
+                   FROM
+                     (SELECT max(doc_id) AS mdoc_id
+                      FROM mis_documents
+                      WHERE doc_ref_type = 3
+                        AND deleted = 0
+                      GROUP BY doc_type,
+                               doc_ref_type,
+                               doc_ref_id)max_group
+                   LEFT JOIN mis_documents AS docs ON docs.doc_id = max_group.mdoc_id
+                   AND docs.deleted = 0) AS propdocs ON propdocs.doc_ref_id = mis_property.prop_id
+				WHERE
+				$where
+				AND mis_property.prop_status = 2
+				AND mis_property.deleted = 0
+				GROUP BY doc_type" );
+				
+				return parent::fetchQuery ( $cond );
+	}
+	
+	
+	public function getTenantsReport($cond = array()){
+        @$cond = array_filter($cond);
+
+        if (! empty($cond['f_propno']))
+            $where[] = "prop_no like '%' || :f_propno || '%'";
+
+        if (! empty($cond['f_building']))
+            $where[] = "prop_building = :f_building";
+        
+        if (! empty($cond['f_tenants']))
+            $where[] = "agr_tnt_id = :f_tenants";
+            
+        if (! empty($cond['f_prop_cat']))
+            $where[] = "prop_cat = :f_prop_cat";
+
+        if (! empty($cond['f_prop_type']))
+            $where[] = "prop_type = :f_prop_type";
+
+        if (! empty($cond['f_monthpick'])) {
+            if ($cond['f_monthpick'] == 'past') {
+                $date = new DateTime();
+                $where[] = "((EXTRACT(month FROM doc_expiry_month) < '" . $date->format('m') . "' AND EXTRACT(year FROM doc_expiry_month) <= '" . $date->format('Y') . "' ) OR
+						(EXTRACT(year FROM doc_expiry_month) < '" . $date->format('Y') . "')) ";
+            } else if ($cond['f_monthpick'] == 'exp') {
+                $date = new DateTime();
+                $where[] = "((EXTRACT(month FROM doc_expiry_month) <= '" . $date->format('m') . "' AND EXTRACT(year FROM doc_expiry_month) <= '" . $date->format('Y') . "' ) OR
+						(EXTRACT(year FROM doc_expiry_month) < '" . $date->format('Y') . "')) ";
+            } else {
+                $monthYear = explode('/', $cond['f_monthpick']);
+                $where[] = "(EXTRACT(month FROM doc_expiry_month) = '$monthYear[0]' AND EXTRACT(year FROM doc_expiry_month) = '$monthYear[1]' )";
+            }
+            unset($cond['f_monthpick']);
+        }
+
+        $where[] = ' mis_property.deleted = 0 ';
+        $where[] = ' mis_property.prop_status =2 ';
+        // $where [] = ' mis_property.emp_status = 1 ';
+        // $where [] = ' doc_type !=2';
+        $where = ' WHERE ' . implode(' AND ', $where);
+
+        $this->query(  "SELECT prop_id,
+                               prop_no,
+                               prop_building,
+                               prop_cat,
+                               prop_type,
+                               prop_level,
+                               propdocs.*,
+                               files.file_id,
+                               files.file_exten,
+                               build.bld_name,
+                               prop_fileno,
+                               tnt_full_name AS agr_tenant,
+                               agr_tnt_id 
+                        FROM mis_property
+                        LEFT JOIN mis_building AS build ON build.bld_id = mis_property.prop_building
+                        AND build.deleted = 0
+                        INNER JOIN
+                          (SELECT doc_id,
+                                  doc_type,
+                                  doc_ref_type,
+                                  doc_ref_id,
+                                  doc_no,
+                                  doc_desc,
+                                  doc_remarks,
+                                  agr_mobile,
+                                  to_char(doc_apply_date,'DD/MM/YYYY') AS doc_apply_date,
+                                  to_char(doc_issue_date,'DD/MM/YYYY') AS doc_issue_date,
+                                  to_char(doc_expiry_date,'DD/MM/YYYY') AS doc_expiry_date,
+                                  doc_expiry_date AS doc_expiry_month,
+                                  agr_amount,
+                                  agr_tnt_id
+                           FROM mis_documents
+                           WHERE doc_ref_type = 3
+                             AND doc_type = 201
+                             AND deleted = 0 ) AS propdocs ON propdocs.doc_ref_id = mis_property.prop_id
+                        LEFT JOIN mis_tenants AS tenants ON tenants.tnt_id = propdocs.agr_tnt_id
+                        AND tenants.deleted = 0
+                        LEFT JOIN core_files AS files ON files.file_ref_id = propdocs.doc_id
+                        AND files.deleted = 0
+                        AND files.file_type IN(3)
+                        $where
+                        ORDER BY tnt_full_name ASC,
+                                 doc_type,
+                                 prop_building,
+                                 prop_cat DESC,
+                                 doc_expiry_month ASC");
+
+        // q()
+
+        return parent::fetchQuery($cond);
+    }
+	
+	
+}
+
+

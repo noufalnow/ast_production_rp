@@ -1,0 +1,145 @@
+<div class="card-block" style="padding-top: 2%;">
+	<div class="full-width">
+		<?=x(array('link'=>'erp_invoice/collection/add','label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')))?>
+	</div>
+	<h5 class="title-margin">List of Collections</h5>
+</div>
+<form method="get" id="filter" name="filter" action="list">
+	<div class="col-md-12 card filter-card">
+		<table class="" width="100%">
+			<tr style="font-size: 0.8em;">
+				<th width="30%" >Vendor</th>
+				<th width="15%">Type</th>
+				<th width="15%" >Building</th>
+				<th width="15%">Property</th>
+				<th width="15%"></th>
+			</tr>
+			<tr>
+				<td>
+					<div class="form-group">
+                	<?=$this->form->f_selCustomer->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group">
+                	<?=$this->form->f_type->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group">
+                	<?=$this->form->f_building->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group">
+                	<?=$this->form->f_property->show()?>
+              		</div>
+				</td>
+				<td align="center" style="width:30%">
+	              <div class="form-group ">
+					<button class="btn <?=$this->filter_class?>" type="submit" >Filter</button>
+					<input class="btn btn-secondary" name="clear" type="submit" value="All"></input>
+	              </div>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+<div class="col-md-12">
+	<div class="card">
+		<table class="table table-bordered grid">
+			<thead>
+				<tr>
+					<th width="3%" class="center">Sl No</th>
+					<th width="16%" class="center">Customer Name</th>
+					<th width="4%" class="center">Date</th>
+					<th width="5%" class="center">Amount</th>
+					<th width="22%" class="center">Particulares</th>
+					<th width="4%" class="center">Edit</th>
+					<?php if($_SESSION['user_acl']['erp_invoice/collection/approval']):?>
+					<th width="4%" class="center">Approve</th>
+					<?php endif;?>
+					<th width="4%" class="center">View</th>
+					<th width="4%" class="center">File No</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?if(count($this->collectionList)>0):?>
+				<?php foreach($this->collectionList as $pay):
+					$encPayId = $this->encode($pay['coll_id']);
+				?>
+				<tr>
+					<td class="center"><?=@++$this->offset;?></td>
+					<td><?=$pay['cust_name']?>  <?=$pay['cdmd_note'];?></td>
+					<td><?=$pay['coll_date']?></td>
+					<td><?=$pay['coll_amount']?></td>
+					<td><?=$pay['bill_no']?> <?=$pay['cdmd_narr']?></td>
+					<td class="center">
+					<?php if(empty($pay['coll_app_status'])):?>
+						<?=x(array('link'=>'erp_invoice/collection/edit','ref'=>$encPayId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>  
+					<?php endif?>					
+					</td>
+					<?php if($_SESSION['user_acl']['erp_invoice/collection/approval']):?>
+					<td class="center">
+					<?php if($pay['coll_app_status']==0):?>
+						<?=x(array('link'=>'erp_invoice/collection/approval','ref'=>$encPayId,'label'=>'<span class="glyphicon glyphicon-ok-circle" style="color:#31708f;font-size: 1.2em;"> </span>',array("param"=>'class="facebox"')))?>  
+					<?php endif?>
+					</td>
+					<?php endif;?>					
+					<td class="center">
+						<?=x(array('link'=>'erp_invoice/collection/view','ref'=>$encPayId,'label'=>'<i class="fas fa-search"></i>',array("param"=>'class="facebox"')))?> 
+					</td>
+					<td>
+					<?php echo $pay['coll_file_no']?>
+					</td>
+				</tr>
+				<?php endforeach?>
+			<?endif?>
+			</tbody>
+		</table>
+		<?$this->collectionObj->pagination();?>
+	</div>
+</div>
+</form>
+<?=x(array('link'=>'erp_report/property/paymentcollection','label'=>'
+	<div class="col-md-3">
+		<div class="card">
+				<div class="card-block" style="background-color: ;">
+				<div class="card-block">
+					<h4 class="card-title center">Payment Collection</h4>
+					<p class="card-text">
+						<small class="text-muted"></small>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+', array("param"=>'wide_opener')),'<br><br>')?>
+
+<style>
+.modal-dialog{
+	width: 95%;
+}
+.pinkrow{
+	background-color: pink;
+}
+</style>
+
+<script type="text/javascript">  
+function toggleHeight(field){
+    if($(field).is(":checked")){
+		   $(field).closest('tr').addClass('pinkrow');
+		   $(field).val("1");
+    }
+    else{
+		  $(field).closest('tr').removeClass('pinkrow');
+		  $(field).val("");
+    }
+}
+$(document).on(function() {
+	$('input:checkbox.bill-select').each(function() {
+		toggleHeight(this)
+	});
+	
+});
+</script>

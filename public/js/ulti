@@ -1,0 +1,11 @@
+function resetId(elemId) {
+    $.each($('#' + elemId + ' tr:last').find(':input'), function() {
+        var ident = $(this).attr('multi_ident');
+        var index = $(this).attr('multi_index');
+        var next = parseInt(index) + 1;
+        if (ident != undefined)
+            $(this).attr('id', ident + '-' + next)
+            .attr('name', ident + '[' + next + ']').attr('multi_index', next);
+    });
+
+}

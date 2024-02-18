@@ -1,0 +1,96 @@
+<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+	<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+		<h4 class="modal-title"> &nbsp; Cash Flow Details
+		</h4>
+	</div>
+	<div class="modal-body">
+
+<div id="report">
+<?php include '../../css/printstyle_rpt';?>
+
+<div style="/*! padding: 3%; */padding-left: 3%;padding-right: 3%;">
+
+		<table class="rpt_frame">
+			<thead>
+				<tr>
+					<td width="15%" class="empty" style="border: 1px solid white;">Date:</td>
+					<th width="20%" class="empty" style="border: 1px solid white;"><?=$this->cashBookDet['cb_dip_dt']?></th>
+					<td width="40%"  align="right" class="empty" style="border: 1px solid white; ">Source:</td>
+					<th width="40%" class="empty" style="border: 1px solid white;"><?=$this->cashBookDet['source_type']?></th>
+				</tr>
+				<tr>
+					<td class="empty" style="border: 1px solid white;">Debit Amount:</td>
+					<th class="empty" style="border: 1px solid white;"><?=$this->cashBookDet['cb_debit']?></th>
+					<td align="right" class="empty" style="border: 1px solid white; ">Source Details:</td>
+					<th class="empty" style="border: 1px solid white;"><?=$this->cashBookDet['source_details']?></th>
+				</tr>
+				<tr>
+					<td width="10%" class="empty" style="border: 1px solid white;">Note:</td>
+					<th colspan="3" class="empty" style="border: 1px solid white;"><?=$this->cashBookDet['cb_debit_note']?></th>
+				</tr>
+			</thead>
+		</table>
+
+
+		<div class="row mb-4" style="margin-top: 15px;">
+		<div id="mh_varis" class="col-sm-12">
+		<table class="rpt_frame">
+				<tbody>
+					<tr style="font-size: 0.8em;">
+						<th class="text-center" style="padding-bottom: 5px;" width="10%">Date</th>
+						<th class="text-center" style="padding-bottom: 5px;" width="40%">Details</th>
+						<th class="text-center" style="padding-bottom: 5px;" width="10%">Amount (RO)</th>
+						<th class="text-center" style="padding-bottom: 5px;" width="20%">Assigned To</th>
+						<th class="text-center" style="padding-bottom: 5px;" width="10%">Progress</th>
+					</tr>
+				</tbody>
+				<tbody >
+				<?php if(count($this->cashFlowDet)>0):?>
+				<?php $i = 0; 
+				foreach ($this->cashFlowDet as $det):
+					$i++;
+					
+				?>
+					<tr index="0" <?php if($det['cf_id']==$ref):?> style="color: red" <?php endif?>>
+						<td class="text-center" valign="top"><?=$det['cdet_dip_dt']?>
+						</td>
+						<td valign="top">
+							<div class="amtrow">
+								<?=$det['cf_note']?>
+							</div>
+						</td>
+						<td valign="top" align="right" style="padding-right: 5px;">
+							<div class="amtrow">
+								<?=$det['cf_amount']?>
+							</div>
+						</td>
+						<td valign="top">
+							<div class="cheqrow">
+								<?=$det['emp_name']?>
+							</div>
+						</td>
+						<td class="center">
+							<progress value="<?=$det['pro_percentage'];?>"></progress>
+							
+						</td>
+						
+					</tr>
+					<?php endforeach;?>
+					<?php endif;?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+	</div>
+</div>
+</div>
+</div>
+</div>
+<style>
+.modal-dialog{
+	width: 75%;
+}
+</style>

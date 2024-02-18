@@ -1,0 +1,1453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<access>
+	<acl>
+		<module>
+			<name>admin</name>
+			<label>admin Module</label>
+			<description>admin activities</description>
+			<controller>
+				<name>users</name>
+				<label>users Related</label>
+				<description>users Related activity</description>
+				<action>
+					<name>index</name>
+					<label>index</label>
+					<description>index</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>add</name>
+					<label>add</label>
+					<description>add</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>edit</name>
+					<label>edit</label>
+					<description>edit</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>view</name>
+					<label>view</label>
+					<description>view</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>changepwd</name>
+					<label>changepwd</label>
+					<description>change password</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>reset</name>
+					<label>reset</label>
+					<description>reset password</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>getusers</name>
+					<label>Get users under roll</label>
+					<description>Get users under roll</description>
+					<resource>default</resource>
+					<type>view</type>
+				</action>
+			</controller>
+
+		</module>
+		<module>
+			<name>default</name>
+			<label>Defaut Module</label>
+			<description>Default activities</description>
+			<controller>
+				<name>default</name>
+				<label>Defaut Related</label>
+				<description>Defaut Related activity</description>
+				<action>
+					<name>dashboard</name>
+					<label>Dashboard Page</label>
+					<description>Dashboard Page</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>logout</name>
+					<label>logout Page</label>
+					<description>logout Page</description>
+					<resource>default</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>index</name>
+					<label>login Page</label>
+					<description>login Page</description>
+					<resource>default</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>login</name>
+					<label>admin login Page</label>
+					<description>admin login Page</description>
+					<resource>default</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>download</name>
+					<label>download</label>
+					<description>download</description>
+					<resource>default</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>displayimg</name>
+					<label>Display Image</label>
+					<description>Image</description>
+					<resource>default</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>popupclose</name>
+					<label>Close</label>
+					<description>popupclose</description>
+					<resource>default</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>backup</name>
+					<label>Generate Backup</label>
+					<description>Generate Backup</description>
+					<resource>default</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>notify</name>
+					<label>Home Notification</label>
+					<description>Home Notification</description>
+					<resource>default</resource>
+					<type>view</type>
+				</action>
+			</controller>
+		</module>
+		<module>
+			<name>acl</name>
+			<label>acl Module</label>
+			<description>acl activities</description>
+			<controller>
+				<name>config</name>
+				<label>config Related</label>
+				<description>config Related activity</description>
+				<action>
+					<name>setmodules</name>
+					<label>setmodules</label>
+					<description>setmodules</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>setcontrollers</name>
+					<label>setcontrollers</label>
+					<description>setcontrollers</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>setactions</name>
+					<label>setactions</label>
+					<description>setactions</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>getpermission</name>
+					<label>getpermission</label>
+					<description>getpermission</description>
+					<resource>default</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>resources</name>
+					<label>resources</label>
+					<description>resources</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+			</controller>
+		</module>
+		<module>
+			<name>erp_employee</name>
+			<label>Employee Module</label>
+			<description>Employee Master and Salary</description>
+			<controller>
+				<name>master</name>
+				<label>Employee Master</label>
+				<description>Employee Recods and Documents</description>
+				<action>
+					<name>list</name>
+					<label>List</label>
+					<description>List</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>add</name>
+					<label>Add</label>
+					<description>Add Employee</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>edit</name>
+					<label>Edit</label>
+					<description>Edit Employee</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>view</name>
+					<label>view</label>
+					<description>view</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>status</name>
+					<label>Status</label>
+					<description>Change Status</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>statusedit</name>
+					<label>Edit Status</label>
+					<description>Edit Status</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>		
+				<action>
+					<name>leavestatus</name>
+					<label>Leave Summary</label>
+					<description>Leave Summary</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>		
+				<action>
+					<name>empcontact</name>
+					<label>Employee Contact</label>
+					<description>View and Add Employee Contact</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>empcontactedit</name>
+					<label>Modify Employee Contact</label>
+					<description>Modify Employee Contact</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>empcontract</name>
+					<label>Employee Contract</label>
+					<description>Add Employee Contract</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>empcontractedit</name>
+					<label>Modify Employee Contract</label>
+					<description>Modify Employee Contract</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>empcontractupdate</name>
+					<label>Contract Update Status</label>
+					<description>Contract Update Status</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>				
+				<action>
+					<name>empdocs</name>
+					<label>Employee Documents</label>
+					<description>View and Add Employee Documents and Photo
+					</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>empdocsedit</name>
+					<label>Employee Documents Edit</label>
+					<description>Modify Employee Documents</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>empdocview</name>
+					<label>Employee Documents View</label>
+					<description>View Employee Documents</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>empdocdelete</name>
+					<label>Delete Employee Documents </label>
+					<description>Delete Employee Documents</description>
+					<resource>application</resource>
+					<type>delete</type>
+				</action>
+				<action>
+					<name>profile</name>
+					<label>Employee Profile View</label>
+					<description>View Employee Profile</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>vehiclereg</name>
+					<label>Driver, Operator Vehicle Registration</label>
+					<description>Driver, Operator Vehicle Registration</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>getlive</name>
+					<label>Employee Department Ajax</label>
+					<description>Employee Department Ajax</description>
+					<resource>default</resource>
+					<type>view</type>
+				</action>
+			</controller>
+			<controller>
+				<name>salary</name>
+				<label>Employee Salary</label>
+				<description>Employee Salary Recods and Monthly Salary </description>
+
+				<action>
+					<name>emppay</name>
+					<label>Employee Salary Add and View</label>
+					<description>Employee Salary Add and View</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>emppayedit</name>
+					<label>Modify Employee Salary</label>
+					<description>Modify Employee Salary</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>list</name>
+					<label>Monthly Payroll List</label>
+					<description>Modify Employee Salary</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>salary</name>
+					<label>Monthly Payroll Preparation</label>
+					<description>Monthly Payroll Preparation</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>report</name>
+					<label>Monthly Payroll Report</label>
+					<description>Monthly Payroll Report</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+			</controller>
+		</module>
+		<module>
+			<name>erp_property</name>
+			<label>Propery Module</label>
+			<description>Propery Master and Rent </description>
+			<controller>
+				<name>master</name>
+				<label>Propery Master and Document Management</label>
+				<description>Propery Master and Document Management</description>
+				<action>
+					<name>add</name>
+					<label>Add Property</label>
+					<description>Add Property or Building </description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>edit</name>
+					<label>Modify Property Details</label>
+					<description>Modify Property or Building Deatils</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>list</name>
+					<label>Property Listing </label>
+					<description>Property Listing Page</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>view</name>
+					<label>Property Details View </label>
+					<description>Property Details View</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>payoptions</name>
+					<label>Property Pay option  </label>
+					<description>Property Rent payment option </description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>propdocs</name>
+					<label>Property Documents</label>
+					<description>View and Add Property Documents and Photo
+					</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>propdocsedit</name>
+					<label>Property Documents Edit</label>
+					<description>Modify Property Documents</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>propdocview</name>
+					<label>Property Documents View</label>
+					<description>View Property Documents</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>propdocdelete</name>
+					<label>Delete Property Documents </label>
+					<description>Delete Property Documents</description>
+					<resource>application</resource>
+					<type>delete</type>
+				</action>
+				<action>
+					<name>profile</name>
+					<label>Property Profile View</label>
+					<description>View Property Profile</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>payoptions</name>
+					<label>Property Pay option  </label>
+					<description>Property rent payment option </description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>status</name>
+					<label>Property Status Update  </label>
+					<description>Property current status update</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+
+				<action>
+					<name>propdocscomm</name>
+					<label>Property Building Documents</label>
+					<description>Property - Buildings Common Documents view and add
+					</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>propdocscommedit</name>
+					<label>Property Building Documents Edit</label>
+					<description>Modify Property - Buildings Common Documents
+					</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+			</controller>
+			<controller>
+				<name>rent</name>
+				<label>Propery Rentals</label>
+				<description>Propery Rental and Demand</description>
+				<action>
+					<name>propertypay</name>
+					<label>Property Rent Schedule</label>
+					<description>Property Rent Schedule Listing</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>adddemand</name>
+					<label>Demand Rent Collection</label>
+					<description>Demand Pproperty Rent Collection</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+			</controller>
+			<controller>
+				<name>tenants</name>
+				<label>Tenants Management</label>
+				<description>Tenants Related activity</description>
+				<action>
+					<name>list</name>
+					<label>List Tenants</label>
+					<description>List Tenants</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>add</name>
+					<label>Add New Tenants</label>
+					<description>Add New Tenants</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>edit</name>
+					<label>Edit Tenants Details</label>
+					<description>Edit Building Tenants</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>view</name>
+					<label>View Tenants Details</label>
+					<description>View Tenants Details</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>tenant_agr</name>
+					<label>View Tenants Agreements</label>
+					<description>View Tenants Agreements</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>tenant_payments</name>
+					<label>View Tenants Payments</label>
+					<description>View Tenants Payments</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>				
+			</controller>
+		</module>
+		<module>
+			<name>erp_vehicle</name>
+			<label>Vehicle Management</label>
+			<description>Vehicle Management </description>
+			<controller>
+				<name>master</name>
+				<label>Vehicle and Document Management</label>
+				<description>Vehicle and Document Management
+				</description>
+				<action>
+					<name>add</name>
+					<label>Add Vehicle</label>
+					<description>Add Vehicle</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>edit</name>
+					<label>Update Vehicle Details</label>
+					<description>Update Vehicle Details</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>list</name>
+					<label>List Vehicle Details</label>
+					<description>List Vehicle Details</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>view</name>
+					<label>view Vehicle Details</label>
+					<description>View Vehicle Details</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+
+				<action>
+					<name>vhldocs</name>
+					<label>Vehicle Documents</label>
+					<description>View and Add Vehicle Documents and Photo
+					</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>vhldocsedit</name>
+					<label>Vehicle Documents Edit</label>
+					<description>Modify Vehicle Documents</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>propdocview</name>
+					<label>Vehicle Documents View</label>
+					<description>View Vehicle Documents</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>vhldocsdelete</name>
+					<label>Delete Vehicle Documents </label>
+					<description>Delete Vehicle Documents</description>
+					<resource>application</resource>
+					<type>delete</type>
+				</action>
+				<action>
+					<name>vhldocsview</name>
+					<label>Vehicle Profile View</label>
+					<description>View Vehicle Profile</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+			</controller>
+			<controller>
+				<name>services</name>
+				<label>Vehicle Service Management</label>
+				<description>Vehicle Service Management</description>
+				<action>
+					<name>vhlservice</name>
+					<label>Add and View Vehicle Service</label>
+					<description>Add Vehicle Service</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>vhlserviceedit</name>
+					<label>Modify Vehicle Service Entry</label>
+					<description>Modify Vehicle Service Entry</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+			</controller>
+		</module>
+		<module>
+			<name>erp_expense</name>
+			<label>Expense Management</label>
+			<description>Expense Management </description>
+			<controller>
+				<name>expense</name>
+				<label>Expense Management</label>
+				<description>Expense Management
+				</description>
+				<action>
+					<name>add</name>
+					<label>Add Expense</label>
+					<description>Add Expense</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>edit</name>
+					<label>Modify Expense</label>
+					<description>Modify Expense</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>list</name>
+					<label>List Expenses</label>
+					<description>List Expenses Entries</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>view</name>
+					<label>view Expenses Details</label>
+					<description>view Expenses Details Details Entries</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>view</name>
+					<label>view Expenses Details</label>
+					<description>view Expenses Details Details Entries</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>approval</name>
+					<label>Approval Expenses Entry</label>
+					<description>Approval of Expense Entry </description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>update</name>
+					<label>Modify Approved Expenses Entry</label>
+					<description> Cancel/ Return / Partial Return of Expense entry
+					</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>catedit</name>
+					<label>Update expense category</label>
+					<description> Update expense category</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>getlive</name>
+					<label>Expense Category Ajax</label>
+					<description>Expense Category Ajax</description>
+					<resource>default</resource>
+					<type>view</type>
+				</action>
+			</controller>
+			<controller>
+				<name>payments</name>
+				<label>Payments Management</label>
+				<description>Payments Management Related Operations
+				</description>
+				<action>
+					<name>add</name>
+					<label>Create Payments Entry</label>
+					<description>Crate Payments Entry</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>edit</name>
+					<label>Modify Payments Entry</label>
+					<description>Modify Payments Entry</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>list</name>
+					<label>List Payments Entry</label>
+					<description>List Payments Entry</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>view</name>
+					<label>View Payments Entry</label>
+					<description>View Payments Entry</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>approval</name>
+					<label>Approve Payments Entry</label>
+					<description>Approve Payments Entry</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>remittance</name>
+					<label>View and Print Remittance advice</label>
+					<description>View and Print Remittance advice</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>voucher</name>
+					<label>Payment voucher entry</label>
+					<description>Payment voucher entry</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>close</name>
+					<label>Close Payments Entry</label>
+					<description>Close Payments Entry</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>editoption</name>
+					<label>Update Payments fund</label>
+					<description>Update Payments fund</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+			</controller>
+		</module>
+		<module>
+			<name>erp_invoice</name>
+			<label>Invoice and Cash Collection </label>
+			<description>Invoice and Cash Collection Management</description>
+			<controller>
+				<name>bill</name>
+				<label>Invoice Management</label>
+				<description>Invoice Management
+				</description>
+				<action>
+					<name>add</name>
+					<label>Add Invoice</label>
+					<description>Add Invoice</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>edit</name>
+					<label>Modify Invoice</label>
+					<description>Modify Invoice Details</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>list</name>
+					<label>List Invoice</label>
+					<description>List Invoice Details</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>view</name>
+					<label>Print Invoice</label>
+					<description>Print Invoice</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>miniview</name>
+					<label>View Invoice Details</label>
+					<description>View Invoice Details</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>approval</name>
+					<label>Approve Invoice Entry</label>
+					<description>Approve Invoice Entry</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>editenable</name>
+					<label>Enable edit /CancelInvoice Entry</label>
+					<description>Enable edit /CancelInvoice Entry</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+			</controller>
+			<controller>
+				<name>collection</name>
+				<label>Cash Collection</label>
+				<description>Cash Collection Management
+				</description>
+				<action>
+					<name>add</name>
+					<label>Add Collection entry</label>
+					<description>Add Collection entry</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>edit</name>
+					<label>Modify Collection entry</label>
+					<description>Modify Collection entry</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>list</name>
+					<label>List Collection entry</label>
+					<description>List Collection entry</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>view</name>
+					<label>View Collection entry</label>
+					<description>View Collection entry</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>approval</name>
+					<label>Approve Collection entry</label>
+					<description>Approve Collection entry</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+			</controller>
+		</module>
+		<module>
+			<name>erp_manage</name>
+			<label> Company and Common Document  </label>
+			<description> Company and Common Document Management</description>
+			<controller>
+				<name>company</name>
+				<label>Company Documents Management</label>
+				<description>Company Documents Management
+				</description>
+				<action>
+					<name>add</name>
+					<label>Add Company Documents</label>
+					<description>Add Company Documents</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>edit</name>
+					<label>Modify Company Documents</label>
+					<description>Modify Company Documents</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>list</name>
+					<label>List Company Documents</label>
+					<description>List Company Documents</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+			</controller>
+			<controller>
+				<name>updates</name>
+				<label>Updates and Notifiction Management</label>
+				<description>Updates and Notifiction Management
+				</description>
+				<action>
+					<name>add</name>
+					<label>Add updates</label>
+					<description>Add updates</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>edit</name>
+					<label>Edit updates</label>
+					<description>Edit updates</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>list</name>
+					<label>List updates</label>
+					<description>List updates</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>report</name>
+					<label>Updates Report</label>
+					<description>Updates Report</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>status</name>
+					<label>Updates Status of Updates</label>
+					<description>Updates Status</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+			</controller>
+			<controller>
+				<name>documents</name>
+				<label>Common Documents Management</label>
+				<description>Common Documents Management
+				</description>
+				<action>
+					<name>add</name>
+					<label>Add Common Documents</label>
+					<description>Add Common updates</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>edit</name>
+					<label>Modify Common Documents</label>
+					<description>Modify Common Documents</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>documents</name>
+					<label>List Common Documents</label>
+					<description>List Common Documents</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>getlive</name>
+					<label>Access Common Documents Ajax</label>
+					<description>Access Common Documents Ajax</description>
+					<resource>default</resource>
+					<type>view</type>
+				</action>
+			</controller>
+		</module>
+		<module>
+			<name>erp_fund</name>
+			<label>Cash and Fund Flow Module</label>
+			<description>Cash and Fund Flow Module</description>
+			<controller>
+				<name>cashflow</name>
+				<label>Cash Flow Management</label>
+				<description>Cash Flow Related activity</description>
+				<action>
+					<name>list</name>
+					<label>Cash Flow List</label>
+					<description>Cash Flow List</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>flow</name>
+					<label>Cash Flow Entry</label>
+					<description>Cash Flow Entry</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>fedit</name>
+					<label>Modify Cash Flow Entry</label>
+					<description>Modify Cash Flow Entry</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>billview</name>
+					<label>Cash flow Expense View</label>
+					<description>Cash flow Expense View</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>fviewmini</name>
+					<label>View Cashflow </label>
+					<description>View Cashflow Entry</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>fview</name>
+					<label>View and Print Cashflow </label>
+					<description>View Cashflow Entry</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+
+				<action>
+					<name>cashfreport</name>
+					<label>Cash Flow Report </label>
+					<description>Cash Flow Report</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>toggle</name>
+					<label>Cash Flow Entry Approval [MD] </label>
+					<description>Cash Flow Report</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+			</controller>
+
+			<controller>
+				<name>cashbook</name>
+				<label>Cash Book Management</label>
+				<description>Cash Book Management</description>
+				<action>
+					<name>list</name>
+					<label>Cash Book List</label>
+					<description>Cash Book List</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>add</name>
+					<label>Add Cash Book Entry</label>
+					<description>Add Cash Book Entry</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+
+				<action>
+					<name>cashreport</name>
+					<label>Cash Book Report</label>
+					<description>Cash Book Report</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+
+			</controller>
+		</module>
+		<module>
+			<name>erp_masters</name>
+			<label>Common Masters </label>
+			<description>Common Masters</description>
+			<controller>
+				<name>customer</name>
+				<label>Customer Management</label>
+				<description>Customer Related activity</description>
+				<action>
+					<name>list</name>
+					<label>List Customers</label>
+					<description>List Customers</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>add</name>
+					<label>Add New Customers</label>
+					<description>Add New Customers</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>edit</name>
+					<label>Edit Customer Details</label>
+					<description>Edit Customer Details</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>view</name>
+					<label>View Customer Details</label>
+					<description>View Customer Details</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+			</controller>
+			<controller>
+				<name>vendor</name>
+				<label>Vendor Management</label>
+				<description>Vendor Related activity</description>
+				<action>
+					<name>list</name>
+					<label>List Vendor</label>
+					<description>List Vendor</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>add</name>
+					<label>Add New Vendor</label>
+					<description>Add New Vendor</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>edit</name>
+					<label>Edit Vendor Details</label>
+					<description>Edit Vendor Details</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>view</name>
+					<label>View Vendor Details</label>
+					<description>View Vendor Details</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+			</controller>
+			<controller>
+				<name>item</name>
+				<label>Item Management</label>
+				<description>Item Related activity</description>
+				<action>
+					<name>list</name>
+					<label>List Item</label>
+					<description>List Item</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>add</name>
+					<label>Add New Item</label>
+					<description>Add New Item</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>edit</name>
+					<label>Edit Item Details</label>
+					<description>Edit Item Details</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>view</name>
+					<label>View Item Details</label>
+					<description>View Item Details</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>srvadd</name>
+					<label>Machine Service Related Item Add</label>
+					<description>Machine Service Related Item Add</description>
+					<resource>application</resource>
+					<type>Create</type>
+				</action>
+			</controller>
+			<controller>
+				<name>building</name>
+				<label>Building Master</label>
+				<description>Building Related activity</description>
+				<action>
+					<name>list</name>
+					<label>List Building</label>
+					<description>List Building</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>add</name>
+					<label>Add New Building</label>
+					<description>Add New Building</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>edit</name>
+					<label>Edit Building Details</label>
+					<description>Edit Building Details</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>view</name>
+					<label>View Building Details</label>
+					<description>View Building Details</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+			</controller>
+		</module>
+		<module>
+			<name>erp_report</name>
+			<label>ERP Reports </label>
+			<description>ERP Reports</description>
+			<controller>
+				<name>employee</name>
+				<label>Employee/ HR Reports</label>
+				<description>Employee/ HR Reports</description>
+				<action>
+					<name>employee</name>
+					<label>Report : Employees</label>
+					<description>Report : Employees</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>empdocument</name>
+					<label>Report : Employees Documents</label>
+					<description>Report : Employees</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>empcontract</name>
+					<label>Report : Drivers / Operators Contract</label>
+					<description>Report : Drivers / Operators Contract</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+			</controller>
+			<controller>
+				<name>property</name>
+				<label>Property/ Rental and Collection Reports</label>
+				<description>Property and Rental Reports</description>
+				<action>
+					<name>property</name>
+					<label>Report : Properties</label>
+					<description>Report : Properties</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>propdocument</name>
+					<label>Report : Properties Documents</label>
+					<description>Report : Properties</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>propertymeter</name>
+					<label>Report : Property Electrical and Water Meter</label>
+					<description>Report : Property Electrical and Water Meter
+					</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>propvacant</name>
+					<label>Report : Vacant Property Report</label>
+					<description>Report : Vacant Property Report</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>paymentcollection</name>
+					<label>Report : Payment Collection Rent and Invoice</label>
+					<description>Report : Payment Collection Rent and Invoice
+					</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>tenantagreements</name>
+					<label>Report : Agreements By Tenants</label>
+					<description>Report : Report : Agreements By Tenants
+					</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+			</controller>
+			<controller>
+				<name>vehicle</name>
+				<label>Vehicles Contract and Expenses Reports</label>
+				<description>Vehicles and Contract Reports</description>
+				<action>
+					<name>vehicle</name>
+					<label>Report : Vehicles</label>
+					<description>Report : Vehicles</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>vhldocument</name>
+					<label>Report : Vehicles Documents</label>
+					<description>Report : Vehicles</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>commveh</name>
+					<label>Report : Commercial Vehicles</label>
+					<description>Report : Commercial Vehicles</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+
+				<action>
+					<name>commveh</name>
+					<label>Report : Commercial Vehicles</label>
+					<description>Report : Commercial Vehicles</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+
+
+
+				<action>
+					<name>vehiclecontract</name>
+					<label>Report : Vehicle Contract</label>
+					<description>Report : Vehicle Contract</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+
+				<action>
+					<name>vhlexpense</name>
+					<label>Report : Vehicles Expense Report</label>
+					<description>Report : Vehicles Expense Report</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+
+
+			</controller>
+
+			<controller>
+				<name>expense</name>
+				<label>Expenses and PAyments Reports</label>
+				<description>Expenses Reports</description>
+				<action>
+					<name>expense</name>
+					<label>Report : Expenses With Detailed Consolidation</label>
+					<description>Report : Vehicles</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>expensecategorywise</name>
+					<label>Report : Expenses Category Wise</label>
+					<description>Report : Expenses Category Wise</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>expvendoroutstanding</name>
+					<label>Report: Pending Credit Statement</label>
+					<description>Report: Pending Credit Statement</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+
+				<action>
+					<name>expvensummary</name>
+					<label>Report: Pending Credit Summary</label>
+					<description>Report: Pending Credit Summary</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+
+				<action>
+					<name>payments</name>
+					<label>Report: Credit Payments</label>
+					<description>Report: Credit Payments</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+			</controller>
+
+
+			<controller>
+				<name>invoice</name>
+				<label>Invoice and Collection Reports</label>
+				<description>Invoice and Collection Reports</description>
+				<action>
+					<name>billbycustomer</name>
+					<label>Report: Outstanding Summary Statement</label>
+					<description>Report: Outstanding Statement</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+
+				<action>
+					<name>billcustoutstanding</name>
+					<label>Report: Outstanding Detailed Statement</label>
+					<description>Report: Outstanding Detailed Statement</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+
+				<action>
+					<name>billlisting</name>
+					<label>Report: List of Invoices</label>
+					<description>Report: List of Invoices</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+
+				<action>
+					<name>billoutstanding</name>
+					<label>Report: Outstanding Statement</label>
+					<description>Report: Outstanding Statement</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+
+			</controller>
+
+		</module>
+
+
+	</acl>
+</access>

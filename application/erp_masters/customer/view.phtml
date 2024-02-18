@@ -1,0 +1,84 @@
+<div class="col-md-12">
+<div class="card-block " style="padding-top: 2%;">
+	<div class="full-width">
+		<?=x(array('link'=>'erp_masters/customer/list','label'=>'<button class="btn btn-info pull-right" >Back</button>'))?>
+	</div>
+	<h5 class="title-margin">Customer Details</h5>
+</div>	
+
+	<div class="card" style="padding: 3%;">
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Customer/Company</label>
+					<div class="col-sm-4">
+                     <?=$this->customerDetail['cust_name']?>
+                  </div>
+				<label class="col-sm-2 form-label" >Customer Code</label>
+					<div class="col-sm-4">
+                     <?=$this->customerDetail['cust_id']?>
+                  </div>                  
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Name (C/o)</label>
+					<div class="col-sm-4">
+                    <?=$this->customerDetail['con_name']?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >Address</label>
+					<div class="col-sm-4">
+                    <?=$this->customerDetail['con_house']?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Street</label>
+					<div class="col-sm-4">
+                    <?=$this->customerDetail['con_street1']?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >Place Name</label>
+					<div class="col-sm-4">
+                    <?=$this->customerDetail['con_place']?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Locality</label>
+					<div class="col-sm-4">
+                      <?=$this->customerDetail['con_locality']?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >Zip Code</label>
+					<div class="col-sm-4">
+                      <?=$this->customerDetail['con_zip_code']?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Phone No</label>
+					<div class="col-sm-4">
+                      <?=$this->customerDetail['con_phone']?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >Mobile No</label>
+					<div class="col-sm-4">
+                      <?=$this->customerDetail['con_mobile']?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Remarks</label>
+					<div class="col-sm-4">
+                      <?=$this->customerDetail['cust_remarks']?>
+                  </div>
+				</div>
+				</div>
+	</div>
+	</div>
+</div>	
+<?php 
+$COMMDOCTYPE= DOC_TYPE_COM_AGR; $COMMDOCREFID=  $this->decCustId;
+viewAction(array('module'=>'erp_manage', 'controller'=>'documents', 
+    'action'=>'documents', 'param'=>array('type'=>$COMMDOCTYPE,'ref'=>$COMMDOCREFID)));?>
+
+
+<script type="text/javascript">
+$(document).ready(function($) {
+	$('.modal-dialog').css('width', '550px');
+})
+</script>

@@ -1,0 +1,85 @@
+<?$offset = $this->buildingObj->_voffset;?>
+<div class="card-block" style="padding-top: 2%;">
+	<div class="full-width">
+		<?=x(array('link'=>'erp_masters/building/add','label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')))?>
+	</div>
+	<h5 class="title-margin">List of Buildng</h5>
+</div>
+<form method="get" id="filter" name="filter" action="">
+<div class="col-md-12 card filter-card">
+		<table class="">
+			<tr style="font-size: 0.8em;">
+				<th width="70%">Building Name</th>
+				<th>Building No.</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td width="70%">
+					<div class="form-group ">
+                	<?=$this->form->f_bld_name->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_bld_no->show()?>
+              		</div>
+				</td>
+				<td width="15%" align="center">
+	              <div class="form-group ">
+					<button class="btn <?=$this->filter_class?>" type="submit" >Filter</button>
+					<input class="btn btn-secondary" name="clear" type="submit" value="All"></input>
+	              </div>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+<div class="col-md-12 list_table">
+	<div class="card">
+		<table class="table table-bordered grid">
+			<thead>
+				<tr>
+					<th width="5%" class="center">Sl No</th>
+					<th width="25%" class="center">Building Name</th>
+					<th width="8%" class="center">No.</th>
+					<th width="8%" class="center">Area</th>
+					<th width="8%" class="center">Block No.</th>
+					<th width="8%" class="center">Plot No.</th>
+					<th width="8%" class="center">Way</th>
+					<th width="8%" class="center">Street</th>
+					<th width="8%" class="center">Block Name</th>
+					<th width="5%" class="center">Edit</th>
+					<th width="5%" class="center">View</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?if(count($this->BuildingList)>0):?>
+				<?php foreach($this->BuildingList as $build):
+					$encBuldId = $this->encode($build['bld_id']);
+				?>
+				<tr>
+					<td class="center"><?=@++$offset;?></td>
+					<td><?=$build['bld_name']?></td>
+					<td><?=$build['bld_no']?></td>
+					<td><?=$build['bld_area']?></td>
+					<td><?=$build['bld_block_no']?></td>
+					<td><?=$build['bld_plot_no']?></td>
+					<td><?=$build['bld_way']?></td>
+					<td><?=$build['bld_street']?></td>
+					<td><?=$build['bld_block']?></td>
+					
+					<td class="center">
+						<?=x(array('link'=>'erp_masters/building/edit','ref'=>array('ref'=>$encBuldId),'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>  
+					</td>
+					<td class="center">
+						<?=x(array('link'=>'erp_masters/building/view','ref'=>array('ref'=>$encBuldId),'label'=>'<i class="fas fa-search"></i>',array("param"=>'class="facebox"')))?> 
+					</td>
+				</tr>
+				<?php endforeach?>
+			<?endif?>
+			</tbody>
+		</table>
+		<?$this->buildingObj->pagination();?>
+	</div>
+</div>
+</form>

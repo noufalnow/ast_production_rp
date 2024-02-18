@@ -1,0 +1,99 @@
+
+<div class="card-block" style="padding-top: 2%;">
+	<div class="full-width">
+		<?=x(array('link'=>'erp_manage/company/add','label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')))?>
+	</div>
+	<h5 class="title-margin">Company Documents</h5>
+</div>
+<div class="col-md-12">
+	<div class="card">
+	<form method="get" id="filter" name="filter" action="list">
+		<table class="table table-bordered grid">
+			<thead>
+				<tr>
+					<th width="5%" class="center">Sl No</th>
+					<th width="15%" class="center">Document Name</th>
+					<th width="8%" class="center">Document No</th>
+					<th width="8%" class="center">Issue Date</th>
+					<th width="8%" class="center">Expiry Date</th>
+					<th width="3%" class="center">View</th>
+					<th align ="center" width="3%" class="center">Edit</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?if(count($this->compList)>0):?>
+				<?php foreach($this->compList as $comp):
+				if($comp['doc_id']){
+					$encFileId = $this->encode($comp['file_id']);
+					$encId = $this->encode($comp['doc_id']);
+				}
+				 if($temp=='' || $temp <> $comp['comp_id']):?>
+				<tr> <th colspan ="7" ><?=$comp['comp_name']?></th> </tr>
+				<?php endif?>
+				<tr>
+					<td class="center"><?=@++$offset;?></td>
+					<td><?=$comp['doc_type']?></td>
+					<td><?=$comp['doc_no']?></td>
+					<td><?=$comp['doc_issue_date']?></td>
+					<td><?=$comp['doc_expiry_date']?></td>
+					<td>
+					<?php if($comp['doc_id']):?>
+					<?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="glyphicon glyphicon-file text-info">'.$comp['file_name'].'</i>',array("param"=>'opener')))?>
+					<?php endif;?> 			
+					<td align ="center">
+						<?php if($comp['doc_id']):?>
+							<?=x(array('link'=>'erp_manage/company/edit','ref'=>$encId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>
+						<?php endif;?>  
+					</td>	 																								
+				</tr>
+				<?php $temp = $comp['comp_id'];?>
+				<?php endforeach?>
+			<?endif?>
+			</tbody>
+		</table>
+		<?$this->companyObj->pagination();?>
+		</form>
+	</div>
+</div>
+
+<div class="card-block" style="padding-top: 2%;">
+	<div class="full-width">
+
+	</div>
+	<h5 class="title-margin">Bank Account Details</h5>
+</div>
+<div class="col-md-12">
+<div class="card">
+	<table class="table table-bordered grid">
+		<thead>
+			<tr>
+				<th class="center" width="5%">Sl No</th>
+				<th class="center" width="5%">Type</th>
+				<th class="center" width="5%">Company</th>
+				<th class="center" width="20%">Account Name</th>
+				<th class="center" width="15%">Account No</th>
+				<th class="center" width="10%">Bank</th>
+				<th class="center" width="6%">Branch</th>
+				<th class="center" width="6%">Short Name</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php foreach ( $this->bankAccountList as $account):?>
+			<tr>
+				<td class="center"><?=@++$sl;?></td>
+				<td><?=$account['account_disp_type']?></td>
+				<td><?=$account['comp_disp_name']?></td>
+				<td><?=$account['acnt_name']?></td>
+				<td><?=$account['acnt_number']?></td>
+				<td><?=$this->bankList[$account['acnt_bank']]?></td>
+				<td><?=$account['acnt_branch']?></td>
+				<td><?=$account['acnt_disp_name']?></td>
+			</tr>
+		<?php endforeach;?>
+		</tbody>
+	</table>
+</div>
+</div>
+<?php  viewAction(array('module'=>'erp_manage', 'controller'=>'updates', 'action'=>'updates', 'param'=>array('type'=>UPD_TYP_COMP,'ref'=>UPD_TYP_COMP)));?>
+<?php  viewAction(array('module'=>'erp_manage', 'controller'=>'documents', 'action'=>'documents', 'param'=>array('type'=>DOC_TYPE_COM_COMP,'ref'=>DOC_TYPE_COM_COMP)));?>
+

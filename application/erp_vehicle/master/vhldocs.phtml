@@ -1,0 +1,430 @@
+<div style="padding-top: 3px;">
+	<a onclick="toggleAction();" href="javascript: void(0)"><button class="btn btn-success pull-right" style="margin-left: 5px;">Add Documents</button></a>
+	<a onclick="togglePhoto();" href="javascript: void(0)"><button class="btn btn-success pull-right">Upload Photo</button></a>	
+</div>
+<div id="photo_target" class="card" style="top: 38px; margin-bottom: 40px; <?=$this->imgDisplay?>">
+		<div class="card-block">
+			<h5>Add Photo</h5>
+			<form name="imgform" method="post" id="imgform" action='erp_vehicle/master/vhldocs/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;" enctype="multipart/form-data">
+			<div class="panel-body">
+				<table style="max-width: 60%; float: left;" class="table">
+					<thead>
+						<tr>
+							<td><?=$this->imgform->photo->show()?></td>
+						</tr>
+						<tr>
+							<td>
+								<input type="hidden" name="image" value="image">
+								<button type="button" onclick="formSubmit(this,'menu2');return false;" class="btn  btn-success btn-rounded" style="font-size: 120%; height: 33px; padding-top: 2px; padding-bottom: 2px; margin-top: 8px; float: left;">Upload</button>
+							</td>
+							</tr>
+					</thead>
+				</table>
+				<div>
+					<table class="" style="max-width: 40%; display: table;">
+						<thead>
+							<tr>
+								<th class="center"><div>
+										<img width="244" alt="" src="<?=IMAGEURL?><?=$this->encode($this->vhlImage['file_id']);?>">
+									</div></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+				<input type="hidden" name="tab" value="doc">
+			</form>
+		</div>
+</div>	
+<div id="action_target" class="card" style="top: 38px; margin-bottom: 40px; <?=$this->docDisplay?>">
+		<div class="card-block">
+			<h5>Add Documents</h5>
+			<form name="docform" method="post" id="docform" action='erp_vehicle/master/vhldocs/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;" enctype="multipart/form-data">
+				<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-2 form-label" >Document Type</label>
+					<div class="col-sm-4">
+                    <?=$this->form->doctype->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Document No.</label>
+					<div class="col-sm-4">
+                    <?=$this->form->docno->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Description</label>
+					<div class="col-sm-4">
+                    <?=$this->form->docdesc->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Remarks</label>
+					<div class="col-sm-4">
+                    <?=$this->form->docremark->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Issue Authority</label>
+					<div class="col-sm-4">
+                    <?=$this->form->auth->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Date of apply</label>
+					<div class="col-sm-4">
+                    <?=$this->form->doa->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Date of Issue</label>
+					<div class="col-sm-4">
+                    <?=$this->form->doi->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Date of expiry</label>
+					<div class="col-sm-4">
+                    <?=$this->form->doe->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Upload Document</label>
+					<div class="col-sm-4">
+                    <?=$this->form->my_files->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Alert days</label>
+					<div class="col-sm-4">
+                    <?=$this->form->alert->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+				<div class="col-md-6"></div>
+				<div class="col-md-2"></div>
+					<div class="col-md-4">	
+						<button type="button" onclick="formSubmit(this,'menu2');return false;" style="padding-left: 15px;" class="btn  btn-primary align-button">Add</button>
+				</div>
+				</div>
+				<input type="hidden" name="tab" value="doc">
+			</form>
+		</div>
+	</div>
+	<div class="full-width" style="padding-top: 2px; border-bottom-width: 0px; padding-bottom: 2px;">
+		<div class="col-md-13">
+			<div id="accordion" class="panel-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title1">
+							<a href="#collapse2" data-parent="#" data-toggle="collapse">Mukiya</a>
+						</h4>
+					</div>
+					<div class="panel-collapse" id="collapse2">
+						<div class="panel-body">
+	
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="5%"class="center">Mukiya No.</th>
+										<th width="15%"class="center">Desc</th>
+										<th width="10%"class="center">Issue Date </th>
+										<th width="10%"class="center">Expiry Date</th>
+										<th width="5%"class="center">View</th>
+										<th width="5%"class="center">Delete</th>
+										<th width="5%"class="center">Download</th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php foreach ($this->mulkiyaDocs as $mDoc):
+								$doi = DateTime::createFromFormat(DFS_DB,$mDoc['doc_issue_date']);
+								$doi = $doi->format(DF_DD);
+								$doe = DateTime::createFromFormat(DFS_DB,$mDoc['doc_expiry_date']);
+								$doe = $doe->format(DF_DD);
+								$encFileId = $this->encode($mDoc['file_id']);
+								$encDocId1 = $this->encode($mDoc['doc_id']);
+								?>
+									<tr>
+										<td><?=x(array('link'=>'erp_vehicle/master/vhldocsview','ref'=>$encDocId1,'label'=>$mDoc['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<td><?=$mDoc['doc_desc']?></td>
+										<td class="center"><?=$doi?></td>
+										<td class="center"><?=$doe?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$mDoc['file_exten'])))?></td>
+										<td class="center">
+										<?if(!$delete1Off):?>
+											<?=x(array('link'=>'erp_vehicle/master/vhldocsdelete','ref'=>$encDocId1,'label'=>'<i class="glyphicon glyphicon-trash text-info"></i>',array("param"=>'class="facebox"')))?>
+										<?endif?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encDocId1,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?></td>
+									</tr>
+								<?php 
+								$delete1Off = true;
+								endforeach;?>
+								</tbody>
+							</table>
+	
+						</div>
+					</div>
+				</div>
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title1">
+							<a href="#collapse3" data-parent="#" data-toggle="collapse">Fitness</a>
+						</h4>
+					</div>
+					<div class="panel-collapse " id="collapse3">
+						<div class="panel-body">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="5%"class="center">Fitness No.</th>
+										<th width="15%"class="center">Desc</th>
+										<th width="10%"class="center">Issue Date </th>
+										<th width="10%"class="center">Expiry Date</th>
+										<th width="5%"class="center">View</th>
+										<th width="5%"class="center">Delete</th>
+										<th width="5%"class="center">Download</th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php foreach ($this->fitnessDocs as $fDoc):
+								$doi = DateTime::createFromFormat(DFS_DB,$fDoc['doc_issue_date']);
+								$doi = $doi->format(DF_DD);
+								$doe = DateTime::createFromFormat(DFS_DB,$fDoc['doc_expiry_date']);
+								$doe = $doe->format(DF_DD);
+								$encDocId2 = $this->encode($fDoc['doc_id']);
+								$encFileId2 = $this->encode($fDoc['file_id']);
+								?>
+									<tr>
+										<td><?=x(array('link'=>'erp_vehicle/master/vhldocsview','ref'=>$encDocId2,'label'=>$fDoc['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<td><?=$fDoc['doc_desc']?></td>
+										<td class="center"><?=$doi?></td>
+										<td class="center"><?=$doe?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId2,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$fDoc['file_exten'])))?></td>
+										<td class="center">
+										<?if(!$delete2Off):?>
+											<?=x(array('link'=>'erp_vehicle/master/vhldocsdelete','ref'=>$encDocId2,'label'=>'<i class="glyphicon glyphicon-trash text-info"></i>',array("param"=>'class="facebox"')))?>
+										<?endif?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId2,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?></td>
+									</tr>
+								<?php 
+								$delete2Off = true;
+								endforeach;?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title1">
+							<a href="#collapse4" data-parent="#" data-toggle="collapse">PDO</a>
+						</h4>
+					</div>
+					<div class="panel-collapse " id="collapse4">
+						<div class="panel-body">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="5%"class="center">PDO No.</th>
+										<th width="15%"class="center">Desc</th>
+										<th width="10%"class="center">Issue Date </th>
+										<th width="10%"class="center">Expiry Date</th>
+										<th width="5%"class="center">View</th>
+										<th width="5%"class="center">Delete</th>
+										<th width="5%"class="center">Download</th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php foreach ($this->pdoDocs as $pDoc):
+								$doi = DateTime::createFromFormat(DFS_DB,$pDoc['doc_issue_date']);
+								$doi = $doi->format(DF_DD);
+								$doe = DateTime::createFromFormat(DFS_DB,$pDoc['doc_expiry_date']);
+								$doe = $doe->format(DF_DD);
+								$encDocId3 = $this->encode($pDoc['doc_id']);
+								$encFileId3 = $this->encode($pDoc['file_id']);
+								?>
+									<tr>
+										<td><?=x(array('link'=>'erp_vehicle/master/vhldocsview','ref'=>$encDocId3,'label'=>$pDoc['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<td><?=$pDoc['doc_desc']?></td>
+										<td class="center"><?=$doi?></td>
+										<td class="center"><?=$doe?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId3,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$pDoc['file_exten'])))?></td>
+										<td class="center">
+										<?if(!$delete3Off):?>
+											<?=x(array('link'=>'erp_vehicle/master/vhldocsdelete','ref'=>$encDocId3,'label'=>'<i class="glyphicon glyphicon-trash text-info"></i>',array("param"=>'class="facebox"')))?>
+										<?endif?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId3,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?></td>
+									</tr>
+								<?php 
+								$delete3Off = true;
+								endforeach;?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title1">
+							<a href="#collapse5" data-parent="#" data-toggle="collapse">IVMS</a>
+						</h4>
+					</div>
+					<div class="panel-collapse " id="collapse5">
+						<div class="panel-body">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="5%"class="center">IVMS No.</th>
+										<th width="15%"class="center">Desc</th>
+										<th width="10%"class="center">Issue Date </th>
+										<th width="10%"class="center">Expiry Date</th>
+										<th width="5%"class="center">View</th>
+										<th width="5%"class="center">Delete</th>
+										<th width="5%"class="center">Download</th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php foreach ($this->IVMSDocs as $iDoc):
+								$doi = DateTime::createFromFormat(DFS_DB,$iDoc['doc_issue_date']);
+								$doi = $doi->format(DF_DD);
+								$doe = DateTime::createFromFormat(DFS_DB,$iDoc['doc_expiry_date']);
+								$doe = $doe->format(DF_DD);
+								$encDocId4 = $this->encode($iDoc['doc_id']);
+								$encFileId4 = $this->encode($iDoc['file_id']);
+								?>
+									<tr>
+										<td><?=x(array('link'=>'erp_vehicle/master/vhldocsview','ref'=>$encDocId4,'label'=>$iDoc['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<td><?=$iDoc['doc_desc']?></td>
+										<td class="center"><?=$doi?></td>
+										<td class="center"><?=$doe?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId4,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$iDoc['file_exten'])))?></td>
+										<td class="center">
+										<?if(!$delete4Off):?>
+											<?=x(array('link'=>'erp_vehicle/master/vhldocsdelete','ref'=>$encDocId4,'label'=>'<i class="glyphicon glyphicon-trash text-info"></i>',array("param"=>'class="facebox"')))?>
+										<?endif?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId4,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?></td>
+									</tr>
+								<?php 
+								$delete4Off = true;
+								endforeach;?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title1">
+							<a href="#collapse6" data-parent="#" data-toggle="collapse">Insurance</a>
+						</h4>
+					</div>
+					<div class="panel-collapse " id="collapse6">
+						<div class="panel-body">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="5%"class="center">Insurance No.</th>
+										<th width="15%"class="center">Desc</th>
+										<th width="10%"class="center">Issue Date </th>
+										<th width="10%"class="center">Expiry Date</th>
+										<th width="5%"class="center">View</th>
+										<th width="5%"class="center">Delete</th>
+										<th width="5%"class="center">Download</th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php foreach ($this->InsuranceDocs as $insDoc):
+								$doi = DateTime::createFromFormat(DFS_DB,$insDoc['doc_issue_date']);
+								$doi = $doi->format(DF_DD);
+								$doe = DateTime::createFromFormat(DFS_DB,$insDoc['doc_expiry_date']);
+								$doe = $doe->format(DF_DD);
+								$encDocId5 = $this->encode($insDoc['doc_id']);
+								$encFileId5 = $this->encode($insDoc['file_id']);
+								?>
+									<tr>
+										<td><?=x(array('link'=>'erp_vehicle/master/vhldocsview','ref'=>$encDocId5,'label'=>$insDoc['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<td><?=$insDoc['doc_desc']?></td>
+										<td class="center"><?=$doi?></td>
+										<td class="center"><?=$doe?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId5,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$insDoc['file_exten'])))?></td>
+										<td class="center">
+										<?if(!$delete5Off):?>
+											<?=x(array('link'=>'erp_vehicle/master/vhldocsdelete','ref'=>$encDocId5,'label'=>'<i class="glyphicon glyphicon-trash text-info"></i>',array("param"=>'class="facebox"')))?>
+										<?endif?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId5,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?></td>
+									</tr>
+								<?php 
+								$delete5Off = true;
+								endforeach;?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title1">
+							<a href="#collapse7" data-parent="#" data-toggle="collapse">Municipality Certificate</a>
+						</h4>
+					</div>
+					<div class="panel-collapse " id="collapse7">
+						<div class="panel-body">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="5%"class="center">Document No.</th>
+										<th width="15%"class="center">Desc</th>
+										<th width="10%"class="center">Issue Date </th>
+										<th width="10%"class="center">Expiry Date</th>
+										<th width="5%"class="center">View</th>
+										<th width="5%"class="center">Delete</th>
+										<th width="5%"class="center">Download</th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php foreach ($this->mncDocs as $mnDoc):
+								$doi = DateTime::createFromFormat(DFS_DB,$mnDoc['doc_issue_date']);
+								$doi = $doi->format(DF_DD);
+								$doe = DateTime::createFromFormat(DFS_DB,$mnDoc['doc_expiry_date']);
+								$doe = $doe->format(DF_DD);
+								$encDocId6 = $this->encode($mnDoc['doc_id']);
+								$encFileId6 = $this->encode($mnDoc['file_id']);
+								?>
+									<tr>
+										<td><?=x(array('link'=>'erp_vehicle/master/vhldocsview','ref'=>$encDocId6,'label'=>$mnDoc['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<td><?=$mnDoc['doc_desc']?></td>
+										<td class="center"><?=$doi?></td>
+										<td class="center"><?=$doe?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId6,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$mnDoc['file_exten'])))?></td>
+										<td class="center">
+										<?if(!$delete6Off):?>
+											<?=x(array('link'=>'erp_vehicle/master/vhldocsdelete','ref'=>$encDocId6,'label'=>'<i class="glyphicon glyphicon-trash text-info"></i>',array("param"=>'class="facebox"')))?>
+										<?endif?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId6,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?></td>
+									</tr>
+								<?php 
+								$delete6Off = true;
+								endforeach;?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">           
+$(document).ready(function() {
+	var reload = '<?=$reload;?>';
+	if(reload)
+		window.location.replace(reload);
+	/*
+	$('#doa').on('change',function() {
+		console.log($('#doa').val());
+		$("#doi").attr("mindate",$('#doa').val());
+		setDatePicker($('#doi'));
+	});
+	$('#doe').change(function(){
+		$("#doi").attr("maxdate",$('#doe').val());
+		setDatePicker($('#doi'));
+
+	});*/
+});
+</script>

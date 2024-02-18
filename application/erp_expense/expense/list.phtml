@@ -1,0 +1,267 @@
+<div class="card-block" style="padding-top: 2%;">
+	<div class="full-width">
+		<?=x(array('link'=>'erp_expense/expense/add','label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')),'<br><br>')?>
+	</div>
+	<h5 class="title-margin">&nbsp;&nbsp;&nbsp;List of Expenses</h5>
+</div>
+<form method="get" id="filter" name="filter" action="list">
+	<div class="col-md-12 card filter-card">
+		<table class="">
+			<tr style="font-size: 0.8em;">
+				<th width="10%">Ref No.</th>
+				<th width="10%">Company</th>
+				<th width="10%">Vendor</th>
+				<th width="10%">Main Head</th>
+				<th width="10%">Status</th>
+				<th width="10%">Main Cat.</th>
+			</tr>
+			<tr>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_refno->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_company->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_selVendor->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_mainhead->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_status->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_pCatSelect->show()?>
+              		</div>
+				</td>
+			</tr>
+			<tr style="font-size: 0.8em;">
+				<th width="10%">Sub Cat.</th>
+				<th width="10%">Cat.</th>
+				<th width="15%">Particulers</th>
+				<th width="5%">Mode</th>
+				<th width="10%">File No</th>
+				<th width="10%"></th>
+			</tr>
+			<tr>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_sCatSelect->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_cCatSelect->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_particulers->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_mode->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_expid->show()?>
+              		</div>
+				</td>
+				<td align="center">
+	              <div class="form-group ">
+	              	<button class="btn <?=$this->filter_class?>" type="submit" >Filter</button>
+					<input class="btn btn-secondary" name="clear" type="submit" value="All"></input>
+	              </div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	
+<div class="spinner-border text-primary" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>
+	
+<div class="col-md-12">
+	<div class="card">
+		<table class="table table-bordered grid">
+			<thead>
+				<tr>
+					<th width="5%" class="center">Sl No</th>
+					<th width="5%" class="center">Ref No</th>
+					<th width="15%" class="center">Vendor</th>
+					<th width="3%" class="center">Com.</th>
+					<th width="5%" class="center">Head</th>
+					<th width="15%" class="center">Category</th>
+					<th width="15%" class="center">Particulers</th>
+					<th width="4%" class="center">Amount</th>
+					<th width="4%" class="center">Credit</th>
+					<th width="4%" class="center">Mode</th>
+					<th width="5%" class="center"><i class="glyphicon glyphicon-search"></i><i class="glyphicon glyphicon-edit"></i> </th>
+					<th width="3%" class="center"><i class="glyphicon glyphicon-ok"></i></th>
+					<?php if($_SESSION['user_acl']['erp_expense/expense/update']):?>
+					<th width="5%" class="center"><i class="glyphicon glyphicon-transfer"></i></th>
+					<?php endif;?>
+					<th width="8%" class="center"><i class="glyphicon glyphicon-open-file"></i></th>
+					<!--  <th width="6%" class="center">Delete</th>-->
+				</tr>
+			</thead>
+			<tbody>
+			<?if(count($this->expenseList)>0):?>
+				<?php foreach($this->expenseList as $expense):
+					$encExpId = $this->encode($expense['exp_id']);
+					$encFileId = $this->encode($expense['file_id']);
+					$cellstyle = '';
+				?>
+				<tr class="<?if($expense['exp_update_status']==3){?>redrow<?}elseif($expense['exp_update_status']==4){?>yellowrow
+						<?}elseif($expense['exp_update_status']==5){?>owrenchrow<?}?>">
+					<td class="center"><?=@++$this->offset;?></td>
+					<td <?php if($expense['exp_app_status'] ==''):?>style="border-left: 3px solid red;" <?php endif?>>
+						<?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>$expense['exp_refno'],array("param"=>'opener')))?>
+					</td>
+					<td><?=$expense['ven_name']?></td>
+					<td><?=$expense['comp_disp_name']?></td>
+					<td><?=$expense['main_head']?></td>
+					<td><?=$expense['pcat']?>-<?=$expense['scat']?>-<?=$expense['ccat']?></td>
+					<td><?=$expense['exp_details']?></td>
+					<td><?=$expense['exp_amount']?></td>
+					<td><?=$expense['exp_credit_amt']?></td>
+					<td><?=$expense['pay_mod']?></td>
+
+					<?php if(in_array($expense['exp_id'], $this->editIDS)):?>	
+						<td class="center">
+							<?=x(array('link'=>'erp_expense/expense/edit','ref'=>$encExpId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>
+						</td>
+					<?php endif?>
+					<?php if($expense['exp_app_status']==1):?>
+						<td align="center">
+							<?=x(array('link'=>'erp_expense/expense/view','ref'=>$encExpId,'label'=>'<i class="fas fa-search"></i>',array("param"=>'class="facebox"')))?>
+						</td>
+					<?php else:?>	
+						<td class="center">
+							<?=x(array('link'=>'erp_expense/expense/edit','ref'=>$encExpId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>
+						</td>
+					<?php endif?>
+					<?php if($expense['file_id']):?>
+					<td class="center">
+						<?php if($expense['exp_app_status']==''):?>
+							<?=x(array('link'=>'erp_expense/expense/approval','ref'=>$encExpId,'label'=>'<span class="glyphicon glyphicon-ok-circle" style="color:#31708f;font-size: 1.2em;"> </span>',array("param"=>'class="facebox"')))?>
+						<?php endif?>
+					</td>
+					<?php if($_SESSION['user_acl']['erp_expense/expense/update']):?>
+					<td class="center">
+    					<?php if($expense['exp_app_status']=='1'):?>
+    						<?=x(array('link'=>'erp_expense/expense/update','ref'=>$encExpId,'label'=>'<i class="glyphicon glyphicon-transfer text-info"></i>',array("param"=>'class="facebox"')))?>
+    					<?php endif;?>
+					</td>
+					<?php endif?>
+					<?php endif?>
+					<td class="center" <?php if($expense['exp_cash_flow']): $cellstyle = "background-color: bisque;";  endif;?>
+						<?php if($expense['cb_id']): $cellstyle.="border-left: 3px solid green;"; endif;?> style="<?=$cellstyle;?>">
+						<?=lx(array('link'=>'erp_expense/expense/catedit','ref'=>$encExpId,'label'=>$expense['exp_file_no'],array("param"=>'class="facebox"')))?>
+						
+						<?php if($expense['exp_app_status']==''):?>
+							<?=$expense['exp_id'];?>
+						<?php endif?>	
+						
+					</td>
+				</tr>
+				<?php endforeach?>
+			<?endif?>
+			</tbody>
+		</table>
+		<?$this->expObj->pagination();?>
+	</div>
+</div>
+</form>
+
+<?=x(array('link'=>'erp_report/expense/expense','label'=>'
+	<div class="col-md-3">
+		<div class="card">
+				<div class="card-block" style="background-color: ;">
+				<div class="card-block">
+					<h4 class="card-title center">Expense </h4>
+					<p class="card-text">
+						<small class="text-muted"></small>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+', array("param"=>'wide_opener')),'<br><br>')?>
+
+<?=x(array('link'=>'erp_report/expense/expvensummary','label'=>'
+	<div class="col-md-3">
+		<div class="card">
+				<div class="card-block" style="background-color: ;">
+				<div class="card-block">
+					<h4 class="card-title center">Vender Summary </h4>
+					<p class="card-text">
+						<small class="text-muted"></small>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+', array("param"=>'wide_opener')),'<br><br>')?>
+
+<?=x(array('link'=>'erp_report/expense/expensecategorywise','label'=>'
+	<div class="col-md-3">
+		<div class="card">
+				<div class="card-block" style="background-color: ;">
+				<div class="card-block">
+					<h4 class="card-title center"> Expense Category wise </h4>
+					<p class="card-text">
+						<small class="text-muted"></small>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+',array("param"=>'wide_opener')),'<br><br>')?>
+
+
+<?=x(array('link'=>'erp_report/expense/expenseexpo','label'=>'
+	<div class="col-md-3">
+		<div class="card">
+				<div class="card-block" style="background-color: ;">
+				<div class="card-block">
+					<h4 class="card-title center">Export </h4>
+					<p class="card-text">
+						<small class="text-muted"></small>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+', array("param"=>'wide_opener')),'<br><br>')?>
+
+<script type="text/javascript">     
+$(document).ready(function() {
+	var source = '<?=APPURL?>'+ 'erp_expense/expense/getlive';
+	$('#f_pCatSelect').on('change',function() {
+		getJaxData($('#f_pCatSelect').val(),'f_sCatSelect',source,'parent');
+		$('#f_cCatSelect').empty();
+	});
+	getJaxData($('#f_pCatSelect').val(),'f_sCatSelect',source,'parent');
+
+	$('#f_sCatSelect').on('change',function() {
+		getJaxData($('#f_sCatSelect').val(),'f_cCatSelect',source,'sub');
+	});
+	getJaxData($('#f_sCatSelect').val(),'f_cCatSelect',source,'sub');
+});
+</script>

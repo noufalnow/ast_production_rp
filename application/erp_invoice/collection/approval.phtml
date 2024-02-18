@@ -1,0 +1,113 @@
+<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+	<form name="form" method="post" id="edit" action='erp_invoice/collection/approval/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;">
+	<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+		<h4 class="modal-title">Approve Payments 
+		</h4>
+	</div>
+	<div class="modal-body">
+	
+		<div class="col-md-12 card" style="padding-top: 15px; margin-bottom: 3px;"> 
+		<div style="height: 250px;overflow-y: auto">
+		<table class="table table-bordered">
+			<thead>
+				<tr><td colspan="11"><b><?=$this->collDet['cust_name']?></b></td></tr>
+				<tr>
+					<th width="4%" class="center">Sl No</th>
+					<th width="15%" class="center">Ref No</th>
+					<th width="5%" class="center">Bill Dt.</th>
+					<th width="5%" class="center">Due Dt.</th>
+					<th width="5%" class="center">Company</th>
+					<th width="35%" class="center">Particulers</th>
+					<th width="7%" class="center">Bill Amount</th>
+					<th width="7%" class="center">Discount</th>
+					<th width="7%" class="center">Payment</th>
+					<th width="7%" class="center">Balance</th>
+
+				</tr>
+			</thead>
+			<tbody>
+			<?if(is_array($this->billList) && count($this->billList)>0):?>
+				<?php foreach(@$this->billList as $i=>$bill):
+				?>
+				<tr>
+					<td class="center"><?=@++$offset;?></td>
+					<td><?=$bill['bill_refno']?></td>
+					<td><?=$bill['bill_billdt']?></td>
+					<td><?=$bill['bill_billdt']?></td>
+					<td><?=$bill['comp_disp_name']?></td>
+					<td><?=$bill['bill_remarks']?></td>
+					<td><?=$bill['cdet_amt_topay']?></td>
+					<td><?=$bill['cdet_amt_dis']?></td>
+					<td><?=$bill['cdet_amt_paid']?></td>	
+					<td><?=$bill['cdet_amt_bal']?></td>	
+				</tr>
+				<?php endforeach?>
+			<?endif?>
+			<?if(is_array($this->demandList) && count($this->demandList)>0):?>
+				<?php foreach(@$this->demandList as $i=>$demand):	?>
+				<tr>
+					<td class="center"><?=@++$offset;?></td>
+					<td><?=$demand['cdmd_note']?></td>
+					<td><?=$demand['cdmd_date']?></td>
+					<td><?=$demand['cdmd_date']?></td>
+					<td><?=$demand['comp_disp_name']?></td>
+					<td><?=$demand['cdmd_narration']?></td>
+					<td><?=$demand['cdet_amt_topay']?></td>
+					<td><?=$demand['cdet_amt_dis']?></td>
+					<td><?=$demand['cdet_amt_paid']?></td>
+					<td><?=number_format($demand['cdet_amt_topay'] - ($demand['cdet_amt_dis']+$demand['cdet_amt_paid']),3)?></td>
+
+				</tr>
+				<?php endforeach?>
+			<?endif?>
+			
+			</tbody>
+		</table>
+		</div>
+		</div>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th width="8%" class="center">Payment Date</th>
+					<th width="8%" class="center">Mode</th>
+					<th width="10%" class="center">Cheque Details</th>
+					<th width="20%" class="center">Note</th>
+					<th width="15%" class="center">Total Amount</th>
+					<th width="10%" class="center">Document</th>
+				</tr>
+			</thead>
+			<thead>
+				<tr>
+					<th width="20%" class="center"><?=$this->collDet['coll_paydate']?></th>
+					<th width="20%" class="center"><?=$this->collDet['coll_coll_mode']?></th>
+					<th width="20%" class="center"><?=$this->collDet['coll_chqno']?></th>
+					<th width="20%" class="center"><?=$this->collDet['coll_remarks']?></th>
+					<th width="20%" class="center"><?=$this->collDet['coll_amount']?></th>
+					<th width="20%" class="center">	
+					<?php if($this->collDet['file_id']):
+           			$encFileId = $this->encode($this->collDet['file_id']); endif?>		
+           			<?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="glyphicon glyphicon-file text-info">'.$this->collDet['file_name'].'</i>',array("param"=>'opener')))?></th>
+				</tr>
+			</thead>
+			</table>
+		
+				<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-3 form-label" >Status</label>
+					<div class="col-sm-9">
+                    <?=$this->form->status->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-3 form-label" >Note</label>
+					<div class="col-sm-9">
+                    <?=$this->form->note->show()?>
+                  </div>
+				</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary submit-alias livepost" >Approve</button>
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+	</div>
+</form>	
+</div>

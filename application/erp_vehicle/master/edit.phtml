@@ -1,0 +1,103 @@
+<style>
+.modal-dialog{
+	width: 75%;
+}
+</style>
+<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+	<form name="form" method="post" id="add" action='erp_vehicle/master/edit/ref/<?=$this->param['ref'];?>' style="margin-bottom: 0px;">
+	<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+		<h4 class="modal-title">Update Vehicle details</h4>
+	</div>
+	<div class="modal-body">
+				<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-2 form-label" >Vehicle No</label>
+					<div class="col-sm-4">
+                    <?=$this->form->vhlno->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Vehicle Type
+						</label>
+					<div class="col-sm-4">
+                    <?=$this->form->type->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Model
+						</label>
+					<div class="col-sm-4">
+                    <?=$this->form->model->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Company
+						</label>
+					<div class="col-sm-4">
+                    <?=$this->form->company->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Remarks
+						</label>
+					<div class="col-sm-4">
+                    <?=$this->form->remarks->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Category
+						</label>
+					<div class="col-sm-4">
+                    <?=$this->form->cat->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Manufacturer
+						</label>
+					<div class="col-sm-4">
+                    <?=$this->form->man->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Rate (Per Hour)
+						</label>
+					<div class="col-sm-4">
+                    <?=$this->form->rate1->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Rate (Per Day)
+						</label>
+					<div class="col-sm-4">
+                    <?=$this->form->rate2->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Rate (Per Month)
+						</label>
+					<div class="col-sm-4">
+                    <?=$this->form->rate3->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >File No
+						</label>
+					<div class="col-sm-4">
+                    <?=$this->form->fileno->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Project Details</label>
+					<div class="col-sm-10">
+						<table class="" style="max-width: 100%;float: left; ">
+							<thead>
+								<tr><th>Employee</th>
+								<th>Customer</th>
+								<th>Location</th></tr>
+							</thead>
+								<tr>
+									<td width="33%" ><?=$this->form->employed->show()?></td>
+									<td width="33%"><?=$this->form->customer->show()?></td>
+									<td width="33%"><?=$this->form->location->show()?></td>
+								</tr>
+						</table>			
+              	</div>
+                </div>
+
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary submit-alias livepost" >Update</button>
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+	</div>
+</form>	
+</div>

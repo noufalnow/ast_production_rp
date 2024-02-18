@@ -1,0 +1,46 @@
+<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+	<form name="form" method="post" id="edit" action='erp_manage/updates/edit/ref/<?=$this->param['ref']?>/type/<?=$this->param['type']?>' style="margin-bottom: 0px;">
+	<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+		<h4 class="modal-title">Notes / Updates
+		</h4>
+	</div>
+	<div class="modal-body">
+				<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-3 form-label" >Priority</label>
+					<div class="col-sm-9">
+                    <?=$this->form->priority->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-3 form-label" >Title</label>
+					<div class="col-sm-9">
+                    <?=$this->form->title->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-3 form-label" >Description</label>
+					<div class="col-sm-9">
+                    <?=$this->form->desc->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-3 form-label" >Date of Event</label>
+					<div class="col-sm-9">
+                    <?=$this->form->startDt->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-3 form-label" >Expected end Date</label>
+					<div class="col-sm-9">
+                    <?=$this->form->endDt->show()?>
+                  </div>
+				</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary submit-alias livepost" >Update</button>
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+	</div>
+</form>	
+</div>
+

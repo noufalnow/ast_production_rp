@@ -1,0 +1,86 @@
+<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+	<form name="docform" method="post" id="docform" action='erp_property/master/propdocscommedit/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;" enctype="multipart/form-data">
+	<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+		<h4 class="modal-title">Modify Document Details</h4>
+	</div>
+	<div class="modal-body">
+	<div class="row mb-4" style="margin-top: 15px;">
+	<label class="col-sm-2 form-label" >Document Type</label>
+					<div class="col-sm-4">
+                    <?=$this->form->doctype->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Document No.</label>
+					<div class="col-sm-4">
+                    <?=$this->form->docno->show()?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >Agreement Start Date</label>
+					<div class="col-sm-4">
+                    <?=$this->form->doi->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Agreement End Date</label>
+					<div class="col-sm-4">
+                    <?=$this->form->doe->show()?>
+                  </div>
+				</div>															
+							
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Remarks</label>
+					<div class="col-sm-4">
+                    <?=$this->form->docremark->show()?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >Alert days</label>
+					<div class="col-sm-2">
+                    <?=$this->form->alert->show()?>
+                  </div>
+				</div>
+			<div class="row mb-4">
+				<div id="" class="col-sm-3">
+					<div class="">
+						<label class="form-label">Upload Document <?=$this->form->docUpdate->show()?></label>
+	                     
+	                  </div>
+				</div>
+				<div class="col-sm-4" style="margin-left:  -80px;">
+					<div id="docUpload">
+                 		<?=$this->form->my_files->show()?>
+                 	</div>
+				</div>
+				</div>
+		</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary submit-alias livepost" >Update</button>
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+	</div>
+</form>	
+</div>
+
+<script type="text/javascript">           
+$(document).ready(function() {
+	var reload = '<?=$reload;?>';
+	if(reload)
+		window.location.replace(reload);
+});
+$('#docUpdate1').on('click',function() {
+	typetoggle();
+});
+typetoggle();
+function typetoggle(type){
+	if($('#docUpdate1').prop('checked') === true)
+		$('#docUpload').show();
+	else
+		$('#docUpload').hide();
+}
+</script>
+
+<script type="text/javascript">
+$(document).ready(function($) {
+	$('.modal-dialog').css('width', '80%');
+})
+</script>

@@ -1,0 +1,150 @@
+<div style="padding-top: 3px;">
+<a onclick="toggleContact();" href="javascript: void(0)"><button class="btn btn-success pull-right">Add Contacts</button></a>	
+			
+<div id="con_target" class="card" style="top: 38px; margin-bottom: 40px; <?=$this->display?>">
+		<div class="card-block">
+			<h5>Contact Details </h5>
+			<form name="contactform" method="post" id="contactform" action='erp_employee/master/empcontact/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;" enctype="multipart/form-data">
+				<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-2 form-label" >Type of Contact</label>
+					<div class="col-sm-4">
+                    <?=$this->form->contype->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Name (C/o)</label>
+					<div class="col-sm-4">
+                    <?=$this->form->name->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-2 form-label" >House Name/No.</label>
+					<div class="col-sm-4">
+                    <?=$this->form->house->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Street</label>
+					<div class="col-sm-4">
+                    <?=$this->form->street1->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-2 form-label" >Street</label>
+					<div class="col-sm-4">
+                    <?=$this->form->street2->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Place Name</label>
+					<div class="col-sm-4">
+                    <?=$this->form->place->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Locality</label>
+					<div class="col-sm-4">
+                    <?=$this->form->locality->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Region</label>
+					<div class="col-sm-4">
+                    <?=$this->form->region->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Country</label>
+					<div class="col-sm-4">
+                    <?=$this->form->country->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Zip Code</label>
+					<div class="col-sm-4">
+                    <?=$this->form->zip->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Phone No</label>
+					<div class="col-sm-4">
+                    <?=$this->form->phone->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Mobile No</label>
+					<div class="col-sm-4">
+                    <?=$this->form->mobile->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<div class="col-md-9"></div>
+					<div class="col-md-3">					
+						<button type="button" onclick="formSubmit(this,'menu1');return false;" style="padding-left: 15px;" class="btn btn-primary pull-right">Add Contact</button>
+					</div>
+				</div>
+				<input type="hidden" name="tab" value="contact">
+			</form>
+		</div>
+</div>
+	<div class="full-width" style="padding-top: 2px; border-bottom-width: 0px; padding-bottom: 2px;">
+		<div class="col-md-13">
+		<div class="row">
+			<div class="col-md-6">
+				<?php foreach ($this->empContacts as $contact):?>
+				<?php $encConId = $this->encode($contact['con_id']);?>
+				<div class="card">
+					<div class="card-block">
+						<h5>Contact : <?=$this->conType[$contact['con_type']]?> 
+						<?=x(array('link'=>'erp_employee/master/empcontactedit','ref'=>$encConId,'label'=>'<i class="glyphicon glyphicon-edit text-danger"></i>',array("param"=>'class="facebox float_right"')))?>
+						</h5>
+						<div class="panel-body">
+							<table class="table table-bordered"
+								style="max-width: 100%; float: left;">
+								<thead>
+									<tr>
+										<th width="35%">Name (C/o)</th>
+										<th> <?=$contact['con_name']?></th>
+									</tr>
+									<tr>
+										<th width="35%">House Name/No.</th>
+										<th> <?=$contact['con_house']?></th>
+									</tr>
+									<tr>
+										<th width="35%">Street</th>
+										<th> <?=$contact['con_street1']?></th>
+									</tr>
+									<tr>
+										<th width="35%">Street</th>
+										<th> <?=$contact['con_street2']?></th>
+									</tr>
+									<tr>
+										<th width="35%">Place Name</th>
+										<th> <?=$contact['con_place']?></th>
+									</tr>
+									<tr>
+										<th width="35%">Locality</th>
+										<th> <?=$contact['con_locality']?></th>
+									</tr>
+									<tr>
+										<th width="35%">Region</th>
+										<th> <?=$contact['con_region']?></th>
+									</tr>
+																		<tr>
+										<th width="35%">Country</th>
+										<th> <?=$this->nation[$contact['con_country']]?></th>
+									</tr>
+																		<tr>
+										<th width="35%">Zip Code</th>
+										<th> <?=$contact['con_zip_code']?></th>
+									</tr>
+																		<tr>
+										<th width="35%">Phone No</th>
+										<th> <?=$contact['con_phone']?></th>
+									</tr>
+																		<tr>
+										<th width="35%">Mobile No</th>
+										<th> <?=$contact['con_mobile']?></th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+				<?php endforeach;?>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<script type="text/javascript">           
+
+</script>

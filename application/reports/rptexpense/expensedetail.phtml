@@ -1,0 +1,336 @@
+<div class="full-width">
+	<button name="cmdPrint" value="  Print  " onclick="$('#report').printElement();" class="btn btn btn-primary pull-right" style="padding: 2px 12px;">Print</button></div>
+<form method="get" id="filter" name="filter" action="">
+<div style="padding-left: 10px; padding-right: 10px;">
+<div class="col-md-12 card filter-card">
+	<div class="card-block" style="padding-top: 1%;">
+		<h5 class="title-margin">Report : STATEMENT OF EXPENSE</h5>
+	</div>
+		<table class="">
+			<tr style="font-size: 0.8em;">
+				<th width="10%">Ref No.</th>
+				<th width="10%">Vendor</th>
+				<th width="10%">Main Head</th>
+				<th width="10%">Main Cat.</th>
+			</tr>
+			<tr>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_refno->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_selVendor->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_mainhead->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_pCatSelect->show()?>
+              		</div>
+				</td>
+			</tr>
+			<tr style="font-size: 0.8em;">
+				<th width="10%">Amount</th>
+				<th align="right" width="10%">Period(Month/Period)</th>
+				<th class="pr_month" width="10%">Month</th>
+				<th class="pr_fdt" width="10%">From</th>
+				<th class="pr_tdt" width="10%">To</th>
+			</tr>
+			<tr>
+				<td align="center">
+					<div class="form-group ">
+                	<?=$this->form->f_amount->show()?>
+              		</div>
+				</td>
+				<td align="center">
+					<div class="form-group ">
+                	<?=$this->form->f_period->show()?>
+              		</div>
+				</td>
+				<td class="pr_month">
+					<div class="form-group ">
+                	<?=$this->form->f_monthpick->show()?>
+              		</div>
+				</td>
+				<td class="pr_fdt">
+					<div class="form-group ">
+                	<?=$this->form->f_dtfrom->show()?>
+              		</div>
+				</td>
+				<td class="pr_tdt">
+					<div class="form-group ">
+                	<?=$this->form->f_dtto->show()?>
+              		</div>
+				</td>
+			</tr>
+			<tr style="font-size: 0.8em;">
+				<th width="10%">Sub Cat.</th>
+				<th width="10%">Cat.</th>
+				<th width="10%">Particulers</th>
+				<th width="10%"></th>
+			</tr>
+			<tr>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_sCatSelect->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_cCatSelect->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_particulers->show()?>
+              		</div>
+				</td>
+				
+				<td align="center">
+	              <div class="form-group ">
+	              	<button class="btn <?=$this->filter_class?>" type="submit" >Filter</button>
+					<input class="btn btn-secondary" name="clear" type="submit" value="All"></input>
+	              </div>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+<?php foreach ($this->expenseSummery as $key=>$section): //arsort($section) ?>
+<table class="bg-blue-light" width="98%" cellspacing="0" cellpadding="4" border="0" 
+style="margin-bottom: 2px;margin-left: 1%;margin-right: 2%; padding-bottom: 0px;">
+            <tbody>
+              <tr><td align="center">	
+              	<?php foreach ($section as $sub):?>
+              <div class="status-widget-15">
+        <div class="content-div box-shadow">
+          <div class="wid-title"><small class="text-muted"><?=$sub['label_name']?></small></div>
+          <table class="wid-content">
+          	<tbody>
+              <tr><td style="background-color: ghostwhite; "width="29%"><?=$sub['sum']?></td> </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <?php endforeach?>
+      </td>
+</tr></tbody></table>
+<?php endforeach?>
+<table class="bg-blue-light" width="98%" cellspacing="0"
+	cellpadding="4" border="0" style="margin-bottom: 2px; padding-bottom:0px;margin-left: 1%;margin-right: 2%;">
+	<tbody>
+		<tr>
+			<td align="center">
+				<div class="status-widget-151">
+				<b>Total (RO):  <?=number_format($this->expenseSummery['total']['0']['sum']+$this->expenseSummery['total']['1']['sum'],3)?> </b>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+
+<div class="col-md-12 card" style="height: 100%; padding-left: 5px; padding-right: 5px;">
+<div id="report">
+<?php include_once __DIR__ . '/../../../public/css/printstyle_rpt.php.css';?>
+<?php // include_once __DIR__ . '/../../../../public_html/asfruits/css/printstyle_rpt.php.css';?>
+	<div  class="card" style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
+				<div style="margin-top: 3%;">
+						<table class="rpt_tbl">
+							<thead>
+						<tr>
+							<th width="100%">
+								<table style="margin-bottom: 1px;" width="100%">
+									<tbody>
+										<tr>
+											<th width="12%">
+												<div class="title-margin" style="">
+												<img alt="" src="http://<?=$_SERVER ['HTTP_HOST']?>/css/images/babana1.png" style="margin-top: 2px;margin-left: 1px;width: 80%;padding-left: 2%;">
+												</div>
+											</th> 
+										
+											<th colspan="2" style="padding-left: 1px; font-family: Tahoma; text-align: center;" width="60%">
+												<div style="font-size: 25px; transform: scale(1, 2); font-family: f1; font-family: Times;">A.S.  	 BANANA MERCHANT
+													</div>
+											</th>
+											<th colspan="" style="padding-left: 1px; font-family: Tahoma; text-align: center;" width="10%">
+												<div style="font-size: 25px; transform: scale(1, 2); font-family: f1; font-family: Times;">
+													</div>
+											</th>
+										</tr>
+									</tbody>
+								</table>
+							</th>
+						</tr>
+						<tr>
+							<td width="22%" colspan="4" align="center">
+								<div style="font-size: 15px; transform: scale(1, 2); font-family: f1; font-family: Times;"><?=@$_SESSION ['COMP_LABL2']?>
+									</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="empty" colspan="10"
+								style="border-top: 1px solid black;">
+								<table class="rpt_tbl" style="margin-top: 13px;">
+									<tr style="border: medium none;">
+										<th style="border: medium none;"><div class="center"
+												style="width: 96%;">STATEMENT OF EXPENSE</div></th>
+									</tr>
+								</table>
+
+							</th>
+						</tr>
+							</thead>
+						</table>
+					</div>
+		<table class="rpt_frame">
+			<thead>
+				<tr>
+					<th class="empty" colspan="10"></th>
+				</tr>
+				<tr>
+				<tr>
+					<th width="5%" class="center">Sl No</th>
+					<th width="5%" class="center">Ref No</th>
+					<th width="5%" class="center">Bill Dt.</th>
+					<th width="15%" class="center">Vendor</th>
+					<th width="12%" class="center">Main Head</th>
+					<th width="9%" class="center">Main Cat</th>
+					<th width="9%" class="center">Sub Cat</th>
+					<th width="9%" class="center">Cat</th>
+					<th width="15%" class="center">Particulers</th>
+					<th width="4%" class="center">Amount</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?if(count($this->expenseList)>0):?>
+				<?php foreach($this->expenseList as $expense):
+				$encExpId = $this->encode($expense['exp_id']);
+				?>
+				<tr>
+					<td class="center"><?=@++$offset;?></td>
+					<td><?=$expense['exp_refno'];?></td>
+					<td><?=$expense['exp_billdt']?></td>
+					<td><?=$expense['ven_name']?></td>
+					<td><?=$expense['main_head']?></td>
+					<td><?=$expense['pcat']?></td>
+					<td><?=$expense['scat']?></td>
+					<td><?=$expense['ccat']?></td>
+					<td><?=$expense['exp_details']?></td>
+					<td align="right"><?=$expense['exp_amount']?></td>
+				</tr>
+				<?php endforeach?>
+			<?endif?>
+			</tbody>
+		</table>
+		<div>
+			<table class="rpt_tbl">
+				<thead>
+					<tr><?php $date = new DateTime();
+					$date = $date->format('d/m/y')?>
+						<th><div class="title-margin rpt_footer"><h5>Expense MIS Report (<?=$date?>)</h5></div></th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+</form>
+<script type="text/javascript">           
+$(document).ready(function() {
+    $('#f_monthpick').MonthPicker({ Button: false });
+    fixmainhead();
+	$('#f_mainhead').on('change',function() {
+		fixmainhead();
+		$("#f_employee").val([]);
+		$("#f_property").val([]);
+		$("#f_vehicle").val([]);
+		$('.chosen-select').chosen('destroy'); 
+		$(".chosen-select").chosen({
+			no_results_text : "Oops, nothing found!",
+		    search_contains: true,
+		    enable_split_word_search: true
+		});
+	});
+	toggledtoptions();
+	/*$('#id_dtdys').hide();
+	$('#id_days').hide();
+	$('#id_date').hide();*/
+
+	
+	$('#f_period1').on('click',function() {
+		toggledtoptions();
+	});
+
+	$('#f_period2').on('click',function() {
+		toggledtoptions();
+	});
+});
+
+function toggledtoptions(){
+	//$('#f_monthpick').val('');
+	//$('#pr_fdt').val('');
+	//$('#pr_fdt').val('');
+	if($('#f_period1').is(':checked')){
+		$('.pr_month').show();
+		$('.pr_fdt').hide();
+		$('.pr_tdt').hide();
+	}
+	else if($('#f_period2').is(':checked')){
+		$('.pr_month').hide();
+		$('.pr_fdt').show();
+		$('.pr_tdt').show();
+	}
+	else{
+		$('.pr_month').hide();
+		$('.pr_fdt').hide();
+		$('.pr_tdt').hide();
+	}
+}
+  
+$(document).ready(function() {
+	var source = '<?=APPURL?>'+ 'accounts/expense/getlive/ajax/ajax/type/filter';
+	$('#f_pCatSelect').on('change',function() {
+		getJaxData($('#f_pCatSelect').val(),'f_sCatSelect',source,'parent');
+		$('#f_cCatSelect').empty();
+	});
+	getJaxData($('#f_pCatSelect').val(),'f_sCatSelect',source,'parent');
+
+	$('#f_sCatSelect').on('change',function() {
+		getJaxData($('#f_sCatSelect').val(),'f_cCatSelect',source,'sub');
+	});
+	getJaxData($('#f_sCatSelect').val(),'f_cCatSelect',source,'sub');
+});
+
+function fixmainhead(){
+	
+	if($('#f_mainhead').val()==1){
+		$('#mh_emp').show();
+		$('#mh_prop').hide();
+		$('#mh_veh').hide();
+	}
+	else if($('#f_mainhead').val()==2){
+		$('#mh_prop').show();
+		$('#mh_emp').hide();
+		$('#mh_veh').hide();
+	}
+	else if($('#f_mainhead').val()==3){
+		$('#mh_veh').show();
+		$('#mh_emp').hide();
+		$('#mh_prop').hide();
+	}
+	else{
+		$('#mh_emp').hide();
+		$('#mh_prop').hide();
+		$('#mh_veh').hide();
+	}
+}
+</script>

@@ -1,0 +1,52 @@
+<div class="dynamic-popup" id="dynamic-popup">
+	<!--  -->
+	<form name="form" method="post" id="edit"
+		action='erp_employee/master/statusedit/ref/<?=$this->param['ref']?>'
+		style="margin-bottom: 0px;">
+
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h4 class="card-title">Leave Details</h4>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+		<div class="modal-body">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th class="center" width="25%">Remarks</th>
+					<th class="center" width="12%">Effect From</th>
+					<th class="center" width="12%">Return Approved</th>
+					<th class="center" width="12%">Rejoin Date</th>
+					<th class="center" width="12%">Leave Sanctioned</th>
+					<th class="center" width="12%">Leave Taken</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php foreach ($this->leaveDetail as $leave):?>
+				<tr>
+					<td><?=$leave['sts_remarks']?></td>
+					<td align="center"><?=$leave['leave_start']?></td>
+					<td align="center"><?=$leave['leave_end']?></td>
+					<td align="center"><?=$leave['date_return']?></td>
+					<td align="center"><?=$leave['days_sanctioned']?></td>
+					<td align="center"><?=$leave['days_taken']; @$leaveTaken+=$leave['days_taken'];?></td>										
+				</tr>
+			<?php endforeach;?>
+				<tr>
+					<td align="right" colspan="5"><b>Total Leave Days</b></td>
+					<td align="center" ><b><?=$leaveTaken?></b></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="modal-footer">
+			<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function($) {
+	$('.modal-dialog').css('width', '70%');
+})
+</script>

@@ -1,0 +1,118 @@
+<div class="dynamic-popup" id="dynamic-popup">
+	<!--  -->
+	<form name="form" method="post" id="add"
+		action='erp_employee/master/add' style="margin-bottom: 0px;">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h4 class="card-title">Add new employee</h4>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class=" row mb-4">
+					<label for="inputName" class="col-md-2 form-label">Employee No</label>
+					<div class="col-md-4">
+						<?=$this->form->empno->show()?>
+					</div>
+
+					<label class="col-md-2 form-label">First Name</label>
+					<div class="col-sm-4">
+                    <?=$this->form->fname->show()?>
+                  </div>
+				</div>
+				<div class=" row mb-4">
+					<label class="col-md-2 form-label">Middle Name</label>
+					<div class="col-sm-4">
+                    <?=$this->form->mname->show()?>
+                  </div>
+					<label class="col-md-2 form-label">Last Name</label>
+					<div class="col-sm-4">
+                    <?=$this->form->lname->show()?>
+                  </div>
+				</div>
+				<div class=" row mb-4">
+					<label class="col-md-2 form-label">Nationality </label>
+					<div class="col-sm-4">
+                    <?=$this->form->nation->show()?>
+                  </div>
+					<label class="col-md-2 form-label">Date of Birth </label>
+					<div class="col-sm-4">
+                    <?=$this->form->dob->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-md-2 form-label">Date of Joining</label>
+					<div class="col-sm-4">
+                    <?=$this->form->doj->show()?>
+                  </div>
+					<label class="col-md-2 form-label">Company</label>
+					<div class="col-sm-4">
+                    <?=$this->form->company->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-md-2 form-label">Department</label>
+					<div class="col-sm-4">
+                    <?=$this->form->dept->show()?>
+                  </div>
+					<label class="col-md-2 form-label">Designation</label>
+					<div class="col-sm-4">
+                    <?=$this->form->desig->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-md-2 form-label">File No</label>
+					<div class="col-sm-4">
+                    <?=$this->form->fileno->show()?>
+                  </div>
+					<label class="col-md-2 form-label">Mobile No</label>
+					<div class="col-sm-4">
+                    <?=$this->form->mobile->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-md-2 form-label">Native Mobile No</label>
+					<div class="col-sm-4">
+                    <?=$this->form->nativeno->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-md-2 form-label">Bank Account</label>
+					<div class="col-sm-9">
+						<table class="" style="max-width: 100%; float: left;">
+							<thead>
+								<tr>
+									<td><?=$this->form->bank->show()?></td>
+									<td><?=$this->form->branch->show()?></td>
+									<td><?=$this->form->accno->show()?></td>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary submit-alias livepost">Save
+					changes</button>
+				<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">           
+$(document).ready(function() {
+	var source = '<?=APPURL?>'+ 'erp_employee/master/getlive';
+	$('#company').on('change',function() {
+		getJaxData($('#company').val(),'dept',source);
+	});
+	getJaxData($('#company').val(),'dept',source);
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function($) {
+	$('.modal-dialog').css('width', '70%');
+})
+</script>

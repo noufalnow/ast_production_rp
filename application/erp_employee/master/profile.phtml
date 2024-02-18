@@ -1,0 +1,407 @@
+<div style="padding-top: 3px;">
+	<div class="card-block" style="padding-top: 1%;">
+		<div class="full-width">
+			<button name="cmdPrint" value="  Print  " onclick="$('#report').printElement();" class="btn btn btn-primary pull-right" style="padding: 2px 12px;">Print</button></div>
+			<h5 class="title-margin">Profile Report</h5>
+		</div>
+
+</div>
+
+<div id="report">
+	<style type="text/css">
+body {
+	font-family: Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif;
+	margin: 0;
+}
+
+.cardp &gt ;.card-block &gt ;*:last-child, .card &gt ;*:last-child {
+	margin-bottom: 0 !important;
+}
+
+.cardp {
+	background-color: #fff;
+	border-radius: 3px;
+	margin-bottom: 30px;
+	position: relative;
+	border: 1px solid #d2c7c7;
+}
+
+table {
+	background-color: transparent;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table.rpt_tbl {
+	width: 100%;
+}
+
+th {
+	text-align: left;
+}
+
+td, th {
+	padding: 0;
+}
+
+.center {
+	text-align: center;
+}
+
+.title-margin {
+	margin-top: -25px;
+}
+
+table.rpt_frame {
+	margin-bottom: 20px;
+	max-width: 100%;
+	width: 100%;
+}
+
+table.rpt_frame tr {
+	border: 1px solid #777;
+}
+
+table.rpt_frame th, .rpt_frame td {
+	border: 1px solid #ababab;
+	font-size: 14px;
+	padding: 3px;
+}
+
+table.rpt_tbl {
+	width: 100%;
+}
+
+.rpt_footer {
+	margin-left: 6px;
+	margin-top: -20px;
+	padding-left: 0;
+}
+
+h5, .h5 {
+	font-size: 14px;
+}
+
+h4, .h4, h5, .h5, h6, .h6 {
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+	color: inherit;
+	font-family: inherit;
+	font-weight: 500;
+	line-height: 1.1;
+}
+
+@media print {
+	table.rpt_frame   thead {
+		display: table-header-group;
+	}
+	table.rpt_frame  thead th {
+		border-top-style: solid;
+		border-top-width: 2px;
+	}
+}
+
+table.rpt_frame  thead th.empty {
+	border-left: 1px solid white;
+	border-right: 1px solid white;
+	border-top: 1px solid white;
+}
+
+table.rpt_frame tr {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #777 -moz-use-text-color;
+    border-image: none;
+    border-style: solid none;
+    border-width: 1px medium;
+}
+
+
+table.rpt_frame th, .rpt_frame td {
+    border: 1px none #ababab;
+    font-size: 14px;
+    padding: 3px;
+}
+
+</style>
+	<div class="cardp"
+		style="margin-top: 10px; padding-left: 2em; border-right-width: 1px; margin-right: 0px; padding-right: 2em;">
+		<div style="margin-top: 1%;">
+			<table class="rpt_tbl">
+				<thead>
+					<tr>
+						<th rowspan="6" width="1%">
+							<div class="title-margin">
+								<img alt="" src="http://<?=$_SERVER ['HTTP_HOST']?>/css/images/ast.png"
+									style="padding-top: 6px; padding-left: 0px; margin-left: 42px; margin-top: 5px;"
+									height="80">
+							</div>
+						</th>
+					</tr>
+					<tr>
+						<th><div class="center" style="float: right; width: 35%;">&nbsp;</div></th>
+					</tr>
+					<tr>
+						<th><div class="center" style="float: right; width: 50%;"><i>File No: <?=$this->employeeDetail['emp_fileno']?>/ Emp No: <?=$this->employeeDetail['emp_no']?></i></div></th>
+					</tr>
+					<tr>
+						<th><div class="center" style="float: right; width: 35%;">&nbsp;</div></th>
+					</tr>
+					<tr>
+						<th width=""><div class="center"
+								style="margin-top: 0px; margin-bottom: 10px; width: 79%;"><?=strtoupper($this->employeeDetail['emp_fname'])?>&nbsp;<?=strtoupper($this->employeeDetail['emp_mname'])?>&nbsp;<?=strtoupper($this->employeeDetail['emp_lname'])?></div></th>
+					</tr>
+										<tr>
+						<th width=""><div class="center"
+								style="margin-top: 0px; margin-bottom: 10px; width: 79%;">&nbsp;</div></th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<table class="rpt_frame" style="max-width: 45%; float: left; margin-right: 2%;">
+				<tr style="border-top: medium none;"> 
+					<td>Employee No</td>
+					<th> <?=$this->employeeDetail['emp_no']?></th>
+				</tr>
+				<tr>
+					<td>First Name</td>
+					<th><?=$this->employeeDetail['emp_fname']?></th>
+				</tr>
+				<tr>
+					<td>Middle Name</td>
+					<th><?=$this->employeeDetail['emp_mname']?></th>
+				</tr>
+				<tr>
+					<td>Last Name</td>
+					<th><?=$this->employeeDetail['emp_lname']?></th>
+				</tr>
+				<tr>
+					<td>Nationality</td>
+					<th> <?=$nation[$this->employeeDetail['emp_nationality']]?></th>
+				</tr>
+				<tr>
+					<td>Date of Birth</td>
+					<th><?=$dob?></th>
+				</tr>
+				<tr>
+					<td>Date of Joining</td>
+					<th><?=$doj?></th>
+				</tr>
+				<tr>
+					<td>Company</td>
+					<th><?=$this->employeeDetail['comp_name']?></td>
+				</tr>
+				<tr>
+					<td>Department</td>
+					<th><?=$this->employeeDetail['dept_name']?></th>
+				</tr>
+				<tr>
+					<td>Designation</th>
+					<th><?=$this->employeeDetail['desig_name']?></th>
+				</tr>
+				<tr>
+					<td>Status</td>
+					<th><?php if(!$this->employeeDetail['emp_mstatus']):?> Active <?php else:?> <?=$this->employeeDetail['emp_mstatus']?> <?php endif;?></th>
+				</tr>
+				<tr>
+					<td>File No.</td>
+					<th><?=$this->employeeDetail['emp_fileno']?></th>
+				</tr>
+				<tr>
+					<td>Mobile No.</td>
+					<th><?=$this->employeeDetail['emp_mobileno']?></th>
+				</tr>
+				<tr>
+					<td>Bank Account</td>
+					<th><?=$this->employeeDetail['emp_bank']?> : <?=$this->employeeDetail['emp_branch']?> : <?=$this->employeeDetail['emp_accountno']?></th>
+				</tr>
+
+		</table>
+		<div>
+			<table class="" style="max-width: 35%; display: table; margin-left: 0px;">
+				<thead>
+					<tr>
+						<th class="center"><div>
+								<img alt="" src="<?=IMAGEURL?><?=$this->encode($this->empImage['file_id']);?>" style="padding-left: 75px; padding-top: 5px;" width="200">
+							</div></th>
+					</tr>
+				</thead>
+			</table>
+			<?php $contact = $this->empContacts[0];?>
+			<div>
+				<table class=""
+					style="width: 36%; padding-left: 63px; margin-left: 3px; border-left-width: 6px;">
+					<tbody>
+						<tr style="border-top: medium none;">
+							<td></td>
+							<td>&nbsp;</td>
+						</tr>
+						<tr>
+							<td width="36%" >Contact Details : (C/o)</td>
+							<td><?=$contact['con_name']?></td>
+						</tr>
+						<tr>
+							<td>House Name/No.</td>
+							<td><?=$contact['con_house']?></td>
+						</tr>
+						<tr>
+							<td>Street</td>
+							<td><?=$contact['con_street1']?></td>
+						</tr>
+						<tr>
+							<td>Street</td>
+							<td><?=$contact['con_street2']?></td>
+						</tr>
+						<tr>
+							<td>Place Name</td>
+							<td><?=$contact['con_place']?></td>
+						</tr>
+						<tr>
+							<td>Locality</td>
+							<td><?=$contact['con_locality']?></td>
+						</tr>
+						<tr>
+							<td>Region/Zip Code</td>
+							<td><?=$contact['con_region']?>&nbsp;<?=$contact['con_zip_code']?></td>
+						</tr>
+						<tr>
+							<td>Phone No</td>
+							<td><?=$contact['con_phone']?>&nbsp;<?=$contact['con_mobile']?></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div style="display: table; width: 100%;"><label>Pay Details</label>
+		<table class="rpt_frame">
+			<thead>
+				<tr>
+					<th width="5%"class="center">Date(wef)</th>
+					<th width="5%"class="center">Particulers</th>
+					<th width="5%"class="center">Basic</th>
+					<th width="5%"class="center">DA</th>
+					<th width="5%"class="center">HRA</th>
+					<th width="5%"class="center">TA</th>
+					<th width="5%"class="center">Allow. 1</th>
+					<th width="5%"class="center">Allow. 2</th>
+					<th width="5%"class="center">Allow. 3</th>
+					<th width="5%"class="center">Total</th>
+					<th width="8%"class="center">Next Rev</th>
+					<th width="8%"class="center">Remarks</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="center"><?=$wef?></td>
+					<td><?=$this->payParticulers[$this->empSal['pay_type']]?></td>
+					<td><?=$this->empSal['pay_basic']?></td>
+					<td><?=$this->empSal['pay_da']?></td>
+					<td><?=$this->empSal['pay_hra']?></td>
+					<td><?=$this->empSal['pay_ta']?></td>
+					<td><?=$this->empSal['pay_allw1']?></td>
+					<td><?=$this->empSal['pay_allw2']?></td>
+					<td><?=$this->empSal['pay_allw3']?></td>
+					<th ><?=$this->empSal['pay_total']?></th>
+					<td class="center"><?=$dor?></td>
+					<td ><?=$this->empSal['pay_remarks']?></td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<div style="display: table; width: 100%;"><label>Documets Details</label>
+				<table class="rpt_frame">
+					<thead>
+						<tr>
+							<th width="8%"class="center">Document Type.</th>
+							<th width="5%"class="center">Doc No.</th>
+							<th width="15%"class="center">Desc</th>
+							<th width="7%"class="center">Issue Date </th>
+							<th width="7%"class="center">Expiry Date</th>
+						</tr>
+					</thead>
+					<tbody>
+					<?php foreach ($this->empDocs as $doc):
+					$doi='';
+					if($doc['doc_issue_date']){
+						$doi = DateTime::createFromFormat(DFS_DB,$doc['doc_issue_date']);
+						$doi = $doi->format(DF_DD);
+					}
+					$doe='';
+					if($doc['doc_expiry_date']){
+					$doe = DateTime::createFromFormat(DFS_DB,$doc['doc_expiry_date']);
+					$doe = $doe->format(DF_DD);
+					}
+					$encFileId = $this->encode($doc['file_id']);
+					$encDocId = $this->encode($doc['doc_id']);
+					?>
+						<tr>
+							<td><?=$this->docMst[$doc['doc_type']]?></td>
+							<td><?=$doc['doc_no']?></td>
+							<td><?=$doc['doc_desc']?></td>
+							<td class="center"><?=$doi?></td>
+							<td class="center"><?=$doe?></td>
+						</tr>
+					<?php endforeach;?>
+					</tbody>
+				</table>
+				</div>
+		<div style="display: table; width: 100%;"><label>Status Details</label>
+		<table class="rpt_tbl">
+				<thead>
+					<tr>
+						<th><div class="title-margin rpt_footer">
+						<h5 style="margin-top: 5%; margin-bottom: 2%">
+						<?php if($this->employeeDetail['emp_mstatus']=="Terminated"):?>
+						
+						The Employee has been terminated with effect from -- and is approved on --
+						
+						<?php endif?>
+						
+						<?php if($this->employeeDetail['emp_mstatus']=="On Leave"):?>
+						
+						The leave request has been given on and is approved  
+						for the period  - <?=$this->employeeDetail['sts_start_date']?>   to  <?=$this->employeeDetail['sts_end_date']?>
+						
+						<?php endif?>
+						
+						<?php if($this->employeeDetail['emp_mstatus']=="Resigned"):?>
+						
+						The Employee has been Resigned with effect from -- 
+						The request has be given on -- and  is approved on --
+						
+						<?php endif?>
+						</h5>
+								<!--  <h5 style="margin-top: 5%; margin-bottom: 2%">
+								Requested leave on 12/20/2017 and approved on 25/25/2558
+								With effect from 12/20/2017 until 25/25/2558
+								<br>
+								Note: sdfsd sdf sdf sdfs dfsdf sdfhs dfsh df sdf shdf hsd f
+								</h5>-->
+							</div></th>
+					</tr>
+				</thead>
+		</table>
+		</div>		
+				
+				
+		<div><br><br>
+			<table class="rpt_tbl">
+				<thead>
+					<tr style=";">
+						<td><div class="title-margin rpt_footer">
+								<h5>Date and Time :(<?=date("d/m/Y : h:i:sA")?>)</h5>
+							</div></td>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,160 @@
+<div style="margin-top:1%;">
+	<div class="col-md-12 card filter-card" style="margin-bottom: 0px;">
+	<div class="card-block" style="padding-top: 1%;">
+	<div class="full-width">
+		<button name="cmdPrint" value="  Print  " onclick="$('#report').printElement();" class="btn btn btn-primary pull-right" style="padding: 2px 12px;">Print</button></div>
+
+		<h5 class="title-margin">Report: Cash Book Transactions</h5>
+	</div>
+	<!--  <table class="">
+			<tr style="font-size: 0.8em;">
+				<th width="20%">Customer</th>
+				<th width="15%">Expiry Month</th>
+				<th width="50%"></th>
+			</tr>
+			<tr>	
+				<td>
+					<div class="form-group ">
+                	<?//=$form->f_selCustomer->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group">
+                	<?//=$form->f_monthpick->show()?>
+              		</div>
+				</td>
+				<td align="center">
+	              <div class="form-group ">
+					<button class="btn <?//=$filter_class?>" type="submit" >Filter</button>
+					<input class="btn btn-secondary" name="clear" type="submit" value="All"></input>
+	              </div>
+				</td>
+			</tr>
+		</table>-->	
+	</div>
+
+<div class="col-md-12 " style="height: 100%; padding-left: 1%; padding-right: 1%;">
+<div id="report">
+<?php include __DIR__ . '/../../../public/css/printstyle_rpt.php.css';?>
+	<div  class="card" style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
+					<div style="margin-top: 3%;">
+						<table class="rpt_tbl">
+							<thead>
+								<tr>
+									<th width="1%" rowspan="4">
+										<div class="title-margin">
+											<img width="50" alt=""
+												src="http://<?=$_SERVER ['HTTP_HOST']?>/css/images/ast.png"
+												style="padding-top: 6px; padding-left: 0px; margin-left: 42px; margin-top: 5px;">
+										</div>
+									</th>
+								</tr>
+								<tr>
+									<th><div class="center" style="width: 79%;">ABDULLAH BIN SALEM TRADING EST.</div></th>
+								</tr>
+								<tr>
+									<th width="">
+										<div class="center"
+											style="margin-top: 0px; margin-bottom: 10px; width: 79%; font-family: f11; font-size:9pt;">
+											<b> مؤسسة عبدالله بن سالم للتجارة </b>
+										</div>
+
+									</th>
+								</tr>
+								<tr>
+									<th>
+										<div class="center"
+											style="margin-top: 0px; margin-bottom: 10px; width: 79%;">Report: Cash Book Transactions</div>
+									</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+			<table class="rpt_frame">
+			<thead>
+				<tr>
+					<th class="empty" colspan="7"></th>
+				</tr>
+			</thead>
+			<tbody>
+			<?if(count( $this->cashBookList)>0):?>
+				<?php foreach( $this->cashBookList as $cashBook):
+					$encItemId = $this->encode($cashBook['cb_id']);
+				?>
+				
+				<?php if($temp_grup <> '' && $temp_grup <> $cashBook['cb_type_group']):?>
+				<tr>
+					<td colspan="2" align="right">Total :</td>
+					<th align="right"><?=number_format($crTotal,3);?></th>
+					<th align="right"><?=number_format($dbTotal,3);?></th>
+					<th align="right"><?=number_format($dbTotal-$crTotal,3);?></th>
+					<th align="right"></th>
+					<th align="right"></th>
+				</tr>
+				<?php
+				$dbTotal=0;$crTotal=0;
+				endif?>
+				
+				<?php if($temp_grup == '' || $temp_grup <> $cashBook['cb_type_group']):?>
+				<tr>
+					<th colspan="7"><?=$cashBook['user_name']?></th>
+				</tr>
+				<tr>
+					<th width="3%" class="center">Sl No</th>
+					<th width="5%" class="center">Date</th>
+					<th width="30%" class="center">Det.</th>
+					<th width="5%" class="center">Debit</th>
+					<th width="5%" class="center">Credit</th>
+					<th width="5%" class="center">Difference</th>
+					<th width="5%" class="center">Balance</th>
+
+				</tr>
+				<?php endif?>
+				
+				<tr>
+					<td class="center"><?=@++$offset;?></td>
+					<td align="center"><?=$cashBook['cb_dip_dt']?></td>
+					<td><?=$cashBook['cb_debit_note']?> </td>
+					<td align="right"><?=$cashBook['cb_debit']; $dbTotal+=$cashBook['cb_debit'];?></td>
+					<td align="right"><?=$cashBook['cb_credit'];$crTotal+=$cashBook['cb_credit'];?></td>
+					<td align="right"><?=number_format($cashBook['cb_debit']-$cashBook['cb_credit'],3)?></td>
+					<td align="right"><?=number_format($dbTotal-$crTotal,3);?></td>
+				</tr>
+				<?php 
+				$temp_grup=$cashBook['cb_type_group'];
+				endforeach?>
+				<tr>
+					<td colspan="3" align="right">Total :</td>
+					<th class="text-right"><?=number_format($crTotal,3);?></th>
+					<th class="text-right"><?=number_format($dbTotal,3);?></th>
+					<th class="text-right"><?=number_format($dbTotal-$crTotal,3);?></th>
+				</tr>
+				<?php
+				$dbTotal=0;$crTotal=0;?>
+				<tr><td colspan="7" align="right"></td>
+				</tr>
+			<?endif?>
+			</tbody>
+		</table>
+		<div>
+			<table class="rpt_tbl">
+				<thead>
+					<tr><?php $date = new DateTime();
+					$date = $date->format('d/m/y')?>
+						<th><div class="title-margin rpt_footer"><h5>MIS Report (<?=$date?>)</h5></div></th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
+</div>
+</form>
+</div>
+<script type="text/javascript">           
+$(document).ready(function() {
+    $('#f_monthpick').MonthPicker({ Button: false });
+});
+</script>
+
+<?php include "../footer"?>

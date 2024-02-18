@@ -1,0 +1,35 @@
+<?php 
+?>
+<div class="col-md-12" style="padding-top: 3%;">
+	<div class="card">
+		<div class="card-block">
+			<h5>Company Departments</h5>
+			<form name="form" method="post" id="add" name="add" action="">
+				<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-3 form-label" >Company
+						</label>
+					<div class="col-sm-9">
+                    <?=$this->form->company->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-3 form-label" >Department
+						</label>
+					<div class="col-sm-9">
+                    <?=$this->form->dept->show()?>
+                  </div>
+				</div>
+				</div>
+				<div class="row mb-4">
+					<div class="col-md-5">
+						<button type="submit"
+							class="btn  btn-primary align-button" 
+							style="font-size: 120%;">Add</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+

@@ -1,0 +1,115 @@
+<div class="col-md-9">
+<h3 style="padding-left: 1.5em;">Actions Permissions</h3>			
+	<?=x(array('link'=>'acl/config/setcontrollers','ref'=>array('ref'=>$this->moduleId,'usergroup'=>$this->param['usergroup'],'users'=>$this->param['users']),'label'=>'<button class="btn btn-info pull-right" style="margin-bottom: 10px;    margin-right: 1em;    margin-top: -3em;">Back</button>'))?>
+	
+</div>
+<form name="form" method="post" id="add" name="add" action="">
+    <div class="col-md-9">
+    	<div class="card">
+    		<div class="card-block" style="margin: 2em;">
+    			<h5>Set Actions Access</h5>
+    				<div class="row mb-4" style="margin-top: 15px;">
+    					<label class="col-sm-3 form-label">User Group</label>
+    					<div class="col-sm-6">
+                        <?=$this->form->usergroup->show()?>
+                      </div>
+    				</div>
+    				<div class="row mb-4" style="margin-top: 15px;">
+    					<label class="col-sm-3 form-label">User Name</label>
+    					<div class="col-sm-6">
+                        <?=$this->form->users->show()?>
+                      </div>
+    				</div>
+    		</div>
+    		<table class="table table-bordered grid"
+    			style="margin: 2em; width: 90%">
+    			<thead>
+    				<tr>
+    					<th width="60%"><strong>Action Name</strong></th>
+    					<th colspan="2" align="left" width="40%"><strong>Permission</strong>
+    					<br> <input type="checkbox" id="selectAll" class="All" /> </th>
+    				</tr>
+    			</thead>
+    			<tbody>
+    				<?php foreach($this->actionsList as $action):?> 
+    				   <tr>
+    					<td><?=strtoupper($action['action_label'])?></td>
+    					<td align="left"><input class="All" id="access_<?=$action['action_id']?>"
+    						type="checkbox" value="1" name="access_<?=$action['action_id']?>"></td>
+    					<td><?=$this->action_type[$action['action_type']]?>	</td>
+    				<tr>
+    				  <?php endforeach?> 
+    			</tbody>
+    		</table>
+    		<div class="row mb-4">
+    			<div class="col-md-11">
+    				<button type="submit" onclick="displayOverlay('Please wait...')"
+    					class="btn  btn-primary align-button"
+    					style="font-size: 120%; margin-bottom: 2em; margin-top: 1em;">Set
+    					Permission</button>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+</form>
+<script src="<?=APPURL?>js/acl_check_box.js"></script>
+<script type="text/javascript">
+$('.ajax_req').change(function () {
+	 getPermission(this);
+});
+
+
+function getPermission(el){
+    var value = $(el).val();
+    var type = $(el).attr('id');
+    $.ajax({
+        type: 'POST',
+        url: '<?=APPURL?>acl/config/getpermission/ajax/ajax',
+        data: {
+            'id': value,
+            'type': type,
+        },
+        success: function (response) {
+        	response = $.parseJSON(response);
+
+        		$('input[type=checkbox]').each(function () {
+					$(this).prop('checked', false);
+            	});
+
+        	
+        	$.each(response, function(index,data) {
+            	if(data.access==2)
+            		$('#access_'+index).prop('checked', true);
+            	else
+            		$('#access_'+index).prop('checked', false);
+        	});
+        	if(response.length==0){
+
+        	}
+        }
+    });
+}
+
+</script>
+<script type="text/javascript">           
+$(document).ready(function() {
+	var source = '<?=APPURL?>'+ 'admin/users/getusers';
+	$('#action_ug').on('change',function() {
+		getJaxData($('#action_ug').val(),'action_usr',source);
+	});
+	getJaxData($('#action_ug').val(),'action_usr',source);
+
+	if($('#action_usr').val())
+		getPermission($('#action_usr'));
+	else if($('#action_ug').val())
+		getPermission($('#action_ug'));
+		
+});
+</script>
+
+<style>
+.table-bordered thead tr:first-child {
+  border-bottom-style: double;
+  border-top: .2rem solid #e3b6f7;
+}
+</style>

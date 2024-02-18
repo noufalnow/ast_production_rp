@@ -1,0 +1,179 @@
+<div style="margin-top:1%;">
+	<div class="col-md-12 card filter-card" style="margin-bottom: 0px;">
+	<div class="card-block" style="padding-top: 1%;">
+	<div class="full-width">
+		<button name="cmdPrint" value="  Print  " onclick="$('#report').printElement();" class="btn btn btn-primary pull-right" style="padding: 2px 12px;">Print</button></div>
+		<h5 class="title-margin">Report: <?=$this->title?></h5>
+	</div>
+	<form method="get" id="filter" name="filter" action="">
+	<?php if($ref==''):?>
+		<table class="">
+			<tr style="font-size: 0.8em;">
+				<th width="15%">Company</th>
+				<th width="15%">Department</th>
+				<th width="15%">Designation</th>
+				<th width="15%">Nationality</th>
+				<th width="15%">Expiry Month</th>
+				<th width="15%"></th>
+			</tr>
+			<tr>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_company->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_dept->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_desig->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_natonality->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group">
+                	<?=$this->form->f_monthpick->show()?>
+              		</div>
+				</td>
+				<td align="center">
+	              <div class="form-group ">
+					<button class="btn <?=$this->filter_class?>" type="submit" >Filter</button>
+					<input class="btn btn-secondary" name="clear" type="submit" value="All"></input>
+	              </div>
+				</td>
+			</tr>
+		</table>
+		<?php endif?>
+		</form>
+	</div>
+
+<div class="col-md-12 " style="height: 100%; padding-left: 1%; padding-right: 1%;">
+<div id="report">
+<?php include __DIR__ . '/../../../public/css/printstyle_rpt.php.css';?>
+	<div  class="card" style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
+					<div style="margin-top: 3%;">
+						<table class="rpt_tbl">
+				<thead>
+					<tr>
+						<th width="1%" rowspan="3">
+							<div class="title-margin">
+								<img width="50" alt=""
+									src="http://<?=$_SERVER ['HTTP_HOST']?>/css/images/ast.png"
+									style="padding-top: 6px; padding-left: 0px; margin-left: 42px; margin-top: 5px;">
+							</div>
+						</th>
+					</tr>
+					<tr>
+						<th ><div class="center" style="width: 79%;">Abdullah
+								Salem Trading Est</div></th>
+					</tr>
+					<tr>
+						<th width=""><div class="center"
+								style="margin-top: 0px; margin-bottom: 10px; width: 79%;"><?=$this->title;?></div></th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<table class="rpt_frame">
+			<thead>
+				<tr>
+					<th class="empty" colspan="11"></th>
+				</tr>
+				<tr>
+					<th width="5%" class="center">Sl No</th>
+					<th width="5%" class="center">File.No</th>
+					<th width="15%" class="center">Name</th>
+					<th width="4%" class="center">Company</th>
+					<th width="6%" class="center">Designation</th>
+					<th width="5%" class="center">Nationality</th>
+					<th width="6%" class="center">Doc No</th>
+					<th width="6%" class="center">Issue Date</th>
+					<th width="6%" class="center">Expiry Date</th>
+				</tr>
+			</thead>
+			<tbody>
+			
+			<?if(count( $this->employeeList)>0):?>
+				<?php foreach( $this->employeeList as $employee):
+					if ($ref!='') {
+						if ($employee ['doc_type'] == 3)
+							$tempEmpList [$employee ['emp_id']] = $employee ['doc_type'];
+						
+						if ($employee ['doc_type'] == 2) {
+							if (isset ( $tempEmpList [$employee ['emp_id']] ))
+								continue;
+						}
+					}
+				
+				
+				$encEmpId = $this->encode($employee['emp_id']);
+				$encFileId = $this->encode($employee['file_id']);
+				?>
+				<?php if($grouph!=$employee['doc_type']):?>
+				<tr><td colspan="10"><b>&nbsp;&nbsp;<?=$this->docMst[$employee['doc_type']]?></b></td></tr>
+				<?php $sl = 1;?>
+				<?php endif;?>
+				<tr>
+					<td class="center"><?=@$sl++;?></td>
+					<td><?=$employee['emp_fileno'];?></td>
+					<td><?=$employee['emp_fname']?>&nbsp;<?=$employee['emp_mname']?>&nbsp;<?=$employee['emp_lname']?></td>
+					<td><?=$employee['comp_disp_name']?></td>
+					<td><?=$employee['desig_name']?></td>
+					<td class="center"><?=$nation[$employee['emp_nationality']]?></td>
+					<td><?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>$employee['doc_no'],array("param"=>'opener')))?>
+					<?php if(($employee['desig_id']==8 || $employee['desig_id']==9) && $employee['doc_type'] ==4):?>
+					
+							<table class="rpt_frame">
+							<tr><td>Ref No</td><td>Mulkia</td><td>Chassis</td></tr>
+							<tr><td><?=$employee['emp_reg_refno']?></td><td><?=$employee['emp_reg_mulkia']?></td><td><?=$employee['emp_reg_chassis']?></td></tr>							
+							</table>
+					
+					<?php endif?>
+					
+					
+					</td>
+					<td><?=$employee['doc_issue_date']?></td>
+					<td><?=$employee['doc_expiry_date']?></td>
+				</tr>
+				<?php $grouph=$employee['doc_type'];?>
+				<?php endforeach?>
+			<?endif?>
+			</tbody>
+		</table>
+		<div>
+			<table class="rpt_tbl">
+				<thead>
+				<tr><td>&nbsp;</td></tr>
+					<tr><?php $date = new DateTime();
+					$date = $date->format('d/m/y H:i')?>
+						<td><div class="title-margin rpt_footer"><small><?=$this->title;?></small></div><div class="rpt_footer" style="float: right;"><small>(<?=$date?>)</small></div></td>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+</form>
+<script type="text/javascript">           
+$(document).ready(function() {
+    $('#f_monthpick').MonthPicker({ Button: false });
+});
+         
+$(document).ready(function() {
+	var source = '<?=APPURL?>'+ 'erp_employee/master/getlive';
+	$('#f_company').on('change',function() {
+		getJaxData($('#f_company').val(),'f_dept',source);
+	});
+	getJaxData($('#f_company').val(),'f_dept',source);
+});
+</script>
+

@@ -1,0 +1,608 @@
+<style>
+
+body {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+table.table-bordered{
+    table-layout: fixed;
+}
+table.table-bordered td{
+    word-wrap:break-word
+}
+</style>
+
+<div style="margin-top:1%;">
+	<div class="col-md-12 card filter-card" style="margin-bottom: 0px;">
+	<div class="card-block" style="padding-top: 1%;">
+	<div class="full-width">
+		<button name="cmdPrint" value="  Print  " onclick="$('#reportWhole').printElement();" class="btn btn btn-primary pull-right" style="padding: 2px 12px;">Print</button></div>
+		<h5 class="title-margin">Salary Statement</h5>
+	</div>
+	</div>
+</div>
+<div class="col-md-12 " style="height: 100%; padding-left: 1%; padding-right: 1%;">
+<div id="reportWhole">
+<?php include __DIR__ . '/../../../public/css/printstyle_rpt.php.css';?>
+	<div  class="card" style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
+					<div style="margin-top: 3%;">
+						<table class="rpt_tbl">
+			<thead>
+				<tr>
+					<th colspan="4"><div class="center" style="width: 100%;">Employee Salary Details - <?=$this->month?></div></th>
+				</tr>
+			</thead>
+			</table>
+		</div>
+		<table class="rpt_frame">
+			<thead>
+				<tr>
+					<th class="empty" colspan="11"></th>
+				</tr>
+				<tr>
+					<th width="3%" class="center">Sl</th>
+					<th width="10%" class="center">Name</th>
+					<th width="8%" class="center">Dept.</th>
+					<th width="6%" class="center">Desig.</th>
+					<th width="5%" class="center">Country</th>
+					<th width="5%" class="center">DOJ</th>
+					<th width="5%" class="center">Pay</th>
+					<th width="8%" class="center">Deduction</th>
+					<th width="8%" class="center">Addition</th>
+					<th width="36%" class="center">Remarks</th>
+					<th width="6%" class="center">Total</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?
+			$tempgroup = [];
+			if(count($this->employeeList)>0):?>
+				<?php foreach($this->employeeList as $employee):
+				
+				if($employee['sdet_group']<11){
+				
+				//$encEmpId = $this->encode($employee['emp_id']);
+				
+				if(true):
+				
+				?>
+
+				
+				<?php if($psal!= $employee['sdet_group'] && $psal!=''):?> 
+				<tr>
+					<th style="text-align: right;" colspan="10"><?=$this->childGrp[$psal]?> - <?=$this->bankS[$pbank]?> : Total  </th>		
+					<th style="text-align: right;"><?=number_format((float)@$childTotal,3);?></th>														
+				</tr>
+				<?php $childTotal = 0;?>
+				
+				
+				<?php if($pbank!= $this->bankK[$employee['sdet_group']]):?> 
+				<!--  <tr>
+					<th style="text-align: right;" colspan="10"> <?//=$this->bankS[$pbank]?>: Total  </th>		
+					<th><?//=number_format((float)@$bnkTotal,3);?></th>														
+				</tr>
+				<?php $bnkTotal= 0;?>-->
+				<?php endif;?>
+				
+				
+											</tbody>
+		</table>
+	</div>	
+				
+					<div  class="card pages" style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
+					<div style="margin-top: 3%;">
+						<table class="rpt_tbl">
+						<thead>
+							<tr>
+								<th colspan="4"><div class="center" style="width: 100%;">Employee Salary Details - <?=$this->month?></div></th>
+							</tr>
+						</thead>
+						</table>
+					</div>
+		<table class="rpt_frame">
+			<thead>
+				<tr>
+					<th class="empty" colspan="11"></th>
+				</tr>
+				<tr>
+					<th width="3%" class="center">Sl</th>
+					<th width="10%" class="center">Name</th>
+					<th width="8%" class="center">Dept.</th>
+					<th width="6%" class="center">Desig.</th>
+					<th width="5%" class="center">Country</th>
+					<th width="5%" class="center">DOJ</th>
+					<th width="5%" class="center">Pay</th>
+					<th width="8%" class="center">Deduction</th>
+					<th width="8%" class="center">Addition</th>
+					<th width="36%" class="center">Remarks</th>
+					<th width="6%" class="center">Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php endif;?> 
+				
+				<?php //if($pcat!= $employee['sdet_category']):?>
+
+				<?php //endif?>
+				
+				<?php if($psal!= $employee['sdet_group']):?>
+				<tr>
+					<th style="text-align: center;" colspan="11"><?=$this->category[$employee['sdet_category']] ?>  </th>														
+				</tr>
+				
+				<tr>
+					<th style="text-align: center;" colspan="11"><?=$this->childGrp[$employee['sdet_group']] ?>  - <?=$this->bankS[$this->bankK[$employee['sdet_group']]]?> </th>														
+				</tr>
+				<?php endif?>
+				
+				<tr>
+					<td class="center"><?=@++$offset;?></td>
+					<td><?=$employee['emp_fname']?>&nbsp;<?=$employee['emp_mname']?>&nbsp;<?=$employee['emp_lname']?> 
+					<small>(<?=$employee['emp_fileno']?>)</small></td>
+					<td><?=$employee['dept_name']?></td>
+					<td><?=$employee['desig_name']?></td>
+					<td class="center"><?=$this->nation[$employee['emp_nationality']]?></td>
+					<td><?=$employee['emp_doj']?></td>
+					<td align="right"><?=$employee['sdet_amt_total']?></td>
+					<td align="right"><?=$employee['sdet_amt_deduct']?></td>
+					<td align="right"><?=$employee['sdet_amt_addition']?></td>
+					<td align="right"><?=$employee['sdet_remarks']?></td>
+					<td align="right"><?=$employee['sdet_amt_net']?></td>
+				</tr>
+				<?php   $psal = $employee['sdet_group'];
+						$pcat = $employee['sdet_category'];
+						$pbank = $this->bankK[$employee['sdet_group']];
+						
+						$summary['sum']+=$employee['sdet_amt_net'];
+						$summary[$employee['sdet_category']]['sum']+=$employee['sdet_amt_net'];
+						$summary[$employee['sdet_category']][$this->bankK[$employee['sdet_group']]]['sum']+=$employee['sdet_amt_net'];
+						$summary[$employee['sdet_category']][$this->bankK[$employee['sdet_group']]][$employee['sdet_group']]+=$employee['sdet_amt_net'];
+						
+						if($employee['sdet_amt_addition']>0 || $employee['sdet_amt_deduct'] > 0 || $employee['sdet_remarks'] != "")
+							$variation[] = $employee;
+						
+							if($employee['sdet_group']<>10 && $employee['sdet_group']<>11){
+							$bnkTotal+= $employee['sdet_amt_net'];
+							$childTotal+= $employee['sdet_amt_net'];
+							$grndTotal+=$employee['sdet_amt_net'];
+						}
+				?>
+				<?php 
+				endif;
+				}else if ($employee['sdet_group']==11)
+				{
+					$sepgroup[] = $employee;
+				}
+				else if ($employee['sdet_group']==12)
+				{
+					$tempgroup[] = $employee;
+				}
+				endforeach;
+				//s($sepgroup);
+				?> 
+				<tr>
+					<th style="text-align: right;" colspan="10"><?=$this->childGrp[$psal]?> -<?=$this->bankS[$pbank]?> : Total  </th>		
+					<th style="text-align: right;"><?=number_format((float)@$childTotal,3);?></th>													
+				</tr>
+				<!--  <tr>
+					<th style="text-align: right;" colspan="10"> <?//=$this->bankS[$pbank]?>: Total  </th>		
+					<th><?//=number_format((float)@$bnkTotal,3);?></th>														
+				</tr>
+				<tr>
+					<th style="text-align: right;" colspan="10"> Grand Total  </th>		
+					<th><?//=number_format((float)@$grndTotal,3);?></th>														
+				</tr>  -->
+			<?endif?>
+			</tbody>
+		</table>
+	</div>	
+	
+	<?php 
+	
+	//s($summary,$variation);
+	
+	$bnkTotal  = 0;
+	$childTotal = 0;
+	$grndTotal = 0;
+	$psal='';
+	$pcat = 0;
+	?>
+	$this->month
+	
+	<div  class="card pages" style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
+					<div style="margin-top: 3%;">
+						<table class="rpt_tbl">
+						<thead>
+							<tr>
+								<th colspan="4"><div class="center" style="width: 100%;">Employee Salary Variations</div></th>
+							</tr>
+						</thead>
+						</table>
+					</div>		
+		
+		
+		<table class="rpt_frame">
+			<thead>
+				<tr>
+					<th class="empty" colspan="11"></th>
+				</tr>
+				<tr>
+					<th width="3%" class="center">Sl</th>
+					<th width="10%" class="center">Name</th>
+					<th width="8%" class="center">Dept.</th>
+					<th width="6%" class="center">Desig.</th>
+					<th width="5%" class="center">Country</th>
+					<th width="5%" class="center">DOJ</th>
+					<th width="5%" class="center">Pay</th>
+					<th width="8%" class="center">Deduction</th>
+					<th width="8%" class="center">Addition</th>
+					<th width="36%" class="center">Remarks</th>
+					<th width="6%" class="center">Total</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?if(is_array($variation) && count($variation)>0):?>
+				<?php foreach($variation as $employee):
+				?>			
+				<tr>
+					<td class="center"><?=@++$ji;?></td>
+					<td style="word-wrap: break-word;"><?=$employee['emp_fname']?>&nbsp;<?=$employee['emp_mname']?>&nbsp;<?=$employee['emp_lname']?> - <small>(<?=$employee['emp_fileno']?>)</small></td>
+					<td><?=$employee['dept_name']?></td>
+					<td><?=$employee['desig_name']?></td>
+					<td class="center"><?=$this->nation[$employee['emp_nationality']]?></td>
+					<td><?=$employee['emp_doj']?></td>
+					<td align="right"><?=$employee['pay_total']?></td>
+					<td align="right"><?=$employee['sdet_amt_deduct']?></td>
+					<td align="right"><?=$employee['sdet_amt_addition']?></td>
+					<td width="36%" align="right"><?=$employee['sdet_remarks']?></td>
+					<td align="right"><?=$employee['sdet_amt_net']?></td>
+				</tr>
+				<?php 
+				endforeach?>
+			<?endif?>
+			</tbody>
+		</table>
+
+	</div>
+	
+	
+	
+	<div  class="card pages" style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
+					<div style="margin-top: 3%;">
+						<table class="rpt_tbl">
+						<thead>
+							<tr>
+								<th colspan="4"><div class="center" style="width: 100%;">Separate salary Disbursement</div></th>
+							</tr>
+						</thead>
+						</table>
+					</div>		
+		
+		
+		<table class="rpt_frame">
+			<thead>
+				<tr>
+					<th class="empty" colspan="11"></th>
+				</tr>
+				<tr>
+					<th width="3%" class="center">Sl</th>
+					<th width="10%" class="center">Name</th>
+					<th width="8%" class="center">Dept.</th>
+					<th width="6%" class="center">Desig.</th>
+					<th width="5%" class="center">Country</th>
+					<th width="5%" class="center">DOJ</th>
+					<th width="5%" class="center">Pay</th>
+					<th width="8%" class="center">Deduction</th>
+					<th width="8%" class="center">Addition</th>
+					<th width="36%" class="center">Remarks</th>
+					<th width="6%" class="center">Total</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?if(is_array($sepgroup) && count($sepgroup)>0):
+			$separateTotal = 0;?>
+				<?php foreach($sepgroup as $employee):?>			
+				<tr>
+					<td class="center"><?=@++$ji;?></td>
+					<td><?=$employee['emp_fname']?>&nbsp;<?=$employee['emp_mname']?>&nbsp;<?=$employee['emp_lname']?> - <small>(<?=$employee['emp_fileno']?>)</small></td>
+					<td><?=$employee['dept_name']?></td>
+					<td><?=$employee['desig_name']?></td>
+					<td class="center"><?=$this->nation[$employee['emp_nationality']]?></td>
+					<td><?=$employee['emp_doj']?></td>
+					<td align="right"><?=$employee['pay_total']?></td>
+					<td align="right"><?=$employee['sdet_amt_deduct']?></td>
+					<td align="right"><?=$employee['sdet_amt_addition']?></td>
+					<td align="right"><?=$employee['sdet_remarks']?></td>
+					<td align="right"><?=$employee['sdet_amt_net']?> <?$separateTotal+=$employee['sdet_amt_net'];?></td>
+				</tr>
+				<?php 
+				endforeach?>
+				<tr>
+					<th style="text-align: right;" colspan="10"> Separate salary Disbursement Total:  </th>		
+					<th style="text-align: right;"><?=number_format((float)$separateTotal,3);?></th>	
+				</tr>
+			<?endif?>
+			</tbody>
+		</table>
+		
+		<div style="margin-top: 3%;">
+			<table class="rpt_tbl">
+			<thead>
+				<tr>
+					<th colspan="4"><div class="center" style="width: 100%;">Temporary Staff Salary</div></th>
+				</tr>
+			</thead>
+			</table>
+		</div>	
+		<table class="rpt_frame">
+			<thead>
+				<tr>
+					<th class="empty" colspan="11"></th>
+				</tr>
+				<tr>
+					<th width="3%" class="center">Sl</th>
+					<th width="10%" class="center">Name</th>
+					<th width="8%" class="center">Dept.</th>
+					<th width="6%" class="center">Desig.</th>
+					<th width="5%" class="center">Country</th>
+					<th width="5%" class="center">DOJ</th>
+					<th width="5%" class="center">Pay</th>
+					<th width="8%" class="center">Deduction</th>
+					<th width="8%" class="center">Addition</th>
+					<th width="36%" class="center">Remarks</th>
+					<th width="6%" class="center">Total</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?if(count($tempgroup)>0):
+			$tempTotal = 0;?>
+				<?php foreach($tempgroup as $employee):?>			
+				<tr>
+					<td class="center"><?=@++$ji;?></td>
+					<td><?=$employee['emp_fname']?>&nbsp;<?=$employee['emp_mname']?>&nbsp;<?=$employee['emp_lname']?> - <small>(<?=$employee['emp_fileno']?>)</small></td>
+					<td><?=$employee['dept_name']?></td>
+					<td><?=$employee['desig_name']?></td>
+					<td class="center"><?=$this->nation[$employee['emp_nationality']]?></td>
+					<td><?=$employee['emp_doj']?></td>
+					<td align="right"><?=$employee['pay_total']?></td>
+					<td align="right"><?=$employee['sdet_amt_deduct']?></td>
+					<td align="right"><?=$employee['sdet_amt_addition']?></td>
+					<td align="right"><?=$employee['sdet_remarks']?></td>
+					<td align="right"><?=$employee['sdet_amt_net']?> <?$tempTotal+=$employee['sdet_amt_net'];?></td>
+				</tr>
+				<?php 
+				endforeach?>
+					<tr>
+					<th style="text-align: right;" colspan="10"> Temporary Staff Salary Total:  </th>		
+					<th style="text-align: right;"><?=number_format((float)$tempTotal,3);?></th>	
+				</tr>
+			<?endif?>
+			</tbody>
+		</table>
+		
+	</div>	
+	
+<div class="card pages" style="
+    padding-left: 5px;
+    padding-right: 5px;">
+	<div style="margin-top: 3%;">
+		<table class="rpt_tbl">
+			<thead>
+				<tr>
+					<th width="1%" rowspan="4">
+						<div class="title-margin">
+							<img width="50" alt=""
+								src="http://<?=$_SERVER ['HTTP_HOST']?>/css/images/ast.png"
+								style="padding-top: 6px; padding-left: 0px; margin-left: 42px; margin-top: 5px;">
+						</div>
+					</th>
+				</tr>
+				<tr>
+					<th><div class="center" style="width: 79%;">Abdullah Salem
+							Trading Est</div></th>
+				</tr>
+				<tr>
+					<th width=""><div class="center"
+							style="margin-top: 0px; margin-bottom: 10px; width: 79%;">Summary
+							of Salary Disbursement <?=$this->month?></div></th>
+				</tr>
+				<tr>
+					<th width=""><div class="center"
+							style="margin-top: 0px; margin-bottom: 10px; width: 79%;"> Company Wise </div></th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	
+		
+	<style>
+	.fig {
+		float: right;padding-right: 10px;
+	}
+	</style>
+
+	<table class="rpt_frame">
+		<tbody>
+			<tr>
+				<th style="text-align: center;" colspan="5">LABOURS</th>
+			</tr>
+			<tr>
+				<th class="center"  width="5%">SL NO.</th>
+				<th class="center" width="45%">COMPANY</th>
+				<th class="center" width="15%">BANK MUSCAT</th>
+				<th class="center" width="15%">BANK DHOFAR</th>
+				<th class="center" width="15%">TOTAL</th>
+			</tr>
+			<tr>
+				<td align="center">1</td>
+				<td>ABDULLAH SALEM TRADING</td>
+				<td> <div class="fig"> <?=number_format((float)$summary[1][1][1],3)?></div></td>
+				<td></td>
+				<td rowspan="2"> <div class="fig"> <?=number_format((float)$summary[1][1][1]+$summary[1][1][2],3)?></div></td>
+			</tr>
+			<tr>
+				<td align="center">2</td>
+				<td>FAISAL ABDULLAH SALEM TRADING</td>
+				<td> <div class="fig"><?=number_format((float)$summary[1][1][2],3)?></div></td>
+				<td></td>
+
+			</tr>
+			<tr>
+				<td align="center">3</td>
+				<td>ABDULLAH SALEM TRADING</td>
+				<td></td>
+				<td> <div class="fig"><?=number_format((float)$summary[1][2][3],3)?></div></td>
+				<td rowspan="2"> <div class="fig"><?=number_format((float)$summary[1][2][3]+$summary[1][2][4],3)?></div></td>
+			</tr>
+			<tr>
+				<td align="center">4</td>
+				<td>ALAWI ABDULLAH SALEM TRADING</td>
+				<td></td>
+				<td> <div class="fig"><?=number_format((float)$summary[1][2][4],3)?></div></td>
+
+			</tr>
+			<!--  <tr>
+				<th colspan="2">TOTAL BANK WISE</th>
+				<td></td>
+				<td></td>
+			</tr>-->
+			<tr>
+				<th colspan="5"></th>
+			</tr>
+			<tr>
+				<th style="text-align: right;" colspan="4">TOTAL - LABOURS</th>
+				<th> <div class="fig"><?=number_format((float)$summary[1]['sum'],3)?></div></th>
+			</tr>
+			<tr>
+				<th style="text-align: center;" colspan="5">DRIVERS</th>
+			</tr>
+			<tr>
+				<th class="center"  width="5%">SL NO.</th>
+				<th class="center" width="45%">COMPANY</th>
+				<th class="center" width="15%">BANK MUSCAT</th>
+				<th class="center" width="15%">BANK DHOFAR</th>
+				<th class="center" width="15%">TOTAL</th>
+			</tr>
+			<tr>
+				<td align="center">5</td>
+				<td>ABDULLAH SALEM TRADING</td>
+				<td> <div class="fig"><?=number_format((float)$summary[2][1][5],3)?></div></td>
+				<td></td>
+				<td rowspan="3"> <div class="fig"><?=number_format((float)$summary[2][1][5]+$summary[2][1][6]+$summary[2][1][7],3)?></div></td>
+			</tr>
+			<tr>
+				<td align="center">6</td>
+				<td>FAISAL ABDULLAH SALEM TRADING</td>
+				<td> <div class="fig"><?=number_format((float)$summary[2][1][6],3)?></div></td>
+				<td></td>
+		
+			</tr>
+			<tr>
+				<td align="center">7</td>
+				<td>ADIL ABDULLAH SALEM TRADING</td>
+				<td> <div class="fig"><?=number_format((float)$summary[2][1][7],3)?></div></td>
+				<td> <div class="fig"></div></td>
+	
+			</tr>
+			<tr>
+				<td align="center">8</td>
+				<td>ABDULLAH SALEM TRADING</td>
+				<td></td>
+				<td> <div class="fig"><?=number_format((float)$summary[2][2][8],3)?></div></td>
+				<td rowspan="2"> <div class="fig"><?=number_format((float)$summary[2][2][8]+$summary[2][2][9],3)?></div></td>			
+			</tr>
+			<tr>
+				<td align="center">9</td>
+				<td>FAISAL ABDULLAH SALEM TRADING</td>
+				<td></td>
+				<td> <div class="fig"><?=number_format((float)$summary[2][2][9],3)?></div></td>
+			</tr>
+			<!--  <tr>
+				<th colspan="2">TOTAL BANK WISE</th>
+				<td></td>
+				<td></td>
+			</tr>-->
+			<tr>
+				<th colspan="5"></th>
+			</tr>
+			<tr>
+				<th style="text-align: right;" colspan="4">TOTAL - DRIVERS</th>
+				<th> <div class="fig"><?=number_format((float)$summary[2]['sum'],3)?></div></th>
+			</tr>
+		</tbody>
+	</table>
+	
+	
+	<div style="margin-top: 3%;">
+		<table class="rpt_tbl">
+			<thead>
+				<tr>
+					<th width=""><div class="center"
+							style="margin-top: 0px; margin-bottom: 10px; width: 100%;"> SALARY CATEGORY WISE SUMMARY</div></th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+		<table class="rpt_frame">
+		<tbody>
+			<tr>
+				<th class="center" width="10%">SL NO.</th>
+				<th class="center" width="40%">CATEGORY</th>
+				<th class="center" width="25%">SALARY AMOUNT</th>
+			</tr>
+			<tr>
+				<td align="center">1</td>
+				<td>TOTAL LABOURS</td>
+				<td align="right"><?=number_format((float)$summary[1]['sum'],3)?></td>
+			</tr>
+			<tr>
+				<td align="center">2</td>
+				<td>TOTAL DRIVERS</td>
+				<td align="right"><?=number_format((float)$summary[2]['sum'],3)?></td>
+			</tr>
+			<tr>
+				<td align="center">3</td>
+				<td>TOTAL SEPARATE SALARY</td>
+				<td align="right"><?=number_format((float)$separateTotal,3)?></td>
+			</tr>
+			<tr>
+				<td align="center">4</td>
+				<td>TOTAL TEMPORARY STAFF</td>
+				<td align="right"><?=number_format((float)$tempTotal,3)?></td>
+			</tr>
+			<tr>
+				<th colspan="3"></th>
+			</tr>
+			<tr>
+				<th style="text-align: right;" colspan="2"> GRAND TOTAL </th>
+				<th style="text-align: right;"><?=number_format((float)$summary['sum']+$separateTotal+$tempTotal,3)?></th>
+			</tr>
+		</tbody>
+	</table>
+			
+	
+	
+	</div>			
+</div>	
+
+<?php
+//$COMMDOCTYPE= DOC_TYPE_COM_SAL; $COMMDOCREFID= $this->decSalId; $DOCVIEW='VIEW';
+$COMMDOCTYPE= DOC_TYPE_COM_SAL; $COMMDOCREFID= $this->decSalId;
+
+viewAction(array('module'=>'erp_manage', 'controller'=>'documents', 'action'=>'documents', 'param'=>
+    array('type'=>$COMMDOCTYPE,'ref'=>$COMMDOCREFID, 'docview'=>true)));?>
+
+
+<style>
+table.table-bordered{
+    table-layout: fixed;
+}
+table.table-bordered td{
+    word-wrap:break-word
+}
+</style>
+
+
+

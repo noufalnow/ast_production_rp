@@ -1,0 +1,139 @@
+<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+	<form name="form" method="post" id="edit" action='erp_property/master/payoptions/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;">
+	<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+		<h4 class="modal-title">Payment Schedule By <b><?=$this->propDocDet['agr_tenant']?> </b>
+		</h4>
+	</div>
+	<div class="modal-body">
+				<div class="row mb-4" style="margin-top: 15px;">
+				 <div id="mh_varis" class="col-sm-12">
+                    <table width="100%" id="multi_table">
+					<tr style="font-size: 0.8em;">
+						<th width="15%" style="padding-bottom: 5px;">Date</th>
+						<th width="20%" style="padding-bottom: 5px;">Payment Mode</th>
+						<th width="15%" style="padding-bottom: 5px;">Amount</th>
+						<th width="15%" style="padding-bottom: 5px;">Bank</th>
+						<th width="15%" style="padding-bottom: 5px;">Chequ No.</th>
+						<th width="1%" style="padding-bottom: 5px;"></th>
+					</tr>
+					<?php foreach($this->mfields as $i):?>
+					<tbody id="dup_body">
+					<tr class="dup_row" index="<?=$i?>">
+						<td valign="top">
+		                	<?=$this->form->date[$i]->show()?>
+						</td>
+						<td valign="top">
+		                	<?=$this->form->payselect[$i]->show()?>
+						</td>
+						<td valign="top">
+							<div class="amtrow">
+		                		<?=$this->form->amount[$i]->show()?>
+		                	</div>
+						</td>
+						<td valign="top">
+							<div class="bankrow">
+		                		<?=$this->form->bank[$i]->show()?>
+		                	</div>
+						</td>
+						<td valign="top">
+							<div class="cheqrow">
+		                		<?=$this->form->chequeno[$i]->show()?>
+		                	</div>
+						</td>
+						<td valign="middle">
+						<?php if(empty($this->payDemand[$i])):?>
+			              <div>
+							<a style="color: blue; margin: 1px;" title="Remove" href="#" onclick="delRow(this);return false;" class="glyphicon glyphicon-remove"></a>
+			              </div>
+			              <?php endif;?>
+						</td>
+					</tr>
+					<?php endforeach;?>
+					</tbody>
+					</table>
+					<div><a  style="background-color: yellowgreen;margin: 1px;" id="myLink" title="Add more" href="#" onclick="addRow('multi_table');return false;" class="btn">More</a>
+					</div>
+                 </div>
+                 </div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary submit-alias livepost" >Update</button>
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+	</div>
+</form>	
+</div>
+
+<script type="text/javascript">
+var duprow = '';
+var duprow = '<tr class="dup_row">' + $('#dup_body >tr:last').html() + '</tr>';
+function delRow(row){
+	if($('.dup_row').length>1){
+		$(row).parents('tr').remove();
+	}
+}
+function addRow(elemId) {
+	
+	var index = $('#' + elemId + ' tbody>tr:last').attr('index');
+	var index = parseInt('1'+index)+1;
+	
+	$(duprow).insertAfter($('#' + elemId + ' tbody>tr:last'));
+
+	$('#' + elemId + ' tbody>tr:last').find('.input_error').removeClass(
+			'input_error');
+	$('#' + elemId + ' tbody>tr:last').find('.select_error').removeClass(
+			'select_error');
+	$('#' + elemId + ' tbody>tr:last').find('.error_text').remove();
+	$('#' + elemId + ' tbody>tr:last').attr('index',index);
+
+	$('#' + elemId + ' tbody>tr:last td:last-child').html('<div><a style="color: blue; margin: 1px;" title="Remove" href="#" onclick="delRow(this);return false;" class="glyphicon glyphicon-remove"></a></div>');
+	$.each($('#' + elemId + ' tr:last').find(':input'), function() {
+		$(this). removeAttr('readonly');
+		if ($(this).is(':radio')) {
+	        //code here
+	    }
+		else
+			$(this).val('');
+
+		var name = $(this).attr('name');
+		if (name !== undefined) {
+			var arr = name.split('[');
+			$(this).attr('id', arr[0] + '[' + index+ ']').attr(
+					'name', arr[0] + '[' + index + ']');
+		}
+		$('.chosen-select').chosen('destroy');  
+		$(".chosen-select").chosen({
+			no_results_text : "Oops, nothing found!",
+		    search_contains: true,
+		    enable_split_word_search: true
+		});
+	});
+	initDatePicker();
+}
+
+function modaction(field){
+	modereset(field);
+}
+
+function modereset(field){
+		if($(field).val()==1){
+			$(field).closest('tr').find('.cheqrow').hide();
+			$(field).closest('tr').find('.bankrow').hide();
+		}
+		if($(field).val()==2){
+			$(field).closest('tr').find('.cheqrow').show();
+			$(field).closest('tr').find('.bankrow').show();
+		}
+		if($(field).val()==3){
+			$(field).closest('tr').find('.cheqrow').hide();
+			$(field).closest('tr').find('.bankrow').hide();
+		}
+	
+}
+
+$('select.mod_select').each(function(){
+	modereset(this);
+})
+
+
+</script>

@@ -1,0 +1,68 @@
+<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+	<form name="form" method="post" id="edit" name="edit" action='<?=APPURL?>users/edit/ref/<?=$ref?>' style="margin-bottom: 0px;">
+	<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+		<h4 class="modal-title">Documet Details</h4>
+	</div>
+	<div class="modal-body">
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Document Type</label>
+					<div class="col-sm-4">
+                    <?=$this->docMst[$this->documatesDetail['doc_type']]?>
+                  </div>
+					<label class="col-sm-2 form-label" >Document No.</label>
+					<div class="col-sm-4">
+                    <?=$this->documatesDetail['doc_no']?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Description</label>
+					<div class="col-sm-4">
+                    <?=$this->documatesDetail['doc_desc']?>
+                  </div>
+					<label class="col-sm-2 form-label" >Remarks</label>
+					<div class="col-sm-4">
+                    <?=$this->documatesDetail['doc_remarks']?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Issue Authority</label>
+					<div class="col-sm-4">
+                    <?=$this->documatesDetail['doc_issue_auth']?>
+                  </div>
+					<label class="col-sm-2 form-label" >Date of Apply</label>
+					<div class="col-sm-4">
+                     <?=$this->doa?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Date of Issue</label>
+					<div class="col-sm-4">
+                      <?=$this->doi?>
+                  </div>
+					<label class="col-sm-2 form-label" >Date of Expiry</label>
+					<div class="col-sm-4">
+                      <?=$this->doe?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Alert Days</label>
+					<div class="col-sm-4">
+                      <?=$this->documatesDetail['doc_alert_days']?>
+                  </div>
+					<label class="col-sm-2 form-label" >Download</label>
+					<div class="col-sm-4">
+                    <?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?>
+                  </div>
+				</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+	</div>
+</form>	
+</div>
+<script type="text/javascript">
+$(document).ready(function($) {
+	$('.modal-dialog').css('width', '550px');
+})
+</script>

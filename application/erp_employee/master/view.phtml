@@ -1,0 +1,415 @@
+<?
+$dob = DateTime::createFromFormat(DFS_DB, $this->employeeDetail['emp_dob']);
+$dob = $dob->format(DF_DD);
+if ($this->employeeDetail['emp_doj'] != '') {
+    $doj = DateTime::createFromFormat(DFS_DB, $this->employeeDetail['emp_doj']);
+    $doj = $doj->format(DF_DD);
+}
+?>
+<div class="main-container container">
+
+	<div class="page-header" style="margin-bottom: 0.5rem;margin-top: 0.5rem;">
+		<div>
+			<h1 class="page-title"><?=$this->employeeDetail['emp_fileno']?>&nbsp; - <?=$this->employeeDetail['emp_fname']?>&nbsp;<?=$this->employeeDetail['emp_mname']?>&nbsp;<?=$this->employeeDetail['emp_lname']?> </h1>
+		</div>
+		<div class="ms-auto pageheader-btn">
+                            <?=x(array('link'=>'erp_employee/master/list','label'=>'<button class="btn btn-info pull-right" style="margin-bottom: 10px;    margin-right: 1em; ">Back</button>'))?>
+                            </div>
+	</div>
+
+	<div class="row row-sm">
+
+		<div class="col-xxl-4 col-xl-12">
+			<div class="card custom-card">
+				<div class="card-body">
+					<div class="col-12">
+						<ul class="nav nav-tabs tab-style-1 d-sm-flex d-block"
+							role="tablist">
+							<li class="nav-item" role="presentation"><a
+								class="nav-link active" data-bs-toggle="tab"
+								data-bs-target="#Summary" aria-current="page" href="#Summary"
+								aria-selected="true" role="tab">Summary</a></li>
+							<li class="nav-item" role="presentation"><?=accx('erp_employee/master/empcontact', '<a class="nav-link ' . @$this->contact_class . '"
+						data-bs-toggle="tab" href="#menu1" data-bs-target="#menu1" onclick= "getContent(\'' . APPURL . 'erp_employee/master/empcontact\',\'' . $this->param['ref'] . '\',\'menu1\')" aria-selected="false" role="tab" tabindex="-1">Address</a>');?></li>
+							<li class="nav-item" role="presentation"><?=accx('erp_employee/master/empdocs', '<a class="nav-link ' . @$this->doc_class . ' "
+						data-bs-toggle="tab" href="#menu2" data-bs-target="#menu2" onclick= "getContent(\'' . APPURL . 'erp_employee/master/empdocs\',\'' . $this->param['ref'] . '\',\'menu2\')" aria-selected="false" role="tab" tabindex="-1">Documents</a>');?></li>
+							<li class="nav-item" role="presentation"><?=accx('erp_employee/salary/emppay', '<a class="nav-link ' . @$this->sal_class . ' "
+						data-bs-toggle="tab" href="#menu3" data-bs-target="#menu3" onclick= "getContent(\'' . APPURL . 'erp_employee/salary/emppay\',\'' . $this->param['ref'] . '\',\'menu3\')" aria-selected="false" role="tab" tabindex="-1">Pay</a>');?></li>
+							<li class="nav-item" role="presentation"><?=accx('erp_employee/master/profile', '<a class="nav-link ' . @$this->profile_class . ' "
+						data-bs-toggle="tab" href="#Profile" data-bs-target="#Profile" onclick= "getContent(\'' . APPURL . 'erp_employee/master/profile\',\'' . $this->param['ref'] . '\',\'Profile\')" aria-selected="false" role="tab" tabindex="-1">Profile</a>');?></li>
+						</ul>
+					</div>
+					<div class="tab-content mb-3">
+						<div class="tab-pane active show" id="Summary" role="tabpanel">
+							<div class="panel-group1" id="accordion1">
+								<div class="panel panel-default mb-4">
+									<div class="panel-heading1">
+										<h4 class="panel-title1">
+											<a class="accordion-toggle collapsed"
+												data-bs-toggle="collapse" data-bs-parent="#accordion"
+												href="#collapseFive" aria-expanded="false">Employee
+												Information</a>
+										</h4>
+									</div>
+									<div id="collapseFive" class="panel-collapse collapse show"
+										role="tabpanel" aria-expanded="false">
+										<div class="panel-body mb-3">
+											<label>Documets Details</label>
+											<table class="table table-bordered">
+												<thead>
+													<tr>
+														<th width="8%" class="center">Document Type.</th>
+														<th width="5%" class="center">Doc No.</th>
+														<th width="15%" class="center">Desc</th>
+														<th width="7%" class="center">Issue Date</th>
+														<th width="7%" class="center">Expiry Date</th>
+														<th width="5%" class="center">Edit</th>
+														<th width="5%" class="center">View</th>
+														<th width="5%" class="center">Download</th>
+													</tr>
+												</thead>
+												<tbody>
+												<?php
+            foreach ($this->empDocs as $doc) :
+                $doi = '';
+                if ($doc['doc_issue_date']) {
+                    $doi = DateTime::createFromFormat(DFS_DB, $doc['doc_issue_date']);
+                    $doi = $doi->format(DF_DD);
+                }
+                $doe = '';
+                if ($doc['doc_expiry_date']) {
+                    $doe = DateTime::createFromFormat(DFS_DB, $doc['doc_expiry_date']);
+                    $doe = $doe->format(DF_DD);
+                }
+                $encFileId = $this->encode($doc['file_id']);
+                $encDocId = $this->encode($doc['doc_id']);
+                ?>
+												<tr>
+														<td>
+														<?=x(array('link'=>'erp_employee/master/empdocview','ref'=>$encDocId,'label'=>$this->docMst[$doc['doc_type']],array("param"=>'class="facebox"')))?>
+													</td>
+														<td><?=$doc['doc_no']?></td>
+														<td><?=$doc['doc_desc']?><?//=$this->encode($doc['file_id'])?></td>
+														<td class="center"><?=$doi?></td>
+														<td class="center"><?=$doe?></td>
+														<td class="center"> <?=x(array('link'=>'erp_employee/master/empdocsedit','ref'=>$encDocId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?></td>
+														<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$doc['file_exten'])))?></td>
+														<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?></td>
+													</tr>
+												<?php endforeach;?>
+											</tbody>
+											</table>
+										</div>
+									<?php if($this->employeeDetail['emp_mstatus']):?>
+									<table class="bg-blue-light"
+											style="margin-bottom: 2px; /*! margin-left: 1%; */ /*! margin-right: 2%; */ padding-bottom: 0px;"
+											width="100%" cellspacing="0" cellpadding="4" border="0">
+											<tbody>
+												<tr>
+													<td align="center">
+														<div class="status-widget-15" style="width: 98%">
+															<div class="content-div box-shadow">
+																<div class="wid-title">
+																	<small class="text-muted"><?=$this->employeeDetail['emp_mstatus']?></small>
+																</div>
+																<table class="wid-content">
+																	<tbody>
+																		<tr>
+																			<td style="background-color: ghostwhite;" width="29%"><?=$this->employeeDetail['sts_start_date']?> - <?=$this->employeeDetail['sts_end_date']?></td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									<?php endif?>
+									<table class="table table-bordered"
+											style="max-width: 60%; float: left;">
+											<thead>
+												<tr>
+													<th>Employee No</th>
+													<th> <?=$this->employeeDetail['emp_no']?></th>
+												</tr>
+												<tr>
+													<th>First Name</th>
+													<th><?=$this->employeeDetail['emp_fname']?></th>
+												</tr>
+												<tr>
+													<th>Middle Name</th>
+													<th><?=$this->employeeDetail['emp_mname']?></th>
+												</tr>
+												<tr>
+													<th>Last Name</th>
+													<th><?=$this->employeeDetail['emp_lname']?></th>
+												</tr>
+												<tr>
+													<th>Nationality</th>
+													<th> <?=$this->nation[$this->employeeDetail['emp_nationality']]?></th>
+												</tr>
+												<tr>
+													<th>Date of Birth</th>
+													<th><?=$dob?></th>
+												</tr>
+												<tr>
+													<th>Date of Joining</th>
+													<th><?=$doj?></th>
+												</tr>
+												<tr>
+													<th>Company</th>
+													<th><?=$this->employeeDetail['comp_name']?></th>
+												</tr>
+												<tr>
+													<th>Department</th>
+													<th><?=$this->employeeDetail['dept_name']?></th>
+												</tr>
+												<tr>
+													<th>Designation</th>
+													<th><?=$this->employeeDetail['desig_name']?>
+													
+													<?php if($this->employeeDetail['emp_desig']==8 || $this->employeeDetail['emp_desig']==9): ?>
+													<?=x(array('link'=>'erp_employee/master/vehiclereg','ref'=>$this->param['ref'],'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>
+													<?php endif;?>
+													
+												</th>
+												</tr>
+												<tr>
+													<th>Status</th>
+													<th><?php if(!$this->employeeDetail['emp_mstatus']):?> Active <?php else:?> <?=$this->employeeDetail['emp_mstatus']?> <?php endif;?></th>
+												</tr>
+												<tr>
+													<th>File No.</th>
+													<th><?=$this->employeeDetail['emp_fileno']?></th>
+												</tr>
+												<tr>
+													<th>Mobile No.</th>
+													<th><?=$this->employeeDetail['emp_mobileno']?></th>
+												</tr>
+												<tr>
+													<th>Bank Account</th>
+													<th><?=$this->employeeDetail['emp_bank']?> : <?=$this->employeeDetail['emp_branch']?> : <?=$this->employeeDetail['emp_accountno']?></th>
+												</tr>
+											</thead>
+										</table>
+									
+									<?php if($this->employeeDetail['emc_status']<>1 && ( $this->employeeDetail['emp_desig']==8 || $this->employeeDetail['emp_desig']==9)): ?>
+									<?=x(array('link'=>'erp_employee/master/empcontract','ref'=>$this->param['ref'],'label'=>'<button class="btn btn-success pull-right"> Contract Status</button>',array("param"=>'class="facebox"')))?>
+									<?php endif;?>
+									
+									<div>
+											<table class="" style="max-width: 40%; display: table;">
+												<thead>
+													<tr>
+														<th class="center"><div>
+																<img alt=""
+																	src="<?=IMAGEURL?><?=$this->encode($this->empImage['file_id']);?>"
+																	width="300">
+															</div></th>
+													</tr>
+												</thead>
+											</table>
+										</div>
+										<div style="display: table; width: 100%;">
+											<label>Pay Details</label>
+											<table class="table table-bordered">
+												<thead>
+													<tr>
+														<th width="5%" class="center">Date(wef)</th>
+														<th width="5%" class="center">Particulers</th>
+														<th width="5%" class="center">Basic</th>
+														<th width="5%" class="center">DA</th>
+														<th width="5%" class="center">HRA</th>
+														<th width="5%" class="center">TA</th>
+														<th width="5%" class="center">Allow. 1</th>
+														<th width="5%" class="center">Allow. 2</th>
+														<th width="5%" class="center">Allow. 3</th>
+														<th width="5%" class="center">Total</th>
+														<th width="8%" class="center">Next Rev</th>
+														<th width="8%" class="center">Remarks</th>
+													</tr>
+												</thead>
+												<tbody>
+												<?
+            if ($this->empSal) :
+                if ($this->empSal['pay_wef']) {
+                    $wef = DateTime::createFromFormat(DFS_DB, $this->empSal['pay_wef']);
+                    $wef = $wef->format(DF_DD);
+                }
+                if ($this->empSal['pay_dor']) {
+                    $dor = DateTime::createFromFormat(DFS_DB, $this->empSal['pay_dor']);
+                    $dor = $dor->format(DF_DD);
+                }
+                ?>
+												<tr>
+														<td class="center"><?=$wef?></td>
+														<td><?=$this->payParticulers[$this->empSal['pay_type']]?></td>
+														<td><?=$this->empSal['pay_basic']?></td>
+														<td><?=$this->empSal['pay_da']?></td>
+														<td><?=$this->empSal['pay_hra']?></td>
+														<td><?=$this->empSal['pay_ta']?></td>
+														<td><?=$this->empSal['pay_allw1']?></td>
+														<td><?=$this->empSal['pay_allw2']?></td>
+														<td><?=$this->empSal['pay_allw3']?></td>
+														<th><?=$this->empSal['pay_total']?></th>
+														<td class="center"><?=$dor?></td>
+														<td><?=$this->empSal['pay_remarks']?></td>
+													</tr>
+												<?endif?>
+											</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							
+							<?php if (count($this->empStatus)>0):?>
+							<div class="panel panel-default mb-4">
+									<div class="panel-heading1">
+										<h4 class="panel-title1">
+											<a class="accordion-toggle collapsed"
+												data-bs-toggle="collapse" data-bs-parent="#accordion"
+												href="#collapseTwo" aria-expanded="false">Employee Status</a>
+										</h4>
+									</div>
+									<div id="collapseTwo" class="panel-collapse collapse"
+										role="tabpanel" aria-expanded="false">
+										<div class="panel-body">
+											<span class="" style="float: right;">
+											<?=x(array('link'=>'erp_employee/master/leavestatus','ref'=>$this->param['ref'],'label'=>'Leave Summary',array("param"=>'class="facebox"')))?>
+										</span>
+											<table class="table table-bordered">
+												<thead>
+													<tr>
+														<th class="center" width="5%">Type</th>
+														<th class="center" width="15%">Remarks</th>
+														<th class="center" width="8%">With Effect From</th>
+														<th class="center" width="8%">End Date</th>
+														<th class="center" width="8%">Appl Date</th>
+														<th class="center" width="8%">Approval Date</th>
+														<th class="center" width="8%">Edit</th>
+													</tr>
+												</thead>
+												<tbody>
+												<?php
+        foreach ($this->empStatus as $this->status) :
+            $encStsId = $this->encode($this->status['sts_id']);
+            ?>
+												<tr>
+														<td align="center"><?=$this->status['emp_mstatus']?></td>
+														<td><?=$this->status['sts_remarks']?></td>
+														<td align="center"><?=$this->status['sts_start_date']?></td>
+														<td align="center"><?=$this->status['sts_end_date']?></td>
+														<td align="center"><?=$this->status['sts_apply_date']?></td>
+														<td align="center"><?=$this->status['sts_approval_date']?></td>
+														<td align="center">
+														<?=x(array('link'=>'erp_employee/master/statusedit','ref'=>$encStsId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>
+													</td>
+													</tr>
+												<?php endforeach;?>
+											</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							<?php endif;?>
+							<?php if (count($this->empContract)>0):?>
+							<div class="panel panel-default mb-4">
+									<div class="panel-heading1">
+										<h4 class="panel-title1">
+											<a class="accordion-toggle collapsed"
+												data-bs-toggle="collapse" data-bs-parent="#accordion"
+												href="#collapseThree" aria-expanded="false">Contract Status</a>
+										</h4>
+									</div>
+									<div id="collapseThree" class="panel-collapse collapse"
+										role="tabpanel" aria-expanded="false">
+										<div class="panel-body">
+											<table class="table table-bordered">
+												<thead>
+													<tr>
+														<th class="center" width="5%">Machine</th>
+														<th class="center" width="8%">Customer</th>
+														<th class="center" width="8%">Project</th>
+														<th class="center" width="5%">Location</th>
+														<th class="center" width="5%">Start</th>
+														<th class="center" width="10%">Remarks</th>
+														<th class="center" width="2%">Modify</th>
+														<th class="center" width="5%">End</th>
+														<th class="center" width="10%">Remarks</th>
+														<th class="center" width="2%">Update</th>
+													</tr>
+												</thead>
+												<tbody>
+												<?php
+        foreach ($this->empContract as $this->status) :
+            $encEmcId = $this->encode($this->status['emc_id']);
+            ?>
+												<tr>
+														<td align="center"><?=$this->status['vhl_no']?></td>
+														<td align="left"><?=$this->status['cust_name']?></td>
+														<td align="center"><?=$this->status['emc_project']?></td>
+														<td align="center"><?=$this->status['emc_location']?></td>
+														<td align="center"><?=$this->status['emc_date_start']?></td>
+														<td align="center"><?=$this->status['emc_note']?></td>
+														<td align="center">
+														<?=x(array('link'=>'erp_employee/master/empcontractedit','ref'=>$encEmcId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>
+													</td>
+														<td align="center"><?=$this->status['emc_date_end']?></td>
+														<td align="center"><?=$this->status['emc_note2']?></td>
+														<td align="center">
+														<?=x(array('link'=>'erp_employee/master/empcontractupdate','ref'=>$encEmcId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>
+													</td>
+													</tr>
+												<?php endforeach;?>
+											</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							<?php endif;?>
+						</div>
+						</div>
+						<div class="tab-pane" id="menu1" role="tabpanel"></div>
+						<div class="tab-pane" id="menu2" role="tabpanel"></div>
+						<div class="tab-pane" id="menu3" role="tabpanel"></div>
+						<div class="tab-pane" id="Profile" role="tabpanel"></div>
+					</div>
+        	<?php $UPDTYPE = UPD_TYP_EMP; $UPDREFID = $this->decEmpId; ?>
+        	<?php  viewAction(array('module'=>'erp_manage', 'controller'=>'updates', 'action'=>'updates', 'param'=>array('type'=>$UPDTYPE,'ref'=>$UPDREFID)));?>
+		</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+function toggleContact(){
+	if($('#con_target').is(":visible"))
+		$('#con_target').hide();
+	else
+		$('#con_target').show();
+}
+function toggleAction(){
+	if($('#action_target').is(":visible"))
+		$('#action_target').hide();
+	else
+		$('#action_target').show();
+}
+function togglePay(){
+	if($('#pay_target').is(":visible"))
+		$('#pay_target').hide();
+	else
+		$('#pay_target').show();
+}
+function togglePhoto(){
+	if($('#photo_target').is(":visible"))
+		$('#photo_target').hide();
+	else
+		$('#photo_target').show();
+}
+function toggleProfile(){
+	if($('#show_profile').is(":visible"))
+		$('#show_profile').hide();
+	else
+		$('#show_profile').show();
+}
+</script>

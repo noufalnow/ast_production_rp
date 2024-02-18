@@ -1,0 +1,154 @@
+<div style="margin-top:1%;">
+	<div class="col-md-12 card filter-card" style="margin-bottom: 0px;">
+	<div class="card-block" style="padding-top: 1%;">
+	<div class="full-width">
+		<button name="cmdPrint" value="  Print  " onclick="$('#report').printElement();" class="btn btn btn-primary pull-right" style="padding: 2px 12px;">Print</button></div>
+			<h5 class="title-margin">Report: Property</h5>
+	</div>
+		<form method="get" id="filter" name="filter" action="">
+		<table>
+			<tr style="font-size: 0.8em;">
+				<th width="10%">No</th>
+				<th width="15%">Building</th>
+				<th width="10%">Category</th>
+				<th width="20%">Name</th>
+				<th width="15%">Status</th>
+				<th width="10%">Expiry Month</th>
+	
+				<th width="20%"></th>
+			</tr>
+			<tr>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_propno->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_building->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_prop_cat->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_propname->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_prop_status->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group">
+                	<?=$this->form->f_monthpick->show()?>
+              		</div>
+				</td>
+				<td align="center">
+	              <div class="form-group ">
+					<button class="btn <?= $this->filter_class?>" type="submit" >Filter</button>
+					<input class="btn btn-secondary" name="clear" type="submit" value="All"></input>
+	              </div>
+				</td>
+			</tr>
+		</table>
+		</form>
+	</div>
+
+<div class="col-md-12 " style="height: 100%; padding-left: 1%; padding-right: 1%;">
+<div id="report">
+<?php include __DIR__ . '/../../../public/css/printstyle_rpt.php.css';?>
+	<div  class="card" style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
+					<div style="margin-top: 3%;">
+						<table class="rpt_tbl">
+				<thead>
+					<tr>
+						<th width="1%" rowspan="3">
+							<div class="title-margin">
+								<img width="50" alt=""
+									src="http://<?=$_SERVER ['HTTP_HOST']?>/css/images/ast.png"
+									style="padding-top: 6px; padding-left: 0px; margin-left: 42px; margin-top: 5px;">
+							</div>
+						</th>
+					</tr>
+					<tr>
+						<th ><div class="center" style="width: 79%;">Abdullah
+								Salem Trading Est</div></th>
+					</tr>
+					<tr>
+						<th width=""><div class="center"
+								style="margin-top: 0px; margin-bottom: 10px; width: 79%;">Property Report</div></th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<table class="rpt_frame">
+			<thead>
+				<tr>
+					<th class="empty" colspan="11"></th>
+				</tr>
+				<tr>
+					<th width="5%" class="center">Sl No</th>
+					<th width="6%" class="center">File No</th>
+					<th width="6%" class="center">Property No</th>
+					<th width="6%" class="center">Cat.</th>
+					<th width="10%" class="center">Builging Name</th>
+					<th width="10%" class="center">Property Name</th>
+					<th width="8%" class="center">Status</th>
+					<th width="10%" class="center">Agreement No.</th>
+					<th width="6%" class="center">Agreement By</th>
+					<th width="6%" class="center">Ag.Start Date</th>
+					<th width="6%" class="center">Ag.End Date</th>
+				</tr>
+			</thead>
+			<tbody>
+			<? if(count($this->propertyList)>0):?>
+				<?php foreach($this->propertyList as $property):
+				?>
+				<tr>
+					<td class="center"><?=@++$offset;?></td>
+					<td><?=$property['prop_fileno']?></td>
+					<td><?=$property['prop_no']?></td>
+					<td><? echo $property['prop_cat']==1?"Shop":"Flat";?></td>
+					<td><?=$property['bld_name']?></td>
+					<td><?=$property['prop_name']?></td>
+					<td><?=$property['property_status']?></td>
+					<?php if($property['prop_status']==2):?>
+						<td><?=$property['doc_no']?></td>
+						<td><?=$property['agr_tenant']?></td>
+						<td><?=$property['doc_issue_date']?></td>
+						<td><?=$property['doc_expiry_date']?></td>
+					<?php else:?>
+						<td colspan="4"></td>
+					<?php endif?>
+
+				</tr>
+				<?php endforeach?>
+			<?endif?>
+			</tbody>
+		</table>
+		<div>
+			<table class="rpt_tbl">
+				<thead>
+					<tr><?php $date = new DateTime();
+					$date = $date->format('d/m/y')?>
+						<th><div class="title-margin rpt_footer"><h5>Property MIS Report (<?=$date?>)</h5></div></th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+</form>
+<script type="text/javascript">           
+$(document).ready(function() {
+    $('#f_monthpick').MonthPicker({ Button: false });
+});
+</script>
+

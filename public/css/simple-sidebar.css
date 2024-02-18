@@ -1,0 +1,182 @@
+/*!
+ * Start Bootstrap - Simple Sidebar HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+/* Toggle Styles */
+
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+	padding-top: 50px;
+}
+
+#wrapper.toggled {
+    padding-left: 250px;
+}
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    left: 250px;
+    width: 0;
+    height: 100%;
+    margin-left: -250px;
+    overflow-y: auto;
+    background: white;
+    /*border-right: 1px solid #ccc;*/
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    width: 250px;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 15px;
+}
+
+#wrapper.toggled #page-content-wrapper {
+    position: absolute;
+    margin-right: -250px;
+}
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    margin-left: 3px;
+	padding-right: 6px;
+}
+
+/*.sidebar-nav li {
+    text-indent: 20px;
+    line-height: 40px;
+    padding-bottom: 1px;  
+    padding-top: 1px;
+	/*border-bottom: 1px solid rgb(204, 204, 204);*//*
+	background: linear-gradient(45deg, #d8dae3, #e3b6f7) !important;
+	 border-radius: 20px;
+}*/
+
+.sidebar-nav li {
+  text-indent: 20px;
+  line-height: 40px;
+  border: 1px solid rgb(204, 204, 204);
+  border-radius: 20px;
+  margin-bottom: 1px;
+  text-decoration: none;
+}
+
+.sidebar-nav a li  {
+    display: block;
+    text-decoration: none;
+    color: #999999;
+    border-radius: 20px;
+}
+.sidebar-nav a:link{
+  text-decoration: none!important;
+}
+
+
+.sidebar-nav a li:hover {
+    text-decoration: none;
+    color: #666;
+    background: linear-gradient(45deg, #d8dae3, #e3b6f7) !important
+}
+
+.sidebar-nav li.active {
+    text-decoration: none;
+    color: white;
+
+	background: linear-gradient(45deg, #303f9f, #7b1fa2) !important;
+	font-size: larger;
+	font-weight: bold;
+	border: none;
+    
+    /*
+    background: #f9f9f9;
+    border-left: 5px solid #5cb85c;
+    border-right: 5px solid #5cb85c;*/
+}
+
+.sidebar-nav a li:active,
+.sidebar-nav a li:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav > .sidebar-brand {
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px;
+	background:#fff; margin:0;
+}
+
+.sidebar-nav > .sidebar-brand p {
+    color: #999999;
+	background:#fff; margin:0;
+}
+
+.sidebar-nav > .sidebar-brand a:hover {
+    color: #fff;
+    background: none;
+}
+
+@media(min-width:768px) {
+    #wrapper {
+        padding-left: 15%;
+        padding-top: 2em;
+    }
+
+    #wrapper.toggled {
+        padding-left: 0;
+    }
+
+    #sidebar-wrapper {
+        width: 15%;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        width: 0;
+    }
+
+    #page-content-wrapper {
+        padding: 20px;
+        position: relative;
+    }
+
+    #wrapper.toggled #page-content-wrapper {
+        position: relative;
+        margin-right: 0;
+    }
+}
+
+#sidebar-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+#sidebar-wrapper {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  border: 1px solid #d2c7c7;
+  border-radius: 20px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  
+}
+

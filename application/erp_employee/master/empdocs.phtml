@@ -1,0 +1,741 @@
+<div style="padding-top: 3px;">
+	<a onclick="toggleAction();" href="javascript: void(0)"><button class="btn btn-success pull-right" style="margin-left: 5px;">Add Documents</button></a>
+	<a onclick="togglePhoto();" href="javascript: void(0)"><button class="btn btn-success pull-right">Upload Photo</button></a>	
+</div>
+
+<div id="photo_target" class="card" style="top: 38px; margin-bottom: 40px; <?=$this->imgDisplay?>">
+		<div class="card-block">
+			<h5>Add Photo</h5>
+			<form name="imgform" method="post" id="imgform" action='erp_employee/master/empdocs/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;" enctype="multipart/form-data">
+			<div class="panel-body">
+				<table style="max-width: 60%; float: left;" class="table">
+					<thead>
+						<tr>
+							<td><?=$this->imgform->photo->show()?></td>
+						</tr>
+						<tr>
+							<td>
+								<input type="hidden" name="image" value="image">
+								<button type="button" onclick="formSubmit(this,'menu2');return false;" class="btn  btn-primary" style="" 	>Upload</button>
+							</td>
+							</tr>
+					</thead>
+				</table>
+				<div>
+					<table class="" style="max-width: 40%; display: table;">
+						<thead>
+							<tr>
+								<th class="center"><div>
+										<img width="244" alt="" src="<?=IMAGEURL?><?=$this->encode($this->empImage['file_id']);?>">
+									</div></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+				<input type="hidden" name="tab" value="doc">
+			</form>
+		</div>
+</div>	
+<div id="action_target" class="card" style="top: 38px; margin-bottom: 40px; <?=$this->docDisplay?>">
+		<div class="card-block">
+			<h5>Add Documents</h5>
+			<form name="docform" method="post" id="docform" action='erp_employee/master/empdocs/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;" enctype="multipart/form-data">
+				<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-2 form-label" >Document Type</label>
+					<div class="col-sm-4">
+                    <?=$this->form->doctype->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Document No.</label>
+					<div class="col-sm-4">
+                    <?=$this->form->docno->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Description</label>
+					<div class="col-sm-4">
+                    <?=$this->form->docdesc->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Remarks</label>
+					<div class="col-sm-4">
+                    <?=$this->form->docremark->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Issue Authority</label>
+					<div class="col-sm-4">
+                    <?=$this->form->auth->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Date of apply</label>
+					<div class="col-sm-4">
+                    <?=$this->form->doa->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Date of Issue</label>
+					<div class="col-sm-4">
+                    <?=$this->form->doi->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Date of expiry</label>
+					<div class="col-sm-4">
+                    <?=$this->form->doe->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Upload Document</label>
+					<div class="col-sm-4">
+                    <?=$this->form->my_files->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Alert days</label>
+					<div class="col-sm-4">
+                    <?=$this->form->alert->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<div class="col-md-9"></div>
+					<div class="col-md-3">	
+						<button type="button" onclick="formSubmit(this,'menu2');return false;" style="padding-left: 15px;" class="btn btn-primary pull-right">Add Document</button>
+					</div>
+				</div>
+				<input type="hidden" name="tab" value="doc">
+			</form>
+		</div>
+	</div>
+	<div class="full-width" style="padding-top: 2px; border-bottom-width: 0px; padding-bottom: 2px;">
+		<div class="col-md-13">
+			<div id="accordion" class="panel-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title1">
+							<a href="#collapse2" data-parent="#" data-toggle="collapse">Passport</a>
+						</h4>
+					</div>
+					<div class="panel-collapse" id="collapse2">
+						<div class="panel-body">
+	
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="5%"class="center">Passport No.</th>
+										<th width="15%"class="center">Desc</th>
+										<th width="10%"class="center">Issue Date </th>
+										<th width="10%"class="center">Expiry Date</th>
+										<th width="5%"class="center">View</th>
+										<th width="5%"class="center">Delete</th>
+										<th width="5%"class="center">Download</th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php foreach ($this->ppDocs as $pp):
+								if($pp['doc_issue_date']){
+								$doi = DateTime::createFromFormat(DFS_DB,$pp['doc_issue_date']);
+								$doi = $doi->format(DF_DD);}
+								$doe = DateTime::createFromFormat(DFS_DB,$pp['doc_expiry_date']);
+								$doe = $doe->format(DF_DD);
+								$encFileId1 = $this->encode($pp['file_id']);
+								$encDocId1 = $this->encode($pp['doc_id']);
+								?>
+									<tr>
+										<td><?=x(array('link'=>'erp_employee/master/empdocview','ref'=>$encDocId1,'label'=>$pp['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<td><?=$pp['doc_desc']?></td>
+										<td class="center"><?=$doi?></td>
+										<td class="center"><?=$doe?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId1,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$pp['file_exten'])))?></td>
+										<td class="center">
+										<?if(!$delete1Off):?>
+											<?=x(array('link'=>'erp_employee/master/empdocdelete','ref'=>$encDocId1,'label'=>'<i class="glyphicon glyphicon-trash text-danger"></i>',array("param"=>'class="facebox"')))?>
+										<?endif?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId1,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>'))?></td>
+									</tr>
+								<?php 
+								$delete1Off = true;
+								endforeach;?>
+								</tbody>
+							</table>
+	
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title1">
+							<a href="#collapse3" data-parent="#" data-toggle="collapse">Visa</a>
+						</h4>
+					</div>
+					<div class="panel-collapse " id="collapse3">
+						<div class="panel-body">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="5%"class="center">Visa No.</th>
+										<th width="15%"class="center">Desc</th>
+										<th width="10%"class="center">Issue Date </th>
+										<th width="10%"class="center">Expiry Date</th>
+										<th width="5%"class="center">View</th>
+										<th width="5%"class="center">Delete</th>
+										<th width="5%"class="center">Download</th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php foreach ($this->visaDocs as $visa): 
+								$doi='';
+								if($visa['doc_issue_date']){
+								$doi = DateTime::createFromFormat(DFS_DB,$visa['doc_issue_date']);
+								$doi = $doi->format(DF_DD);}
+								$doe='';
+								if($visa['doc_expiry_date']){
+								$doe = DateTime::createFromFormat(DFS_DB,$visa['doc_expiry_date']);
+								$doe = $doe->format(DF_DD);}
+								$encFileId2 = $this->encode($visa['file_id']);
+								$encDocId2 = $this->encode($visa['doc_id']);
+								?>
+									<tr>
+										<td><?=x(array('link'=>'erp_employee/master/empdocview','ref'=>$encDocId2,'label'=>$visa['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<td><?=$visa['doc_desc']?></td>
+										<td class="center"><?=$doi?></td>
+										<td class="center"><?=$doe?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId2,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$visa['file_exten'])))?></td>
+										<td class="center">
+										<?if(!$delete2Off):?>
+											<?=x(array('link'=>'erp_employee/master/empdocdelete','ref'=>$encDocId2,'label'=>'<i class="glyphicon glyphicon-trash text-danger"></i>',array("param"=>'class="facebox"')))?>
+										<?endif?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId2,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>'))?></td>
+									</tr>
+								<?php 
+								$delete2Off = true;
+								endforeach;?>
+								</tbody>
+							</table>
+	
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title1">
+							<a href="#collapse4" data-parent="#" data-toggle="collapse">Resident ID</a>
+						</h4>
+					</div>
+					<div class="panel-collapse " id="collapse4">
+						<div class="panel-body">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="5%"class="center">WP No.</th>
+										<th width="15%"class="center">Desc</th>
+										<th width="10%"class="center">Issue Date </th>
+										<th width="10%"class="center">Expiry Date</th>
+										<th width="5%"class="center">View</th>
+										<th width="5%"class="center">Delete</th>
+										<th width="5%"class="center">Download</th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php foreach ($this->wpDocs as $wp): 
+								$doi='';
+								if($wp['doc_issue_date']){
+									$doi = DateTime::createFromFormat(DFS_DB,$wp['doc_issue_date']);
+									$doi = $doi->format(DF_DD);
+								}
+								if($wp['doc_expiry_date']){
+								$doe = DateTime::createFromFormat(DFS_DB,$wp['doc_expiry_date']);
+								$doe = $doe->format(DF_DD);}
+								$encFileId3 = $this->encode($wp['file_id']);
+								$encDocId3 = $this->encode($wp['doc_id']);
+								?>
+									<tr>
+										<td><?=x(array('link'=>'erp_employee/master/empdocview','ref'=>$encDocId3,'label'=>$wp['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<td><?=$wp['doc_desc']?></td>
+										<td class="center"><?=$doi?></td>
+										<td class="center"><?=$doe?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId3,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$wp['file_exten'])))?></td>
+										<td class="center">
+										<?if(!$delete3Off):?>
+											<?=x(array('link'=>'erp_employee/master/empdocdelete','ref'=>$encDocId3,'label'=>'<i class="glyphicon glyphicon-trash text-danger"></i>',array("param"=>'class="facebox"')))?>
+										<?endif?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId3,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>'))?></td>
+									</tr>
+								<?php 
+								$delete3Off = true;
+								endforeach;?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title1">
+							<a href="#collapse5" data-parent="#" data-toggle="collapse">Driving License</a>
+						</h4>
+					</div>
+					<div class="panel-collapse " id="collapse5">
+						<div class="panel-body">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="5%"class="center">License No.</th>
+										<th width="15%"class="center">Desc</th>
+										<th width="10%"class="center">Issue Date </th>
+										<th width="10%"class="center">Expiry Date</th>
+										<th width="5%"class="center">View</th>
+										<th width="5%"class="center">Delete</th>
+										<th width="5%"class="center">Download</th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php foreach ($this->dlDocs as $dl): 
+								if($dl['doc_issue_date']){
+								$doi = DateTime::createFromFormat(DFS_DB,$dl['doc_issue_date']);
+								$doi = $doi->format(DF_DD);
+								}
+								$doe = DateTime::createFromFormat(DFS_DB,$dl['doc_expiry_date']);
+								$doe = $doe->format(DF_DD);
+								$encFileId4 = $this->encode($dl['file_id']);
+								$encDocId4 = $this->encode($dl['doc_id']);
+								?>
+									<tr>
+										<td><?=x(array('link'=>'erp_employee/master/empdocview','ref'=>$encDocId4,'label'=>$dl['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<td><?=$dl['doc_desc']?></td>
+										<td class="center"><?=$doi?></td>
+										<td class="center"><?=$doe?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId4,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$dl['file_exten'])))?></td>
+										<td class="center">
+										<?if(!$delete4Off):?>
+											<?=x(array('link'=>'erp_employee/master/empdocdelete','ref'=>$encDocId4,'label'=>'<i class="glyphicon glyphicon-trash text-danger"></i>',array("param"=>'class="facebox"')))?>
+										<?endif?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId4,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>'))?></td>
+									</tr>
+								<?php 
+								$delete4Off = true;
+								endforeach;?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title1">
+							<a href="#collapse6" data-parent="#" data-toggle="collapse"> Insurance</a>
+						</h4>
+					</div>
+					<div class="panel-collapse " id="collapse6">
+						<div class="panel-body">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="5%"class="center">Insurance No.</th>
+										<th width="15%"class="center">Desc</th>
+										<th width="10%"class="center">Issue Date </th>
+										<th width="10%"class="center">Expiry Date</th>
+										<th width="5%"class="center">View</th>
+										<th width="5%"class="center">Delete</th>
+										<th width="5%"class="center">Download</th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php foreach ($this->insDocs as $docIn): 
+								if($docIn['doc_issue_date']){
+								$doi = DateTime::createFromFormat(DFS_DB,$docIn['doc_issue_date']);
+								$doi = $doi->format(DF_DD);
+								}
+								$doe = DateTime::createFromFormat(DFS_DB,$docIn['doc_expiry_date']);
+								$doe = $doe->format(DF_DD);
+								$encFileId5 = $this->encode($docIn['file_id']);
+								$encDocId5 = $this->encode($docIn['doc_id']);
+								?>
+									<tr>
+										<td><?=x(array('link'=>'erp_employee/master/empdocview','ref'=>$encDocId5,'label'=>$docIn['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<td><?=$docIn['doc_desc']?></td>
+										<td class="center"><?=$doi?></td>
+										<td class="center"><?=$doe?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId5,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$docIn['file_exten'])))?></td>
+										<td class="center">
+										<?if(!$delete5Off):?>
+											<?=x(array('link'=>'erp_employee/master/empdocdelete','ref'=>$encDocId5,'label'=>'<i class="glyphicon glyphicon-trash text-danger"></i>',array("param"=>'class="facebox"')))?>
+										<?endif?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId5,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>'))?></td>
+									</tr>
+								<?php 
+								$delete5Off = true;
+								endforeach;?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+					<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title1">
+							<a href="#collapse7" data-parent="#" data-toggle="collapse">PDO License</a>
+						</h4>
+					</div>
+					<div class="panel-collapse " id="collapse7">
+						<div class="panel-body">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="5%"class="center">PDO License No.</th>
+										<th width="15%"class="center">Desc</th>
+										<th width="10%"class="center">Issue Date </th>
+										<th width="10%"class="center">Expiry Date</th>
+										<th width="5%"class="center">View</th>
+										<th width="5%"class="center">Delete</th>
+										<th width="5%"class="center">Download</th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php foreach ($this->pdodlDocs as $docPdodl): 
+								if($docPdodl['doc_issue_date']){
+								$doi = DateTime::createFromFormat(DFS_DB,$docPdodl['doc_issue_date']);
+								$doi = $doi->format(DF_DD);
+								}
+								$doe = DateTime::createFromFormat(DFS_DB,$docPdodl['doc_expiry_date']);
+								$doe = $doe->format(DF_DD);
+								$encFileId6 = $this->encode($docPdodl['file_id']);
+								$encDocId6 = $this->encode($docPdodl['doc_id']);
+								?>
+									<tr>
+										<td><?=x(array('link'=>'erp_employee/master/empdocview','ref'=>$encDocId6,'label'=>$docPdodl['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<td><?=$docPdodl['doc_desc']?></td>
+										<td class="center"><?=$doi?></td>
+										<td class="center"><?=$doe?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId6,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$docPdodl['file_exten'])))?></td>
+										<td class="center">
+										<?if(!$delete6Off):?>
+											<?=x(array('link'=>'erp_employee/master/empdocdelete','ref'=>$encDocId6,'label'=>'<i class="glyphicon glyphicon-trash text-danger"></i>',array("param"=>'class="facebox"')))?>
+										<?endif?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId6,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>'))?></td>
+									</tr>
+								<?php 
+								$delete6Off = true;
+								endforeach;?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title1">
+							<a href="#collapse8" data-parent="#" data-toggle="collapse">PDO Passport</a>
+						</h4>
+					</div>
+					<div class="panel-collapse " id="collapse8">
+						<div class="panel-body">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="5%"class="center">PDO Passport No.</th>
+										<th width="15%"class="center">Desc</th>
+										<th width="10%"class="center">Issue Date </th>
+										<th width="10%"class="center">Expiry Date</th>
+										<th width="5%"class="center">View</th>
+										<th width="5%"class="center">Delete</th>
+										<th width="5%"class="center">Download</th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php foreach ($this->pdoppDocs as $docPPP): 
+								if($docPPP['doc_issue_date']){
+								$doi = DateTime::createFromFormat(DFS_DB,$docPPP['doc_issue_date']);
+								$doi = $doi->format(DF_DD);
+								}
+								$doe = DateTime::createFromFormat(DFS_DB,$docPPP['doc_expiry_date']);
+								$doe = $doe->format(DF_DD);
+								$encFileId7 = $this->encode($docPPP['file_id']);
+								$encDocId7 = $this->encode($docPPP['doc_id']);
+								?>
+									<tr>
+										<td><?=x(array('link'=>'erp_employee/master/empdocview','ref'=>$encDocId7,'label'=>$docPPP['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<td><?=$docPPP['doc_desc']?></td>
+										<td class="center"><?=$doi?></td>
+										<td class="center"><?=$doe?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId7,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$docPPP['file_exten'])))?></td>
+										<td class="center">
+										<?if(!$delete7Off):?>
+											<?=x(array('link'=>'erp_employee/master/empdocdelete','ref'=>$encDocId7,'label'=>'<i class="glyphicon glyphicon-trash text-danger"></i>',array("param"=>'class="facebox"')))?>
+										<?endif?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId7,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>'))?></td>
+									</tr>
+								<?php 
+								$delete7Off = true;
+								endforeach;?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title1">
+							<a href="#collapse9" data-parent="#" data-toggle="collapse">H2S Card </a>
+						</h4>
+					</div>
+					<div class="panel-collapse " id="collapse9">
+						<div class="panel-body">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="5%"class="center">H2S Card No.</th>
+										<th width="15%"class="center">Desc</th>
+										<th width="10%"class="center">Issue Date </th>
+										<th width="10%"class="center">Expiry Date</th>
+										<th width="5%"class="center">View</th>
+										<th width="5%"class="center">Delete</th>
+										<th width="5%"class="center">Download</th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php foreach ($this->h2sDocs as $docH2s): 
+								if($docH2s['doc_issue_date']){
+								$doi = DateTime::createFromFormat(DFS_DB,$docH2s['doc_issue_date']);
+								$doi = $doi->format(DF_DD);
+								}
+								$doe = DateTime::createFromFormat(DFS_DB,$docH2s['doc_expiry_date']);
+								$doe = $doe->format(DF_DD);
+								$encFileId8 = $this->encode($docH2s['file_id']);
+								$encDocId8 = $this->encode($docH2s['doc_id']);
+								?>
+									<tr>
+										<td><?=x(array('link'=>'erp_employee/master/empdocview','ref'=>$encDocId8,'label'=>$docH2s['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<td><?=$docH2s['doc_desc']?></td>
+										<td class="center"><?=$doi?></td>
+										<td class="center"><?=$doe?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId8,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$docH2s['file_exten'])))?></td>
+										<td class="center">
+										<?if(!$delete8Off):?>
+											<?=x(array('link'=>'erp_employee/master/empdocdelete','ref'=>$encDocId8,'label'=>'<i class="glyphicon glyphicon-trash text-danger"></i>',array("param"=>'class="facebox"')))?>
+										<?endif?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId8,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>'))?></td>
+									</tr>
+								<?php 
+								$delete8Off = true;
+								endforeach;?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title1">
+							<a href="#collapse10" data-parent="#" data-toggle="collapse">OXY Passport </a>
+						</h4>
+					</div>
+					<div class="panel-collapse " id="collapse10">
+						<div class="panel-body">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="5%"class="center">OXY Passport No.</th>
+										<th width="15%"class="center">Desc</th>
+										<th width="10%"class="center">Issue Date </th>
+										<th width="10%"class="center">Expiry Date</th>
+										<th width="5%"class="center">View</th>
+										<th width="5%"class="center">Delete</th>
+										<th width="5%"class="center">Download</th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php foreach ($this->oxyppDocs as $docOxypp): 
+								if($docOxypp['doc_issue_date']){
+								$doi = DateTime::createFromFormat(DFS_DB,$docOxypp['doc_issue_date']);
+								$doi = $doi->format(DF_DD);
+								}
+								$doe = DateTime::createFromFormat(DFS_DB,$docOxypp['doc_expiry_date']);
+								$doe = $doe->format(DF_DD);
+								$encFileId8 = $this->encode($docOxypp['file_id']);
+								$encDocId8 = $this->encode($docOxypp['doc_id']);
+								?>
+									<tr>
+										<td><?=x(array('link'=>'erp_employee/master/empdocview','ref'=>$encDocId8,'label'=>$docOxypp['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<td><?=$docOxypp['doc_desc']?></td>
+										<td class="center"><?=$doi?></td>
+										<td class="center"><?=$doe?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId8,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$docOxypp['file_exten'])))?></td>
+										<td class="center">
+										<?if(!$delete9Off):?>
+											<?=x(array('link'=>'erp_employee/master/empdocdelete','ref'=>$encDocId8,'label'=>'<i class="glyphicon glyphicon-trash text-danger"></i>',array("param"=>'class="facebox"')))?>
+										<?endif?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId8,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>'))?></td>
+									</tr>
+								<?php 
+								$delete9Off = true;
+								endforeach;?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+					<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title1">
+							<a href="#collapse11" data-parent="#" data-toggle="collapse">OXY License </a>
+						</h4>
+					</div>
+					<div class="panel-collapse " id="collapse11">
+						<div class="panel-body">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="5%"class="center">OXY License No.</th>
+										<th width="15%"class="center">Desc</th>
+										<th width="10%"class="center">Issue Date </th>
+										<th width="10%"class="center">Expiry Date</th>
+										<th width="5%"class="center">View</th>
+										<th width="5%"class="center">Delete</th>
+										<th width="5%"class="center">Download</th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php foreach ($this->oxyLicDocs as $docOxyLic):  
+								if($docOxyLic['doc_issue_date']){
+								$doi = DateTime::createFromFormat(DFS_DB,$docOxyLic['doc_issue_date']);
+								$doi = $doi->format(DF_DD);
+								}
+								$doe = DateTime::createFromFormat(DFS_DB,$docOxyLic['doc_expiry_date']);
+								$doe = $doe->format(DF_DD);
+								$encFileId8 = $this->encode($docOxyLic['file_id']);
+								$encDocId8 = $this->encode($docOxyLic['doc_id']);
+								?>
+									<tr>
+										<td><?=x(array('link'=>'erp_employee/master/empdocview','ref'=>$encDocId8,'label'=>$docOxyLic['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<td><?=$docOxyLic['doc_desc']?></td>
+										<td class="center"><?=$doi?></td>
+										<td class="center"><?=$doe?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId8,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$docOxyLic['file_exten'])))?></td>
+										<td class="center">
+										<?if(!$delete10Off):?>
+											<?=x(array('link'=>'erp_employee/master/empdocdelete','ref'=>$encDocId8,'label'=>'<i class="glyphicon glyphicon-trash text-danger"></i>',array("param"=>'class="facebox"')))?>
+										<?endif?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId8,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>'))?></td>
+									</tr>
+								<?php 
+								$delete10Off = true;
+								endforeach;?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+					<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title1">
+							<a href="#collapse9" data-parent="#" data-toggle="collapse">OXY H2S Card </a>
+						</h4>
+					</div>
+					<div class="panel-collapse " id="collapse9">
+						<div class="panel-body">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="5%"class="center"> OXY H2S Card No.</th>
+										<th width="15%"class="center">Desc</th>
+										<th width="10%"class="center">Issue Date </th>
+										<th width="10%"class="center">Expiry Date</th>
+										<th width="5%"class="center">View</th>
+										<th width="5%"class="center">Delete</th>
+										<th width="5%"class="center">Download</th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php foreach ($this->oxyH2sDocs as $docOxyH2s):  
+								if($docOxyH2s['doc_issue_date']){
+								$doi = DateTime::createFromFormat(DFS_DB,$docOxyH2s['doc_issue_date']);
+								$doi = $doi->format(DF_DD);
+								}
+								$doe = DateTime::createFromFormat(DFS_DB,$docOxyH2s['doc_expiry_date']);
+								$doe = $doe->format(DF_DD);
+								$encFileId8 = $this->encode($docOxyH2s['file_id']);
+								$encDocId8 = $this->encode($docOxyH2s['doc_id']);
+								?>
+									<tr>
+										<td><?=x(array('link'=>'erp_employee/master/empdocview','ref'=>$encDocId8,'label'=>$docOxyH2s['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<td><?=$docOxyH2s['doc_desc']?></td>
+										<td class="center"><?=$doi?></td>
+										<td class="center"><?=$doe?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId8,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$docOxyH2s['file_exten'])))?></td>
+										<td class="center">
+										<?if(!$delete11Off):?>
+											<?=x(array('link'=>'erp_employee/master/empdocdelete','ref'=>$encDocId8,'label'=>'<i class="glyphicon glyphicon-trash text-danger"></i>',array("param"=>'class="facebox"')))?>
+										<?endif?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId8,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>'))?></td>
+									</tr>
+								<?php 
+								$delete11Off = true;
+								endforeach;?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title1">
+							<a href="#collapse10" data-parent="#" data-toggle="collapse">Work Contract </a>
+						</h4>
+					</div>
+					<div class="panel-collapse " id="collapse10">
+						<div class="panel-body">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="5%"class="center"> Work Contract No.</th>
+										<th width="15%"class="center">Desc</th>
+										<th width="10%"class="center">Issue Date </th>
+										<th width="10%"class="center">Expiry Date</th>
+										<th width="5%"class="center">View</th>
+										<th width="5%"class="center">Delete</th>
+										<th width="5%"class="center">Download</th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php foreach ($this->workContrDocs as $docEmpContr):  
+								if($docEmpContr['doc_issue_date']){
+								$doi = DateTime::createFromFormat(DFS_DB,$docEmpContr['doc_issue_date']);
+								$doi = $doi->format(DF_DD);
+								}
+								$doe = DateTime::createFromFormat(DFS_DB,$docEmpContr['doc_expiry_date']);
+								$doe = $doe->format(DF_DD);
+								$encFileId8 = $this->encode($docEmpContr['file_id']);
+								$encDocId8 = $this->encode($docEmpContr['doc_id']);
+								?>
+									<tr>
+										<td><?=x(array('link'=>'erp_employee/master/empdocview','ref'=>$encDocId8,'label'=>$docEmpContr['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<td><?=$docEmpContr['doc_desc']?></td>
+										<td class="center"><?=$doi?></td>
+										<td class="center"><?=$doe?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId8,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$docEmpContr['file_exten'])))?></td>
+										<td class="center">
+										<?if(!$delete11Off):?>
+											<?=x(array('link'=>'erp_employee/master/empdocdelete','ref'=>$encDocId8,'label'=>'<i class="glyphicon glyphicon-trash text-danger"></i>',array("param"=>'class="facebox"')))?>
+										<?endif?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId8,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>'))?></td>
+									</tr>
+								<?php 
+								$delete11Off = true;
+								endforeach;?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">           
+</script>
+
+
+

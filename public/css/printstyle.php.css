@@ -1,0 +1,180 @@
+<style>
+body {
+	font-family: Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif;
+	margin: 0;
+}
+
+@font-face { font-family: f1; src: url('../../../../../css/fonts/A_Nefel_Sereke_Qelew.ttf'); }/* 
+@font-face { font-family: f2; src: url('../../../../../css/fonts/BEsfhnBd.ttf'); } 
+@font-face { font-family: f3; src: url('../../../../../css/fonts/BJadidBd.ttf'); }
+@font-face { font-family: f4; src: url('../../../../../css/fonts/BTitrBd.ttf'); } 
+@font-face { font-family: f5; src: url('../../../../../css/fonts/KacstOne.ttf'); } 
+@font-face { font-family: f6; src: url('../../../../../css/fonts/titr.ttf'); } 
+@font-face { font-family: f7; src: url('../../../../../css/fonts/SyawalKhidmat.ttf'); } 
+@font-face { font-family: f8; src: url('../../../../../css/fonts/alhambra.ttf'); } 
+@font-face { font-family: f9; src: url('../../../../../css/fonts/A_Nefel_Botan.ttf'); } 
+@font-face { font-family: f10; src: url('../../../../../css/fonts/BKoodkBd.ttf'); }*/ 
+@font-face { font-family: f11; src: url('../../../../../css/fonts/Ptbldhad.ttf'); }
+
+
+
+
+
+
+
+.card>.card-block>*:last-child, .card>*:last-child {
+	margin-bottom: 0 !important;
+}
+
+.card {
+	background-color: #fff;
+	border-radius: 3px;
+	margin-bottom: 30px;
+	position: relative;
+}
+
+table {
+	background-color: transparent;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table.rpt_tbl {
+	width: 100%;
+}
+
+th {
+	text-align: left;
+}
+
+td, th {
+	padding: 0;
+}
+
+.center {
+	text-align: center;
+}
+
+.title-margin {
+	margin-top: -25px;
+}
+
+table.rpt_frame {
+	margin-bottom: 20px;
+	max-width: 100%;
+	width: 100%;
+}
+
+table.rpt_frame tr {
+	border: 1px solid #777;
+}
+
+table.rpt_frame th, .rpt_frame td {
+	border: 1px solid #ababab;
+	font-size: 14px;
+	padding: 3px;
+}
+
+table.rpt_tbl {
+	width: 100%;
+}
+
+.rpt_footer {
+	margin-left: 6px;
+	margin-top: -20px;
+	padding-left: 0;
+}
+
+h5, .h5 {
+	font-size: 14px;
+}
+
+h4, .h4, h5, .h5, h6, .h6 {
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+	color: inherit;
+	font-family: inherit;
+	font-weight: 500;
+	line-height: 1.1;
+}
+
+@media print {
+	table.rpt_frame   thead {
+		display: table-header-group;
+	}
+	table.rpt_frame  thead th {
+		border-top-style: solid;
+		border-top-width: 2px;
+	}
+}
+
+table.rpt_frame  thead th.empty {
+	border-left: 1px solid white;
+	border-right: 1px solid white;
+	border-top: 1px solid white;
+}
+
+  table.rpt_tbl tr td, table.rpt_tbl tr th {
+        page-break-inside: avoid !important;
+    }
+    
+    
+    @media print {
+    table.rpt_tbl tbody tr td:before,
+    table.rpt_tbl tbody tr td:after {
+        content : "" ;
+        height : 4px ;
+        display : block ;
+    }
+    
+.watermark::after {
+	content: "";
+	background: url("../../css/images/ast.png");
+	opacity: 0.1;
+	top: 40%;
+	bottom: 0;
+	right: 32%;
+	position: absolute;
+	z-index: 1000;
+	background-repeat: no-repeat;
+	width: 36%;
+	background-size: contain;
+}
+    
+}
+
+.watermark::after {
+	content: "";
+	background: url("../../../../../css/images/ast.png");
+	opacity: 0.1;
+	top: 40%;
+	bottom: 0;
+	right: 32%;
+	position: absolute;
+	z-index: 1000;
+	background-repeat: no-repeat;
+	width: 36%;
+	background-size: contain;
+}
+
+.filter-card {
+	margin-bottom: 0px;
+	margin-bottom: 0px;
+	background-color: #e3eeec;
+	border-color: #8bd1ec;
+	margin-left: 1%;
+	margin-right: 15px;
+	padding-right: 15px;
+	width: 98%;
+	margin-bottom: 5px;
+}
+
+.filter-card tr { line-height: 18px; }
+
+</style>

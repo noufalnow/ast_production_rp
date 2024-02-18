@@ -1,0 +1,201 @@
+<div class="dynamic-popup" id="dynamic-popup">
+<?
+if($this->update){
+?>
+	<form name="form" method="post" style="margin-bottom: 0px;">
+	<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+		<h4 class="modal-title">Expense status updated successfully</h4>
+	</div>
+	<div class="modal-body">
+		<b>	File No : <?=$this->expNo;?> </b>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal" onClick="window.location.reload();" >Close</button>
+	</div>
+</form>	
+<?php 
+}
+else{
+
+?>
+<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+		<h4 class="modal-title"> &nbsp; Expense Details </h4>
+	</div>
+	<div class="modal-body">
+		<table class="table table-bordered">
+			<tr>
+				<th colspan="2"><?=$this->expenseDet['exp_file_no']?></th>
+				<th ><?=$this->expenseDet['exp_billdt']?></th>
+				<th><?=x(array('link'=>'default/default/download','ref'=>$this->encFileId,'label'=>'<i class="glyphicon glyphicon-file text-info"></i>'.$this->expenseDet['file_label'],array("param"=>'opener')))?></th>
+			</tr>
+			<tr>
+				<th width ="45%" colspan="2">Vender</th>
+				<th>Mode</th>
+				<th>Ref No</th>
+			</tr>
+			<tr>
+				<td colspan="2"><?=$this->expenseDet['ven_name']?></td>
+				<td><?=$this->expenseDet['pay_mod']?></td>
+				<td><?=$this->expenseDet['exp_refno']?></td>
+			</tr>
+			<tr>
+				<th>Comapny</th>
+				<th>Parent Category</th>
+				<th>Sub Category</th>
+				<th>Child Category</th>
+			</tr>
+			<tr>
+				<td><?=$this->expenseDet['comp_disp_name']?></td>
+				<td><font color="green"><?=$this->expenseDet['pcat']?></font></td>
+				<td><font color="green"><?=$this->expenseDet['scat']?></font></td>
+				<td><font color="green"><?=$this->expenseDet['ccat']?></font></td>
+			</tr>
+			<tr>
+				<th>Head</th>
+				<th>Details </th>
+				<th>Bill Amount</th>
+				<th>Credit Amount</th>
+			</tr>
+			<tr>
+				<td><?=$this->expenseDet['main_head']?></td>
+				<td><?=$this->expenseDet['exp_details']?></td>
+				<td><?=$this->expenseDet['exp_amount']?></td>
+				<td><?=$this->expenseDet['exp_credit_amt']?></td>
+			</tr>
+			<tr>
+				<th>Fund</th>
+				<th colspan="4" style="text-align: left;"><font color="teal"><?=$this->expenseDet['cb_det'];?></font></th>
+			</tr>
+			<tr>
+				<th>Cash Flow </th>
+				<th colspan="4" style="text-align: left;">
+    				<?php $encCfDetId = $this->encode($this->expenseDet['cf_id']);?>
+    				<?=x(array('link'=>'cashbook/billview','ref'=>$encCfDetId,'label'=>'<font color="teal">'.$this->expenseDet['cash_flow'].'</font> ',array("param"=>'class="facebox"')))?>
+				</th>
+			</tr>
+		</table>
+	<table class="table table-bordered">
+		<tr>
+			<th colspan="2">Particulers in Details</th>
+		</tr>
+		<tr>
+				<th>Name</th>
+				<th>Amount </th>
+		</tr>
+		<?php foreach ($this->expRefDetails as $det):?>
+		<tr>	
+			<?php if($this->expenseDet['exp_mainh']==1):?>
+				<td class="left"><?=$det['ref_name1']?> </td>
+			<?php endif?>
+			<?php if($this->expenseDet['exp_mainh']==2):?>
+				<td class="left"><?=$det['ref_name2']?> </td>
+			<?php endif?>
+			<?php if($this->expenseDet['exp_mainh']==3):?>
+				<td class="left"><?=$det['ref_name3']?> </td>
+			<?php endif?>
+			<td><?=$det['eref_amount'] ?> </td>
+		</tr>
+		<?php endforeach;?>
+		
+	</table>
+		
+		<table class="table table-bordered">
+			<tr>
+				<th colspan="4">Approval Details</th>
+			</tr>
+			<tr>
+				<th>Approved On </th>
+				<th><?=$this->expenseDet['app_dttime']?> </th>
+			</tr>
+		</table>
+	
+	<?php if(count($this->paymentDetails)>0):?>
+		<table class="table table-bordered">
+			<tr>
+				<th colspan="7">Payment Details</th>
+			</tr>
+			<tr>
+				<th>Payment Date </th>
+				<th>Credit</th>
+				<th>Debit</th>
+				<th>Discount</th>
+				<th>Balance</th>
+				<th>Remarks</th>
+				<th>Document</th>
+			</tr>
+			<?php foreach ($this->paymentDetails as $pdet):?>
+			<?php $encPFileId = $this->encode($pdet['file_id']);?>
+			<tr>
+				<td><?=$pdet['pay_paydate']?></td>
+				<td><?=$pdet['pdet_amt_topay']?></td>
+				<td><?=$pdet['pdet_amt_paid']?> <?php $total+=$pdet[pdet_amt_paid];?>  </td>
+				<td><?=$pdet['pdet_amt_dis']?></td>
+				<td><?=$pdet['pdet_amt_bal']?></td>
+				<td><?=$pdet['pay_remarks']?></td>
+				<td><?=x(array('link'=>'default/default/download','ref'=>$encPFileId,'label'=>'<i class="glyphicon glyphicon-file text-info">'.$pdet['file_label'],array("param"=>'opener')))?></td>
+				</tr>
+			<?php endforeach;?>
+			
+			<tr> <th colspan="2">Total</th><th> <?=$total?> </th><td colspan="4"></td> </tr>
+			
+		</table>
+	<?php endif?>
+	
+		<?php if($this->expUpDet['eup_id']):?>
+		<table class="table table-bordered">
+		<tr>
+			<th colspan="3">Transactions : <?=$this->expUpDet['tra_type']?></th>
+			<th> <?=x(array('link'=>'default/default/download','ref'=>$this->encUpdFileId,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$this->expUpDet['file_exten'])))?> </th>
+		</tr>
+		<tr>
+				<th>Event Date </th>
+				<th>Bill Amount </th>
+				<th>Adjusted Amount </th>
+				<th>Balance  Amount </th>
+		</tr>
+		<tr>
+				<td><?=$this->expUpDet['eup_date']?></td>
+				<td><?=$this->expUpDet['eup_exp_topay']?></td>
+				<td><?=$this->expUpDet['eup_exp_adjust']?></td>
+				<td><?=$this->expUpDet['eup_exp_credit']?></td>
+		</tr>
+		</table>
+		<?php endif?>
+	</div>
+	<div class="modal-body">
+	<form name="form" method="post" id="edit" action='erp_expense/expense/approval/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;">
+	<div style="margin-top: -4%;">
+			<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-3 form-label" >Status</label>
+					<div class="col-sm-9">
+                    <?=$this->form->status->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-3 form-label" >Note</label>
+					<div class="col-sm-9">
+                    <?=$this->form->note->show()?>
+                  </div>
+				</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary submit-alias livepost" >Approve</button>
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+	</div>
+</form>	
+</div>
+</div>
+<?}?>
+<style>
+th,td {
+    text-align: center;
+}
+td.left {
+    text-align: left;
+}
+.modal-dialog{
+	width: 75%;
+}
+</style>

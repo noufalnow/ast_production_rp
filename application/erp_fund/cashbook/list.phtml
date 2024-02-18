@@ -1,0 +1,72 @@
+<div class="card-block" style="padding-top: 2%;">
+	<div class="full-width">
+		<?=x(array('link'=>'erp_fund/cashbook/add','label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')))?>
+	</div>
+	<h5 class="title-margin">Personnel Cash Book</h5>
+</div>
+<form method="get" id="filter" name="filter" action="list">
+	<div class="col-md-12">
+	</div>
+
+<div class="col-md-12">
+	<div class="card">
+		<table class="table table-bordered grid">
+			<thead>
+				<tr>
+					<th width="5%" class="center">Sl No</th>
+					<th width="9%" class="center">Date</th>
+					<th width="15%" class="center">Debit</th>
+					<th width="15%" class="center">Credit</th>
+					<th width="15%" class="center">Det.</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?if(count( $this->cashBookList)>0):?>
+				<?php foreach( $this->cashBookList as $cashBook):
+					$encCbId = $this->encode($cashBook['cb_id']);
+				?>
+				<tr>
+					<td class="center"><?=@++ $this->offset;?></td>
+					<td><?=$cashBook['cb_dip_dt']?></td>
+					<td><?=$cashBook['cb_debit']?></td>
+					<td><?=$cashBook['cb_credit']?></td>	
+					<td><?=$cashBook['cb_debit_note']?> <?=$cashBook['exp_details']?>  <?=$cashBook['pay_remarks']?></td>
+						<?//=x(array('link'=>'erp_fund/cashbook/view','ref'=>$encCbId,'label'=>'<i class="fas fa-search"></i>',array("param"=>'class="facebox"')))?> 
+				</tr>
+				<?php endforeach?>
+			<?endif?>
+			</tbody>
+		</table>
+		<? $this->cashBookObj->pagination();?>
+	</div>
+</div>
+</form>
+
+<?php 
+$cashSummary=  $this->cashBookObj->getCashSummary();
+
+foreach ($cashSummary as $summary):
+
+$encRefId = $this->encode($summary['cb_type_ref']);
+echo x(array('link'=>'erp_fund/cashbook/cashreport','ref'=>$encRefId,'label'=>'
+	<div class="col-md-3">
+		<div class="card">
+				<div class="card-block" style="background-color: ;">
+				<div class="card-block">
+					<h4 class="card-title center">'.$summary['user_name'].'</h4>
+					<p class="card-text">
+						<h4 class="card-title center" style="color: red;">'.$summary['balance'].'</h4>
+					</p>
+				</div>
+			</div>
+		</div>
+', array("param"=>'wide_opener')),'<br><br>'); ?>
+</div>
+<?php 
+endforeach;
+?>
+<style>
+.modal-dialog{
+	width: 75%;
+}
+</style>

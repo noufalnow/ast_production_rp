@@ -1,0 +1,79 @@
+<div class="col-md-12">
+<div class="card-block " style="padding-top: 2%;">
+	<div class="full-width">
+		<?=x(array('link'=>'erp_masters/vendor/list','label'=>'<button class="btn btn-info pull-right" >Back</button>'))?>
+	</div>
+	<h5 class="title-margin">Vendor Details</h5>
+</div>	
+
+	<div class="card" style="padding: 3%;">
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Vendor Code</label>
+					<div class="col-sm-4">
+                     <?=$this->vendorDetail['ven_id']?>
+                  </div>
+					<label class="col-sm-2 form-label" >Vendor/Company</label>
+					<div class="col-sm-4">
+                     <?=$this->vendorDetail['ven_name']?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Name (C/o)</label>
+					<div class="col-sm-4">
+                    <?=$this->vendorDetail['con_name']?>
+                  </div>
+					<label class="col-sm-2 form-label" >Address</label>
+					<div class="col-sm-4">
+                    <?=$this->vendorDetail['con_house']?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Street</label>
+					<div class="col-sm-4">
+                    <?=$this->vendorDetail['con_street1']?>
+                  </div>
+					<label class="col-sm-2 form-label" >Place Name</label>
+					<div class="col-sm-4">
+                    <?=$this->vendorDetail['con_place']?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Locality</label>
+					<div class="col-sm-4">
+                      <?=$this->vendorDetail['con_locality']?>
+                  </div>
+					<label class="col-sm-2 form-label" >Zip Code</label>
+					<div class="col-sm-4">
+                      <?=$this->vendorDetail['con_zip_code']?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Phone No</label>
+					<div class="col-sm-4">
+                      <?=$this->vendorDetail['con_phone']?>
+                  </div>
+					<label class="col-sm-2 form-label" >Mobile No</label>
+					<div class="col-sm-4">
+                      <?=$this->vendorDetail['con_mobile']?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Remarks</label>
+					<div class="col-sm-4">
+                      <?=$this->vendorDetail['ven_remarks']?>
+                  </div>
+				</div>
+	</div>
+</div>
+
+<?php 
+$COMMDOCTYPE= DOC_TYPE_COM_VEN; $COMMDOCREFID=  $this->decVenId;
+viewAction(array('module'=>'erp_manage', 'controller'=>'documents', 
+    'action'=>'documents', 'param'=>array('type'=>$COMMDOCTYPE,'ref'=>$COMMDOCREFID)));?>
+
+
+<script type="text/javascript">
+$(document).ready(function($) {
+	$('.modal-dialog').css('width', '550px');
+})
+</script>

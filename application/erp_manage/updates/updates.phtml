@@ -1,0 +1,37 @@
+<div class="card-block">
+	<div class="full-width">
+		<?=x(array('link'=>'erp_manage/updates/add','ref'=>$this->encode($this->param['ref']).'/type/'.$this->encode($this->param['type']),'label'=>'<button class="btn btn-success pull-right" style="margin-top: -11px;" >Add</button>',array("param"=>'class="facebox"')))?>
+	<h5>Notes / Updates</h5>
+</div></div>
+<?if(count( $this->updateList)>0): 
+foreach ( $this->updateList as $update):
+$encupdateId = $this->encode($update['upd_id']);
+?>
+<div>
+	<div class="col-md-3">
+		<div class="card">
+			<div class="card-block">
+				<h4 class="card-title"><?=$update['user_name']?></h4>
+				<small class="text-muted"><?=$update['dt_created']?></small>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="card">
+			<div class="card-block">
+				<h4 class="card-title"><?=$update['upd_title']?>  
+				<?php if($update['upd_status']==100):?>
+					<i class="glyphicon glyphicon-ok text-success" style="float: right"></i>
+				<?php elseif($update['upd_reported']==USER_ID):?>
+					<?=x(array('link'=>'erp_manage/updates/edit','ref'=>$encupdateId,'label'=>'<i class="fas fa-edit" style="float: right"></i>',array("param"=>'class="facebox"')))?>
+				<?php endif?></h4>
+				<p class="card-text"><?=$update['upd_note']?></p>
+				<p class="card-text">
+					<small class="text-muted"><?=$update['upd_dttime']?>  <?if($update['upd_enddttime']) echo "-".$update['upd_enddttime'];?></small>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+<?php endforeach;?>
+<?php endif?>

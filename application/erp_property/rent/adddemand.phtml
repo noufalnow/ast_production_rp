@@ -1,0 +1,35 @@
+<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+	<form name="form" method="post" id="edit" action='erp_property/rent/adddemand/ref/<?=$this->param['ref'];?>' style="margin-bottom: 0px;">
+	<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+		<h4 class="modal-title">Payment Demand</h4>
+	</div>
+	<div class="modal-body">
+		<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-3 form-label" > Demand Amount
+						</label>
+					<div class="col-sm-3">
+						<?= $this->payoptionDet['popt_amount']?>
+                  	</div>
+		</div>
+		<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-3 form-label" > Due Date
+						</label>
+					<div class="col-sm-3">
+						<?= $this->payoptionDet['pay_date']?>
+                  	</div>
+		</div>
+		<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-3 form-label" > Demand Note 
+						</label>
+					<div class="col-sm-6">
+						<?=$this->form->note->show()?>
+                  	</div>
+		</div>	
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary submit-alias livepost" >Update</button>
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+	</div>
+</form>	
+</div>

@@ -1,0 +1,89 @@
+<?$offset = $this->userObj->_voffset;?>
+<div class="card-block" style="padding-top: 2%;">
+	<div class="full-width">
+		<?=x(array('link'=>'admin/users/add','label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')),'<br><br>')?>
+	</div>
+	<h5 class="title-margin">List of Users</h5>
+</div>
+<form method="get" id="filter" name="filter" action="">
+<div class="col-md-12 card filter-card">
+		<table class="">
+			<tr style="font-size: 0.8em;">
+				<th width="24%">Name</th>
+				<th width="24%" >User Name</th>
+				<th width="24%" >Role</th>
+				<th width="24%"></th>
+			</tr>
+			<tr>
+				<td>
+					<div class="form-group ">
+                   <?=$this->form->f_uname->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                <?=$this->form->f_desig->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                		<?=$this->form->f_desig->show()?>
+              		</div>
+				</td>
+				<td width="15%" align="center">
+	              <div class="form-group ">
+					<button class="btn <?=$this->filter_class?>" type="submit" >Filter</button>
+					<input class="btn btn-secondary" name="clear" type="submit" value="All"></input>
+	              </div>
+				</td>
+			</tr>
+		</table>
+	</div>
+<div class="col-md-12 list_table">
+	<div class="card">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th width="5%" class="center">Sl No</th>
+					<th width="15%" class="center">First Name</th>
+					<th width="15%" class="center">Last Name</th>
+					<th width="15%" class="center">User Name</th>
+					<th width="8%" class="center">Role</th>
+					<th width="6%" class="center">Edit</th>
+					<th width="6%" class="center">Reset</th>
+					<th width="5%" class="center">Status</th>
+					<th width="6%" class="center">View</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?if(count($this->usersList)>0):?>
+				<?foreach($this->usersList as $user):
+				$encUserId = $this->encode($user['user_id']); ?>
+				<tr>
+					<td class="center"><?=@++$offset;?></td>
+					<td><?=$user['user_fname']?></td>
+					<td><?=$user['user_lname']?></td>
+					<td><?=$user['user_uname']?></td>
+					<td><?=$this->roll[$user['user_desig']]?></td>
+					<td class="center">
+					<?php if($user['user_id']!=$_SESSION ['user_id']):?>
+						<?=x(array('link'=>'admin/users/edit','ref'=>array('ref'=>$encUserId),'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?></td>
+					<?php endif?>
+					<td class="center">
+					<?php if($user['user_id']!=$_SESSION ['user_id']):?>
+						<?=x(array('link'=>'admin/users/reset','ref'=>array('ref'=>$encUserId),'label'=>'<i class="glyphicon glyphicon-refresh text-success"></i>',array("param"=>'class="facebox"')))?></td>
+					<?php endif?>
+					<td class="center"><?if($user['user_status']==1):?><p class="text-success"> Enabled </p> <?else:?>
+					<p class="text-danger"> Disabled </p> <?endif?></td>
+					<td class="center">
+						<?=x(array('link'=>'admin/users/view','ref'=>array('ref'=>$encUserId),'label'=>'<i class="fas fa-search"></i>',array("param"=>'class="facebox"')))?> 
+					</td>
+				</tr>
+				<?endforeach?>
+			<?endif?>
+			</tbody>
+		</table>
+		<?$this->userObj->pagination();?>
+	</div>
+</div>
+</form>

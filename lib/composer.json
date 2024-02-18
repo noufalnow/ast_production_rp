@@ -1,0 +1,6 @@
+{
+    "require": {
+        "wixel/gump": "^1.11",
+        "phpmailer/phpmailer": "^6.7"
+    }
+}

@@ -1,0 +1,79 @@
+<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+	<form name="form" method="post" id="edit" name="edit" action='<?=APPURL?>users/edit/ref/<?=$ref?>' style="margin-bottom: 0px;">
+	<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+		<h4 class="modal-title">Documet Details</h4>
+	</div>
+	<div class="modal-body">
+				<div class="row mb-4">
+					<label class="col-sm-3 form-label" >Document Type</label>
+					<div class="col-sm-3">
+                    <?=$this->docMst[$this->documatesDetail['doc_type']]?>
+                  </div>
+					<label class="col-sm-3 form-label" >Document No.</label>
+					<div class="col-sm-3">
+                    <?=$this->documatesDetail['doc_no']?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-3 form-label" >Description</label>
+					<div class="col-sm-3">
+                    <?=$this->documatesDetail['doc_desc']?>
+                  </div>
+					<label class="col-sm-3 form-label" >Agreement Amount</label>
+					<div class="col-sm-3">
+                    <?=$this->documatesDetail['agr_amount']?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-3 form-label" >Rent Amount</label>
+					<div class="col-sm-3">
+                    <?=$this->documatesDetail['agr_rent']?>
+                  </div>
+					<label class="col-sm-3 form-label" >Remarks</label>
+					<div class="col-sm-3">
+                    <?=$this->documatesDetail['doc_remarks']?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-3 form-label" >Contract By</label>
+					<div class="col-sm-3">
+                    <?=$this->documatesDetail['doc_issue_auth']?>
+                  </div>
+
+					<label class="col-sm-3 form-label" >Date of Contract</label>
+					<div class="col-sm-3">
+                     <?=$this->doa?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-3 form-label" >Agreement Start</label>
+					<div class="col-sm-3">
+                      <?=$this->doi?>
+                  </div>
+					<label class="col-sm-3 form-label" >Agreement End</label>
+					<div class="col-sm-3">
+                      <?=$this->doe?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-3 form-label" >Alert Days</label>
+					<div class="col-sm-3">
+                      <?=$this->documatesDetail['doc_alert_days']?>
+                  </div>
+					<label class="col-sm-3 form-label" >Download</label>
+					<div class="col-sm-3">
+                    <?=x(array('link'=>'default/default/download','ref'=>$this->encFileId,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?>
+                  </div>
+				</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+	</div>
+</form>	
+</div>
+<script type="text/javascript">
+$(document).ready(function($) {
+	$('.modal-dialog').css('width', '60%');
+})
+</script>

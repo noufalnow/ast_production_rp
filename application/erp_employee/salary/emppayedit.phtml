@@ -1,0 +1,79 @@
+<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+	<form name="form" method="post" id="edit" action='erp_employee/salary/emppayedit/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;">
+			<div class="modal-content modal-content-demo">
+	<div class="modal-header">
+		<h4 class="modal-title">Update Pay details</h4>
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+	</div>
+	<div class="modal-body">
+			<div class="row mb-4">
+				<label class="col-sm-2 form-label" >Pay Particulers</label>
+					<div class="col-sm-2">
+                    <?=$this->form->paytran->show()?>
+                  </div>
+				<label class="col-sm-2 form-label" >Basic Pay</label>
+					<div class="col-sm-2">
+                    <?=$this->form->bp->show()?>
+                  </div>
+				<label class="col-sm-2 form-label" >DA</label>
+					<div class="col-sm-2">
+                    <?=$this->form->da->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >HRA</label>
+					<div class="col-sm-2">
+                    <?=$this->form->hra->show()?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >TA</label>
+					<div class="col-sm-2">
+                    <?=$this->form->ta->show()?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >Other Allowance 1</label>
+					<div class="col-sm-2">
+                    <?=$this->form->all1->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Other Allowance 2</label>
+					<div class="col-sm-2">
+                    <?=$this->form->all2->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Other Allowance 3</label>
+					<div class="col-sm-2">
+                    <?=$this->form->all3->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >With effect from</label>
+					<div class="col-sm-2">
+                    <?=$this->form->wef_e->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Next Revision</label>
+					<div class="col-sm-2">
+                    <?=$this->form->dor_e->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Remarks</label>
+					<div class="col-sm-6">
+                    <?=$this->form->remark->show()?>
+                  </div>
+				</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary submit-alias livepost" >Update</button>
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+	</div>
+</form>	
+</div>
+<script type="text/javascript">           
+$(document).ready(function() {
+	initDatePicker();
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function($) {
+	$('.modal-dialog').css('width', '80%');
+})
+</script>

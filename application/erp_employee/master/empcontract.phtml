@@ -1,0 +1,54 @@
+<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+	<form name="form" method="post" id="edit" action='erp_employee/master/empcontract/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;">
+	<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+		<h4 class="modal-title">Contract Status 
+		</h4>
+	</div>
+	<div class="modal-body">
+				<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-2 form-label" >Status</label>
+					<div class="col-sm-4">
+                    <?=$this->form->status->show()?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >Machine</label>
+					<div class="col-sm-4">
+                    <?=$this->form->vehicle->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Customer</label>
+					<div class="col-sm-4">
+                    <?=$this->form->customer->show()?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >Project</label>
+					<div class="col-sm-4">
+                    <?=$this->form->project->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Location</label>
+					<div class="col-sm-4">
+                    <?=$this->form->location->show()?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >Start Date</label>
+					<div class="col-sm-4">
+                    <?=$this->form->startDt->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Note</label>
+					<div class="col-sm-4">
+                    <?=$this->form->note->show()?>
+                  </div>
+				</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary submit-alias livepost" >Update</button>
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+	</div>
+</form>	
+</div>

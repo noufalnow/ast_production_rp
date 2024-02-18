@@ -1,0 +1,18 @@
+<?php
+require_once "../mheadder.php";
+if ($_POST) {
+	if (! isset ( $_SERVER ['HTTP_X_REQUESTED_WITH'] ) and strtolower ( $_SERVER ['HTTP_X_REQUESTED_WITH'] ) != 'xmlhttprequest') {
+		die ( '---' );
+	} else {
+		require_once '../model/documents';
+		$documentsObj = new documets();
+		$documentList  = $documentsObj->getDocumentsPair(array('doc_type'=>DOC_TYPE_COM_AGR, 'doc_ref_id'=>$_POST['refId'],'doc_ref_type'=>DOC_TYPE_COM));
+						
+		if(count($documentList))
+			foreach ($documentList as $key=> $val)
+				$data[] = array('key'=>$key,'value'=>$val);
+		$data = json_encode ( $data );
+		die ( $data );
+	}
+}
+?>

@@ -1,0 +1,37 @@
+<?
+require_once "../action/_employee.php";
+$ref = filter_input(INPUT_GET, 'ref', FILTER_SANITIZE_STRING);
+$var = emp_delete($ref);
+$employeeDetail = $var['employeeDetail'];
+$formRender = $var['formRender'];
+if ($formRender) :
+    ?>
+
+
+<div class="dynamic-popup" id="dynamic-popup">
+	<!--  -->
+	<form name="form" method="post" id="delete" name="delete"
+		action='employee/delete/ref/<?=$ref?>' style="margin-bottom: 0px;">
+
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h4 class="modal-title">Delete employee form the system</h4>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<b>Employee Name : <?=$employeeDetail['emp_fname']." ".$employeeDetail['emp_mname']." ".$employeeDetail['emp_lname']?></b>
+				</br> The delete action cannot be revert !!, Are you sure to delete
+				the employee permanently from the system? </br>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary submit-alias livepost">Confirm
+				</button>
+				<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+			</div>
+	</form>
+</div>
+
+
+<?endif?>

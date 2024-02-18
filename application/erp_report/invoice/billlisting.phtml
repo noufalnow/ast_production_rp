@@ -1,0 +1,199 @@
+<div style="margin-top:1%;">
+	<div class="col-md-12 card filter-card" style="margin-bottom: 0px;">
+	<div class="card-block" style="padding-top: 1%;">
+	<div class="full-width">
+		<button name="cmdPrint" value="  Print  " onclick="$('#report').printElement();" class="btn btn btn-primary pull-right" style="padding: 2px 12px;">Print</button></div>
+			<h5 class="title-margin">List of Invoices</h5>
+	</div>
+	<form method="get" id="filter" name="filter" action="employee">
+		<table class="">
+			<tr style="font-size: 0.8em;">
+				<th width="8%">Company</th>
+				<th width="15%">Customer</th>
+				<th width="8%">Bill No.</th>
+				<th width="10%">Ref No</th>
+			</tr>
+			<tr>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_company->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_customer->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_billno->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->f_refno->show()?>
+              		</div>
+				</td>
+			</tr>
+			</table>
+			<table class="">
+			<tr >
+				<th width="10%">Payment Type</th>
+				<th width="8%">Month</th>
+				<th width="9%">Item</th>
+				<th width="9%">Location</th>
+				<th width="10%"></th>
+			</tr>
+			<tr><td>
+					<div class="form-group ">
+                	<?=$this->form->f_paymode->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group">
+                	<?=$this->form->f_monthpick->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+						<?=$this->form->f_item->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group">
+                	<?=$this->form->f_location->show()?>
+              		</div>
+				</td>
+				<td width="5%" align="center">
+	              <div class="form-group ">
+					<button class="btn <?=$this->filter_class?>" type="submit" >Filter</button>
+					<input class="btn btn-secondary" name="clear" type="submit" value="All"></input>
+	              </div>
+				</td>
+			</tr>
+		</table>
+		</form>
+	</div>
+	
+<div class="col-md-12 " style="height: 100%; padding-left: 1%; padding-right: 1%;">
+<div id="report">
+
+<?php include __DIR__ . '/../../../public/css/printstyle_rpt.php.css';?>
+	<div  class="card" style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
+					<div style="margin-top: 3%;">
+						<table class="rpt_tbl">
+							<thead>
+								<tr>
+									<th width="1%" rowspan="4">
+										<div class="title-margin">
+											<img width="50" alt=""
+												src="http://<?=$_SERVER ['HTTP_HOST']?>/css/images/ast.png"
+												style="padding-top: 6px; padding-left: 0px; margin-left: 42px; margin-top: 5px;">
+										</div>
+									</th>
+								</tr>
+								<tr>
+									<th><div class="center" style="width: 79%;">ABDULLAH BIN SALEM TRADING EST.</div></th>
+								</tr>
+								<tr>
+									<th width="">
+										<div class="center"
+											style="margin-top: 0px; margin-bottom: 10px; width: 79%; font-family: f11; font-size:9pt;">
+											<b> مؤسسة عبدالله بن سالم للتجارة </b>
+										</div>
+
+									</th>
+								</tr>
+								<tr>
+									<th>
+										<div class="center"
+											style="margin-top: 0px; margin-bottom: 10px; width: 79%;">List of Invoices</div>
+									</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+		<?php $date = new DateTime();
+		$date = $date->format('d/m/Y')?>				
+		<table class="rpt_frame">
+			<thead>
+				<tr>
+					<th class="empty" colspan="11"></th>
+				</tr>
+				<tr>
+					<th width="2%" class="center">Sl No</th>
+					<th width="2%" class="center">Bill No</th>
+					<th width="16%" class="center">Customer</th>
+					<th width="4%" class="center">Bill Month</th>
+					<th width="3%" class="center">Ref No</th>
+					<th width="3%" class="center">Sub.Date</th>
+					<th width="22%" class="center">Bill Det.</th>
+					<th width="3%" class="center">Invoice Amount</th>
+					<th width="3%" class="center">Credit</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?if(count($this->billList)>0):?>
+			
+				<?php 
+				foreach($this->billList as $bill):
+				$encBillId= $this->encode($bill['bill_id']);
+				$bill['bill_cancellation_status']==1?$trclass = 'class="strikeout"':$trclass='';
+				?>
+				<tr  <?=$trclass;?>>
+					<td class="center"><?=@++$offset;?></td>
+					<td style="cursor: pointer;"><?$label = $bill['bill_book_no']<>''?$bill['bill_book_no']." (AST/".sprintf("%04s", $bill['bill_id']).")": "AST/".sprintf("%04s", $bill['bill_id'])?> 
+						<?=x(array('link'=>'erp_invoice/bill/miniview','ref'=>$encBillId,'label'=>$label,array("param"=>'class="facebox"')))?>
+					</td>
+					<td><?=$bill['cust_name']?></td>
+					<td><?=$bill['bill_month']?></td>
+					<td><?=$bill['bill_refno']?> <br> <?php if($bill['bill_location']<>''):?>(<?=$bill['bill_location']?>) <?php endif;?></td>
+					<td><?=$bill['bill_review_date']?></td>
+					<td><?=$bill['itm_name']?></td>
+					<td align="right"><?=number_format($bill['bill_total'],3)?></td>		
+					<td align="right"><b><?=number_format($bill['bill_credit_amt'],3)?></b></td>													
+				</tr>
+				<?php //$grndTotal+=$bill['bill_credit_amt'];
+				endforeach?>
+				</tbody>
+		</table>
+		<?php endif?>
+		<div>
+			<table class="rpt_tbl">
+				<thead>
+					<tr><?php $date = new DateTime();
+										$date = $date->format('d/m/Y H:i:s')?>
+						<td><div class="title-margin rpt_footer"><small><?=$date?></small></div></td>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+</div>
+</form>
+
+<script type="text/javascript"> 
+function doSearch(text, backgroundColor) {
+    if (window.find && window.getSelection) {
+        document.designMode = "on";
+        var sel = window.getSelection();
+        sel.collapse(document.body, 0);
+
+        while (window.find(text)) {
+            document.execCommand("HiliteColor", false, backgroundColor);
+            sel.collapseToEnd();
+        }
+        document.designMode = "off";
+    }
+}
+$(document).ready(function() {
+    $('#f_monthpick').MonthPicker({ Button: false });
+
+doSearch('<?= @$this->refno; ?>','yellow');
+
+});
+</script>
+

@@ -1,0 +1,279 @@
+<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+	<form name="form" method="post" id="edit" action='erp_fund/cashflow/flow' style="margin-bottom: 0px;">
+	<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+		<h4 class="modal-title">Add Cash flow Details</h4>
+	</div>
+	<div class="modal-body">
+				<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-2 form-label" >Date</label>
+					<div class="col-sm-3">
+                    <?=$this->form->debitdt->show()?>
+                  </div>
+                  
+                  <label class="col-sm-2 form-label" >Source</label>
+					<div class="col-sm-3">
+                    <?=$this->form->srctype->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Debit Amount</label>
+					<div class="col-sm-3">
+                    <?=$this->form->totamount->show()?>
+                  </div>
+                  
+                  <label class="col-sm-2 form-label" >Source Details</label>
+					
+				   <div class="col-sm-3" id="src_input">
+                    <?=$this->form->src_details->show()?>
+                  </div>
+                  	
+                  <div class="col-sm-4" id="src_select">
+                    <?=$this->form->src_income->show()?>
+                  </div>
+                  
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Note</label>
+					<div class="col-sm-3">
+                    <?=$this->form->srcnote->show()?>
+                  </div>
+				</div>
+			<div class="row mb-4" style="margin-top: 15px;">
+				 <div id="mh_varis" class="col-sm-12">
+                    <table width="100%" id="multi_table">
+					<tr style="font-size: 0.8em;">
+						<th width="5%" style="padding-bottom: 5px;">Date</th>
+						<th width="20%" style="padding-bottom: 5px;">Details</th>
+						<th width="5%" style="padding-bottom: 5px;">Amount (RO)</th>
+						<th width="5%" style="padding-bottom: 5px;">(Baisa)</th>
+						<th width="15%" style="padding-bottom: 5px;">Assigned To</th>
+						<th width="1%" style="padding-bottom: 5px;"></th>
+					</tr>
+				<?php foreach( $this->mfields as $i):?>
+					<tbody id="dup_body">
+					<tr class="dup_row" index="<?=$i?>">
+						<td valign="top">
+		                	<?=$this->form->date[$i]->show()?>
+						</td>
+						<td valign="top">
+							<div class="amtrow">
+		                		<?=$this->form->note[$i]->show()?>
+		                	</div>
+						</td>
+						<td valign="top">
+							<div class="amtrow">
+		                		<?=$this->form->amount[$i]->show()?>
+		                	</div>
+						</td>
+						<td valign="top">
+							<div class="bankrow">
+		                		<?=$this->form->baisa[$i]->show()?>
+		                	</div>
+						</td>
+						<td valign="top">
+							<div class="cheqrow">
+		                		<?=$this->form->assign[$i]->show()?>
+		                	</div>
+						</td>
+						<td valign="middle">
+							<input class="total" type="hidden" name="total_[<?=$i?>]" id="total_[<?=$i?>]" value="0">
+			              <div>
+							<a style="color: blue; margin: 1px;" title="Remove" href="#" onclick="delRow(this);return false;" class="glyphicon glyphicon-remove"></a>
+			              </div>
+						</td>
+					</tr>
+					<?php endforeach;?>
+				</tbody>
+				</table>
+				<div><a  style="background-color: azure;margin: 1px; float:right" id="myLink" title="+ Add more" href="#" onclick="addRow('multi_table');return false;" class="btn">+ Add more</a>
+				</div>
+				</div>
+				</div>
+				
+				<div class="row mb-4" style="margin-top: 15px;">
+				  <label class="col-sm-2 form-label" ></label>   
+				  <label class="col-sm-2 form-label" ></label>     
+                  <label class="col-sm-2 form-label text-right" >Total</label>
+		
+                  <div class="col-sm-2 form-label" id="grandT" style="
+									    font-size: 12pt;
+									    font-weight: bold;" >0.000</div>
+                  <label class="col-sm-1 form-label text-right" >Balance</label>
+                  <div class="col-sm-2 form-label" id="grandB" style="
+									    font-size: 12pt;
+									    font-weight: bold;" >0.000</div>
+                  <label class="col-sm-2 form-label" ></label>    
+				</div>			
+				
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary submit-alias livepost" >Save</button>
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal" >Close</button>
+	</div>
+</form>	
+</div>
+
+<script type="text/javascript">
+var duprow = '';
+var duprow = '<tr class="dup_row">' + $('#dup_body >tr:last').html() + '</tr>';
+showGrandTotal();
+function delRow(row){
+	if($('.dup_row').length>1){
+		$(row).parents('tr').remove();
+	}
+	showGrandTotal();
+}
+function addRow(elemId) {
+	
+	var index = $('#' + elemId + ' tbody>tr:last').attr('index');
+	var index = parseInt(index)+1;
+	
+	$(duprow).insertAfter($('#' + elemId + ' tbody>tr:last'));
+
+	$('#' + elemId + ' tbody>tr:last').find('.input_error').removeClass(
+			'input_error');
+	$('#' + elemId + ' tbody>tr:last').find('.select_error').removeClass(
+			'select_error');
+	$('#' + elemId + ' tbody>tr:last').find('.error_text').remove();
+	$('#' + elemId + ' tbody>tr:last').attr('index',index);
+
+	$.each($('#' + elemId + ' tr:last').find(':input'), function() {
+
+		if ($(this).is(':radio')) {
+	        //code here
+	    }
+		else
+			$(this).val('');
+
+		var name = $(this).attr('name');
+		if (name !== undefined) {
+			var arr = name.split('[');
+			$(this).attr('id', arr[0] + '[' + index+ ']').attr(
+					'name', arr[0] + '[' + index + ']');
+		}
+		$('.chosen-select').chosen('destroy');  
+		$(".chosen-select").chosen({
+			no_results_text : "Oops, nothing found!",
+		    search_contains: true,
+		    enable_split_word_search: true
+		});
+	});
+	initDatePicker();
+}
+
+function showTotal(index) {
+
+	var amt = parseFloat($("input[name='amount[" + index + "]").val() + '.'
+			+ $("input[name='baisa[" + index + "]").val());
+
+	if (isNaN(amt))
+		var amt = 0;
+
+	$("input[name='total_[" + index + "]").val(amt);
+
+	
+}
+function showGrandTotal() {
+	var gtotal = 0;
+	$('.total').each(function() {
+		gtotal = gtotal + parseFloat($(this).val());
+	})
+
+	debitamt = $('#totamount').val();
+	if(debitamt=='')
+	debitamt=0;
+	
+	balance = parseFloat(debitamt)-gtotal
+
+	gtotal = gtotal.toFixed(3);
+	if (isNaN(gtotal))
+		var gtotal = '';
+	$('#grandT').html(gtotal);
+	
+	balance = balance.toFixed(3);
+	if (isNaN(balance))
+		var balance = '';
+	$('#grandB').html(balance);
+}
+
+$('body').on('change', 'input.baisa', function() {
+	
+	var length = $(this).val().length;
+	if(length<1)
+		$(this).val('000');
+	
+	else if(length<2)
+		$(this).val('00'+$(this).val());
+	
+	else if(length<3)
+		$(this).val('0'+$(this).val());
+});
+
+$(document).ready(function($) {
+
+	$('#src_input').hide();
+	$('#src_select').hide();
+	
+	<?php if ($_POST ['srctype'] == '1'):?>
+	$('#src_input').hide();
+	$('#src_select').show();
+	<?php endif?>
+
+	<?php if ($_POST ['srctype'] == '2' || $_POST ['srctype'] == '3'):?>
+	$('#src_input').show();
+	$('#src_select').hide();
+	<?php endif?>
+	
+	  $('input').on('drop', function() {
+		    return false;
+		  });
+
+	$('body').on('blur', 'input.numonly', function() {
+		if ($(this).hasClass('baisa')) {
+			if ($(this).val() < 0)
+				$(this).val(0);
+			if ($(this).val() > 999)
+				$(this).val($(this).val().substring(0, 3));
+		}
+		showTotal($(this).parents('tr').attr('index'));
+		showGrandTotal();
+	});
+
+	$('body').on('keyup', 'input.numonly', function() {
+		if ($(this).hasClass('baisa')) {
+			
+			if ($(this).val() < 0)
+				$(this).val(0);
+			if ($(this).val() > 999)
+				$(this).val($(this).val().substring(0, 3));
+		}
+		showTotal($(this).parents('tr').attr('index'));
+		showGrandTotal();
+
+	});
+
+	$('body').on('keyup', 'input#totamount', function() {
+		showGrandTotal();
+	});
+
+	
+
+});
+
+function toggleRadio(field){
+	
+	if($(field).val()==2 || $(field).val()==3){
+		$('#src_select').hide();
+		$('#src_input').show();
+	}
+
+	if($(field).val()==1){
+		$('#src_input').hide();
+		$('#src_select').show();
+	}
+		
+}
+
+
+</script>

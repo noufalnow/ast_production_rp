@@ -1,0 +1,178 @@
+<div style="margin-top:1%;">
+	<div class="col-md-12 card filter-card" style="margin-bottom: 0px;">
+	<div class="card-block" style="padding-top: 1%;">
+	<div class="full-width">
+		<button name="cmdPrint" value="  Print  " onclick="$('#report').printElement();" class="btn btn btn-primary pull-right" style="padding: 2px 12px;">Print</button></div>
+			<h5 class="title-margin">Report: Pending Credit Statement</h5>
+	</div>
+		<!--  <table class="">
+			<tr style="font-size: 0.8em;">
+				<th width="15%">Company</th>
+				<th width="15%">Department</th>
+				<th width="15%">Designation</th>
+				<th width="15%">Nationality</th>
+				<th width="15%"></th>
+			</tr>
+			<tr>
+				<td>
+					<div class="form-group ">
+                	<?//=$form->f_company->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?//=$form->f_dept->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?//=$form->f_desig->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?//=$form->f_natonality->show()?>
+              		</div>
+				</td>
+				<td width="15%" align="center">
+	              <div class="form-group ">
+					<button class="btn <?//=$filter_class?>" type="submit" >Filter</button>
+					<input class="btn btn-secondary" name="clear" type="submit" value="All"></input>
+	              </div>
+				</td>
+			</tr>
+		</table>-->
+	</div>
+
+<div class="col-md-12 " style="height: 100%; padding-left: 1%; padding-right: 1%;">
+<div id="report">
+<?php include __DIR__ . '/../../../public/css/printstyle_rpt.php.css';?>
+	<div  class="card" style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
+					<div style="margin-top: 3%;">
+						<table class="rpt_tbl">
+							<thead>
+								<tr>
+									<th width="1%" rowspan="4">
+										<div class="title-margin">
+											<img width="50" alt=""
+												src="http://<?=$_SERVER ['HTTP_HOST']?>/css/images/ast.png"
+												style="padding-top: 6px; padding-left: 0px; margin-left: 42px; margin-top: 5px;">
+										</div>
+									</th>
+								</tr>
+								<tr>
+									<th><div class="center" style="width: 79%;">ABDULLAH BIN SALEM TRADING EST.</div></th>
+								</tr>
+								<tr>
+									<th width="">
+										<div class="center"
+											style="margin-top: 0px; margin-bottom: 10px; width: 79%; font-family: f11; font-size:9pt;">
+											<b> مؤسسة عبدالله بن سالم للتجارة </b>
+										</div>
+
+									</th>
+								</tr>
+								<tr>
+									<th>
+										<div class="center"
+											style="margin-top: 0px; margin-bottom: 10px; width: 79%;">Pending Credit
+											Statement</div>
+									</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+<?php $date = new DateTime();
+$date = $date->format('d/m/y')?>				
+		<table class="rpt_frame">
+			<thead>
+				<tr>
+					<td class="empty" colspan="6" style="border: 1px solid white;">
+					Customer Name &nbsp;&nbsp;:&nbsp;<?=$this->expenseList[0]['ven_name']?> <br>
+					Phone No.&nbsp;:&nbsp;<?=$this->expenseList[0]['con_phone']?><br>
+					Mobile No.&nbsp;:&nbsp;<?=$this->expenseList[0]['con_mobile']?></td>
+					<td class="empty" style="border: 1px solid white;">Date : <?=$date;?></td>
+				</tr>
+				<tr>
+					<th class="empty" colspan="7"></th>
+				</tr>
+				<tr>
+					<th width="2%" class="center">Sl No</th>
+					<th width="3%" class="center">File No</th>
+					<th width="7%" class="center">Ref No</th>
+					<th width="4%" class="center">Bill Date</th>
+					<th width="20%" class="center">Remarks</th>
+					<th width="4%" class="center">Bill Amount</th>
+					<th width="4%" class="center">Credit Amount</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?if(count($this->expenseList)>0):?>
+			
+				<?php 
+				foreach($this->expenseList as $expense):
+				$encExpId = $this->encode($expense['exp_id']);?>
+				<tr>
+					<td class="center"><?=@++$offset;?></td>
+					<td>
+					
+					<?php if($expense['exp_app_status']==1):?>
+						<?=x(array('link'=>'erp_expense/expense/view','ref'=>$encExpId,'label'=>$expense['exp_file_no'],array("param"=>'class="facebox"')))?>
+					<?php else:?>
+						<?=$expense['exp_file_no'];?>
+					<?php endif?>
+					
+					
+					</td>
+					<td><?=$expense['exp_refno']?></td>
+					<td align="center"><?=$expense['exp_disp_date']?></td>
+					<td><?=$expense['exp_details']?></td>
+					<td><?=number_format($expense['exp_amount'],3)?></td>	
+					<td><?=number_format($expense['exp_credit_amt'],3)?></td>													
+				</tr>
+				<?php $grndTotal+=$expense['exp_credit_amt'];?>
+				<?php endforeach?>
+				<tr>
+					<th class="empty" colspan="7"></th>
+				</tr>
+				<tr>
+					<th style="text-align: right;" colspan="6"> Total :</th>		
+					<th ><?=number_format(@$grndTotal,3);?></th>													
+				</tr>
+			<?endif?>
+			</tbody>
+		</table>
+		<div>
+			<table class="rpt_tbl">
+				<thead>
+					<tr><?php $date = new DateTime();
+										$date = $date->format('d/m/y H:i:s')?>
+						<td><div class="title-margin rpt_footer"><small><?=$date?></small></div></td>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
+</div>
+</form>
+</div>
+<script type="text/javascript">           
+$(document).ready(function() {
+    $('#f_monthpick').MonthPicker({ Button: false });
+});
+$(document).ready(function() {
+	var source = '<?=APPURL?>'+ 'erp_expense/expense/getlive';
+	$('#f_pCatSelect').on('change',function() {
+		getJaxData($('#f_pCatSelect').val(),'f_sCatSelect',source,'parent');
+		$('#f_cCatSelect').empty();
+	});
+	getJaxData($('#f_pCatSelect').val(),'f_sCatSelect',source,'parent');
+
+	$('#f_sCatSelect').on('change',function() {
+		getJaxData($('#f_sCatSelect').val(),'f_cCatSelect',source,'sub');
+	});
+	getJaxData($('#f_sCatSelect').val(),'f_cCatSelect',source,'sub');
+});
+</script>
+

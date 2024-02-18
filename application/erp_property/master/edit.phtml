@@ -1,0 +1,115 @@
+<div class="dynamic-popup" id="dynamic-popup">
+	<!--  -->
+	<form name="form" method="post" id="edit"
+		action='erp_property/master/edit/ref/<?=$this->param['ref']?>'
+		style="margin-bottom: 0px;">
+		<div class="modal-header">
+			<h4 class="card-title">Update property details</h4>
+			<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+				<span aria-hidden="true">×</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<div class=" row mb-4" style="margin-top: 15px;">
+				<label class="col-sm-2 form-label">Building</label>
+				<div class="col-sm-4">
+                    <?=$this->form->building->show()?>
+                  </div>
+				<label class="col-sm-2 form-label">Property No</label>
+				<div class="col-sm-4">
+                    <?=$this->form->propno->show()?>
+                  </div>
+			</div>
+			<div class="row mb-4">
+				<label class="col-sm-2 form-label">Property Name </label>
+				<div class="col-sm-4">
+                    <?=$this->form->propname->show()?>
+                  </div>
+				<label class="col-sm-2 form-label">Property</label>
+				<div class="col-sm-4">
+                    <?=$this->form->prop_build->show()?>
+                  </div>
+			</div>
+			<div id="prop_build">
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" style="">Category </label>
+					<div class="col-sm-3" style="width: 18%;">
+	                    <?=$this->form->prop_cat->show()?>
+	                  </div>
+
+					<label class="col-sm-2 form-label" style="width: 7%;">Type </label>
+					<div class="col-sm-3">
+	                    <?=$this->form->prop_type->show()?>
+	                  </div>
+					<label class="col-sm-2 form-label" style="width: 7%;">Level </label>
+					<div class="col-sm-3">
+	                    <?=$this->form->prop_level->show()?>
+	                  </div>
+				</div>
+			</div>
+			<div class="row mb-4">
+				<label class="col-sm-2 form-label">Electric Meter</label>
+				<div class="col-sm-4">
+                    <?=$this->form->prop_elec1->show()?>
+                  </div>
+				<div class="col-sm-3">
+                    <?=$this->form->prop_elec2->show()?>
+                  </div>
+				<div class="col-sm-3">
+                    <?=$this->form->prop_elec3->show()?>
+                  </div>
+			</div>
+			<div class="row mb-4">
+				<label class="col-sm-2 form-label">Water Meter No </label>
+				<div class="col-sm-4">
+                    <?=$this->form->prop_water->show()?>
+                  </div>
+				<label class="col-sm-2 form-label">Remarks </label>
+				<div class="col-sm-4">
+                    <?=$this->form->remarks->show()?>
+                  </div>
+			</div>
+			<div class="row mb-4">
+				<label class="col-sm-2 form-label">File No </label>
+				<div class="col-sm-4">
+                    <?=$this->form->fileno->show()?>
+                  </div>
+				<label class="col-sm-2 form-label">Bank Account </label>
+				<div class="col-sm-4">
+                    <?=$this->form->bank_account->show()?>
+                  </div>
+			</div>
+
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-primary submit-alias livepost">Save
+				changes</button>
+			<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">           
+$(document).ready(function() {
+	if($('#prop_build1').prop('checked') === true)
+		$('#prop_build').hide();
+	else
+		$('#prop_build').show();
+	
+	$('#prop_build1').on('click',function() {
+		typetoggle($('#prop_build1').is(':checked') );
+	});
+	function typetoggle(type){
+
+		if($('#prop_build1').prop('checked') === true)
+			$('#prop_build').hide();
+		else
+			$('#prop_build').show();
+	}
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function($) {
+	$('.modal-dialog').css('width', '70%');
+})
+</script>

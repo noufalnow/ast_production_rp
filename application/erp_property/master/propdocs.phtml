@@ -1,0 +1,189 @@
+<div style="padding-top: 3px;">
+	<a onclick="toggleAction();" href="javascript: void(0)"><button class="btn btn-success pull-right" style="margin-left: 5px;">Add Documents</button></a>
+	<a onclick="togglePhoto();" href="javascript: void(0)"><button class="btn btn-success pull-right">Upload Photo</button></a>	
+</div>
+
+<div id="photo_target" class="card" style="top: 38px; margin-bottom: 40px; <?=$this->imgDisplay?>">
+		<div class="card-block">
+			<h5>Add Photo</h5>
+			<form name="imgform" method="post" id="imgform" action='erp_property/master/propdocs/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;" enctype="multipart/form-data">
+			<div class="panel-body">
+				<table style="max-width: 60%; float: left;" class="table">
+					<thead>
+						<tr>
+							<td><?=$this->imgform->photo->show()?></td>
+						</tr>
+						<tr>
+							<td>
+								<input type="hidden" name="image" value="image">
+								<button type="button" onclick="formSubmit(this,'menu2');return false;" class="btn  btn-success btn-rounded" style="font-size: 120%; height: 33px; padding-top: 2px; padding-bottom: 2px; margin-top: 8px; float: left;">Upload</button>
+							</td>
+							</tr>
+					</thead>
+				</table>
+				<div>
+					<table class="" style="max-width: 40%; display: table;">
+						<thead>
+							<tr>
+								<th class="center"><div>
+										<img width="244" alt="" src="<?=IMAGEURL?><?=$this->encode($this->propImage['file_id']);?>">
+									</div></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+				<input type="hidden" name="tab" value="doc">
+			</form>
+		</div>
+</div>	
+<div id="action_target" class="card" style="top: 38px; margin-bottom: 40px; <?=$this->docDisplay?>">
+		<div class="card-block">
+			<h5>Add Documents</h5>
+			<form name="docform" method="post" id="docform" action='erp_property/master/propdocs/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;" enctype="multipart/form-data">
+				<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-2 form-label" >Tenant</label>
+					<div class="col-sm-4">
+                    <?=$this->form->agr_tenant->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Document Type</label>
+					<div class="col-sm-4">
+                    <?=$this->form->doctype->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Agreement No.</label>
+					<div class="col-sm-4">
+                    <?=$this->form->docno->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Agreement Start Date</label>
+					<div class="col-sm-4">
+                    <?=$this->form->doi->show()?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >Agreement End Date</label>
+					<div class="col-sm-4">
+                    <?=$this->form->doe->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Agreement Amount</label>
+					<div class="col-sm-4">
+                    <?=$this->form->agr_amount->show()?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >Rent Amount</label>
+					<div class="col-sm-4">
+                    <?=$this->form->agr_rent->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Payment Details</label>
+					<div class="col-sm-4">
+                    <?=$this->form->agr_paydet->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Remarks</label>
+					<div class="col-sm-4">
+                    <?=$this->form->docremark->show()?>
+                  </div>
+				</div>														
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Upload Document</label>
+					<div class="col-sm-4">
+                    <?=$this->form->my_files->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Alert days</label>
+					<div class="col-sm-4">
+                    <?=$this->form->alert->show()?>
+                  </div>
+
+					<div class="col-md-2"></div>
+					<div class="col-md-4">	
+						<button type="button" onclick="formSubmit(this,'menu2');return false;" style="padding-left: 15px;" class="btn  btn-primary align-button">Add</button>
+				</div>
+				</div>
+				<input type="hidden" name="tab" value="doc">
+			</form>
+		</div>
+	</div>
+	<div class="full-width" style="padding-top: 2px; border-bottom-width: 0px; padding-bottom: 2px;">
+		<div class="col-md-13">
+			<div id="accordion" class="panel-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title1">
+							<a href="#collapse2" data-parent="#" data-toggle="collapse">Lease Contract</a>
+						</h4>
+					</div>
+					<div class="panel-collapse" id="collapse2">
+						<div class="panel-body">
+	
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="10%"class="center">Agreement No.</th>
+										<th width="12%"class="center">Agreement By</th>
+										<th width="12%"class="center">Mobile No</th>
+										<th width="12%"class="center">Rent Amount</th>
+										<th width="10%"class="center">Agreement Start </th>
+										<th width="10%"class="center">Agreement End</th>
+										<th width="5%"class="center">View</th>
+										<th width="5%"class="center">Delete</th>
+										<th width="5%"class="center">Download</th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php foreach ($this->leaseDocs as $doc):
+								$doi = DateTime::createFromFormat(DFS_DB,$doc['doc_issue_date']);
+								$doi = $doi->format(DF_DD);
+								$doe = DateTime::createFromFormat(DFS_DB,$doc['doc_expiry_date']);
+								$doe = $doe->format(DF_DD);
+								$encFileId = $this->encode($doc['file_id']);
+								$encDocId1 = $this->encode($doc['doc_id']);
+								?>
+									<tr>
+										<td><?=x(array('link'=>'erp_property/master/propdocsview','ref'=>$encDocId1,'label'=>$doc['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<td><?=$doc['agr_tenant']?></td>
+										<td class="center"><?=$doc['agr_mobile']?></td>
+										<td class="center"><?=$doc['agr_rent']?></td>
+										<td class="center"><?=$doi?></td>
+										<td class="center"><?=$doe?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$doc['file_exten'])))?></td>
+										<td class="center">
+										<?if(!$delete1Off):?>
+											<?=x(array('link'=>'erp_property/master/propdocsdelete','ref'=>$encDocId1,'label'=>'<i class="glyphicon glyphicon-trash text-info"></i>',array("param"=>'class="facebox"')))?>
+										<?endif?></td>
+										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?></td>
+									</tr>
+								<?php 
+								$delete1Off = true;
+								endforeach;?>
+								</tbody>
+							</table>
+	
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">           
+$(document).ready(function() {
+	var reload = '<?=$reload;?>';
+	if(reload)
+		window.location.replace(reload);
+	/*
+	$('#doa').on('change',function() {
+		console.log($('#doa').val());
+		$("#doi").attr("mindate",$('#doa').val());
+		setDatePicker($('#doi'));
+	});
+	$('#doe').change(function(){
+		$("#doi").attr("maxdate",$('#doe').val());
+		setDatePicker($('#doi'));
+
+	});*/
+});
+</script>

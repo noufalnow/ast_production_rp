@@ -1,0 +1,74 @@
+<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+	<form name="form" method="post" id="add" action='erp_masters/vendor/add' style="margin-bottom: 0px;">
+	<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+		<h4 class="modal-title">Add vendor</h4>
+	</div>
+	<div class="modal-body">
+				<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-2 form-label" >Vendor/Company</label>
+					<div class="col-sm-4">
+                    <?=$this->form->vendor->show()?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >Name (C/o)</label>
+					<div class="col-sm-4">
+                    <?=$this->form->name->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Address</label>
+					<div class="col-sm-4">
+                    <?=$this->form->house->show()?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >Street</label>
+					<div class="col-sm-4">
+                    <?=$this->form->street1->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Place Name</label>
+					<div class="col-sm-4">
+                    <?=$this->form->place->show()?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >Locality</label>
+					<div class="col-sm-4">
+                    <?=$this->form->locality->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Zip Code</label>
+					<div class="col-sm-4">
+                    <?=$this->form->zip->show()?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >Phone No</label>
+					<div class="col-sm-4">
+                    <?=$this->form->phone->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Mobile No</label>
+					<div class="col-sm-4">
+                    <?=$this->form->mobile->show()?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >Remarks</label>
+					<div class="col-sm-4">
+                    <?=$this->form->remarks->show()?>
+                  </div>
+				</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary submit-alias livepost" >Add</button>
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+	</div>
+</form>	
+</div>
+<script type="text/javascript">
+$(document).ready(function($) {
+	$('.modal-dialog').css('width', '70%');
+})
+</script>

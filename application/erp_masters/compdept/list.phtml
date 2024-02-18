@@ -1,0 +1,40 @@
+<?php 	
+?>
+
+<div class="card-block" style="padding-top: 2%;">
+	<div class="full-width">
+		<?=x(array('link'=>'compdept/','label'=>'<button class="btn btn-success pull-right" >Add</button>', array("param"=>'wide_opener')),'<br><br>')?>
+	</div>
+	<h5 class="title-margin">Company Departments</h5>
+</div>
+<div class="col-md-12">
+	<div class="card">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th width="5%" class="center">Sl No</th>
+					<th width="15%" class="center">Company</th>
+					<th width="15%" class="center">Department</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?if(count($compDeptList)>0):?>
+				<?php foreach($compDeptList as $dept):?>
+				<tr>
+					<td class="center"><?=@++$offset;?></td>
+					<td><?=$dept['comp_name']?></td>
+					<td><?=$dept['dept_name']?></td>
+				</tr>
+				<?php endforeach?>
+			<?endif?>
+			</tbody>
+		</table>
+		<?$compDepetObj->pagination();?>
+	</div>
+</div>
+
+
+
+<script type="text/javascript">
+
+</script>

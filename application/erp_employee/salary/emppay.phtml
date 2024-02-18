@@ -1,0 +1,145 @@
+<div style="padding-top: 3px;">
+	<a onclick="togglePay();" href="javascript: void(0)"><button class="btn btn-success pull-right">Pay Revision</button></a>	
+</div>
+<div id="pay_target" class="card" style="top: 38px; margin-bottom: 40px; <?=$this->display?>">
+		<div class="card-block">
+			<h5>Pay Details</h5>
+			<form name="payform" method="post" id="payform" action='erp_employee/salary/emppay/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;" enctype="multipart/form-data">
+				<div class="row mb-4" style="margin-top: 15px;">
+				<?if(count($this->empPay)>0):?>
+					<label class="col-sm-2 form-label" >Pay Particulers</label>
+					<div class="col-sm-2">
+                    <?=$this->form->paytran->show()?>
+                  </div>
+				<?endif?>
+				<label class="col-sm-2 form-label" >Basic Pay</label>
+					<div class="col-sm-2">
+                    <?=$this->form->bp->show()?>
+                  </div>
+				<label class="col-sm-2 form-label" >DA</label>
+					<div class="col-sm-2">
+                    <?=$this->form->da->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >HRA</label>
+					<div class="col-sm-2">
+                    <?=$this->form->hra->show()?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >TA</label>
+					<div class="col-sm-2">
+                    <?=$this->form->ta->show()?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >Other Allowance 1</label>
+					<div class="col-sm-2">
+                    <?=$this->form->all1->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Other Allowance 2</label>
+					<div class="col-sm-2">
+                    <?=$this->form->all2->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Other Allowance 3</label>
+					<div class="col-sm-2">
+                    <?=$this->form->all3->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >With effect from</label>
+					<div class="col-sm-2">
+                    <?=$this->form->wef->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Next Revision</label>
+					<div class="col-sm-2">
+                    <?=$this->form->dor->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Remarks</label>
+					<div class="col-sm-6">
+                    <?=$this->form->remark->show()?>
+                  </div>
+				</div>
+
+			<div class="row mb-4">
+					<div class="col-md-9"></div>
+					<div class="col-md-3">					
+						<button type="button" onclick="formSubmit(this,'menu3');return false;" style="padding-left: 15px;" class="btn  btn-primary align-button">Add</button>
+					</div>
+				</div>
+				<input type="hidden" name="tab" value="sal">
+			</form>
+		</div>
+</div>
+	<div class="full-width" style="padding-top: 2px; border-bottom-width: 0px; padding-bottom: 2px;">
+		<div class="col-md-13">
+			<div id="accordion" class="panel-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title1">
+							<a href="#pcollapse2" data-parent="#" data-toggle="collapse">Pay Details</a>
+						</h4>
+					</div>
+					<div class="panel-collapse" id="pcollapse2">
+						<div class="panel-body">
+	
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="5%"class="center">Date</th>
+										<th width="5%"class="center">Particulers</th>
+										<th width="8%"class="center">Basic</th>
+										<th width="8%"class="center">DA</th>
+										<th width="8%"class="center">HRA</th>
+										<th width="5%"class="center">TA</th>
+										<th width="5%"class="center">Allow. 1</th>
+										<th width="5%"class="center">Allow. 2</th>
+										<th width="5%"class="center">Allow. 3</th>
+										<th width="5%"class="center">Total</th>
+										<th width="5%"class="center">Next Rev</th>
+										<th width="5%"class="center">Edit</th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php foreach ($this->empPay as $pay):
+								if($pay['pay_wef']){
+									$wef = DateTime::createFromFormat(DFS_DB,$pay['pay_wef']);
+									$wef = $wef->format(DF_DD);
+								}
+								if($pay['pay_dor']){
+									$dor = DateTime::createFromFormat(DFS_DB,$pay['pay_dor']);
+									$dor = $dor->format(DF_DD);
+								}
+								$encPayId = $this->encode($pay['pay_id']);
+								
+								?>
+									<tr>
+										<td class="center"><?=$wef?></td>
+										<td><?=$this->payParticulers[$pay['pay_type']]?></td>
+										<td><?=$pay['pay_basic']?></td>
+										<td><?=$pay['pay_da']?></td>
+										<td><?=$pay['pay_hra']?></td>
+										<td><?=$pay['pay_ta']?></td>
+										<td><?=$pay['pay_allw1']?></td>
+										<td><?=$pay['pay_allw2']?></td>
+										<td><?=$pay['pay_allw3']?></td>
+										<th ><?=$pay['pay_total']?></th>
+										<td class="center"><?=$dor?></td>
+										<td class="center">
+										<?if(!$editOff):?>
+											<?=x(array('link'=>'erp_employee/salary/emppayedit','ref'=>$encPayId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>  
+										<?endif?>
+									</tr>
+								<?php
+								$editOff = true;
+								endforeach;?>
+								</tbody>
+							</table>
+	
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

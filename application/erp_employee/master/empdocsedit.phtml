@@ -1,0 +1,97 @@
+<div class="dynamic-popup" id="dynamic-popup">
+	<!--  -->
+	<form name="form" method="post" id="edit" action='erp_employee/master/empdocsedit/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;" enctype="multipart/form-data">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h4 class="modal-title">Modify Document Details</h4>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">	
+				<div class="row mb-4" style="margin-top: 15px;">				
+				
+					<label class="col-sm-2 form-label" >Document Type</label>
+					<div class="col-sm-4">
+                    <?=$this->form->doctype->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Document No.</label>
+					<div class="col-sm-4">
+                    <?=$this->form->docno->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Description</label>
+					<div class="col-sm-4">
+                    <?=$this->form->docdesc->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Remarks</label>
+					<div class="col-sm-4">
+                    <?=$this->form->docremark->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Issue Authority</label>
+					<div class="col-sm-4">
+                    <?=$this->form->auth->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Date of apply</label>
+					<div class="col-sm-4">
+                    <?=$this->form->doa->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Date of Issue</label>
+					<div class="col-sm-4">
+                    <?=$this->form->doi->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Date of expiry</label>
+					<div class="col-sm-4">
+                    <?=$this->form->doe->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					
+	                  <div id="" class="col-sm-4">
+	                  <label class="form-label" >Upload Document</label>
+	                     <?=$this->form->docUpdate->show()?>
+                  	  </div>
+                  	  <div  class="col-sm-3">
+                  	  <div id="docUpload">
+                     		<?=$this->form->my_files->show()?>
+                     	</div>
+	                  </div>
+                  	  
+
+					<label class="col-sm-2 form-label" >Alert days</label>
+					<div class="col-sm-2">
+                    <?=$this->form->alert->show()?>
+                  </div>
+				</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary submit-alias livepost" >Update</button>
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+	</div>
+</form>	
+</div>
+
+<script type="text/javascript">           
+$('#docUpdate1').on('click',function() {
+	typetoggle();
+});
+typetoggle();
+function typetoggle(type){
+	if($('#docUpdate1').prop('checked') === true)
+		$('#docUpload').show();
+	else
+		$('#docUpload').hide();
+}
+</script>
+
+<script type="text/javascript">
+$(document).ready(function($) {
+	$('.modal-dialog').css('width', '80%');
+})
+</script>
+

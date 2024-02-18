@@ -1,0 +1,137 @@
+<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+	<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+		<h4 class="modal-title">Update Payment Details</h4>
+	</div>
+
+		<form name="selectform" method="post" id="filter" action='erp_expense/payments/edit/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;">
+			<div class="row mb-4" style="padding-top:10px;">
+					<div class="col-sm-1"></div>
+					<label class="col-sm-2 form-label">Select Vender</label>
+					<div class="col-sm-6">
+                    <?=$this->form1->f_selVendor->show()?>
+                  </div>
+                  <div class="col-sm-2"><button type="button" class="btn btn-primary submit-alias livepost no-confirm" >Show</button></div>
+			</div>
+		</form>	
+			
+		<form name="form" method="post" id="edit" action='erp_expense/payments/edit/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;">
+		<input type="hidden" name="f_selVendor" value="<?//=$_POST['f_selVendor'];?>">
+		<?=$this->form2->f_selVendor->show()?>
+		<div class="col-md-12 card" style="padding-top: 15px; margin-bottom: 3px;"> 
+		<div style="height: 250px;overflow-y: auto">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+				<tr>
+					<th width="4%" class="center">Sl No</th>
+					<th width="4%" class="center">Pay</th>
+					<th width="15%" class="center">Ref No</th>
+					<th width="5%" class="center">Bill Dt.</th>
+					<th width="5%" class="center">Due Dt.</th>
+					<th width="5%" class="center">Company</th>
+					<th width="6%" class="center">Main Head</th>
+					<th width="35%" class="center">Particulers</th>
+					<th width="7%" class="center">Bill Amount</th>
+					<th width="7%" class="center">Discount</th>
+					<th width="7%" class="center">Payment</th>
+
+					<th width="7%" class="center">Balance</th>
+
+				</tr>
+			</thead>
+			<tbody>
+			<?if(count($this->expenseList)>0):?>
+				<?php foreach(@$this->expenseList as $i=>$expense):
+				//$encExpId = $this->encode($expense['exp_id']);
+				?>
+				<tr>
+					<td class="center"><?=@++$offset;?></td>
+					<td align="center"><?=$this->form2->check[$expense['exp_id']]->show()?></td>
+					<td><?=$expense['exp_refno']?></td>
+					<td><?=$expense['exp_billdt']?></td>
+					<td><?=$expense['exp_billdt']?></td>
+					<td><?=$expense['comp_disp_name']?></td>
+					<td><?=$expense['main_head']?></td>
+					<td><?=$expense['exp_details']?></td>
+					<td><?=$expense['exp_credit_amt']?></td>
+					<td><?=$this->form2->discount[$expense['exp_id']]->show()?></td>
+					<td><?=$this->form2->mamount[$expense['exp_id']]->show()?></td>	
+					
+					<?php if(!$this->formPostStatus):?>
+					<td><?=number_format(($this->billAmount[$expense['exp_id']]-$expense['pdet_amt_dis'])-$expense['pdet_amt_paid'],3)?>
+					</td>
+					<?php else:
+					 $prdiscount = $_POST ['discount'] [$expense['exp_id']]==''? 0:$_POST ['discount'] [$expense['exp_id']];
+                     $pramount = $_POST ['mamount'] [$expense['exp_id']]==''? 0:$_POST ['mamount'] [$expense['exp_id']];
+                     ?>
+					
+					<td><?=number_format(($this->billAmount[$expense['exp_id']]-$prdiscount)-$pramount,3)?>
+					</td>
+					<?php endif?>
+
+				</tr>
+				<?php endforeach?>
+			<?endif?>
+			</tbody>
+		</table>
+		</div>
+		</div>			
+					
+		<div class="row mb-4">
+			<label class="col-sm-2 form-label" style="text-align: right;">Payment Date</label>
+			<div class="col-sm-2">
+               <?=$this->form2->payby->show()?>
+           </div>
+           	<label class="col-sm-2 form-label" style="text-align: right;" >Mode</label>
+			<div class="col-sm-2">
+               <?=$this->form2->paymod->show()?>
+           </div>
+           
+           	<div class="col-sm-2">
+              <span style="float:right; color:green;"><?=$this->form2->percb->show();?>                   	
+                <?=$this->form2->cbamount->show()?>
+              </span>
+           </div>
+           
+		</div>
+		<div class="row mb-4">
+			<label class="col-sm-2 form-label" style="text-align: right;" >Total Amount</label>
+			<div class="col-sm-2">
+               <?=$this->form2->amount->show()?>
+           </div>
+           	<label class="col-sm-2 form-label" style="text-align: right;">Cheque Details</label>
+			<div class="col-sm-2">
+               <?=$this->form2->chqno->show()?>
+           </div>
+		</div>
+		<div class="row mb-4">
+			<label class="col-sm-2 form-label" style="text-align: right;" >Note</label>
+			<div class="col-sm-6">
+               <?=$this->form2->note->show()?>
+           </div>
+		</div>
+		<div class="row mb-4">
+			<label class="col-sm-2 form-label" style="text-align: right;" >Cash Flow Entry</label>
+			<div class="col-sm-6">
+              <?=$this->form2->cashFlow->show()?>
+            </div>
+		</div>
+		<div class="modal-footer">
+		<?if($this->balanceConfirm):?>
+			<div class="form-group">
+			<label class="col-sm-6 form-label" style="text-align: right;">Note: if invoice balance not zero, the invoice still present in credit invoice!!</label>
+			<div class="col-sm-1"><?=$this->form2->confirm->show()?></div></div>
+		<?php endif?>
+			<button type="button" class="btn btn-primary submit-alias livepost" >Update</button>
+			<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+		</div>
+	</form>	
+</div>
+<script type="text/javascript">  
+$(document).ready(function() {
+	$('input:checkbox.bill-select').each(function() {
+		toggleHeight(this)
+	});
+});
+</script>

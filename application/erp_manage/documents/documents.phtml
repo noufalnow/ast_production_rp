@@ -1,0 +1,49 @@
+<div class="card-block">
+	<div class="full-width">
+	<?php if($this->param['docview']==''):?>
+		<?=x(array('link'=>'erp_manage/documents/add','ref'=>$this->encode($this->param['ref']).'/type/'.$this->encode($this->param['type']),'label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')))?>
+	<?php endif?>
+	<h5>Related Documents</h5>
+</div></div>
+<?if(count( $this->documentList)>0):?>
+<div class="col-md-12">
+	<div class="card">
+		<table class="table table-bordered grid">
+		<thead>
+			<tr>
+				<th class="center" width="3%">Sl No</th>
+				<th class="center" width="10%">Document Title</th>
+				<th class="center" width="8%">Ref. No.</th>
+				<th class="center" width="20%">Description</th>
+				<th class="center" width="5%">Issue Date</th>
+				<th class="center" width="5%">Expiry Date</th>
+				<th class="center" width="5%">File No</th>
+				<?php if($this->param['docview']==''):?><th class="center" width="5%">Edit</th><?php endif?>
+			</tr>
+		</thead>
+		<tbody>
+		<?php foreach ( $this->documentList as $document): 
+		$encDocId = $this->encode($document['doc_id']);?>
+			<tr>
+				<td class="center"><?=@++$offset;?></td>
+				<td class=""><?=$document['doc_remarks']?></td>
+				<td class="center"><?=$document['doc_no']?></td>
+				<td class=""><?=$document['doc_desc']?></td>
+				<td class="center"><?=$document['start_date']?></td>
+				<td class="center"><?=$document['end_date']?></td>
+				<td class="center">
+				
+				<?php if($document['file_id']):
+				$encFileId = $this->encode($document['file_id']); endif?>		
+           			<?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="glyphicon glyphicon-file text-info">'.$document['agr_idno'].'</i>',array("param"=>'wide_opener')))?>
+				</td>
+				<?php if($this->param['docview']==''):?><td align="center">
+					<?=x(array('link'=>'erp_manage/documents/edit','ref'=>$encDocId.'/type/'.$this->encode($this->param['type']),'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>  
+				</td><?php endif?>
+			</tr>
+			<?php endforeach;?>
+		</tbody>
+	</table>
+	</div>
+</div>
+<?php endif?>

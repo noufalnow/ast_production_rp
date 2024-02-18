@@ -1,0 +1,31 @@
+<?
+require_once "../action/_property.php";
+$ref = filter_input ( INPUT_GET, 'ref', FILTER_SANITIZE_STRING );
+$var = prop_delete($ref);
+$propertyDetail = $var['propertyDetail'];
+$formRender = $var['formRender'];
+
+if ($formRender):?>
+
+<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+	<form name="form" method="post" id="delete" name="delete" action='<?=APPURL?>property/delete/ref/<?=$ref?>' style="margin-bottom: 0px;">
+	<input type="hidden" value="<?=$ref?>" name="hidden">
+	<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+		<h4 class="modal-title">Delete property form the system</h4>
+	</div>
+	<div class="modal-body">
+		<b>Property No  : <?=$propertyDetail['vhl_no']?></b>
+		</br>
+		The delete action cannot be revert !!,
+			Are you sure to delete the property permanently from the system?
+		</br>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary submit-alias livepost" >Confirm</button>
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+	</div>
+</form>	
+</div>
+
+<?endif?>

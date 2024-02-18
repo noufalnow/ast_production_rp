@@ -1,0 +1,52 @@
+<div class="card-block" style="padding-top: 2%;">
+	<div class="full-width">
+	</div>
+	<h5 class="title-margin" style="padding-left: 19px;"> Manage Employee Salary</h5>
+</div>
+<form method="get" id="filter" name="filter" action="list">
+<div class="col-md-12">
+	<div class="card">
+		<table class="table table-bordered grid">
+			<thead>
+				<tr>
+					<th width="5%" class="center">Sl No</th>
+					<th width="9%" class="center">Year</th>
+					<th width="15%" class="center">Month</th>
+					<th width="8%" class="center">No of Emp</th>
+					<th width="10%" class="center">Additional Pay</th>
+					<th width="10%" class="center">Deductions</th>
+					<th width="10%" class="center">Total Salary</th>
+					<th width="10%" class="center">Update</th>
+					<th width="6%" class="center">View</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?if(count(  $this->salarysList)>0):?>
+				<?php foreach(  $this->salarysList as $salary):
+					$encsalaryId = $this->encode($salary['sal_id']);
+				?>
+				<tr>
+					<td class="center"><?=@++  $this->offset;?></td>
+					<td><?=$salary['sal_year']?> </td>
+					<td><?=$salary['sal_month']?></td>
+					<td><?=$salary['sal_empcount']?></td>
+					<td><?=$salary['sal_addition']?></td>
+					<td><?=$salary['sal_deduction']?></td>
+					<td><?=$salary['sal_net']?></td>
+					<td class="center">
+					<?php if($salary['sal_status']==1):?>
+						<?=x(array('link'=>'erp_employee/salary/salary','ref'=>$encsalaryId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'wide_opener')))?>  
+					<?php endif?>
+					</td>
+					<td class="center">
+						<?=x(array('link'=>'erp_employee/salary/report','ref'=>$encsalaryId,'label'=>'<i class="fas fa-search"></i>',array("param"=>'wide_opener')))?>
+					</td>
+				</tr>
+				<?php endforeach?>
+			<?endif?>
+			</tbody>
+		</table>
+		<?  $this->salaryObj->pagination();?>
+	</div>
+</div>
+</form>

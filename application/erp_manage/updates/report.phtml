@@ -1,0 +1,218 @@
+<div id="reportWhole">
+<?php include_once __DIR__ . '/../../../public/css/printstyle_rpt.php.css';?>
+<style>
+.card {
+	position: unset;
+}
+</style>
+
+
+<div class="col-md-12 card" style="padding-top: 15px; margin-bottom: 3px;"> 
+<?if(count($this->updList['1'])>0):?>
+		<div  class="card" style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
+    	<div style="margin-top: 3%;">
+    		<table class="rpt_tbl">
+    		<thead>
+    			<tr>
+    				<th colspan="4"><div class="center" style="width: 100%;">Pending Task Details</div></th>
+    			</tr>
+    			<tr>
+    				<th colspan="4"><div class="center" style="width: 100%;">Manager</div></th>
+    			</tr>
+    		</thead>
+    		</table>
+    	</div>
+		
+		<h5 class="" style="padding-left: 19px;">Updates/Task Notifiaction
+		</h5>
+		<div style="overflow-y: auto">
+		<table class="rpt_frame">
+			<thead>
+				<tr>
+					<th width="15%" class="center">Reference</th>
+					<th width="10%" class="center">Start Date.</th>
+					<th width="10%" class="center">End Date</th>
+					<th width="65%" class="center">Note</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<?php foreach($this->updList['1'] as $update): ?>
+				<tr>
+					<td align="center"><?=$update['ref_name']?></td>
+					<td align="center"><?=$update['upd_dttime']?></td>
+					<td align="center"><?=$update['upd_enddttime']?></td>
+					<td align="left"><?=$update['upd_note']?></td>
+				</tr>
+				<?php endforeach?>
+			</tbody>
+		</table>
+		</div>
+		</div>
+		<?endif?>
+		<?if(is_array($this->stepsList) && count($this->stepsList)>0):?>
+		<h5 class="" style="padding-left: 19px;">Pending Ticket Actions
+		</h5>
+		<div class="col-md-12 card" style="padding-top: 15px; margin-bottom: 3px;"> 
+		<div style="overflow-y: auto">
+		<table class="rpt_frame">
+			<thead>
+				<tr>
+					<th width="10%" class="center">Start Date.</th>
+					<th width="40%" class="center">Ticket Details</th>
+					<th width="40%" class="center">Steps to be carried out</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach($this->stepsList as $steps): ?>
+				<tr>
+					<td align="center"><?=$steps['stp_dttime_disply']?></td>
+					<td align="center"><?=$steps['tkt_details']?></td>
+					<td align="left"><?=$steps['stp_steps']?></td>
+				</tr>
+				<?php endforeach?>
+			</tbody>
+		</table>
+		</div>
+		</div>
+		<?endif?>
+
+
+
+<?if(count($this->updList['46'])>0):?>
+    <div  class="card" style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
+    	<div style="margin-top: 3%;">
+    		<table class="rpt_tbl">
+    		<thead>
+    			<tr>
+    				<th colspan="4"><div class="center" style="width: 100%;">Pending Task Details</div></th>
+    			</tr>
+    			<tr>
+    				<th colspan="4"><div class="center" style="width: 100%;">Noufal AbdulGafoor</div></th>
+    			</tr>
+    		</thead>
+    		</table>
+    	</div>
+		<h5 class="" style="padding-left: 19px;">Updates/Task Notifiaction
+		</h5>
+		<div style="overflow-y: auto">
+		<table class="rpt_frame">
+			<thead>
+				<tr>
+					<th width="15%" class="center">Reference</th>
+					<th width="10%" class="center">Start Date.</th>
+					<th width="10%" class="center">End Date</th>
+					<th width="65%" class="center">Note</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<?php foreach($this->updList['46'] as $update): ?>
+				<tr>
+					<td align="center"><?=$update['ref_name']?></td>
+					<td align="center"><?=$update['upd_dttime']?></td>
+					<td align="center"><?=$update['upd_enddttime']?></td>
+					<td align="left"><?=$update['upd_note']?></td>
+				</tr>
+				<?php endforeach?>
+			</tbody>
+		</table>
+		</div>
+		</div>
+		<?endif?>
+		<?if(is_array($this->stepsList) && count($this->stepsList)>0):?>
+		<h5 class="" style="padding-left: 19px;">Pending Ticket Actions
+		</h5>
+		<div class="col-md-12 card" style="padding-top: 15px; margin-bottom: 3px;"> 
+		<div style="overflow-y: auto">
+		<table class="rpt_frame">
+			<thead>
+				<tr>
+					<th width="10%" class="center">Start Date.</th>
+					<th width="40%" class="center">Ticket Details</th>
+					<th width="40%" class="center">Steps to be carried out</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach($this->stepsList as $steps): ?>
+				<tr>
+					<td align="center"><?=$steps['stp_dttime_disply']?></td>
+					<td align="center"><?=$steps['tkt_details']?></td>
+					<td align="left"><?=$steps['stp_steps']?></td>
+				</tr>
+				<?php endforeach?>
+			</tbody>
+		</table>
+		</div>
+		</div>
+		<?endif?>
+
+		<?if(count($this->updList['47'])>0):?>
+		<div  class="card" style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
+    	<div>
+    		<table class="rpt_tbl">
+    		<thead>
+    			<tr>
+    				<th colspan="4"><div class="center" style="width: 100%;">Pending Task Details</div></th>
+    			</tr>
+    			<tr>
+    				<th colspan="4"><div class="center" style="width: 100%;">Ratheesh Pushpachandran</div></th>
+    			</tr>
+    		</thead>
+    		</table>
+    	</div>
+		<h5 class="" style="padding-left: 19px;">Updates/Task Notifiaction
+		</h5>
+		<div style="overflow-y: auto">
+		<table class="rpt_frame">
+			<thead>
+				<tr>
+					<th width="15%" class="center">Reference</th>
+					<th width="10%" class="center">Start Date.</th>
+					<th width="10%" class="center">End Date</th>
+					<th width="65%" class="center">Note</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<?php foreach($this->updList['47'] as $update): ?>
+				<tr>
+					<td align="center"><?=$update['ref_name']?></td>
+					<td align="center"><?=$update['upd_dttime']?></td>
+					<td align="center"><?=$update['upd_enddttime']?></td>
+					<td align="left"><?=$update['upd_note']?></td>
+				</tr>
+				<?php endforeach?>
+			</tbody>
+		</table>
+		</div>
+		</div>
+		<?endif?>
+		<?if(is_array($this->stepsList) && count($this->stepsList)>0):?>
+		<h5 class="" style="padding-left: 19px;">Pending Ticket Actions
+		</h5>
+		<div style="overflow-y: auto">
+		<table class="rpt_frame">
+			<thead>
+				<tr>
+					<th width="10%" class="center">Start Date.</th>
+					<th width="40%" class="center">Ticket Details</th>
+					<th width="40%" class="center">Steps to be carried out</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach($this->stepsList as $steps): ?>
+				<tr>
+					<td align="center"><?=$steps['stp_dttime_disply']?></td>
+					<td align="center"><?=$steps['tkt_details']?></td>
+					<td align="left"><?=$steps['stp_steps']?></td>
+				</tr>
+				<?php endforeach?>
+			</tbody>
+		</table>
+		</div>
+		</div>
+		<?endif?>
+
+
+</div>

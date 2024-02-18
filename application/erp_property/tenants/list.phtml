@@ -1,0 +1,139 @@
+<?$offset = $this->tenantsObj->_voffset;?>
+<div class="card-block" style="padding-top: 2%;">
+	<div class="full-width">
+		<?=x(array('link'=>'erp_property/tenants/add','label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')))?>
+	</div>
+	<h5 class="title-margin">List of Tenants</h5>
+</div>
+<form method="get" id="filter" name="filter" action="">
+	<div class="col-md-12 card filter-card">
+		<table style="width: 100%;">
+			<tr style="font-size: 0.8em;">
+				<th width="30%">Name</th>
+				<th width="20%">Phone No.</th>
+				<th width="20%">Mobile No.</th>
+				<th width="30%">Company</th>
+			</tr>
+			<tr>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->tnt_full_name->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->tnt_phone->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->tnt_tele->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->tnt_comp_name->show()?>
+              		</div>
+				</td>
+			</tr>
+	</table>	
+	<table style="width: 100%;">
+			<tr style="font-size: 0.8em;">
+				<th width="20%">Id No.</th>
+				<th width="15%">Cr No.</th>
+				<th width="15%">Agreement By</th>
+				<th width="15%">Type</th>
+				<th width="25%"></th>
+			</tr>
+			<tr>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->tnt_id_no->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->tnt_crno->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->tnt_agr_type->show()?>
+              		</div>
+				</td>
+				<td>
+					<div class="form-group ">
+                	<?=$this->form->tnt_expat->show()?>
+              		</div>
+				</td>
+				<td width="25%" align="center">
+					<div class="form-group ">
+						<button class="btn <?=$this->filter_class?>" type="submit">Filter</button>
+						<input class="btn btn-secondary" name="clear" type="submit"
+							value="All"></input>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="col-md-12">
+		<div class="card">
+			<table class="table table-bordered grid">
+				<thead>
+					<tr>
+						<th width="5%" class="center">Sl No</th>
+						<th width="20%" class="center">Tenants Name</th>
+						<th width="20%" class="center">Company Name</th>
+						<th width="12%" class="center">Tenant Type</th>
+						<th width="12%" class="center">National/Expart</th>
+						<th width="8%" class="center">Phone No.</th>
+						<th width="8%" class="center">Mobile No.</th>
+						<th width="8%" class="center">Id. No.</th>
+						<th width="8%" class="center">CR. No.</th>
+						<th width="5%" class="center">Edit</th>
+						<th width="5%" class="center">View</th>
+					</tr>
+				</thead>
+				<tbody>
+			<?if(count($this->TenantsList)>0):?>
+				<?php
+                foreach ($this->TenantsList as $tenant) :
+                        $encTntId = $this->encode($tenant['tnt_id']);
+                        ?>				
+						<tr onclick="getContentX('<?=APPURL.'erp_property/tenants/'?>tenant_agr','<?=$encTntId;?>','tnt_target_<?=$tenant['tnt_id'];?>');" style="cursor: pointer;">
+						<td class="center"><?=@++$offset;?></td>
+						<td><?=$tenant['tnt_full_name']?></td>
+						<td><?=$tenant['tnt_comp_name']?></td>						
+						<td><?=$tenant['tnt_expat']?></td>
+						<td><?=$tenant['tnt_agr_type']?></td>
+						<td><?=$tenant['tnt_phone']?></td>
+						<td><?=$tenant['tnt_tele']?></td>
+						<td><?=$tenant['tnt_id_no']?></td>
+						<td><?=$tenant['tnt_crno']?></td>
+						<td class="center">
+						<?=x(array('link'=>'erp_property/tenants/edit','ref'=>array('ref'=>$encTntId),'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>  
+						</td>
+						<td class="center">
+						<?=x(array('link'=>'erp_property/tenants/view','ref'=>array('ref'=>$encTntId),'label'=>'<i class="fas fa-search"></i>',array("param"=>'class="facebox"')))?> 
+					</td>
+				</tr>
+				<tr id='tnt_target_<?=$tenant['tnt_id'];?>' class="tnt_target"></tr>
+				<?php endforeach?>
+			<?endif?>
+			</tbody>
+			</table>
+		<?$this->tenantsObj->pagination();?>
+	</div>
+	</div>
+</form>
+
+<script type="text/javascript">
+
+function getContentX(postlink,refId,target) {
+	$('.tnt_target').html('');
+	getContent(postlink,refId,target);	
+}
+
+
+</script>

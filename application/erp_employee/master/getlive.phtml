@@ -1,0 +1,19 @@
+<?php
+$this->view->response('ajax');
+if ($_POST) {
+	if (! isset ( $_SERVER ['HTTP_X_REQUESTED_WITH'] ) and strtolower ( $_SERVER ['HTTP_X_REQUESTED_WITH'] ) != 'xmlhttprequest') {
+		die ( '---' );
+	} else {
+		require_once '../model/comp_department.php';
+		$compDeptModelObj = new comp_department();
+		$compDeptList  = $compDeptModelObj->getCompDeptPair(array('cmpdept_comp_id'=>$_POST['refId']));
+		
+		
+		if(count($compDeptList))
+			foreach ($compDeptList as $key=> $val)
+				$data[] = array('key'=>$key,'value'=>$val);
+		$data = json_encode ( $data );
+		die ( $data );
+	}
+}
+?>

@@ -1,0 +1,78 @@
+
+<div class="dynamic-popup" id="dynamic-popup">
+	<!--  -->
+	<form name="form" method="post" id="add"
+		action='erp_property/tenants/add' style="margin-bottom: 0px;">
+		<div class="modal-header">
+			<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+			<h4 class="modal-title">Add Tenant</h4>
+		</div>
+
+		<div class="modal-body">
+			<div class="row mb-4" style="margin-top: 15px;">
+				<label class="col-sm-2 form-label">Tenant Type</label>
+				<div class="col-sm-4">
+                    <?=$this->form->tnt_agr_type->show()?>
+                  </div>
+				<label class="col-sm-2 form-label">National/Expart</label>
+				<div class="col-sm-4">
+                    <?=$this->form->tnt_expat->show()?>
+                  </div>
+			</div>
+			<div class="row mb-4">
+				<label class="col-sm-2 form-label">Tenant Name</label>
+				<div class="col-sm-4">
+                    <?=$this->form->tnt_full_name->show()?>
+                  </div>
+				<label class="col-sm-2 form-label">Company Name</label>
+				<div class="col-sm-4">
+                    <?=$this->form->tnt_comp_name->show()?>
+                  </div>
+			</div>
+			<div class="row mb-4">
+				<label class="col-sm-2 form-label">Phone No.</label>
+				<div class="col-sm-4">
+                    <?=$this->form->tnt_phone->show()?>
+                  </div>
+				<label class="col-sm-2 form-label">Mobile No.</label>
+				<div class="col-sm-4">
+                    <?=$this->form->tnt_tele->show()?>
+                  </div>
+			</div>
+			<div class="row mb-4">
+				<label class="col-sm-2 form-label">Id. No.</label>
+				<div class="col-sm-4">
+                    <?=$this->form->tnt_id_no->show()?>
+                  </div>
+				<label class="col-sm-2 form-label">CR. No.</label>
+				<div class="col-sm-4">
+                    <?=$this->form->tnt_crno->show()?>
+                  </div>
+			</div>
+			<div class="row mb-4">
+				<label class="col-sm-2 form-label">ID Copy</label>
+				<div class="col-sm-4">
+                    <?=$this->form->my_files->show()?>
+                  </div>
+				<label class="col-sm-2 form-label">CR Copy</label>
+				<div class="col-sm-4">
+                    <?=$this->form->my_files2->show()?>
+                  </div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button"
+				class="btn btn-primary submit-alias livepost">Add</button>
+			<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function($) {
+	$('.modal-dialog').css('width', '850px');
+})
+</script>
+
+
+

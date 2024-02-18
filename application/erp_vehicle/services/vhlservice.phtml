@@ -1,0 +1,154 @@
+<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+<form name="form" method="post" id="edit" action='erp_vehicle/services/vhlservice/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;">	<div class="modal-header">
+		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+		<h4 class="modal-title">Service Details 
+		</h4>
+	</div>
+	<div class="modal-body">
+				<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-3 form-label" >Status</label>
+					<div class="col-sm-3">
+                    <?=$this->form->status->show()?>
+                  </div>    
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-3 form-label" >Date of Service</label>
+					<div class="col-sm-3">
+                    <?=$this->form->servicedt->show()?>
+                  </div>
+                  <label class="col-sm-2 form-label" >Reading</label>
+					<div class="col-sm-4">
+                    <?=$this->form->reading->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-3 form-label" >Service Done By</label>
+					<div class="col-sm-3">
+                    <?=$this->form->employee->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Location</label>
+					<div class="col-sm-4">
+                    <?=$this->form->location->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-3 form-label" >Wash</label>
+					<div class="col-sm-3">
+                    <?=$this->form->wash->show()?>
+                  </div>
+                  <label class="col-sm-2 form-label" >Greese</label>
+					<div class="col-sm-3">
+                    <?=$this->form->greese->show()?>
+                  </div>
+				</div>
+
+				<div class="row mb-4">
+					<label class="col-sm-3 form-label" >Note</label>
+					<div class="col-sm-9">
+                    <?=$this->form->note->show()?>
+                  </div>
+				</div>	
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label" >Next </label>
+					<div class="col-sm-2">
+                    <?=$this->form->nxtstatus->show()?>
+                  </div>
+					<label class="col-sm-2 form-label" >Reading</label>
+					<div class="col-sm-2">
+                    <?=$this->form->readingnxt->show()?>
+                  </div>
+                  	<label class="col-sm-2 form-label" >Date</label>
+					<div class="col-sm-2">
+                    <?=$this->form->nextDt->show()?>
+                  </div>
+				</div>	
+				<div class="row mb-4">
+				<div id="mh_varis" class="col-sm-12">
+                    <table width="100%" id="multi_table">
+					<tr style="font-size: 0.8em;">
+						<th width="15%" style="padding-bottom: 5px;">Item</th>
+						<th width="5%" style="padding-bottom: 5px;">Quantity</th>
+						<th width="15%" style="padding-bottom: 5px;">Done By</th>
+						<th width="15%" style="padding-bottom: 5px;">Note</th>
+						<th width="1%" style="padding-bottom: 5px;"></th>
+					</tr>
+					<?php foreach($this->mfields as $i):?>
+					<tbody id="dup_body">
+					<tr class="dup_row" index="<?=$i?>">
+						<td valign="top">
+		                	<?=$this->form->item[$i]->show()?>
+						</td>
+						<td valign="top">
+		                	<?=$this->form->quantity[$i]->show()?>
+						</td>
+						<td valign="top">
+		                		<?=$this->form->doneby[$i]->show()?>
+						</td>
+						<td valign="top">
+		                		<?=$this->form->mnote[$i]->show()?>
+						</td>
+						<td valign="middle">
+			              <div>
+							<a style="color: blue; margin: 1px;" title="Remove" href="#" onclick="delRow(this);return false;" class="glyphicon glyphicon-remove"></a>
+			              </div>
+						</td>
+					</tr>
+					<?php endforeach;?>
+					</tbody>
+					</table>
+					<div><a  style="background-color: yellowgreen;margin: 1px;" id="myLink" title="Add more" href="#" onclick="addRow('multi_table');return false;" class="btn">More</a>
+					</div>
+                 </div>			
+                 </div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary submit-alias livepost" >Update</button>
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+	</div>
+</form>	
+</div>
+<script type="text/javascript">
+var duprow = '';
+var duprow = '<tr class="dup_row">' + $('#dup_body >tr:last').html() + '</tr>';
+function delRow(row){
+	if($('.dup_row').length>1){
+		$(row).parents('tr').remove();
+	}
+}
+function addRow(elemId) {
+	
+	var index = $('#' + elemId + ' tbody>tr:last').attr('index');
+	var index = parseInt('1'+index)+1;
+	
+	$(duprow).insertAfter($('#' + elemId + ' tbody>tr:last'));
+
+	$('#' + elemId + ' tbody>tr:last').find('.input_error').removeClass(
+			'input_error');
+	$('#' + elemId + ' tbody>tr:last').find('.select_error').removeClass(
+			'select_error');
+	$('#' + elemId + ' tbody>tr:last').find('.error_text').remove();
+	$('#' + elemId + ' tbody>tr:last').attr('index',index);
+
+	$.each($('#' + elemId + ' tr:last').find(':input'), function() {
+
+		var name = $(this).attr('name');
+		if (name !== undefined) {
+			var arr = name.split('[');
+			$(this).attr('id', arr[0] + '[' + index+ ']').attr(
+					'name', arr[0] + '[' + index + ']');
+		}
+		$('.chosen-select').chosen('destroy');  
+		$(".chosen-select").chosen({
+			no_results_text : "Oops, nothing found!",
+		    search_contains: true,
+		    enable_split_word_search: true
+		});
+	});
+	initDatePicker();
+}
+</script>
+<style>
+.modal-dialog{
+	width: 70%;
+}
+</style>

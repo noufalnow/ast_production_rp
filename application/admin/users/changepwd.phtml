@@ -1,0 +1,42 @@
+<div class="dynamic-popup" id="dynamic-popup">
+	<!--  -->
+	<form name="form" method="post" id="changepwd" name="changepwd"
+		action='admin/users/changepwd/ref/<?=$this->param['ref']?>'
+		style="margin-bottom: 0px;">
+
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h4 class="card-title">Change Password<</h4>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+
+
+			<div class="modal-body">
+				<div class="row mb-4">
+					<label class="col-sm-3 form-label">Old Password</label>
+					<div class="col-sm-9">
+                    <?=$this->form->oldpassword->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-3 form-label">New Password</label>
+					<div class="col-sm-9">
+                    <?=$this->form->password->show()?>
+                  </div>
+				</div>
+				<div class="row mb-4">
+					<label class="col-sm-3 form-label">Confirm Password</label>
+					<div class="col-sm-9">
+                    <?=$this->form->conPassword->show()?>
+                  </div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary submit-alias livepost">Reset</button>
+				<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</form>
+</div>
