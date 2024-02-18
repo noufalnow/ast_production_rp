@@ -30896,7 +30896,9 @@ video {
         margin: 0 3px;
         padding: 4px 4px !important;
     }
-
+    .horizontal .side-menu li {
+        margin: 0;
+    }
     .horizontal .side-menu .slide .side-menu__item.active {
         border-right: none;
     }
@@ -30968,7 +30970,7 @@ video {
         background-color: #fff;
         z-index: 9999;
         border-radius: 5px;
-        padding: 5px;
+        padding: 2px;
         min-width: fit-content;
         box-shadow: 0 10px 15px 0 rgba(104, 113, 123, 0.3) !important;
         border: 1px solid #e7eaf3;
@@ -30992,8 +30994,8 @@ video {
         padding: 0px;
         min-width: fit-content;
         border: 1px solid #f0f0f8;
-        left: 180px;
-        top: 13px;
+        left: 184px;
+        top: 0px;
     }
 
     .horizontal .sub-slide .sub-slide-menu2 {
@@ -33964,7 +33966,7 @@ Dimmer
 
 /*-- Subslide ---*/
 .sub-side-menu__item {
-    padding: 8px 8px;
+    padding: 4px 4px;
     display: flex;
     color: #76839a;
 }
