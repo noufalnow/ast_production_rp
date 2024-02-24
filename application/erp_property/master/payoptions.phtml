@@ -1,11 +1,15 @@
-<div class="dynamic-popup" id="dynamic-popup"><!--  -->
-	<form name="form" method="post" id="edit" action='erp_property/master/payoptions/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;">
-	<div class="modal-header">
-		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-		<h4 class="modal-title">Payment Schedule By <b><?=$this->propDocDet['agr_tenant']?> </b>
-		</h4>
-	</div>
-	<div class="modal-body">
+<div class="dynamic-popup" id="dynamic-popup">
+	<!--  -->
+	<form name="form" method="post" id="edit"
+		action='erp_property/master/payoptions/ref/<?=$this->param['ref']?>'
+		style="margin-bottom: 0px;">
+		<div class="modal-header">
+			<h4 class="card-title">Payment Schedule By - <b><?=$this->propDocDet['agr_tenant']?> </b></h4>
+			<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+				<span aria-hidden="true">×</span>
+			</button>
+		</div>
+		<div class="modal-body">
 				<div class="row mb-4" style="margin-top: 15px;">
 				 <div id="mh_varis" class="col-sm-12">
                     <table width="100%" id="multi_table">

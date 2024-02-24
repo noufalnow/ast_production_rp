@@ -1156,7 +1156,8 @@ class masterController extends mvc
                     'doc_no' => $valid['docno'],
                     'doc_issue_date' => $doi,
                     'doc_expiry_date' => $doe,
-                    'doc_remarks' => $valid['docremark']
+                    'doc_remarks' => $valid['docremark'],
+                    'doc_alert_days' => $valid['alert']
                 );
                 if ($valid['alert'])
                     $data['doc_alert_days'] = $valid['alert'];
@@ -1198,7 +1199,7 @@ class masterController extends mvc
             $doe = $doe->format(DF_DD);
             $form->doi->setValue($doi);
             $form->doe->setValue($doe);
-            $form->docremark->setValue($docDetails['doc_no']);
+            $form->docremark->setValue($docDetails['doc_remarks']);
             $form->alert->setValue($docDetails['doc_alert_days']);
         }
         $this->view->form = $form;

@@ -1,33 +1,46 @@
-<div class="full-width">
-<h3 style="padding-left: 1.5em;"><?=$this->propertyDetail['prop_no']?>&nbsp;/<?=$this->propertyDetail['bld_name']?>&nbsp;/<?=$this->propertyDetail['prop_name']?></h3>			
-	<?=x(array('link'=>'erp_property/master/list','label'=>'<button class="btn btn-info pull-right" style="margin-bottom: 10px;    margin-right: 1em;    margin-top: -3em;">Back</button>'))?>
-</div>
-
-<div class="col-md-12 card1">
-	<div class="col-md-12 card" style="padding-top: 14px;">
-		<div class="">
-			<ul style="width: 100%;" class="nav nav-tabs">
-				<li class="<?=@$this->hom_class?>"><a href="#home" data-toggle="tab" aria-expanded="false">Summary</a></li>
-				<?php if($this->propertyDetail['prop_building_type']!=1):?>
-				<li class="<?=@$this->doc_class?>"><?=accx('erp_property/master/propdocs','<a href="#menu2" onclick= "getContent(\''.APPURL.'erp_property/master/propdocs\',\''.$this->param['ref'].'\',\'menu2\')" data-toggle="tab">Documents</a>');?>
-				<?php else:?>
-				<li class="<?=@$this->doc_class?>"><?=accx('erp_property/master/propdocscomm','<a href="#menu2" onclick= "getContent(\''.APPURL.'erp_property/master/propdocscomm\',\''.$this->param['ref'].'\',\'menu2\')" data-toggle="tab">Documents</a>');?>
-				<?php endif;?>
-				<li class="<?=@$this->profile_class?>"><?=accx('erp_property/master/profile','<a href="#menu4" onclick= "getContent(\''.APPURL.'erp_property/master/profile\',\''.$this->param['ref'].'\',\'menu4\')" data-toggle="tab">Profile</a>');?>
-			</ul>
-
-			<div class="tab-content">
-				<div class="tab-pane fade <?=@$this->hom_active?>" id="home">
-					<br>
-					<p></p>
-					<div class="col-md-13">
-						<div class="panel-group" id="accordion">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title1">
-										<a data-toggle="collapse" data-parent="#" href="#collapse1">Property Information</a>
-									</h4>
-								</div>
+<div class="main-container container">
+	<div class="page-header" style="margin-bottom: 0.5rem;margin-top: 0.5rem;">
+		<div>
+			<h1 class="page-title"><?=$this->propertyDetail['prop_no']?>&nbsp;/<?=$this->propertyDetail['bld_name']?>&nbsp;/<?=$this->propertyDetail['prop_name']?> </h1>
+		</div>
+		<div class="ms-auto pageheader-btn">
+                            <?=x(array('link'=>'erp_property/master/list','label'=>'<button class="btn btn-info pull-right" style="margin-bottom: 10px;    margin-right: 1em;    margin-top: -3em;">Back</button>'))?>
+                            </div>
+	</div>
+	<div class="row row-sm">
+		<div class="col-xxl-4 col-xl-12">
+			<div class="card custom-card">
+				<div class="card-body">
+					<div class="col-12">
+						<ul class="nav nav-tabs tab-style-1 d-sm-flex d-block"
+							role="tablist">
+    							<li class="nav-item" role="presentation"><a
+    								class="nav-link active" data-bs-toggle="tab"
+    								data-bs-target="#Summary" aria-current="page" href="#Summary"
+    								aria-selected="true" role="tab">Summary</a></li>
+								<?php if($this->propertyDetail['prop_building_type']!=1):?>
+								<li class="nav-item" role="presentation"><?=accx('erp_property/master/propdocs', '<a class="nav-link ' . @$this->doc_class . '"
+    						      data-bs-toggle="tab" href="#menu2" data-bs-target="#menu2" onclick= "getContent(\'' . APPURL . 'erp_property/master/propdocs\',\'' . $this->param['ref'] . '\',\'menu2\')" aria-selected="false" role="tab" tabindex="-1">Documents</a>');?></li>
+    							<?php else:?>
+    							<li class="nav-item" role="presentation"><?=accx('erp_property/master/propdocscomm', '<a class="nav-link ' . @$this->doc_class . ' "
+    						      data-bs-toggle="tab" href="#menu2" data-bs-target="#menu2" onclick= "getContent(\'' . APPURL . 'erp_property/master/propdocscomm\',\'' . $this->param['ref'] . '\',\'menu2\')" aria-selected="false" role="tab" tabindex="-1">Documents</a>');?></li>
+    							<?php endif;?>
+    							<li class="nav-item" role="presentation"><?=accx('erp_property/master/profile', '<a class="nav-link ' . @$this->profile_class . ' "
+    						      data-bs-toggle="tab" href="#menu3" data-bs-target="#menu3" onclick= "getContent(\'' . APPURL . 'erp_property/master/profile\',\'' . $this->param['ref'] . '\',\'menu3\')" aria-selected="false" role="tab" tabindex="-1">Profile</a>');?></li>
+    						</ul>
+					</div>
+					<div class="tab-content mb-3">
+						<div class="tab-pane active show" id="Summary" role="tabpanel">
+							<div class="panel-group1" id="accordion1">
+								<div class="panel panel-default mb-4">
+									<div class="panel-heading1">
+										<h4 class="panel-title1">
+											<a class="accordion-toggle collapsed"
+												data-bs-toggle="collapse" data-bs-parent="#accordion"
+												href="#collapseFive" aria-expanded="false">Property
+												Information</a>
+										</h4>
+									</div>
 								<div id="collapse1" class="panel-collapse">
 									<div class="panel-body">
 										<table class="table table-bordered" style="max-width: 60%;float: left; ">
@@ -144,29 +157,10 @@
 							</div>
 						</div>
 					</div>
-					</div>
-					<p></p>
-				<div class="tab-pane fade <?=@$this->doc_active?>" id="menu2">
-					<?php if($this->propertyDetail['prop_building_type']!=1):?>
-						<?//require "propdocs.php"?>
-					<?php else:?>
-						<? //require "propdocscomm.php"?>
-					<?php endif?>
-				</div>
-				<div class="tab-pane fade <?=@$this->profile_active?>" id="menu4">
-					<div style="padding-top: 3px;">
-						<div class="card-block" style="padding-top: 1%;">
-							<div class="full-width">
-								<button name="cmdPrint" value="  Print  " onclick="$('#report').printElement();" class="btn btn btn-primary pull-right" style="padding: 2px 12px;">Print</button></div>
-								<h5 class="title-margin">Profile Report</h5>
-							</div>
-
-					</div>
-					<? //require "profile.php";?>
+    				<div class="tab-pane" id="menu2" role="tabpanel"></div>
+    				<div class="tab-pane" id="menu3" role="tabpanel"></div>
 				</div>
 			</div>
-		</div>
-	</div>
 <?php 
 $COMMDOCTYPE= DOC_TYPE_COM_PROP; $COMMDOCREFID= $this->decPropId;
 $UPDTYPE = UPD_TYP_PROP; $UPDREFID = $this->decPropId;
@@ -177,8 +171,12 @@ viewAction(array('module'=>'erp_manage', 'controller'=>'updates', 'action'=>'upd
 ?>
 
 </div>
+</div>
+</div>
+</div>
+
 <script type="text/javascript">           
-$(document).ready(function() {
+/*$(document).ready(function() {
 	$('#show_action').on('click',function() {
 		if($('#action_target').is(":visible"))
 			$('#action_target').hide();
@@ -192,19 +190,18 @@ $(document).ready(function() {
 			$('#photo_target').show();
 	});
 });
-
-function togglePhoto(){
-	if($('#photo_target').is(":visible"))
-		$('#photo_target').hide();
-	else
-		$('#photo_target').show();
-}
-
+*/
 function toggleAction(){
 	if($('#action_target').is(":visible"))
 		$('#action_target').hide();
 	else
 		$('#action_target').show();
+}
+function togglePhoto(){
+	if($('#photo_target').is(":visible"))
+		$('#photo_target').hide();
+	else
+		$('#photo_target').show();
 }
 
 </script>

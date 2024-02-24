@@ -1,11 +1,15 @@
-<div class="dynamic-popup" id="dynamic-popup"><!--  -->
-	<form name="form" method="post" id="edit" action='erp_property/master/status/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;">
-	<div class="modal-header">
-		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-		<h4 class="modal-title">Propery Status
-		</h4>
-	</div>
-	<div class="modal-body">
+<div class="dynamic-popup" id="dynamic-popup">
+	<!--  -->
+	<form name="form" method="post" id="edit"
+		action='erp_property/master/status/ref/<?=$this->param['ref']?>'
+		style="margin-bottom: 0px;">
+		<div class="modal-header">
+			<h4 class="card-title">Propery Status</h4>
+			<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+				<span aria-hidden="true">×</span>
+			</button>
+		</div>
+		<div class="modal-body">
 		<?php if($this->propertyDet['psts_prop_id']):?>
 			<table class="table table-bordered">
 				<tr>

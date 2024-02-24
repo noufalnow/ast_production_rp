@@ -70,20 +70,19 @@ if ($this->employeeDetail['emp_doj'] != '') {
 												</thead>
 												<tbody>
 												<?php
-            foreach ($this->empDocs as $doc) :
-                $doi = '';
-                if ($doc['doc_issue_date']) {
-                    $doi = DateTime::createFromFormat(DFS_DB, $doc['doc_issue_date']);
-                    $doi = $doi->format(DF_DD);
-                }
-                $doe = '';
-                if ($doc['doc_expiry_date']) {
-                    $doe = DateTime::createFromFormat(DFS_DB, $doc['doc_expiry_date']);
-                    $doe = $doe->format(DF_DD);
-                }
-                $encFileId = $this->encode($doc['file_id']);
-                $encDocId = $this->encode($doc['doc_id']);
-                ?>
+                                                    foreach ($this->empDocs as $doc) :
+                                                        $doi = '';
+                                                        if ($doc['doc_issue_date']) {
+                                                            $doi = DateTime::createFromFormat(DFS_DB, $doc['doc_issue_date']);
+                                                            $doi = $doi->format(DF_DD);
+                                                        }
+                                                        $doe = '';
+                                                        if ($doc['doc_expiry_date']) {
+                                                            $doe = DateTime::createFromFormat(DFS_DB, $doc['doc_expiry_date']);
+                                                            $doe = $doe->format(DF_DD);
+                                                        }
+                                                        $encFileId = $this->encode($doc['file_id']);
+                                                        $encDocId = $this->encode($doc['doc_id']);?>
 												<tr>
 														<td>
 														<?=x(array('link'=>'erp_employee/master/empdocview','ref'=>$encDocId,'label'=>$this->docMst[$doc['doc_type']],array("param"=>'class="facebox"')))?>
@@ -232,16 +231,16 @@ if ($this->employeeDetail['emp_doj'] != '') {
 												</thead>
 												<tbody>
 												<?
-            if ($this->empSal) :
-                if ($this->empSal['pay_wef']) {
-                    $wef = DateTime::createFromFormat(DFS_DB, $this->empSal['pay_wef']);
-                    $wef = $wef->format(DF_DD);
-                }
-                if ($this->empSal['pay_dor']) {
-                    $dor = DateTime::createFromFormat(DFS_DB, $this->empSal['pay_dor']);
-                    $dor = $dor->format(DF_DD);
-                }
-                ?>
+                                                    if ($this->empSal) :
+                                                        if ($this->empSal['pay_wef']) {
+                                                            $wef = DateTime::createFromFormat(DFS_DB, $this->empSal['pay_wef']);
+                                                            $wef = $wef->format(DF_DD);
+                                                        }
+                                                        if ($this->empSal['pay_dor']) {
+                                                            $dor = DateTime::createFromFormat(DFS_DB, $this->empSal['pay_dor']);
+                                                            $dor = $dor->format(DF_DD);
+                                                        }
+                                                        ?>
 												<tr>
 														<td class="center"><?=$wef?></td>
 														<td><?=$this->payParticulers[$this->empSal['pay_type']]?></td>
@@ -292,9 +291,9 @@ if ($this->employeeDetail['emp_doj'] != '') {
 												</thead>
 												<tbody>
 												<?php
-        foreach ($this->empStatus as $this->status) :
-            $encStsId = $this->encode($this->status['sts_id']);
-            ?>
+                                                foreach ($this->empStatus as $this->status) :
+                                                    $encStsId = $this->encode($this->status['sts_id']);
+                                                    ?>
 												<tr>
 														<td align="center"><?=$this->status['emp_mstatus']?></td>
 														<td><?=$this->status['sts_remarks']?></td>
@@ -342,9 +341,9 @@ if ($this->employeeDetail['emp_doj'] != '') {
 												</thead>
 												<tbody>
 												<?php
-        foreach ($this->empContract as $this->status) :
-            $encEmcId = $this->encode($this->status['emc_id']);
-            ?>
+                                                foreach ($this->empContract as $this->status) :
+                                                    $encEmcId = $this->encode($this->status['emc_id']);
+                                                    ?>
 												<tr>
 														<td align="center"><?=$this->status['vhl_no']?></td>
 														<td align="left"><?=$this->status['cust_name']?></td>
