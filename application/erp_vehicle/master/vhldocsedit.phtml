@@ -1,10 +1,13 @@
-<div class="dynamic-popup" id="dynamic-popup"><!--  -->
-	<form name="form" method="post" id="edit" name="edit" action='erp_vehicle/master/vhldocsedit/ref/<?=$this->param['ref'];?>' style="margin-bottom: 0px;">
-	<div class="modal-header">
-		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-		<h4 class="modal-title">Modify Documet Details</h4>
-	</div>
-	<div class="modal-body">		
+<div class="dynamic-popup" id="dynamic-popup">
+	<form name="form" method="post" id="edit" action='erp_vehicle/master/vhldocsedit/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;" enctype="multipart/form-data">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h4 class="card-title">Modify Document Details</h4>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+		<div class="modal-body"> 	
 				<div class="row mb-4" style="margin-top: 15px;">
 					<label class="col-sm-2 form-label" >Document No.</label>
 					<div class="col-sm-4">
@@ -57,7 +60,7 @@
                  		<?=$this->form->my_files->show()?>
                  	</div>
 				</div>
-	</div>
+		</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-primary submit-alias livepost" >Update</button>
 		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>

@@ -86,7 +86,7 @@ class masterController extends mvc
                     $data['vhl_site'] = $valid['location'];
                 $insert = $vehicle->add($data);
                 if ($insert) {
-                    $this->view->feedback = 'Property details added successfully';
+                    $this->view->feedback = 'Vehicle details added successfully';
                     $this->view->NoViewRender = true;
                 }
             }
@@ -363,6 +363,11 @@ class masterController extends mvc
         $vhlService = $serviceObj->getDetByVehicleId(array(
             'srv_vhl_id' => $vehicleDetail['vhl_id']
         ));
+        
+        //print_r($vhlService);
+        //die();
+        
+        
         return array(
             $this->view->vehicleDetail = $vehicleDetail,
             $this->view->vhlDocs = $vhlDocs,

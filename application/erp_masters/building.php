@@ -190,6 +190,7 @@ class buildingController extends mvc {
 		$this->view->BuildingList= $buildingObj->getBuildingPaginate( @$where );;
 		$this->view->form = $form;
 		$this->view->buildingObj= $buildingObj;
+		$this->view->filter_class = $filter_class;
 	}
 	public function viewAction() {
 		$this->view->response ( 'ajax' );

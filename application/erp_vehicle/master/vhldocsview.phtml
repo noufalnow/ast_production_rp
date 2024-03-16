@@ -1,10 +1,12 @@
-<div class="dynamic-popup" id="dynamic-popup"><!--  -->
-	<form name="form" method="post" id="edit" name="edit" action='<?=APPURL?>users/edit/ref/<?=$ref?>' style="margin-bottom: 0px;">
-	<div class="modal-header">
-		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-		<h4 class="modal-title">Documet Details</h4>
-	</div>
-	<div class="modal-body">
+<div class="dynamic-popup" id="dynamic-popup">
+		<form name="form" method="post" id="edit" name="edit" action='<?=APPURL?>users/edit/ref/<?=$ref?>' style="margin-bottom: 0px;">
+		<div class="modal-header">
+			<h4 class="card-title">Documet Details</h4>
+			<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+				<span aria-hidden="true">×</span>
+			</button>
+		</div>
+		<div class="modal-body">
 				<div class="row mb-4">
 					<label class="col-sm-2 form-label" >Document Type</label>
 					<div class="col-sm-4">
@@ -63,6 +65,6 @@
 </div>
 <script type="text/javascript">
 $(document).ready(function($) {
-	$('.modal-dialog').css('width', '550px');
+	$('.modal-dialog').css('width', '60%');
 })
 </script>

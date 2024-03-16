@@ -1,10 +1,12 @@
-<div class="dynamic-popup" id="dynamic-popup"><!--  -->
-	<form name="form" method="post" id="delete" name="delete" action='erp_vehicle/master/vhldocsdelete/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;">
-	<input type="hidden" value="<?=$ref?>" name="hidden">
-	<div class="modal-header">
-		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-		<h4 class="modal-title">Delete document form the system</h4>
-	</div>
+<div class="dynamic-popup" id="dynamic-popup">
+		<form name="form" method="post" id="edit" name="edit" action='erp_vehicle/master/vhldocsdelete/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;">
+		<div class="modal-header">
+			<h4 class="card-title">Delete document form the system</h4>
+			<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+				<span aria-hidden="true">×</span>
+			</button>
+		</div>
+		<div class="modal-body">
 	<div class="modal-body">
 		<b>Document : <?=$this->documentDetail['doc_no']?></b>
 		</br>

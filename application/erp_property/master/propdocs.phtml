@@ -16,7 +16,7 @@
 						<tr>
 							<td>
 								<input type="hidden" name="image" value="image">
-								<button type="button" onclick="formSubmit(this,'menu2');return false;" class="btn  btn-success btn-rounded" style="font-size: 120%; height: 33px; padding-top: 2px; padding-bottom: 2px; margin-top: 8px; float: left;">Upload</button>
+								<button type="button" onclick="formSubmit(this,'menu2');return false;" class="btn  btn-primary align-button" style="float: left;">Upload</button>
 							</td>
 							</tr>
 					</thead>
@@ -98,17 +98,18 @@
 					<div class="col-sm-4">
                     <?=$this->form->alert->show()?>
                   </div>
-
-					<div class="col-md-2"></div>
-					<div class="col-md-4">	
-						<button type="button" onclick="formSubmit(this,'menu2');return false;" style="padding-left: 15px;" class="btn  btn-primary align-button">Add</button>
 				</div>
+				<div class="row mb-4">
+					<div class="col-md-9"></div>
+					<div class="col-md-3">	
+						<button type="button" onclick="formSubmit(this,'menu2');return false;" style="padding-left: 15px;" class="btn btn-primary pull-right">Add Document</button>
+					</div>
 				</div>
 				<input type="hidden" name="tab" value="doc">
 			</form>
 		</div>
 	</div>
-	<div class="full-width" style="padding-top: 2px; border-bottom-width: 0px; padding-bottom: 2px;">
+	<div class="full-width mt-2" style="padding-top: 2px; border-bottom-width: 0px; padding-bottom: 2px;">
 		<div class="col-md-13">
 			<div id="accordion" class="panel-group">
 				<div class="panel panel-default">

@@ -14,13 +14,8 @@
 						</ol>
 					</div>
 					<div class="ms-auto pageheader-btn">
-                        <?=x(array('link'=>'erp_property/master/add','label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')),'<br><br>')?>
-                        <?=x(array('link'=>'erp_masters/building/list','label'=>'<button class="btn btn-success pull-right" >Buildings</button>',''),'<br><br>')?>
-                        <a href="javascript:void(0);"
-							class="btn btn-success btn-icon text-white"> <span> <i
-								class="fe fe-log-in"></i>
-						</span> Export
-						</a>
+                        <?=x(array('link'=>'erp_property/master/add','label'=>'<button class="btn btn-success pull-right btn btn-primary btn-icon text-white me-2" >Add Building <i
+							class="fe fe-plus"></i></button>',array("param"=>'class="facebox"')),'<br><br>')?>
 					</div>
 				</div>
 				<!-- PAGE-HEADER END -->
@@ -81,14 +76,13 @@
 						<div class="">
 							<div class="card">
 								<div class="card-header">
-									<h3 class="card-title">Employees</h3>
+									<h3 class="card-title">Properties</h3>
 								</div>
 								<div class="card-body">
-									<div class="table-responsive export-table">
-										<table id="file-datatable"
-											class="table table-bordered text-nowrap key-buttons border-bottom w-100">
-											<thead>
-												<tr>
+									<div class="table-responsive">
+                                        <table aria-describedby="" class="table table-bordered text-nowrap no-footer">
+                                                <thead class="border-top">
+                                                  <tr role="row">
 													<th width="5%" class="center">Sl No</th>
 													<th width="5%" class="center">File No.</th>
 													<th width="6%" class="center">Property No</th>

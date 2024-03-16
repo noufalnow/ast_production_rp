@@ -17,8 +17,11 @@ class documets extends db_table {
                 tnt_full_name as agr_tenant,
                 tnt_phone as agr_mobile,
                 payments.collected,
-                payments.to_collect
+                payments.to_collect,
+                prop_fileno,
+                prop_id
                 from $this->_table 
+                left join mis_property as property on property.prop_id = doc_ref_id and doc_type = 201
                 left join mis_tenants as tenants on tenants.tnt_id = agr_tnt_id and tenants.deleted = 0
 				left join core_files as files on files.file_ref_id = $this->_table.doc_id and files.deleted = 0
 		        left join ( SELECT ROUND(SUM(popt_amount)) AS to_collect,
@@ -44,7 +47,6 @@ class documets extends db_table {
 		
 		$this->_order [] = 'doc_id DESC';
 
-	
 		return parent::fetchAll ( $cond );
 	}
 	

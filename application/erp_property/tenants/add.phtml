@@ -1,13 +1,13 @@
-
 <div class="dynamic-popup" id="dynamic-popup">
 	<!--  -->
-	<form name="form" method="post" id="add"
+	<form name="form" method="post" id="edit"
 		action='erp_property/tenants/add' style="margin-bottom: 0px;">
 		<div class="modal-header">
-			<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-			<h4 class="modal-title">Add Tenant</h4>
+			<h4 class="card-title">Add Tenant</h4>
+			<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+				<span aria-hidden="true">×</span>
+			</button>
 		</div>
-
 		<div class="modal-body">
 			<div class="row mb-4" style="margin-top: 15px;">
 				<label class="col-sm-2 form-label">Tenant Type</label>
@@ -70,7 +70,7 @@
 
 <script type="text/javascript">
 $(document).ready(function($) {
-	$('.modal-dialog').css('width', '850px');
+	$('.modal-dialog').css('width', '85%');
 })
 </script>
 

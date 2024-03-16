@@ -1,8 +1,10 @@
 <div class="dynamic-popup" id="dynamic-popup"><!--  -->
-<form name="form" method="post" id="edit" action='erp_vehicle/services/vhlservice/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;">	<div class="modal-header">
-		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-		<h4 class="modal-title">Service Details 
-		</h4>
+	<form name="form" method="post" id="edit" action='erp_vehicle/services/vhlservice/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;">
+	<div class="modal-header">
+				<h4 class="card-title">Service details</h4>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+					<span aria-hidden="true">×</span>
+				</button>
 	</div>
 	<div class="modal-body">
 				<div class="row mb-4" style="margin-top: 15px;">
@@ -49,16 +51,16 @@
                   </div>
 				</div>	
 				<div class="row mb-4">
-					<label class="col-sm-2 form-label" >Next </label>
-					<div class="col-sm-2">
+					<label class="col-sm-1 form-label" >Next </label>
+					<div class="col-sm-3">
                     <?=$this->form->nxtstatus->show()?>
                   </div>
-					<label class="col-sm-2 form-label" >Reading</label>
-					<div class="col-sm-2">
+					<label class="col-sm-1 form-label" >Reading</label>
+					<div class="col-sm-3">
                     <?=$this->form->readingnxt->show()?>
                   </div>
-                  	<label class="col-sm-2 form-label" >Date</label>
-					<div class="col-sm-2">
+                  	<label class="col-sm-1 form-label" >Date</label>
+					<div class="col-sm-3">
                     <?=$this->form->nextDt->show()?>
                   </div>
 				</div>	
@@ -99,10 +101,13 @@
 					<div><a  style="background-color: yellowgreen;margin: 1px;" id="myLink" title="Add more" href="#" onclick="addRow('multi_table');return false;" class="btn">More</a>
 					</div>
                  </div>			
+                  	</div>
                  </div>
+                 
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-primary submit-alias livepost" >Update</button>
+		<button type="button" class="btn btn-primary submit-alias livepost">Save
+			changes</button>
 		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
 	</div>
 </form>	

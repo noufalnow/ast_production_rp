@@ -1,54 +1,79 @@
-<div class="card-block" style="padding-top: 2%;">
-	<div class="full-width">
-		<?=x(array('link'=>'erp_vehicle/master/add','label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')),'<br><br>')?>
-	</div>
-	<h5 class="title-margin">List of Vehicles</h5>
-</div>
 <form method="get" id="filter" name="filter" action="list">
-<div class="col-md-12 card filter-card">
-		<table class="">
-			<tr style="font-size: 0.8em;">
-				<th width="15%">Vehicle No</th>
-				<th width="15%">Type</th>
-				<th width="15%">Model</th>
-				<th width="15%">Company</th>
-				<th width="15%"></th>
-			</tr>
-			<tr>
-				<td width="24%">
-					<div class="form-group ">
-                	<?=$this->form->f_vhlno->show()?>
-              		</div>
-				</td>
-				<td>
-					<div class="form-group ">
-                	<?=$this->form->f_type->show()?>
-              		</div>
-				</td>
-				<td>
-					<div class="form-group ">
-                	<?=$this->form->f_model->show()?>
-              		</div>
-				</td>
-				<td>
-					<div class="form-group ">
-                	<?=$this->form->f_company->show()?>
-              		</div>
-				</td>
-				<td width="15%" align="center">
-	              <div class="form-group ">
-					<button class="btn <?=$this->filter_class?>" type="submit" >Filter</button>
-					<input class="btn btn-secondary" name="clear" type="submit" value="All"></input>
-	              </div>
-				</td>
-			</tr>
-		</table>
-	</div>
-<div class="col-md-12">
-	<div class="card">
-		<table class="table table-bordered grid">
-			<thead>
-				<tr>
+	<div class="main-content mt-0 hor-content">
+		<div class="side-app">
+			<!-- CONTAINER -->
+			<div class="main-container container">
+				<!-- PAGE-HEADER -->
+				<div class="page-header">
+					<div>
+						<h1 class="page-title">Vehicles</h1>
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="javascript:void(0);">Home</a>
+							</li>
+							<li class="breadcrumb-item active" aria-current="page">Vehicles</li>
+						</ol>
+					</div>
+					<div class="ms-auto pageheader-btn">					
+                        <?=x(array('link' => 'erp_vehicle/master/add','label' => '<button class="btn btn-primary btn-icon text-white me-2" > <i
+							class="fe fe-plus"></i>
+					</span> Add Vehicle</button>',array("param" => 'class="facebox"')), '<br><br>')?>					
+							
+					</div>
+				</div>
+				<!-- PAGE-HEADER END -->
+				<!-- ROW -->
+				<div class="row row-sm">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Filters</h3>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="file_no" class="form-label">Vehicle No</label>
+                                            <?=$this->form->f_vhlno->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="name" class="form-label">Type</label>
+                                            <?=$this->form->f_type->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label class="form-label"> Model</label>
+                                            <?=$this->form->f_model->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label class="form-label"> Company</label>
+                                            <?=$this->form->f_company->show()?>
+                                        </div>
+									</div>
+								</div>
+								<button class="btn <?=$this->filter_class?> mt-4 mb-0"
+									type="submit">Filter</button>
+								<input class="btn btn-secondary mt-4 mb-0" name="clear"
+									type="submit" value="All"></input>
+							</div>
+						</div>
+					</div>
+					<!-- ROW -->
+					<div class="">
+						<div class="">
+							<div class="card">
+								<div class="card-header">
+									<h3 class="card-title">Vehicles</h3>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive export-table">
+                                        <table aria-describedby="" class="table table-bordered text-nowrap no-footer">
+                                                <thead class="border-top">
+                                                  <tr role="row">
 					<th width="5%" class="center">Sl No</th>
 					<th width="9%" class="center">Vehicle No</th>
 					<th width="15%" class="center">Category</th>
@@ -103,8 +128,17 @@
 			</tbody>
 		</table>
 		<?$this->vehicleObj->pagination();?>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
 	</div>
-</div>
 </form>
 	<?=x(array('link'=>'erp_report/vehicle/vehicle','label'=>'
 		<div class="col-md-3">
@@ -222,6 +256,7 @@ $nonVhlExpSumm = $this->vehicleObj->getVehicleExpSummary(array('comm_status'=>1)
 <script type="text/javascript">
 baseurl = '<?=APPURL?>';
 
+<?php /*
 Highcharts.chart('container-comm', {
     chart: {
         type: 'column'
@@ -359,5 +394,7 @@ Highcharts.chart('container-ncomm', {
         }
     }]
 });
+
+*/ ?>
 </script>
 

@@ -1,10 +1,12 @@
-<div class="dynamic-popup" id="dynamic-popup"><!--  -->
-	<form name="form" method="post" id="edit" name="edit" action='<?=APPURL?>users/edit/ref/<?=$ref?>' style="margin-bottom: 0px;">
-	<div class="modal-header">
-		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-		<h4 class="modal-title">Documet Details</h4>
-	</div>
-	<div class="modal-body">
+<div class="dynamic-popup" id="dynamic-popup">
+		<form name="form" method="post" id="edit" name="edit" action='<?=APPURL?>users/edit/ref/<?=$ref?>' style="margin-bottom: 0px;">
+		<div class="modal-header">
+			<h4 class="card-title">Documet Details</h4>
+			<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+				<span aria-hidden="true">×</span>
+			</button>
+		</div>
+		<div class="modal-body">
 				<div class="row mb-4">
 					<label class="col-sm-3 form-label" >Document Type</label>
 					<div class="col-sm-3">
@@ -66,11 +68,11 @@
                     <?=x(array('link'=>'default/default/download','ref'=>$this->encFileId,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?>
                   </div>
 				</div>
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-	</div>
-</form>	
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+		</div>
+	</form>
 </div>
 <script type="text/javascript">
 $(document).ready(function($) {

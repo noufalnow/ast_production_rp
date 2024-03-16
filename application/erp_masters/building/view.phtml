@@ -1,49 +1,52 @@
 <div class="dynamic-popup" id="dynamic-popup">
-	<div class="modal-header">
-		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-		<h4 class="modal-title">Building Details</h4>
-	</div>
-
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h4 class="card-title">Building Details</h4>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
 	<div class="modal-body">
 		<div class="row mb-4" style="margin-top: 15px;">
-			<label class="col-sm-2 form-label">Name</label>
-			<div class="col-sm-4">
+			<label class="col-sm-3 form-label">Name</label>
+			<div class="col-sm-3">
                     <?=$this->buildingDetail['bld_name']?>
                   </div>
 
-			<label class="col-sm-2 form-label">No.</label>
-			<div class="col-sm-4">
+			<label class="col-sm-3 form-label">No.</label>
+			<div class="col-sm-3">
                     <?=$this->buildingDetail['bld_no']?>
                   </div>
 		</div>
 		<div class="row mb-4">
-			<label class="col-sm-2 form-label">Area</label>
-			<div class="col-sm-4">
+			<label class="col-sm-3 form-label">Area</label>
+			<div class="col-sm-3">
                     <?=$this->buildingDetail['bld_area']?>
                   </div>
 
-			<label class="col-sm-2 form-label">Block No.</label>
-			<div class="col-sm-4">
+			<label class="col-sm-3 form-label">Block No.</label>
+			<div class="col-sm-3">
                     <?=$this->buildingDetail['bld_block_no']?>
                   </div>
 		</div>
 		<div class="row mb-4">
-			<label class="col-sm-2 form-label">Plot</label>
-			<div class="col-sm-4">
+			<label class="col-sm-3 form-label">Plot</label>
+			<div class="col-sm-3">
                     <?=$this->buildingDetail['bld_plot_no']?>
                   </div>
-			<label class="col-sm-2 form-label">Way</label>
-			<div class="col-sm-4">
+			<label class="col-sm-3 form-label">Way</label>
+			<div class="col-sm-3">
                     <?=$this->buildingDetail['bld_way']?>
                   </div>
 		</div>
 		<div class="row mb-4">
-			<label class="col-sm-2 form-label">Street</label>
-			<div class="col-sm-4">
+			<label class="col-sm-3 form-label">Street</label>
+			<div class="col-sm-3">
                     <?=$this->buildingDetail['bld_street']?>
                   </div>
-			<label class="col-sm-2 form-label">Block Name</label>
-			<div class="col-sm-4">
+			<label class="col-sm-3 form-label">Block Name</label>
+			<div class="col-sm-3">
                     <?=$this->buildingDetail['bld_block']?>
                   </div>
 		</div>
@@ -54,6 +57,6 @@
 </div>
 <script type="text/javascript">
 $(document).ready(function($) {
-	$('.modal-dialog').css('width', '550px');
+	$('.modal-dialog').css('width', '700px');
 })
 </script>
