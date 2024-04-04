@@ -394,15 +394,19 @@
     function togglePhoto() {
         if ($('#photo_target').is(":visible"))
             $('#photo_target').hide();
-        else
+        else{
+        	$('#action_target').hide();
             $('#photo_target').show();
+        }
     }
 
     function toggleAction() {
         if ($('#action_target').is(":visible"))
             $('#action_target').hide();
-        else
+        else{
+        	 $('#photo_target').hide();
             $('#action_target').show();
+        }
     }
     </script>
 <style type="text/css">
