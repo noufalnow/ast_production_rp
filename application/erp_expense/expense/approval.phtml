@@ -3,11 +3,14 @@
 if($this->update){
 ?>
 	<form name="form" method="post" style="margin-bottom: 0px;">
-	<div class="modal-header">
-		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+<div class="modal-header">
+			<h4 class="card-title"> Expense Details</h4>
+			<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+				<span aria-hidden="true">×</span>
+			</button>
+		</div>
+		<div class="modal-body">
 		<h4 class="modal-title">Expense status updated successfully</h4>
-	</div>
-	<div class="modal-body">
 		<b>	File No : <?=$this->expNo;?> </b>
 	</div>
 	<div class="modal-footer">
@@ -20,10 +23,12 @@ else{
 
 ?>
 <div class="modal-header">
-		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-		<h4 class="modal-title"> &nbsp; Expense Details </h4>
-	</div>
-	<div class="modal-body">
+			<h4 class="card-title"> Expense Details</h4>
+			<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+				<span aria-hidden="true">×</span>
+			</button>
+		</div>
+		<div class="modal-body">
 		<table class="table table-bordered">
 			<tr>
 				<th colspan="2"><?=$this->expenseDet['exp_file_no']?></th>
@@ -101,15 +106,14 @@ else{
 		
 	</table>
 		
-		<table class="table table-bordered">
-			<tr>
-				<th colspan="4">Approval Details</th>
-			</tr>
-			<tr>
-				<th>Approved On </th>
-				<th><?=$this->expenseDet['app_dttime']?> </th>
-			</tr>
-		</table>
+	<?php if($this->expenseDet['app_dttime']):?>	
+	<table class="table table-bordered">
+		<tr>
+			<th colspan="2">Approved On </th>
+			<th colspan="2"><?=$this->expenseDet['app_dttime']?> </th>
+		</tr>
+	</table>
+	<?php endif;?>
 	
 	<?php if(count($this->paymentDetails)>0):?>
 		<table class="table table-bordered">

@@ -1215,6 +1215,8 @@ class expenseController extends mvc
 
                 require_once __DIR__ . '/../admin/!model/category.php';
                 $catModelObj = new category();
+                
+                $ptype = $_POST ['pType'];
 
                 switch ($_POST ['refParam']) {
                     case 'parent' :
@@ -1228,7 +1230,7 @@ class expenseController extends mvc
                             'key' => '',
                             'value' => 'Select Sub Category'
                         );
-                        if (! $this->view->param ['type'])
+                        if (!empty($ptype))
                             $sCatList ["-1"] = "--Add New Sub Category--";
                             
                             if (count ( $sCatList ))
@@ -1249,7 +1251,7 @@ class expenseController extends mvc
                             'key' => '',
                             'value' => 'Select Child Category'
                         );
-                        if (! $this->view->param ['type'])
+                        if (!empty($ptype))
                             $cCatList ["-1"] = "--Add New Child Category--";
                             
                             if (count ( $cCatList ))

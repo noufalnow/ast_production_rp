@@ -400,14 +400,14 @@ function setDatePicker(dateElement){
 	}
 }
 
-function getJaxData(refId, refElement,url,refParam)
+function getJaxData(refId, refElement,url,refParam,pType)
 {
 	if((refId!='')&&(refId!=null)&&(refId!=undefined))
 	{
 		$.ajax({
 			  type: 'POST',
 			  url: url,
-			  data: {refId:refId,refParam:refParam},
+			  data: {refId:refId,refParam:refParam,pType:pType },
 			  beforeSend: function () { displayOverlay('Loading...'); },
 			  success: function(response)
 							  {

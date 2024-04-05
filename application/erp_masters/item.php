@@ -14,13 +14,15 @@ class itemController extends mvc {
 		$form->addElement ( 'price', 'Price', 'float', 'required|numeric' );
 		
 		if ($_POST) {
-			if (! isset ( $_SERVER ['HTTP_X_REQUESTED_WITH'] ) and strtolower ( $_SERVER ['HTTP_X_REQUESTED_WITH'] ) != 'xmlhttprequest') {
-				die ( '---' ); // exit script outputting json data
-			} else {
-				
-				$valid = $form->vaidate ( $_POST, $_FILES );
-				$valid = $valid [0];
-				if ($valid == true) {
+		    if (! isset ( $_SERVER ['HTTP_X_REQUESTED_WITH'] ) and strtolower ( $_SERVER ['HTTP_X_REQUESTED_WITH'] ) != 'xmlhttprequest') {
+		        die ( '---' ); // exit script outputting json data
+		    } else {
+		        
+		        $valid = $form->vaidate ( $_POST, $_FILES );
+		        $valid = $valid [0];
+		        if ($valid == true) {
+		            
+		            die("ssdsd");
 					
 					$data = array (
 							'item_code' => $valid ['code'],
@@ -192,6 +194,7 @@ class itemController extends mvc {
 		$this->view->ItemsList= $ItemsList;
 		$this->view->form = $form;
 		$this->view->itemObj= $itemObj;
+		$this->view->filter_class = $filter_class;
 	}
 	public function viewAction() {
 		$this->view->response ( 'ajax' );

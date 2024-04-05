@@ -1,17 +1,13 @@
-<div class="dynamic-popup" id="dynamic-popup"><!--  -->
-	<form name="form" method="post" id="edit" action='erp_expense/expense/edit/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;">
-	<div class="modal-header">
-		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-			<h4 class="modal-title">Updte Expense Entry Dtails
-			<?php if($this->expDet['cb_id'] <> '' && $this->expDet['cb_type_ref']!=USER_ID):?><?php else:?>
-			<span style="float:right; color:green;">
-    			<?=$this->form->percb->show();?>                   	
-                <?=$this->form->cbamount->show()?>
-            <?php endif?>
-            </span>
-		</h4>		
-	</div>
-		<div class="modal-body">
+<div class="dynamic-popup" id="dynamic-popup">
+	<form name="form" method="post" action='erp_expense/expense/edit/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;" enctype="multipart/form-data">		
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h4 class="card-title">Update Expense Details</h4>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
 			<div class="row mb-4" style="">
 				<label class="col-sm-2 form-label" >Vendor</label>
 				<div class="col-sm-4">
@@ -27,12 +23,12 @@
 				<div class="col-sm-3">
                 <?=$this->form->refno->show()?>
               </div>
-              	<label class="col-sm-2 form-label" style="width: 8%;">Date:
+              	<label class="col-sm-1 form-label" style="width: 8%;">Date:
 					</label>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
                 <?=$this->form->billdt->show()?>
               </div>
-				<label class="col-sm-2 form-label" style="width: 8%;">Company
+				<label class="col-sm-1 form-label" style="width: 8%;">Company
 					</label>
 				<div class="col-sm-2">
                 <?=$this->form->company->show()?>
@@ -132,30 +128,23 @@
                   </div>
 				</div>	
 				
-				<div class="row mb-4">
-					<label class="col-sm-2 form-label" >Payment Mode</label>
-					<div class="col-sm-2" style="margin-top: 0.7em;">
-                    <?=$this->form->paymod->show()?>
-                  </div>
-                  <div id="id_dtdys">
-	                  <label class="col-sm-1 form-label" >Date/Days</label>
-	                  	<div id="" class="col-sm-2" style="margin-top: 0.7em;">
-	                     <?=$this->form->paydtption->show()?>
-	                  </div>
-                  </div>
-                  <div id="id_days">
-	                  <label class="col-sm-2 form-label" >Pay By Days</label>
-	                  	<div id="" class="col-sm-1">
-	                     <?=$this->form->paydays->show()?>
-	                  </div>
-                  </div>
-                  <div id="id_date">
-	                  <label class="col-sm-2 form-label" >Pay By Date</label>
-	                  	<div id="" class="col-sm-2">
-	                     <?=$this->form->payby->show()?>
-	                  </div>
-				  </div>
-				  </div>
+				<div class="row mb-4 col-sm-12">
+				       <div class="col-sm-2" style="margin-top: 0.9em;">
+        					<label class="form-label" >Payment Mode</label>
+                      </div>
+    				  <div class="col-sm-2" style="margin-top: 1.7em;">
+                        	<?=$this->form->paymod->show()?>
+                      </div>
+                      <div id="id_dtdys" class="col-sm-2" style="margin-top: 1.7em;">
+    	                 	<?=$this->form->paydtption->show()?>
+                      </div>
+                      <div id="id_days" class="col-sm-4" style="margin-top: 0.9em;">
+    	                     <?=$this->form->paydays->show()?>
+                      </div>
+                      <div id="id_date" class="col-sm-4" style="margin-top: 0.9em;">
+    	                     <?=$this->form->payby->show()?>
+    				  </div>
+				</div>
 							
 				<div class="row mb-4">
 					<label class="col-sm-3 form-label" >Upload Document</label>

@@ -1,11 +1,12 @@
-<div class="dynamic-popup" id="dynamic-popup"><!--  -->
-	<form name="docform" method="post" id="docform" action="<?=APPURL?>expense/update/ref/<?=$ref?>"style="margin-bottom: 0px;" enctype="multipart/form-data">
-	<div class="modal-header">
-		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-		<h4 class="modal-title"> &nbsp; Expense Details 
-		</h4>
-	</div>
-	<div class="modal-body">
+<div class="dynamic-popup" id="dynamic-popup">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h4 class="card-title"> Expense Details</h4>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
 		<table class="table table-bordered">
 			<tr>
 				<th colspan="2"><?=$this->expenseDet['exp_file_no']?></th>
@@ -84,16 +85,15 @@
 		<?php endforeach;?>
 		
 	</table>
-		
-		<table class="table table-bordered">
-			<tr>
-				<th colspan="4">Approval Details</th>
-			</tr>
-			<tr>
-				<th>Approved On </th>
-				<th><?=$this->expenseDet['app_dttime']?> </th>
-			</tr>
-		</table>
+	
+	<?php if($this->expenseDet['app_dttime']):?>	
+	<table class="table table-bordered">
+		<tr>
+			<th colspan="2">Approved On </th>
+			<th colspan="2"><?=$this->expenseDet['app_dttime']?> </th>
+		</tr>
+	</table>
+	<?php endif;?>
 	
 	<?php if(count($this->paymentDetails)>0):?>
 		<table class="table table-bordered">
