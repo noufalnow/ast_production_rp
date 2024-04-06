@@ -1,9 +1,12 @@
-<div class="dynamic-popup" id="dynamic-popup"><!--  -->
-	<div class="modal-header">
-		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-		<h4 class="modal-title">Update Payment Details</h4>
-	</div>
+<div class="dynamic-popup" id="dynamic-popup">
 		<form name="form" method="post" id="edit" action='erp_expense/payments/editoption/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h4 class="card-title">Update Payment Details : Cash Flow Entry</h4>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
 	<div class="modal-body">
 	
 		<div class="col-md-12 card" style="padding-top: 15px; margin-bottom: 3px;"> 
@@ -35,7 +38,7 @@
 				<tr>
 					<td class="center"><?=@++$offset;?></td>
 					<td><?=$expense['exp_refno']?></td>
-					<td><?=$expense['exp_billdt']?></td>
+					<td><?=$expense['exp_billdt_dd']?></td>
 					<td><?=$expense['exp_billdt']?></td>
 					<td><?=$expense['comp_disp_name']?></td>
 					<td><?=$expense['main_head']?></td>
@@ -63,7 +66,7 @@
 			</thead>
 			<thead>
 				<tr>
-					<th width="20%" class="center"><?=$this->payDet['pay_paydate']?></th>
+					<th width="20%" class="center"><?=$this->payDet['pay_date_dd']?></th>
 					<th width="20%" class="center"><?=$this->payDet['pay_pay_mode']?></th>
 					<th width="20%" class="center"><?=$this->payDet['pay_chqno']?></th>
 					<th width="20%" class="center"><?=$this->payDet['pay_remarks']?></th>

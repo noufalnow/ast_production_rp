@@ -1,36 +1,59 @@
-<div class="card-block" style="padding-top: 2%;">
-	<div class="full-width">
-		<?=x(array('link'=>'erp_expense/payments/add','label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')))?>
-	</div>
-	<h5 class="title-margin">List of Payments</h5>
-</div>
+<?$offset = $this->buildingObj->_voffset;?>
 <form method="get" id="filter" name="filter" action="list">
-	<div class="col-md-12 card filter-card">
-		<table class="">
-			<tr style="font-size: 0.8em;">
-				<th width="50%">Vendor</th>
-			</tr>
-			<tr>
-				<td width="50%">
-					<div class="form-group ">
-                	<?=$this->form->f_selVendor->show()?>
-              		</div>
-				</td>
-				<td width="15%" align="center">
-	              <div class="form-group ">
-					<button class="btn <?=$this->filter_class?>" type="submit" >Filter</button>
-					<input class="btn btn-secondary" name="clear" type="submit" value="All"></input>
-	              </div>
-				</td>
-			</tr>
-		</table>
-	</div>
-
-<div class="col-md-12">
-	<div class="card">
-		<table class="table table-bordered grid">
-			<thead>
-				<tr>
+	<div class="main-content mt-0 hor-content">
+		<div class="side-app">
+			<!-- CONTAINER -->
+			<div class="main-container container">
+				<!-- PAGE-HEADER -->
+				<div class="page-header">
+					<div>
+						<h1 class="page-title">List of Payments</h1>
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="javascript:void(0);">Home</a>
+							</li>
+							<li class="breadcrumb-item active" aria-current="page">Manage
+								Payments</li>
+						</ol>
+					</div>
+					<div class="ms-auto pageheader-btn">
+		<?=x(array('link'=>'erp_expense/payments/add','label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')))?>
+					</div>
+				</div>
+				<!-- PAGE-HEADER END -->
+				<!-- ROW -->
+				<div class="row row-sm">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Filters</h3>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label for="file_no" class="form-label">Vendor</label>
+                                            <?=$this->form->f_selVendor->show()?>
+                                        </div>
+									</div>
+								</div>
+								<button class="btn <?=$this->filter_class?> mt-4 mb-0"
+									type="submit">Filter</button>
+								<input class="btn btn-secondary mt-4 mb-0" name="clear"
+									type="submit" value="All"></input>
+							</div>
+						</div>
+					</div>
+					<div class="">
+						<div class="">
+							<div class="card">
+								<div class="card-header">
+									<h3 class="card-title">Properties</h3>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive export-table">
+                                        <table aria-describedby="" class="table table-bordered no-footer">
+                                                <thead class="border-top">
+                                                  <tr role="row">
 					<th width="5%" class="center">Sl No</th>
 					<th width="25%" class="center">Vendor Name</th>
 					<th width="6%" class="center">Date</th>
@@ -58,15 +81,15 @@
 					
 					
 					<?php if(empty($pay['pay_app_status'])):?>
-						<?=x(array('link'=>'erp_expense/payments/edit','ref'=>$encPayId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>
-						<?=x(array('link'=>'erp_expense/payments/remittance','ref'=>$encPayId,'label'=>'<i class="glyphicon glyphicon glyphicon-print text-info" style="margin-left: 15px;"></i>',array("param"=>'opener')))?>  
+						<?=x(array('link'=>'erp_expense/payments/edit','ref'=>$encPayId,'label'=>'<i class="fas fa-edit" title="Edit"></i>',array("param"=>'class="facebox"')))?>
+						<?=x(array('link'=>'erp_expense/payments/remittance','ref'=>$encPayId,'label'=>'<i class="glyphicon glyphicon glyphicon-print text-info" style="margin-left: 15px;" title="Remittance Advice"></i>',array("param"=>'opener')))?>  
 					<?php endif?>					
 					
 					</td>
 					<?php if($_SESSION['user_acl']['erp_expense/payments/approval']):?>
 					<td class="center">
 					<?php if($pay['pay_app_status']==0):?>
-						<?=x(array('link'=>'erp_expense/payments/approval','ref'=>$encPayId,'label'=>'<span class="glyphicon glyphicon-ok-circle" style="color:#31708f;font-size: 1.2em;"> </span>',array("param"=>'class="facebox"')))?>  
+						<?=x(array('link'=>'erp_expense/payments/approval','ref'=>$encPayId,'label'=>'<span class="glyphicon glyphicon-ok-circle" style="color:#31708f;font-size: 1.2em;" title="Approve"> </span>',array("param"=>'class="facebox"')))?>  
 					<?php endif?>
 					</td>
 					<?php endif;?>
@@ -75,10 +98,10 @@
 					<?php if($pay['pay_pay_status']==2):?>
 						<i class="glyphicon glyphicon-check text-info"></i>
 					<?php elseif($pay['pay_pay_status']==1):?>
-						<?=x(array('link'=>'erp_expense/payments/close','ref'=>$encPayId,'label'=>'<i class="glyphicon glyphicon-info-sign text-info"></i>',array("param"=>'class="facebox"')))?>
+						<?=x(array('link'=>'erp_expense/payments/close','ref'=>$encPayId,'label'=>'<i class="glyphicon glyphicon-info-sign text-info" title="File and Close Payment Transaction"></i>',array("param"=>'class="facebox"')))?>
 					
 					<?php elseif($pay['pay_app_status']==1):?>
-						<?=x(array('link'=>'erp_expense/payments/voucher','ref'=>$encPayId,'label'=>'<i class="glyphicon glyphicon-info-sign text-info" style="color: tomato;"></i>',array("param"=>'class="facebox"')))?>
+						<?=x(array('link'=>'erp_expense/payments/voucher','ref'=>$encPayId,'label'=>'<i class="glyphicon glyphicon-info-sign" style="color: red;" title="Upload Voucher" ></i>',array("param"=>'class="facebox"')))?>
 					<?php endif?>
 					</td>
 					
@@ -86,12 +109,12 @@
 						<?=x(array('link'=>'erp_expense/payments/view','ref'=>$encPayId,'label'=>'<i class="fas fa-search"></i>',array("param"=>'class="facebox"')))?> 
 					</td>
 					<td>
-						<?=x(array('link'=>'erp_expense/payments/editoption','ref'=>$encPayId,'label'=>$pay['pay_file_no'],array("param"=>'class="facebox"')))?>  
+						<?=x(array('link'=>'erp_expense/payments/editoption','ref'=>$encPayId,'label'=>$pay['pay_file_no'] ,array("param"=>'class="facebox"')))?>  
 					</td>
 				</tr>
 				<tr style="display:none;">
 				<td></td>
-				<td colspan="8"><?=$pay['bill_det']?></td>
+				<td colspan="8" style="padding: 16px !important;"><b class=""><?=$pay['bill_det']?></b></td>
 				</tr>
 				<?php endforeach?>
 			<?endif?>
@@ -99,8 +122,7 @@
 		</table>
 		<?$this->paymentObj->pagination();?>
 	</div>
-</div>
-
+</div></div></div></div></div></div></div></div>
 </form>
 <?=x(array('link'=>'erp_report/expense/payments','label'=>'
 	<div class="col-md-3">

@@ -220,6 +220,7 @@ class vendorController extends mvc {
 		$this->view->vendorList = $vendorList;
 		$this->view->vendorObj = $vendorObj;
 		$this->view->form  = $form;
+		$this->view->filter_class = $filter_class;
 	}
 	public function viewAction() {
 		require_once __DIR__ . '/../admin/!model/vendor.php';

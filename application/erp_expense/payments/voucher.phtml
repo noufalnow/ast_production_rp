@@ -1,10 +1,12 @@
-<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+<div class="dynamic-popup" id="dynamic-popup">
 	<form name="docform" method="post" id="docform" action="erp_expense/payments/voucher/ref/<?=$this->param['ref'];?>"style="margin-bottom: 0px;" enctype="multipart/form-data">
-	<div class="modal-header">
-		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-		<h4 class="modal-title"><i class="glyphicon glyphicon-share text-info"></i> &nbsp; Payment Details 
-		</h4>
-	</div>
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h4 class="card-title">Payment Details : Voucher Update</h4>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
 	<div class="modal-body">
 		<div class="col-md-12 card" style="padding-top: 15px; margin-bottom: 3px;"> 
 		<div style="height: 250px;overflow-y: auto">
@@ -63,7 +65,7 @@
 			</thead>
 			<thead>
 				<tr>
-					<th width="20%" class="center"><?=$this->payDet['pay_paydate']?></th>
+					<th width="20%" class="center"><?=$this->payDet['pay_paydate_dd']?></th>
 					<th width="20%" class="center"><?=$this->payDet['pay_pay_mode']==1?'Cash':'Credit';?></th>
 					<th width="20%" class="center"><?=$this->payDet['pay_chqno']?></th>
 					<th width="20%" class="center"><?=$this->payDet['pay_remarks']?></th>

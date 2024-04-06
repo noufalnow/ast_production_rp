@@ -54,11 +54,12 @@ class payment extends db_table {
 	}
 	
 	public function getPaymentDetById($id){
-		return parent::getById ($id);
+		return parent::getById ($id,['*',"to_char(pay_paydate,'DD/MM/YYYY') as pay_paydate_dd"] );
 	}
 	
 	public function getPaymentDetByPaymentId($cond) {
-		$this->query ( "select * 
+		$this->query ( "select *,
+                to_char(pay_paydate,'DD/MM/YYYY') as pay_date_dd 
 				from $this->_table
 				LEFT JOIN mis_cash_book as cbook on cbook.cb_exp_id = $this->_table.pay_id and cbook.cb_type = ".CASH_BOOK_PER."
 				-- and cbook.cb_type_ref = ".USER_ID."
@@ -78,6 +79,7 @@ class payment extends db_table {
 	public function getPaymentDetByPayId($cond){
 		
 		$this->query ( "select $this->_table.* ,
+                to_char(pay_paydate,'DD/MM/YYYY') as pay_paydate_dd,
 				files.file_id,
 				vendor.ven_name, 
 				file_actual_name||'.'||file_exten as file_name

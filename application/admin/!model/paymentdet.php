@@ -17,6 +17,7 @@ class paymentdet extends db_table {
 	
 	public function getPaymentExpDet($cond) {
 		$this->query ( "select $this->_table.* ,
+                    to_char(exp_billdt,'DD/MM/YYYY') as exp_billdt_dd,
 					case when exp_mainh = 1 then 'Employee'
 					when exp_mainh = 2 then 'Property'
 					when exp_mainh = 3 then 'Vehicle'

@@ -1,8 +1,11 @@
-<div class="dynamic-popup" id="dynamic-popup"><!--  -->
-	<div class="modal-header">
-		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-		<h4 class="modal-title">Make Payments</h4>
-	</div>
+<div class="dynamic-popup" id="dynamic-popup">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h4 class="card-title">Make Payments</h4>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
 
 		<form name="selectform" method="post" id="filter" action='erp_expense/payments/add' style="margin-bottom: 0px;">
 			<div class="row mb-4" style="padding-top:10px;">
@@ -26,15 +29,15 @@
 				<tr>
 					<th width="4%" class="center">Sl No</th>
 					<th width="4%" class="center">Pay</th>
-					<th width="15%" class="center">Ref No</th>
+					<th width="11%" class="center">Ref No</th>
 					<th width="5%" class="center">Bill Dt.</th>
 					<th width="5%" class="center">Due Dt.</th>
 					<th width="5%" class="center">Company</th>
 					<th width="6%" class="center">Main Head</th>
 					<th width="35%" class="center">Particulers</th>
 					<th width="7%" class="center">Bill Amount</th>
-					<th width="7%" class="center">Discount</th>
-					<th width="7%" class="center">Payment</th>
+					<th width="9%" class="center">Discount</th>
+					<th width="9%" class="center">Payment</th>
 
 					<th width="7%" class="center">Balance</th>
 
@@ -71,29 +74,21 @@
 		</div>
 		</div>			
 					
-		<div class="row mb-4">
-			<label class="col-sm-2 form-label" style="text-align: right;">Payment Date</label>
+		<div class="row mb-4 mt-4">
+			<label class="col-sm-1 form-label" style="text-align: right;"> Date</label>
 			<div class="col-sm-2">
                <?=$this->form2->payby->show()?>
            </div>
-           	<label class="col-sm-2 form-label" style="text-align: right;" >Mode</label>
-			<div class="col-sm-2">
+           	<label class="col-sm-1 form-label" style="text-align: right;" >Mode</label>
+			<div class="col-sm-2 mt-2">
                <?=$this->form2->paymod->show()?>
            </div>
            
-			<div class="col-sm-2">
-               <span style="float:right; color:green;"><?=$this->form2->percb->show();?>                   	
-                    <?=$this->form2->cbamount->show()?>
-                  </span>
-           </div>
-           
-		</div>
-		<div class="row mb-4">
-			<label class="col-sm-2 form-label" style="text-align: right;" >Total Amount</label>
+			<label class="col-sm-1 form-label" style="text-align: right;" >Amount</label>
 			<div class="col-sm-2">
                <?=$this->form2->amount->show()?>
            </div>
-           	<label class="col-sm-2 form-label" style="text-align: right;">Cheque Details</label>
+           	<label class="col-sm-1 form-label" style="text-align: right;">Cheque No.</label>
 			<div class="col-sm-2">
                <?=$this->form2->chqno->show()?>
            </div>
@@ -112,13 +107,20 @@
 		</div>
 		
 		<div class="modal-footer">
-		<?if($this->balanceConfirm):?>
-			<div class="form-group">
-			<label class="col-sm-6 form-label" style="text-align: right;">Note: if invoice balance not zero, the invoice still present in credit invoice!!</label>
-			<div class="col-sm-1"><?=$this->form2->confirm->show()?></div></div>
-		<?php endif?>
-			<button type="button" class="btn btn-primary submit-alias livepost" >Add</button>
-			<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+    		<div class="col-sm-12 row">
+            		<div class="col-sm-10">
+                		<?if($this->balanceConfirm):?>
+                			<div class="form-group">
+                			<label class="col-sm-10 form-label" style="text-align: right;">Note: if invoice balance not zero, the invoice still present in credit invoice!!
+                			<?=$this->form2->confirm->show()?></label>
+                			</div>
+                		<?php endif?>
+            		</div>
+            		<div class="col-sm-2">
+            			<button type="button" class="btn btn-primary submit-alias livepost" >Add</button>
+            			<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+            		</div>
+    		</div>
 		</div>
 	</form>	
 </div>
