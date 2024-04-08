@@ -1,69 +1,89 @@
-<div class="col-md-12">
-<div class="card-block " style="padding-top: 2%;">
-	<div class="full-width">
-		<?=x(array('link'=>'erp_masters/customer/list','label'=>'<button class="btn btn-info pull-right" >Back</button>'))?>
-	</div>
-	<h5 class="title-margin">Customer Details</h5>
-</div>	
-
-	<div class="card" style="padding: 3%;">
+<div class="main-content mt-0 hor-content">
+	<div class="side-app">
+		<!-- CONTAINER -->
+		<div class="main-container container">
+			<!-- PAGE-HEADER -->
+			<div class="page-header">
+				<div>
+					<h1 class="page-title">Customer Details</h1>
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="javascript:void(0);">Home</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">Manage
+							Customer</li>
+					</ol>
+				</div>
+				<div class="ms-auto pageheader-btn">
+					<?=x(array('link'=>'erp_masters/customer/list','label'=>'<button class="btn btn-info pull-right" >Back</button>'))?>
+                    <?=x(array('link'=>'erp_masters/customer/add','label'=>'<button class="btn btn-success pull-right" style="margin-right: 9px;">Add</button>',array("param"=>'class="facebox"')))?>
+                </div>
+			</div>
+			<div class="row row-sm">
+				<div class="">
+					<div class="">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Vendors Details</h3>
+							</div>
+							<div class="card-body">
+								<div class="card" style="padding: 3%;">
 				<div class="row mb-4">
-					<label class="col-sm-2 form-label" >Customer/Company</label>
-					<div class="col-sm-4">
-                     <?=$this->customerDetail['cust_name']?>
-                  </div>
-				<label class="col-sm-2 form-label" >Customer Code</label>
-					<div class="col-sm-4">
-                     <?=$this->customerDetail['cust_id']?>
-                  </div>                  
+    				<label class="col-sm-2 form-label" >Customer/Company</label>
+    					<div class="col-sm-4 form-label">
+                         <?=$this->customerDetail['cust_name']?>
+                      </div>
+    				<label class="col-sm-2 form-label" >Customer Code</label>
+    					<div class="col-sm-4 form-label">
+                         <?=$this->customerDetail['cust_id']?>
+                      </div>                  
 				</div>
 				<div class="row mb-4">
 					<label class="col-sm-2 form-label" >Name (C/o)</label>
-					<div class="col-sm-4">
+					<div class="col-sm-4 form-label">
                     <?=$this->customerDetail['con_name']?>
                   </div>
 
 					<label class="col-sm-2 form-label" >Address</label>
-					<div class="col-sm-4">
+					<div class="col-sm-4 form-label">
                     <?=$this->customerDetail['con_house']?>
                   </div>
 				</div>
 				<div class="row mb-4">
 					<label class="col-sm-2 form-label" >Street</label>
-					<div class="col-sm-4">
+					<div class="col-sm-4 form-label">
                     <?=$this->customerDetail['con_street1']?>
                   </div>
 
 					<label class="col-sm-2 form-label" >Place Name</label>
-					<div class="col-sm-4">
+					<div class="col-sm-4 form-label">
                     <?=$this->customerDetail['con_place']?>
                   </div>
 				</div>
 				<div class="row mb-4">
 					<label class="col-sm-2 form-label" >Locality</label>
-					<div class="col-sm-4">
+					<div class="col-sm-4 form-label">
                       <?=$this->customerDetail['con_locality']?>
                   </div>
 
 					<label class="col-sm-2 form-label" >Zip Code</label>
-					<div class="col-sm-4">
+					<div class="col-sm-4 form-label">
                       <?=$this->customerDetail['con_zip_code']?>
                   </div>
 				</div>
 				<div class="row mb-4">
 					<label class="col-sm-2 form-label" >Phone No</label>
-					<div class="col-sm-4">
+					<div class="col-sm-4 form-label">
                       <?=$this->customerDetail['con_phone']?>
                   </div>
 
 					<label class="col-sm-2 form-label" >Mobile No</label>
-					<div class="col-sm-4">
+					<div class="col-sm-4 form-label">
                       <?=$this->customerDetail['con_mobile']?>
                   </div>
 				</div>
 				<div class="row mb-4">
 					<label class="col-sm-2 form-label" >Remarks</label>
-					<div class="col-sm-4">
+					<div class="col-sm-4 form-label">
                       <?=$this->customerDetail['cust_remarks']?>
                   </div>
 				</div>

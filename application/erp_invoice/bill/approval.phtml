@@ -1,13 +1,15 @@
 <?php if($this->billDet['bill_app_status']==''):?>
-<div class="dynamic-popup" id="dynamic-popup"><!--  -->
-	<div class="modal-header">
-		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-		<h4 class="modal-title"> &nbsp; Approve Invoice No : <b> 
+<div class="dynamic-popup" id="dynamic-popup">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header"> 
+				<h4 class="card-title"> Approve &nbsp; Invoice No : <b> 
 											<?=$this->billInfo['bill_book_no']<>''?$this->billInfo['bill_book_no']: "AST/".sprintf("%04s", $this->billInfo['bill_id']);?>
-											</b>
-		</h4>
-	</div>
-	<div class="modal-body">	
+											</b></h4>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
 <div id="report" class="ribbon-box">
 			<div class="card"
 				style="border-right-width: 1px; margin-right: 0px; margin-bottom: 1pt;padding: 1%;">

@@ -210,7 +210,7 @@ class collectionController extends mvc
         $this->view->billList = $billList;
         $this->view->billAmount = $billAmount;
         $this->view->demandList = $demandList;
-        $this->view->balanceConfirm = $balanceConfir;
+        $this->view->balanceConfirm = $balanceConfirm;
     }
 
     public function approvalAction()

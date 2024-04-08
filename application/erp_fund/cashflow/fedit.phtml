@@ -1,10 +1,13 @@
-<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+<div class="dynamic-popup" id="dynamic-popup">
 	<form name="form" method="post" id="edit" action='erp_fund/cashflow/fedit/ref/<?=$this->param['ref'];?>' style="margin-bottom: 0px;">
-	<div class="modal-header">
-		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-		<h4 class="modal-title">Update Cash flow Details</h4>
-	</div>
-	<div class="modal-body">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h4 class="card-title">Update Cash flow Details</h4>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
 				<div class="row mb-4" style="margin-top: 15px;">
 					<label class="col-sm-2 form-label" >Date</label>
 					<div class="col-sm-3">
@@ -112,7 +115,7 @@
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-primary submit-alias livepost" >Save</button>
-		<button type="button" class="btn btn-light" data-bs-dismiss="modal" >Close</button>
+		<button type="button" class="btn btn-light" data-bs-dismiss="modal" onclick="$('#myModal').modal('hide');">Close</button>
 	</div>
 </form>	
 </div>

@@ -1,12 +1,14 @@
-<div class="dynamic-popup" id="dynamic-popup"><!--  -->
-	<div class="modal-header">
-		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-		<h4 class="modal-title"> &nbsp; Invoice No : <b> 
+<div class="dynamic-popup" id="dynamic-popup">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h4 class="card-title"> &nbsp; Invoice No : <b> 
 											<?=$this->billInfo['bill_book_no']<>''?$this->billInfo['bill_book_no']: "AST/".sprintf("%04s", $this->billInfo['bill_id']);?>
-											</b>
-		</h4>
-	</div>
-	<div class="modal-body">
+											</b></h4>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
 		
 <?php if(count($this->collection)>0):?>
 <div class="card-block" style="padding-top: 0%;">

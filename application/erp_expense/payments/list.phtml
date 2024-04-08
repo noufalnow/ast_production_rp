@@ -55,7 +55,7 @@
                                                 <thead class="border-top">
                                                   <tr role="row">
 					<th width="5%" class="center">Sl No</th>
-					<th width="25%" class="center">Vendor Name</th>
+					<th width="20%" class="center">Vendor Name</th>
 					<th width="6%" class="center">Date</th>
 					<th width="8%" class="center">Amount</th>
 					<th width="6%" class="center">Edit</th>
@@ -75,7 +75,7 @@
 				<tr>
 					<td class="center"><?=@++$this->offset;?></td>
 					<td><?=$pay['ven_name']?></td>
-					<td><?=$pay['pay_date']?></td>
+					<td align="center"><?=$pay['pay_date']?></td>
 					<td align="right" onclick="togglenext(this);" style="cursor: pointer;"><b><?=$pay['pay_amount']?></b></td>
 					<td class="center">
 					

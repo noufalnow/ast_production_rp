@@ -201,6 +201,7 @@ class customerController extends mvc {
 		$this->view->customerList = $customerList;
 		$this->view->form = $form;
 		$this->view->customerObj = $customerObj;
+		$this->view->filter_class = $filter_class;
 	}
 	public function deleteAction() {
 		$this->view->response('ajax');

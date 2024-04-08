@@ -1,54 +1,77 @@
-<div class="card-block" style="padding-top: 2%;">
-	<div class="full-width">
-		<?=x(array('link'=>'erp_masters/customer/add','label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')))?>
-	</div>
-	<h5 class="title-margin">List of Customers</h5>
-</div>
+<?$offset = $this->customerObj->_voffset;?>
 <form method="get" id="filter" name="filter" action="list">
-	<div class="col-md-12 card filter-card">
-		<table class="">
-			<tr style="font-size: 0.8em;">
-				<th width="24%">Code</th>
-				<th>Customer: Company</th>
-				<th>Name</th>
-				<th>Address</th>
-			</tr>
-			<tr>
-				<td width="24%">
-					<div class="form-group ">
-                	<?=$this->form->f_code->show()?>
-              		</div>
-				</td>
-				<td>
-					<div class="form-group ">
-                	<?=$this->form->f_customer->show()?>
-              		</div>
-				</td>
-				<td>
-					<div class="form-group ">
-                	<?=$this->form->f_name->show()?>
-              		</div>
-				</td>
-				<td>
-					<div class="form-group ">
-                	<?=$this->form->f_house->show()?>
-              		</div>
-				</td>
-				<td width="15%" align="center">
-	              <div class="form-group ">
-					<button class="btn <?=$this->filter_class?>" type="submit" >Filter</button>
-					<input class="btn btn-secondary" name="clear" type="submit" value="All"></input>
-	              </div>
-				</td>
-			</tr>
-		</table>
-	</div>
-
-<div class="col-md-12">
-	<div class="card">
-		<table class="table table-bordered grid">
-			<thead>
-				<tr>
+	<div class="main-content mt-0 hor-content">
+		<div class="side-app">
+			<!-- CONTAINER -->
+			<div class="main-container container">
+				<!-- PAGE-HEADER -->
+				<div class="page-header">
+					<div>
+						<h1 class="page-title">Customers</h1>
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="javascript:void(0);">Home</a>
+							</li>
+							<li class="breadcrumb-item active" aria-current="page">Manage
+								Customer</li>
+						</ol>
+					</div>
+					<div class="ms-auto pageheader-btn">
+						<?=x(array('link'=>'erp_masters/customer/add','label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')))?>
+					</div>
+				</div>
+				<!-- PAGE-HEADER END -->
+				<!-- ROW -->
+				<div class="row row-sm">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Filters</h3>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="file_no" class="form-label">Code</label>
+                                            <?=$this->form->f_code->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="name" class="form-label">Customer: Company</label>
+                                            <?=$this->form->f_customer->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="file_no" class="form-label">Name</label>
+                                            <?=$this->form->f_name->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="name" class="form-label">Address</label>
+                                            <?=$this->form->f_house->show()?>
+                                        </div>
+									</div>
+								</div>
+								<button class="btn <?=$this->filter_class?> mt-4 mb-0"
+									type="submit">Filter</button>
+								<input class="btn btn-secondary mt-4 mb-0" name="clear"
+									type="submit" value="All"></input>
+							</div>
+						</div>
+					</div>
+					<div class="">
+						<div class="">
+							<div class="card">
+								<div class="card-header">
+									<h3 class="card-title">Vendors</h3>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive export-table">
+                                        <table aria-describedby="" class="table table-bordered no-footer">
+                                                <thead class="border-top">
+                                                  <tr role="row">
 					<th width="5%" class="center">Sl No</th>
 					<th width="9%" class="center">Code</th>
 					<th width="15%" class="center">Customer:Company</th>
