@@ -67,3 +67,13 @@
   padding: 0rem 1rem !important;
 }
 
+
+.sub-slide-item:hover {
+	color: #9f305f !important;
+	font-weight: bolder;
+}
+
+
+.sub-side-menu__item {
+  margin-left: 4px;
+}

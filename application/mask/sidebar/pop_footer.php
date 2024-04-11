@@ -11,9 +11,6 @@
   <script src="http://localhost:1022/2024/assets/plugins/bootstrap/js/popper.min.js"></script>
   <script src="http://localhost:1022/2024/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 
-  <!-- SIDE-MENU JS -->
-  <script src="http://localhost:1022/2024/assets/plugins/sidemenu/sidemenu.js"></script>
-
   <!-- STICKY JS -->
   <script src="http://localhost:1022/2024/assets/js/sticky.js"></script>
 
@@ -29,12 +26,7 @@
   <script src="http://localhost:1022/2024/assets/plugins/chart/utils.js"></script>
   <!-- PIETY CHART JS-->
   <script src="http://localhost:1022/2024/assets/plugins/peitychart/jquery.peity.min.js"></script>
-  <script src="http://localhost:1022/2024/assets/plugins/peitychart/peitychart.init.js"></script>
   <!-- APEXCHART JS -->
-  <script src="http://localhost:1022/2024/assets/js/apexcharts.js"></script>
-
-  <!-- INDEX JS -->
-  <script src="http://localhost:1022/2024/assets/js/index1.js"></script>
 
   <!-- COLOR THEME JS -->
   <script src="http://localhost:1022/2024/assets/js/themeColors.js"></script>
@@ -53,26 +45,11 @@
 		<script src="http://' . $_SERVER['HTTP_HOST'] . '/js/chosen.jquery.min.js"></script>
 		<script src="http://' . $_SERVER['HTTP_HOST'] . '/js/jquery.numeric.min.js"></script>
 		<script src="http://' . $_SERVER['HTTP_HOST'] . '/js/MonthPicker.js"></script>
-		<script src="http://' . $_SERVER['HTTP_HOST'] . '/js/highcharts.js"></script>
+
 		<script src="http://' . $_SERVER['HTTP_HOST'] . '/js/sweetalert.js"></script>
         <script src="http://' . $_SERVER['HTTP_HOST'] . '/js/ui.multiselect.js"></script>
 		<script src="http://' . $_SERVER['HTTP_HOST'] . '/js/js.printElement.min.js"></script>'); ?>
-  
-    <!-- CHART-CIRCLE JS-->
 
-    <!-- CHARTJS CHART JS-->
-  <script src="http://localhost:1022/2024/assets/plugins/chart/Chart.bundle.js"></script>
-    <!-- INTERNAL SELECT2 JS -->
-  <script src="http://localhost:1022/2024/assets/plugins/select2/select2.full.min.js"></script>
-
-  
-    <!-- INTERNAL DATA TABLES JS -->
-  <script src="http://localhost:1022/2024/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
-  <script src="http://localhost:1022/2024/assets/plugins/datatable/js/dataTables.bootstrap5.js"></script>
-  <script src="http://localhost:1022/2024/assets/plugins/datatable/dataTables.responsive.min.js"></script>
-
-  <!-- ECHART JS-->
-  <script src="http://localhost:1022/2024/assets/plugins/echarts/echarts.js"></script>
   
   
 <?php echo ('<script src="http://' . $_SERVER['HTTP_HOST'] . '/js/application.js"></script>'); ?>

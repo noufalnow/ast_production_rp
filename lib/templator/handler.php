@@ -350,7 +350,7 @@ class view extends viewbase
                 include $action;
             }
             if ($this->response == 'window') {
-                require_once __DIR__ . "/../../application/mask/sidebar/footer.php";
+                require_once __DIR__ . "/../../application/mask/sidebar/pop_footer.php";
             } elseif ($this->response == 'ajax') {} elseif ($this->response == 'plot') {
                 require_once __DIR__ . "/../../application/mask/sidebar/footer.php";
             } elseif (! $this->response) {

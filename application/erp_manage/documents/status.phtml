@@ -9,14 +9,17 @@ $form = $var['form'];
 
 if ($formRender):?>
 <?php if($expenseDet['exp_app_status']==''):?>
-<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+
+<div class="dynamic-popup" id="dynamic-popup">
 	<form name="form" method="post" id="edit" action='<?=APPURL?>updates/status/ref/<?=$ref?>' style="margin-bottom: 0px;">
-	<div class="modal-header">
-		<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-		<h4 class="modal-title">Update Status
-		</h4>
-	</div>
-	<div class="modal-body">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h4 class="card-title">Update Status</h4>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
 				<div class="row mb-4" style="margin-top: 15px;">
 					<label class="col-sm-3 form-label" >Status</label>
 					<div class="col-sm-9">

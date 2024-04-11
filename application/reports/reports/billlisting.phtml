@@ -144,7 +144,7 @@
 				$encBillId= $this->encode($bill['bill_id']);?>
 				<tr<?=$trclass;?>>			
 					<td class="center"><?=@++$offset;?></td>
-					<td><?=x(array('link'=>'accounts/sales/miniview','ref'=>array('ref'=>$encBillId),'label'=>"AS/".sprintf("%04s", $bill['bill_id']),array("param"=>'class="facebox"')))?> </td>
+					<td><?=x(array('link'=>'accounts/sales/miniview','ref'=>array('ref'=>$encBillId),'label'=>"AS/".sprintf("%04s", $bill['bill_id']),array("param"=>'class=""')))?> </td>
 					<td><?=$bill['cust_name']?></td>
 					<td><?=$bill['bill_refno']?> <br> <?php if($bill['bill_location']<>''):?>(<?=$bill['bill_location']?>) <?php endif;?></td>
 					<td><?=$bill['bill_disp_date']?></td>

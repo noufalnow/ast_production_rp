@@ -1,14 +1,35 @@
-<div class="card-block" style="padding-top: 2%;">
-	<div class="full-width">
-	</div>
-	<h5 class="title-margin" style="padding-left: 19px;">Task/ Updates List</h5>
-</div>
+<?$offset = $this->cashBookObj->_voffset;?>
 <form method="get" id="filter" name="filter" action="list">
-<div class="col-md-12">
-	<div class="card">
-		<table class="table table-bordered grid">
-			<thead>
-				<tr>
+	<div class="main-content mt-0 hor-content">
+		<div class="side-app">
+			<!-- CONTAINER -->
+			<div class="main-container container">
+				<!-- PAGE-HEADER -->
+				<div class="page-header">
+					<div>
+						<h1 class="page-title">Task/ Updates</h1>
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="javascript:void(0);">Home</a>
+							</li>
+							<li class="breadcrumb-item active" aria-current="page">Manage
+								Task/ Updates</li>
+						</ol>
+					</div>
+				</div>
+				<!-- PAGE-HEADER END -->
+				<!-- ROW -->
+				<div class="row row-sm">
+					<div class="">
+						<div class="">
+							<div class="card">
+								<div class="card-header">
+									<h3 class="card-title">Task/ Updates</h3>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive export-table">
+                                        <table aria-describedby="" class="table table-bordered no-footer">
+                                                <thead class="border-top">
+                                                  <tr role="row">
 					<th width="3%" class="center">Sl No</th>
 					<th width="5%" class="center">Category</th>
 					<th width="5%" class="center">Refrence</th>
@@ -61,7 +82,7 @@
 		</table>
 		<? $this->updatesObj->pagination();?>
 	</div>
-</div>
+</div></div></div></div></div></div></div></div>
 </form>
 
 		<?=x(array('link'=>'erp_manage/updates/report','label'=>'

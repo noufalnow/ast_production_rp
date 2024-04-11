@@ -52,18 +52,18 @@ function mainMenu($encUserId)
         'label' => '<div class="side-menu__item ' . @$active['default/default/dashboard'] . '">
                   <i class="side-menu__icon fa-solid fa-house"></i><span class="side-menu__label">Dashboard</span></div>'
     ));
-
+    
     $menuHtml .= '<li class="slide">
     	<a class="side-menu__item ' . @$active['erp_employee/master/list'] . ' is-expanded" data-bs-toggle="slide" href="javascript:void(0);">
                   <i class="side-menu__icon fa-solid fa-users"></i><span class="side-menu__label">Employees</span></a>
     	<ul class="slide-menu open">';
 
-    $menuHtml .= '<li>' . x(array(
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_employee/master/list',
         'label' => 'Employees'
     )) . '</li>';
 
-    $menuHtml .= '<li>' . x(array(
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_employee/salary/list',
         'label' => 'Salary'
     )) . '</li>
@@ -94,20 +94,52 @@ function mainMenu($encUserId)
                   <i class="side-menu__icon fa-solid fa-building"></i><span class="side-menu__label">Properties</span></a>
     	<ul class="slide-menu open">';
 
-    $menuHtml .= '<li>' . x(array(
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_property/master/list',
         'label' => 'Property'
     )) . '</li>';
 
-    $menuHtml .= '<li>' . x(array(
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_property/tenants/list',
         'label' => 'Tenants'
     )) . '</li>';
 
-    $menuHtml .= '<li>' . x(array(
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_masters/building/list',
         'label' => 'Buildings'
     )) . '</li>';
+    
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
+        'link' => 'erp_property/rent/propertypay',
+        'label' => 'Rent Schedule',array("param" => 'wide_opener'))). '</li>';
+    
+    
+    $menuHtml .= '
+            <li class="sub-slide">
+            <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Reports</span><i class="sub-angle fa fa-angle-right"></i></a>
+            <ul class="sub-slide-menu">
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/property/property','label' => 'Properties',array("param" => 'wide_opener'))).'
+              </li>
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/property/propdocument','label' => 'Property Document',array("param" => 'wide_opener'))).'
+              </li>
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/property/propdocument','ref' => array('ref' => 'exp'),'label' => 'Document Expiry',array("param" => 'wide_opener'))).'
+              </li>
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/property/propvacant','label' => 'Property Status',array("param" => 'wide_opener'))).'
+              </li>
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/property/propertymeter','label' => 'Property Meter',array("param" => 'wide_opener'))).'
+              </li>
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/property/tenantagreements','label' => 'Tenant Agreements',array("param" => 'wide_opener'))).'
+              </li>
+            </ul>
+            </li>
+            ';
+    
     $menuHtml .= '</ul>
       </li>';
     
@@ -116,15 +148,43 @@ function mainMenu($encUserId)
                   <i class="side-menu__icon fa-solid fa-truck-monster"></i><span class="side-menu__label">Vehicles</span></a>
     	<ul class="slide-menu open">';
     
-    $menuHtml .= '<li>' . x(array(
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_vehicle/master/list',
         'label' => 'Vehicles'
     )) . '</li>';
     
-    $menuHtml .= '<li>' . x(array(
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_masters/item/list',
         'label' => 'Items'
     )) . '</li>';
+    
+    
+    $menuHtml .= '
+            <li class="sub-slide">
+            <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Reports</span><i class="sub-angle fa fa-angle-right"></i></a>
+            <ul class="sub-slide-menu">
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/vehicle/vehicle','label' => 'Vehicles',array("param" => 'wide_opener'))).'
+              </li>
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/vehicle/vhldocument','label' => 'Vehicle Document',array("param" => 'wide_opener'))).'
+              </li>
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/vehicle/vhldocument','ref' => array('ref' => 'exp'),'label' => 'Vehicle Expiry',array("param" => 'wide_opener'))).'
+              </li>
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/vehicle/vhlexpense','label' => 'Vehicle Expense',array("param" => 'wide_opener'))).'
+              </li>
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/vehicle/commveh','label' => 'Commercial',array("param" => 'wide_opener'))).'
+              </li>
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/vehicle/vehiclecontract','label' => 'Vehicle Contract',array("param" => 'wide_opener'))).'
+              </li>
+            </ul>
+            </li>
+            ';
+    
     
     $menuHtml .= '</ul>
       </li>';
@@ -136,20 +196,42 @@ function mainMenu($encUserId)
                   <i class="side-menu__icon fa-solid fa-money-bill-1"></i><span class="side-menu__label">Expenses</span></a>
     	<ul class="slide-menu open">';
 
-    $menuHtml .= '<li>' . x(array(
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_expense/expense/list',
         'label' => 'Expenses'
     )) . '</li>';
 
-    $menuHtml .= '<li>' . x(array(
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_masters/vendor/list',
         'label' => 'Vendor'
     )) . '</li>';
     
-    $menuHtml .= '<li>' . x(array(
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_expense/payments/list',
         'label' => 'Payments'
     )) . '</li>';
+    
+    
+    $menuHtml .= '
+            <li class="sub-slide">
+            <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Reports</span><i class="sub-angle fa fa-angle-right"></i></a>
+            <ul class="sub-slide-menu">
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/expense/expense','label' => 'Expense',array("param" => 'wide_opener'))).'
+              </li>
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/expense/expvensummary','label' => 'Vender Summary',array("param" => 'wide_opener'))).'
+              </li>
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/expense/expensecategorywise','label' => 'Expense Category wise',array("param" => 'wide_opener'))).'
+              </li>
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/expense/payments','ref' => array('ref' => 'exp'),'label' => 'Credit Payments',array("param" => 'wide_opener'))).'
+              </li>
+            </ul>
+            </li>
+            ';
+    
 
     $menuHtml .= '</ul>
       </li>';
@@ -160,20 +242,43 @@ function mainMenu($encUserId)
                   <i class="side-menu__icon fa-solid fa-file-text"></i><span class="side-menu__label">Invoices</span></a>
     	<ul class="slide-menu open">';
     
-    $menuHtml .= '<li>' . x(array(
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_invoice/bill/list',
         'label' => 'Invoice'
     )) . '</li>';
     
-    $menuHtml .= '<li>' . x(array(
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_masters/customer/list',
         'label' => 'Customer'
     )) . '</li>';
     
-    $menuHtml .= '<li>' . x(array(
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_invoice/collection/list',
         'label' => 'Collections'
     )) . '</li>';
+    
+    
+    $menuHtml .= '
+            <li class="sub-slide">
+            <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Reports</span><i class="sub-angle fa fa-angle-right"></i></a>
+            <ul class="sub-slide-menu">
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/invoice/billbycustomer','label' => 'Outstanding Summary',array("param" => 'wide_opener'))).'
+              </li>
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/invoice/billoutstanding','label' => 'Outstanding In Detail',array("param" => 'wide_opener'))).'
+              </li>
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/invoice/billlisting','label' => 'Bill Listing',array("param" => 'wide_opener'))).'
+              </li>
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/property/paymentcollection','ref' => array('ref' => 'exp'),'label' => 'Payment Collection',array("param" => 'wide_opener'))).'
+              </li>
+            </ul>
+            </li>
+            ';
+    
+    
     $menuHtml .= '</ul>
       </li>';
     
@@ -197,17 +302,17 @@ function mainMenu($encUserId)
                   <i class="side-menu__icon fa-solid fa-building"></i><span class="side-menu__label">Others</span></a>
     	<ul class="slide-menu open">';
     
-    $menuHtml .= '<li>' . x(array(
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_manage/updates/list',
         'label' => 'Notifications'
     )) . '</li>';
     
-    $menuHtml .= '<li>' . x(array(
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'admin/users/index',
         'label' => 'Users'
     )) . '</li>';
     
-    $menuHtml .= '<li>' . x(array(
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'acl/config/setmodules',
         'label' => 'Permissions'
     )) . '</li>';
@@ -226,13 +331,13 @@ function mainMenu($encUserId)
     ));
 
 
-    echo $menuHtml;
+    return $menuHtml;
 }
 
 ?>
 
 
-
+<?php echo ('
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
@@ -254,20 +359,17 @@ function mainMenu($encUserId)
 
 <!-- BOOTSTRAP CSS -->
 <link id="style"
-	href="//localhost:1022/2024/assets/plugins/bootstrap/css/bootstrap.min.css"
+	href="//' . $_SERVER['HTTP_HOST'] . '/2024/assets/plugins/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet" />
 
 <!-- STYLE CSS -->
-<link href="//localhost:1022/2024/assets/css/style.css" rel="stylesheet" />
-<link href="//localhost:1022/2024/assets/css/plugins.css"
+<link href="//' . $_SERVER['HTTP_HOST'] . '/2024/assets/css/style.css" rel="stylesheet" />
+<link href="//' . $_SERVER['HTTP_HOST'] . '/2024/assets/css/plugins.css"
 	rel="stylesheet" />
 
 <!--- FONT-ICONS CSS -->
-<link href="//localhost:1022/2024/assets/css/icons.css" rel="stylesheet" />
-
-
-
-<?php echo ('		
+<link href="//' . $_SERVER['HTTP_HOST'] . '/2024/assets/css/icons.css" rel="stylesheet" />
+		
 <link href="http://' . $_SERVER['HTTP_HOST'] . '/css/jquery-ui.min.css" rel="stylesheet">
 <link href="http://' . $_SERVER['HTTP_HOST'] . '/css/chosen.min.css" rel="stylesheet">
 <link href="http://' . $_SERVER['HTTP_HOST'] . '/css/MonthPicker.css" rel="stylesheet">
@@ -278,7 +380,7 @@ function mainMenu($encUserId)
 <link href="http://' . $_SERVER['HTTP_HOST'] . '/css/ui.multiselect.css" rel="stylesheet">
 <link href="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/css/custom.css" rel="stylesheet">
 <script src="http://' . $_SERVER['HTTP_HOST'] . '/js/jquery-1.12.3.min.js"></script>
-<script> var baseurl = "' . APPURL . '"</script>'); ?>
+<script> var baseurl = "' . APPURL . '"</script>
 
 
 
@@ -305,17 +407,17 @@ function mainMenu($encUserId)
 							data-bs-toggle="sidebar" href="javascript:void(0);"></a>
 						<div class="responsive-logo">
 							<a href="index.html" class="header-logo"> <img
-								src="http://localhost:1022/2024/assets/images/brand/logo-3.png"
+								src="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/images/brand/logo-3.png"
 								class="mobile-logo logo-1" alt="logo" /> <img
-								src="http://localhost:1022/2024/assets/images/brand/logo-3.png"
+								src="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/images/brand/logo-3.png"
 								class="mobile-logo dark-logo-1" alt="logo" />
 							</a>
 						</div>
 						<!-- sidebar-toggle-->
 						<a class="logo-horizontal" href="index.html"> <img
-							src="http://localhost:1022/2024/assets/images/brand/logo-3.png"
+							src="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/images/brand/logo-3.png"
 							class="header-brand-img desktop-logo" alt="logo" /> <img
-							src="http://localhost:1022/2024/assets/images/brand/logo-3.png"
+							src="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/images/brand/logo-3.png"
 							class="header-brand-img light-logo1" alt="logo" />
 						</a>
 						<!-- LOGO -->
@@ -437,7 +539,7 @@ function mainMenu($encUserId)
 												<div class="message-menu">
 
 													<a class="dropdown-item d-flex" href="#"> <span
-														class="avatar avatar-md brround me-3 align-self-center cover-image"data-bs-image-http://localhost:1022/2024/assets/images/users/12.jpg"></span>
+														class="avatar avatar-md brround me-3 align-self-center cover-image"data-bs-image-http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/images/users/12.jpg"></span>
 														<div class="wd-90p">
 															<div class="d-flex">
 																<h5 class="mb-1">Antony</h5>
@@ -446,7 +548,7 @@ function mainMenu($encUserId)
 															<span>New Machine Imported...</span>
 														</div>
 													</a> <a class="dropdown-item d-flex" href="#"> <span
-														class="avatar avatar-md brround me-3 align-self-center cover-image"data-bs-image-http://localhost:1022/2024/assets/images/users/12.jpg"></span>
+														class="avatar avatar-md brround me-3 align-self-center cover-image"data-bs-image-http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/images/users/12.jpg"></span>
 														<div class="wd-90p">
 															<div class="d-flex">
 																<h5 class="mb-1">Antony</h5>
@@ -455,7 +557,7 @@ function mainMenu($encUserId)
 															<span>New Machine Imported...</span>
 														</div>
 													</a> <a class="dropdown-item d-flex" href="#"> <span
-														class="avatar avatar-md brround me-3 align-self-center cover-image"data-bs-image-http://localhost:1022/2024/assets/images/users/12.jpg"></span>
+														class="avatar avatar-md brround me-3 align-self-center cover-image"data-bs-image-http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/images/users/12.jpg"></span>
 														<div class="wd-90p">
 															<div class="d-flex">
 																<h5 class="mb-1">Antony</h5>
@@ -464,7 +566,7 @@ function mainMenu($encUserId)
 															<span>New Machine Imported...</span>
 														</div>
 													</a> <a class="dropdown-item d-flex" href="#"> <span
-														class="avatar avatar-md brround me-3 align-self-center cover-image"data-bs-image-http://localhost:1022/2024/assets/images/users/12.jpg"></span>
+														class="avatar avatar-md brround me-3 align-self-center cover-image"data-bs-image-http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/images/users/12.jpg"></span>
 														<div class="wd-90p">
 															<div class="d-flex">
 																<h5 class="mb-1">Antony</h5>
@@ -483,7 +585,7 @@ function mainMenu($encUserId)
 										<div class="dropdown d-md-flex profile-1">
 											<a href="javascript:void(0);" data-bs-toggle="dropdown"
 												class="nav-link leading-none d-flex px-1"> <span> <img
-													src="http://localhost:1022/2024/assets/images/users/8.jpg"
+													src="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/images/users/8.jpg"
 													alt="profile-user"
 													class="avatar profile-user brround cover-image" />
 											</span>
@@ -520,13 +622,13 @@ function mainMenu($encUserId)
 				<aside class="app-sidebar">
 					<div class="side-header">
 						<a class="header-brand1" href="index.html"> <img
-							src="http://localhost:1022/2024/assets/images/brand/logo-3.png"
+							src="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/images/brand/logo-3.png"
 							class="header-brand-img desktop-logo" alt="logo" /> <img
-							src="http://localhost:1022/2024/assets/images/brand/logo-1.png"
+							src="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/images/brand/logo-1.png"
 							class="header-brand-img toggle-logo" alt="logo" /> <img
-							src="http://localhost:1022/2024/assets/images/brand/logo-2.png"
+							src="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/images/brand/logo-2.png"
 							class="header-brand-img light-logo" alt="logo" /> <img
-							src="http://localhost:1022/2024/assets/images/brand/logo-3.png"
+							src="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/images/brand/logo-3.png"
 							class="header-brand-img light-logo1" alt="logo" />
 						</a>
 						<!-- LOGO -->
@@ -543,7 +645,7 @@ function mainMenu($encUserId)
 							<li class="sub-category">
 								<h3>Main</h3>
 							</li>
-              				<?mainMenu($encUserId);?>
+              				'.mainMenu($encUserId).'
 						</ul>
 						<div class="slide-right" id="slide-right">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24"
@@ -558,9 +660,7 @@ function mainMenu($encUserId)
 			<!--/APP-SIDEBAR-->
 
 
-		</div>
-
-		<!--/SIDEBAR-RIGHT-->
+		</div>');?>
 		
 		
 

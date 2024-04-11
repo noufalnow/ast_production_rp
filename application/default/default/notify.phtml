@@ -1,9 +1,16 @@
-<div class="dynamic-popup" id="dynamic-popup"><!--  -->
+<div class="dynamic-popup" id="dynamic-popup">
+		<div class="modal-content modal-content-demo">
+
+
+
 <?if(count( $this->updList)>0):?>
-	<div class="modal-header">
-		<h4 class="modal-title">Updates/Task Notifiaction
-		</h4>
-	</div>
+		<div class="modal-header">
+			<h4 class="card-title">Updates/Task Notifiaction</h4>
+			<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+				<span aria-hidden="true">×</span>
+			</button>
+		</div>
+		<div class="modal-body">
 		<div class="col-md-12 card" style="padding-top: 15px; margin-bottom: 3px;"> 
 		<div style="overflow-y: auto">
 		<table class="table table-bordered">
@@ -29,12 +36,17 @@
 		</table>
 		</div>
 		</div>
+		</div>
 		<?endif?>
 		<?if(count( $this->stepsList)>0):?>
+		
 		<div class="modal-header">
-		<h4 class="modal-title">Pending Ticket Actions
-		</h4>
+			<h4 class="card-title">Pending Ticket Actions</h4>
+			<button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+				<span aria-hidden="true">×</span>
+			</button>
 		</div>
+		<div class="modal-body">
 		<div class="col-md-12 card" style="padding-top: 15px; margin-bottom: 3px;"> 
 		<div style="overflow-y: auto">
 		<table class="table table-bordered">
@@ -55,6 +67,7 @@
 				<?php endforeach?>
 			</tbody>
 		</table>
+		</div>
 		</div>
 		</div>
 		<?endif?>

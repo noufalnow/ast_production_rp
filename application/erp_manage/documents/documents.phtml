@@ -3,7 +3,7 @@
 	<?php if($this->param['docview']==''):?>
 		<?=x(array('link'=>'erp_manage/documents/add','ref'=>$this->encode($this->param['ref']).'/type/'.$this->encode($this->param['type']),'label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')))?>
 	<?php endif?>
-	<h5>Related Documents</h5>
+	<h5 style="padding-bottom: 1.5rem;">Related Documents</h5>
 </div></div>
 <?if(count( $this->documentList)>0):?>
 <div class="col-md-12">
