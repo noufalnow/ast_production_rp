@@ -1,81 +1,118 @@
-<div class="col-md-9">
-<h3 style="padding-left: 1.5em;">Controller Permissions</h3>			
-	<?=x(array('link'=>'acl/config/setmodules','ref'=>array('ref'=>$this->param['ref'],'usergroup'=>$this->param['usergroup'],'users'=>$this->param['users']),'label'=>'<button class="btn btn-info pull-right" style="margin-bottom: 10px;    margin-right: 1em;    margin-top: -3em;">Back</button>'))?>
-</div>
-<form name="form" method="post" id="add" name="add" action="">
-<div class="col-md-9">
-	<div class="card">
-		<div class="card-block" style="margin: 2em;">
-				<h5>Set Controller Access</h5>
-
-				<div class="row mb-4" style="margin-top: 15px;">
-					<label class="col-sm-3 form-label">User Group</label>
-					<div class="col-sm-6">
-                    <?=$this->form->usergroup->show()?>
-                  </div>
+	<div class="main-content mt-0 hor-content">
+		<div class="side-app">
+			<!-- CONTAINER -->
+			<div class="main-container container">
+				<!-- PAGE-HEADER -->
+				<div class="page-header">
+				<div>
+					<h1 class="page-title">Set Page Access</h1>
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="javascript:void(0);">Home</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">Set Page
+							Access</li>
+					</ol>
 				</div>
-				<div class="row mb-4" style="margin-top: 15px;">
-					<label class="col-sm-3 form-label">User Name</label>
-					<div class="col-sm-6">
-                    <?=$this->form->users->show()?>
-                  </div>
+				<div class="ms-auto pageheader-btn" style="margin-top: 35px;">
+						<?=x(array('link'=>'acl/config/setmodules','ref'=>array('ref'=>$this->param['ref'],'usergroup'=>$this->param['usergroup'],'users'=>$this->param['users']),'label'=>'<button class="btn btn-info pull-right" style="margin-bottom: 10px;    margin-right: 1em;    margin-top: -3em;">Back</button>'))?>
+                    </div>
 				</div>
+				<form name="form" method="post" id="add" name="add" action="">
+				<div class="row row-sm">
+					<div class="">
+						<div class="">
+							<div class="card">
+								<div class="card-header">
+									<h3 class="card-title">Set Page Access</h3>
+								</div>
+								<div class="card-body">
+									<div class="card" style="margin: 2em; width: 90%">
+										<div class="row mb-1" style="margin-top: 2px;">
+											<label class="col-sm-3 form-label">User Group</label>
+											<div class="col-sm-6">
+                                                <?=$this->form->usergroup->show()?>
+                                            </div>
+										</div>
+										<div class="row mb-4" style="margin-top: 15px;">
+											<label class="col-sm-3 form-label">User Name</label>
+											<div class="col-sm-6">
+                                                <?=$this->form->users->show()?>
+                                            </div>
+										</div>
+									</div>
+									<table class="table table-bordered grid"
+										style="margin: 2em; width: 90%">
+										<thead>
+											<tr>
+												<td width="50%"><strong>Controller Name</strong></td>
+												<td width="10%" align="center"><strong>Create</strong> <br>
+													<input type="checkbox" id="selectAll" class="create" /></td>
+												<td width="10%" align="center"><strong>View</strong> <br> <input
+													type="checkbox" id="selectAll" class="view" /></td>
+												<td width="10%" align="center"><strong>Update</strong> <br>
+													<input type="checkbox" id="selectAll" class="update" /></td>
+												<td width="10%" align="center"><strong>Delete</strong> <br>
+													<input type="checkbox" id="selectAll" class="delete" /></td>
+											</tr>
+										</thead>
+										<tbody>
+                                            <?php
+                                            foreach ($this->controllersList as $controllers) :
+                                                $encryptedControllerId = $this->encode($controllers['controller_id']);
+                                                ?>
+                                            <tr>
+												<td>
+													<div class="acclink">
+                                                        <?=accx('acl/config/setactions','<a href="javascript:;" onclick="window.location.href=\''.APPURL.'acl/config/setactions/ref/'.$encryptedControllerId.'/usergroup/\'+$(\'#controller_ug\').val()+\'/users/\'+$(\'#controller_usr\').val()">'.strtoupper($controllers['controller_label']).'</a>');?>
+                                                    </div>
+												</td>
+												<td align="center"><input class="create"
+													id="create_<?=$controllers['controller_id']?>"
+													type="checkbox" value="1"
+													name="create_<?=$controllers['controller_id']?>"></td>
+												<td align="center"><input class="view"
+													id="view_<?=$controllers['controller_id']?>"
+													type="checkbox" value="1"
+													name="view_<?=$controllers['controller_id']?>"></td>
+												<td align="center"><input class="update"
+													id="update_<?=$controllers['controller_id']?>"
+													type="checkbox" value="1"
+													name="update_<?=$controllers['controller_id']?>"></td>
+												<td align="center"><input class="delete"
+													id="delete_<?=$controllers['controller_id']?>"
+													type="checkbox" value="1"
+													name="delete_<?=$controllers['controller_id']?>"></td>
+											</tr>
+                                            <?php endforeach?>
+                                        </tbody>
+									</table>
+									<div class="row mb-4">
+										<div class="col-md-11">
+											<button type="submit"
+												onclick="displayOverlay('Please wait...')"
+												class="btn  btn-primary align-button"
+												style="font-size: 120%; margin-bottom: 2em; margin-top: 1em;">Set
+												Permission</button>
+										</div>
+									</div>
+								</div>
+							</div>
+                            <?=$this->form->Submit?>
+                        </div>
+					</div>
+				</div>
+				</form>
 			</div>
-    		<table class="table table-bordered grid"
-    			style="margin: 2em; width: 90%">
-    			<thead>
-    				<tr>
-						<td width="50%"><strong>Controller Name</strong></td>
-        	            <td width="10%" align="center"><strong>Create</strong> <br> <input type="checkbox" id="selectAll" class="create" /></td>
-        				<td width="10%" align="center"><strong>View</strong>  <br><input type="checkbox" id="selectAll" class="view" /></td>
-        				<td width="10%" align="center"><strong>Update</strong>  <br><input type="checkbox" id="selectAll" class="update" /></td>
-        				<td width="10%" align="center"><strong>Delete</strong>  <br><input type="checkbox" id="selectAll" class="delete" /></td>
-        			</tr>
-					</thead>
-					<tbody>
-	         <?php
-			foreach ( $this->controllersList as $controllers ) :
-					$encryptedControllerId = $this->encode ( $controllers ['controller_id'] );
-					?> 
-	         	<tr>
-						
-    	         		<td><div class="acclink">
-    						<?=accx('acl/config/setactions','<a href="javascript:;" onclick="window.location.href=\''.APPURL.'acl/config/setactions/ref/'.$encryptedControllerId.'/usergroup/\'+$(\'#controller_ug\').val()+\'/users/\'+$(\'#controller_usr\').val()">'.strtoupper($controllers['controller_label']).'</a>');?>
-    	         		</div>						
-						</td>
-						<td align="center"><input class="create" id="create_<?=$controllers['controller_id']?>" type="checkbox"
-							value="1" name="create_<?=$controllers['controller_id']?>"></td>
-						<td align="center"><input class="view" id="view_<?=$controllers['controller_id']?>" type="checkbox"
-							value="1" name="view_<?=$controllers['controller_id']?>"></td>
-						<td align="center"><input class="update" id="update_<?=$controllers['controller_id']?>" type="checkbox"
-							value="1" name="update_<?=$controllers['controller_id']?>"></td>
-						<td align="center"><input class="delete" id="delete_<?=$controllers['controller_id']?>" type="checkbox"
-							value="1" name="delete_<?=$controllers['controller_id']?>"></td>
-					
-					
-				</tr>
-	         <?php endforeach?> 
-	        </tbody>
-	       </table>
-    		<div class="row mb-4">
-    			<div class="col-md-11">
-    				<button type="submit" onclick="displayOverlay('Please wait...')"
-    					class="btn  btn-primary align-button"
-    					style="font-size: 120%; margin-bottom: 2em; margin-top: 1em;">Set
-    					Permission</button>
-    			</div>
-    		</div>
-    	</div>
-    </div>
- <?=$this->form->Submit?>
-</form>
+		</div>
+	</div>
+
 <script src="<?=APPURL?>js/acl_check_box.js"></script>
 <script type="text/javascript">
-$('.ajax_req').change(function () {
-	getPermission(this);
+$('.ajax_req').change(function() {
+    getPermission(this);
 });
 
-function getPermission(el){
+function getPermission(el) {
     var value = $(el).val();
     var type = $(el).attr('id');
     $.ajax({
@@ -85,60 +122,60 @@ function getPermission(el){
             'id': value,
             'type': type,
         },
-        success: function (response) {
-        	response = $.parseJSON(response);
+        success: function(response) {
+            response = $.parseJSON(response);
 
-    		$('input[type=checkbox]').each(function () {
-				$(this).prop('checked', false);
-        	});
-        	
-        	$.each(response, function(index,data) {
-            	if(data.create==2)
-            		$('#create_'+index).prop('checked', true);
-            	else
-            		$('#create_'+index).prop('checked', false);
+            $('input[type=checkbox]').each(function() {
+                $(this).prop('checked', false);
+            });
 
-            	if(data.update==2)
-            		$('#update_'+index).prop('checked', true);
-            	else
-            		$('#update_'+index).prop('checked', false);
+            $.each(response, function(index, data) {
+                if (data.create == 2)
+                    $('#create_' + index).prop('checked', true);
+                else
+                    $('#create_' + index).prop('checked', false);
 
-            	if(data.view==2)
-            		$('#view_'+index).prop('checked', true);
-            	else
-            		$('#view_'+index).prop('checked', false);
+                if (data.update == 2)
+                    $('#update_' + index).prop('checked', true);
+                else
+                    $('#update_' + index).prop('checked', false);
 
-            	if(data.del==2)
-            		$('#delete_'+index).prop('checked', true);
-            	else
-            		$('#delete_'+index).prop('checked', false);
-        	});
-        	if(response.length==0){
+                if (data.view == 2)
+                    $('#view_' + index).prop('checked', true);
+                else
+                    $('#view_' + index).prop('checked', false);
 
-        	}
+                if (data.del == 2)
+                    $('#delete_' + index).prop('checked', true);
+                else
+                    $('#delete_' + index).prop('checked', false);
+            });
+            if (response.length == 0) {
+
+            }
         }
     });
 }
-
-</script>
-<script type="text/javascript">           
 $(document).ready(function() {
-	var source = '<?=APPURL?>'+ 'admin/users/getusers';
-	$('#controller_ug').on('change',function() {
-		getJaxData($('#controller_ug').val(),'controller_usr',source);
-	});
-	getJaxData($('#controller_ug').val(),'controller_usr',source);
+    var source = '<?=APPURL?>' + 'admin/users/getusers';
+    $('#controller_ug').on('change', function() {
+        getJaxData($('#controller_ug').val(), 'controller_usr', source);
+    });
+    $('#controller_usr').on('change', function() {
+        getPermission($('#controller_usr'));
+    });
+    getJaxData($('#controller_ug').val(), 'controller_usr', source);
 
-	if($('#controller_usr').val())
-		getPermission($('#controller_usr'));
-	else if($('#controller_ug').val())
-		getPermission($('#controller_ug'));
+    if ($('#controller_usr').val())
+        getPermission($('#controller_usr'));
+    else if ($('#controller_ug').val())
+        getPermission($('#controller_ug'));
 });
 </script>
 <style>
 .table-bordered thead tr:first-child {
-  border-bottom-style: double;
-  border-top: .2rem solid #e3b6f7;
+	border-bottom-style: double;
+	border-top: .2rem solid #e3b6f7;
 }
 </style>
 

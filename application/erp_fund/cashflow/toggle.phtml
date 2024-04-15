@@ -27,7 +27,7 @@
 						<td class="center"><?=@++$sl;?></td>
 						<td valign="top">
 							<div class="amtrow"><?php if($cashdt['file_id']):?>
-							<?=x(array('link'=>'download?file='.$encFileId,'label'=>$cashdt['exp_details'].$cashdt['pay_remarks'],array("param"=>"class='facebox'")))?>
+							<?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>$cashdt['exp_details'].$cashdt['pay_remarks'],array("param"=>'opener')))?>							
 						<?php else:?>
 							<?=$cashdt['exp_details'].$cashdt['pay_remarks'];?>
 						<?php endif;?>

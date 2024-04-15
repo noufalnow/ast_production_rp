@@ -185,6 +185,7 @@ class expenseController extends mvc
         
         $expenseList = $expObj->geExpenseReport(@$where);
         $expenseSummery = $expObj->geExpenseReportSummary(@$where);
+        $this->view->expObj= $expObj;
 
         $this->view->expenseSummery = $expenseSummery;
         $this->view->expenseList = $expenseList;

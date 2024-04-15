@@ -220,7 +220,7 @@ class expense extends db_table {
 		return parent::fetchQuery($cond);
 	}
 	
-	public function geExpenseReport($cond = array(), $sort = '') {
+	public function geExpenseReport($cond = array()) {
 		@$cond = array_filter ( $cond );
 		
 		if (! empty ( $cond ['f_refno'] ))
@@ -319,8 +319,15 @@ class expense extends db_table {
 		else 
 		    $sortSql  = " ORDER BY concat(pcat.cat_name , scat.cat_name , ccat.cat_name) ASC,$this->_table.exp_billdt ASC, ven_disp_name ASC  ";
 		
-		$this->query ( "
-				SELECT $this->_table.*,
+		//$this->query (  );
+		
+		//$this->_order [] = 'concat(pcat.cat_name , scat.cat_name , ccat.cat_name) ASC,ven_disp_name ASC, $this->_table.exp_billdt ASC ';
+		
+		 //$db= new db_table();
+		 //$$db->dbug($cond);
+		 
+		
+		$this->paginate("SELECT $this->_table.*,
 				to_char(exp_billdt,'DD/MM/YYYY') as exp_billdt,
 				comp.comp_disp_name,
 				pcat.cat_name as pcat,
@@ -338,20 +345,21 @@ class expense extends db_table {
 				when exp_mainh = 4 then 'Port Operation'
 				end as main_head,
 				mref.*,
-				concat(pcat.cat_id,scat.cat_id,ccat.cat_id,'_',files.file_id,'.',files.file_exten) as file_name
+				concat(pcat.cat_id,scat.cat_id,ccat.cat_id,'_',files.file_id,'.',files.file_exten) as file_name", "
+		    
 				from $this->_table
 				left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
 				left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 1 and pcat.deleted = 0
 				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 2 and scat.deleted = 0
 				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 3 and ccat.deleted = 0
 				left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
-
-				$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id 
-							from  mis_expense_href 
+		    
+				$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id
+							from  mis_expense_href
 							where eref_main_head_ref IN(".$mhRef.") and deleted = 0 and eref_status = 1
 							group by eref_exp_id
-				)as mref on mref.eref_exp_id = $this->_table.exp_id 
-
+				)as mref on mref.eref_exp_id = $this->_table.exp_id
+		    
 				$p_joinType join (SELECT SUM (eref_amount) AS mref_sum,
 								           eref_exp_id
 								FROM mis_expense_href
@@ -362,19 +370,14 @@ class expense extends db_table {
 								WHERE mis_expense_href.deleted = 0
 								  AND eref_status = 1
 								GROUP BY eref_exp_id
-				)as mref_prop on mref_prop.eref_exp_id = $this->_table.exp_id 
-
-
-
+				)as mref_prop on mref_prop.eref_exp_id = $this->_table.exp_id
+		    
+		    
+		    
 				JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
-				$where  $sortSql" );
+				$where  ");
 		
-		//$this->_order [] = 'concat(pcat.cat_name , scat.cat_name , ccat.cat_name) ASC,ven_disp_name ASC, $this->_table.exp_billdt ASC ';
-		
-		 //$db= new db_table();
-		 //$$db->dbug($cond);
-		
-		return parent::fetchQuery ( $cond );
+		return parent::fetchQueryPaginate ( $cond ,$sortSql);
 	}
 	
 	public function getPaymentExpDet($cond, $sort='') {

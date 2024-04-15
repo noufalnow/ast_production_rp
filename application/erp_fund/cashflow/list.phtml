@@ -80,7 +80,6 @@
 		<? $this->cashBookObj->pagination();?>
 	</div>
 </div>
-</form>
 <?=x(array('link'=>'erp_fund/cashflow/cashfreport','label'=>'
 	<div class="col-md-3">
 		<div class="card">
@@ -96,20 +95,7 @@
 	</div>
 ', array("param"=>'wide_opener')),'<br><br>')?>
 
-<?=x(array('link'=>'erp_fund/cashbook/cashreport','label'=>'
-	<div class="col-md-3">
-		<div class="card">
-				<div class="card-block" style="background-color: ;">
-				<div class="card-block">
-					<h4 class="card-title center">Cash Book</h4>
-					<p class="card-text">
-						<small class="text-muted"></small>
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
-', array("param"=>'wide_opener')),'<br><br>')?>
+</form>
 
 <?php include "../footer"?>
 <style>

@@ -174,52 +174,6 @@
 </form>
 
 
-<?=x(array('link'=>'erp_report/invoice/billbycustomer','label'=>'
-	<div class="col-md-3">
-		<div class="card">
-				<div class="card-block" style="background-color: ;">
-				<div class="card-block">
-					<h4 class="card-title center">Outstanding Summary</h4>
-					<p class="card-text">
-						<small class="text-muted"></small>
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
-', array("param"=>'wide_opener')),'<br><br>')?>
-
-<?=x(array('link'=>'erp_report/invoice/billoutstanding','label'=>'
-	<div class="col-md-3">
-		<div class="card">
-				<div class="card-block" style="background-color: ;">
-				<div class="card-block">
-					<h4 class="card-title center">Outstanding In Detail</h4>
-					<p class="card-text">
-						<small class="text-muted"></small>
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
-', array("param"=>'wide_opener')),'<br><br>')?>
-
-<?=x(array('link'=>'erp_report/invoice/billlisting','label'=>'
-	<div class="col-md-3">
-		<div class="card">
-				<div class="card-block" style="background-color: ;">
-				<div class="card-block">
-					<h4 class="card-title center">Bill Listing</h4>
-					<p class="card-text">
-						<small class="text-muted"></small>
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
-', array("param"=>'wide_opener')),'<br><br>')?>
-
-
 <script type="text/javascript"> 
 
 function doSearch(text, backgroundColor) {
@@ -241,14 +195,6 @@ $(document).ready(function() {
     $('#f_monthpick').MonthPicker({ Button: false });
 
 doSearch('<?= @$this->valid['f_refno']; ?>','yellow');
-
-jQuery(document).keyup(function(e){
-    if(e.keyCode==27){
-     return false;
-    }
-});
-
-
 
 });
 </script>

@@ -1,3 +1,5 @@
+<?$offset = $this->empObj->_voffset;?>
+<form method="get" id="filter" name="filter" action="">
 <div style="margin-top:1%;">
 	<div class="col-md-12 card filter-card" style="margin-bottom: 5px;">
 	<div class="card-block" style="padding-top: 1%;">
@@ -5,7 +7,7 @@
 		<button name="cmdPrint" value="  Print  " onclick="$('#report').printElement();" class="btn btn btn-primary pull-right" style="padding: 2px 12px;">Print</button></div>
 		<h5 class="title-margin">Summary/Statement of Expense</h5>
 	</div>
-	<form method="get" id="filter" name="filter" action="">
+	
 		<table class="">
 			<tr style="font-size: 0.8em;">
 				<th width="10%">Ref No.</th>
@@ -138,27 +140,30 @@
 		</table>
 		</form>
 	</div>
+	
+	
+	<?php foreach ($this->expenseSummery as $key=>$section): //arsort($section) ?> 
+<table class="bg-blue-light" width="98%" cellspacing="0" cellpadding="4" border="0"  
+style="margin-bottom: 2px;margin-left: 1%;margin-right: 2%; padding-bottom: 0px;"> 
+            <tbody> 
+              <tr><td align="center">	 
+              	<?php foreach ($section as $sub):?> 
+              <div class="status-widget-15"> 
+        <div class="content-div box-shadow"> 
+          <div class="wid-title"><small class="text-muted"><?=$sub['label_name']?></small></div> 
+          <table class="wid-content"> 
+          	<tbody> 
+              <tr><td style="background-color: ghostwhite; "width="29%"><?=$sub['sum']?></td> </tr> 
+            </tbody> 
+          </table> 
+        </div> 
+      </div> 
+      <?php endforeach?> 
+      </td> 
+</tr></tbody></table> 
+<?php endforeach?> 
 
-<?php foreach ($this->expenseSummery as $key=>$section): //arsort($section) ?>
-<table class="bg-blue-light" width="98%" cellspacing="0" cellpadding="4" border="0" 
-style="margin-bottom: 2px;margin-left: 1%;margin-right: 2%; padding-bottom: 0px;">
-            <tbody>
-              <tr><td align="center">	
-              	<?php foreach ($section as $sub):?>
-              <div class="status-widget-15">
-        <div class="content-div box-shadow">
-          <div class="wid-title"><small class="text-muted"><?=$sub['label_name']?></small></div>
-          <table class="wid-content">
-          	<tbody>
-              <tr><td style="background-color: ghostwhite; "width="29%"><?=$sub['sum']?></td> </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <?php endforeach?>
-      </td>
-</tr></tbody></table>
-<?php endforeach?>
+
 <table class="bg-blue-light" width="98%" cellspacing="0"
 	cellpadding="4" border="0" style="margin-bottom: 2px; padding-bottom:0px;margin-left: 1%;margin-right: 2%;">
 	<tbody>
@@ -248,6 +253,7 @@ style="margin-bottom: 2px;margin-left: 1%;margin-right: 2%; padding-bottom: 0px;
 			<?endif?>
 			</tbody>
 		</table>
+		<?$this->expObj->pagination();?>
 		<div>
 			<table class="rpt_tbl">
 				<thead>
@@ -257,12 +263,14 @@ style="margin-bottom: 2px;margin-left: 1%;margin-right: 2%; padding-bottom: 0px;
 					</tr>
 				</thead>
 			</table>
-		</div>
-	</div>
+</div>
 </div>
 </div>
 </div>
 </form>
+
+
+
 <script type="text/javascript">           
 $(document).ready(function() {
     $('#f_monthpick').MonthPicker({ Button: false });

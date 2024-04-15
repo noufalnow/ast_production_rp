@@ -1206,11 +1206,10 @@ a {
   display: block;
   text-decoration: none;
   color: #999999;
-  border-radius: 20px;
+  border-radius: 6px;
   text-indent: 20px;
   line-height: 30px;
   border: 1px solid rgb(204, 204, 204);
-  border-radius: 20px;
   margin-bottom: 1px;
   text-decoration: none;
   /*width: fit-content;*/

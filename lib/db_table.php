@@ -342,11 +342,12 @@ class db_table {
 		return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 	}
 	
-	protected function fetchQueryPaginate($cond) {
+	protected function fetchQueryPaginate($cond, $sort='') {
 		@$cond= array_filter($cond, function($value) {
 			return ($value !== null && $value !== false && $value !== '');
 		});
 		//@$cond = array_filter ( $cond );
+		
 		
 		if (! empty ( $this->_pager )) {
 			
@@ -377,6 +378,12 @@ class db_table {
 				$this->_offset = 0;
 		}
 		
+		
+		if (! empty ( $sort )) {
+		    $this->_qry .= $sort;
+		}
+		
+		
 		if ($this->_limit) {
 			$cond ['limit'] = $this->_limit;
 			$this->_qry .= " limit :limit";
@@ -386,6 +393,9 @@ class db_table {
 			$cond ['offset'] = $this->_offset;
 			$this->_qry .= " offset :offset";
 		}
+		
+		//die($this->_qry);
+		
 		
 		$stmt = $this->execute ( $cond );
 		self::resetVariables();

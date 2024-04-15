@@ -613,4 +613,4 @@ $(document).on("click", ".rtl #slide-right", function () {
 });
 
 // FOOTER
-document.getElementById("year").innerHTML = new Date().getFullYear();
+//document.getElementById("year").innerHTML = new Date().getFullYear();
