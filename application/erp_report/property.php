@@ -44,6 +44,9 @@ class propertyController extends mvc
 
         $collObj = new collection();
         $date = new DateTime();
+        
+
+        $title = ' Payment Collection ';
 
         $where = [];
         if (isset($_GET) && $_GET['clear'] == 'All') {
@@ -56,6 +59,10 @@ class propertyController extends mvc
             $form->f_monthpick->setValue($date->format('m') . '/' . $date->format('Y'));
         } else {
             $date = date_create_from_format(DF_DD, '01/' . $_GET['f_monthpick']);
+            
+            $month = date_format($date, 'F-Y');
+            $title = '<b>4</b> . Payment Collection for the month - ' . $month;
+            
         }
 
         $filter_class = 'btn-primary';
@@ -76,8 +83,7 @@ class propertyController extends mvc
 
         $collList = $collObj->getPaymentcollection(@$where);
 
-        $month = date_format($date, 'F-Y');
-        $title = '<b>4</b> . Payment Collection for the month - ' . $month;
+
 
         $this->view->filter_class = $filter_class;
         $this->view->collList = $collList;

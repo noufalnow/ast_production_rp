@@ -7,7 +7,7 @@ class rentController extends mvc
         $this->view->response('window');
         $where = [];
         require_once __DIR__ . '/../admin/!model/property.php';
-        
+
         $form = new form();
         $form->addElement('f_monthpick', 'Select Month ', 'text', '', '', array(
             '' => 'readonly'
@@ -15,7 +15,7 @@ class rentController extends mvc
         $form->addElement('f_date', 'Pay Date', 'text', 'date', '', array(
             'class' => 'date_picker'
         ));
-        $form->addElement('f_propno', 'Property No ', 'text', 'alpha_space');
+        $form->addElement('f_propno', 'Property No ', 'text', '');
         $form->addElement('f_tenant', 'Tenant', 'text', '');
         require_once __DIR__ . '/../admin/!model/building.php';
         $buildingObj = new building();
@@ -41,18 +41,19 @@ class rentController extends mvc
                 2 => "Others"
             )
         ));
-        
+
+        $filter_class = 'btn-primary';
+        $date = new DateTime();
+        $title = 'Payment Schedule';
+
         if (isset($_GET) && $_GET['clear'] == 'All') {
             $form->reset();
             unset($_GET);
-        }
-        
-        $filter_class = 'btn-primary';
-        if (is_array($_GET) && count(array_filter($_GET)) > 0) {
+        } else if (is_array($_GET) && count(array_filter($_GET)) > 0) {
             $valid = $form->vaidate($_GET);
             $valid = $valid[0];
             if ($valid == true) {
-                
+
                 $where = array(
                     'f_monthpick' => @$valid['f_monthpick'],
                     'f_propno' => @$valid['f_propno'],
@@ -72,26 +73,39 @@ class rentController extends mvc
                 }
             }
             $filter_class = 'btn-info';
-        }
-        
-        $date = new DateTime();
-        if ($_GET['f_monthpick'] == "") {
+
+            
+            if(!empty($_GET['f_monthpick'])){
+                $date = date_create_from_format(DF_DD, '01/' . $_GET['f_monthpick']);
+                $month = date_format($date, 'F-Y');
+                $title = 'Payment Schedule for the month - ' . $month;
+            }
+            
+            
+        } else if ($_GET['f_monthpick'] == "") {
             $where = array(
                 'f_monthpick' => $date->format('m') . '/' . $date->format('Y')
             );
             $form->f_monthpick->setValue($date->format('m') . '/' . $date->format('Y'));
+            
+            $month = date_format($date, 'F-Y');
+            $title = 'Payment Schedule for the month - ' . $month;
+            
+            
         } else {
             $date = date_create_from_format(DF_DD, '01/' . $_GET['f_monthpick']);
+            
+            $month = date_format($date, 'F-Y');
+            $title = 'Payment Schedule for the month - ' . $month;
         }
-        $month = date_format($date, 'F-Y');
-        $title = 'Payment Schedule for the month - ' . $month;
-        
+
+
         $propObj = new property();
-        
+
         $propertyList = $propObj->getPropertyPayReport(@$where);
-        
+
         // s($propertyList);
-        
+
         // To update file name formated with file No.
         /*
          * require_once __DIR__ . '/../admin/!model/files.php';
@@ -103,10 +117,10 @@ class rentController extends mvc
          * $doc['file_id']);
          * }
          */
-         $this->view->filter_class = $filter_class;
-         $this->view->propertyList = $propertyList;
-         $this->view->form = $form;
-         $this->view->title = $title;
+        $this->view->filter_class = $filter_class;
+        $this->view->propertyList = $propertyList;
+        $this->view->form = $form;
+        $this->view->title = $title;
     }
     
     public function adddemandAction()
@@ -160,6 +174,7 @@ class rentController extends mvc
                         if ($casDmdDet)
                             $demand = $cashDmdObj->modify(array(
                                 'cdmd_note' => $valid['note'],
+                                'cdmd_narration' => $payoptionDet['prop_fileno'] . "|" . $payoptionDet['bld_name'] . "|" . $payoptionDet['doc_no'] . "|" . $payoptionDet['agr_tenant'] . "|" . $payoptionDet['doc_issue_date'] . "|" . $payoptionDet['doc_expiry_date'] . "|" . $payoptionDet['agr_paydet'] . "|" . $payoptionDet['popt_type_txt'] . "|" . $payoptionDet['popt_bank_det'],
                                 'cdmd_total' =>  $payoptionDet['popt_amount'],
                                 'cdmd_credit_amt' =>  $payoptionDet['popt_amount'],
                                 'cdmd_orig_amt' =>  $payoptionDet['popt_amount'],

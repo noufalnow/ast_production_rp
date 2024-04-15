@@ -606,12 +606,19 @@ class db_table {
 		s ($data);
 		
 		//s($this->_where);
+		if(!empty($data))
 		$stmt = str_replace ( $bind, $data, $this->_qry );
+		else
+		    $stmt = $this->_qry;
+		    
 		r ( $stmt );
 		
 		//$this->_where [] = $this->_table . '.deleted = :deleted';
 		$where  = ' WHERE ' . implode ( ' AND ', $this->_where );
+		if(!empty($data))
 		$stmt = str_replace ( $bind, $data, $where);
+		else
+		    $stmt = $this->_qry;
 		v ( $stmt );
 	}
 	public function pagination($target = "") {

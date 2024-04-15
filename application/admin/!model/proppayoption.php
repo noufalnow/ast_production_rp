@@ -62,14 +62,12 @@ class proppayoption extends db_table {
 						  to_char(doc_expiry_date,'DD/MM/YYYY') as doc_expiry_date,
 						  doc_expiry_date as doc_expiry_month,
                           agr_tnt_id  
-				   FROM
-				     (SELECT max(doc_id) AS mdoc_id
-				      FROM mis_documents
-				      WHERE doc_ref_type = " . DOC_TYPE_PROP . " and doc_type = 201
-						AND deleted = 0
-						GROUP BY doc_type,doc_ref_type,doc_ref_id)max_group
-						LEFT JOIN mis_documents AS docs ON docs.doc_id = max_group.mdoc_id
-						AND docs.deleted = 0) AS propdocs ON propdocs.doc_ref_id = prop.prop_id
+				    FROM
+				        mis_documents 
+                        WHERE doc_ref_type = " . DOC_TYPE_PROP . " and doc_type = 201
+						AND deleted = 0) AS propdocs ON 
+                            propdocs.doc_ref_id = $this->_table.popt_prop_id and 
+                            propdocs.doc_id     = $this->_table.popt_doc_id	
                         left join mis_tenants as tenants on tenants.tnt_id = propdocs.agr_tnt_id and tenants.deleted = 0
 
 				");

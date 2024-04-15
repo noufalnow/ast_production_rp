@@ -336,7 +336,8 @@ class property extends db_table {
 		@$cond = array_filter ( $cond );
 		
 		if (! empty ( $cond ['f_propno'] ))
-			$where [] = "prop_no like '%' || :f_propno || '%'";
+			$where [] = "(prop_no like '%' || :f_propno || '%' OR prop_fileno like '%' || :f_propno || '%')";
+	
 		
 		if (! empty ( $cond ['f_building'] ))
 			$where [] = "prop_building = :f_building";
@@ -428,24 +429,19 @@ class property extends db_table {
 				          doc_desc,
 						  agr_paydet,
 				          doc_remarks,
-				          --agr_tenant,
 						  agr_mobile,
 						  to_char(doc_apply_date,'DD/MM/YYYY') as doc_apply_date,
 						  to_char(doc_issue_date,'DD/MM/YYYY') as doc_issue_date,
 						  to_char(doc_expiry_date,'DD/MM/YYYY') as doc_expiry_date,
 						  doc_expiry_date as doc_expiry_month,
                           agr_tnt_id
-				   FROM
-				     (SELECT max(doc_id) AS mdoc_id
-				      FROM mis_documents
-				      WHERE doc_ref_type = " . DOC_TYPE_PROP . " and doc_type = 201
-						AND deleted = 0
-						GROUP BY doc_type,doc_ref_type,doc_ref_id)max_group
-						LEFT JOIN mis_documents AS docs ON docs.doc_id = max_group.mdoc_id
-						AND docs.deleted = 0) AS propdocs ON propdocs.doc_ref_id = mis_property.prop_id
+				        FROM
+				        mis_documents 
+                        WHERE doc_ref_type = " . DOC_TYPE_PROP . " and doc_type = 201
+						AND deleted = 0) AS propdocs ON propdocs.doc_ref_id = mis_property.prop_id
                         left join mis_tenants as tenants on tenants.tnt_id = propdocs.agr_tnt_id and tenants.deleted = 0
 						LEFT JOIN core_files as files on files.file_ref_id = propdocs.doc_id and files.deleted = 0 AND files.file_type IN(3)
-						LEFT JOIN mis_property_payoption as proppay on proppay.popt_doc_id = propdocs.doc_id and proppay.deleted = 0 $whereDate
+						INNER JOIN mis_property_payoption as proppay on proppay.popt_doc_id = propdocs.doc_id and proppay.deleted = 0 $whereDate
 						
 						LEFT JOIN mis_cash_demand AS dmd ON dmd.cdmd_type = ".CASHDMD_TYP_PROP."
 						AND dmd.cdmd_ref_id = proppay.popt_id
