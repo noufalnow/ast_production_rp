@@ -47,11 +47,28 @@ function mainMenu($encUserId)
             $active['erp_manage/updates/list'] = 'active';
         
     $menuHtml = '';
-    $menuHtml .= x(array(
+    
+    
+    $menuHtml .= '<li class="slide">
+    	<a class="side-menu__item ' . @$active['default/default/dashboard'] . ' is-expanded" data-bs-toggle="slide" href="javascript:void(0);">
+                  <i class="side-menu__icon fa-solid fa-house"></i><span class="side-menu__label">Dashboard</span></a>
+    	<ul class="slide-menu open">';
+    
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'default/default/dashboard',
-        'label' => '<div class="side-menu__item ' . @$active['default/default/dashboard'] . '">
-                  <i class="side-menu__icon fa-solid fa-house"></i><span class="side-menu__label">Dashboard</span></div>'
-    ));
+        'label' => 'Dashboard'
+    )) . '</li>';
+     
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
+        'link' => 'default/default/dashboardgraph',
+        'label' => 'Dashboard - Graph',
+        array("param" => 'wide_opener')
+    )) . '</li>';
+    
+    $menuHtml .= '</ul>
+      </li>';
+    
+    
     
     $menuHtml .= '<li class="slide">
     	<a class="side-menu__item ' . @$active['erp_employee/master/list'] . ' is-expanded" data-bs-toggle="slide" href="javascript:void(0);">
@@ -316,6 +333,19 @@ function mainMenu($encUserId)
         'link' => 'acl/config/setmodules',
         'label' => 'Permissions'
     )) . '</li>';
+    
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
+        'link' => 'default/default/backup',
+        'ref' => array(
+            'ref' => $encUserId
+        ),
+        'label' => 'Backup',
+        array(
+            "param" => 'class="facebox"'
+        )
+    )) . '</li>';
+    
+    
     $menuHtml .= '</ul>
       </li>';
     
@@ -585,7 +615,7 @@ function mainMenu($encUserId)
 										<div class="dropdown d-md-flex profile-1">
 											<a href="javascript:void(0);" data-bs-toggle="dropdown"
 												class="nav-link leading-none d-flex px-1"> <span> <img
-													src="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/images/users/8.jpg"
+													src="'.IMAGEURL.$this->encode($this->empImage['file_id']).'"
 													alt="profile-user"
 													class="avatar profile-user brround cover-image" />
 											</span>
@@ -594,14 +624,14 @@ function mainMenu($encUserId)
 												class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
 												<div class="drop-heading">
 													<div class="text-center">
-														<h5 class="text-dark mb-0">Aleena</h5>
-														<small class="text-muted">Administrator</small>
+														<h5 class="text-dark mb-0">'.ucwords(strtolower($_SESSION['user_dip_name'])).'</h5>
+														<small class="text-muted">'.$_SESSION['user_role'].'</small>
 													</div>
 												</div>
 												<div class="dropdown-divider m-0"></div>
-												<a class="dropdown-item" href="profile.html"> <i
+												<a class="dropdown-item" href=""> <i
 													class="dropdown-icon fe fe-user"></i> Profile
-												</a> <a class="dropdown-item" href="login.html"> <i
+												</a> <a class="dropdown-item" href="'.APPURL.'default/default/logout'.'"> <i
 													class="dropdown-icon fe fe-alert-circle"></i> Sign out
 												</a>
 											</div>

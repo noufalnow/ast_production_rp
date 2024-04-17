@@ -77,6 +77,13 @@
 					<type>view</type>
 				</action>
 				<action>
+					<name>dashboardgraph</name>
+					<label>Dashboard Graph</label>
+					<description>Dashboard Graph</description>
+					<resource>default</resource>
+					<type>view</type>
+				</action>
+				<action>
 					<name>logout</name>
 					<label>logout Page</label>
 					<description>logout Page</description>

@@ -27,7 +27,7 @@ class usersController extends mvc {
 			unset ( $_GET );
 		}
 		
-		$this->view->filter_class = 'btn-secondary';
+		$filter_class = 'btn-primary';
 		if(isset($_GET) && count($_GET)>0){
 			$valid = $form->vaidate($_GET);
 			
@@ -41,7 +41,7 @@ class usersController extends mvc {
 						'user_desig'=>@$valid['f_desig']
 				);
 			}
-			$this->view->filter_class = 'btn-info';
+			$filter_class = 'btn-info';
 		}
 		include '!model/user.php';
 		
@@ -50,11 +50,16 @@ class usersController extends mvc {
 		$this->view->form = $form;
 		$this->view->userObj = $userObj;
 		$this->view->roll  = $roll;
+		$this->view->filter_class = $filter_class;
 	}
 	public function addAction() {
 
 	    $this->view->NoViewRender = false;
 	    $this->view->response('ajax');
+	    
+	    require_once __DIR__ . '/../admin/!model/employee.php';
+	    $empModelObj = new employee();
+	    $empList = $empModelObj->getEmployeePair();
 		
 		$form = new form ();
 			// $roll =array(2=>"Admin",3=>"Projects",4=>"Machineries",5=>"Manager", 6=>"K Admin", 7=>"K Users");
@@ -76,6 +81,7 @@ class usersController extends mvc {
 		$form->addElement ( 'password', 'Password', 'password','required' );
 		$form->addElement ( 'desig', 'Role', 'select','required',array('options'=>$roll) );
 		$form->addElement ( 'status', 'Status', 'radio','required',array('options'=>array(1=>"Enable", 2=>"Disable")) );
+		$form->addElement ( 'employee', 'Employee', 'select','',array('options'=>$empList) );
 		
 		if (isset ( $_POST ) && count ( $_POST ) > 0) {
 			
@@ -97,6 +103,7 @@ class usersController extends mvc {
 							'user_password'=>password_hash($valid['password'], PASSWORD_DEFAULT),
 							'user_desig'=>$valid['desig'],
 							'user_status'=>$valid['status'],
+					        'user_emp_id' => $valid ['employee'] 
 					);
 					$insert = $user->add($data);
 					
@@ -143,6 +150,10 @@ class usersController extends mvc {
 		$this->view->response('ajax');
 		require_once __DIR__ . '/../admin/!model/user.php';
 		
+		require_once __DIR__ . '/../admin/!model/employee.php';
+		$empModelObj = new employee();
+		$empList = $empModelObj->getEmployeePair();
+		
 		$form = new form ();
 		$user = new user ();
 
@@ -168,6 +179,7 @@ class usersController extends mvc {
 			$form->addElement ( 'lname', 'Last Name ', 'text','required|alpha_space' );
 			$form->addElement ( 'desig', 'Role', 'select','required',array('options'=>$roll) );
 			$form->addElement ( 'status', 'Status', 'radio','required',array('options'=>array(1=>"Enable", 2=>"Disable")) );
+			$form->addElement ( 'employee', 'Employee', 'select','',array('options'=>$empList) );
 			
 			
 		if ($_POST) {
@@ -186,7 +198,8 @@ class usersController extends mvc {
 							'user_fname' => $valid ['fname'],
 							'user_lname' => $valid ['lname'],
 							'user_desig' => $valid ['desig'],
-							'user_status' => $valid ['status'] 
+							'user_status' => $valid ['status'],
+					        'user_emp_id' => $valid ['employee'] 
 					);
 					
 					$update = $user->modify ( $data, $decUserId );
@@ -224,6 +237,7 @@ class usersController extends mvc {
 			$form->lname->setValue($userDetail['user_lname']);
 			$form->desig->setValue($userDetail['user_desig']);
 			$form->status->setValue($userDetail['user_status']);
+			$form->employee->setValue($userDetail['user_emp_id']);
 		}
 		$this->view->form  = $form;
 

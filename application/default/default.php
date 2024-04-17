@@ -152,11 +152,25 @@ class defaultController extends mvc
                 if ($captcha == 1 && $userDet) {
 
                     if (password_verify ( $valid ['password'], $userDet ['user_password'] )) {
+                        
+                        $roll = array (
+                            1 => "Admin",
+                            2 => "Director",
+                            3 => "Manager",
+                            4 => "Accountant",
+                            5 => "Sales",
+                            6 => "Purchase",
+                            7 => "Maintenance",
+                            8 => "Office Assistant",
+                        );
+                        
                     //if (true) {
                         $_SESSION['user_name'] = $userDet['user_uname'];
                         $_SESSION['user_id'] = $userDet['user_id'];
                         $_SESSION['user_type'] = $userDet['user_desig'];
                         $_SESSION['user_dip_name'] = $userDet['user_fname'] . " " . $userDet['user_lname'];
+                        $_SESSION['user_emp_id'] = $userDet['user_emp_id'];
+                        $_SESSION['user_role'] = $roll[$userDet['user_desig']];
 
                         if ($userDet['ubr_branch'] && $userDet['user_desig'] == 4) {
                             $_SESSION['ubr_branch'] = $userDet['ubr_branch'];
@@ -209,9 +223,30 @@ class defaultController extends mvc
 
         $this->view->form = $form;
     }
-
+    
+    
     public function dashboardAction()
     {
+        require_once __DIR__ . '/../admin/!model/documents.php';
+        $docs = new documets();
+        
+        //print_r($_SESSION);
+        
+        $empImage = $docs->getTopDocumentsByRef(array(
+            'doc_ref_type' => DOC_IMG_EMP,
+            'doc_ref_id' => $_SESSION['user_emp_id']
+        ));
+        
+        $this->view->empImage = $empImage['0'];
+        
+        
+        
+    }
+
+    public function dashboardgraphAction()
+    {
+        
+        $this->view->response('window');
         require_once __DIR__ . '/../admin/!model/employee.php';
         require_once __DIR__ . '/../admin/!model/property.php';
         require_once __DIR__ . '/../admin/!model/vehicle.php';
@@ -219,7 +254,8 @@ class defaultController extends mvc
         $propObj = new property();
         $vehObj = new vehicle();
         $date = new DateTime();
-
+        
+              
         $param = [];
         $plotData = $propObj->getPlotOptions();
 
