@@ -1,4 +1,5 @@
 <?$offset = $this->buildingObj->_voffset;?>
+
 <form method="get" id="filter" name="filter" action="list">
 	<div class="main-content mt-0 hor-content">
 		<div class="side-app">
@@ -57,50 +58,63 @@
 								</div>
 								<div class="card-body">
 									<div class="table-responsive export-table">
-                                        <table aria-describedby="" class="table table-bordered no-footer">
-                                                <thead class="border-top">
-                                                  <tr role="row">
-					<th width="5%" class="center">Sl No</th>
-					<th width="25%" class="center">Building Name</th>
-					<th width="8%" class="center">No.</th>
-					<th width="8%" class="center">Area</th>
-					<th width="8%" class="center">Block No.</th>
-					<th width="8%" class="center">Plot No.</th>
-					<th width="8%" class="center">Way</th>
-					<th width="8%" class="center">Street</th>
-					<th width="8%" class="center">Block Name</th>
-					<th width="5%" class="center">Edit</th>
-					<th width="5%" class="center">View</th>
-				</tr>
-			</thead>
-			<tbody>
+										<table aria-describedby=""
+											class="table table-bordered no-footer">
+											<thead class="border-top">
+												<tr role="row">
+													<th width="5%" class="center">Sl No</th>
+													<th width="25%" class="center">Building Name</th>
+													<th width="8%" class="center">No.</th>
+													<th width="8%" class="center">Area</th>
+													<th width="8%" class="center">Block No.</th>
+													<th width="8%" class="center">Plot No.</th>
+													<th width="8%" class="center">Way</th>
+													<th width="8%" class="center">Street</th>
+													<th width="8%" class="center">Block Name</th>
+													<th width="5%" class="center">Edit</th>
+													<th width="5%" class="center">View</th>
+												</tr>
+											</thead>
+											<tbody>
 			<?if(count($this->BuildingList)>0):?>
-				<?php foreach($this->BuildingList as $build):
-					$encBuldId = $this->encode($build['bld_id']);
-				?>
+				<?php
+
+foreach ($this->BuildingList as $build) :
+        $encBuldId = $this->encode($build['bld_id']);
+        ?>
 				<tr>
-					<td class="center"><?=@++$offset;?></td>
-					<td><?=$build['bld_name']?></td>
-					<td><?=$build['bld_no']?></td>
-					<td><?=$build['bld_area']?></td>
-					<td><?=$build['bld_block_no']?></td>
-					<td><?=$build['bld_plot_no']?></td>
-					<td><?=$build['bld_way']?></td>
-					<td><?=$build['bld_street']?></td>
-					<td><?=$build['bld_block']?></td>
-					
-					<td class="center">
+													<td class="center"><?=@++$offset;?></td>
+													<td><?=$build['bld_name']?></td>
+													<td><?=$build['bld_no']?></td>
+													<td><?=$build['bld_area']?></td>
+													<td><?=$build['bld_block_no']?></td>
+													<td><?=$build['bld_plot_no']?></td>
+													<td><?=$build['bld_way']?></td>
+													<td><?=$build['bld_street']?></td>
+													<td><?=$build['bld_block']?></td>
+
+													<td class="center">
 						<?=x(array('link'=>'erp_masters/building/edit','ref'=>array('ref'=>$encBuldId),'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>  
 					</td>
-					<td class="center">
+													<td class="center">
 						<?=x(array('link'=>'erp_masters/building/view','ref'=>array('ref'=>$encBuldId),'label'=>'<i class="fas fa-search"></i>',array("param"=>'class="facebox"')))?> 
 					</td>
-				</tr>
+												</tr>
 				<?php endforeach?>
 			<?endif?>
 			</tbody>
-		</table>
+										</table>
 		<?$this->buildingObj->pagination();?>
 	</div>
-</div></div></div></div></div></div></div></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </form>
+
+
+

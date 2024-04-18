@@ -18,7 +18,8 @@ function mainMenu($encUserId)
 
     if (_REQUEST == 'erp_property/master/view' || 
         _REQUEST == 'erp_property/tenants/list' || 
-        _REQUEST == 'erp_masters/building/list')
+        _REQUEST == 'erp_masters/building/list' ||
+        _REQUEST == 'erp_masters/building/dash')
         $active['erp_property/master/list'] = 'active';
 
     if (_REQUEST == 'erp_vehicle/master/view')
@@ -110,6 +111,12 @@ function mainMenu($encUserId)
     	<a class="side-menu__item ' . @$active['erp_property/master/list'] . ' is-expanded" data-bs-toggle="slide" href="javascript:void(0);">
                   <i class="side-menu__icon fa-solid fa-building"></i><span class="side-menu__label">Properties</span></a>
     	<ul class="slide-menu open">';
+    
+    
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
+        'link' => 'erp_masters/building/dash',
+        'label' => 'Building Status Board'
+    )) . '</li>';
 
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_property/master/list',

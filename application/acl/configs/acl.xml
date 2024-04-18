@@ -1207,6 +1207,13 @@
 				<label>Building Master</label>
 				<description>Building Related activity</description>
 				<action>
+					<name>dash</name>
+					<label>Building Status Board</label>
+					<description>Building Status Board</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
 					<name>list</name>
 					<label>List Building</label>
 					<description>List Building</description>

@@ -236,7 +236,7 @@ class property extends db_table {
 				   AND docs.deleted = 0) AS propdocs ON propdocs.doc_ref_id = mis_property.prop_id
                    left join mis_tenants as tenants on tenants.tnt_id = propdocs.agr_tnt_id and tenants.deleted = 0
 				$where
-				Order by building.bld_name ASC, prop_fileno ASC, prop_no ASC" );
+				Order by prop_building ASC, prop_level ASC, prop_fileno ASC" );
 		
 				//v($this->_qry);
 		
