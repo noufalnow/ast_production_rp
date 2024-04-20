@@ -48,6 +48,13 @@ class companyController extends mvc
             'exten' => 'pdf;doc;docx;jpg;png',
             'size' => 5375000
         ));
+        
+        
+        $form->addElement('addRemainder', 'Add remainder', 'checkbox', '', array(
+            'options' => array(
+                1 => "Add to remainder"
+            )
+        ));
 
         if (isset($_POST) && count($_POST) > 0) {
             $valid = $form->vaidate($_POST, $_FILES);
@@ -78,7 +85,8 @@ class companyController extends mvc
                             "doc_ref_type" => DOC_TYPE_COMP,
                             'doc_ref_id' => $valid['company'],
                             'doc_no' => $valid['docno'],
-                            'doc_expiry_date' => $doe
+                            'doc_expiry_date' => $doe,
+                            'doc_remainder' => $valid ['addRemainder'] ==''? NULL : $valid ['addRemainder'],
                         );
                         if ($valid['docdesc'])
                             $data['doc_desc'] = $valid['docdesc'];
@@ -163,6 +171,12 @@ class companyController extends mvc
             'exten' => 'pdf;doc;docx;jpg;png',
             'size' => 5375000
         ));
+        
+        $form->addElement('addRemainder', 'Add remainder', 'checkbox', '', array(
+            'options' => array(
+                1 => "Add to remainder"
+            )
+        ));
 
         if (isset($_POST) && count($_POST) > 0) {
             $valid = $form->vaidate($_POST, $_FILES);
@@ -194,7 +208,8 @@ class companyController extends mvc
                             "doc_ref_type" => DOC_TYPE_COMP,
                             'doc_ref_id' => $valid['company'],
                             'doc_no' => $valid['docno'],
-                            'doc_expiry_date' => $doe
+                            'doc_expiry_date' => $doe,
+                            'doc_remainder' => $valid ['addRemainder'] ==''? NULL : $valid ['addRemainder'],
                         );
                         if ($valid['docdesc'])
                             $data['doc_desc'] = $valid['docdesc'];
@@ -251,6 +266,7 @@ class companyController extends mvc
             $form->docdesc->setValue($docDetails['doc_no']);
             $form->company->setValue($docDetails['doc_ref_id']);
             $form->doctype->setValue($docDetails['doc_type']);
+            $form->addRemainder->setValue($docDetails['doc_remainder']);
         }
 
         $this->view->form = $form;

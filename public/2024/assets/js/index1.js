@@ -1,6 +1,6 @@
 $(function (e) {
   //______Data-Table
-  $("#data-table").DataTable({
+  /*$("#data-table").DataTable({
     language: {
       searchPlaceholder: "Search...",
       sSearch: "",
@@ -10,7 +10,7 @@ $(function (e) {
   //______Select2
   $(".select2").select2({
     minimumResultsForSearch: Infinity,
-  });
+  });*/
 });
 
 function chartArea() {

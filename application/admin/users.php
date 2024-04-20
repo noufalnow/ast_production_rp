@@ -82,10 +82,14 @@ class usersController extends mvc {
 		$form->addElement ( 'desig', 'Role', 'select','required',array('options'=>$roll) );
 		$form->addElement ( 'status', 'Status', 'radio','required',array('options'=>array(1=>"Enable", 2=>"Disable")) );
 		$form->addElement ( 'employee', 'Employee', 'select','',array('options'=>$empList) );
+		$form->addElement ( 'email', 'e-mail ', 'text','required|valid_email' );
 		
 		if (isset ( $_POST ) && count ( $_POST ) > 0) {
 			
 			$valid = $form->vaidate ( $_POST, $_FILES );
+			
+			//print_r($valid);
+			
 			$valid = $valid [0];
 			if ($valid == true) {
 				
@@ -103,7 +107,7 @@ class usersController extends mvc {
 							'user_password'=>password_hash($valid['password'], PASSWORD_DEFAULT),
 							'user_desig'=>$valid['desig'],
 							'user_status'=>$valid['status'],
-					        'user_emp_id' => $valid ['employee'] 
+					        'user_emp_id' => $valid ['employee'] ==''? NULL : $valid ['employee'],
 					);
 					$insert = $user->add($data);
 					
@@ -180,6 +184,7 @@ class usersController extends mvc {
 			$form->addElement ( 'desig', 'Role', 'select','required',array('options'=>$roll) );
 			$form->addElement ( 'status', 'Status', 'radio','required',array('options'=>array(1=>"Enable", 2=>"Disable")) );
 			$form->addElement ( 'employee', 'Employee', 'select','',array('options'=>$empList) );
+			$form->addElement ( 'email', 'e-mail ', 'text','' );
 			
 			
 		if ($_POST) {
@@ -199,7 +204,8 @@ class usersController extends mvc {
 							'user_lname' => $valid ['lname'],
 							'user_desig' => $valid ['desig'],
 							'user_status' => $valid ['status'],
-					        'user_emp_id' => $valid ['employee'] 
+					        'user_emp_id' => $valid ['employee'] ==''? NULL : $valid ['employee'],
+					        'user_email' => $valid ['email'] ==''? NULL : $valid ['email'],
 					);
 					
 					$update = $user->modify ( $data, $decUserId );
@@ -238,6 +244,7 @@ class usersController extends mvc {
 			$form->desig->setValue($userDetail['user_desig']);
 			$form->status->setValue($userDetail['user_status']);
 			$form->employee->setValue($userDetail['user_emp_id']);
+			$form->email->setValue($userDetail['user_email']);
 		}
 		$this->view->form  = $form;
 

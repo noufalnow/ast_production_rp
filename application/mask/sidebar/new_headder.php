@@ -371,10 +371,60 @@ function mainMenu($encUserId)
     return $menuHtml;
 }
 
+
+function notify(){
+    
+    require_once __DIR__ . '/../../admin/!model/updates.php';
+    
+    $updateObj = new updates();
+    $updList = $updateObj->getPendingUpdatesByUser(array(
+        'upd_assign' => USER_ID
+    ));
+    
+    //a($updList);
+    
+    
+    $notif .='<div class="drop-heading border-bottom">
+        <div class="d-flex">
+        <h6 class="mt-1 mb-0 fs-16 fw-semibold">You have
+        Notification</h6>
+        <div class="ms-auto">
+        <span class="badge bg-success rounded-pill">'.count($updList).'</span>
+        </div>
+        </div>
+        </div>
+    <div class="notifications-menu">';
+    
+    
+    if(is_array($updList) && count($updList)>0)
+        foreach ($updList as $row):
+    
+    $notif .= '
+
+    <a class="dropdown-item d-flex" href="#">
+    	<div
+    		class="me-3 notifyimg bg-primary-gradient brround box-shadow-primary">
+    		<i class="fe fe-message-square"></i>
+    	</div>
+    	<div class="mt-1 wd-80p">
+    		<h5 class="notification-label mb-1">'.ucwords(strtolower($row['upd_note'])).'</h5>
+    		<span class="notification-subtext">'.$row['upd_enddttime'].'</span>
+    	</div>
+    </a>';
+    endforeach;
+    
+    
+    $notif .='</div>';
+    
+    return $notif;
+}
+
 ?>
 
 
-<?php echo ('
+<?php
+
+echo ('
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
@@ -512,49 +562,13 @@ function mainMenu($encUserId)
 												class="fe fe-bell"></i><span class="pulse"></span> </a>
 											<div
 												class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-												<div class="drop-heading border-bottom">
-													<div class="d-flex">
-														<h6 class="mt-1 mb-0 fs-16 fw-semibold">You have
-															Notification</h6>
-														<div class="ms-auto">
-															<span class="badge bg-success rounded-pill">3</span>
-														</div>
-													</div>
-												</div>
-												<div class="notifications-menu">
-													<a class="dropdown-item d-flex" href="#">
-														<div
-															class="me-3 notifyimg bg-primary-gradient brround box-shadow-primary">
-															<i class="fe fe-message-square"></i>
-														</div>
-														<div class="mt-1 wd-80p">
-															<h5 class="notification-label mb-1">New review received</h5>
-															<span class="notification-subtext">2 hours ago</span>
-														</div>
-													</a> <a class="dropdown-item d-flex" href="#">
-														<div
-															class="me-3 notifyimg bg-primary-gradient brround box-shadow-primary">
-															<i class="fe fe-message-square"></i>
-														</div>
-														<div class="mt-1 wd-80p">
-															<h5 class="notification-label mb-1">New review received</h5>
-															<span class="notification-subtext">2 hours ago</span>
-														</div>
-													</a> <a class="dropdown-item d-flex" href="#">
-														<div
-															class="me-3 notifyimg bg-primary-gradient brround box-shadow-primary">
-															<i class="fe fe-message-square"></i>
-														</div>
-														<div class="mt-1 wd-80p">
-															<h5 class="notification-label mb-1">New review received</h5>
-															<span class="notification-subtext">2 hours ago</span>
-														</div>
-													</a>
-												</div>
+													'.
+                                                        notify()
+													.'
 												<div class="dropdown-divider m-0"></div>
-												<a href="#" class="dropdown-item text-center p-3 text-muted">View
-													all Notification</a>
-											</div>
+                                                '.
+                                                lx(array('link'=>'erp_manage/updates/list','ref'=>'','label'=>'View all Notifications',array("param"=>'class="dropdown-item text-center p-3 text-muted"' ))).
+                                                '</div>
 										</div>
 										<!-- NOTIFICATIONS -->
 										<div class="dropdown d-md-flex message">

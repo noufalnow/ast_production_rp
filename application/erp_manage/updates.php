@@ -40,6 +40,12 @@ class updatesController extends mvc
             '' => 'readonly',
             'class' => 'date_picker'
         ));
+        
+        $form->addElement('addRemainder', 'Add remainder', 'checkbox', '', array(
+            'options' => array(
+                1 => "Add to remainder"
+            )
+        ));
 
         if ($_POST) {
             if (! isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
@@ -67,7 +73,8 @@ class updatesController extends mvc
                         'upd_note' => $valid['desc'],
                         'upd_title' => $valid['title'],
                         'upd_type' => $type,
-                        'upd_type_refid' => $decRefId
+                        'upd_type_refid' => $decRefId,
+                        'upd_remainder' => $valid ['addRemainder'] ==''? NULL : $valid ['addRemainder'],
                     );
                     $insert = $updatesObj->add($data);
                     if ($insert) {
@@ -126,6 +133,12 @@ class updatesController extends mvc
             '' => 'readonly',
             'class' => 'date_picker'
         ));
+        
+        $form->addElement('addRemainder', 'Add remainder', 'checkbox', '', array(
+            'options' => array(
+                1 => "Add to remainder"
+            )
+        ));
 
         if ($_POST) {
             if (! isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
@@ -149,7 +162,8 @@ class updatesController extends mvc
                         'upd_dttime' => $dtWef,
                         'upd_enddttime' => $dtEnd,
                         'upd_note' => $valid['desc'],
-                        'upd_title' => $valid['title']
+                        'upd_title' => $valid['title'],
+                        'upd_remainder' => $valid ['addRemainder'] ==''? NULL : $valid ['addRemainder'],
                     );
                     $insert = $updatesObj->modify($data, $decUpdId);
                     if ($insert) {
@@ -182,6 +196,7 @@ class updatesController extends mvc
 
             $form->startDt->setValue($dtWef);
             $form->endDt->setValue($dtEnd);
+            $form->addRemainder->setValue($updDetails['upd_remainder']);
         }
 
         $this->view->form = $form;

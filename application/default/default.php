@@ -241,6 +241,17 @@ class defaultController extends mvc
         
         
         
+        require_once __DIR__ . '/../admin/!model/updates.php';
+        
+        $updateObj = new updates();
+        $updList = $updateObj->getPendingUpdatesByUser(array(
+            'upd_assign' => USER_ID
+        ));
+                
+        $this->view->updList = $updList;
+        
+        
+        
     }
 
     public function dashboardgraphAction()

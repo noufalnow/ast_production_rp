@@ -8,10 +8,15 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="row mb-4" style="margin-top: 15px;">
+				<div class="row mb-4">
 					<label class="col-sm-3 form-label" >Priority</label>
-					<div class="col-sm-9">
+					<div class="col-sm-3">
                     <?=$this->form->priority->show()?>
+                  </div>
+
+					<label class="col-sm-3 form-label" >Remainder </label>
+					<div class="col-sm-3 mt-3">
+                    <?=$this->form->addRemainder->show()?>
                   </div>
 				</div>
 				<div class="row mb-4">
@@ -28,17 +33,15 @@
 				</div>
 				<div class="row mb-4">
 					<label class="col-sm-3 form-label" >Date of Event</label>
-					<div class="col-sm-9">
+					<div class="col-sm-3">
                     <?=$this->form->startDt->show()?>
                   </div>
-				</div>
-				<div class="row mb-4">
-					<label class="col-sm-3 form-label" >Expected end Date</label>
-					<div class="col-sm-9">
+					<label class="col-sm-3 form-label" >Expected end Date </label>
+					<div class="col-sm-3">
                     <?=$this->form->endDt->show()?>
                   </div>
 				</div>
-	</div>
+			</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-primary submit-alias livepost" >Update</button>
 		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>

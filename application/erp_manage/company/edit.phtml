@@ -46,10 +46,14 @@
                   </div>
 				</div>
 				<div class="row mb-4">
-					<label class="col-sm-2 form-label" >Document
-						</label>
+					<label class="col-sm-2 form-label" >Document</label>
 					<div class="col-sm-4">
                     <?=$this->form->my_files->show()?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >Remainder </label>
+					<div class="col-sm-4 mt-3">
+                    <?=$this->form->addRemainder->show()?>
                   </div>
 				</div>
 		</div>

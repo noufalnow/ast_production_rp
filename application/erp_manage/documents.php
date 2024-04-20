@@ -66,6 +66,12 @@ class documentsController extends mvc
             '' => 'readonly',
             'class' => 'date_picker'
         ));
+        
+        $form->addElement('addRemainder', 'Add remainder', 'checkbox', '', array(
+            'options' => array(
+                1 => "Add to remainder"
+            )
+        ));
 
         $form->addFile('my_files', 'Document', array(
             'required' => true,
@@ -90,7 +96,8 @@ class documentsController extends mvc
                     'doc_issue_date' => $dtWef,
                     'doc_remarks' => $valid['title'],
                     'doc_desc' => $valid['desc'],
-                    'agr_idno' => $valid['fileno']
+                    'agr_idno' => $valid['fileno'],
+                    'doc_remainder' => $valid ['addRemainder'] ==''? NULL : $valid ['addRemainder'],
                 );
 
                 if ($valid['endDt']) {
@@ -165,6 +172,12 @@ class documentsController extends mvc
             '' => 'readonly',
             'class' => 'date_picker'
         ));
+        
+        $form->addElement('addRemainder', 'Add remainder', 'checkbox', '', array(
+            'options' => array(
+                1 => "Add to remainder"
+            )
+        ));
 
         $form->addFile('my_files', 'Document', array(
             'required' => false,
@@ -185,7 +198,8 @@ class documentsController extends mvc
                     'doc_issue_date' => $dtWef,
                     'doc_remarks' => $valid['title'],
                     'doc_desc' => $valid['desc'],
-                    'agr_idno' => $valid['fileno']
+                    'agr_idno' => $valid['fileno'],
+                    'doc_remainder' => $valid ['addRemainder'] ==''? NULL : $valid ['addRemainder'],
                 );
 
                 if ($valid['endDt']) {
@@ -247,6 +261,7 @@ class documentsController extends mvc
             $form->startDt->setValue($dos);
             $form->endDt->setValue($doe);
             $form->fileno->setValue($docDetails['agr_idno']);
+            $form->addRemainder->setValue($docDetails['doc_remainder']);
         }
 
         $this->view->form = $form;
