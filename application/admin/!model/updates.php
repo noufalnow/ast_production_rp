@@ -52,8 +52,8 @@ class updates extends db_table {
 		if (! empty ( $cond ['upd_type'] ))
 			$this->_where [] = "upd_type= :upd_type";
 		
-			$cond ['upd_status'] = 100;
-			$this->_where [] = "upd_status <> :upd_status";
+			//$cond ['upd_status'] = 100;
+			//$this->_where [] = "upd_status <> :upd_status";
 			
 			$this->_order [] = 'upd_status asc, core_updates.upd_dttime ASC, upd_id DESC';
 			

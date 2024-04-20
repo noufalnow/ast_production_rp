@@ -1,22 +1,38 @@
 <?php
-class notification extends db_table {
-	protected $_table = "mis_notification";
-	protected $_pkey = "notif_id";
-	
 
-	public function add($data) {
-		return parent::insert ( $data );
-	}
-	
-	public function modify($data, $cond) {
-		return parent::update ( $data, $cond );
-	}
-	
-	
-	public function getRemainderReport($cond=array()){		
+class notification extends db_table
+{
 
-		
-		$this->query ( "SELECT CASE
+    protected $_table = "mis_notification";
+
+    protected $_pkey = "notif_id";
+
+    public function add($data)
+    {
+        return parent::insert($data);
+    }
+
+    public function modify($data, $cond)
+    {
+        return parent::update($data, $cond);
+    }
+
+    public function getNotificationStatus()
+    {
+        $this->query("SELECT * FROM mis_notification");
+
+        $this->_where[] = "(date_part('month', (notif_month)) = date_part('month', (Now()))
+                               AND date_part('year', (notif_month)) = date_part('year', (Now())))";
+
+        return parent::fetchRow($cond);
+    }
+
+    public function getNotificationReport($cond = array())
+    {
+        $this->query("SELECT
+                       upd_note,
+                       upd_title,   
+                       CASE
                            WHEN upd_type = 1 THEN 'Employee'
                            WHEN upd_type = 2 THEN 'Property'
                            WHEN upd_type = 3 THEN 'Vehicle'
@@ -53,14 +69,13 @@ class notification extends db_table {
                 WHERE (date_part('month', (upd_enddttime)) = date_part('month', (Now()))
                        AND date_part('year', (upd_enddttime)) = date_part('year', (Now())))
                 AND upd_remainder = 1
-                AND upd_status = 1;" );
-		
-		$updList =  parent::fetchQuery ( $cond );
-		
-		
-		
-		$this->query ( "SELECT doc_ref_type,
+                AND upd_status = 1;");
+
+        $return['upd_list'] = parent::fetchQuery($cond);
+
+        $this->query("SELECT doc_ref_type,
                        doc_type,
+                       comp_name,
                        CASE
                            WHEN doc_ref_type = 1
                                 AND doc_type = 1 THEN 'CR CERTIFICATE'
@@ -95,23 +110,20 @@ class notification extends db_table {
                        to_char(doc_issue_date, 'DD/MM/YYYY') AS start_date,
                        to_char(doc_expiry_date, 'DD/MM/YYYY') AS end_date
                 FROM mis_documents
-                LEFT JOIN core_files AS files ON files.file_ref_id = mis_documents.doc_id
-                AND files.deleted = 0
-                WHERE (doc_ref_type = 1 OR (doc_ref_type=2000  AND doc_type IN (2001,2002,2003,2004,2006,2007))
+
+                LEFT JOIN core_company AS comp ON comp.comp_id = mis_documents.doc_ref_id
+                AND comp.deleted = 0
+
+                WHERE (doc_ref_type = 1 OR (doc_ref_type=2000  AND doc_type IN (2001,2002,2003,2004,2006,2007)))
                   AND (date_part('month', (doc_expiry_date)) = date_part('month', (Now()))
                        AND date_part('year', (doc_expiry_date)) = date_part('year', (Now())))
-                  AND doc_remainder = 1
-                  AND doc_type = file_type" );
-		
-		$allDocsList =  parent::fetchQuery ( $cond );
-		
-		
-		
-		$this->query ( "SELECT emp_fileno ,
+                  AND doc_remainder = 1");
+
+        $return['all_docslist'] = parent::fetchQuery($cond);
+
+        $this->query("SELECT emp_fileno ,
                            emp_mobileno ,
-                           emp_fname ,
-                           emp_mname ,
-                           emp_lname ,
+                           emp_fname ||' '||emp_mname||' '||emp_lname as emp_name,
                            emp_nationality ,
                            comp_disp_name ,
                            dept_name ,
@@ -153,7 +165,6 @@ class notification extends db_table {
                               doc_no,
                               doc_desc,
                               doc_remarks,
-                              to_char(doc_apply_date, 'DD/MM/YYYY') AS doc_apply_date,
                               to_char(doc_issue_date, 'DD/MM/YYYY') AS doc_issue_date,
                               to_char(doc_expiry_date, 'DD/MM/YYYY') AS doc_expiry_date,
                               doc_expiry_date AS doc_expiry_month
@@ -167,17 +178,18 @@ class notification extends db_table {
                                    doc_ref_id) max_group
                        LEFT JOIN mis_documents AS docs ON docs.doc_id = max_group.mdoc_id
                        AND docs.deleted = 0) AS empdocs ON empdocs.doc_ref_id = mis_employee.emp_id
-                    LEFT JOIN core_files AS files ON files.file_ref_id = empdocs.doc_id
-                    AND files.deleted = 0
-                    AND files.file_type IN(2)
                     WHERE mis_employee.deleted = 0
                       AND mis_employee.emp_status = 1
+
+                       AND (date_part('month', (doc_expiry_month)) = date_part('month', (Now()))
+                       AND date_part('year', (doc_expiry_month)) = date_part('year', (Now())))  
+
                     ORDER BY doc_type DESC,
-                             doc_expiry_month ASC" );
-		$empDocsList =  parent::fetchQuery ( $cond );
-		
-		
-		$this->query ( "SELECT doc_type_name ,
+                             doc_expiry_month ASC");
+
+        $return['emp_docslist'] = parent::fetchQuery($cond);
+
+        $this->query("SELECT doc_type_name ,
                            doc_no ,
                            doc_remarks,
                            tnt_phone ,
@@ -224,13 +236,17 @@ class notification extends db_table {
                     AND tenants.deleted = 0
                     WHERE mis_property.deleted = 0
                       AND mis_property.prop_status = 2
+
+                       AND (date_part('month', (doc_expiry_month)) = date_part('month', (Now()))
+                       AND date_part('year', (doc_expiry_month)) = date_part('year', (Now()))) 
+
                     ORDER BY doc_type,
                              prop_building,
                              prop_cat DESC,
-                             doc_expiry_month ASC" );
-		$propDocsList =  parent::fetchQuery ( $cond );
-		
-		$this->query ( "SELECT doc_type_name,
+                             doc_expiry_month ASC");
+        $return['prop_docslist'] = parent::fetchQuery($cond);
+
+        $this->query("SELECT doc_type_name,
                            vhl_no,
                            vhl_model,
                            vhl_remarks,
@@ -277,14 +293,16 @@ class notification extends db_table {
                        LEFT JOIN mis_documents AS docs ON docs.doc_id = max_group.mdoc_id
                        AND docs.deleted = 0) AS propdocs ON propdocs.doc_ref_id = mis_vehicle.vhl_id
                     WHERE mis_vehicle.deleted = 0
+
+                       AND (date_part('month', (doc_expiry_month)) = date_part('month', (Now()))
+                       AND date_part('year', (doc_expiry_month)) = date_part('year', (Now()))) 
+
                     ORDER BY doc_type,
                              vhl_no DESC,
-                             doc_expiry_month ASC" );
-		$vhlDocsList =  parent::fetchQuery ( $cond );
-		
-		
-		s($updList,$allDocsList,$empDocsList,$propDocsList,$vhlDocsList);
-		
-	}
-	
+                             doc_expiry_month ASC");
+        $return['vhl_docslist'] = parent::fetchQuery($cond);
+
+        return $return;
+        // a($updList,$allDocsList,$empDocsList,$propDocsList,$vhlDocsList);
+    }
 }

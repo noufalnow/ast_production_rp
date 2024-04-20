@@ -457,4 +457,54 @@ function faset($array = array())
         "<span class='arrow'>=></span>"
     ), $array);
 }
+
+function send_email($message='',$to='',$cc='')
+{
+    
+        
+        require_once __DIR__ . '/../lib/vendor/PHPMailer/src/Exception.php';
+        require_once __DIR__ . '/../lib/vendor/PHPMailer/src/PHPMailer.php';
+        require_once __DIR__ . '/../lib/vendor/PHPMailer/src/SMTP.php';
+        require __DIR__ . '/../lib/vendor/autoload.php';
+        $mail = new PHPMailer(true);
+        try {
+            
+            // Server settings
+            $mail->SMTPDebug = SMTP::DEBUG_OFF; // Enable verbose debug output
+            $mail->isSMTP(); // Send using SMTP
+            $mail->Host = 'astglobal.om'; // Set the SMTP server to send through
+            $mail->SMTPAuth = true; // Enable SMTP authentication
+            $mail->Username = 'info@astglobal.om'; // SMTP username
+            $mail->Password = 'EotgYWN7b_$Y'; // SMTP password
+            
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Enable implicit TLS encryption
+            $mail->Port = 465; // TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            
+            // Recipients
+            $mail->setFrom('info@astglobal.om', 'AST Global');
+            
+            $mail->addAddress($to); // Name is optional
+            if($cc)
+                $mail->addCC($cc); // Add a recipient
+            
+            $mail->addReplyTo('info@astglobal.om', 'Ast Global');
+            
+            // Attachments
+            // $mail->addAttachment('/var/tmp/file.tar.gz'); //Add attachments
+            // $mail->addAttachment('/tmp/image.jpg', 'new.jpg'); //Optional name
+            
+            // Content
+            $mail->isHTML(true); // Set email format to HTML
+            $mail->Subject = 'AST Global Monthly Remiander Mail';
+            $mail->Body = $message;
+            $mail->AltBody = $message;
+            
+            return $mail->send();
+        
+            } catch (Exception $e) {
+                //echo $message;
+            }
+
+    }
+
 ?>

@@ -81,7 +81,7 @@ class usersController extends mvc {
 		$form->addElement ( 'password', 'Password', 'password','required' );
 		$form->addElement ( 'desig', 'Role', 'select','required',array('options'=>$roll) );
 		$form->addElement ( 'status', 'Status', 'radio','required',array('options'=>array(1=>"Enable", 2=>"Disable")) );
-		$form->addElement ( 'employee', 'Employee', 'select','',array('options'=>$empList) );
+		$form->addElement ( 'employee', 'Employee', 'select','required',array('options'=>$empList) );
 		$form->addElement ( 'email', 'e-mail ', 'text','required|valid_email' );
 		
 		if (isset ( $_POST ) && count ( $_POST ) > 0) {
@@ -183,7 +183,7 @@ class usersController extends mvc {
 			$form->addElement ( 'lname', 'Last Name ', 'text','required|alpha_space' );
 			$form->addElement ( 'desig', 'Role', 'select','required',array('options'=>$roll) );
 			$form->addElement ( 'status', 'Status', 'radio','required',array('options'=>array(1=>"Enable", 2=>"Disable")) );
-			$form->addElement ( 'employee', 'Employee', 'select','',array('options'=>$empList) );
+			$form->addElement ( 'employee', 'Employee', 'select','required',array('options'=>$empList) );
 			$form->addElement ( 'email', 'e-mail ', 'text','' );
 			
 			

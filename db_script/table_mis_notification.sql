@@ -28,7 +28,8 @@ ADD "doc_remainder" smallint NULL;
 ALTER TABLE "core_updates"
 ADD "upd_remainder" smallint NULL;
 
-
+UPDATE "mis_documents" SET "doc_remainder" = '1';
+UPDATE "core_updates" SET "upd_remainder" = '1';
 
 
 **************** 
