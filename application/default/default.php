@@ -572,7 +572,7 @@ class defaultController extends mvc
 
             // d($message);
 
-            if (send_email($message, 'noufalnow@gmail.com')) {
+            if (send_email($message, 'md@astglobal.om', 'info@astglobal.om')) {
                 
                 $notification->add(['notif_month'=>date('Y-m-d'), 'notif_email'=>'{}', 'notif_content'=>$message, 'notif_status'=>true]);
                 
