@@ -572,12 +572,18 @@ class defaultController extends mvc
 
             // d($message);
 
-            if (send_email($message, 'md@astglobal.om', 'info@astglobal.om')) {
-                
-                $notification->add(['notif_month'=>date('Y-m-d'), 'notif_email'=>'{}', 'notif_content'=>$message, 'notif_status'=>true]);
-                
+            if(($_SERVER['SERVER_NAME'] !='localhost'))
+            {
+                if (send_email($message, 'md@astglobal.om', 'info@astglobal.om')) {
+                    
+                    $notification->add(['notif_month'=>date('Y-m-d'), 'notif_email'=>'{}', 'notif_content'=>$message, 'notif_status'=>true]);
+                    
+                }
             }
         }
+        
+       
+        
 
         $empImage = $docs->getTopDocumentsByRef(array(
             'doc_ref_type' => DOC_IMG_EMP,
