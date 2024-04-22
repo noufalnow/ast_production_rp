@@ -1,7 +1,6 @@
   <?php echo ('</div>
 
   <!-- BACK-TO-TOP -->
-  <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
 
 <!-- JQUERY JS -->
   <script src="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/js/jquery.min.js"></script>

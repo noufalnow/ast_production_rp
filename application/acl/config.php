@@ -749,7 +749,8 @@ class configController extends mvc
         $Id = $_POST['id'];
         $type = $_POST['type'];
 
-        // s($_POST);
+        if(empty($Id))
+            return; 
 
         if ($type == 'module_ug' || $type == 'module_usr') {
             $moduleModelObj = new Aclmodulesaccess();

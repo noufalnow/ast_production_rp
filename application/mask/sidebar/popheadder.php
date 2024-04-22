@@ -21,22 +21,24 @@ $encUserId = $viewbase->encode($_SESSION['user_id']);
 <!-- TITLE -->
 <title>AST Global Dashboard</title>
 
+<?php echo ('
+
 <!-- BOOTSTRAP CSS -->
 <link id="style"
-	href="//localhost:1022/2024/assets/plugins/bootstrap/css/bootstrap.min.css"
+	href="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/plugins/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet" />
 
 <!-- STYLE CSS -->
-<link href="//localhost:1022/2024/assets/css/style.css" rel="stylesheet" />
-<link href="//localhost:1022/2024/assets/css/plugins.css"
+<link href="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/css/style.css" rel="stylesheet" />
+<link href="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/css/plugins.css"
 	rel="stylesheet" />
 
 <!--- FONT-ICONS CSS -->
-<link href="//localhost:1022/2024/assets/css/icons.css" rel="stylesheet" />
+<link href="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/css/icons.css" rel="stylesheet" />
 
 
 
-<?php echo ('		
+		
 <link href="http://' . $_SERVER['HTTP_HOST'] . '/css/jquery-ui.min.css" rel="stylesheet">
 <link href="http://' . $_SERVER['HTTP_HOST'] . '/css/chosen.min.css" rel="stylesheet">
 <link href="http://' . $_SERVER['HTTP_HOST'] . '/css/MonthPicker.css" rel="stylesheet">

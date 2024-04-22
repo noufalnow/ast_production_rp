@@ -17,11 +17,11 @@
     <meta name="keywords" content="" />
 
     <!-- FAVICON -->
-    <link rel="apple-touch-icon" sizes="180x180" href="//localhost:1022/2024/assets/images/brand//apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="//localhost:1022/2024/assets/images/brand//favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="//localhost:1022/2024/assets/images/brand//favicon-16x16.png">
-    <link rel="manifest" href="//localhost:1022/2024/assets/images/brand//site.webmanifest">
-    <link rel="mask-icon" href="//localhost:1022/2024/assets/images/brand//safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="apple-touch-icon" sizes="180x180" href="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/images/brand//apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/images/brand//favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/images/brand//favicon-16x16.png">
+    <link rel="manifest" href="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/images/brand//site.webmanifest">
+    <link rel="mask-icon" href="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/images/brand//safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
@@ -29,18 +29,20 @@
     <title>AST Global Dashboard</title>
 
     <!-- BOOTSTRAP CSS -->
+    
+    <?php echo('?>
     <link
       id="style"
-      href="//localhost:1022/2024/assets/plugins/bootstrap/css/bootstrap.min.css"
+      href="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/plugins/bootstrap/css/bootstrap.min.css"
       rel="stylesheet"
     />
 
     <!-- STYLE CSS -->
-    <link href="//localhost:1022/2024/assets/css/style.css" rel="stylesheet" />
-    <link href="//localhost:1022/2024/assets/css/plugins.css" rel="stylesheet" />
+    <link href="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/css/style.css" rel="stylesheet" />
+    <link href="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/css/plugins.css" rel="stylesheet" />
 
     <!--- FONT ICONS CSS -->
-    <link href="//localhost:1022/2024/assets/css/icons.css" rel="stylesheet" />
+    <link href="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/css/icons.css" rel="stylesheet" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
@@ -50,8 +52,9 @@
     />
 
     <!-- CUSTOM CSS -->
-    <link href="//localhost:1022/2024/assets/css/custom.css" rel="stylesheet" />
+    <link href="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/css/custom.css" rel="stylesheet" />
   </head>
+    ');?>
 
   <body class="login-img">
     <!-- BACKGROUND-IMAGE -->
@@ -71,7 +74,7 @@
             <div class="col col-login mx-auto mt-7">
               <div class="text-center">
                 <img
-                  src="//localhost:1022/2024/assets/images/brand/logo-3.png"
+                  src="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/images/brand/logo-3.png"
                   class="header-brand-img"
                   alt=""
                 />
@@ -143,14 +146,16 @@
             <!-- CONTAINER CLOSED -->
           </div>
         </div>
+        
+       <?php echo('
         <div id="video-viewport">
           <video width="1920" height="1280" autoplay muted loop>
             <source
-              src="//localhost:1022/2024/assets/video/video.mp4"
+              src="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/video/video.mp4"
               type="video/mp4"
             />
             <source
-              src="//localhost:1022/2024/assets/video/video.mp4"
+              src="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/video/video.mp4"
               type="video/webm"
             />
           </video>
@@ -162,24 +167,24 @@
     <!-- BACKGROUND-IMAGE CLOSED -->
 
     <!-- JQUERY JS -->
-    <script src="//localhost:1022/2024/assets/js/jquery.min.js"></script>
+    <script src="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/js/jquery.min.js"></script>
 
     <!-- BOOTSTRAP JS -->
-    <script src="//localhost:1022/2024/assets/plugins/bootstrap/js/popper.min.js"></script>
-    <script src="//localhost:1022/2024/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/plugins/bootstrap/js/popper.min.js"></script>
+    <script src="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- PERFECT SCROLLBAR JS -->
-    <script src="//localhost:1022/2024/assets/plugins/p-scroll/perfect-scrollbar.js"></script>
+    <script src="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/plugins/p-scroll/perfect-scrollbar.js"></script>
 
     <!-- COLOR THEME JS -->
-    <script src="//localhost:1022/2024/assets/js/themeColors.js"></script>
+    <script src="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/js/themeColors.js"></script>
 
     <!-- SWITCHER STYLES JS -->
-    <script src="//localhost:1022/2024/assets/js/swither-styles.js"></script>
+    <script src="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/js/swither-styles.js"></script>
 
     <!-- CUSTOM JS -->
-    <script src="//localhost:1022/2024/assets/js/custom.js"></script>
-  </body>
+    <script src="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/js/custom.js"></script>
+  </body> ');?>
 </html>
 
 

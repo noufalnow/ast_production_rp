@@ -2,6 +2,16 @@
 $viewbase = new viewbase();
 $encUserId = $viewbase->encode($_SESSION['user_id']);
 
+
+require_once __DIR__ . '/../../admin/!model/documents.php';
+$docs = new documets();
+$empImage = $docs->getTopDocumentsByRef(array(
+    'doc_ref_type' => DOC_IMG_EMP,
+    'doc_ref_id' => $_SESSION['user_emp_id']
+));
+$empProfileImage= $empImage['0'];
+
+
 function mainMenu($encUserId)
 {
     $toggleText = '';
@@ -384,6 +394,7 @@ function notify(){
     //a($updList);
     
     
+    
     $notif .='<div class="drop-heading border-bottom">
         <div class="d-flex">
         <h6 class="mt-1 mb-0 fs-16 fw-semibold">You have
@@ -636,7 +647,7 @@ echo ('
 										<div class="dropdown d-md-flex profile-1">
 											<a href="javascript:void(0);" data-bs-toggle="dropdown"
 												class="nav-link leading-none d-flex px-1"> <span> <img
-													src="'.IMAGEURL.$this->encode($this->empImage['file_id']).'"
+													src="'.IMAGEURL.$this->encode($empProfileImage['file_id']).'"
 													alt="profile-user"
 													class="avatar profile-user brround cover-image" />
 											</span>

@@ -127,7 +127,7 @@ table.table-bordered td{
 				</tr>
 				<?php endif?>
 				
-				<tr <?php if(($employee['status_emp'] || $employee['emp_mstatus'] ) && USER_ID ==1):?> style="background-color: lightgrey" <?php endif?>>
+				<tr <?php if(($employee['status_emp'] || $employee['emp_mstatus'] )):?> style="background-color: lightgrey" <?php endif?>>
 					<td class="center"><?=@++$offset;?></td>
 					<td align="right"><?=$this->form->group[$employee['emp_id']]->show()?></td>
 					<td><?=x(array('link'=>'employee/view','ref'=>$encEmpId,'label'=>$employee['emp_fileno']))?> </td>
@@ -195,14 +195,17 @@ table.table-bordered td{
     	</div>			
     </div>
 
-	</div>
-	</form>
-</div>
-</div>
-<?php 
+
+	
+	<?php 
 $COMMDOCTYPE= DOC_TYPE_COM_SAL; $COMMDOCREFID= $this->decSalId;
 viewAction(array('module'=>'erp_manage', 'controller'=>'documents', 'action'=>'documents', 'param'=>
 array('type'=>$COMMDOCTYPE,'ref'=>$COMMDOCREFID)));?>
+		</div>
+	</form>
+</div>
+</div>
+
 <script type="text/javascript">                  
 $(document).ready(function() {
 	var source = '<?=APPURL?>'+ 'erp_employee/master/getlive';

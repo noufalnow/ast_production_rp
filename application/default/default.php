@@ -576,6 +576,9 @@ class defaultController extends mvc
             {
                 if (send_email($message, 'md@astglobal.om', 'info@astglobal.om')) {
                     
+                    
+                    //ff
+                    
                     $notification->add(['notif_month'=>date('Y-m-d'), 'notif_email'=>'{}', 'notif_content'=>$message, 'notif_status'=>true]);
                     
                 }
@@ -585,12 +588,6 @@ class defaultController extends mvc
        
         
 
-        $empImage = $docs->getTopDocumentsByRef(array(
-            'doc_ref_type' => DOC_IMG_EMP,
-            'doc_ref_id' => $_SESSION['user_emp_id']
-        ));
-
-        $this->view->empImage = $empImage['0'];
 
         require_once __DIR__ . '/../admin/!model/updates.php';
 
