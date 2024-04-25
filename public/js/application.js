@@ -489,8 +489,12 @@ function removeOverlay() {
 
 
 $("form").bind("keypress", function (e) {
+	
+	
     if (e.keyCode == 13) {
+    	
+    	$('form').submit();
 
-        return false;
+      
     }
 });
