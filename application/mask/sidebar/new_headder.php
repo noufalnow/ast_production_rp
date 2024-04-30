@@ -192,6 +192,11 @@ function mainMenu($encUserId)
         'label' => 'Items'
     )) . '</li>';
     
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
+        'link' => 'erp_masters/vhtype/list',
+        'label' => 'Vehicle Type'
+    )) . '</li>';
+    
     
     $menuHtml .= '
             <li class="sub-slide">

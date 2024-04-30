@@ -22,7 +22,6 @@ class itemController extends mvc {
 		        $valid = $valid [0];
 		        if ($valid == true) {
 		            
-		            die("ssdsd");
 					
 					$data = array (
 							'item_code' => $valid ['code'],

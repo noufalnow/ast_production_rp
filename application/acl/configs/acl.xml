@@ -235,14 +235,14 @@
 					<description>Edit Status</description>
 					<resource>application</resource>
 					<type>update</type>
-				</action>		
+				</action>
 				<action>
 					<name>leavestatus</name>
 					<label>Leave Summary</label>
 					<description>Leave Summary</description>
 					<resource>application</resource>
 					<type>view</type>
-				</action>		
+				</action>
 				<action>
 					<name>empcontact</name>
 					<label>Employee Contact</label>
@@ -277,7 +277,7 @@
 					<description>Contract Update Status</description>
 					<resource>application</resource>
 					<type>update</type>
-				</action>				
+				</action>
 				<action>
 					<name>empdocs</name>
 					<label>Employee Documents</label>
@@ -546,7 +546,7 @@
 					<description>View Tenants Payments</description>
 					<resource>application</resource>
 					<type>view</type>
-				</action>				
+				</action>
 			</controller>
 		</module>
 		<module>
@@ -1200,6 +1200,32 @@
 					<description>Machine Service Related Item Add</description>
 					<resource>application</resource>
 					<type>Create</type>
+				</action>
+			</controller>
+			<controller>
+				<name>vhtype</name>
+				<label>Vehicle Type</label>
+				<description>Vehicle Type activity</description>
+				<action>
+					<name>list</name>
+					<label>List Type</label>
+					<description>List Type</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>add</name>
+					<label>Add Vehicle Type</label>
+					<description>Add Vehicle Type</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>edit</name>
+					<label>Edit Vehicle Type Details</label>
+					<description>Edit Vehicle Type Details</description>
+					<resource>application</resource>
+					<type>update</type>
 				</action>
 			</controller>
 			<controller>

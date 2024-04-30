@@ -298,4 +298,14 @@ WHERE mis_vehicle.deleted = 0
 ORDER BY doc_type,
          vhl_no DESC,
          doc_expiry_month ASC
+         
+         
+         
+#######################
+
+ALTER TABLE "mis_vehicle_type"
+ADD "type_code" character varying(10) NULL;    
+
+
+ALTER SEQUENCE mis_vehicle_type_type_id_seq RESTART WITH 21;     
 

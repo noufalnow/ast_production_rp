@@ -1,0 +1,97 @@
+<?$offset = $this->vhtypeObj->_voffset;?>
+<form method="get" id="filter" name="filter" action="list">
+	<div class="main-content mt-0 hor-content">
+		<div class="side-app">
+			<!-- CONTAINER -->
+			<div class="main-container container">
+				<!-- PAGE-HEADER -->
+				<div class="page-header">
+					<div>
+						<h1 class="page-title">List of Vehicle Type</h1>
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="javascript:void(0);">Home</a>
+							</li>
+							<li class="breadcrumb-item active" aria-current="page">Manage
+								Vehicle Type</li>
+						</ol>
+					</div>
+					<div class="ms-auto pageheader-btn">
+						<?=x(array('link'=>'erp_masters/vhtype/add','label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')))?>
+					</div>
+				</div>
+				<!-- PAGE-HEADER END -->
+				<!-- ROW -->
+				<div class="row row-sm">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Filters</h3>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="file_no" class="form-label">Code</label>
+                                            <?=$this->form->f_code->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="name" class="form-label">Vehicle Type Name</label>
+                                            <?=$this->form->f_name->show()?>
+                                        </div>
+									</div>
+								</div>
+								<button class="btn <?=$this->filter_class?> mt-4 mb-0"
+									type="submit">Filter</button>
+								<input class="btn btn-secondary mt-4 mb-0" name="clear"
+									type="submit" value="All"></input>
+							</div>
+						</div>
+					</div>
+					<div class="">
+						<div class="">
+							<div class="card">
+								<div class="card-header">
+									<h3 class="card-title">Properties</h3>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive export-table">
+                                        <table aria-describedby="" class="table table-bordered no-footer">
+                                                <thead class="border-top">
+                                                  <tr role="row">
+
+					<th width="5%" class="center">Sl No</th>
+					<th width="9%" class="center">Vehicle Type Code</th>
+					<th width="15%" class="center">Vehicle Type Name</th>
+					<th width="10%" class="center">Edit</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?if(count($this->typeList)>0):?>
+				<?php foreach($this->typeList as $item):
+					$encVhltypeId = $this->encode($item['type_id']);
+				?>
+				<tr>
+					<td class="center"><?=@++$offset;?></td>
+					<td><?=$item['type_name']?></td>
+					<td><?=$item['item_name']?></td>
+					<td class="center">
+						<?=x(array('link'=>'erp_masters/vhtype/edit','ref'=>array('ref'=>$encVhltypeId),'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>  
+					</td>
+				</tr>
+				<?php endforeach?>
+			<?endif?>
+			</tbody>
+		</table>
+		<?$this->vhtypeObj->pagination();?>
+	</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</form>
