@@ -259,6 +259,9 @@ function mainMenu($encUserId)
               x(array('link' => 'erp_report/expense/expense','label' => 'Expense',array("param" => 'wide_opener'))).'
               </li>
               <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/expense/expensevat','label' => 'Expense VAT',array("param" => 'wide_opener'))).'
+              </li>
+              <li class="sub-slide-item">'.
               x(array('link' => 'erp_report/expense/expvensummary','label' => 'Vender Summary',array("param" => 'wide_opener'))).'
               </li>
               <li class="sub-slide-item">'.

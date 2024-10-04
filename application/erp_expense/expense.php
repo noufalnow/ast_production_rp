@@ -27,6 +27,18 @@ class expenseController extends mvc
         $form->addElement('cbamount', 'CB Amount', 'float', 'numeric', '', array(
             'class' => 'fig'
         ));
+        
+        $form->addElement('vatoption', 'VAT', 'checkbox', '', array(
+            'options' => array(
+                "1" => "Vat"
+            )
+        ),  array(
+            "" => "onClick='enableVat(this)'"
+        ));
+        $form->addElement('vatamount', 'VAT Amount', 'float', 'numeric', '', array(
+            'class' => 'fig'
+        ));
+        
         $form->addElement('remarks', 'Remarks', 'text', 'alpha_space');
         require_once __DIR__ . '/../admin/!model/cashflow.php';
         $cashFlow = new cashflow();
@@ -155,6 +167,12 @@ class expenseController extends mvc
                 elseif ($_POST['paydtption'] == '2')
                     $form->addRules('paydays', 'required');
             }
+            
+            
+                if ($_POST['vatoption'] == '1'){
+                    $form->addRules('vatamount', 'required');
+                }
+            
             $form->addErrorMsg('mamount', 'required', ' ');
             foreach ($mfields as $i) {
                 if ($_POST['mainhead'] == 1) {
@@ -267,7 +285,7 @@ class expenseController extends mvc
                     'exp_details' => $valid['particulers'],
                     'exp_amount' => $valid['amount'],
                     'exp_pstatus' => $valid['paymod'],
-                    'exp_oribill_amt' => $valid['amount']
+                    'exp_oribill_amt' => $valid['amount'],
                 );
                 if ($valid['paymod'] == 2)
                     $data['exp_credit_amt'] = $valid['amount'];
@@ -285,6 +303,18 @@ class expenseController extends mvc
                     $data['exp_paydays'] = NULL;
                 if ($valid['cashFlow'])
                     $data['exp_cash_flow'] = $valid['cashFlow'];
+                
+                    if ($valid['vatoption'] == 1){
+                    $data['exp_vat_amt'] = $valid['vatamount'];
+                    $data['exp_vat_option'] = $valid['vatoption'];
+                    }
+                    else
+                    {
+                        $data['exp_vat_amt'] = NULL;
+                        $data['exp_vat_option'] = NULL;
+                    }
+                    
+                    
                 require_once __DIR__ . '/../admin/!model/expensemhref.php';
                 $exprefObj = new expensemhref();
                 $insert = $expenseObj->add($data);
@@ -373,6 +403,19 @@ class expenseController extends mvc
         $form->addElement('cbamount', 'CB Amount', 'float', 'numeric', '', array(
             'class' => 'fig'
         ));
+        
+        
+        $form->addElement('vatoption', 'VAT', 'checkbox', '', array(
+            'options' => array(
+                "1" => "Vat"
+            )
+        ),  array(
+            "" => "onClick='enableVat(this)'"
+        ));
+        $form->addElement('vatamount', 'VAT Amount', 'float', 'numeric', '', array(
+            'class' => 'fig'
+        ));
+        
         $form->addElement('remarks', 'Remarks', 'text', 'alpha_space');
         require_once __DIR__ . '/../admin/!model/cashflow.php';
         $cashFlow = new cashflow();
@@ -459,6 +502,10 @@ class expenseController extends mvc
                 1 => "Update Document"
             )
         ));
+        
+        
+        
+        
         require_once __DIR__ . '/../admin/!model/expensemhref.php';
         $exprefObj = new expensemhref();
         $count = 1;
@@ -504,6 +551,8 @@ class expenseController extends mvc
                 1 => "Personnal Cash Book"
             )
         ));
+        
+        
         if (isset($_POST) && count($_POST) > 0) {
             if ($expDet['exp_app_status'] == '' || in_array($expDet['exp_id'], $editIDS)) {
                 if ($_POST['selVendor'] == '-1')
@@ -548,6 +597,11 @@ class expenseController extends mvc
                             $form->addmRules('vehicle', $i, 'required');
                     }
                 }
+                
+                if ($_POST['vatoption'] == '1'){
+                    $form->addRules('vatamount', 'required');
+                }
+                
                 $valid = $form->vaidate($_POST, $_FILES);
                 $valid = $valid[0];
                 if ($valid == true) {
@@ -657,6 +711,18 @@ class expenseController extends mvc
                         $data['exp_cash_flow'] = $valid['cashFlow'];
                     else
                         $data['exp_cash_flow'] = NULL;
+                    
+                    if ($valid['vatoption'] == 1){
+                        $data['exp_vat_amt'] = $valid['vatamount'];
+                        $data['exp_vat_option'] = $valid['vatoption'];
+                    }
+                    else
+                    {
+                        $data['exp_vat_amt'] = NULL;
+                        $data['exp_vat_option'] = NULL;
+                    }
+                        
+                        
                     $update = $expenseObj->modify($data, $decExpId);
                     if ($update) {
                        $exprefObj->deleteExpRefByExpId(array(
@@ -735,6 +801,10 @@ class expenseController extends mvc
             $form->particulers->setValue($expDet['exp_details']);
             $form->amount->setValue($expDet['exp_amount']);
             $form->paymod->setValue($expDet['exp_pay_mode']);
+            
+            $form->vatamount->setValue($expDet['exp_vat_amt']);
+            $form->vatoption->setValue($expDet['exp_vat_option']);
+                        
             $form->payby->setValue($pbd);
             $form->billdt->setValue($billDt);
             $form->paydays->setValue($expDet['exp_paydays']);

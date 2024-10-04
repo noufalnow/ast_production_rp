@@ -85,7 +85,9 @@ function addAction()
                 if (count($excludeExp) > 0)
                     $where['exclude'] = implode(',', $excludeExp);
 
+                $expObj->_pagelimit  = 500;
                 $expenseList = $expObj->geExpenseReport(@$where, 'date');
+                
                 $count = $expObj->getExpenseVendorPair(@$where);
                 $billAmount = $expObj->getExpenseAmountPair(@$where);
 

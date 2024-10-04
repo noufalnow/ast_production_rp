@@ -38,13 +38,13 @@
 			<tr>
 				<th>Head</th>
 				<th>Details </th>
-				<th>Bill Amount</th>
+				<th>Bill Amount <?if($this->expenseDet['exp_vat_option']==1):?> / [VAT] <?php endif;?></th>
 				<th>Credit Amount</th>
 			</tr>
 			<tr>
 				<td><?=$this->expenseDet['main_head']?></td>
 				<td><?=$this->expenseDet['exp_details']?></td>
-				<td><?=$this->expenseDet['exp_amount']?></td>
+				<td><?=$this->expenseDet['exp_amount']?> <?if($this->expenseDet['exp_vat_option']==1):?> [<?=$this->expenseDet['exp_vat_amt']?>] <?php endif;?>  </td>
 				<td><?=$this->expenseDet['exp_credit_amt']?></td>
 			</tr>
 			<tr>

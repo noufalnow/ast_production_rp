@@ -11,6 +11,7 @@ class vendorController extends mvc {
 		
 		$form->addElement ( 'vendor', 'Vendor/Company', 'text', 'required' );
 		$form->addElement ( 'name', 'Name(C/o) ', 'text', '' );
+		$form->addElement ( 'vatNo', 'VAT No.', 'text', '' );
 		$form->addElement ( 'house', 'Address', 'text', '' );
 		$form->addElement ( 'street1', 'Street Address 1', 'text', '' );
 		$form->addElement ( 'street2', 'Street Address 2', 'text', '' );
@@ -33,7 +34,8 @@ class vendorController extends mvc {
 					$data = array (
 							'ven_name' => $valid ['vendor'],
 							'ven_remarks' => $valid ['remarks'] ,
-							'ven_type' => 1
+							'ven_type' => 1,
+					        'ven_vat_no' => $valid ['vatNo'],
 					);
 					$venId = $vendor->add ( $data );
 					
@@ -89,6 +91,7 @@ class vendorController extends mvc {
 		
 		$form->addElement ( 'vendor', 'Vendor/Company', 'text', 'required' );
 		$form->addElement ( 'name', 'Name(C/o) ', 'text', '' );
+		$form->addElement ( 'vatNo', 'VAT No.', 'text', '' );
 		$form->addElement ( 'house', 'Address', 'text', '' );
 		$form->addElement ( 'street1', 'Street Address 1', 'text', '' );
 		$form->addElement ( 'street2', 'Street Address 2', 'text', '' );
@@ -113,7 +116,8 @@ class vendorController extends mvc {
 					
 					$data = array (
 							'ven_name' => $valid ['vendor'],
-							'ven_remarks' => $valid ['remarks'] 
+							'ven_remarks' => $valid ['remarks'],
+					        'ven_vat_no' => $valid ['vatNo'],
 					);
 					$venModified = $vendor->modify ( $data, $venId );
 					
@@ -164,6 +168,7 @@ class vendorController extends mvc {
 		} 
 		else {
 			$form->vendor->setValue ( $vendorDetails ['ven_name'] );
+			$form->vatNo->setValue ( $vendorDetails ['ven_vat_no'] );
 			$form->name->setValue ( $vendorDetails ['con_name'] );
 			$form->house->setValue ( $vendorDetails ['con_house'] );
 			$form->street1->setValue ( $vendorDetails ['con_street1'] );

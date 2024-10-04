@@ -74,8 +74,8 @@
 				?>
 				<tr>
 					<td class="center"><?=@++$offset;?></td>
+					<td><?=$item['type_code']?></td>
 					<td><?=$item['type_name']?></td>
-					<td><?=$item['item_name']?></td>
 					<td class="center">
 						<?=x(array('link'=>'erp_masters/vhtype/edit','ref'=>array('ref'=>$encVhltypeId),'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>  
 					</td>

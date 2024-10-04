@@ -1415,6 +1415,15 @@
 					<resource>application</resource>
 					<type>view</type>
 				</action>
+				
+				<action>
+					<name>expensevat</name>
+					<label>Report : Expenses VAT Report</label>
+					<description>RReport : Expenses VAT Report</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				
 				<action>
 					<name>expensecategorywise</name>
 					<label>Report : Expenses Category Wise</label>

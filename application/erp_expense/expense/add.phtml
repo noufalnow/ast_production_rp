@@ -122,6 +122,13 @@
                   	<div class="col-sm-3">
                     <?=$this->form->amount->show()?>
                   </div>
+                   <div class="col-sm-1">
+                    <?=$this->form->vatoption->show()?>
+                  </div>
+                  
+                  <div class="col-sm-2" id="vatgroup">
+                    <?=$this->form->vatamount->show()?>
+                  </div>
 				</div>	
 				
 				<div class="row mb-4 col-sm-12">
@@ -156,6 +163,20 @@
 </div>
 <script type="text/javascript">           
 $(document).ready(function() {
+
+    expAmountInput = document.getElementById('amount');
+    vatAmountInput = document.getElementById('vatamount');
+    expAmount = parseFloat(expAmountInput.value) || 0;
+    vatAmount = expAmount * 0.05;
+    vatAmountInput.value = vatAmount.toFixed(2);
+    function calculateVAT() {
+        const expAmount = parseFloat(expAmountInput.value) || 0;
+        const vatAmount = expAmount * 0.05;
+        vatAmountInput.value = vatAmount.toFixed(3); // Set VAT amount in the input field
+    }
+    expAmountInput.addEventListener('keyup', calculateVAT);
+    
+	
 	var source = '<?=APPURL?>'+ 'erp_expense/expense/getlive';
 	$('#pCatSelect').on('change',function() {
 		getJaxData($('#pCatSelect').val(),'sCatSelect',source,'parent',true);
@@ -197,6 +218,7 @@ $(document).ready(function() {
 	fixPcat();
 	fixScat();
 	fixCcat();
+	$('#vatgroup').hide();
 	
 	function fixvendor(){
 		if($('#selVendor').val()==-1){
@@ -286,10 +308,27 @@ $(document).ready(function() {
 		}
 
 	}
+
 	fixcreditoptions();
 	fixcreditdays();
+	enableVat();
 	
 });
+
+
+
+function enableVat(){
+	if($('#vatoption1').is(':checked'))
+	{
+		$('#vatgroup').show();
+	}	
+	else
+	{
+		$('#vatgroup').hide();
+	}
+}
+
+
 function fixmainhead(){
 	if($('#mainhead').val()==1){
 		$('.mh_emp').show();

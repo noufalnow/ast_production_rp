@@ -192,6 +192,200 @@ class expenseController extends mvc
         $this->view->filter_class = $filter_class;
         $this->view->form = $form;
     }
+    
+    
+    public function expensevatAction()
+    {
+        $this->view->response('window');
+        require_once __DIR__ . '/../admin/!model/expense.php';
+        
+        $form = new form();
+        
+        $form->addElement('f_refno', 'Ref No', 'text', '');
+        $form->addElement('f_particulers', 'Particulers', 'text', '');
+        
+        require_once __DIR__ . '/../admin/!model/vendor.php';
+        $vendorObj = new vendor();
+        $venderList = $vendorObj->getVendorPairFilter();
+        $form->addElement('f_selVendor', 'Vendor', 'select', '', array(
+            'options' => $venderList
+        ));
+        
+        require_once __DIR__ . '/../admin/!model/company.php';
+        $compModelObj = new company();
+        $compList = $compModelObj->getCompanyPair();
+        $form->addElement('f_company', 'Company', 'select', '', array(
+            'options' => $compList
+        ));
+        
+        require_once __DIR__ . '/../admin/!model/category.php';
+        $catModelObj = new category();
+        $pCatList = $catModelObj->getCategoryPair(array(
+            'cat_type' => 1
+        ));
+        $sCatList = $catModelObj->getCategoryPair(array(
+            'cat_type' => 2
+        ));
+        $cCatList = $catModelObj->getCategoryPair(array(
+            'cat_type' => 3
+        ));
+        
+        $form->addElement('f_pCatSelect', 'Parent Cat', 'select', '', array(
+            'options' => $pCatList
+        ));
+        $form->addElement('f_sCatSelect', 'Sub Cat', 'select', '', array(
+            'options' => $sCatList
+        ));
+        $form->addElement('f_cCatSelect', 'Category', 'select', '', array(
+            'options' => $cCatList
+        ));
+        $form->addElement('f_mainhead', 'Head', 'select', '', array(
+            'options' => array(
+                1 => "Employee",
+                2 => "Property",
+                3 => "Vehicle",
+                4 => "Port Operation"
+            )
+        ));
+        $form->addElement('f_amount', 'Total Amount', 'float', 'numeric', '', array(
+            'class' => 'fig'
+        ));
+        
+        require_once __DIR__ . '/../admin/!model/employee.php';
+        $empModelObj = new employee();
+        $empList = $empModelObj->getEmployeePair();
+        
+        require_once __DIR__ . '/../admin/!model/property.php';
+        $propModelObj = new property();
+        $propList = $propModelObj->getPropetyPair();
+        
+        require_once __DIR__ . '/../admin/!model/vehicle.php';
+        $vehModelObj = new vehicle();
+        $vehList = $vehModelObj->getVehiclePair();
+        
+        require_once __DIR__ . '/../admin/!model/building.php';
+        $buildingObj = new building();
+        $buildingList = $buildingObj->getBuildingPair();
+        
+        $form->addElement('f_employee', 'Employee', 'multiselect', '', array(
+            'options' => $empList
+        ), array(
+            'multiple' => "multiple",
+            "class" => "form-control",
+            "data-placeholder" => "Choose Employees"
+        ));
+        $form->addElement('f_property', 'Property', 'multiselect', '', array(
+            'options' => $propList
+        ), array(
+            'multiple' => "multiple",
+            "class" => "form-control",
+            "data-placeholder" => "Choose Properties"
+        ));
+        $form->addElement('f_vehicle', 'Vehicle', 'multiselect', '', array(
+            'options' => $vehList
+        ), array(
+            'multiple' => "multiple",
+            "class" => "form-control",
+            "data-placeholder" => "Choose Vehicles"
+        ));
+        
+        $form->addElement('f_building', 'Building', 'select', '', array(
+            'options' => $buildingList
+        ));
+        
+        $form->addElement('f_mode', 'Mode', 'select', '', array(
+            'options' => array(
+                1 => "Cash",
+                2 => "Credit",
+                3 => "Pending"
+            )
+        ));
+        $form->addElement('f_period', 'Month/Period', 'radio', '', array(
+            'options' => array(
+                1 => "Month",
+                2 => "Period"
+            )
+        ));
+        $form->addElement('f_monthpick', 'Select Month ', 'text', '', '', array(
+            '' => 'readonly'
+        ));
+        $form->addElement('f_dtfrom', 'Bill Date From', 'text', 'date', '', array(
+            'class' => 'date_picker'
+        ));
+        $form->addElement('f_dtto', 'Bill Date To', 'text', 'date', '', array(
+            'class' => 'date_picker'
+        ));
+        $where = [];
+        $filter_class = 'btn-primary';
+        if (isset($_GET) && $_GET['clear'] == 'All') {
+            $form->reset();
+            unset($_GET);
+        } else if (is_array($_GET) && count(array_filter($_GET)) > 0) {
+            $valid = $form->vaidate($_GET);
+            $valid = $valid[0];
+            if ($valid == true) {
+                
+                $where = array(
+                    'f_refno' => @$valid['f_refno'],
+                    'f_particulers' => @$valid['f_particulers'],
+                    'f_selVendor' => @$valid['f_selVendor'],
+                    'f_company' => @$valid['f_company'],
+                    'f_mainhead' => @$valid['f_mainhead'],
+                    'f_pCatSelect' => @$valid['f_pCatSelect'],
+                    'f_sCatSelect' => @$valid['f_sCatSelect'],
+                    'f_cCatSelect' => @$valid['f_cCatSelect'],
+                    'f_mode' => @$valid['f_mode'],
+                    'f_amount' => @$valid['f_amount'],
+                    'f_building' => @$valid['f_building']
+                );
+                
+                if (! empty($valid['f_dtfrom']) && $valid['f_period'] == 2) {
+                    $billdtfrom = DateTime::createFromFormat(DF_DD, $valid['f_dtfrom']);
+                    $billdtfrom = date_format($billdtfrom, DFS_DB);
+                    $where['f_dtfrom'] = $billdtfrom;
+                }
+                if (! empty($valid['f_dtto']) && $valid['f_period'] == 2) {
+                    $billdtto = DateTime::createFromFormat(DF_DD, $valid['f_dtto']);
+                    $billdtto = date_format($billdtto, DFS_DB);
+                    $where['f_dtto'] = $billdtto;
+                }
+                
+                if (! empty($valid['f_monthpick']) && $valid['f_period'] == 1) {
+                    $where['f_monthpick'] = $valid['f_monthpick'];
+                }
+                
+                if (! empty($valid['f_employee'])) {
+                    $where['f_mrefs'] = $valid['f_employee'];
+                } elseif (! empty($valid['f_property'])) {
+                    $where['f_mrefs'] = $valid['f_property'];
+                } elseif (! empty($valid['f_vehicle'])) {
+                    $where['f_mrefs'] = $valid['f_vehicle'];
+                }
+            }
+            $filter_class = 'btn-info';
+        } else if (! isset($_GET)) {
+            $form->f_mode->setValue(3);
+            
+            $where = array(
+                'f_mode' => 3
+            );
+            $filter_class = 'btn btn-info';
+        }
+        
+        $where['exp_vat_option'] = 1;
+        
+        $expObj = new expense();
+        $expObj->_pagelimit  = 1000; 
+        
+        $expenseList = $expObj->geExpenseReport(@$where);
+
+        $this->view->expObj= $expObj;
+        
+        $this->view->expenseList = $expenseList;
+        $this->view->filter_class = $filter_class;
+        $this->view->form = $form;
+    }
+    
 
     public function expensecategorywiseAction()
     {

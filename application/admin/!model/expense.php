@@ -223,6 +223,7 @@ class expense extends db_table {
 	public function geExpenseReport($cond = array()) {
 		@$cond = array_filter ( $cond );
 		
+		
 		if (! empty ( $cond ['f_refno'] ))
 			$where [] = "
 					(lower(exp_refno) like '%' || lower(:f_refno) || '%')";
@@ -309,6 +310,11 @@ class expense extends db_table {
 		
 		if (! empty ( $cond ['f_export'] ))
 			$where [] = "(exp_export = :f_export OR exp_export = 3)";
+		
+		if (! empty ( $cond ['exp_vat_option'] ))
+		    $where [] = "(exp_vat_option = :exp_vat_option)";
+		
+			
 			
 		
 		$where [] = ' mis_expense.deleted = 0 ';
