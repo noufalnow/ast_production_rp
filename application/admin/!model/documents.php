@@ -89,6 +89,47 @@ class documets extends db_table {
 		return parent::fetchAll ( $cond );
 	}
 	
+	
+	public function getCompDocumentsByDynLabel($cond = array()) {
+	    
+	    $this->query ( "select * from $this->_table " );
+	    
+	    $this->_where [] = "LOWER(TRIM(doc_dyn_label)) = LOWER(TRIM(:doc_dyn_label))";
+	    $this->_where [] = "doc_ref_type = :doc_ref_type"; //comp doc type
+	    $this->_where [] = "doc_ref_id = :doc_ref_id"; //company id
+	    
+	    if (! empty ( $cond ['doc_id_exclude'] ))
+	        $this->_where [] = "doc_id <> :doc_id_exclude";
+	        	        
+	    return parent::fetchAll ( $cond );
+	}
+	
+	
+	
+	public function getMaxDynDocNo($cond = array()) {
+	    
+	    $this->query ( "select MAX(doc_dyn_no)+1 as next_dyn_no from $this->_table " );
+	    
+	    $this->_where [] = "doc_ref_type = :doc_ref_type";
+	    $this->_where [] = "doc_ref_id = :doc_ref_id";
+	    
+	        
+	    return parent::fetchRow( $cond );
+	}
+	
+	
+	public function checDynDocNoExist($cond = array()) {
+	    
+	    $this->query ( "select doc_dyn_no from $this->_table " );
+	    
+	    $this->_where [] = "doc_dyn_no = :doc_dyn_no";
+	    $this->_where [] = "doc_ref_id = :doc_ref_id";
+	    $this->_where [] = "doc_ref_type = :doc_ref_type";
+	    
+	    
+	    return parent::fetchRow( $cond );
+	}
+	
 	public function getDocumentDetails($cond = array()) {
 	
 		$this->query ( "select *,
@@ -101,6 +142,22 @@ class documets extends db_table {
 		$this->_order [] = 'doc_id DESC';
 
 		return parent::fetchRow( $cond );
+	}
+	
+	public function getCompanyDocumentDetails($cond = array()) {
+	    
+	    $this->query ( "select *,
+				files.file_id
+				from $this->_table
+				left join core_files as files on files.file_ref_id = $this->_table.doc_id and files.deleted = 0
+                left join core_company as comp on comp.comp_id = $this->_table.doc_ref_id and comp.deleted = 0" );
+	           
+	    
+	    $this->_where [] = "doc_id= :doc_id";
+	    $this->_where [] = "files.file_type= :doc_ref_type"; //error fix delete file withouout type
+	    $this->_order [] = 'doc_id DESC';
+	    
+	    return parent::fetchRow( $cond );
 	}
 	
 
@@ -152,6 +209,27 @@ class documets extends db_table {
 		
 		return parent::fetchPair( $cond );
 	}
+	
+	public function getDocumentsVersions($cond = array()) {
+	    
+	    $this->query ( "select *,
+						to_char(doc_issue_date,'DD/MM/YYYY') as doc_issue_date,
+						to_char(doc_expiry_date,'DD/MM/YYYY') as doc_expiry_date,
+                        file_actual_name || '.' || file_exten AS file_name
+                        from $this->_table
+				        LEFT JOIN core_files as files on files.file_ref_id = mis_documents.doc_id and files.file_type= 1 and files.deleted = 0
+                        " );
+	        
+	    
+	    $this->_where [] = "doc_id != :doc_id_exclude";
+	    $this->_where [] = "(doc_dyn_ver= :doc_id OR doc_id = :doc_dyn_ver)"; 
+	    
+	    
+	    $this->_order [] = 'doc_id DESC';
+	    
+	    return parent::fetchAll( $cond );
+	}
+	
 	
 
 	

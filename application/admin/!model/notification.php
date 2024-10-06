@@ -77,26 +77,7 @@ class notification extends db_table
                        doc_type,
                        comp_name,
                        CASE
-                           WHEN doc_ref_type = 1
-                                AND doc_type = 1 THEN 'CR CERTIFICATE'
-                           WHEN doc_ref_type = 1
-                                AND doc_type = 2 THEN 'CR ID'
-                           WHEN doc_ref_type = 1
-                                AND doc_type = 3 THEN 'SIGNATORY'
-                           WHEN doc_ref_type = 1
-                                AND doc_type = 4 THEN 'ID CARD 1'
-                           WHEN doc_ref_type = 1
-                                AND doc_type = 5 THEN 'ID CARD 2'
-                           WHEN doc_ref_type = 1
-                                AND doc_type = 61 THEN 'PINK CERTIFICATE 1'
-                           WHEN doc_ref_type = 1
-                                AND doc_type = 62 THEN 'PINK CERTIFICATE 2'
-                           WHEN doc_ref_type = 1
-                                AND doc_type = 63 THEN 'PINK CERTIFICATE 3'
-                           WHEN doc_ref_type = 1
-                                AND doc_type = 64 THEN 'PINK CERTIFICATE 4'
-                           WHEN doc_ref_type = 1
-                                AND doc_type = 65 THEN 'PINK CERTIFICATE 5'
+                           WHEN doc_ref_type = 1 THEN doc_dyn_label
                            WHEN doc_type = 2001 THEN 'Employee Documents'
                            WHEN doc_type = 2002 THEN 'Property Documents'
                            WHEN doc_type = 2003 THEN 'Vehicle Documents'

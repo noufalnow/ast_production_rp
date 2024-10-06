@@ -42,6 +42,7 @@
 													<th width="8%" class="center">Expiry Date</th>
 													<th width="3%" class="center">View</th>
 													<th align="center" width="3%" class="center">Edit</th>
+													<th align="center" width="3%" class="center">Renew</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -61,12 +62,13 @@
                                                     </th>
 												</tr>
                                                 <?php endif?>
-                                                <tr>
+                                            <tr onclick="getContentX('<?=APPURL.'erp_manage/company/'?>docversion','<?=$encId;?>','doc_target_<?=$comp['doc_id'];?>');"
+											style="cursor: pointer;">
 													<td class="center">
                                                         <?=@++$offset;?>
                                                     </td>
 													<td>
-                                                        <?=$comp['doc_type']?>
+                                                        <?=$comp['doc_dyn_label']?>
                                                     </td>
 													<td>
                                                         <?=$comp['doc_no']?>
@@ -90,8 +92,18 @@
                                                         <?=x(array('link'=>'erp_manage/company/edit','ref'=>$encId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>
                                                         <?php endif;?>
                                                     </td>
+                                                    
+                                                    <td align="center">
+                                                        <?php if($comp['doc_id']):?>
+                                                        <?=x(array('link'=>'erp_manage/company/renew','ref'=>$encId,'label'=>'<i class="fas fa-clone"></i>',array("param"=>'class="facebox"')))?>
+                                                        <?php endif;?>
+                                                    </td>
 												</tr>
                                                 <?php $temp = $comp['comp_id'];?>
+                                                
+                                              <tr id='doc_target_<?=$comp['doc_id'];?>'
+														class="doc_target"></tr>
+                                                
                                                 <?php endforeach?>
                                                 <?endif?>
                                             </tbody>
@@ -163,3 +175,27 @@
 		</div>
 	</div>
 </div>
+
+
+<script type="text/javascript">
+function getContentX(postlink, refId, target) {
+
+	if ($('#'+target).html().trim() === "") {
+	    $('.doc_target').html('');
+		getContent(postlink, refId, target);
+	}
+	else
+		$('#'+target).html('');
+}
+</script>
+<style>
+.table-bordered, .text-wrap table, .table-bordered th, .text-wrap table th,
+	.table-bordered td, .text-wrap table td {
+	border: 1px solid #c6dcf9;
+	border-bottom-width: 1px;
+}
+
+.table>:not(:last-child)>:last-child>* {
+	border-bottom-color: #9fb3ce;
+}
+</style>

@@ -2,13 +2,15 @@
 	<form name="form" method="post" id="add" name="add" action="erp_manage/company/edit/ref/<?=$this->param['ref']?>" enctype="multipart/form-data">
 		<div class="modal-content modal-content-demo">
 			<div class="modal-header">
-				<h4 class="card-title">Company Documents</h4>
+				<h4 class="card-title">Update Company Document Details</h4>
 				<button type="button" aria-label="Close" class="btn-close" data-bs-dismiss="modal">
 					<span aria-hidden="true">×</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="row mb-4" style="margin-top: 15px;">
+			
+			<div class="row mb-4" style="margin-top: 15px;">
+			<?php if($this->docDetails['doc_dyn_ver']==''):?>
 					<label class="col-sm-2 form-label" >Company
 						</label>
 					<div class="col-sm-4">
@@ -18,9 +20,25 @@
 					<label class="col-sm-2 form-label" >Document
 						</label>
 					<div class="col-sm-4">
-                    <?=$this->form->doctype->show()?>
+                    <?=$this->form->docDynLabel->show()?>
                   </div>
-				</div>
+			<?php else:?>
+					<label class="col-sm-2 form-label" >Company
+						</label>
+					<div class="col-sm-4">
+                   		<?=$this->docDetails['comp_name']?>
+                  </div>
+
+					<label class="col-sm-2 form-label" >Document
+						</label>
+					<div class="col-sm-4">
+                    	<?=$this->docDetails['doc_dyn_label']?>
+                  </div>
+            <?php endif;?>      
+			</div>
+				
+				
+				
 				<div class="row mb-4">
 					<label class="col-sm-2 form-label" >Document No
 						</label>

@@ -913,6 +913,23 @@
 					<type>update</type>
 				</action>
 				<action>
+					<name>renew</name>
+					<label>Renew Company Documents</label>
+					<description>Renew Company Documents</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>docversion</name>
+					<label>Document Versions</label>
+					<description>Document Versions</description>
+					<resource>default</resource>
+					<type>view</type>
+				</action>
+				
+				
+				
+				<action>
 					<name>list</name>
 					<label>List Company Documents</label>
 					<description>List Company Documents</description>

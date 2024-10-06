@@ -1,8 +1,8 @@
 <div class="dynamic-popup" id="dynamic-popup">
-	<form name="form" method="post" id="add" name="add" action="erp_manage/company/add" enctype="multipart/form-data">
+	<form name="form" method="post" id="renew" name="renew" action="erp_manage/company/renew/ref/<?=$this->param['ref']?>" enctype="multipart/form-data">
 		<div class="modal-content modal-content-demo">
 			<div class="modal-header">
-				<h4 class="card-title">Company Documents</h4>
+				<h4 class="card-title">Renew Company Documents</h4>
 				<button type="button" aria-label="Close" class="btn-close" data-bs-dismiss="modal">
 					<span aria-hidden="true">×</span>
 				</button>
@@ -12,13 +12,13 @@
 					<label class="col-sm-2 form-label" >Company
 						</label>
 					<div class="col-sm-4">
-                    <?=$this->form->company->show()?>
+                   		<?=$this->docDetails['comp_name']?>
                   </div>
 
 					<label class="col-sm-2 form-label" >Document
 						</label>
 					<div class="col-sm-4">
-                    <?=$this->form->docDynLabel->show()?>
+                    	<?=$this->docDetails['doc_dyn_label']?>
                   </div>
 				</div>
 				<div class="row mb-4">
@@ -58,7 +58,7 @@
 				</div>
 		</div>
     	<div class="modal-footer">
-    		<button type="button" class="btn btn-primary submit-alias livepost" >Add</button>
+    		<button type="button" class="btn btn-primary submit-alias livepost" >Renew</button>
     		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
     	</div>
 	</div>
