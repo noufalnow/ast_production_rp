@@ -283,12 +283,13 @@ class expenseController extends mvc
                     'exp_billdt' => $billdt,
                     'exp_pay_mode' => $valid['paymod'],
                     'exp_details' => $valid['particulers'],
-                    'exp_amount' => $valid['amount'],
+                    'exp_amount' => $valid['amount'] + ($valid['vatamount']==''?0:$valid['vatamount']),
+                    'exp_novat_amt' => $valid['amount'],
                     'exp_pstatus' => $valid['paymod'],
-                    'exp_oribill_amt' => $valid['amount'],
+                    'exp_oribill_amt' => $valid['amount'] + ($valid['vatamount']==''?0:$valid['vatamount']),
                 );
                 if ($valid['paymod'] == 2)
-                    $data['exp_credit_amt'] = $valid['amount'];
+                    $data['exp_credit_amt'] =  $valid['amount'] + ($valid['vatamount']==''?0:$valid['vatamount']);
                 else
                     $data['exp_credit_amt'] = NULL;
                 if ($valid['paydtption'] == 1) {
@@ -687,12 +688,13 @@ class expenseController extends mvc
                         'exp_billdt' => $billdt,
                         'exp_pay_mode' => $valid['paymod'],
                         'exp_details' => $valid['particulers'],
-                        'exp_amount' => $valid['amount'],
+                        'exp_amount' => $valid['amount'] + ($valid['vatamount']==''?0:$valid['vatamount']),
+                        'exp_novat_amt' => $valid['amount'],
                         'exp_pstatus' => $valid['paymod'],
-                        'exp_oribill_amt' => $valid['amount']
+                        'exp_oribill_amt' =>  $valid['amount'] + ($valid['vatamount']==''?0:$valid['vatamount']),
                     );
                     if ($valid['paymod'] == 2)
-                        $data['exp_credit_amt'] = $valid['amount'];
+                        $data['exp_credit_amt'] =  $valid['amount'] + ($valid['vatamount']==''?0:$valid['vatamount']);
                     else
                         $data['exp_credit_amt'] = NULL;
                         if(!empty($valid['payby'])){
@@ -799,7 +801,7 @@ class expenseController extends mvc
             $form->sCatSelect->setValue($expDet['exp_scat']);
             $form->cCatSelect->setValue($expDet['exp_ccat']);
             $form->particulers->setValue($expDet['exp_details']);
-            $form->amount->setValue($expDet['exp_amount']);
+            $form->amount->setValue($expDet['exp_novat_amt']);
             $form->paymod->setValue($expDet['exp_pay_mode']);
             
             $form->vatamount->setValue($expDet['exp_vat_amt']);

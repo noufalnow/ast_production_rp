@@ -35,3 +35,12 @@ UPDATE "mis_documents" SET "doc_dyn_label" = 'PINK CERTIFICATE 5' WHERE doc_ref_
 
 ALTER TABLE "mis_documents"
 ADD "doc_dyn_ver" smallint NULL;
+
+
+#################################
+
+
+ALTER TABLE "mis_expense"
+ADD "exp_novat_amt" numeric(13,3) NULL;
+COMMENT ON TABLE "mis_expense" IS '';
+
