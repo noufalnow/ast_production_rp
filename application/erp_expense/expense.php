@@ -1274,6 +1274,7 @@ class expenseController extends mvc
         $this->view->mfields = $mfields;
         $this->view->expRefDetails = $expRefDetails;
     }
+    
 
     public function getliveAction()
     {

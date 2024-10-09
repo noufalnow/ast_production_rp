@@ -12,13 +12,17 @@
 			<div class="modal-body">
 			<div class="row mb-4" style="margin-top: 15px;">
 				<label class="col-sm-2 form-label">Name</label>
-				<div class="col-sm-5">
+				<div class="col-sm-3">
                     <?=$this->form->bld_name->show()?>
                   </div>
 
 				<label class="col-sm-1 form-label">No.</label>
-				<div class="col-sm-4">
+				<div class="col-sm-2">
                     <?=$this->form->bld_no->show()?>
+                  </div>
+                <label class="col-sm-1 form-label">Company</label>
+				<div class="col-sm-3">
+                    <?=$this->form->company->show()?>
                   </div>
 			</div>
 			<div class="row mb-4">
@@ -62,6 +66,6 @@
 </div>
 <script type="text/javascript">
 $(document).ready(function($) {
-	$('.modal-dialog').css('width', '700px');
+	$('.modal-dialog').css('width', '800px');
 })
 </script>

@@ -7,6 +7,7 @@ class buildingController extends mvc
     {
         $this->view->response('ajax');
         include __DIR__ . '/../admin/!model/building.php';
+        require_once __DIR__ . '/../admin/!model/company.php';
         $formRender = true;
         $form = new form();
         $building = new building();
@@ -19,6 +20,13 @@ class buildingController extends mvc
         $form->addElement('bld_way', 'Way', 'text', 'required|alpha_space');
         $form->addElement('bld_street', 'Street', 'text', 'required|alpha_space');
         $form->addElement('bld_block', 'Block', 'text', 'required|alpha_space');
+        
+        $compModelObj = new company();
+        $compList = $compModelObj->getCompanyPair();
+        $form->addElement('company', 'Company', 'select', 'required', array(
+            'options' => $compList
+        ));
+        
 
         if ($_POST) {
             if (! isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
@@ -37,7 +45,8 @@ class buildingController extends mvc
                         'bld_plot_no' => $valid['bld_plot_no'],
                         'bld_way' => $valid['bld_way'],
                         'bld_street' => $valid['bld_street'],
-                        'bld_block' => $valid['bld_block']
+                        'bld_block' => $valid['bld_block'],
+                        'bld_block' => $valid['company'],
                     );
                     $buildingId = $building->add($data);
 
@@ -63,6 +72,7 @@ class buildingController extends mvc
     {
         $this->view->response('ajax');
         include __DIR__ . '/../admin/!model/building.php';
+        require_once __DIR__ . '/../admin/!model/company.php';
         $building = new building();
         $form = new form();
 
@@ -81,6 +91,12 @@ class buildingController extends mvc
         $form->addElement('bld_way', 'Way', 'text', 'required|alpha_space');
         $form->addElement('bld_street', 'Street', 'text', 'required|alpha_space');
         $form->addElement('bld_block', 'Block', 'text', 'required|alpha_space');
+        
+        $compModelObj = new company();
+        $compList = $compModelObj->getCompanyPair();
+        $form->addElement('company', 'Company', 'select', 'required', array(
+            'options' => $compList
+        ));
 
         $buildingDetails = $building->getBuildingDetById($buildingId);
 
@@ -101,7 +117,8 @@ class buildingController extends mvc
                         'bld_plot_no' => $valid['bld_plot_no'],
                         'bld_way' => $valid['bld_way'],
                         'bld_street' => $valid['bld_street'],
-                        'bld_block' => $valid['bld_block']
+                        'bld_block' => $valid['bld_block'],
+                        'bld_comp' => $valid['company'],
                     );
 
                     $modifyBuilding = $building->modify($data, $buildingDetails['bld_id']);
@@ -125,6 +142,8 @@ class buildingController extends mvc
             $form->bld_way->setValue($buildingDetails['bld_way']);
             $form->bld_street->setValue($buildingDetails['bld_street']);
             $form->bld_block->setValue($buildingDetails['bld_block']);
+            $form->company->setValue($buildingDetails['bld_comp']);
+            
         }
 
         $this->view->form = $form;
