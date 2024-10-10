@@ -272,6 +272,11 @@ class expenseController extends mvc
                     $ccId = $valid['cCatSelect'];
                 $billdt = DateTime::createFromFormat(DF_DD, $valid['billdt']);
                 $billdt = date_format($billdt, DFS_DB);
+                
+                if ($valid['vatoption'] == 0){
+                    $valid['vatamount'] = 0;
+                }
+                
                 $data = array(
                     'exp_vendor' => $vId,
                     'exp_refno' => $valid['refno'],
@@ -677,6 +682,12 @@ class expenseController extends mvc
                         $ccId = $valid['cCatSelect'];
                     $billdt = DateTime::createFromFormat(DF_DD, $valid['billdt']);
                     $billdt = date_format($billdt, DFS_DB);
+                    
+                    if ($valid['vatoption'] == 0){
+                        $valid['vatamount'] = 0;
+                    }
+                    
+                    
                     $data = array(
                         'exp_vendor' => $vId,
                         'exp_refno' => $valid['refno'],
