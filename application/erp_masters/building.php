@@ -78,9 +78,9 @@ class buildingController extends mvc
 
         $ref = filter_input(INPUT_GET, 'ref', FILTER_UNSAFE_RAW);
 
-        $buildingId = $this->view->decode($this->view->param['ref']);
+        $decBuildingId = $this->view->decode($this->view->param['ref']);
 
-        if (! $buildingId)
+        if (! $decBuildingId)
             die('tampered');
 
         $form->addElement('bld_name', 'Building Name', 'text', 'required|alpha_space');
@@ -98,7 +98,7 @@ class buildingController extends mvc
             'options' => $compList
         ));
 
-        $buildingDetails = $building->getBuildingDetById($buildingId);
+        $buildingDetails = $building->getBuildingDetById(['bld_id'=>$decBuildingId]);
 
         if ($_POST) {
             if (! isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
@@ -326,7 +326,7 @@ class buildingController extends mvc
         if (! $decBuildingId)
             die('tampered');
 
-        $buildingDetail = $buildingObj->getBuildingDetById($decBuildingId);
+            $buildingDetail = $buildingObj->getBuildingDetById(['bld_id'=>$decBuildingId]);
 
         $this->view->buildingDetail = $buildingDetail;
     }

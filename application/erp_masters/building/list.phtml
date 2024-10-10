@@ -64,6 +64,7 @@
 												<tr role="row">
 													<th width="5%" class="center">Sl No</th>
 													<th width="25%" class="center">Building Name</th>
+													<th width="8%" class="center">Company</th>
 													<th width="8%" class="center">No.</th>
 													<th width="8%" class="center">Area</th>
 													<th width="8%" class="center">Block No.</th>
@@ -85,6 +86,7 @@ foreach ($this->BuildingList as $build) :
 				<tr>
 													<td class="center"><?=@++$offset;?></td>
 													<td><?=$build['bld_name']?></td>
+													<td><?=$build['comp_disp_name']?></td>
 													<td><?=$build['bld_no']?></td>
 													<td><?=$build['bld_area']?></td>
 													<td><?=$build['bld_block_no']?></td>

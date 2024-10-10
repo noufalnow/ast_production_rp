@@ -26,7 +26,9 @@ class building extends db_table
 
     public function getBuildingPaginate($cond)
     {
-        $this->paginate("select $this->_table.*", "from $this->_table");
+        $this->paginate("select $this->_table.*,comp_disp_name", "from $this->_table 
+                LEFT JOIN core_company AS comp ON comp.comp_id = bld_comp
+				AND comp.deleted = 0");
 
 
         if (! empty($cond['f_bld_name']))
@@ -47,8 +49,17 @@ class building extends db_table
             return parent::fetchRow ( $cond );
     }
     
-    public function getBuildingDetById($id){
-        return parent::getById ($id);
+    public function getBuildingDetById($cond){
+        
+        $this->query ( "select $this->_table.*,comp_disp_name
+				from $this->_table 
+                LEFT JOIN core_company AS comp ON comp.comp_id = bld_comp
+				AND comp.deleted = 0
+                " );
+        
+        $this->_where [] = "bld_id= :bld_id";
+        
+        return parent::fetchRow ($cond);
     }
 }
 
