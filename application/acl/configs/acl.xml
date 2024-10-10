@@ -1245,6 +1245,34 @@
 					<type>update</type>
 				</action>
 			</controller>
+			
+			<controller>
+				<name>vman</name>
+				<label>Vehicle Manufacturer</label>
+				<description>Vehicle Manufacturer activity</description>
+				<action>
+					<name>list</name>
+					<label>List Type</label>
+					<description>List Manufacturer</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>add</name>
+					<label>Add Vehicle Manufacturer</label>
+					<description>Add Vehicle Manufacturer</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>edit</name>
+					<label>Edit Vehicle Manufacturer Details</label>
+					<description>Edit Vehicle Manufacturer Details</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+			</controller>
+			
 			<controller>
 				<name>building</name>
 				<label>Building Master</label>

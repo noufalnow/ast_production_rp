@@ -372,20 +372,14 @@ class vehicleController extends mvc
         $where['vhl_comm_status'] = 2; // for commercial vehicle
         $vehicleList = $vehicleObj->getVehicleReport(@$where);
 
-        // s($vehicleList);
-        $man = array(
-            1 => "MERCEDES",
-            2 => "CJ",
-            3 => "KOMATSU",
-            4 => "SCANIA",
-            5 => "GORICA",
-            6 => "RENAULT"
-        );
+        require_once __DIR__ . '/../admin/!model/vehicleman.php';
+        $vhlManModelObj = new vehicleman();
+        $manList = $vhlManModelObj->getVManPair();
 
         $this->view->filter_class = $filter_class;
         $this->view->vehicleList = $vehicleList;
         $this->view->form = $form;
-        $this->view->man = $man;
+        $this->view->man = $manList;
     }
 
     /*

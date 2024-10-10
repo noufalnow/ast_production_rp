@@ -22,10 +22,14 @@ class vehicle extends db_table {
 		
 		$this->paginate ( "select $this->_table.*, 
 				comp.comp_disp_name,
-				type.type_name
+				type.type_name,
+                man.vman_name
 				", "from $this->_table 
 				left join core_company as comp on comp.comp_id = $this->_table.vhl_company and comp.deleted = 0
 				left join mis_vehicle_type as type on type.type_id = $this->_table.vhl_type and type.deleted = 0
+				left join mis_vehicle_man as man on man.vman_id = $this->_table.vhl_man and man.deleted = 0
+
+
 				" );
 		
 		if (!empty ( $cond ['f_vhlno'] ))
@@ -51,13 +55,14 @@ class vehicle extends db_table {
 				cust_name,
 				emp_fname ||' '||emp_mname||' '||emp_lname as emp_name,
 				comp.comp_name,
-				type.type_name
+				type.type_name,
+                 man.vman_name
 				from $this->_table 
 				left join core_company as comp on comp.comp_id = $this->_table.vhl_company and comp.deleted = 0
 				left join mis_vehicle_type as type on type.type_id = $this->_table.vhl_type and type.deleted = 0
 				left join mis_employee as emp on emp.emp_id = $this->_table.vhl_employed and emp.deleted = 0
 				left join mis_customer as cust on cust.cust_id = $this->_table.vhl_vendor and cust.deleted = 0
-
+				left join mis_vehicle_man as man on man.vman_id = $this->_table.vhl_man and man.deleted = 0
 				" );
 		if (! empty ( $cond ['vhl_id'] ))
 			$this->_where [] = "vhl_id= :vhl_id";
@@ -105,12 +110,14 @@ class vehicle extends db_table {
 		
 		$this->query ( "SELECT *,
 				emp_fname ||' '||emp_mname||' '||emp_lname as emp_name,
-				cust_name
+				cust_name,
+                man.vman_name
 				FROM mis_vehicle
 				left join core_company as comp on comp.comp_id = $this->_table.vhl_company and comp.deleted = 0
 				left join mis_vehicle_type as type on type.type_id = $this->_table.vhl_type and type.deleted = 0
 				left join mis_employee as emp on emp.emp_id = $this->_table.vhl_employed and emp.deleted = 0
 				left join mis_customer as cust on cust.cust_id = $this->_table.vhl_vendor and cust.deleted = 0
+                left join mis_vehicle_man as man on man.vman_id = $this->_table.vhl_man and man.deleted = 0
 				$where
 				ORDER BY type.type_name ASC" );
 		
@@ -158,6 +165,7 @@ class vehicle extends db_table {
 				FROM mis_vehicle
 				left join core_company as comp on comp.comp_id = $this->_table.vhl_company and comp.deleted = 0
 				left join mis_vehicle_type as type on type.type_id = $this->_table.vhl_type and type.deleted = 0
+				left join mis_vehicle_man as man on man.vman_id = $this->_table.vhl_man and man.deleted = 0
 				INNER JOIN
 				  (SELECT doc_id,
 				          doc_type,
@@ -306,7 +314,8 @@ class vehicle extends db_table {
 							   vendor.ven_disp_name,
 							   case when exp_pay_mode = 1 then 'Cash'
 							   when exp_pay_mode = 2 then 'Credit'
-							   end as pay_mod
+							   end as pay_mod,
+                               man.vman_name
 						FROM mis_vehicle
 						left join core_company as comp on comp.comp_id = $this->_table.vhl_company and comp.deleted = 0
 
@@ -329,6 +338,7 @@ class vehicle extends db_table {
 						AND ccat.deleted = 0
 						LEFT JOIN mis_vendor AS vendor ON vendor.ven_id = expense.exp_vendor
 						AND vendor.deleted = 0
+                        left join mis_vehicle_man as man on man.vman_id = $this->_table.vhl_man and man.deleted = 0
 						$where
 						ORDER BY vhl_comm_status ASC, type_name ASC,vhl_no ASC" );
 		
@@ -386,7 +396,7 @@ class vehicle extends db_table {
 				vhl_no,
 				vhl_comm_status,
 				vhl_id
-				
+
 				FROM mis_vehicle
 				left join core_company as comp on comp.comp_id = $this->_table.vhl_company and comp.deleted = 0
 				LEFT JOIN mis_vehicle_type AS vtype ON vtype.type_id = mis_vehicle.vhl_type

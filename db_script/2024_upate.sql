@@ -148,6 +148,40 @@ update mis_expense
 set exp_novat_amt   = exp_amount;
 
 
+###############################
+
+-- Adminer 4.8.1 PostgreSQL 14.13 (Ubuntu 14.13-0ubuntu0.22.04.1) dump
+
+DROP TABLE IF EXISTS "mis_vehicle_man";
+DROP SEQUENCE IF EXISTS mis_vehicle_man_vman_id_seq;
+CREATE SEQUENCE mis_vehicle_man_vman_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 8 CACHE 1;
+
+CREATE TABLE "public"."mis_vehicle_man" (
+    "vman_id" bigint DEFAULT nextval('mis_vehicle_man_vman_id_seq') NOT NULL,
+    "vman_name" text NOT NULL,
+    "u_created" bigint,
+    "u_modified" bigint,
+    "u_deleted" bigint,
+    "t_created" timestamptz,
+    "t_modified" timestamptz,
+    "t_deleted" timestamptz,
+    "deleted" smallint DEFAULT '0' NOT NULL,
+    "vman_code" character varying(10),
+    CONSTRAINT "mis_vehicle_vman_pkey" PRIMARY KEY ("vman_id")
+) WITH (oids = false);
+
+TRUNCATE "mis_vehicle_man";
+INSERT INTO "mis_vehicle_man" ("vman_id", "vman_name", "u_created", "u_modified", "u_deleted", "t_created", "t_modified", "t_deleted", "deleted", "vman_code") VALUES
+(1,	'MERCEDES',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	0,	NULL),
+(3,	'KOMATSU',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	0,	NULL),
+(4,	'SCANIA',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	0,	NULL),
+(5,	'GORICA',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	0,	NULL),
+(6,	'RENAULT',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	0,	NULL),
+(2,	'CJ',	NULL,	1,	NULL,	NULL,	'2024-10-10 10:16:54+05:30',	NULL,	0,	'CJ');
+
+-- 2024-10-10 11:49:55.221631+05:30
+
+
 
 
 

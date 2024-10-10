@@ -31,15 +31,14 @@ class masterController extends mvc
                 2 => "Commercial"
             )
         ));
+        
+        
+        require_once __DIR__ . '/../admin/!model/vehicleman.php';
+        $vhlManModelObj = new vehicleman();
+        $manList = $vhlManModelObj->getVManPair();
+        
         $form->addElement('man', 'Manufacturer', 'select', '', array(
-            'options' => array(
-                1 => "MERCEDES",
-                2 => "CJ",
-                3 => "KOMATSU",
-                4 => "SCANIA",
-                5 => "GORICA",
-                6 => "RENAULT"
-            )
+            'options' => $manList
         ));
         $form->addElement('rate1', 'Hour Rate', 'float', 'numeric');
         $form->addElement('rate2', 'Day Rate', 'float', 'numeric');
@@ -117,6 +116,12 @@ class masterController extends mvc
         require_once __DIR__ . '/../admin/!model/vehicletype.php';
         $vhlTypeModelObj = new vehicletype();
         $typeList = $vhlTypeModelObj->getVehiclePair();
+        
+        require_once __DIR__ . '/../admin/!model/vehicleman.php';
+        $vhlManModelObj = new vehicleman();
+        $manList = $vhlManModelObj->getVManPair();
+        
+        
         $form->addElement('type', 'Vehice Type', 'select', 'required', array(
             'options' => $typeList
         ));
@@ -127,14 +132,7 @@ class masterController extends mvc
             )
         ));
         $form->addElement('man', 'Manufacturer', 'select', '', array(
-            'options' => array(
-                1 => "MERCEDES",
-                2 => "CJ",
-                3 => "KOMATSU",
-                4 => "SCANIA",
-                5 => "GORICA",
-                6 => "RENAULT"
-            )
+            'options' => $manList
         ));
         $form->addElement('rate1', 'Hour Rate', 'float', 'numeric');
         $form->addElement('rate2', 'Day Rate', 'float', 'numeric');
@@ -261,6 +259,11 @@ class masterController extends mvc
         require_once __DIR__ . '/../admin/!model/vehicletype.php';
         $vhlTypeModelObj = new vehicletype();
         $typeList = $vhlTypeModelObj->getVehiclePair();
+        
+        require_once __DIR__ . '/../admin/!model/vehicleman.php';
+        $vhlManModelObj = new vehicleman();
+        $manList = $vhlManModelObj->getVManPair();
+        
         $form->addElement('f_type', 'Vehice Type', 'select', '', array(
             'options' => $typeList
         ));
@@ -286,16 +289,8 @@ class masterController extends mvc
         // s($where);
         $vehicleList = $vehicleObj->getVehiclePaginate(@$where);
         $offset = $vehicleObj->_voffset;
-        $man = array(
-            1 => "MERCEDES",
-            2 => "CJ",
-            3 => "KOMATSU",
-            4 => "SCANIA",
-            5 => "GORICA",
-            6 => "RENAULT"
-        );
         $this->view->form = $form;
-        $this->view->man = $man;
+        $this->view->man = $manList;
         $this->view->vehicleList = $vehicleList;
         $this->view->filter_class = $filter_class;
         $this->view->offset = $offset;
@@ -343,14 +338,11 @@ class masterController extends mvc
             '305' => "Insurance",
             '306' => "Municipality Certificate"
         );
-        $man = array(
-            1 => "MERCEDES",
-            2 => "CJ",
-            3 => "KOMATSU",
-            4 => "SCANIA",
-            5 => "GORICA",
-            6 => "RENAULT"
-        );
+        
+        require_once __DIR__ . '/../admin/!model/vehicleman.php';
+        $vhlManModelObj = new vehicleman();
+        $manList = $vhlManModelObj->getVManPair();
+        
         require_once __DIR__ . '/../admin/!model/empcontract.php';
         $vehicleContract = new empcontract();
         $contractList = $vehicleContract->getVehicleContractReport(array(
@@ -375,7 +367,7 @@ class masterController extends mvc
             $this->view->doc_active = $doc_active,
             $this->view->hom_class = $hom_class,
             $this->view->hom_active = $hom_active,
-            $this->view->man = $man,
+            $this->view->man = $manList,
             $this->view->contractList = $contractList,
             $this->view->serviceDetObj = $serviceDetObj,
             $this->view->vhlService = $vhlService,
