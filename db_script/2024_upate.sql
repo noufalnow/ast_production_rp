@@ -145,7 +145,7 @@ WHERE vhl_id IN (58, 74, 72, 55, 70, 46, 47, 40, 61, 67, 43, 75, 52, 56, 49, 71,
 
 
 update mis_expense
-set exp_novat_amt   = exp_amount;
+#set exp_novat_amt   = exp_amount;
 
 
 ###############################
