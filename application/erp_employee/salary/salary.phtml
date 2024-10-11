@@ -214,4 +214,32 @@ $(document).ready(function() {
 	});
 	getJaxData($('#f_company').val(),'f_dept',source);
 });
+
+
+$(document).on('keydown', function(e) {
+    // Check if Enter key is pressed (keyCode 13)
+    if (e.key === 'Enter' || e.keyCode === 13) {
+        e.preventDefault(); // Prevent the default action of Enter key
+        
+        // Find the next focusable element and shift focus
+        var $focusable = $(':focusable');
+        var currentIndex = $focusable.index(document.activeElement); // Get current focused element
+        var nextIndex = currentIndex + 1;
+
+        // Focus the next focusable element if it exists
+        if (nextIndex < $focusable.length) {
+            $focusable.eq(nextIndex).focus();
+        }
+    }
+});
+
+// Helper function to get all focusable elements on the page
+$.extend($.expr[':'], {
+    focusable: function(el) {
+        return $(el).is('a, button, :input, [tabindex]');
+    }
+});
+
+
+
 </script>
