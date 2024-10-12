@@ -264,6 +264,14 @@ class masterController extends mvc
         $vhlManModelObj = new vehicleman();
         $manList = $vhlManModelObj->getVManPair();
         
+        $form->addElement('f_status', 'Status', 'select', '', array(
+            'options' => array(
+                "1" => "Active",
+                "2" => "Maintenance",
+                "3" => "Sold Out/ Not Available",
+            )
+        ));
+        
         $form->addElement('f_type', 'Vehice Type', 'select', '', array(
             'options' => $typeList
         ));
@@ -280,7 +288,8 @@ class masterController extends mvc
                     'f_model' => @$valid['f_model'],
                     'f_type' => @$valid['f_type'],
                     'f_vhlno' => @$valid['f_vhlno'],
-                    'f_company' => @$valid['f_company']
+                    'f_company' => @$valid['f_company'],
+                    'f_status' => @$valid['f_status'],
                 );
             }
             $filter_class = 'btn-info';
@@ -375,6 +384,51 @@ class masterController extends mvc
             $this->view->decVhlId = $decVhlId,
             $this->view->vhlImage = $vhlImage,
         );
+    }
+    
+    public function statusAction()
+    {
+        $this->view->response('ajax');
+        require_once __DIR__ . '/../admin/!model/vehicle.php';
+        $vehicle = new vehicle();
+        $decVhlId = $this->view->decode($this->view->param['ref']);
+        if (! $decVhlId)
+            die('tampered');
+            $vehicleDetail = $vehicle->getVehicleDet(array(
+                'vhl_id' => $decVhlId
+            ));
+            
+        $form = new form();
+            $form->addElement('status', 'Status', 'select', 'required', array(
+                'options' => array(
+                    "1" => "Active",
+                    "2" => "Maintenance",
+                    "3" => "Sold Out/ Not Available",
+                )
+            ));
+            if ($_POST) {
+                if (! isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
+                    die('---'); // exit script outputting json data
+                } else {
+
+                    $valid = $form->vaidate($_POST, $_FILES);
+                    $valid = $valid[0];
+                    if ($valid == true) {
+                        $update = $vehicle->modify(array(
+                            "vhl_status" => $valid['status']
+                        ), $decVhlId);
+                        
+                        if ($update) {
+                            $this->view->feedback = 'Vehicle status updated successfully';
+                            $this->view->NoViewRender = true;
+                        }
+                    }
+                }
+            } else {
+                $form->status->setValue($vehicleDetail['vhl_status']);
+            }
+            $this->view->form = $form;
+            $this->view->propertyDet = $vehicleDetail;
     }
 
     public function vhldocsAction()

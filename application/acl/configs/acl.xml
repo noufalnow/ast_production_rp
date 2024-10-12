@@ -586,6 +586,13 @@
 					<resource>application</resource>
 					<type>view</type>
 				</action>
+				<action>
+					<name>status</name>
+					<label>Update Vehicle Status</label>
+					<description>Update Vehicle Status</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
 
 				<action>
 					<name>vhldocs</name>

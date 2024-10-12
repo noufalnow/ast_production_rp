@@ -55,10 +55,23 @@
                                         </div>
 									</div>
 								</div>
-								<button class="btn <?=$this->filter_class?> mt-4 mb-0"
-									type="submit">Filter</button>
-								<input class="btn btn-secondary mt-4 mb-0" name="clear"
-									type="submit" value="All"></input>
+								<div class="row">
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="file_no" class="form-label">Vehicle Status</label>
+                                            <?=$this->form->f_status->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="">
+											<label for="file_no" class="form-label">&nbsp;&nbsp;</label>
+											<button class="btn <?=$this->filter_class?>  mb-0"
+												type="submit">Filter</button>
+											<input class="btn btn-secondary  mb-0" name="clear"
+												type="submit" value="All"></input>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -82,6 +95,7 @@
 					<th width="15%" class="center">Company</th>
 					<th width="15%" class="center">Man.</th>
 					<th width="15%" class="center">Rate</th>
+					<th width="15%" class="center">Status</th>
 					<th width="10%" class="center">Edit</th>
 					<th width="6%" class="center">View</th>
 					<!--  <th width="6%" class="center">Delete</th>-->
@@ -89,28 +103,35 @@
 			</thead>
 			<tbody>
 			<?if(count($this->vehicleList)>0):?>
-				<?php foreach($this->vehicleList as $vehivle):
-					$encVhlId = $this->encode($vehivle['vhl_id']);
+				<?php foreach($this->vehicleList as $vehicle):
+					$encVhlId = $this->encode($vehicle['vhl_id']);
 				?>
 				<tr>
 					<td class="center"><?=@++$this->offset;?></td>
-					<td><?=$vehivle['vhl_no']?></td>
-					<td><?=$vehivle['vhl_comm_status']==1?'Non Commercial':"Commercial"?></td>
-					<td><?=$vehivle['type_name']?></td>
-					<td><?=$vehivle['vhl_model']?></td>
-					<td><?=$vehivle['comp_disp_name']?></td>
-					<td><?=$vehivle['vman_name']?></td>
+					<td><?=$vehicle['vhl_no']?></td>
+					<td><?=$vehicle['vhl_comm_status']==1?'Non Commercial':"Commercial"?></td>
+					<td><?=$vehicle['type_name']?></td>
+					<td><?=$vehicle['vhl_model']?></td>
+					<td><?=$vehicle['comp_disp_name']?></td>
+					<td><?=$vehicle['vman_name']?></td>
 					<td>
-					<?php if($vehivle['vhl_rate_hour']):?>
-					Hour: <?=$vehivle['vhl_rate_hour']?><br>
+					<?php if($vehicle['vhl_rate_hour']):?>
+					Hour: <?=$vehicle['vhl_rate_hour']?><br>
 					<?php endif?>
-					<?php if($vehivle['vhl_rate_day']):?>
-					Day: <?=$vehivle['vhl_rate_day']?><br>
+					<?php if($vehicle['vhl_rate_day']):?>
+					Day: <?=$vehicle['vhl_rate_day']?><br>
 					<?php endif?>
-					<?php if($vehivle['vhl_rate_month']):?>
-					Month: <?=$vehivle['vhl_rate_month']?>
+					<?php if($vehicle['vhl_rate_month']):?>
+					Month: <?=$vehicle['vhl_rate_month']?>
 					<?php endif?>
 					</td>
+					
+					<td class="center">
+                        <?=$vehicle['vehicle_status']; $color = $vehicle['vhl_status']==1 ? 'style="color:green"' : ( $vehicle['vhl_status']==2 ? 'style="color:blue"' : 'style="color:red"') ?>
+                        <?=x(array('link'=>'erp_vehicle/master/status','ref'=>array('ref'=>$encVhlId),'label'=>'<i class="fas fa-star-half-alt green" '.$color.'></i>',array("param"=>'class="facebox"')))?>
+                    </td>
+					
+					
 					<td class="center">
 						<?=x(array('link'=>'erp_vehicle/master/edit','ref'=>$encVhlId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>  
 					</td>

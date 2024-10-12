@@ -14,6 +14,9 @@ class vehicle extends db_table {
 	
 	public function getVehiclePair($cond = array()) {
 		$this->query ( "select vhl_id,vhl_no from $this->_table" );
+		
+		$this->_where [] = " vhl_status IN (1,2) ";
+		
 		$this->_order [] = 'vhl_no ASC';
 		
 		return parent::fetchPair ( $cond );
@@ -23,6 +26,10 @@ class vehicle extends db_table {
 		$this->paginate ( "select $this->_table.*, 
 				comp.comp_disp_name,
 				type.type_name,
+                case when vhl_status =1 then 'Active'
+                     when vhl_status =2  then 'Maintenance'
+                     when  vhl_status =3 then 'Sold Out/ Not Available'
+                end as vehicle_status, 
                 man.vman_name
 				", "from $this->_table 
 				left join core_company as comp on comp.comp_id = $this->_table.vhl_company and comp.deleted = 0
@@ -43,6 +50,9 @@ class vehicle extends db_table {
 		
 		if (! empty ( $cond ['f_type'] ))
 			$this->_where [] = "vhl_type = :f_type";
+		
+		if (! empty ( $cond ['f_status'] ))
+		    $this->_where [] = "vhl_status = :f_status";
 		
 		
 		$this->_order [] = 'vhl_comm_status ASC, type.type_name ASC';

@@ -184,5 +184,9 @@ INSERT INTO "mis_vehicle_man" ("vman_id", "vman_name", "u_created", "u_modified"
 
 
 
+##################################
 
+ALTER TABLE "mis_vehicle"
+ADD "vhl_status" smallint NULL DEFAULT '1';
+COMMENT ON TABLE "mis_vehicle" IS '';
 
