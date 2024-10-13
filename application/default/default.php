@@ -594,6 +594,27 @@ class defaultController extends mvc
         $this->view->propertyDataPre = $propertyObj->getDashsummary(['Month'=>'pre']);
         $this->view->propertyDataPre = $this->view->propertyDataPre['0'];
         
+        
+        
+        $dashSalesGraph =  $propertyObj->getDashsummaryGraph();
+        
+        //a($dashSalesGraph);
+        
+        $this->view->paidAmount = [];
+        $this->view->billCollection = [];
+        $this->view->totalExpenditure = [];
+        $this->view->labels = [];
+        
+        // Loop through the results to populate the arrays
+        foreach ($dashSalesGraph as $row) {
+            $this->view->paidAmount[] = $row['paid_amount'];
+            $this->view->billCollection[] = $row['bill_collection'];
+            $this->view->totalExpenditure[] = $row['total_expenditure'];
+            $this->view->labels[] = DateTime::createFromFormat('Y-m', $row['year_month'])->format('M y');
+        }
+        
+        //a( $this->view->totalAmount,$this->view->paidAmount,$this->view->labels);
+        
         //a($this->view->propertyData);
 
         require_once __DIR__ . '/../admin/!model/updates.php';

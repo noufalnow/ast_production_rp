@@ -100,7 +100,7 @@
               <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
                 <div class="card">
                   <div class="card-header">
-                    <h3 class="card-title">Total Transactions</h3>
+                    <h3 class="card-title">12 Months Transaction</h3>
                   </div>
                   <div class="card-body pb-0">
                     <div id="chartArea" class="chart-donut"></div>
@@ -282,7 +282,96 @@
 </div>
 -->
 <script>
+
 baseurl = '<?=APPURL;?>';
+
+// Assuming data is already in JavaScript variables
+var paidAmount = JSON.parse('<?= json_encode($this->paidAmount); ?>');
+var billCollection = JSON.parse('<?= json_encode($this->billCollection); ?>');
+var totalExpenditure = JSON.parse('<?= json_encode($this->totalExpenditure); ?>');
+var labels = JSON.parse('<?= json_encode($this->labels); ?>');
+
+function chartArea() {
+	  var options = {
+	    series: [
+	      {
+	        name: "Rent Collection",
+	        type: "bar",
+	        data: paidAmount, // Dynamically loading paidAmount data
+	      },
+	      {
+	        name: "Bill Collection",
+	        type: "bar",
+	        data: billCollection, // Dynamically loading billCollection data
+	      },
+	      {
+	        name: "Total Expenditure",
+	        type: "line",
+	        data: totalExpenditure, // Dynamically loading totalExpenditure data
+	      },
+	    ],
+	    chart: {
+	      height: 350,
+	      type: "line",
+	      stacked: true,
+	    },
+	    stroke: {
+	      width: [0, 0, 3],
+	      curve: "smooth",
+	    },
+	    plotOptions: {
+	      bar: {
+	        columnWidth: "60%",  // Increase the bar height by reducing the space between bars
+	        stacked: true,
+	      },
+	    },
+	    fill: {
+	      opacity: [0.85, 0.85, 1],
+	      gradient: {
+	        shade: "light",
+	        type: "vertical",
+	        opacityFrom: 0.85,
+	        opacityTo: 0.55,
+	        stops: [0, 100],
+	      },
+	    },
+	    labels: labels, // Dynamically using labels from JS variable
+	    markers: {
+	      size: 0,
+	    },
+	    xaxis: {
+	    	  type: "category", // Ensure this is "category" instead of "datetime"
+	    	  categories: labels, // Dynamically use the labels
+	    	},
+	    yaxis: {
+	      title: {
+	        text: "Amount",
+	      },
+	      min: 0,
+	      max: Math.max(...paidAmount, ...billCollection, ...totalExpenditure) * 1.1,  // Set the max value dynamically with 10% padding
+	    },
+	    tooltip: {
+	    	  shared: true,
+	    	  intersect: false,
+	    	  y: {
+	    	    formatter: function (y, { seriesIndex, dataPointIndex, w }) {
+	    	      if (typeof y !== "undefined") {
+	    	        return "RO "+ y.toFixed(3);  // Ensure the value is formatted with two decimal places
+	    	      }
+	    	      return y;
+	    	    },
+	    	  },
+	    	},
+
+	  };
+	  
+	  document.querySelector("#chartArea").innerHTML = "";
+	  var chart = new ApexCharts(document.querySelector("#chartArea"), options);
+	  chart.render();
+	}
+
+      
+
 
 /*$(function () {
     $('#container').highcharts({
