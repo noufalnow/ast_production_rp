@@ -292,6 +292,8 @@ var totalExpenditure = JSON.parse('<?= json_encode($this->totalExpenditure); ?>'
 var labels = JSON.parse('<?= json_encode($this->labels); ?>');
 
 function chartArea() {
+	  var maxAmount = Math.max(...paidAmount, ...billCollection, ...totalExpenditure) * 1.1;  // Get max value for Y-axis
+
 	  var options = {
 	    series: [
 	      {
@@ -340,37 +342,39 @@ function chartArea() {
 	      size: 0,
 	    },
 	    xaxis: {
-	    	  type: "category", // Ensure this is "category" instead of "datetime"
-	    	  categories: labels, // Dynamically use the labels
-	    	},
-	    yaxis: {
-	      title: {
-	        text: "Amount",
-	      },
-	      min: 0,
-	      max: Math.max(...paidAmount, ...billCollection, ...totalExpenditure) * 1.1,  // Set the max value dynamically with 10% padding
+	      type: "category", // Ensure this is "category" instead of "datetime"
+	      categories: labels, // Dynamically use the labels
 	    },
+	    yaxis: [
+	      {
+	        title: {
+	          text: "Amount",
+	        },
+	        min: 0,
+	        max: maxAmount,  // Set max Y-axis dynamically
+	        tickAmount: 5,  // Adjust the number of ticks on the Y-axis
+	      },
+	    ],
 	    tooltip: {
-	    	  shared: true,
-	    	  intersect: false,
-	    	  y: {
-	    	    formatter: function (y, { seriesIndex, dataPointIndex, w }) {
-	    	      if (typeof y !== "undefined") {
-	    	        return "RO "+ y.toFixed(3);  // Ensure the value is formatted with two decimal places
-	    	      }
-	    	      return y;
-	    	    },
-	    	  },
-	    	},
-
+	      shared: true,
+	      intersect: false,
+	      y: {
+	        formatter: function (y, { seriesIndex, dataPointIndex, w }) {
+	          if (typeof y !== "undefined") {
+	            return "RO " + y.toFixed(3);  // Ensure the value is formatted with two decimal places
+	          }
+	          return y;
+	        },
+	      },
+	    },
 	  };
-	  
+
+	  // Clear the previous chart if it exists and render a new one
 	  document.querySelector("#chartArea").innerHTML = "";
 	  var chart = new ApexCharts(document.querySelector("#chartArea"), options);
 	  chart.render();
 	}
-
-      
+  
 
 
 /*$(function () {

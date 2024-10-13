@@ -109,311 +109,68 @@ function getNewData(baseval, yrange) {
     y: Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min,
   };
 }
+var totalRevenue = paidAmount.map(function (value, index) {
+  return parseFloat(value) + parseFloat(billCollection[index]); // Ensure numbers are added
+});
 
-// var optionsColumn = {
-//   chart: {
-//     height: 350,
-//     type: "bar",
-//     animations: {
-//       enabled: false
-//     },
-//     events: {
-//       animationEnd: function (chartCtx) {
-//         const newData = chartCtx.w.config.series[0].data.slice();
-//         newData.shift();
-//         window.setTimeout(function () {
-//           chartCtx.updateOptions(
-//             {
-//               series: [
-//                 {
-//                   data: newData
-//                 }
-//               ],
-//               xaxis: {
-//                 min: chartCtx.minX,
-//                 max: chartCtx.maxX
-//               },
-//               subtitle: {
-//                 text:
-//                   parseInt(getRangeRandom({ min: 1, max: 20 })).toString() + "%"
-//               }
-//             },
-//             false,
-//             false
-//           );
-//         }, 300);
-//       }
-//     },
-//     toolbar: {
-//       show: false
-//     },
-//     zoom: {
-//       enabled: false
-//     }
-//   },
-//   dataLabels: {
-//     enabled: false
-//   },
-//   stroke: {
-//     width: 0
-//   },
-//   series: [
-//     {
-//       name: "Load Average",
-//       data: generateMinuteWiseTimeSeries(
-//         new Date("12/12/2016 00:20:00").getTime(),
-//         12,
-//         {
-//           min: 10,
-//           max: 110
-//         }
-//       )
-//     }
-//   ],
-//   title: {
-//     text: "Load Average",
-//     align: "left",
-//     style: {
-//       fontSize: "12px"
-//     }
-//   },
-//   subtitle: {
-//     text: "20%",
-//     floating: true,
-//     align: "right",
-//     offsetY: 0,
-//     style: {
-//       fontSize: "22px"
-//     }
-//   },
-//   fill: {
-//     type: "gradient",
-//     gradient: {
-//       shade: "dark",
-//       type: "vertical",
-//       shadeIntensity: 0.5,
-//       inverseColors: false,
-//       opacityFrom: 1,
-//       opacityTo: 0.8,
-//       stops: [0, 100]
-//     }
-//   },
-//   xaxis: {
-//     type: "datetime",
-//     range: 2700000
-//   },
-//   legend: {
-//     show: true
-//   }
-// };
 
-// var chartColumn = new ApexCharts(
-//   document.querySelector("#columnchart"),
-//   optionsColumn
-// );
-// chartColumn.render();
-
-var optionsLine = {
+var optionsLineDifference = {
   chart: {
     height: 350,
     type: "line",
-    stacked: true,
-    animations: {
-      enabled: true,
-      easing: "linear",
-      dynamicAnimation: {
-        speed: 1000,
-      },
-    },
-    dropShadow: {
-      enabled: true,
-      opacity: 0.3,
-      blur: 5,
-      left: -7,
-      top: 22,
-    },
-    events: {
-      animationEnd: function (chartCtx) {
-        const newData1 = chartCtx.w.config.series[0].data.slice();
-        newData1.shift();
-        const newData2 = chartCtx.w.config.series[1].data.slice();
-        newData2.shift();
-        window.setTimeout(function () {
-          chartCtx.updateOptions(
-            {
-              series: [
-                {
-                  data: newData1,
-                },
-                {
-                  data: newData2,
-                },
-              ],
-              subtitle: {
-                text: parseInt(getRandom() * Math.random()).toString(),
-              },
-            },
-            false,
-            false
-          );
-        }, 300);
-      },
-    },
-    toolbar: {
-      show: false,
-    },
-    zoom: {
-      enabled: false,
-    },
   },
   dataLabels: {
     enabled: false,
   },
   stroke: {
-    curve: "straight",
-    width: 5,
-  },
-  grid: {
-    padding: {
-      left: 0,
-      right: 0,
-    },
-  },
-  markers: {
-    size: 0,
-    hover: {
-      size: 0,
-    },
+    curve: "smooth",
+    width: 2,
   },
   series: [
     {
-      name: "Running",
-      data: generateMinuteWiseTimeSeries(
-        new Date("12/12/2016 00:20:00").getTime(),
-        12,
-        {
-          min: 30,
-          max: 110,
-        }
-      ),
+      name: "Revenue",
+      data: totalRevenue,
     },
     {
-      name: "Waiting",
-      data: generateMinuteWiseTimeSeries(
-        new Date("12/12/2016 00:20:00").getTime(),
-        12,
-        {
-          min: 30,
-          max: 110,
-        }
-      ),
+      name: "Expenditure",
+      data: totalExpenditure,
     },
   ],
   xaxis: {
-    type: "datetime",
-    range: 2700000,
+    categories: labels,
+    type: "category",
   },
   title: {
-    text: "Processes",
+    text: "Revenue and Expenditure Comparison with Difference",
     align: "left",
-    style: {
-      fontSize: "12px",
-    },
   },
-  subtitle: {
-    text: "20",
-    floating: true,
-    align: "right",
-    offsetY: 0,
-    style: {
-      fontSize: "22px",
-    },
-  },
+  colors: ["#00E396", "#FF4560"],
   legend: {
     show: true,
-    floating: true,
-    horizontalAlign: "left",
-    onItemClick: {
-      toggleDataSeries: false,
+  },
+  fill: {
+    type: "gradient",
+    gradient: {
+      shade: "light",
+      type: "vertical",
+      shadeIntensity: 0.5,
+      gradientToColors: ["#F44336", "#FFEB3B"], // Gradient for the shaded area
+      inverseColors: false,
     },
-    position: "top",
-    offsetY: -33,
-    offsetX: 60,
   },
 };
+
 if (document.querySelector("#linechart")) {
-  var chartLine = new ApexCharts(
+  var chartLineDiff = new ApexCharts(
     document.querySelector("#linechart"),
-    optionsLine
+    optionsLineDifference
   );
-  chartLine.render();
+  chartLineDiff.render();
 }
 
+
+
+// Update the data periodically every 3 seconds (or your desired interval)
 window.setInterval(function () {
   iteration++;
-
-  // chartColumn.updateSeries([
-  //   {
-  //     data: [
-  //       ...chartColumn.w.config.series[0].data,
-  //       [chartColumn.w.globals.maxX + 300000, getRandom()]
-  //     ]
-  //   }
-  // ]);
-
-//  chartLine.updateSeries([
-//    {
-//      data: [
-//        ...chartLine.w.config.series[0].data,
-//        [chartLine.w.globals.maxX + 300000, getRandom()],
-//      ],
-//    },
-//    {
-//      data: [
-//        ...chartLine.w.config.series[1].data,
-//        [chartLine.w.globals.maxX + 300000, getRandom()],
-//      ],
-//    },
-//  ]);
-
-  // chartCircle.updateSeries([
-  //   getRangeRandom({ min: 10, max: 100 }),
-  //   getRangeRandom({ min: 10, max: 100 })
-  // ]);
-
-  // var p1Data = getRangeRandom({ min: 10, max: 100 });
-  // chartProgress1.updateOptions({
-  //   series: [
-  //     {
-  //       data: [p1Data]
-  //     }
-  //   ],
-  //   subtitle: {
-  //     text: p1Data + "%"
-  //   }
-  // });
-
-  // var p2Data = getRangeRandom({ min: 10, max: 100 });
-  // chartProgress2.updateOptions({
-  //   series: [
-  //     {
-  //       data: [p2Data]
-  //     }
-  //   ],
-  //   subtitle: {
-  //     text: p2Data + "%"
-  //   }
-  // });
-
-  // var p3Data = getRangeRandom({ min: 10, max: 100 });
-  // chartProgress3.updateOptions({
-  //   series: [
-  //     {
-  //       data: [p3Data],
-  //     },
-  //   ],
-  //   subtitle: {
-  //     text: p3Data + "%",
-  //   },
-  // });
 }, 3000);
