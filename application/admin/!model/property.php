@@ -591,7 +591,72 @@ class property extends db_table {
 
         return parent::fetchQuery($cond);
     }
-	
+    
+    
+    public function getDashsummary($cond = []){
+        
+        if($cond['Month']=='pre')
+            $where = "  WHERE COALESCE(popt.year_month, dmd.year_month) = TO_CHAR(CURRENT_DATE - INTERVAL '1 MONTH', 'YYYY-MM') ";
+         else
+            $where = " WHERE     COALESCE(popt.year_month, dmd.year_month) = TO_CHAR(CURRENT_DATE, 'YYYY-MM') ";
+            
+        //$where = " WHERE COALESCE(popt.year_month, dmd.year_month) = '2024-01' ";
+            unset($cond)   ;
+        
+              $this->query(  "
+                            SELECT COALESCE(popt.year_month, dmd.year_month, coll.year_month) AS year_month,
+                                   COALESCE(popt.total_amount, 0) AS total_amount,
+                                   COALESCE(dmd.paid_amount, 0) AS paid_amount,
+                                   COALESCE(coll.total_collection, 0) AS total_collection,
+                                   COALESCE(totexp.total_combined, 0) AS total_expenditure
+                            FROM
+                              (SELECT TO_CHAR(popt_date, 'YYYY-MM') AS year_month,
+                                      SUM(popt_amount) AS total_amount
+                               FROM mis_property_payoption AS payop
+                               WHERE payop.deleted = 0
+                               GROUP BY TO_CHAR(popt_date, 'YYYY-MM')) AS popt
+                            FULL OUTER JOIN
+                              (SELECT TO_CHAR(cdmd_date, 'YYYY-MM') AS year_month,
+                                      SUM(cdmd_total - cdmd_credit_amt) AS paid_amount
+                               FROM mis_cash_demand AS dmd
+                               WHERE dmd.deleted = 0
+                                 AND dmd.cdmd_type = 1
+                               GROUP BY TO_CHAR(cdmd_date, 'YYYY-MM')) AS dmd ON popt.year_month = dmd.year_month
+                            FULL OUTER JOIN
+                              (SELECT TO_CHAR(coll_paydate, 'YYYY-MM') AS year_month,
+                                      SUM(coll_amount) AS total_collection
+                               FROM mis_collection
+                               WHERE coll_app_status = '1'
+                                 AND coll_src_type = '1' AND deleted=0
+                               GROUP BY TO_CHAR(coll_paydate, 'YYYY-MM')) AS coll ON COALESCE(popt.year_month, dmd.year_month) = coll.year_month
+                            FULL OUTER JOIN (
+                            SELECT COALESCE(exp.year_month, pay.year_month) AS year_month,
+                                   (COALESCE(exp.total_expense, 0) + COALESCE(pay.total_crpayment, 0)) AS total_combined
+                            FROM
+                              (SELECT TO_CHAR(exp_billdt, 'YYYY-MM') AS year_month,
+                                      SUM(exp_amount) AS total_expense
+                               FROM mis_expense
+                               WHERE exp_pay_mode = '1'
+                                 AND exp_app_status = '1' AND deleted = 0
+                               GROUP BY TO_CHAR(exp_billdt, 'YYYY-MM')) AS exp
+                            FULL OUTER JOIN
+                              (SELECT TO_CHAR(pay_paydate, 'YYYY-MM') AS year_month,
+                                      SUM(pay_amount) AS total_crpayment
+                               FROM mis_payment
+                               WHERE pay_app_status = '1' and deleted = 0
+                               GROUP BY TO_CHAR(pay_paydate, 'YYYY-MM')) AS pay ON exp.year_month = pay.year_month
+                            ORDER BY year_month
+                            
+                             ) AS totexp ON COALESCE(popt.year_month, dmd.year_month) = totexp.year_month
+
+                    $where
+                    ORDER BY 
+                        year_month;");
+                      
+                   //d($this->_qry);
+                
+            return parent::fetchQuery($cond);  
+    }	
 	
 }
 

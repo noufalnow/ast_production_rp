@@ -585,9 +585,16 @@ class defaultController extends mvc
             }
         }
         
-       
         
-
+        require_once __DIR__ . '/../admin/!model/property.php';
+        $propertyObj = new property();
+        $this->view->propertyData = $propertyObj->getDashsummary();
+        $this->view->propertyData = $this->view->propertyData['0'];
+        
+        $this->view->propertyDataPre = $propertyObj->getDashsummary(['Month'=>'pre']);
+        $this->view->propertyDataPre = $this->view->propertyDataPre['0'];
+        
+        //a($this->view->propertyData);
 
         require_once __DIR__ . '/../admin/!model/updates.php';
 

@@ -33,8 +33,8 @@
                   <div class="card-body">
                     <div class="d-flex">
                       <div class="text-white">
-                        <h2 class="mb-0 number-font">23,536</h2>
-                        <p class="text-white mb-0">Total Requests</p>
+                        <h2 class="mb-0 number-font"><?=number_format($this->propertyData['total_amount'] ?? 0, 3); ?></h2>
+                        <p class="text-white mb-0">Total Rent Due  <?=date('y-M', strtotime($this->propertyData['year_month'] ?? date('Y-m')));?></p>
                       </div>
                       <div class="ms-auto">
                         <i class="fa fa-bar-chart text-white fs-30 me-2 mt-2"></i>
@@ -49,8 +49,8 @@
                   <div class="card-body">
                     <div class="d-flex">
                       <div class="text-white">
-                        <h2 class="mb-0 number-font">45,789</h2>
-                        <p class="text-white mb-0">Total Revenue</p>
+                        <h2 class="mb-0 number-font"><?=number_format($this->propertyData['paid_amount'] ?? 0, 3); ?></h2>
+                        <p class="text-white mb-0">Total Rent Collection  <?=date('y-M', strtotime($this->propertyData['year_month'] ?? date('Y-m')));?></p>
                       </div>
                       <div class="ms-auto">
                         <i class="fa fa-bar-chart text-white fs-30 me-2 mt-2"></i>
@@ -65,8 +65,8 @@
                   <div class="card-body">
                     <div class="d-flex">
                       <div class="text-white">
-                        <h2 class="mb-0 number-font">89,786</h2>
-                        <p class="text-white mb-0">Total Profit</p>
+                        <h2 class="mb-0 number-font"><?=number_format($this->propertyData['total_collection'] ?? 0, 3); ?></h2>
+                        <p class="text-white mb-0">Invoice Collection  <?=date('y-M', strtotime($this->propertyData['year_month'] ?? date('Y-m')));?></p>
                       </div>
                       <div class="ms-auto">
                         <i class="fa fa-bar-chart text-white fs-30 me-2 mt-2"></i>
@@ -81,8 +81,8 @@
                   <div class="card-body">
                     <div class="d-flex">
                       <div class="text-white">
-                        <h2 class="mb-0 number-font">43,336</h2>
-                        <p class="text-white mb-0">Monthly Profit</p>
+                        <h2 class="mb-0 number-font"><?=number_format($this->propertyData['total_expenditure'] ?? 0, 3); ?></h2>
+                        <p class="text-white mb-0">Monthly Expense  <?=date('y-M', strtotime($this->propertyData['year_month'] ?? date('Y-m')));?></p>
                       </div>
                       <div class="ms-auto">
                         <i class="fa-solid fa-bar-chart text-white fs-30 me-2 mt-2"></i>
@@ -114,25 +114,25 @@
                     <h2 class="card-title">Projects</h2>
                   </div>
                   <div class="card-body">
-                    <div class="mx-auto chart-circle chart-circle-md mt-3 mb-4 text-center" data-value="0.75"
+                    <div class="mx-auto chart-circle chart-circle-md mt-3 mb-4 text-center" data-value="<?=number_format(min(max($this->propertyData['total_amount']  > 0 ? $this->propertyData['paid_amount'] / $this->propertyData['total_amount']  : 0, 0), 1), 2)?>"
                       data-thickness="8" data-bs-color="#5e2dd8 "> </div>
                     <div class="text-center mt-3">
-                      <h3>Average Sales</h3>
+                      <h3>Rent Progress</h3>
                       <p class="mb-4">
                         &nbsp;</br> &nbsp;</br> &nbsp;</br> &nbsp;</br> 
                       </p>
                       <div class="col p-1 mt-2">
                         <div class="float-start">
-                          <h5 class="ms-5">
-                            <i class="fa fa-caret-up fa-1x text-primary me-1"></i>OMR 3250
+                          <h5 class="">
+                            <i class="fa fa-caret-up fa-1x text-primary me-1"></i>OMR <?=number_format(($this->propertyData['total_amount']-$this->propertyData['paid_amount']) ?? 0, 3); ?>
                           </h5>
-                          <h5 class="ms-5 pb-0 mb-0">last month</h6>
+                          <h5 class="ms-5 pb-0 mb-0">Due Amount</h6>
                         </div>
                         <div class="float-end">
-                          <h5 class="me-5">
-                            <i class="fa fa-caret-up fa-1x text-primary me-1"></i>OMR 5800
+                          <h5 class="">
+                            <i class="fa fa-caret-up fa-1x text-primary me-1"></i>OMR <?=number_format($this->propertyDataPre['total_amount'] ?? 0, 3); ?>
                           </h5>
-                          <h5 class="me-5 mt-0 mb-0">last year</h6>
+                          <h5 class="me-5 mt-0 mb-0">Last Month</h6>
                         </div>
                       </div>
                     </div>
