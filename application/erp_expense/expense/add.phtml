@@ -168,7 +168,7 @@ $(document).ready(function() {
     vatAmountInput = document.getElementById('vatamount');
     expAmount = parseFloat(expAmountInput.value) || 0;
     vatAmount = expAmount * 0.05;
-    vatAmountInput.value = vatAmount.toFixed(2);
+    vatAmountInput.value = vatAmount.toFixed(3);
     function calculateVAT() {
         const expAmount = parseFloat(expAmountInput.value) || 0;
         const vatAmount = expAmount * 0.05;

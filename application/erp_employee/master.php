@@ -16,6 +16,12 @@ class masterController extends mvc
         '10' => "OXY License",
         '11' => "OXY H2S",
         '12' => "Work Contract",
+        '13'=> "Third party Insurance",
+        '14' => "Fitness Medical Report",
+        '15' => "Opal Medical",
+        '16' => "Opal LC",
+        '17' => "Opal Passport",
+        '18' => "Opal Safety Certificate" 
     );
     
 
@@ -931,6 +937,25 @@ class masterController extends mvc
                 }
             }
         }
+        
+        foreach ($this->doctype as $dtkey=>$dlabel ){
+            $tdocs= $docs->getDocuments(array(
+                'doc_type' => $dtkey,
+                'doc_ref_type' => DOC_TYPE_EMP,
+                'doc_ref_id' => $empId
+            ));
+            
+            if(is_array($tdocs) && count($tdocs)>0){
+                $docList[$dtkey] = $tdocs;
+            }
+            
+            
+            $tdocs=[];
+        }
+        
+        $this->view->docList = $docList;
+        $this->view->doctype = $this->doctype;
+        
 
         $ppDocs = $docs->getDocuments(array(
             'doc_type' => 1,

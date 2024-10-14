@@ -116,6 +116,12 @@ class employeeController extends mvc
             '10' => "OXY License",
             '11' => "OXY H2S",
             '12' => "Work Contract",
+            '13'=> "Third party Insurance",
+            '14' => "Fitness Medical Report",
+            '15' => "Opal Medical",
+            '16' => "Opal LC",
+            '17' => "Opal Passport",
+            '18' => "Opal Safety Certificate" 
         );
         // s($where);
 

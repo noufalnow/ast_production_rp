@@ -709,41 +709,94 @@ class employee extends db_table {
 		}
 		unset ( $cond ['f_monthpick'] );		
 
-		$this->query ( "SELECT count(doc_type) AS COUNT,
-						case when doc_type = 1 then 'passport'
-							 when doc_type = 2 then 'id'
-							 when doc_type = 3 then 'visa'
-				 			 when doc_type = 4 then 'license'
-				 			 when doc_type = 5 then 'insurance'
-				 			 when doc_type = 6 then 'pdolicense'
-				 			 when doc_type = 7 then 'pdopassport'
-				 			 when doc_type = 8 then 'h2scard'  
-				 			 when doc_type = 9 then 'OXY Passport'
-				 			 when doc_type = 10 then 'OXY License'
-				 			 when doc_type = 11 then 'OXY H2S'
-				 			 when doc_type = 12 then 'Work Contract'    
-
-							END as doc_type
-						FROM mis_employee
-						INNER JOIN
-						  (SELECT doc_type,
-						          doc_ref_id,
-						          doc_expiry_date AS doc_expiry_month
-						   FROM
-						     (SELECT max(doc_id) AS mdoc_id
-						      FROM mis_documents
-						      WHERE doc_ref_type = 2
-						        AND deleted = 0
-						      GROUP BY doc_type,
-						               doc_ref_type,
-						               doc_ref_id)max_group
-						   LEFT JOIN mis_documents AS docs ON docs.doc_id = max_group.mdoc_id
-						   AND docs.deleted = 0) AS empdocs ON empdocs.doc_ref_id = mis_employee.emp_id
-						WHERE 
-							$where
-						  AND mis_employee.deleted = 0
-						  AND mis_employee.emp_status = 1
-						GROUP BY doc_type" );
+		$this->query ( "SELECT
+                            COALESCE(COUNT(empdocs.doc_type), 0) AS COUNT,
+                            doc_types.doc_type,
+                            doc_types.doc_type_id
+                        FROM 
+                            (SELECT 1 AS doc_type_id, 'passport' AS doc_type
+                             UNION ALL
+                             SELECT 2, 'id'
+                             UNION ALL
+                             SELECT 3, 'visa'
+                             UNION ALL
+                             SELECT 4, 'license'
+                             UNION ALL
+                             SELECT 5, 'insurance'
+                             UNION ALL
+                             SELECT 6, 'pdolicense'
+                             UNION ALL
+                             SELECT 7, 'pdopassport'
+                             UNION ALL
+                             SELECT 8, 'h2scard'
+                             UNION ALL
+                             SELECT 9, 'oxypassport'
+                             UNION ALL
+                             SELECT 10, 'oxylicense'
+                             UNION ALL
+                             SELECT 11, 'oxyh2s'
+                             UNION ALL
+                             SELECT 12, 'workContract'
+                             UNION ALL
+                             SELECT 13, 'thirdPartyInsurance'
+                             UNION ALL
+                             SELECT 14, 'fitnessMedicalReport'
+                             UNION ALL
+                             SELECT 15, 'opalMedical'
+                             UNION ALL
+                             SELECT 16, 'opalLC'
+                             UNION ALL
+                             SELECT 17, 'opalPassport'
+                             UNION ALL
+                             SELECT 18, 'opalSafetyCertificate') AS doc_types
+                        LEFT JOIN 
+                            (SELECT 
+                                CASE 
+                                    WHEN doc_type = 1 THEN 'passport'
+                                    WHEN doc_type = 2 THEN 'id'
+                                    WHEN doc_type = 3 THEN 'visa'
+                                    WHEN doc_type = 4 THEN 'license'
+                                    WHEN doc_type = 5 THEN 'insurance'
+                                    WHEN doc_type = 6 THEN 'pdolicense'
+                                    WHEN doc_type = 7 THEN 'pdopassport'
+                                    WHEN doc_type = 8 THEN 'h2scard'
+                                    WHEN doc_type = 9 THEN 'oxypassport'
+                                    WHEN doc_type = 10 THEN 'oxylicense'
+                                    WHEN doc_type = 11 THEN 'oxyh2s'
+                                    WHEN doc_type = 12 THEN 'workContract'
+                                    WHEN doc_type = 13 THEN 'thirdPartyInsurance'
+                                    WHEN doc_type = 14 THEN 'fitnessMedicalReport'
+                                    WHEN doc_type = 15 THEN 'opalMedical'
+                                    WHEN doc_type = 16 THEN 'opalLC'
+                                    WHEN doc_type = 17 THEN 'opalPassport'
+                                    WHEN doc_type = 18 THEN 'opalSafetyCertificate'
+                                END AS doc_type,
+                                doc_type AS doc_type_id,
+                                doc_ref_id
+                            FROM mis_employee
+                            INNER JOIN
+                                (SELECT 
+                                    doc_type, 
+                                    doc_ref_id,
+                                    doc_expiry_date AS doc_expiry_month
+                                 FROM 
+                                    (SELECT MAX(doc_id) AS mdoc_id
+                                     FROM mis_documents
+                                     WHERE doc_ref_type = 2
+                                       AND deleted = 0
+                                     GROUP BY doc_type, doc_ref_type, doc_ref_id) AS max_group
+                                 LEFT JOIN mis_documents AS docs 
+                                     ON docs.doc_id = max_group.mdoc_id
+                                    AND docs.deleted = 0) AS empdocs 
+                            ON empdocs.doc_ref_id = mis_employee.emp_id
+                            WHERE 
+                                $where
+                                AND mis_employee.deleted = 0
+                                AND mis_employee.emp_status = 1) AS empdocs
+                        ON doc_types.doc_type_id = empdocs.doc_type_id
+                        GROUP BY doc_types.doc_type_id, doc_types.doc_type
+                        ORDER BY doc_types.doc_type_id;
+                        " );
 		
 		return parent::fetchQuery ( $cond );
 	}

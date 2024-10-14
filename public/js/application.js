@@ -12,13 +12,13 @@ $(document).ready(function($) {
 
 	
 	$('body').on('keyup', 'input.numonly', function(e) {
-		$("input.numonly").numeric();
+		$(this).numeric();
 		if (!this.value.match(/^([0-9]){1,12}$/))
 			$(this).val('');
 	});
 	
 	$('body').on('keyup', 'input.floatonly', function(e) {
-		$("input.floatonly").numeric();
+		 $(this).numeric();
 	});
 	
 

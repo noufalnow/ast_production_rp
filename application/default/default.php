@@ -572,39 +572,40 @@ class defaultController extends mvc
 
             // d($message);
 
-            if(($_SERVER['SERVER_NAME'] !='localhost'))
-            {
+            if (($_SERVER['SERVER_NAME'] != 'localhost')) {
                 if (send_email($message, 'md@astglobal.om', 'info@astglobal.om')) {
-                    
-                    
-                    //ff
-                    
-                    $notification->add(['notif_month'=>date('Y-m-d'), 'notif_email'=>'{}', 'notif_content'=>$message, 'notif_status'=>true]);
-                    
+
+                    // ff
+
+                    $notification->add([
+                        'notif_month' => date('Y-m-d'),
+                        'notif_email' => '{}',
+                        'notif_content' => $message,
+                        'notif_status' => true
+                    ]);
                 }
             }
         }
-        
-        
+
         require_once __DIR__ . '/../admin/!model/property.php';
         $propertyObj = new property();
         $this->view->propertyData = $propertyObj->getDashsummary();
         $this->view->propertyData = $this->view->propertyData['0'];
-        
-        $this->view->propertyDataPre = $propertyObj->getDashsummary(['Month'=>'pre']);
+
+        $this->view->propertyDataPre = $propertyObj->getDashsummary([
+            'Month' => 'pre'
+        ]);
         $this->view->propertyDataPre = $this->view->propertyDataPre['0'];
-        
-        
-        
-        $dashSalesGraph =  $propertyObj->getDashsummaryGraph();
-        
-        //a($dashSalesGraph);
-        
+
+        $dashSalesGraph = $propertyObj->getDashsummaryGraph();
+
+        // a($dashSalesGraph);
+
         $this->view->paidAmount = [];
         $this->view->billCollection = [];
         $this->view->totalExpenditure = [];
         $this->view->labels = [];
-        
+
         // Loop through the results to populate the arrays
         foreach ($dashSalesGraph as $row) {
             $this->view->paidAmount[] = $row['paid_amount'];
@@ -612,10 +613,10 @@ class defaultController extends mvc
             $this->view->totalExpenditure[] = $row['total_expenditure'];
             $this->view->labels[] = DateTime::createFromFormat('Y-m', $row['year_month'])->format('M y');
         }
-        
-        //a( $this->view->totalAmount,$this->view->paidAmount,$this->view->labels);
-        
-        //a($this->view->propertyData);
+
+        // a( $this->view->totalAmount,$this->view->paidAmount,$this->view->labels);
+
+        // a($this->view->propertyData);
 
         require_once __DIR__ . '/../admin/!model/updates.php';
 
@@ -685,6 +686,7 @@ class defaultController extends mvc
         $expCout = $empObj->getEmployeesDocExpiryReport(array(
             'f_monthpick' => 'past'
         ));
+
         $propExpCount = $propObj->getPropDocExpiryReport(array(
             'f_monthpick' => 'past'
         ));
@@ -692,21 +694,10 @@ class defaultController extends mvc
             'f_monthpick' => 'past'
         ));
 
-        $expList['Past'] = array(
-            $expCout[0]['doc_type'] => $expCout[0]['count'],
-            $expCout[1]['doc_type'] => $expCout[1]['count'],
-            $expCout[2]['doc_type'] => $expCout[2]['count'],
-            $expCout[3]['doc_type'] => $expCout[3]['count'],
-            $expCout[4]['doc_type'] => $expCout[4]['count'],
-            $expCout[5]['doc_type'] => $expCout[5]['count'],
-            $expCout[6]['doc_type'] => $expCout[6]['count'],
-            $expCout[7]['doc_type'] => $expCout[7]['count'],
-            $expCout[8]['doc_type'] => $expCout[8]['count'],
-            $expCout[9]['doc_type'] => $expCout[9]['count'],
-            $expCout[10]['doc_type'] => $expCout[10]['count'],
-            $expCout[11]['doc_type'] => $expCout[11]['count'],
-            $expCout[12]['doc_type'] => $expCout[12]['count']
-        );
+        foreach ($expCout as $expTempParam) {
+            $expList['Past'][$expTempParam['doc_type']] = $expTempParam['count'];
+        }
+
         $propExpList['Past'] = array(
             $propExpCount[0]['doc_type'] => $propExpCount[0]['count'],
             $propExpCount[1]['doc_type'] => $propExpCount[1]['count'],
@@ -726,6 +717,7 @@ class defaultController extends mvc
         $expCout = $empObj->getEmployeesDocExpiryReport(array(
             'f_monthpick' => $date->format('m') . '/' . $date->format('Y')
         ));
+
         $propExpCount = $propObj->getPropDocExpiryReport(array(
             'f_monthpick' => $date->format('m') . '/' . $date->format('Y')
         ));
@@ -733,153 +725,92 @@ class defaultController extends mvc
             'f_monthpick' => $date->format('m') . '/' . $date->format('Y')
         ));
 
-        $expList[$date->format('F')] = array(
-            $expCout[0]['doc_type'] => $expCout[0]['count'],
-            $expCout[1]['doc_type'] => $expCout[1]['count'],
-            $expCout[2]['doc_type'] => $expCout[2]['count'],
-            $expCout[3]['doc_type'] => $expCout[3]['count'],
-            $expCout[4]['doc_type'] => $expCout[4]['count'],
-            $expCout[5]['doc_type'] => $expCout[5]['count'],
-            $expCout[6]['doc_type'] => $expCout[6]['count'],
-            $expCout[7]['doc_type'] => $expCout[7]['count'],
-            $expCout[8]['doc_type'] => $expCout[8]['count'],
-            $expCout[9]['doc_type'] => $expCout[9]['count'],
-            $expCout[10]['doc_type'] => $expCout[10]['count'],
-            $expCout[11]['doc_type'] => $expCout[11]['count'],
-            $expCout[12]['doc_type'] => $expCout[12]['count']
-        );
-        $propExpList[$date->format('F')] = array(
-            $propExpCount[0]['doc_type'] => $propExpCount[0]['count'],
-            $propExpCount[1]['doc_type'] => $propExpCount[1]['count'],
-            $propExpCount[2]['doc_type'] => $propExpCount[2]['count']
-        );
-        $VehExpList[$date->format('F')] = array(
-            $vehExpCount[0]['doc_type'] => $vehExpCount[0]['count'],
-            $vehExpCount[1]['doc_type'] => $vehExpCount[1]['count'],
-            $vehExpCount[2]['doc_type'] => $vehExpCount[2]['count'],
-            $vehExpCount[3]['doc_type'] => $vehExpCount[3]['count'],
-            $vehExpCount[4]['doc_type'] => $vehExpCount[4]['count'],
-            $vehExpCount[5]['doc_type'] => $vehExpCount[5]['count']
-        );
-
-        $link[$date->format('F')] = $date->format('Y') . '-' . $date->format('m');
-
-        $date->modify('+1 month');
-        $expCout = $empObj->getEmployeesDocExpiryReport(array(
-            'f_monthpick' => $date->format('m') . '/' . $date->format('Y')
-        ));
-        $propExpCount = $propObj->getPropDocExpiryReport(array(
-            'f_monthpick' => $date->format('m') . '/' . $date->format('Y')
-        ));
-        $vehExpCount = $vehObj->getVehDocExpiryReport(array(
-            'f_monthpick' => $date->format('m') . '/' . $date->format('Y')
-        ));
-
-        $expList[$date->format('F')] = array(
-            $expCout[0]['doc_type'] => $expCout[0]['count'],
-            $expCout[1]['doc_type'] => $expCout[1]['count'],
-            $expCout[2]['doc_type'] => $expCout[2]['count'],
-            $expCout[3]['doc_type'] => $expCout[3]['count'],
-            $expCout[4]['doc_type'] => $expCout[4]['count'],
-            $expCout[5]['doc_type'] => $expCout[5]['count'],
-            $expCout[6]['doc_type'] => $expCout[6]['count'],
-            $expCout[7]['doc_type'] => $expCout[7]['count'],
-            $expCout[8]['doc_type'] => $expCout[8]['count'],
-            $expCout[9]['doc_type'] => $expCout[9]['count'],
-            $expCout[10]['doc_type'] => $expCout[10]['count'],
-            $expCout[11]['doc_type'] => $expCout[11]['count'],
-            $expCout[12]['doc_type'] => $expCout[12]['count']
-        );
-
-        $propExpList[$date->format('F')] = array(
-            $propExpCount[0]['doc_type'] => $propExpCount[0]['count'],
-            $propExpCount[1]['doc_type'] => $propExpCount[1]['count'],
-            $propExpCount[2]['doc_type'] => $propExpCount[2]['count']
-        );
-
-        $VehExpList[$date->format('F')] = array(
-            $vehExpCount[0]['doc_type'] => $vehExpCount[0]['count'],
-            $vehExpCount[1]['doc_type'] => $vehExpCount[1]['count'],
-            $vehExpCount[2]['doc_type'] => $vehExpCount[2]['count'],
-            $vehExpCount[3]['doc_type'] => $vehExpCount[3]['count'],
-            $vehExpCount[4]['doc_type'] => $vehExpCount[4]['count'],
-            $vehExpCount[5]['doc_type'] => $vehExpCount[5]['count']
-        );
-
-        $link[$date->format('F')] = $date->format('Y') . '-' . $date->format('m');
-
-        $date->modify('+1 month');
-        $expCout = $empObj->getEmployeesDocExpiryReport(array(
-            'f_monthpick' => $date->format('m') . '/' . $date->format('Y')
-        ));
-        $propExpCount = $propObj->getPropDocExpiryReport(array(
-            'f_monthpick' => $date->format('m') . '/' . $date->format('Y')
-        ));
-        $vehExpCount = $vehObj->getVehDocExpiryReport(array(
-            'f_monthpick' => $date->format('m') . '/' . $date->format('Y')
-        ));
-
-        $expList[$date->format('F')] = array(
-            $expCout[0]['doc_type'] => $expCout[0]['count'],
-            $expCout[1]['doc_type'] => $expCout[1]['count'],
-            $expCout[2]['doc_type'] => $expCout[2]['count'],
-            $expCout[3]['doc_type'] => $expCout[3]['count'],
-            $expCout[4]['doc_type'] => $expCout[4]['count'],
-            $expCout[5]['doc_type'] => $expCout[5]['count'],
-            $expCout[6]['doc_type'] => $expCout[6]['count'],
-            $expCout[7]['doc_type'] => $expCout[7]['count'],
-            $expCout[8]['doc_type'] => $expCout[8]['count'],
-            $expCout[9]['doc_type'] => $expCout[9]['count'],
-            $expCout[10]['doc_type'] => $expCout[10]['count'],
-            $expCout[11]['doc_type'] => $expCout[11]['count'],
-            $expCout[12]['doc_type'] => $expCout[12]['count']
-        );
-        $propExpList[$date->format('F')] = array(
-            $propExpCount[0]['doc_type'] => $propExpCount[0]['count'],
-            $propExpCount[1]['doc_type'] => $propExpCount[1]['count'],
-            $propExpCount[2]['doc_type'] => $propExpCount[2]['count']
-        );
-        $VehExpList[$date->format('F')] = array(
-            $vehExpCount[0]['doc_type'] => $vehExpCount[0]['count'],
-            $vehExpCount[1]['doc_type'] => $vehExpCount[1]['count'],
-            $vehExpCount[2]['doc_type'] => $vehExpCount[2]['count'],
-            $vehExpCount[3]['doc_type'] => $vehExpCount[3]['count'],
-            $vehExpCount[4]['doc_type'] => $vehExpCount[4]['count'],
-            $vehExpCount[5]['doc_type'] => $vehExpCount[5]['count']
-        );
-
-        $link[$date->format('F')] = $date->format('Y') . '-' . $date->format('m');
-
-        foreach ($expList as $tkey => $temp) {
-            $expList[$tkey] = array_filter($temp);
-
-            if (! isset($temp['passport']))
-                $expList[$tkey]['passport'] = 0;
-            if (! isset($temp['visa']))
-                $expList[$tkey]['visa'] = 0;
-            if (! isset($temp['id']))
-                $expList[$tkey]['id'] = 0;
-            if (! isset($temp['license']))
-                $expList[$tkey]['license'] = 0;
-
-            if (! isset($temp['insurance']))
-                $expList[$tkey]['insurance'] = 0;
-            if (! isset($temp['pdolicense']))
-                $expList[$tkey]['pdolicense'] = 0;
-            if (! isset($temp['pdopassport']))
-                $expList[$tkey]['pdopassport'] = 0;
-            if (! isset($temp['h2scard']))
-                $expList[$tkey]['h2scard'] = 0;
-
-            if (! isset($temp['oxypassport']))
-                $expList[$tkey]['oxypassport'] = 0;
-            if (! isset($temp['oxylicense']))
-                $expList[$tkey]['oxylicense'] = 0;
-            if (! isset($temp['oxyh2s']))
-                $expList[$tkey]['oxyh2s'] = 0;
-            if (! isset($temp['workContract']))
-                $expList[$tkey]['workContract'] = 0;
+        foreach ($expCout as $expTempParam) {
+            $expList[$date->format('F')][$expTempParam['doc_type']] = $expTempParam['count'];
         }
+
+        // a($expList);
+
+        $propExpList[$date->format('F')] = array(
+            $propExpCount[0]['doc_type'] => $propExpCount[0]['count'],
+            $propExpCount[1]['doc_type'] => $propExpCount[1]['count'],
+            $propExpCount[2]['doc_type'] => $propExpCount[2]['count']
+        );
+        $VehExpList[$date->format('F')] = array(
+            $vehExpCount[0]['doc_type'] => $vehExpCount[0]['count'],
+            $vehExpCount[1]['doc_type'] => $vehExpCount[1]['count'],
+            $vehExpCount[2]['doc_type'] => $vehExpCount[2]['count'],
+            $vehExpCount[3]['doc_type'] => $vehExpCount[3]['count'],
+            $vehExpCount[4]['doc_type'] => $vehExpCount[4]['count'],
+            $vehExpCount[5]['doc_type'] => $vehExpCount[5]['count']
+        );
+
+        $link[$date->format('F')] = $date->format('Y') . '-' . $date->format('m');
+
+        $date->modify('+1 month');
+        $expCout = $empObj->getEmployeesDocExpiryReport(array(
+            'f_monthpick' => $date->format('m') . '/' . $date->format('Y')
+        ));
+        $propExpCount = $propObj->getPropDocExpiryReport(array(
+            'f_monthpick' => $date->format('m') . '/' . $date->format('Y')
+        ));
+        $vehExpCount = $vehObj->getVehDocExpiryReport(array(
+            'f_monthpick' => $date->format('m') . '/' . $date->format('Y')
+        ));
+
+        foreach ($expCout as $expTempParam) {
+            $expList[$date->format('F')][$expTempParam['doc_type']] = $expTempParam['count'];
+        }
+
+        $propExpList[$date->format('F')] = array(
+            $propExpCount[0]['doc_type'] => $propExpCount[0]['count'],
+            $propExpCount[1]['doc_type'] => $propExpCount[1]['count'],
+            $propExpCount[2]['doc_type'] => $propExpCount[2]['count']
+        );
+
+        $VehExpList[$date->format('F')] = array(
+            $vehExpCount[0]['doc_type'] => $vehExpCount[0]['count'],
+            $vehExpCount[1]['doc_type'] => $vehExpCount[1]['count'],
+            $vehExpCount[2]['doc_type'] => $vehExpCount[2]['count'],
+            $vehExpCount[3]['doc_type'] => $vehExpCount[3]['count'],
+            $vehExpCount[4]['doc_type'] => $vehExpCount[4]['count'],
+            $vehExpCount[5]['doc_type'] => $vehExpCount[5]['count']
+        );
+
+        $link[$date->format('F')] = $date->format('Y') . '-' . $date->format('m');
+
+        $date->modify('+1 month');
+        $expCout = $empObj->getEmployeesDocExpiryReport(array(
+            'f_monthpick' => $date->format('m') . '/' . $date->format('Y')
+        ));
+        $propExpCount = $propObj->getPropDocExpiryReport(array(
+            'f_monthpick' => $date->format('m') . '/' . $date->format('Y')
+        ));
+        $vehExpCount = $vehObj->getVehDocExpiryReport(array(
+            'f_monthpick' => $date->format('m') . '/' . $date->format('Y')
+        ));
+
+        foreach ($expCout as $expTempParam) {
+            $expList[$date->format('F')][$expTempParam['doc_type']] = $expTempParam['count'];
+        }
+
+        $propExpList[$date->format('F')] = array(
+            $propExpCount[0]['doc_type'] => $propExpCount[0]['count'],
+            $propExpCount[1]['doc_type'] => $propExpCount[1]['count'],
+            $propExpCount[2]['doc_type'] => $propExpCount[2]['count']
+        );
+        $VehExpList[$date->format('F')] = array(
+            $vehExpCount[0]['doc_type'] => $vehExpCount[0]['count'],
+            $vehExpCount[1]['doc_type'] => $vehExpCount[1]['count'],
+            $vehExpCount[2]['doc_type'] => $vehExpCount[2]['count'],
+            $vehExpCount[3]['doc_type'] => $vehExpCount[3]['count'],
+            $vehExpCount[4]['doc_type'] => $vehExpCount[4]['count'],
+            $vehExpCount[5]['doc_type'] => $vehExpCount[5]['count']
+        );
+
+        $link[$date->format('F')] = $date->format('Y') . '-' . $date->format('m');
+
+        // a($expList);
 
         foreach ($propExpList as $tkey => $temp) {
             $propExpList[$tkey] = array_filter($temp);

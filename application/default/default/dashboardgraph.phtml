@@ -6,11 +6,11 @@
 	</div>
 	<div class="col-md-12">
 		<div class="col-md-4 btn_b_grd" id="barplot1"
-			style=" width: 32.5%; height: 200px; margin-bottom: 20px; float: left; margin-right: .5%; margin-top: .7%;padding-top: 6px;"></div>
+			style=" width: 32.5%; height: 320px; margin-bottom: 20px; float: left; margin-right: .5%; margin-top: .7%;padding-top: 6px;"></div>
 		<div class="col-md-4 btn_b_grd" id="barplot2"
-			style=" width: 32.5%; height: 200px; margin-bottom: 20px; float: left; margin-right: .5%;margin-top: .7%;padding-top: 6px;"></div>
+			style=" width: 32.5%; height: 320px; margin-bottom: 20px; float: left; margin-right: .5%;margin-top: .7%;padding-top: 6px;"></div>
 		<div class="col-md-4 btn_b_grd" id="barplot3"
-			style=" width: 33%; height: 200px; margin-bottom: 20px; float: left;margin-top: .7%;padding-top: 6px;"></div>
+			style=" width: 33%; height: 320px; margin-bottom: 20px; float: left;margin-top: .7%;padding-top: 6px;"></div>
 		<div class="btn_b_grd" id="pcontainer" style="margin-bottom: 20px;width: 100% !important;"></div>		
 	</div>
 	<div class="col-md-12">
@@ -36,137 +36,156 @@ $(document).ready(function(){
 		var chart1 = $(function () {
 
 			Highcharts.chart('barplot1', {
-		    //$('#barplot1').highcharts({
-		    	colors: ['#cd4410','blue','#004040'],
-		    	legend: {
-		            enabled: false
-		        },
-		    	chart: {
-		            type: 'column',
-		            //height :200,
-			    	backgroundColor: 'rgba(0,0,0,0)',
-			        spacingTop:15,
-			        spacingRight:30
-		        },
-		        credits: {
-		            text: '',
-		            href: 'http://www.creativesol.com'
-		        },
-		        title: {
-		            text: 'Employee Documets Expiry'
-		        },
-		        xAxis: {
-		            categories: [<?foreach($this->expList as $expk=>$expval):?>
-				            		'<?=$expk?>',
-									<?php endforeach?>],
-	            ref: [<?foreach($this->expList as $expk=>$expval):?>
-            		'<?=$expk?>',
-				<?php endforeach?>]
-		        },
-		        yAxis: {
-		            min:0,
-		            //max:76,
-		            title: {
-		                text: 'Count'
-		            }
-		        },
-		        tooltip: {
-		            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
-		            shared: true
-		        },
-		        
-		        plotOptions: {
-		        	allowPointSelect: true,
-		            column: {
-		                stacking: 'number',
-		            },
-		            series: {
-		                cursor: 'pointer',
-		                point: {
-		                    events: {
-		                        click: function () {
-		                        	getOpener ('wide',baseurl+'erp_report/employee/empdocument/ref/'+link[this.category]);
-		                        	  
-		                        }
-		                    }
-		                },
-		                maxPointWidth: 35
-		            }
-		        },
-		        series: [{
-		            name: 'Passport',
-		            data: [<?foreach($this->expList as $pp):?>
-		            		<?=$pp['passport']?>,
-							<?php endforeach?>],		
-		        }, {
-		            name: 'Visa',
-		            data: [<?foreach($this->expList as $visa):?>
-		            		<?=$visa['visa']?>,
-							<?php endforeach?>],		
-		        }, {
-		            name: 'Resident Card',
-		            data: [<?foreach($this->expList as $id):?>
-		            		<?=$id['id']?>,
-							<?php endforeach?>],
-					
-		        },{
-		            name: 'Lisence',
-		            data: [<?foreach($this->expList as $lic):?>
-		            		<?=$lic['license']?>,
-							<?php endforeach?>],
-					
-		        },{
-		            name: 'Insurance',
-		            data: [<?foreach($this->expList as $ins):?>
-		            		<?=$ins['insurance']?>,
-							<?php endforeach?>],
-					
-		        },{
-		            name: 'PDO Lisence',
-		            data: [<?foreach($this->expList as $pdolic):?>
-		            		<?=$pdolic['pdolicense']?>,
-							<?php endforeach?>],
-					
-		        },{
-		            name: 'PDO Passport',
-		            data: [<?foreach($this->expList as $pdopp):?>
-		            		<?=$pdopp['pdopassport']?>,
-							<?php endforeach?>],
-					
-		        },{
-		            name: 'H2S Card',
-		            data: [<?foreach($this->expList as $h2s):?>
-		            		<?=$h2s['h2scard']?>,
-							<?php endforeach?>],
-					
-		        },{
-		            name: 'OXY Passport',
-		            data: [<?foreach($this->expList as $oxypass):?>
-		            		<?=$oxypass['oxypassport']?>, 
-							<?php endforeach?>],
-					
-		        },{
-		            name: 'OXY License',
-		            data: [<?foreach($this->expList as $oxylic):?>
-		            		<?=$oxylic['oxylicense']?>,
-							<?php endforeach?>],
-					
-		        },{
-		            name: 'OXY H2S',
-		            data: [<?foreach($this->expList as $oxyh2s):?>
-		            		<?=$oxyh2s['oxyh2s']?>,
-							<?php endforeach?>],
-					
-		        },
-		        {
-		            name: 'Work Contract',
-		            data: [<?foreach($this->expList as $workContract):?>
-		            		<?=$workContract['workContract']?>,
-							<?php endforeach?>],
-					
-		        }]
-		    });
+			    colors: ['#cd4410','blue','#004040'],
+			    legend: {
+			        enabled: false
+			    },
+			    chart: {
+			        type: 'column',
+			        backgroundColor: 'rgba(0,0,0,0)',
+			        spacingTop: 15,
+			        spacingRight: 30
+			    },
+			    credits: {
+			        text: '',
+			        href: 'http://www.creativesol.com'
+			    },
+			    title: {
+			        text: 'Employee Documents Expiry'
+			    },
+			    xAxis: {
+			        categories: [<?php foreach ($this->expList as $expk => $expval): ?>
+			            '<?=$expk?>',
+			        <?php endforeach; ?>],
+			        ref: [<?php foreach ($this->expList as $expk => $expval): ?>
+			            '<?=$expk?>',
+			        <?php endforeach; ?>]
+			    },
+			    yAxis: {
+			        min: 0,
+			        title: {
+			            text: 'Count'
+			        }
+			    },
+			    tooltip: {
+			        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+			        shared: true
+			    },
+			    plotOptions: {
+			        allowPointSelect: true,
+			        column: {
+			            stacking: 'normal'
+			        },
+			        series: {
+			            cursor: 'pointer',
+			            point: {
+			                events: {
+			                    click: function () {
+			                        getOpener('wide', baseurl + 'erp_report/employee/empdocument/ref/' + link[this.category]);
+			                    }
+			                }
+			            },
+			            maxPointWidth: 35
+			        }
+			    },
+			    series: [
+			        {
+			            name: 'Passport',
+			            data: [<?php foreach ($this->expList as $pp): ?><?=$pp['passport']?>,<?php endforeach; ?>],
+			            stack: 'documents'
+			        },
+			        {
+			            name: 'Resident ID',
+			            data: [<?php foreach ($this->expList as $id): ?><?=$id['id']?>,<?php endforeach; ?>],
+			            stack: 'documents'
+			        },
+			        {
+			            name: 'Visa',
+			            data: [<?php foreach ($this->expList as $visa): ?><?=$visa['visa']?>,<?php endforeach; ?>],
+			            stack: 'documents'
+			        },
+			        {
+			            name: 'License',
+			            data: [<?php foreach ($this->expList as $lic): ?><?=$lic['license']?>,<?php endforeach; ?>],
+			            stack: 'documents'
+			        },
+			        {
+			            name: 'Insurance',
+			            data: [<?php foreach ($this->expList as $ins): ?><?=$ins['insurance']?>,<?php endforeach; ?>],
+			            stack: 'documents'
+			        },
+			        {
+			            name: 'PDO License',
+			            data: [<?php foreach ($this->expList as $pdolic): ?><?=$pdolic['pdolicense']?>,<?php endforeach; ?>],
+			            stack: 'documents'
+			        },
+			        {
+			            name: 'PDO Passport',
+			            data: [<?php foreach ($this->expList as $pdopp): ?><?=$pdopp['pdopassport']?>,<?php endforeach; ?>],
+			            stack: 'documents'
+			        },
+			        {
+			            name: 'H2S Card',
+			            data: [<?php foreach ($this->expList as $h2s): ?><?=$h2s['h2scard']?>,<?php endforeach; ?>],
+			            stack: 'documents'
+			        },
+			        {
+			            name: 'OXY Passport',
+			            data: [<?php foreach ($this->expList as $oxypass): ?><?=$oxypass['oxypassport']?>,<?php endforeach; ?>],
+			            stack: 'documents'
+			        },
+			        {
+			            name: 'OXY License',
+			            data: [<?php foreach ($this->expList as $oxylic): ?><?=$oxylic['oxylicense']?>,<?php endforeach; ?>],
+			            stack: 'documents'
+			        },
+			        {
+			            name: 'OXY H2S',
+			            data: [<?php foreach ($this->expList as $oxyh2s): ?><?=$oxyh2s['oxyh2s']?>,<?php endforeach; ?>],
+			            stack: 'documents'
+			        },
+			        {
+			            name: 'Work Contract',
+			            data: [<?php foreach ($this->expList as $workContract): ?><?=$workContract['workContract']?>,<?php endforeach; ?>],
+			            stack: 'documents'
+			        },
+			        {
+			            name: 'Third Party Insurance',
+			            data: [<?php foreach ($this->expList as $thirdPartyInsurance): ?><?=$thirdPartyInsurance['thirdPartyInsurance']?>,<?php endforeach; ?>],
+			            stack: 'documents'
+			        },
+			        {
+			            name: 'Fitness Medical Report',
+			            data: [<?php foreach ($this->expList as $fitnessMedicalReport): ?><?=$fitnessMedicalReport['fitnessMedicalReport']?>,<?php endforeach; ?>],
+			            stack: 'documents'
+			        },
+			        {
+			            name: 'Opal Medical',
+			            data: [<?php foreach ($this->expList as $opalMedical): ?><?=$opalMedical['opalMedical']?>,<?php endforeach; ?>],
+			            stack: 'documents'
+			        },
+			        {
+			            name: 'Opal LC',
+			            data: [<?php foreach ($this->expList as $opalLC): ?><?=$opalLC['opalLC']?>,<?php endforeach; ?>],
+			            stack: 'documents'
+			        },
+			        {
+			            name: 'Opal Passport',
+			            data: [<?php foreach ($this->expList as $opalPassport): ?><?=$opalPassport['opalPassport']?>,<?php endforeach; ?>],
+			            stack: 'documents'
+			        },
+			        {
+			            name: 'Opal Safety Certificate',
+			            data: [<?php foreach ($this->expList as $opalSafetyCertificate): ?><?=$opalSafetyCertificate['opalSafetyCertificate']?>,<?php endforeach; ?>],
+			            stack: 'documents'
+			        }
+			    ]
+			});
+
+			console.log('thirdPartyInsurance:', [<?php foreach ($this->expList as $pp): ?><?=$pp['thirdPartyInsurance']?>,<?php endforeach; ?>]);
+
 		});
+		
 
 
 		var chart2 = $(function () {
