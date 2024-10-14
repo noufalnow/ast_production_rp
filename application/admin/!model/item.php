@@ -47,8 +47,9 @@ class item extends db_table {
 		$this->paginate ( "select $this->_table.*,
 				case when item_type = 1 then 'Invoice Items'
 					 when item_type = 2 then 'Service Items'
-				end as item_type
-				", "from $this->_table" );
+				end as item_type,vhl_no
+				", "from $this->_table
+				left join mis_vehicle as vehl on vehl.vhl_id = $this->_table.item_vehicle and vehl.deleted = 0" );
 		
 		
 		if (! empty ( $cond ['item_type'] ))
@@ -65,7 +66,15 @@ class item extends db_table {
 		
 		if (!empty ( $cond ['f_price'] ))
 			$this->_where [] = "item_price::text like '%' || :f_price || '%'";
-			
+		
+		
+		if (! empty ( $cond ['f_type'] ))
+		    $this->_where [] = "item_type= :f_type";
+		
+	    if (! empty ( $cond ['f_vehicle'] ))
+	        $this->_where [] = "item_vehicle= :f_vehicle";
+		
+					
 		$this->_order [] = 'item_code ASC';
 		
 		return parent::fetchAll ( $cond );

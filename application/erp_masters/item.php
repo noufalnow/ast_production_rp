@@ -13,6 +13,15 @@ class itemController extends mvc {
 		$form->addElement ( 'remarks', 'Remarks', 'text', 'alpha_space' );
 		$form->addElement ( 'price', 'Price', 'float', 'required|numeric' );
 		
+		
+		require_once __DIR__ . '/../admin/!model/vehicle.php';
+		$vehModelObj = new vehicle();
+		$vehList = $vehModelObj->getVehiclePair();
+		
+		$form->addElement('vehicle', 'Vehicle', 'select', 'required', array(
+		    'options' => $vehList
+		));
+		
 		if ($_POST) {
 		    if (! isset ( $_SERVER ['HTTP_X_REQUESTED_WITH'] ) and strtolower ( $_SERVER ['HTTP_X_REQUESTED_WITH'] ) != 'xmlhttprequest') {
 		        die ( '---' ); // exit script outputting json data
@@ -28,7 +37,8 @@ class itemController extends mvc {
 							'item_name' => $valid ['name'],
 							'item_unit' => $valid ['unit'],
 							'item_remarks' => $valid ['remarks'],
-							'item_price' => $valid ['price'] 
+							'item_price' => $valid ['price'],
+					        'item_vehicle' => $valid['vehicle'],
 					);
 					$itemId = $item->add ( $data );
 					
@@ -75,12 +85,25 @@ class itemController extends mvc {
 		    )
 		));
 		
+		require_once __DIR__ . '/../admin/!model/vehicle.php';
+		$vehModelObj = new vehicle();
+		$vehList = $vehModelObj->getVehiclePair();
+		
+		$form->addElement('vehicle', 'Vehicle', 'select', '', array(
+		    'options' => $vehList
+		));
+		
 		$itemDetails = $item->getItemDetById ( $itemId );
 		
 		if ($_POST) {
 			if (! isset ( $_SERVER ['HTTP_X_REQUESTED_WITH'] ) and strtolower ( $_SERVER ['HTTP_X_REQUESTED_WITH'] ) != 'xmlhttprequest') {
 				die ( '---' ); // exit script outputting json data
 			} else {
+			    
+			    
+			    if ($_POST['item_type'] == '1'){
+			        $form->addRules('vehicle', 'required');
+			    }
 				
 				$valid = $form->vaidate ( $_POST, $_FILES );
 				$valid = $valid [0];
@@ -92,7 +115,8 @@ class itemController extends mvc {
 							'item_unit' => $valid ['unit'],
 							'item_remarks' => $valid ['remarks'],
 							'item_price' => $valid ['price'] ,
-					        'item_type' => $valid['type']
+					        'item_type' => $valid['type'],
+					        'item_vehicle' => $valid['vehicle']=='' ? NULL : $valid['vehicle'],
 					);
 					
 					$modifyItem = $item->modify ( $data, $itemDetails ['item_id'] );
@@ -115,6 +139,8 @@ class itemController extends mvc {
 			$form->remarks->setValue ( $itemDetails ['item_remarks'] );
 			$form->price->setValue ( $itemDetails ['item_price'] );
 			$form->type->setValue($itemDetails['item_type']);
+			$form->vehicle->setValue($itemDetails['item_vehicle']);
+			
 		}
 		
 		$this->view->form = $form;
@@ -164,6 +190,21 @@ class itemController extends mvc {
 		$form->addElement ( 'f_remarks', 'Description', 'text', 'alpha_space' );
 		$form->addElement ( 'f_price', 'Price', 'text', 'alpha_space' );
 		
+		require_once __DIR__ . '/../admin/!model/vehicle.php';
+		$vehModelObj = new vehicle();
+		$vehList = $vehModelObj->getVehiclePair();
+		
+		$form->addElement('f_vehicle', 'Vehicle', 'select', '', array(
+		    'options' => $vehList
+		));
+		
+		$form->addElement('f_type', 'Type', 'select', '', array(
+		    'options' => array(
+		        1 => 'Invoice Item',
+		        2 => 'Service Item'
+		    )
+		));
+		
 		if (isset ( $_GET ) && $_GET ['clear'] == 'All') {
 			$form->reset ();
 			unset ( $_GET );
@@ -178,7 +219,10 @@ class itemController extends mvc {
 						'f_code' => @$valid ['f_code'],
 						'f_name' => @$valid ['f_name'],
 						'f_remarks' => @$valid ['f_remarks'],
-						'f_price' => @$valid ['f_price'] 
+						'f_price' => @$valid ['f_price'],
+    				    'f_vehicle' => @$valid ['f_vehicle'],
+    				    'f_type' => @$valid ['f_type'],
+				    
 				);
 			}
 			$filter_class = 'btn-info';

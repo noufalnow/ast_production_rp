@@ -190,3 +190,16 @@ ALTER TABLE "mis_vehicle"
 ADD "vhl_status" smallint NULL DEFAULT '1';
 COMMENT ON TABLE "mis_vehicle" IS '';
 
+
+#############################
+
+ALTER TABLE "mis_item"
+ADD "item_vehicle" bigint NULL;
+COMMENT ON TABLE "mis_item" IS '';
+
+##############################
+
+
+ALTER TABLE "mis_item"
+ADD "item_vehicle" bigint NULL;
+COMMENT ON TABLE "mis_item" IS '';

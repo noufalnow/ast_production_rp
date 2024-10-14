@@ -55,6 +55,22 @@
                                         </div>
 									</div>
 								</div>
+								
+								<div class="row">
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="file_no" class="form-label">Item Type</label>
+                                            <?=$this->form->f_type->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="name" class="form-label">Vehicle</label>
+                                            <?=$this->form->f_vehicle->show()?>
+                                        </div>
+									</div>
+								</div>
+								
 								<button class="btn <?=$this->filter_class?> mt-4 mb-0"
 									type="submit">Filter</button>
 								<input class="btn btn-secondary mt-4 mb-0" name="clear"
@@ -78,6 +94,8 @@
 					<th width="9%" class="center">Item Code</th>
 					<th width="15%" class="center">Item Name</th>
 					<th width="15%" class="center">Description</th>
+					<th width="15%" class="center">Type</th>
+					<th width="15%" class="center">Vehicle</th>
 					<th width="15%" class="center">Price</th>
 					<th width="10%" class="center">Edit</th>
 					<th width="6%" class="center">View</th>
@@ -93,7 +111,9 @@
 					<td><?=$item['item_code']?></td>
 					<td><?=$item['item_name']?></td>
 					<td><?=$item['item_remarks']?></td>
-					<td><?=$item['item_price']?></td>
+					<td class="center"><?=$item['item_type']?></td>
+					<td class="center"><?=$item['vhl_no']?></td>
+					<td><?=$item['item_price']?></td>										
 					<td class="center">
 						<?=x(array('link'=>'erp_masters/item/edit','ref'=>array('ref'=>$encItemId),'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>  
 					</td>
