@@ -142,6 +142,15 @@ class notification extends db_table
                                   WHEN doc_type = 10 THEN 'OXY License'
                                   WHEN doc_type = 11 THEN 'OXY H2S'
                                   WHEN doc_type = 12 THEN 'Work Contract'
+
+
+                                  WHEN doc_type = 13 THEN 'Third party Insurance'
+                                  WHEN doc_type = 14 THEN 'Fitness Medical Report'
+                                  WHEN doc_type = 15 THEN 'Opal Medical'
+                                  WHEN doc_type = 16 THEN 'Opal LC'
+                                  WHEN doc_type = 17 THEN 'Opal Passport'
+                                  WHEN doc_type = 18 THEN 'Opal Safety Certificate'
+
                               END AS doc_type_name,
                               doc_no,
                               doc_desc,
