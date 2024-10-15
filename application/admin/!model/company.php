@@ -11,6 +11,13 @@ class company extends db_table {
 		return parent::fetchPair ( $cond );
 	}
 	
+	public function getCompanyNamePair($cond = array()) {
+	    $this->query ( "select comp_id,comp_name || ' [' || comp_disp_name || ']'  from $this->_table" );
+	    $this->_order [] = 'comp_name ASC';
+	    
+	    return parent::fetchPair ( $cond );
+	}
+	
 	public function getCompanyList($cond = array()) {
 	    
 	    

@@ -155,6 +155,7 @@
 					<td class="center"><?=@++$this->offset;?></td>
 					<td <?php if($expense['exp_app_status'] ==''):?>style="border-left: 3px solid red;" <?php endif?>>
 						<?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>$expense['exp_refno'],array("param"=>'opener')))?>
+						[<?=$expense['exp_disp_date']?>]
 					</td>
 					<td><?=$expense['ven_name']?></td>
 					<td><?=$expense['comp_disp_name']?></td>

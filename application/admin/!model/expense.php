@@ -113,7 +113,8 @@ class expense extends db_table {
 				when exp_mainh = 3 then 'Vehicle'
 				when exp_mainh = 4 then 'Port Operation'
 				end as main_head,
-				cb_id
+				cb_id,
+                to_char(exp_billdt,'DD/MM/YYYY') as exp_disp_date
 				", "from $this->_table
 				left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
 				left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 1 and pcat.deleted = 0

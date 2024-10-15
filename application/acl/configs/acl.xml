@@ -1546,7 +1546,18 @@
 				</action>
 
 			</controller>
-
+			<controller>
+				<name>company</name>
+				<label>Company Reports</label>
+				<description>Company Reports</description>
+				<action>
+					<name>statement</name>
+					<label>Monthly Finantial Statement</label>
+					<description>Monthly Finantial Statement</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+			</controller>
 		</module>
 
 

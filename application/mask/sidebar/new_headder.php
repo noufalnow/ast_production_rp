@@ -336,13 +336,16 @@ function mainMenu($encUserId)
                   <i class="side-menu__icon fa-solid fa-house"></i><span class="side-menu__label">Cash Flow</span></div>'
     ));
 
-    $menuHtml .= x(array(
-        'link' => 'erp_manage/company/list',
-        'label' => '<div class="side-menu__item ' . @$active['erp_manage/company/list'] . '">
-                  <i class="side-menu__icon fa-solid fa-house"></i><span class="side-menu__label">Company</span></div>'
-    ));
     
+    $menuHtml .= '<li class="slide">
+    	<a class="side-menu__item ' . @$active['erp_manage/company/list'] . ' is-expanded" data-bs-toggle="slide" href="javascript:void(0);">
+                  <i class="side-menu__icon fa-solid fa-house"></i><span class="side-menu__label">Company</span></a>
+    	<ul class="slide-menu open">';
     
+    $menuHtml .= '<li class="sub-slide-item">' . x(array('link' => 'erp_report/company/statement','label' => 'Monthly Statement',array("param" => 'wide_opener'))) . '</li>';
+        
+    $menuHtml .= '</ul>
+      </li>';
     
     $menuHtml .= '<li class="slide">
     	<a class="side-menu__item ' . @$active['erp_manage/updates/list'] . ' is-expanded" data-bs-toggle="slide" href="javascript:void(0);">

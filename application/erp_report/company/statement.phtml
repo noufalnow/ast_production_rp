@@ -1,0 +1,241 @@
+<div style="margin-top: 1%;">
+	<div class="col-md-12 card filter-card" style="margin-bottom: 0px;">
+		<div class="card-block" style="padding-top: 1%;">
+			<div class="full-width">
+				<button name="cmdPrint" value="  Print  "
+					onclick="$('#report').printElement();"
+					class="btn btn btn-primary pull-right" style="padding: 2px 12px;">Print</button>
+			</div>
+			<h5 class="title-margin">Report: Company Monthly Financial Statement</h5>
+		</div>
+		<form method="get" id="filter" name="filter" action="statement">
+		
+				<div class="row">
+					<div class="col-lg-3">
+						<div class="form-group">
+							<label for="file_no" class="form-label">Company</label>
+                    <?=$this->form->f_company->show()?>
+                </div>
+					</div>
+
+					<div class="col-lg-3">
+						<div class="form-group">
+							<label for="file_no" class="form-label">Month</label>
+                <?=$this->form->f_monthpick->show()?>
+            </div>
+					</div>
+<div class="col-lg-3">
+<div class="form-group">
+							<label for="file_no" class="form-label">Filter</label>
+					<button class="btn <?=$this->filter_class?>  mb-0"
+						type="submit">Filter</button>
+					<input class="btn btn-secondary  mb-0" name="clear"
+						type="submit" value="All"></input>
+						</div>
+						</div></div>
+		</form>
+	</div>
+	<div class="col-md-12 "
+		style="height: 100%; padding-left: 1%; padding-right: 1%;">
+		<div id="report">
+<?php include __DIR__ . '/../../../public/css/printstyle_rpt.php.css';?>
+	<div class="card"
+				style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
+
+
+<?php
+
+$incomeData = $this->financialRevanew;
+$expenseData = $this->financialExpense;
+
+$combinedData = [];
+
+// Process income data first
+foreach ($incomeData as $income) {
+    $key = $income['comp_id'] . '-' . $income['ref_source'];
+    $combinedData[$key] = [
+        'comp_id' => $income['comp_id'],
+        'type' => $income['ref_source'],
+        'income' => $income['total_income'],
+        'expense' => null
+    ];
+}
+
+// Process expense data and merge with income data
+foreach ($expenseData as $expense) {
+    $key = $expense['comp_id'] . '-' . $expense['ref_source'];
+    if (isset($combinedData[$key])) {
+        // If already exists from income data, just update the expense
+        $combinedData[$key]['expense'] = $expense['total_expense'];
+    } else {
+        // If not, add a new record with expense and no income
+        $combinedData[$key] = [
+            'comp_id' => $expense['comp_id'],
+            'type' => $expense['ref_source'],
+            'income' => null,
+            'expense' => $expense['total_expense']
+        ];
+    }
+}
+
+// Custom sort function to order by 'comp_id' and 'type'
+usort($combinedData, function ($a, $b) {
+    if ($a['comp_id'] == $b['comp_id']) {
+        return strcmp($b['type'], $a['type']);
+    }
+    return ($a['comp_id'] < $b['comp_id']) ? - 1 : 1;
+});
+
+// Initialize variables for subtotals and grand totals
+$currentCompId = null;
+$companyIncomeSum = 0;
+$companyExpenseSum = 0;
+$grandTotalIncome = 0;
+$grandTotalExpense = 0;
+
+
+echo "<style>
+    .financial-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+        margin: 20px 0;
+    }
+    .financial-table th, .financial-table td {
+        padding: 12px;
+        text-align: right;
+        border: 1px solid #ddd;
+    }
+    .financial-table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+    .financial-table td {
+        text-align: right;
+    }
+    .financial-table .company-heading {
+        background-color: #e8e8e8;
+        font-weight: bold;
+        text-align: left;
+        font-size: 18px;
+    }
+    .financial-table .subtotal-row {
+        background-color: #f5f5f5;
+        font-weight: bold;
+        font-size: 16px;
+    }
+    .financial-table .grand-total-row {
+        background-color: #d0d0d0;
+        font-weight: bold;
+        font-size: 18px;
+    }
+</style>";
+
+?>
+        <?php
+        
+       
+
+        echo "<table class='financial-table'>";
+        
+        echo "<tr class=''>";
+        echo '<td colspan="3" style="text-align: center;vertical-align: bottom;height: 80px;"><h2 class="title-margin">Company Monthly Financial Statement</h2></td>';
+        echo "</tr>";
+        
+
+        foreach ($combinedData as $row) {
+            // Check if we're starting a new company group
+            if ($currentCompId !== $row['comp_id']) {
+                // If not the first company, print the subtotal row for the previous company
+                if (! is_null($currentCompId)) {
+                    echo "<tr class='subtotal-row'>";
+                    echo "<td>Subtotal for Comp ID: " . $currentCompId . "</td>";
+                    echo "<td>" . number_format($companyIncomeSum, 3) . "</td>";
+                    echo "<td>" . number_format($companyExpenseSum, 3) . "</td>";
+                    echo "</tr>";
+                }
+
+                // Reset subtotals and update the current company ID
+                $currentCompId = $row['comp_id'];
+                $companyIncomeSum = 0;
+                $companyExpenseSum = 0;
+
+                // Display the company ID as a subheading
+                
+                echo "<tr class=''>";
+                echo "<td colspan='3'></td>";
+                echo "</tr>";
+                
+                echo "<tr class='company-heading'>";
+                echo "<td colspan='3' style='text-align: left;'>" . (is_null($currentCompId) ? '' : $this->compList[$currentCompId]) . "</td>";
+                echo "</tr>";
+                echo "<tr><th>Type</th><th>Income</th><th>Expense</th></tr>";
+            }
+
+            // Accumulate income and expense for the current company
+            $income = is_null($row['income']) ? 0 : $row['income'];
+            $expense = is_null($row['expense']) ? 0 : $row['expense'];
+            $companyIncomeSum += $income;
+            $companyExpenseSum += $expense;
+            $grandTotalIncome += $income;
+            $grandTotalExpense += $expense;
+
+            // Display the row for the current type
+            echo "<tr>";
+            echo "<td style='text-align: left;'>" . $row['type'] . "</td>";
+            echo "<td>" . (is_null($row['income']) ? '' : number_format($row['income'], 3)) . "</td>";
+            echo "<td>" . (is_null($row['expense']) ? '' : number_format($row['expense'], 3)) . "</td>";
+            echo "</tr>";
+        }
+
+        // Print the last company's subtotal
+        if (! is_null($currentCompId)) {
+            echo "<tr class='subtotal-row'>";
+            echo "<td>Subtotal for Comp ID: " . $currentCompId . "</td>";
+            echo "<td>" . number_format($companyIncomeSum, 3) . "</td>";
+            echo "<td>" . number_format($companyExpenseSum, 3) . "</td>";
+            echo "</tr>";
+        }
+
+        echo "<tr class=''>";
+        echo "<td colspan='3'></td>";
+        echo "</tr>";
+        
+        
+        // Print the grand total row
+        echo "<tr class='grand-total-row'>";
+        echo "<td>Grand Total</td>";
+        echo "<td>" . number_format($grandTotalIncome, 3) . "</td>";
+        echo "<td>" . number_format($grandTotalExpense, 3) . "</td>";
+        echo "</tr>";
+
+        echo "</table>";
+        ?>
+
+
+
+		<div>
+					<table class="rpt_tbl">
+						<thead>
+							<tr><?php
+
+$date = new DateTime();
+    $date = $date->format('d/m/y')?>
+						<th><div class="title-margin rpt_footer">
+										<h5>Company Monthly Financial Statement (<?=$date?>)</h5>
+									</div></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript"> 
+
+
+$(document).ready(function() {
+    $('#f_monthpick').MonthPicker({ Button: false });
+});
+</script>
