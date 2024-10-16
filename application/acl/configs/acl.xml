@@ -500,6 +500,13 @@
 					<resource>application</resource>
 					<type>update</type>
 				</action>
+				<action>
+					<name>deletedemand</name>
+					<label>Remove Cash Demand</label>
+					<description>Remove Cash Demand</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
 			</controller>
 			<controller>
 				<name>tenants</name>

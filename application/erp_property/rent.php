@@ -202,4 +202,41 @@ class rentController extends mvc
             $this->view->payoptionDet = $payoptionDet;
     }
     
+    
+    public function deletedemandAction() {
+        $this->view->response('ajax');
+                
+        require_once __DIR__ . '/../admin/!model/cashdemand.php';
+        $cashDmdObj = new cashdemand();
+        
+        $decRefd = $this->view->decode($this->view->param['ref']);
+        
+        if (! $decRefd)
+            die('tampered');
+                    
+            $this->view->casDmdDetDetail= $casDmdDet = $cashDmdObj->getCashDmdById($decRefd);
+            
+            if ($_POST) {
+                if (! isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
+                    die('---'); // exit script outputting json data
+                } else {
+                    $delete = $cashDmdObj->deleteDemand ( $decRefd );
+                    if ($delete) {
+                        $this->view->NoViewRender = true;
+                        $success = array (
+                            'feedback' => 'The demand has been deleted from the system  .'
+                        );
+                        $_SESSION ['feedback'] = 'The demand has been deleted from the system';
+                        $success = json_encode ( $success );
+                        die ( $success );
+                    }
+                }
+            }
+            else{
+                //die("no post");
+            }
+            
+            $this->view->form  = $form;
+    }
+    
 }

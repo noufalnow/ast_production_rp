@@ -141,6 +141,7 @@
 				$encPropId = $this->encode($property['prop_id']);
 				$encFileId = $this->encode($property['file_id']);
 				$encPayOption = $this->encode($property['popt_id']);
+				$encCdmdId = $this->encode($property['cdmd_id']);
 				
 				?>
 				<?php if($grouph!=$property['doc_type']):?>
@@ -166,7 +167,12 @@
 					<!--  style="background-image: repeating-linear-gradient(165deg, white, greenyellow 30px, greenyellow 30px, white 60px);" -->
 					<?php // endif?> 
 					<? if($property['cdmd_pstatus']<>1): ?>
+						<div class="row">
 						<?=x(array('link'=>'erp_property/rent/adddemand','ref'=>$encPayOption,'label'=>'<b>'.$property['popt_date'].'</b>',array("param"=>'class="facebox"')))?>
+    						<? if($property['cdet_id'] == NULL && $property['cdmd_id'] <> NULL): ?>
+    							<?=x(array('link'=>'erp_property/rent/deletedemand','ref'=>$encCdmdId,'label'=>'<i class="fas fa-trash"></i>',array("param"=>'class="facebox"')))?>
+    						<?php endif?>
+    					</div>
 					<?php else:?>
 					  	<?=$property['popt_date'];?>
 					<?php endif;?>

@@ -14,7 +14,11 @@ class cashdemand extends db_table {
 		return parent::getById ($id);
 	}
 	
-	public function deleteContact($id) {
+	public function getCashDmdById($id) {
+	    return parent::getById ($id);
+	}
+	
+	public function deleteDemand($id) {
 		return parent::delete ( $id );
 	}
 	

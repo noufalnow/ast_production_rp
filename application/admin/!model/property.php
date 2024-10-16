@@ -420,7 +420,9 @@ class property extends db_table
 					   files.file_id,
 					   files.file_exten,
 					   build.bld_name,
-                       tnt_full_name as agr_tenant 
+                       tnt_full_name as agr_tenant,
+                       cdet_id,
+                       cdmd_id   
 				FROM mis_property
 				LEFT JOIN mis_building AS build ON build.bld_id = mis_property.prop_building
 				AND build.deleted = 0
@@ -451,8 +453,12 @@ class property extends db_table
 						AND dmd.cdmd_ref_id = proppay.popt_id
 						AND dmd.cdmd_oth_id = proppay.popt_doc_id
 						AND dmd.deleted = 0
+                        LEFT JOIN mis_collection_det as colldet on colldet.cdet_src_type = 2 AND colldet.cdet_bill_id = dmd.cdmd_id and colldet.deleted = 0
+
 						$where
 						ORDER BY proppay.popt_date ASC, prop_fileno ASC");
+        
+						//d($this->_qry);
 
         return parent::fetchQuery($cond);
     }
