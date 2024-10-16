@@ -1,0 +1,57 @@
+<div class="dynamic-popup" id="dynamic-popup">
+	<div class="modal-content modal-content-demo">
+		<div class="modal-header">
+			<h4 class="card-title">Due Details</h4>
+			<button type="button" aria-label="Close" class="btn-close"
+				data-bs-dismiss="modal">
+				<span aria-hidden="true">×</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<div class="table-responsive export-table">
+				<table aria-describedby=""
+					class="table table-bordered text-nowrap no-footer">
+					<thead class="border-top">
+						<tr>
+							<th width="3%" class="center">Sl No</th>
+							<th width="5%" class="center">File No</th>
+							<th width="15%" class="center">Tenant</th>
+							<th width="5%" class="center">Mobile no</th>
+							<th width="6%" class="center">Date</th>
+							<th width="6%" class="center">Due</th>
+						</tr>
+					</thead>
+					<tbody>	
+			<?if(count($this->propertyList)>0):$sl = 1;?>
+				<?php foreach($this->propertyList as $property): ?>
+				<?php if($property['due_amount'] > 0):?>
+				<tr>
+							<td class="center"><?=@$sl++;?> </td>
+							<td><?=$property['prop_fileno'];?></td>
+							<td><?=$property['agr_tenant']?></td>
+							<td align="center"><?=$property['agr_mobile']?></td>
+							<td>	<?=$property['popt_date'];?></td>
+							<td align="right"><?=$property['due_amount']; $total+=$property['due_amount'];?></td>
+							</tr>
+				<?php endif;?>
+				<?php endforeach?>
+			<?endif?>
+			
+						
+						
+						
+						
+						
+						<tr>
+							<th align="right" colspan="5" style="text-align: right;">Total</th>
+							<th style="text-align: right;" align="right"><?=number_format((float)$total,3)?> </th>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+

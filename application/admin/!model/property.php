@@ -422,7 +422,8 @@ class property extends db_table
 					   build.bld_name,
                        tnt_full_name as agr_tenant,
                        cdet_id,
-                       cdmd_id   
+                       cdmd_id,
+                       COALESCE(COALESCE(proppay.popt_amount, 0) - COALESCE(colldet.cdet_amt_paid, 0), 0) AS due_amount  
 				FROM mis_property
 				LEFT JOIN mis_building AS build ON build.bld_id = mis_property.prop_building
 				AND build.deleted = 0

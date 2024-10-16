@@ -239,4 +239,19 @@ class rentController extends mvc
             $this->view->form  = $form;
     }
     
+    public function propertypayviewAction() {
+        $this->view->response('ajax');
+        require_once __DIR__ . '/../admin/!model/property.php';
+        $date = new DateTime();
+        
+        $where = array(
+            'f_monthpick' => $date->format('m') . '/' . $date->format('Y')
+        );
+        
+        $propObj = new property();
+        $propertyList = $propObj->getPropertyPayReport(@$where);
+        $this->view->propertyList = $propertyList;
+    }
+    
+    
 }

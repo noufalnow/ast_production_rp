@@ -28,6 +28,7 @@
 
             <!-- ROW-1 OPEN -->
             <div class="row">
+            
               <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3">
                 <div class="card bg-primary img-card box-primary-shadow">
                   <div class="card-body">
@@ -37,12 +38,13 @@
                         <p class="text-white mb-0">Total Rent Due  <?=date('y-M', strtotime($this->propertyData['year_month'] ?? date('Y-m')));?></p>
                       </div>
                       <div class="ms-auto">
-                        <i class="fa fa-bar-chart text-white fs-30 me-2 mt-2"></i>
+                      	<?=x(array('link'=>'erp_property/rent/propertypayview','ref'=>'','label'=>'<i class="fa fa-bar-chart text-white fs-30 me-2 mt-2"></i>',array("param"=>'class="facebox"')))?>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              
               <!-- COL END -->
               <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3">
                 <div class="card bg-secondary img-card box-secondary-shadow">

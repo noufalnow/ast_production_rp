@@ -494,6 +494,13 @@
 					<type>view</type>
 				</action>
 				<action>
+					<name>propertypayview</name>
+					<label>Property Rent Schedule</label>
+					<description>Property Rent Schedule View</description>
+					<resource>default</resource>
+					<type>view</type>
+				</action>				
+				<action>
 					<name>adddemand</name>
 					<label>Demand Rent Collection</label>
 					<description>Demand Pproperty Rent Collection</description>

@@ -346,7 +346,7 @@ function mainMenu($encUserId)
     
     $menuHtml .= '<li class="sub-slide-item">' . x(array('link' => 'erp_manage/company/list','label' => 'Company Documents',array())) . '</li>';
         
-    $menuHtml .= '<li class="sub-slide-item">' . x(array('link' => 'erp_report/company/statement','label' => 'Monthly Statement',array("param" => 'wide_opener'))) . '</li>';
+    //$menuHtml .= '<li class="sub-slide-item">' . x(array('link' => 'erp_report/company/statement','label' => 'Monthly Statement',array("param" => 'wide_opener'))) . '</li>';
     
     
     $menuHtml .= '</ul>
