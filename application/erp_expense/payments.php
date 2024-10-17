@@ -912,73 +912,75 @@ function remittanceAction()
 
 function voucherAction()
 {
-    $this->view->response('ajax');
-    require_once __DIR__ . '/../admin/!model/payment.php';
-    $paymentObj = new payment();
-    require_once __DIR__ . '/../admin/!model/expense.php';
-    $expObj = new expense();
-    require_once __DIR__ . '/../admin/!model/documents.php';
+        $this->view->response('ajax');
+        require_once __DIR__ . '/../admin/!model/payment.php';
+        $paymentObj = new payment();
+        require_once __DIR__ . '/../admin/!model/expense.php';
+        $expObj = new expense();
+        require_once __DIR__ . '/../admin/!model/documents.php';
 
-    $formRender = true;
-    $form = new form();
+        $formRender = true;
+        $form = new form();
 
-    
-    $decPayId = $this->view->decode($this->view->param['ref']);
+        $decPayId = $this->view->decode($this->view->param['ref']);
 
-    if (! $decPayId)
-        die('tampered');
+        if (! $decPayId)
+            die('tampered');
 
-    $payDet = $paymentObj->getPaymentDetByPayId(array(
-        'pay_id' => $decPayId
-    ));
-
-    if ($payDet['pay_app_status'] == 1) {
-        $form->addElement('note', 'Note ', 'textarea', '');
-        $form->addElement('paydate', 'Date', 'text', 'date|required', '', array(
-            'class' => 'date_picker'
-        ));
-        $form->addFile('my_files', 'Document', array(
-            'required' => true,
-            'exten' => 'pdf',
-            'size' => 5375000
+        $payDet = $paymentObj->getPaymentDetByPayId(array(
+            'pay_id' => $decPayId
         ));
 
-        $where = array(
-            'f_selVendor' => $payDet['pay_vendor'],
-            'f_mode' => 2,
-            'pdet_pay_id' => $decPayId,
+        if ($payDet['pay_app_status'] == 1) {
+            $form->addElement('note', 'Note ', 'textarea', '');
+            $form->addElement('paydate', 'Date', 'text', 'date|required', '', array(
+                'class' => 'date_picker'
+            ));
+            $form->addFile('my_files', 'Document', array(
+                'required' => true,
+                'exten' => 'pdf',
+                'size' => 5375000
+            ));
+
+            $where = array(
+                'f_selVendor' => $payDet['pay_vendor'],
+                'f_mode' => 2,
+                'pdet_pay_id' => $decPayId,
             /*'exp_pstatus' => 2,*/
             'pdet_status' => 2
-        );
-        $paymentList = $expObj->getPaymentExpDet($where);
+            );
+            $paymentList = $expObj->getPaymentExpDet($where);
 
-        // s($payDet,$paymentList);
+            // s($payDet,$paymentList);
 
-        if (isset($_POST) && count($_POST) > 0) {
-            $valid = $form->vaidate($_POST, $_FILES);
-            $valid = $valid[0];
-            if ($valid == true) {
-                $date = DateTime::createFromFormat(DF_DD, $valid['paydate']);
-                $date = date_format($date, DFS_DB);
-                $data = array(
-                    'pay_pay_status' => 1,
-                    'pay_pay_note' => $valid['note'],
-                    'pay_pay_date' => $date
-                );
-                $update = $paymentObj->modify($data, $payDet['pay_id']);
-                if ($update) {
+            if (isset($_POST) && count($_POST) > 0) {
+                $valid = $form->vaidate($_POST, $_FILES);
+                $valid = $valid[0];
+                if ($valid == true) {
+                    $date = DateTime::createFromFormat(DF_DD, $valid['paydate']);
+                    $date = date_format($date, DFS_DB);
+                    $data = array(
+                        'pay_pay_status' => 1,
+                        'pay_pay_note' => $valid['note'],
+                        'pay_pay_date' => $date
+                    );
+                    $update = $paymentObj->modify($data, $payDet['pay_id']);
+                    if ($update) {
+                        if (! empty($payDet['file_id'])) {
+                            $file = new files();
+                            deleteFile($payDet['file_id']);
+                            $file->deleteFile($payDet['file_id']);
+                        }
 
-                    if (! empty($payDet['file_id'])) {
-                        $file = new files();
-                        deleteFile($payDet['file_id']);
-                        $file->deleteFile($payDet['file_id']);
-                    }
-
-                    $upload = uploadFiles(DOC_TYPE_PAY, $payDet['pay_id'], $valid['my_files']);
-                    if ($upload) {
+                        $upload = uploadFiles(DOC_TYPE_PAY, $payDet['pay_id'], $valid['my_files']);
+                        if ($upload) {
+                            $feedback = 'Payment status updated successfully';
+                        } 
+                        else {
+                            $feedback = 'Payment status updated successfully but unable to upload file';
+                        }
                         $form->reset();
-                       
-                        $feedback = 'Payment status updated successfully';
+                        
                         $this->view->NoViewRender = true;
                         $success = array(
                             'feedback' => $feedback
@@ -986,26 +988,30 @@ function voucherAction()
                         $_SESSION['feedback'] = $feedback;
                         $success = json_encode($success);
                         die($success);
+                        
+                        
+                    }
+                    else{
+                        die("No update");
                     }
                 }
+            } else {
+
+                if ($payDet['pay_pay_date']) {
+                    $payDt = DateTime::createFromFormat(DFS_DB, $payDet['pay_pay_date']);
+                    $payDt = $payDt->format(DF_DD);
+                }
+
+                $form->note->setValue($payDet['pay_pay_note']);
+                $form->paydate->setValue($payDt);
             }
-        } else {
+        } else
+            $this->view->NoViewRender = true;
 
-            if ($payDet['pay_pay_date']) {
-                $payDt = DateTime::createFromFormat(DFS_DB, $payDet['pay_pay_date']);
-                $payDt = $payDt->format(DF_DD);
-            }
-
-            $form->note->setValue($payDet['pay_pay_note']);
-            $form->paydate->setValue($payDt);
-        }
-    } else
-         $this->view->NoViewRender = true;
-
-         $this->view->form=$form;
-         $this->view->formRender=$formRender;
-         $this->view->paymentList=$paymentList;
-         $this->view->payDet=$payDet;
-}
+        $this->view->form = $form;
+        $this->view->formRender = $formRender;
+        $this->view->paymentList = $paymentList;
+        $this->view->payDet = $payDet;
+    }
 
 }

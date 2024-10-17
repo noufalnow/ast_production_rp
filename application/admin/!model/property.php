@@ -421,7 +421,7 @@ class property extends db_table
 					   files.file_exten,
 					   build.bld_name,
                        tnt_full_name as agr_tenant,
-                       cdet_id,
+                       cdet_bill_id,
                        cdmd_id,
                        COALESCE(COALESCE(proppay.popt_amount, 0) - COALESCE(colldet.cdet_amt_paid, 0), 0) AS due_amount  
 				FROM mis_property
@@ -446,18 +446,25 @@ class property extends db_table
 				        mis_documents 
                         WHERE doc_ref_type = " . DOC_TYPE_PROP . " and doc_type = 201
 						AND deleted = 0) AS propdocs ON propdocs.doc_ref_id = mis_property.prop_id
-                        left join mis_tenants as tenants on tenants.tnt_id = propdocs.agr_tnt_id and tenants.deleted = 0
-						LEFT JOIN core_files as files on files.file_ref_id = propdocs.doc_id and files.deleted = 0 AND files.file_type IN(3)
-						INNER JOIN mis_property_payoption as proppay on proppay.popt_doc_id = propdocs.doc_id and proppay.deleted = 0 $whereDate
-						
-						LEFT JOIN mis_cash_demand AS dmd ON dmd.cdmd_type = " . CASHDMD_TYP_PROP . "
-						AND dmd.cdmd_ref_id = proppay.popt_id
-						AND dmd.cdmd_oth_id = proppay.popt_doc_id
-						AND dmd.deleted = 0
-                        LEFT JOIN mis_collection_det as colldet on colldet.cdet_src_type = 2 AND colldet.cdet_bill_id = dmd.cdmd_id and colldet.deleted = 0
+                    left join mis_tenants as tenants on tenants.tnt_id = propdocs.agr_tnt_id and tenants.deleted = 0
+					LEFT JOIN core_files as files on files.file_ref_id = propdocs.doc_id and files.deleted = 0 AND files.file_type IN(3)
+					INNER JOIN mis_property_payoption as proppay on proppay.popt_doc_id = propdocs.doc_id and proppay.deleted = 0 $whereDate
+					
+					LEFT JOIN mis_cash_demand AS dmd ON dmd.cdmd_type = " . CASHDMD_TYP_PROP . "
+					AND dmd.cdmd_ref_id = proppay.popt_id
+					AND dmd.cdmd_oth_id = proppay.popt_doc_id
+					AND dmd.deleted = 0
+                    LEFT JOIN (
+                        SELECT SUM (cdet_amt_paid) AS cdet_amt_paid,
+                                   cdet_bill_id
+                        FROM mis_collection_det
+                        WHERE cdet_src_type = 2
+                          AND deleted = 0
+                          AND cdet_status = 2
+                        GROUP BY cdet_bill_id) as colldet on colldet.cdet_bill_id = dmd.cdmd_id
 
-						$where
-						ORDER BY proppay.popt_date ASC, prop_fileno ASC");
+					$where
+					ORDER BY proppay.popt_date ASC, prop_fileno ASC");
         
 						//d($this->_qry);
 
