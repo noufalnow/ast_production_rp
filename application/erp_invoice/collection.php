@@ -564,6 +564,8 @@ class collectionController extends mvc
                                 );
                                 if ($valid['f_selCustomer'] == - 1)
                                     $data['coll_src_type'] = 2;
+                                else
+                                    $data['coll_src_type'] = 1;
                                 $update = $collObj->modify($data, $decCollId);
                                 if ($update) {
                                     $feedback = $_SESSION['feedback'] = 'Collection details updated successfully';
