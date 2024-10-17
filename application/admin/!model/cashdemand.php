@@ -23,6 +23,14 @@ class cashdemand extends db_table {
 	}
 	
 	
+	public function deleteUnpaidDemandbyPayOption($cond) {
+	    $this->_where [] = "cdmd_ref_id= :cdmd_ref_id";
+	    $this->_where [] = "cdmd_pstatus = 2";
+	    return parent::deleteByCond( $cond);
+	}
+	
+	
+	
 	
 	public function getPendingDemandList($cond) {
 		if (! empty ( $cond ['cdet_coll_id'] ))
@@ -40,8 +48,17 @@ class cashdemand extends db_table {
 					       AND cdet_status = 1
 					       AND cdet_src_type = 2 ".(empty ( $cond ['cdet_coll_id']) ? " " : " AND cdet_coll_id <> :cdet_coll_id ")." )) OR (cdet_id IS NULL)) ";
 		
+		//a($cond ['demand_ids']);
+		
+		if (! empty ( $cond ['demand_ids'] )){
+		    $where [] = "cdmd_id IN (".$cond ['demand_ids'].")";
+		    unset( $cond ['demand_ids']);
+		}
+		
+		
 		$where [] = " $this->_table.deleted = 0 ";
 		$where = ' WHERE ' . implode ( ' AND ', $where );
+
 		
 		$this->query ( "select $this->_table.*,
 				colldet.*				from $this->_table

@@ -86,6 +86,46 @@ class collectionController extends mvc
                     ));
                 }
                 // $count = count($billList);
+
+                // check
+                // payby
+
+                // a($_POST['check'],$valid);
+
+                if ($valid['f_selCustomer'] == - 1) {
+
+                    if (is_array($_POST['check']) && count($_POST['check']) > 0) {
+                        $selectedId = array_keys($_POST['check']);
+                        $demandSelectedList = $cashDmdObj->getPendingDemandList(array(
+                            'cdet_src_type' => 2,
+                            'cdmd_pstatus' => 2,
+                            'demand_ids' => implode(',', $selectedId)
+                        ));
+
+                        if (is_array($demandSelectedList)) {
+
+                            $baseDate = DateTime::createFromFormat('d/m/Y', $_POST['payby']);
+                            $baseMonth = $baseDate->format('m'); // Extract the month as a string
+
+                            foreach ($demandSelectedList as $dateToCheck) {
+
+                                $dateObj = DateTime::createFromFormat('Y-m-d', $dateToCheck['cdmd_date']);
+
+                                // Extract the month from this date
+                                $checkMonth = $dateObj->format('m');
+
+                                // Compare the months
+                                if ($baseMonth !== $checkMonth) {
+
+                                    $form2->addRules('payby', 'invalid', "The collection date must be in the same month as the demand date.");
+                                }
+                            }
+                        }
+
+                        // v($_POST['payby']); a($demadDates);
+                    }
+                }
+
                 if (count($count) > 0) {
                     $form2->addMultiElement('check', 'Select bill', 'checkbox', '', array(
                         'options' => array(
@@ -105,7 +145,7 @@ class collectionController extends mvc
                     $form2->addErrorMsg('mamount', 'required', ' ');
                     if ($_POST['paymod'] == '2')
                         $form2->addRules('chqno', 'required');
-                        if (is_array($_POST['check']) && count($_POST['check']) > 0) {
+                    if (is_array($_POST['check']) && count($_POST['check']) > 0) {
                         foreach ($mfields as $i) {
                             if ($_POST['check'][$i] != '') {
                                 if (/*$_POST ['mamount'] [$i] == 0 ||*/ $_POST['mamount'][$i] == '') {
@@ -120,10 +160,10 @@ class collectionController extends mvc
                                     $form2->addmRules('mamount', $i, 'invalid');
                                     $form2->addErrorMsg('mamount', 'invalid', "!! is > (bill-dis) amount");
                                 }
-                                
-                                $pdiscount = $_POST['discount'][$i]==''? 0:$_POST['discount'][$i];
-                                $pamount = $_POST['mamount'][$i]==''? 0:$_POST['mamount'][$i];
-                                if (! $balanceConfirm && (($billAmount[$i] - $pdiscount) - $pamount) > 0){
+
+                                $pdiscount = $_POST['discount'][$i] == '' ? 0 : $_POST['discount'][$i];
+                                $pamount = $_POST['mamount'][$i] == '' ? 0 : $_POST['mamount'][$i];
+                                if (! $balanceConfirm && (($billAmount[$i] - $pdiscount) - $pamount) > 0) {
                                     // v(($billAmount [$i] - $_POST ['discount'] [$i])-$_POST ['mamount'] [$i],$_POST ['mamount'] [$i]);
                                     $balanceConfirm = true;
                                     $form2->addRules('confirm', 'required', "Please confirm !!");
@@ -137,6 +177,7 @@ class collectionController extends mvc
                             $form2->addRules('amount', 'invalid');
                             $form2->addErrorMsg('amount', 'invalid', "Mismatch with bill total amount");
                         }
+
                         $valid = $form2->vaidate($_POST, $_FILES);
                         $valid = $valid[0];
                         if ($valid == true) {
@@ -160,8 +201,8 @@ class collectionController extends mvc
                                 $feedback = $_SESSION['feedback'] = 'Bill details updated successfully';
                                 if (count($valid['check']) > 0)
                                     foreach ($valid['check'] as $rfkey => $rData) {
-                                        $vdiscount = $valid['discount'][$rfkey]==''?0:$valid['discount'][$rfkey];
-                                        $vmamount =$valid['mamount'][$rfkey]==''?0:$valid['mamount'][$rfkey];
+                                        $vdiscount = $valid['discount'][$rfkey] == '' ? 0 : $valid['discount'][$rfkey];
+                                        $vmamount = $valid['mamount'][$rfkey] == '' ? 0 : $valid['mamount'][$rfkey];
                                         if ($rData != '') {
                                             $data = array();
                                             $data = array(
@@ -181,20 +222,19 @@ class collectionController extends mvc
                                     $upload = uploadFiles(DOC_TYPE_COLL, $insert, $valid['my_files']);
                                     if ($upload) {
                                         $form2->reset();
-                                        
+
                                         $this->view->NoViewRender = true;
                                         $success = array(
-                                            'feedback' => 'Collection details added successfully',
+                                            'feedback' => 'Collection details added successfully'
                                         );
                                         $success = json_encode($success);
                                         die($success);
-                                        
                                     }
                                 }
                                 $form2->reset();
                                 $this->view->NoViewRender = true;
                                 $success = array(
-                                    'feedback' => 'Collection details added successfully',
+                                    'feedback' => 'Collection details added successfully'
                                 );
                                 $success = json_encode($success);
                                 die($success);
@@ -378,8 +418,8 @@ class collectionController extends mvc
             ));
             if (count($excludeBills) > 0)
                 $where['exclude'] = implode(',', $excludeBills);
-            
-            $excludeExp =[];
+
+            $excludeExp = [];
             $demandList = [];
             $billList = [];
             if ($_POST) {
@@ -475,7 +515,7 @@ class collectionController extends mvc
                     if (is_array($count) && count($count) > 0) {
                         if ($_POST['paymod'] == '2')
                             $form2->addRules('chqno', 'required');
-                           if (is_array($_POST['check']) && count($_POST['check']) > 0) {
+                        if (is_array($_POST['check']) && count($_POST['check']) > 0) {
                             foreach ($_POST['check'] as $i => $key) {
                                 if ($_POST['check'][$i] != '') {
                                     if (/*$_POST ['mamount'] [$i] == 0 ||*/ $_POST['mamount'][$i] == '') {
@@ -490,10 +530,10 @@ class collectionController extends mvc
                                         $form2->addmRules('mamount', $i, 'invalid');
                                         $form2->addErrorMsg('mamount', 'invalid', "!! is > (bill-dis) amount");
                                     }
-                                    
-                                    $pdiscount = $_POST['discount'][$i]==''? 0:$_POST['discount'][$i];
-                                    $pamount = $_POST['mamount'][$i]==''? 0:$_POST['mamount'][$i];
-                                    
+
+                                    $pdiscount = $_POST['discount'][$i] == '' ? 0 : $_POST['discount'][$i];
+                                    $pamount = $_POST['mamount'][$i] == '' ? 0 : $_POST['mamount'][$i];
+
                                     if (! $balanceConfirm && (($billAmount[$i] - $pdiscount) - $pamount) > 0) {
                                         // v(($billAmount [$i] - $_POST ['discount'] [$i])-$_POST ['mamount'] [$i],$_POST ['mamount'] [$i]);
                                         $balanceConfirm = true;
@@ -504,7 +544,7 @@ class collectionController extends mvc
                             }
                             $sum = 0;
                             foreach ($_POST['check'] as $k => $v)
-                                $sum += $_POST['mamount'][$k]==''? 0:$_POST['mamount'][$k];
+                                $sum += $_POST['mamount'][$k] == '' ? 0 : $_POST['mamount'][$k];
                             if (! empty($_POST['amount']) && bccomp($sum, floatval($_POST['amount']), 3)) {
                                 $form2->addRules('amount', 'invalid');
                                 $form2->addErrorMsg('amount', 'invalid', "Mismatch with bill total amount");
@@ -532,8 +572,8 @@ class collectionController extends mvc
                                     ));
                                     if (count($_POST['check']) > 0)
                                         foreach ($_POST['check'] as $rfkey => $rData) {
-                                            $vdiscount = $valid['discount'][$rfkey]==''?0:$valid['discount'][$rfkey];
-                                            $vmamount =$valid['mamount'][$rfkey]==''?0:$valid['mamount'][$rfkey];
+                                            $vdiscount = $valid['discount'][$rfkey] == '' ? 0 : $valid['discount'][$rfkey];
+                                            $vmamount = $valid['mamount'][$rfkey] == '' ? 0 : $valid['mamount'][$rfkey];
                                             if ($rData != '') {
                                                 $data = array();
                                                 $data = array(
@@ -560,7 +600,7 @@ class collectionController extends mvc
                                             $form2->reset();
                                             $this->view->NoViewRender = true;
                                             $success = array(
-                                                'feedback' => 'Collection details updated successfully',
+                                                'feedback' => 'Collection details updated successfully'
                                             );
                                             $success = json_encode($success);
                                             die($success);
@@ -568,10 +608,11 @@ class collectionController extends mvc
                                     }
                                     $this->view->NoViewRender = true;
                                     $success = array(
-                                        'feedback' => 'Collection details updated successfully',
+                                        'feedback' => 'Collection details updated successfully'
                                     );
                                     $success = json_encode($success);
-                                    die($success);}
+                                    die($success);
+                                }
                             }
                         }
                     }

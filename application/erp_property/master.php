@@ -495,10 +495,17 @@ class masterController extends mvc
                     $to_delete = (array_diff($idKeys, $mfields));
                     $to_update = (array_intersect($idKeys, $mfields));
                     $to_insert = (array_diff($mfields, $idKeys));
+                    
+                    require_once __DIR__ . '/../admin/!model/cashdemand.php';
+                    $cashDmdObj = new cashdemand();
+                    
                     if (count($to_delete) > 0)
-                        foreach ($to_delete as $del)
-                            if(! isset($payOptionDemandDet[$del]))
+                        foreach ($to_delete as $del){
+                            if(! isset($payOptionDemandDet[$del])){
                                 $payOptObj->deletePayOptionByID($del);
+                                $cashDmdObj->deleteUnpaidDemandbyPayOption(['cdmd_ref_id'=>$del]);
+                        }
+                    }
                     foreach ($mfields as $i) {
                         $data = array();
                         if ($valid['payselect'][$i] != '') {
