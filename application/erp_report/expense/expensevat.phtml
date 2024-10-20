@@ -201,6 +201,7 @@
 			<?if(is_array($this->expenseList) && count($this->expenseList)>0):?>
 				<?php foreach($this->expenseList as $expense):
 				$encExpId = $this->encode($expense['exp_id']);
+				$encFileId = $this->encode($expense['file_id']);
 				?>
 				<tr>
 					<td class="center"><?=@++$offset;?></td>

@@ -203,3 +203,31 @@ COMMENT ON TABLE "mis_item" IS '';
 ALTER TABLE "mis_item"
 ADD "item_vehicle" bigint NULL;
 COMMENT ON TABLE "mis_item" IS '';
+
+
+
+
+# UPDATE "mis_property_payoption"
+SET popt_date = to_date('2024-10' || to_char(popt_date, '-DD'), 'YYYY-MM-DD')
+WHERE to_char(popt_date, 'YYYY-MM') = '2024-09'
+AND popt_id IN (9046, 9053, 9060, 9064, 9071, 9074, 9078, 9081, 9086, 9095, 9097, 9103, 9006, 8916, 9109, 9114, 9115, 9123, 9126, 9132, 9138, 9145, 9156, 9167);
+
+
+#UPDATE "mis_cash_demand"
+SET cdmd_date = to_date('2024-10' || to_char(cdmd_date, '-DD'), 'YYYY-MM-DD')
+WHERE to_char(cdmd_date, 'YYYY-MM') = '2024-09'  AND 
+"cdmd_id" IN (6963,6964,6965,6966,6967,6968,6968,6969,6970,6971,6972,6973,6974,6975,6976,6977,6978,6979,6980,6981,6982,6983,6984,6985,6987);
+
+
+
+#UPDATE "mis_cash_demand"
+SET cdmd_month = to_date('2024-10' || to_char(cdmd_month, '-DD'), 'YYYY-MM-DD')
+WHERE to_char(cdmd_month, 'YYYY-MM') = '2024-09'  AND 
+"cdmd_id" IN (6963,6964,6965,6966,6967,6968,6968,6969,6970,6971,6972,6973,6974,6975,6976,6977,6978,6979,6980,6981,6982,6983,6984,6985,6987);
+
+#UPDATE "mis_cash_demand" SET "cdmd_date" = '2024-09-29', "cdmd_month" = '2024-09-29' WHERE "cdmd_id" = '6957' AND "cdmd_id" = '6957';
+
+
+# UPDATE "mis_property_payoption" SET "popt_date" = '2024-09-29' WHERE "popt_id" = '9028' AND "popt_id" = '9028';
+
+

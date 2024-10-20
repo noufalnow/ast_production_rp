@@ -48,15 +48,21 @@ class companyController extends mvc
             $filter_class = 'btn-info';
         }
 
-
-        
-        
         
         require_once __DIR__ . '/../admin/!model/property.php';
         $propertyObj = new property();      
         
         $this->view->financialRevanew = $propertyObj->getFinancialRevenue($where);
         $this->view->financialExpense = $propertyObj->getFinancialExpense($where);
+        
+        
+        if (empty(@$valid['f_monthpick'])) 
+            @$valid['f_monthpick'] = date('m/Y');
+
+        $date = DateTime::createFromFormat('m/Y', @$valid['f_monthpick']);
+        
+        // Format the date as 'M, Y' (e.g., 'Sep, 2024')
+        $this->view->f_monthpick =  $date->format('M, Y');
 
         $this->view->filter_class = $filter_class;
         $this->view->vehicleList = $vehicleList;

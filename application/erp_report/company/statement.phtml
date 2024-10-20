@@ -6,7 +6,7 @@
 					onclick="$('#report').printElement();"
 					class="btn btn btn-primary pull-right" style="padding: 2px 12px;">Print</button>
 			</div>
-			<h5 class="title-margin">Report: Company Monthly Financial Statement</h5>
+			<h5 class="title-margin">Report: Company Monthly Financial Statement for the month of : <?=$this->f_monthpick;?></h5>
 		</div>
 		<form method="get" id="filter" name="filter" action="statement">
 		
@@ -24,8 +24,8 @@
                 <?=$this->form->f_monthpick->show()?>
             </div>
 					</div>
-<div class="col-lg-3">
-<div class="form-group">
+                    <div class="col-lg-3">
+                    <div class="form-group">
 							<label for="file_no" class="form-label">Filter</label>
 					<button class="btn <?=$this->filter_class?>  mb-0"
 						type="submit">Filter</button>
@@ -139,11 +139,16 @@ echo "<style>
         echo "<table class='financial-table'>";
         
         echo "<tr class=''>";
-        echo '<td colspan="3" style="text-align: center;vertical-align: bottom;height: 80px;"><h2 class="title-margin">Company Monthly Financial Statement</h2></td>';
+        echo '<td colspan="3" style="text-align: center;vertical-align: bottom;height: 120px;"><h2 class="title-margin"><b>Monthly Financial Statement</b></h2>
+                        <h3>'.$this->f_monthpick.'</h3>
+                </td>';
         echo "</tr>";
         
 
         foreach ($combinedData as $row) {
+            
+            if($this->compList[$row['comp_id']]!=''){
+            
             // Check if we're starting a new company group
             if ($currentCompId !== $row['comp_id']) {
                 // If not the first company, print the subtotal row for the previous company
@@ -169,7 +174,7 @@ echo "<style>
                 echo "<tr class='company-heading'>";
                 echo "<td colspan='3' style='text-align: left;'>" . (is_null($currentCompId) ? '' : $this->compList[$currentCompId]) . "</td>";
                 echo "</tr>";
-                echo "<tr><th>Type</th><th>Income</th><th>Expense</th></tr>";
+                echo "<tr><th style='text-align: center;'>Category</th><th>Income</th><th>Expense</th></tr>";
             }
 
             // Accumulate income and expense for the current company
@@ -186,6 +191,7 @@ echo "<style>
             echo "<td>" . (is_null($row['income']) ? '' : number_format($row['income'], 3)) . "</td>";
             echo "<td>" . (is_null($row['expense']) ? '' : number_format($row['expense'], 3)) . "</td>";
             echo "</tr>";
+            }
         }
 
         // Print the last company's subtotal
@@ -219,10 +225,11 @@ echo "<style>
 						<thead>
 							<tr><?php
 
-$date = new DateTime();
-    $date = $date->format('d/m/y')?>
-						<th><div class="title-margin rpt_footer">
-										<h5>Company Monthly Financial Statement (<?=$date?>)</h5>
+                                $date = new DateTime();
+                                $date = $date->format('d/m/y h:i A');
+                                ?>
+						    <th style="align-items: end;text-align: right;padding-top: 5px;"><div class="title-margin rpt_footer">
+										<small>Company Monthly Financial Statement (<?=$date?>)</small>
 									</div></th>
 							</tr>
 						</thead>

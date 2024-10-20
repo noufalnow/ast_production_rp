@@ -744,6 +744,8 @@ class property extends db_table
 
     public function getFinancialExpense($cond = [])
     {
+        $cond=array_filter($cond);
+        
         if ($cond['f_monthpick'] == '') {
             $expDate = " AND TO_CHAR(COALESCE( exp.exp_billdt, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
             $payDate = " AND TO_CHAR(COALESCE( pay.pay_paydate, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
@@ -751,15 +753,14 @@ class property extends db_table
         } else {
             $expDate = " AND TO_CHAR(TO_DATE('".$cond['f_monthpick']."', 'MM/YYYY'), 'YYYY-MM') = TO_CHAR(exp.exp_billdt, 'YYYY-MM')";
             $payDate = " AND TO_CHAR(TO_DATE('".$cond['f_monthpick']."', 'MM/YYYY'), 'YYYY-MM') = TO_CHAR(pay.pay_paydate, 'YYYY-MM')";
-            unset($cond['f_monthpick']);
         }
         
         if ($cond['f_company'] != '') {
             $company = " WHERE comp_id = ".$cond['f_company'] . " ";
-            unset($cond['f_company']);
         }
         
-        
+        unset($cond['f_company']);
+        unset($cond['f_monthpick']);
         
         
         $this->query("
@@ -875,18 +876,24 @@ class property extends db_table
 
     public function getFinancialRevenue($cond = [])
     {
+        $cond=array_filter($cond);
+        
+        //a($cond);
+        
         if ($cond['f_monthpick'] == '') {
             $collDate = " AND TO_CHAR(COALESCE(coll.coll_paydate, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
         } else {
             $collDate = " AND TO_CHAR(TO_DATE('".$cond['f_monthpick']."', 'MM/YYYY'), 'YYYY-MM') = TO_CHAR(coll.coll_paydate, 'YYYY-MM')";
-            unset($cond['f_monthpick']);
         }
         
         if ($cond['f_company'] != '') {
             $bldComp = " AND build.bld_comp = ".$cond['f_company'] . " ";
             $billComp = " AND bill.bill_company = ".$cond['f_company'] . " ";
-            unset($cond['f_company']);
+            
         }
+        
+        unset($cond['f_company']);
+        unset($cond['f_monthpick']);
         
         $this->query("
                     SELECT 'Property' AS ref_source,
