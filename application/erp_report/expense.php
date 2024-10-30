@@ -19,6 +19,13 @@ class expenseController extends mvc
         $form->addElement('f_selVendor', 'Vendor', 'select', '', array(
             'options' => $venderList
         ));
+        
+        $form->addElement('f_status', 'Status', 'select', '', array(
+            'options' => array(
+                "2" => "Pending",
+                1 => "Approved"
+            )
+        ));
 
         require_once __DIR__ . '/../admin/!model/company.php';
         $compModelObj = new company();
@@ -145,7 +152,8 @@ class expenseController extends mvc
                     'f_cCatSelect' => @$valid['f_cCatSelect'],
                     'f_mode' => @$valid['f_mode'],
                     'f_amount' => @$valid['f_amount'],
-                    'f_building' => @$valid['f_building']
+                    'f_building' => @$valid['f_building'],
+                    'f_status' => @$valid['f_status'],
                 );
 
                 if (! empty($valid['f_dtfrom']) && $valid['f_period'] == 2) {

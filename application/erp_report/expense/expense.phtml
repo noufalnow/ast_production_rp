@@ -73,6 +73,7 @@
 				<th class="pr_month" width="10%">Month</th>
 				<th class="pr_fdt" width="10%">From</th>
 				<th class="pr_tdt" width="10%">To</th>
+				<th class="pr_tdt" width="10%">Approval</th>
 			</tr>
 			<tr>
 				<td align="center">
@@ -100,6 +101,11 @@
                 	<?=$this->form->f_dtto->show()?>
               		</div>
 				</td>
+				<td class="">
+					<div class="form-group ">
+                	<?=$this->form->f_status->show()?>
+              		</div>
+				</td>					
 			</tr>
 			<tr style="font-size: 0.8em;">
 				<th width="10%">Sub Cat.</th>

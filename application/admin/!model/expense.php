@@ -315,6 +315,14 @@ class expense extends db_table {
 		if (! empty ( $cond ['exp_vat_option'] ))
 		    $where [] = "(exp_vat_option = :exp_vat_option)";
 		
+        if (! empty($cond['f_status'])) {
+            if ($cond['f_status'] == '2') {
+                $where[] = "exp_app_status IS NULL";
+                unset($cond['f_status']);
+            } else
+                $where[] = "exp_app_status = :f_status";
+        }
+		
 			
 			
 		
@@ -531,6 +539,15 @@ class expense extends db_table {
 		
 		if (! empty ( $cond ['f_export'] ))
 			$where [] = "(exp_export = :f_export OR exp_export = 3)";
+		
+			
+		if (! empty($cond['f_status'])) {
+		    if ($cond['f_status'] == '2') {
+		        $where[] = "exp_app_status IS NULL";
+		        unset($cond['f_status']);
+		    } else
+		        $where[] = "exp_app_status = :f_status";
+		}
 		
 		$where [] = ' mis_expense.deleted = 0 ';
 		$where = ' WHERE ' . implode ( ' AND ', $where );
