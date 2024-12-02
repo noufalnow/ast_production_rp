@@ -174,6 +174,9 @@ define('DOC_IMG_EMP', 100);
 define('DOC_IMG_VHL', 1001);
 define('DOC_IMG_PROP', 1002);
 
+define('DOC_TYPE_PROP_SRV', 3001);
+
+
 define('CASH_BOOK_COMP', 1);
 define('CASH_BOOK_PER', 2);
 
