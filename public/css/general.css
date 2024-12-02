@@ -547,7 +547,7 @@ div.chosen-container {
 	width: 95%;
 }
 
-#multi_table th {
+#multi_table th, #multi_table_item th {
 	text-align: center !important;
 }
 
@@ -556,7 +556,7 @@ div.chosen-container {
 }
 */
 
-#multi_table td, #multi_table th {
+#multi_table td, #multi_table th, #multi_table_item td, #multi_table_item th {
 	border-color: lightseagreen;
 	border-style: solid;
 	border-width: 1px;

@@ -562,6 +562,39 @@
 					<type>view</type>
 				</action>
 			</controller>
+			<controller>
+				<name>pservice</name>
+				<label>Property Service </label>
+				<description>Property Service Related activity</description>
+				<action>
+					<name>list</name>
+					<label>List Property Service </label>
+					<description>List Property Service </description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>add</name>
+					<label>Add New Property Service </label>
+					<description>Add New Property Service </description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>edit</name>
+					<label>Edit Property Service Details</label>
+					<description>Edit Building Property Service </description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>view</name>
+					<label>View Property Service Details</label>
+					<description>View Property Service Details</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+			</controller>
 		</module>
 		<module>
 			<name>erp_vehicle</name>

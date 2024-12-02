@@ -1,0 +1,253 @@
+<div class="dynamic-popup" id="dynamic-popup">
+    <form name="form" method="post" id="add" action="erp_property/pservice/edit/ref/<?=$this->param['ref']?>" style="margin-bottom: 0px;" enctype="multipart/form-data">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h4 class="card-title">Update Service Entry</h4>
+                <button type="button" aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div id="report" class="ribbon-box">
+                    <div class="card-block" style="border: 1px solid #c6d9f9; padding: 1%;">
+                        <div class="row">
+                            <table class="form-label" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+                                <tr>
+                                    <th style="width: 16%; padding-left: 15px; vertical-align: top;">Property</th>
+                                    <td style="width: 17%; vertical-align: top;"><?=$this->form->psvs_prop->show()?></td>
+                                    <th style="width: 16%; padding-left: 15px; vertical-align: top;">Complaint No</th>
+                                    <td style="width: 17%; vertical-align: top;"><?=$this->form->psvs_complaint_no->show()?></td>
+                                    <th style="width: 16%; padding-left: 15px; vertical-align: top;">Service Type</th>
+                                    <td style="width: 18%; vertical-align: top;"><?=$this->form->psvs_type->show()?></td>
+                                </tr>
+                                <tr>
+                                    <th style="padding-left: 15px; vertical-align: top;">Request Date</th>
+                                    <td style="vertical-align: top;"><?=$this->form->psvs_date->show()?></td>
+                                    <th style="padding-left: 15px; vertical-align: top;">Service Done Date</th>
+                                    <td style="vertical-align: top;"><?=$this->form->psvs_srv_date->show()?></td>
+                                    <th style="padding-left: 15px; vertical-align: top;">Assigned Employee</th>
+                                    <td style="vertical-align: top;"><?=$this->form->psvs_emp->show()?></td>
+                                </tr>
+                                <tr>
+                                    <th style="padding-left: 15px; vertical-align: top;">Time In</th>
+                                    <td style="vertical-align: top;"><?=$this->form->psvs_in->show()?></td>
+                                    <th style="padding-left: 15px; vertical-align: top;">Time Out</th>
+                                    <td style="vertical-align: top;"><?=$this->form->psvs_out->show()?></td>
+                                    <th style="padding-left: 15px; vertical-align: top;">Remarks</th>
+                                    <td style="vertical-align: top;"><?=$this->form->psvs_remarks->show()?></td>
+                                </tr>
+                            </table>
+
+
+                        </div>
+
+                        <table id="multi_table" style="width: 100%; margin-top: 15px;">
+                            <thead>
+                                <tr>
+                                    <th width="49%" style="padding-bottom: 5px;">Service Description</th>
+                                    <th width="49%" style="padding-bottom: 5px;">Service Remarks</th>
+
+                                   <th width="2%" style="padding-bottom: 5px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="dup_body">
+                			<?php foreach($this->mfields as $i):?>
+								<tr class="dup_row" index="<?=$i?>">
+                                    <td align="center"><?=$this->form->srv_desc[$i]->show()?></td>
+                                    <td align="center"><?=$this->form->srv_remarks[$i]->show()?></td>
+
+									<td valign="middle">
+										<div>
+											<a style="color: blue; margin: 1px;" title="Remove" href="javascript:void(0);"
+												onclick="delRow(this);return false;"
+												class="glyphicon glyphicon-remove"></a>
+										</div>
+									</td>
+                                </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                        	</table>
+						<div>
+						<a style="background-color: yellowgreen; margin: 1px;"
+							id="myLink" title="Add more" href="#"
+							onclick="addRow('multi_table');return false;" class="btn">More</a>
+						</div>
+                        <table id="multi_table_item" style="width: 100%; margin-top: 15px;">
+                            <thead>
+                                <tr>
+                                    <th width="60%" style="padding-bottom: 5px;">Item Description</th>
+                                    <th width="20%" style="padding-bottom: 5px;">Item Quantity</th>
+                                    <th width="18%" style="padding-bottom: 5px;">Item Amount</th>
+
+                                   <th width="2%" style="padding-bottom: 5px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="dup_body_item">
+                			<?php foreach($this->mIfields as $i):?>
+								<tr class="dup_row_item" index="<?=$i?>">
+                                    <td valign="top" ><?=$this->form->itm_desc[$i]->show()?></td>
+                                    <td valign="top"><?=$this->form->itm_qty[$i]->show()?></td>
+                                    <td valign="top"><?=$this->form->itm_amount[$i]->show()?></td>
+
+									<td valign="middle">
+										<div>
+											<a style="color: blue; margin: 1px;" title="Remove" href="javascript:void(0);"
+												onclick="delRow(this);return false;"
+												class="glyphicon glyphicon-remove"></a>	
+										</div>
+									</td>
+                                </tr>
+                                <?php endforeach; ?>
+                                 </tbody>
+                        	</table>
+    						<a style="background-color: yellowgreen; margin: 1px;"
+    							id="myLink" title="Add more" href=""
+    							onclick="addRow('multi_table_item');return false;" class="btn">More</a>
+
+                   <div class="row">
+                    <table class="form-label" style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+                        <tr>
+                            <th style="width: 16%; padding-left: 15px; vertical-align: top;">Total Material (RO.)</th>
+                            <td style="width: 17%; vertical-align: top;"><?=$this->form->psvs_amt_mat->show()?></td>
+                            <th style="width: 16%; padding-left: 15px; vertical-align: top;">Total Labour (RO.)</th>
+                            <td style="width: 17%; vertical-align: top;"><?=$this->form->psvs_amt_lab->show()?></td>
+                            <th style="padding-left: 15px; vertical-align: top;">Report <?=x(array('link'=>'default/default/download','ref'=>$this->encFileId,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?></th>
+                            <td style="vertical-align: top;"><?=$this->form->my_files->show()?></td>                            
+                        </tr>
+                        <tr>
+                            <th style="width: 16%; padding-left: 15px; vertical-align: top;">Name</th>
+                            <td style="width: 18%; vertical-align: top;"><?=$this->form->psvs_signed->show()?></td>
+                            <th style="padding-left: 15px; vertical-align: top;">Phone</th>
+                            <td style="vertical-align: top;"><?=$this->form->psvs_signed_phone->show()?></td>
+                            <th style="padding-left: 15px; vertical-align: top;">Feedback</th>
+                            <td style="vertical-align: top;"><?=$this->form->psvs_feedback->show()?></td>
+
+                        </tr>
+                    </table>
+
+
+                  </div>
+                </div>
+            </div>
+
+			<div class="modal-footer">
+				<button type="button"
+					class="btn btn-primary submit-alias livepost">Update
+					Service</button>
+				<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+			</div>
+        </div>
+    </form>
+</div>
+
+
+
+<script type="text/javascript"> 
+var rowTemplates = {
+	    multi_table: '',
+	    multi_table_item: ''
+	};
+
+	// Initialize row templates for different tables
+	$(document).ready(function () {
+	    rowTemplates.multi_table = '<tr class="dup_row">' + $('#dup_body > tr:first').html() + '</tr>';
+	    rowTemplates.multi_table_item = '<tr class="dup_row_item">' + $('#dup_body_item > tr:first').html() + '</tr>';
+	});
+
+	// Generic function to add a row
+function addRow(tableId) {
+    var tableBodyId = getTableBodyId(tableId); // Get the corresponding tbody ID
+    var lastRow = $('#' + tableBodyId + ' > tr:last'); // Find the last row in the tbody
+    var index = parseInt(lastRow.attr('index')) || 0; // Get the index of the last row
+    index++;
+
+    // Clone the row template and update attributes
+    var newRow = $(rowTemplates[tableId]).clone();
+    newRow.attr('index', index);
+
+    // Reset the new row's input values, remove errors, and update names/IDs
+    newRow.find(':input').each(function () {
+        var name = $(this).attr('name');
+        if (name) {
+            var newName = name.replace(/\[\d+\]/, '[' + index + ']');
+            $(this).attr('name', newName).attr('id', newName).val(''); // Update name and id, clear value
+        }
+    });
+
+    // Remove error-related classes and elements
+    newRow.find('.input_error').removeClass('input_error');
+    newRow.find('.select_error').removeClass('select_error');
+    newRow.find('.error_text').remove();
+
+    // Insert the new row after the last one
+    lastRow.length ? lastRow.after(newRow) : $('#' + tableBodyId).append(newRow);
+
+    // Reinitialize plugins like Chosen
+    $(".chosen-select").chosen({
+        no_results_text: "Oops, nothing found!",
+        search_contains: true,
+        enable_split_word_search: true
+    });
+}
+
+	// Generic function to delete a row
+    function delRow(row) {
+        // Find the closest <tbody> for the row
+        var tableBody = $(row).closest('tbody');
+        var rowCount = tableBody.find('tr').length;
+    
+        // Allow removal if more than one row remains
+        if (rowCount > 1) {
+            $(row).closest('tr').remove();
+        } 
+    }
+
+
+	// Utility function to get the corresponding tbody ID
+	function getTableBodyId(tableId) {
+	    return tableId === 'multi_table' ? 'dup_body' : 'dup_body_item';
+	}
+
+	// Utility function to get the corresponding row class
+	function getRowClass(tableId) {
+	    return tableId === 'multi_table' ? 'dup_row' : 'dup_row_item';
+	}
+
+$(document).ready(function($) {
+    $('body').on('change', 'input.time', function() {
+        const timePattern = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/; // Regex for valid HH:mm format
+        const value = $(this).val().trim();
+
+        if (!timePattern.test(value)) {
+            // Clear the input if it doesn't match the time format
+            $(this).val("");
+        }
+    });
+});
+   
+</script>
+
+<style>
+.modal-dialog {
+	width: 98%;
+}
+
+input.floatonly,input.numonly  {
+	font-size: 1.3em;
+	font-weight: bold;
+}
+
+.floatonly, .numonly {
+	text-align: center;
+}
+
+.floatonly,.numonly {
+	text-align: center;
+	padding-right: 20px;
+}
+
+.modal-body {
+	padding: 5px;
+}
+</style>

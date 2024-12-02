@@ -239,7 +239,7 @@ class rptexpenseController extends mvc {
 		$this->view->form = $form;
 		$this->view->title = $title;
 	}
-	public function balancesheetAction() {
+	/*ublic function balancesheetAction() {
 		$this->view->response ( 'window' );
 		
 		$form = new form ();
@@ -266,7 +266,6 @@ class rptexpenseController extends mvc {
 			}
 			$filter_class = 'btn-info';
 			
-			// s($this->view->trialList /* $this->view->purchHistList/*,$this->view->expenseList*/ );
 		} else {
 			
 			$where ['f_dtfrom'] = date_format ( new DateTime (), 'Y-m-d' );
@@ -294,7 +293,7 @@ class rptexpenseController extends mvc {
 		$this->view->filter_class = $filter_class;
 		$this->view->form = $form;
 		$this->view->title = $title;
-	}
+	}*/
 	public function inventoryAction() {
 		$this->view->response ( 'window' );
 		
@@ -329,8 +328,8 @@ class rptexpenseController extends mvc {
 		}
 		
 		require_once __DIR__ . '/../accounts/!model/purchhist.php';
-		$purchHistObj = new purchhist ();
-		$this->view->inventoryList = $purchHistObj->getInventoryReport ( $where );
+		/*$purchHistObj = new purchhist ();
+		$this->view->inventoryList = $purchHistObj->getInventoryReport ( $where );*/
 		
 		//s($this->view->inventoryList);
 		

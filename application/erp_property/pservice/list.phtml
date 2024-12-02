@@ -1,0 +1,116 @@
+<form method="get" id="filter" name="filter" action="list">
+	<div class="main-content mt-0 hor-content">
+		<div class="side-app">
+			<!-- CONTAINER -->
+			<div class="main-container container">
+				<!-- PAGE-HEADER -->
+				<div class="page-header">
+					<div>
+						<h1 class="page-title">Property Services</h1>
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
+							<li class="breadcrumb-item active" aria-current="page">Manage Property Services</li>
+						</ol>
+					</div>
+					<div class="ms-auto pageheader-btn">
+						<?=x(array('link'=>'erp_property/pservice/add','label'=>'<button class="btn btn-success pull-right btn btn-primary btn-icon text-white me-2">Add Service <i class="fe fe-plus"></i></button>',array("param"=>'class="facebox"')),'<br><br>')?>
+					</div>
+				</div>
+				<!-- PAGE-HEADER END -->
+				<!-- ROW -->
+				<div class="row row-sm">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Filters</h3>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label class="form-label">Property</label>
+											<?=$this->form->f_property->show()?>
+										</div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="complaint_no" class="form-label">Complaint No</label>
+											<?=$this->form->f_complaint_no->show()?>
+										</div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="service_type" class="form-label">Service Type</label>
+											<?=$this->form->f_service_type->show()?>
+										</div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label class="form-label">Employee</label>
+											<?=$this->form->f_employee->show()?>
+										</div>
+									</div>
+								</div>
+								<button class="btn <?=$this->filter_class?> mt-4 mb-0" type="submit">Filter</button>
+								<input class="btn btn-secondary mt-4 mb-0" name="clear" type="submit" value="All"></input>
+							</div>
+						</div>
+					</div>
+					<div class="">
+						<div class="">
+							<div class="card">
+								<div class="card-header">
+									<h3 class="card-title">Property Services</h3>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table aria-describedby="" class="table table-bordered text-nowrap no-footer">
+											<thead class="border-top">
+												<tr role="row">
+													<th width="5%" class="center">Sl No</th>
+													<th width="10%" class="center">Property</th>
+													<th width="10%" class="center">Complaint No</th>
+													<th width="10%" class="center">Service Type</th>
+													<th width="15%" class="center">Employee</th>
+													<th width="10%" class="center">Request Date</th>
+													<th width="10%" class="center">Service Date</th>
+													<th width="10%" class="center">Amount</th>
+													<th width="5%" class="center">Edit</th>
+													<th width="5%" class="center">View</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php if(count($this->serviceList) > 0): ?>
+												<?php foreach ($this->serviceList as $service): 
+												$encFileId = $this->encode($service['fileid']);?>
+													<tr>
+														<td class="center"><?= @++$this->offset; ?></td>
+														<td class="center"><?= $service['prop_fileno']; ?></td>
+														<td><?= $service['psvs_complaint_no']; ?></td>
+														<td><?= $service['psvs_type_lbl']; ?></td>
+														<td><?= $service['employee_name']; ?></td>
+														<td align="center"><?= $service['psvs_disp_date']; ?></td>
+														<td align="center"><?= $service['psvs_srv_disp_date']; ?></td>
+														<td align="center"><?= number_format($service['psvs_amt_tot'],3); ?></td>
+														<td class="center">
+															<?= x(array('link'=>'erp_property/pservice/edit','ref'=>$this->encode($service['psvs_id']),'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"'))); ?>
+														</td>
+														<td class="center">
+															<?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="fas fa-search"></i>',array("param"=>'opener')))?>
+														</td>
+													</tr>
+												<?php endforeach; ?>
+												<?php endif; ?>
+											</tbody>
+										</table>
+										<?= $this->serviceObj->pagination(); ?>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

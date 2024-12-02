@@ -396,7 +396,7 @@ class reportsController extends mvc {
 		$this->view->purchaseList= $purchaseList;
 	}
 	
-	public function purchaselistingAction() {
+	public function purchaselistingAction() {/*
 		$this->view->response ( 'window' );
 		require_once __DIR__ . '/../accounts/!model/purchase.php';
 		require_once __DIR__ . '/../admin/!model/vendor.php';
@@ -490,6 +490,7 @@ class reportsController extends mvc {
 		$this->view->purchaseList= $purchaseList;
 		$this->view->form = $form;
 		$this->view->refno = $refno;
+		*/
 	}
 	
 	public function vendorpaymentsAction() {

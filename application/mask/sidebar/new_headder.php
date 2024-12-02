@@ -137,16 +137,23 @@ function mainMenu($encUserId)
         'link' => 'erp_property/tenants/list',
         'label' => 'Tenants'
     )) . '</li>';
+    
+
 
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_masters/building/list',
         'label' => 'Buildings'
     )) . '</li>';
     
+
+    
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_property/rent/propertypay',
         'label' => 'Rent Schedule',array("param" => 'wide_opener'))). '</li>';
-    
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
+        'link' => 'erp_property/pservice/list',
+        'label' => 'Maintanance'
+    )) . '</li>';
     
     $menuHtml .= '
             <li class="sub-slide">

@@ -52,8 +52,8 @@ class compdeptController extends mvc {
 		$user = new user ();
 		
 		$ref = filter_input ( INPUT_GET, 'ref', FILTER_UNSAFE_RAW );
-		$crypt = new encryption ();
-		$decUserId = $crypt->decode ( $ref );
+		//$crypt = new encryption ();
+		//$decUserId = $crypt->decode ( $ref );
 		
 		if (! $decUserId)
 			die ( 'tampered' );
