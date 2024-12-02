@@ -48,6 +48,14 @@ class pservice_m extends db_table {
     				when psvs_type = 3 then 'Painting'
     				when psvs_type = 4 then 'Other'
 				end as psvs_type_lbl,
+
+				case when psvs_feedback = 1 then 'BAD'
+    				when psvs_feedback = 2 then 'AVERAGE'
+    				when psvs_feedback = 3 then 'GOOD'
+    				when psvs_feedback = 4 then 'VERY GOOD'
+                    when psvs_feedback = 5 then 'EXCELLENT'
+				end as psvs_fb_lbl,
+
                 prop_fileno,
                 files.file_id as fileid,
                 docsrpt.doc_id as docsid",

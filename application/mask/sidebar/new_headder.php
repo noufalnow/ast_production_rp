@@ -178,6 +178,9 @@ function mainMenu($encUserId)
               <li class="sub-slide-item">'.
               x(array('link' => 'erp_report/property/tenantagreements','label' => 'Tenant Agreements',array("param" => 'wide_opener'))).'
               </li>
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/property/pservicerpt','label' => 'Maintanance Report',array("param" => 'wide_opener'))).'
+              </li>
             </ul>
             </li>
             ';

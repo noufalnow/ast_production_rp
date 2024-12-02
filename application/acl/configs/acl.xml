@@ -1447,6 +1447,13 @@
 					<resource>application</resource>
 					<type>view</type>
 				</action>
+				<action>
+					<name>pservicerpt</name>
+					<label>View Property Service Report</label>
+					<description>View Property Service Report</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
 			</controller>
 			<controller>
 				<name>vehicle</name>
