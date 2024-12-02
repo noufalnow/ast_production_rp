@@ -29,6 +29,7 @@ function mainMenu($encUserId)
     if (_REQUEST == 'erp_property/master/view' || 
         _REQUEST == 'erp_property/tenants/list' || 
         _REQUEST == 'erp_masters/building/list' ||
+        _REQUEST == 'erp_property/pservice/list' ||
         _REQUEST == 'erp_masters/building/dash')
         $active['erp_property/master/list'] = 'active';
 
