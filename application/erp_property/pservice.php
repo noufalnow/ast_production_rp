@@ -113,7 +113,7 @@ class pserviceController extends mvc
         ));
         
         
-        if ($_POST) {
+        if (isset($_POST) && count($_POST) > 0) {
             $valid = $form->vaidate($_POST, $_FILES);
             $valid = $valid[0];
             if ($valid == true) {
@@ -311,7 +311,7 @@ class pserviceController extends mvc
         ));
         
         // Handle submission
-        if ($_POST) {
+        if (isset($_POST) && count($_POST) > 0) {
             
             $form->addFile('my_files', 'Document', array(
                 'required' => false,
@@ -343,15 +343,18 @@ class pserviceController extends mvc
                     'psvs_emp' => $valid['psvs_emp'], // Map assigned employee
                     'psvs_time_in' => $valid['psvs_in'], // Map time in
                     'psvs_time_out' => $valid['psvs_out'], // Map time out
-                    'psvs_service_json' => json_encode(array( // Map service description and remarks
-                        'srv_desc' => $valid['srv_desc'],
-                        'srv_remarks' => $valid['srv_remarks']
+                    
+                    'psvs_service_json' => json_encode(array(
+                        'srv_desc' => array_values($valid['srv_desc'] ?? []), // Ensure it's an indexed array
+                        'srv_remarks' => array_values($valid['srv_remarks'] ?? [])
                     )),
-                    'psvs_parts_json' => json_encode(array( // Map item description, quantity, and amount
-                        'itm_desc' => $valid['itm_desc'],
-                        'itm_qty' => $valid['itm_qty'],
-                        'itm_amount' => $valid['itm_amount']
+                    'psvs_parts_json' => json_encode(array(
+                        'itm_desc' => array_values($valid['itm_desc'] ?? []),
+                        'itm_qty' => array_map('floatval', array_values($valid['itm_qty'] ?? [])), // Convert to numbers
+                        'itm_amount' => array_map('floatval', array_values($valid['itm_amount'] ?? []))
                     )),
+                    
+                    
                     'psvs_amt_mat' => $valid['psvs_amt_mat'], // Map total material amount
                     'psvs_amt_lab' => $valid['psvs_amt_lab'], // Map total labor amount
                     'psvs_amt_tot' => (float)$valid['psvs_amt_mat'] + (float)$valid['psvs_amt_lab'], // Calculate total amount

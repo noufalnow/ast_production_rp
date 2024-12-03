@@ -496,6 +496,7 @@ class form {
 					$mpost [$mkey] = trim ( $mvalue );
 				}
 				$post [$dkey] = $mpost;
+				$mpost = [];
 			} else
 				$post [$dkey] = trim ( $dvalue );
 		}
