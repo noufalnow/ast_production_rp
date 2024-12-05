@@ -80,6 +80,11 @@ class pservice_m extends db_table {
         if (!empty($cond['psvs_emp'])) {
             $this->_where[] = "psvs_emp = :psvs_emp";
         }
+        
+        if (!empty($cond['prop_building'])) {
+            $this->_where[] = "prop_building = :prop_building";
+        }
+        
 
         if (!empty($cond['psvs_complaint_no'])) {
             $this->_where[] = "lower(psvs_complaint_no) LIKE '%' || lower(:psvs_complaint_no) || '%'";
@@ -91,6 +96,12 @@ class pservice_m extends db_table {
         
         if (!empty($cond['psvs_type'])) {
             $this->_where[] = "psvs_type = :psvs_type";
+        }
+        
+        if (! empty($cond['f_monthpick'])) {
+            $monthYear = explode('/', $cond['f_monthpick']);
+            $this->_where[] = " (EXTRACT(month FROM psvs_srv_date) = '$monthYear[0]' AND EXTRACT(year FROM psvs_srv_date) = '$monthYear[1]' )";
+            unset($cond['f_monthpick']);
         }
               
 

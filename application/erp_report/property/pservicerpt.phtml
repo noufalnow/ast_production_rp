@@ -9,13 +9,15 @@
         </div>
 
             <?php if ($ref == ''): ?>
-                <table class="table table-bordered">
+
+                <table class="table table-bordered table-responsive">
                     <thead>
-                        <tr style="font-size: 0.8em;">
-                            <th width="25%">Property</th>
-                            <th width="25%">Complaint No</th>
-                            <th width="25%">Service Type</th>
-                            <th width="25%">Employee</th>
+                        <tr style="font-size: 0.9em; text-align: center;">
+                            <th width="20%">Property</th>
+                            <th width="20%">Complaint No</th>
+                            <th width="20%">Service Type</th>
+                            <th width="20%">Employee</th>
+                            <th width="20%">Building</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,17 +42,33 @@
                                     <?=$this->form->f_employee->show()?>
                                 </div>
                             </td>
+                            <td>
+                                <div class="form-group">
+                                    <?=$this->form->f_building->show()?>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr style="font-size: 0.9em; text-align: center;">
+                            <th colspan="5">Month</th>
                         </tr>
                         <tr>
-                            <td colspan="4" align="center">
+                            <td style="text-align: center;">
                                 <div class="form-group">
-                                    <button class="btn <?=$this->filter_class?>" type="submit">Filter</button>
-                                    <input class="btn btn-secondary" name="clear" type="submit" value="All"></input>
+                                    <?=$this->form->f_monthpick->show()?>
+                                </div>
+                            </td>
+                            <td colspan="1" style="text-align: center;">
+                                <div class="form-group">
+										<button  class="btn <?=$this->filter_class?> mt-4 mb-0" type="submit">Filter</button>
+										<input class="btn btn-secondary mt-4 mb-0" name="clear" type="submit" value="All"></input>
                                 </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+
+
+
             <?php endif ?>
 
     </div>
@@ -83,24 +101,28 @@
 			</table>
 		</div>
             <div class="card" style="margin-top: 10px; padding: 5px;">
-                <div class="col-md-3">
-                    <button class="btn btn-primary mb-3 rpt_frame" id="toggleDetails" type="button" onclick="toggleAllDetails(event)">Expand All</button>
-                </div>
-                <table class="table table-bordered text-nowrap no-footer rpt_frame">
-                    <thead class="border-top">
-                        <tr role="row">
-                            <th width="5%" class="center">Sl No</th>
-                            <th width="15%" class="center">Property</th>
-                            <th width="15%" class="center">Complaint No</th>
-                            <th width="15%" class="center">Service Type</th>
-                            <th width="10%" class="center">Request Date</th>
-                            <th width="10%" class="center">Service Done Date</th>
-                            <th width="10%" class="center">Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <div class="col-md-3">
+                <button class="btn btn-primary mb-3 rpt_frame" id="toggleDetails" type="button" onclick="toggleAllDetails(event)">Expand All</button>
+            </div>
+
                         <?php if (count($this->serviceList) > 0): ?>
                             <?php foreach ($this->serviceList as $index => $service): ?>
+                            
+                               <table class="table table-bordered text-nowrap no-footer rpt_frame <?php if($pages) echo"no-break-inside";?>" style="width: 100%; table-layout: fixed;">
+                                <thead class="border-top">
+                                    <tr role="row">
+                                        <th width="5%" class="center">Sl No</th>
+                                        <th width="15%" class="center">Property</th>
+                                        <th width="15%" class="center">Complaint No</th>
+                                        <th width="15%" class="center">Service Type</th>
+                                        <th width="10%" class="center">Request Date</th>
+                                        <th width="10%" class="center">Service Done Date</th>
+                                        <th width="10%" class="center">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                            
+                            
                                 <tr>
                                     <td class="center"><?= @++$this->offset; ?></td>
                                     <td><?= $service['prop_fileno']; ?></td>
@@ -114,8 +136,50 @@
                                     <td colspan="7" class="p-0">
                                         <div class="collapse" id="details-<?= $index; ?>">
                                             <div class="p-3">
-                                                <h5>Additional Details</h5>
-                                                <table class="table table-sm">
+                                                <h5 class="mt-3">Service Details</h5>
+                                                <table class="table table-sm" style="width: 100%; table-layout: fixed;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="50%">Description</th>
+                                                            <th width="50%">Remarks</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php
+                                                        $serviceDetails = json_decode($service['psvs_service_json'], true);
+                                                        if (!empty($serviceDetails)) :
+                                                            foreach ($serviceDetails['srv_desc'] as $i => $desc): ?>
+                                                                <tr>
+                                                                    <td><?= $desc; ?></td>
+                                                                    <td><?= $serviceDetails['srv_remarks'][$i] ?? ''; ?></td>
+                                                                </tr>
+                                                        <?php endforeach; endif; ?>
+                                                    </tbody>
+                                                </table>
+                                                <h5>Parts Details</h5>
+                                                <table class="table table-sm" style="width: 100%; table-layout: fixed;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="40%">Item Description</th>
+                                                            <th width="30%">Quantity</th>
+                                                            <th width="30%">Amount</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php
+                                                        $partsDetails = json_decode($service['psvs_parts_json'], true);
+                                                        if (!empty($partsDetails)) :
+                                                            foreach ($partsDetails['itm_desc'] as $i => $item): ?>
+                                                                <tr>
+                                                                    <td><?= $item; ?></td>
+                                                                    <td><?= $partsDetails['itm_qty'][$i] ?? ''; ?></td>
+                                                                    <td><?= $partsDetails['itm_amount'][$i] ?? ''; ?></td>
+                                                                </tr>
+                                                        <?php endforeach; endif; ?>
+                                                    </tbody>
+                                                </table>
+                                                                                               <h5>Additional Details</h5>
+                                                <table class="table table-sm" style="width: 100%; table-layout: fixed;">
                                                     <tr>
                                                         <th>Assigned Employee</th>
                                                         <td><?= $service['employee_name']; ?></td>
@@ -144,57 +208,17 @@
                                                         <th>Feedback</th>
                                                         <td colspan="3"><?= $service['psvs_fb_lbl']; ?></td>
                                                     </tr>
-                                                </table>
-                                                <h5 class="mt-3">Service Details</h5>
-                                                <table class="table table-sm">
-                                                    <thead>
-                                                        <tr>
-                                                            <th width="50%">Description</th>
-                                                            <th width="50%">Remarks</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php
-                                                        $serviceDetails = json_decode($service['psvs_service_json'], true);
-                                                        if (!empty($serviceDetails)) :
-                                                            foreach ($serviceDetails['srv_desc'] as $i => $desc): ?>
-                                                                <tr>
-                                                                    <td><?= $desc; ?></td>
-                                                                    <td><?= $serviceDetails['srv_remarks'][$i] ?? ''; ?></td>
-                                                                </tr>
-                                                        <?php endforeach; endif; ?>
-                                                    </tbody>
-                                                </table>
-                                                <h5>Parts Details</h5>
-                                                <table class="table table-sm">
-                                                    <thead>
-                                                        <tr>
-                                                            <th width="40%">Item Description</th>
-                                                            <th width="30%">Quantity</th>
-                                                            <th width="30%">Amount</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php
-                                                        $partsDetails = json_decode($service['psvs_parts_json'], true);
-                                                        if (!empty($partsDetails)) :
-                                                            foreach ($partsDetails['itm_desc'] as $i => $item): ?>
-                                                                <tr>
-                                                                    <td><?= $item; ?></td>
-                                                                    <td><?= $partsDetails['itm_qty'][$i] ?? ''; ?></td>
-                                                                    <td><?= $partsDetails['itm_amount'][$i] ?? ''; ?></td>
-                                                                </tr>
-                                                        <?php endforeach; endif; ?>
-                                                    </tbody>
-                                                </table>
+                                                </table> 
+                                                
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
-                            <?php endforeach; ?>
+                                </tbody>
+                			</table>
+                            <?php $pages = true; endforeach; ?>
                         <?php endif; ?>
-                    </tbody>
-                </table>
+
             </div>
         </div>
     </div>
@@ -214,5 +238,14 @@ function toggleAllDetails(event) {
 
     toggleButton.textContent = isExpanded ? 'Collapse All' : 'Expand All';
 }
-
+          
+$(document).ready(function() {
+    $('#f_monthpick').MonthPicker({ Button: false });
+});
 </script>
+
+<style>
+@media print {
+
+  }
+</style>

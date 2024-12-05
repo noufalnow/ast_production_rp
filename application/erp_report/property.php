@@ -612,6 +612,16 @@ class propertyController extends mvc
             'options' => $propertyList
         ) );
         
+        $form->addElement('f_monthpick', 'Select Month ', 'text', '', '', array(
+            '' => 'readonly'
+        ));
+        require_once __DIR__ . '/../admin/!model/building.php';
+        $buildingObj = new building();
+        $buildingList = $buildingObj->getBuildingPair();
+        $form->addElement('f_building', 'Building', 'select', '', array(
+            'options' => $buildingList
+        ));
+        
         // Reset filters if "All" is selected
         if (isset($_GET) && isset($_GET['clear']) && $_GET['clear'] == 'All') {
             $form->reset();
@@ -628,8 +638,10 @@ class propertyController extends mvc
                 $where = array(
                     'psvs_complaint_no' => @$valid['f_complaint_no'],
                     'psvs_type' => @$valid['f_service_type'],
+                    'prop_building' => @$valid['f_building'],
                     'psvs_emp' => @$valid['f_employee'],
-                    'psvs_prop_id' => @$valid['f_property']
+                    'psvs_prop_id' => @$valid['f_property'],
+                    'f_monthpick' => @$valid['f_monthpick']
                 );
             }
             $filter_class = 'btn-info'; // Highlight filter button if filters are applied

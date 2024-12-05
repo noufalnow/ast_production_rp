@@ -195,6 +195,14 @@ table.bg-blue-light {
 
 @media print { 
     .pages { page-break-before: always; } /* no change here */
+    
+    .no-break-inside {
+        page-break-inside: avoid !important;
+    }
+    
+    #toggleDetails {
+        display: none !important;
+    }    
 }
 
 .filter-card {
