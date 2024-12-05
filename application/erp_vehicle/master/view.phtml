@@ -284,10 +284,12 @@
                                                             <?php $encVhlSerId = $this->encode($status['srv_id']);?>
                                                             <tr
 																style="border-bottom-style: double; border-bottom-width: 4px;">
-																<td colspan="4" align=""><b>Date of Service:
+																<td colspan="3" align=""><b>Date of Service:
                                                                         <?=$status['srv_date_start']?></b></td>
-																<td colspan="4" align=""><b>Service Type:
+																<td colspan="3" align=""><b>Service Type:
                                                                         <?=$status['srv_type']?></b></td>
+                                                               <td colspan="2" align=""><b>Total Labour:
+                                                                        <?=$status['srv_labour']?></b></td>
 															</tr>
 															<tr>
 																<th class="center" width="5%">Reading</th>
@@ -334,26 +336,43 @@
 																		class="table table-bordered table-service">
                                                                         <?php if (count($serDet)>0):?>
                                                                         <tr>
-																			<td colspan="2" align="center"><b>Item</b></td>
-																			<td colspan="2" align="center"><b>Quantity</b></td>
-																			<td colspan="2" align="center"><b>Done by</b></td>
-																			<td colspan="2" align="center"><b>Note</b></td>
+																			<td align="center"><b>Item</b></td>
+																			<td align="center"><b>Quantity</b></td>
+																			<td align="center"><b>Unit</b></td>
+																			<td align="center"><b>Done by</b></td>
+																			<td align="center"><b>Note</b></td>
+																			<td align="center"><b>Price</b></td>
+																			<td align="center"><b>Bill</b></td>
 																		</tr>
-                                                                        <?php foreach ($serDet as $ser):?>
+                                                                        <?php foreach ($serDet as $ser):
+                                                                        $encExpId = $this->encode($ser['sdt_billid']);?>
                                                                         <tr>
-																			<td colspan="2" align="left">
+																			<td align="left">
                                                                                 <?=$ser['srv_item']?>
                                                                             </td>
-																			<td colspan="2" align="center">
+                                                                            <td align="center">
                                                                                 <?=$ser['sdt_qty']?>
                                                                             </td>
-																			<td colspan="2" align="center">
+																			<td align="center">
+                                                                                <?=$ser['sdt_unit']?>
+                                                                            </td>
+																			<td align="center">
                                                                                 <?=$ser['done_by']?>
                                                                             </td>
-																			<td colspan="2" align="left">
+																			<td align="left">
                                                                                 <?=$ser['sdt_note']?>
                                                                             </td>
+                                                                            
+																			<td align="center">
+                                                                                <?=$ser['sdt_price']?>
+                                                                            </td>
+																			<td align="left">
+																				<?=x(array('link'=>'erp_expense/expense/view','ref'=>$encExpId,'label'=>$ser['sdt_billid'],array("param"=>'class="facebox"')))?>
+                                                                            </td>                                                                            
 																		</tr>
+																		
+																		
+																		
                                                                         <?php endforeach;?>
                                                                         <?php endif;?>
                                                                     </table>

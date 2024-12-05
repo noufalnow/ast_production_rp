@@ -96,6 +96,25 @@ class expense extends db_table {
 		return parent::fetchPair ( $cond );
 	}
 	
+	public function getExpenseBillPair($cond = array()) {
+	    $this->query ( "select exp_id, 'EXP/' || exp_id ||' # '||  exp_amount ||' # '|| LEFT(ven_name, 10)  || '..' as explabel from $this->_table
+                        left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
+                        " );
+	    	    
+
+        $this->_where [] = "exp_mainh = :exp_mainh";
+        
+        $cond['exp_pcat'] = 4; //maintanace
+        $this->_where [] = "exp_pcat = :exp_pcat";
+        
+        
+        
+        $this->_order [] = 'exp_id DESC';
+        
+        return parent::fetchPair ( $cond );
+	}
+	
+	
 	public function geExpensePaginate($cond = array()) {
 		$this->paginate ( "select $this->_table.*,
 				comp.comp_disp_name,

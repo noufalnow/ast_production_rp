@@ -1482,9 +1482,9 @@
 				</action>
 
 				<action>
-					<name>commveh</name>
-					<label>Report : Commercial Vehicles</label>
-					<description>Report : Commercial Vehicles</description>
+					<name>vehicleservice</name>
+					<label>Report : Vehicle Service Report</label>
+					<description>Report : Vehicle Service Report</description>
 					<resource>application</resource>
 					<type>view</type>
 				</action>

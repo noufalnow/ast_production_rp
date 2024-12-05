@@ -236,6 +236,9 @@ function mainMenu($encUserId)
               <li class="sub-slide-item">'.
               x(array('link' => 'erp_report/vehicle/vehiclecontract','label' => 'Vehicle Contract',array("param" => 'wide_opener'))).'
               </li>
+              <li class="sub-slide-item">'.
+              x(array('link' => 'erp_report/vehicle/vehicleservice','label' => 'Vehicle Service',array("param" => 'wide_opener'))).'
+              </li>
             </ul>
             </li>
             ';

@@ -18,7 +18,7 @@
 					<div class="col-sm-3">
                     <?=$this->form->servicedt->show()?>
                   </div>
-                  <label class="col-sm-2 form-label" >Reading</label>
+                  <label class="col-sm-2 form-label" >Reading (KM)</label>
 					<div class="col-sm-4">
                     <?=$this->form->reading->show()?>
                   </div>
@@ -50,32 +50,53 @@
                     <?=$this->form->note->show()?>
                   </div>
 				</div>	
-				<div class="row mb-4">
-					<label class="col-sm-1 form-label" >Next </label>
-					<div class="col-sm-3">
-                    <?=$this->form->nxtstatus->show()?>
-                  </div>
-					<label class="col-sm-1 form-label" >Reading</label>
-					<div class="col-sm-3">
-                    <?=$this->form->readingnxt->show()?>
-                  </div>
-                  	<label class="col-sm-1 form-label" >Date</label>
-					<div class="col-sm-3">
-                    <?=$this->form->nextDt->show()?>
-                  </div>
-				</div>	
+
+
+                <div class="row mb-4 align-items-center">
+                    <!-- Label and Input for "Next" -->
+                    <label class="form-label" style="width: 10%;">Next</label>
+                    <div style="width: 15%;">
+                        <?=$this->form->nxtstatus->show()?>
+                    </div>
+                
+                    <!-- Label and Input for "Reading (KM)" -->
+                    <label class="form-label" style="width: 10%;">Reading (KM)</label>
+                    <div style="width: 15%;">
+                        <?=$this->form->readingnxt->show()?>
+                    </div>
+                
+                    <!-- Label and Input for "Date" -->
+                    <label class="form-label" style="width: 10%;">Date</label>
+                    <div style="width: 15%;">
+                        <?=$this->form->nextDt->show()?>
+                    </div>
+                
+                    <!-- Label and Input for "Labour" -->
+                    <label class="form-label" style="width: 10%;">Labour</label>
+                    <div style="width: 15%;">
+                        <?=$this->form->labour->show()?>
+                    </div>
+                </div>
+
+
+
+	
 				<div class="row mb-4">
 				<div id="mh_varis" class="col-sm-12">
                     <table width="100%" id="multi_table">
 					<tr style="font-size: 0.8em;">
-						<th width="15%" style="padding-bottom: 5px;">Item</th>
-						<th width="5%" style="padding-bottom: 5px;">Quantity</th>
-						<th width="15%" style="padding-bottom: 5px;">Done By</th>
-						<th width="15%" style="padding-bottom: 5px;">Note</th>
-						<th width="1%" style="padding-bottom: 5px;"></th>
+                        <th width="20%" style="padding-bottom: 5px;">Item</th>
+                        <th width="10%" style="padding-bottom: 5px;">Quantity</th>
+                        <th width="10%" style="padding-bottom: 5px;">Unit</th>
+                        <th width="20%" style="padding-bottom: 5px;">Done By</th>
+                        <th width="20%" style="padding-bottom: 5px;">Note</th>
+                        <th width="10%" style="padding-bottom: 5px;">Price</th>
+                        <th width="10%" style="padding-bottom: 5px;">Expense</th>
+                        <th width="0%" style="padding-bottom: 5px;"></th> <!-- Optional column for spacing -->
+
 					</tr>
-					<?php foreach($this->mfields as $i):?>
 					<tbody id="dup_body">
+					<?php foreach($this->mfields as $i):?>
 					<tr class="dup_row" index="<?=$i?>">
 						<td valign="top">
 		                	<?=$this->form->item[$i]->show()?>
@@ -84,10 +105,20 @@
 		                	<?=$this->form->quantity[$i]->show()?>
 						</td>
 						<td valign="top">
+		                	<?=$this->form->munit[$i]->show()?>
+						</td>
+
+						<td valign="top">
 		                		<?=$this->form->doneby[$i]->show()?>
 						</td>
 						<td valign="top">
 		                		<?=$this->form->mnote[$i]->show()?>
+						</td>
+						<td valign="top">
+		                		<?=$this->form->mprice[$i]->show()?>
+						</td>
+						<td valign="top">
+		                		<?=$this->form->mbillid[$i]->show()?>
 						</td>
 						<td valign="middle">
 			              <div>
@@ -111,47 +142,104 @@
 </form>	
 </div>
 <script type="text/javascript">
-var duprow = '';
-var duprow = '<tr class="dup_row">' + $('#dup_body >tr:last').html() + '</tr>';
-function delRow(row){
-	if($('.dup_row').length>1){
-		$(row).parents('tr').remove();
-	}
+var rowTemplates = {
+    multi_table: '',
+    multi_table_item: ''
+};
+
+// Initialize row templates for different tables
+$(document).ready(function () {
+    rowTemplates.multi_table = '<tr class="dup_row">' + $('#dup_body > tr:first').html() + '</tr>';
+    rowTemplates.multi_table_item = '<tr class="dup_row_item">' + $('#dup_body_item > tr:first').html() + '</tr>';
+});
+
+// Generic function to add a row
+function addRow(tableId) {
+    var tableBodyId = getTableBodyId(tableId); // Get the corresponding tbody ID
+    var lastRow = $('#' + tableBodyId + ' > tr:last'); // Find the last row in the tbody
+    var index = parseInt(lastRow.attr('index')) || 1; // Get the index of the last row
+    index++;
+
+    console.log(index);
+
+    // Clone the row template but exclude Chosen-rendered containers
+    var newRow = $(rowTemplates[tableId]).clone();
+    newRow.attr('index', index);
+
+    // Remove existing Chosen containers from the cloned row
+    newRow.find('.chosen-container').remove();
+
+    // Reset the new row's input values, remove errors, and update names/IDs
+    newRow.find(':input').each(function () {
+        var name = $(this).attr('name');
+        if (name) {
+            var newName = name.replace(/\[\d+\]/, '[' + index + ']');
+            $(this).attr('name', newName).attr('id', newName).val(''); // Update name and id, clear value
+        }
+    });
+
+    newRow.find('.input_error').removeClass('input_error');
+    newRow.find('.select_error').removeClass('select_error');
+    newRow.find('.error_text').remove();
+
+    // Insert the new row after the last one
+    lastRow.length ? lastRow.after(newRow) : $('#' + tableBodyId).append(newRow);
+    reindexRows(tableBodyId);
+    
+
+    // Reinitialize Chosen only for the new row
+    newRow.find('.chosen-select').chosen({
+        no_results_text: "Oops, nothing found!",
+        search_contains: true,
+        enable_split_word_search: true
+    });
 }
-function addRow(elemId) {
-	
-	var index = $('#' + elemId + ' tbody>tr:last').attr('index');
-	var index = parseInt('1'+index)+1;
-	
-	$(duprow).insertAfter($('#' + elemId + ' tbody>tr:last'));
 
-	$('#' + elemId + ' tbody>tr:last').find('.input_error').removeClass(
-			'input_error');
-	$('#' + elemId + ' tbody>tr:last').find('.select_error').removeClass(
-			'select_error');
-	$('#' + elemId + ' tbody>tr:last').find('.error_text').remove();
-	$('#' + elemId + ' tbody>tr:last').attr('index',index);
 
-	$.each($('#' + elemId + ' tr:last').find(':input'), function() {
+// Generic function to delete a row
+function delRow(row) {
+    var tableBody = $(row).closest('tbody'); // Find the parent tbody
+    var rowCount = tableBody.find('tr').length; // Count rows
 
-		var name = $(this).attr('name');
-		if (name !== undefined) {
-			var arr = name.split('[');
-			$(this).attr('id', arr[0] + '[' + index+ ']').attr(
-					'name', arr[0] + '[' + index + ']');
-		}
-		$('.chosen-select').chosen('destroy');  
-		$(".chosen-select").chosen({
-			no_results_text : "Oops, nothing found!",
-		    search_contains: true,
-		    enable_split_word_search: true
-		});
-	});
-	initDatePicker();
+    console.log("Row Count Before Deletion:", rowCount);
+
+    // Ensure at least one row remains
+    if (rowCount > 1) {
+        $(row).closest('tr').remove(); // Remove the row
+        console.log("Row deleted. Reindexing rows...");
+        reindexRows(tableBody.attr('id')); // Reindex remaining rows
+    } else {
+        console.log("Cannot delete the last row.");
+    }
 }
+
+// Utility function to get the corresponding tbody ID
+function getTableBodyId(tableId) {
+    return tableId === 'multi_table' ? 'dup_body' : 'dup_body_item';
+}
+
+// Utility function to get the corresponding row class
+function getRowClass(tableId) {
+    return tableId === 'multi_table' ? 'dup_row' : 'dup_row_item';
+}
+
+function reindexRows(tableBodyId) {
+    $('#' + tableBodyId + ' > tr').each(function (i) {
+        $(this).attr('index', i + 1); // Update the index attribute
+        $(this).find(':input').each(function () {
+            var name = $(this).attr('name');
+            if (name) {
+                var newName = name.replace(/\[\d+\]/, '[' + (i + 1) + ']');
+                $(this).attr('name', newName).attr('id', newName);
+            }
+        });
+    });
+}
+
 </script>
+
 <style>
 .modal-dialog{
-	width: 80%;
+	width: 90%;
 }
 </style>

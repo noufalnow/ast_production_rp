@@ -60,6 +60,13 @@ class servicesController extends mvc
             '' => 'readonly',
             'class' => 'date_picker'
         ));
+        
+        $form->addElement('labour', 'Labour', 'text', 'required', 'numeric', array(
+            'class' => 'floatonly',
+            
+        ));
+        
+        
         $form->addElement('note', 'Note', 'textarea', '', '');
         $count = 1;
         if (isset($_POST) && count($_POST) > 0) {
@@ -73,14 +80,43 @@ class servicesController extends mvc
         $form->addMultiElement('quantity', 'Quantity', 'float', 'numeric', '', array(
             'class' => ''
         ), $count);
+        
+        
         $form->addMultiElement('doneby', 'Done by', 'select', '', array(
             'options' => $empList
         ), array(
             'class' => 'full-select'
         ), $count);
+        
         $form->addMultiElement('mnote', 'Note', 'text', '', '', array(
             'class' => ''
         ), $count);
+        
+        
+        $form->addMultiElement('mprice', 'Price', 'text', 'required', 'numeric', array(
+            'class' => ''
+        ), $count);
+        
+        $form->addMultiElement('munit', 'Unit', 'text', 'required', '', array(
+            'class' => ''
+        ), $count);
+        
+        
+        require_once __DIR__ . '/../admin/!model/expense.php';
+        $expModelObj = new expense();
+        $expList = $expModelObj->getExpenseBillPair(['exp_mainh'=>3]);
+        
+        $form->addMultiElement('mbillid', 'Expense Entry', 'select', 'required', array(
+            'options' => $expList
+        ), array(
+            'class' => 'select'
+        ), $count);
+        
+        $form->addErrorMsg('mprice', 'required', 'Price Required');
+        $form->addErrorMsg('munit', 'required', 'Unit Required');
+        $form->addErrorMsg('mbillid', 'required', 'Expense Entry Required');
+        
+        
         $mfields = array_keys($form->_elements['item']);
         if ($_POST) {
             if (! isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
@@ -121,7 +157,9 @@ class servicesController extends mvc
                         'srv_date_next' => $dtnext,
                         'srv_nxt_type' => $valid['nxtstatus'],
                         'srv_reading_next' => $valid['readingnxt'],
-                        'srv_location' => $valid['location']
+                        'srv_location' => $valid['location'],
+                        'srv_labour' => $valid['labour'],
+                        
                     );
                     $insert = $serviceObj->add($data);
                     if ($insert) {
@@ -133,7 +171,10 @@ class servicesController extends mvc
                                     'sdt_item' => $valid['item'][$i],
                                     'sdt_qty' => $valid['quantity'][$i],
                                     'sdt_done_by' => $valid['doneby'][$i],
-                                    'sdt_note' => $valid['mnote'][$i]
+                                    'sdt_note' => $valid['mnote'][$i],
+                                    'sdt_unit' => $valid['munit'][$i],
+                                    'sdt_price' => $valid['mprice'][$i],
+                                    'sdt_billid' => $valid['mbillid'][$i]
                                 );
                                 $serviceDetObj->add($mdata);
                             }
@@ -189,6 +230,11 @@ class servicesController extends mvc
                 2 => "Minor Service"
             )
         ));
+        
+        $form->addElement('labour', 'Labour', 'text', 'required', 'numeric', array(
+            'class' => 'floatonly',
+            
+        ));
         $form->addElement('nxtstatus', 'Service', 'select', 'required', array(
             'options' => array(
                 1 => "Major Service",
@@ -235,7 +281,7 @@ class servicesController extends mvc
             'class' => 'full-select'
         ), $count);
         $form->addMultiElement('quantity', 'Quantity', 'float', 'numeric', '', array(
-            'class' => ''
+            'class' => 'floatonly',
         ), $count);
         $form->addMultiElement('doneby', 'Done by', 'select', '', array(
             'options' => $empList
@@ -245,6 +291,31 @@ class servicesController extends mvc
         $form->addMultiElement('mnote', 'Note', 'text', '', '', array(
             'class' => ''
         ), $count);
+        
+        
+        $form->addMultiElement('mprice', 'Price', 'text', 'required|numeric', 'numeric', array(
+            'class' => 'floatonly',
+        ), $count);
+        
+        $form->addMultiElement('munit', 'Unit', 'text', 'required', '', array(
+            'class' => ''
+        ), $count);
+        
+        
+        require_once __DIR__ . '/../admin/!model/expense.php';
+        $expModelObj = new expense();
+        $expList = $expModelObj->getExpenseBillPair(['exp_mainh'=>3]);
+        
+        $form->addMultiElement('mbillid', 'Expense Entry', 'select', 'required', array(
+            'options' => $expList
+        ), array(
+            'class' => 'select'
+        ), $count);
+        
+        $form->addErrorMsg('mprice', 'required', 'Price Required');
+        $form->addErrorMsg('munit', 'required', 'Unit Required');
+        $form->addErrorMsg('mbillid', 'required', 'Expense Entry Required');
+        
         $mfields = array_keys($form->_elements['item']);
         if ($_POST) {
             if (! isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
@@ -280,7 +351,8 @@ class servicesController extends mvc
                         'srv_date_next' => $dtnext,
                         'srv_nxt_type' => $valid['nxtstatus'],
                         'srv_reading_next' => $valid['readingnxt'],
-                        'srv_location' => $valid['location']
+                        'srv_location' => $valid['location'],
+                        'srv_labour' => $valid['labour'],
                     );
                     $update = $serviceObj->modify($data, $decRefId);
                     if ($update) {
@@ -295,7 +367,10 @@ class servicesController extends mvc
                                     'sdt_item' => $valid['item'][$i],
                                     'sdt_qty' => $valid['quantity'][$i],
                                     'sdt_done_by' => $valid['doneby'][$i],
-                                    'sdt_note' => $valid['mnote'][$i]
+                                    'sdt_note' => $valid['mnote'][$i],
+                                    'sdt_unit' => $valid['munit'][$i],
+                                    'sdt_price' => $valid['mprice'][$i],
+                                    'sdt_billid' => $valid['mbillid'][$i]
                                 );
                                 $serviceDetObj->add($mdata);
                             }
@@ -327,6 +402,7 @@ class servicesController extends mvc
             $form->nxtstatus->setValue($serviceDet['srv_nxt_type']);
             $form->readingnxt->setValue($serviceDet['srv_reading_next']);
             $form->location->setValue($serviceDet['srv_location']);
+            $form->labour->setValue($serviceDet['srv_labour']);
             $i = 0;
             if (count($serviceItemDet) > 0)
                 foreach ($serviceItemDet as $fields) {
@@ -334,6 +410,11 @@ class servicesController extends mvc
                     $form->quantity[$i]->setValue($fields['sdt_qty']);
                     $form->doneby[$i]->setValue($fields['sdt_done_by']);
                     $form->mnote[$i]->setValue($fields['sdt_note']);
+                                      
+                    $form->munit[$i]->setValue($fields['sdt_unit']);
+                    $form->mprice[$i]->setValue($fields['sdt_price']);
+                    $form->mbillid[$i]->setValue($fields['sdt_billid']);
+                    
                     $i ++;
                 }
         }

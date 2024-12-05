@@ -1,0 +1,288 @@
+<form method="get" id="filter" name="filter" action="">
+<div style="margin-top: 1%;">
+    <div class="col-md-12 card filter-card" style="margin-bottom: 0px;">
+        <div class="card-block" style="padding-top: 1%;">
+            <div class="full-width">
+                <button name="cmdPrint" value="Print" onclick="$('#report').printElement();" class="btn btn-primary pull-right" style="padding: 2px 12px;">Print</button>
+            </div>
+            <h5 class="title-margin">Report: Vehicle Service</h5>
+        </div>
+
+            <?php if ($ref == ''): ?>
+
+     <table class="table table-bordered table-responsive">
+       <thead>
+        <tr style="font-size: 0.9em; text-align: center;">
+            <th width="20%">Service Type</th>
+            <th width="20%">Vehicle No.</th>
+            <th width="15%"></th>
+            <th width="15%" class="pr_month">Date/Month</th>
+            <th width="15%" class="pr_fdt" style="display: none;">From Date</th>
+            <th width="15%" class="pr_tdt" style="display: none;">To Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <?= $this->form->f_type->show(); ?>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <?= $this->form->f_vhlno->show(); ?>
+                </div>
+            </td>
+            
+             <td  align="center">
+                <div class="form-group">
+					 <?= $this->form->f_period->show() ?>
+                </div>
+            </td>
+            
+            <td class="pr_month">
+                <div class="form-group">
+                    <?= $this->form->f_monthpick->show(); ?>
+                </div>
+            </td>
+            <td class="pr_fdt" style="display: none;">
+                <div class="form-group">
+                    <?= $this->form->f_dtfrom->show(); ?>
+                </div>
+            </td>
+            <td class="pr_tdt" style="display: none;">
+                <div class="form-group">
+                    <?= $this->form->f_dtto->show(); ?>
+                </div>
+            </td>
+        </tr>
+        <tr>
+                            <td colspan="5"  style="text-align: left;">
+                                <div class="form-group">
+										<button  class="btn <?=$this->filter_class?> mt-4 mb-0" type="submit">Filter</button>
+										<input class="btn btn-secondary mt-4 mb-0" name="clear" type="submit" value="All"></input>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+
+            <?php endif ?>
+
+    </div>
+
+<div class="col-md-12 " style="height: 100%; padding-left: 1%; padding-right: 1%;">
+<div id="report">
+<?php include __DIR__ . '/../../../public/css/printstyle_rpt.php.css';?>
+	<div  class="card" style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
+					<div style="margin-top: 3%;">
+						<table class="rpt_tbl">
+				<thead>
+					<tr>
+						<th width="1%" rowspan="3">
+							<div class="title-margin">
+								<img width="50" alt=""
+									src="http://<?=$_SERVER ['HTTP_HOST']?>/css/images/ast.png"
+									style="padding-top: 6px; padding-left: 0px; margin-left: 42px; margin-top: 5px;">
+							</div>
+						</th>
+					</tr>
+					<tr>
+						<th ><div class="center" style="width: 79%;">Abdullah
+								Salem Trading Est</div></th>
+					</tr>
+					<tr>
+						<th width=""><div class="center"
+								style="margin-top: 0px; margin-bottom: 10px; width: 79%;">Vehicle Service Report</div></th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+            <div class="card" style="margin-top: 10px; padding: 5px;">
+            <div class="col-md-3">
+                <button class="btn btn-primary mb-3 rpt_frame" id="toggleDetails" type="button" onclick="toggleAllDetails(event)">Expand All</button>
+            </div>
+
+                        <?php if (count($this->vhlService) > 0): ?>
+
+<?php foreach ($this->vhlService as $index => $status): ?>
+    <table class="table table-bordered text-nowrap no-footer rpt_frame <?php if ($pages) echo 'no-break-inside'; ?>" style="width: 100%; table-layout: fixed;">
+        <thead class="border-top">
+            <tr role="row">
+                <th width="5%">Sl No</th>
+                <th width="15%">Vehicle No</th>
+                <th width="10%">Service Date</th>
+                <th width="15%">Service Type</th>
+                <th width="10%">Total Labour</th>
+                <th width="10%">Reading</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Main Row -->
+            <tr>
+                <td class="center"><?= @++$this->offset; ?></td>
+                <td><?= $status['vhl_no']; ?></td>
+                <td><?= $status['srv_date_start_fmt']; ?></td>
+                <td><?= $status['srv_type_lbl']; ?></td>
+                <td><?= $status['srv_labour']; ?></td>
+                <td><?= $status['srv_reading']; ?></td>
+            </tr>
+            <!-- Collapsible Additional Details -->
+            <tr class="collapse-row">
+                <td colspan="6" class="p-0">
+                    <div class="collapse" id="details-<?= $index; ?>">
+                        <div class="p-3">
+                            <!-- Service Details Section -->
+                            <h5>Service Details</h5>
+                            <table class="table table-sm" style="width: 100%; table-layout: fixed;">
+                                <tr>
+                                    <th>Location</th>
+                                    <td><?= $status['srv_location']; ?></td>
+                                    <th>Wash</th>
+                                    <td><?= $status['srv_wash_lbl']; ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Grease</th>
+                                    <td><?= $status['srv_greese_lbl']; ?></td>
+                                    <th>Note</th>
+                                    <td><?= $status['srv_note']; ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Done By</th>
+                                    <td><?= $status['done_by']; ?></td>
+                                </tr>
+                            </table>
+                            
+
+
+                            <h5>Items Used</h5>
+                            <table class="table table-sm" style="width: 100%; table-layout: fixed;">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Quantity</th>
+                                        <th>Unit</th>
+                                        <th>Done By</th>
+                                        <th>Note</th>
+                                        <th>Price</th>
+                                        <th>Bill</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php 
+                                    $itemDetailsString = $status['item_details']; // Assuming 'item_details' contains the aggregated string
+                                    if (!empty($itemDetailsString)):
+                                        // Split the string into individual items
+                                        $itemDetailsArray = explode(' | ', $itemDetailsString); 
+                                        foreach ($itemDetailsArray as $itemDetail): 
+                                            // Use regex or explode to map each detail
+                                            preg_match('/Item: (?<srv_item>[^,]*), Quantity: (?<quantity>[^,]*), Unit: (?<unit>[^,]*), Done By: (?<done_by>[^,]*), Note: (?<note>[^,]*), Price: (?<price>[^,]*), Bill: (?<bill_id>[^,]*)/', $itemDetail, $matches);
+                                            ?>
+                                            <tr>
+                                                <td><?= $matches['srv_item'] ?? ''; ?></td>
+                                                <td><?= $matches['quantity'] ?? ''; ?></td>
+                                                <td><?= $matches['unit'] ?? ''; ?></td>
+                                                <td><?= $matches['done_by'] ?? ''; ?></td>
+                                                <td><?= $matches['note'] ?? ''; ?></td>
+                                                <td><?= $matches['price'] ?? ''; ?></td>
+                                                <td><?= $matches['bill_id'] ?? ''; ?></td>
+                                            </tr>
+                                        <?php 
+                                        endforeach; 
+                                    endif; 
+                                    ?>
+                                </tbody>
+                            </table>
+                            
+                           <!-- Next Service Details Section -->
+                            <h5>Next Service Details</h5>
+                            <table class="table table-sm" style="width: 100%; table-layout: fixed;">
+                                <tr>
+                                    <th>Next Service</th>
+                                    <td><?= $status['srv_nxt_type_lbl']; ?></td>
+                                    <th>Reading</th>
+                                    <td><?= $status['srv_reading_next']; ?></td>
+                                    <th>Date</th>
+                                    <td><?= $status['srv_date_next_fmt']; ?></td>
+                                </tr>
+                            </table>
+                            
+                            
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+<?php $pages = true; endforeach; ?>
+
+
+
+                        <?php endif; ?>
+
+            </div>
+        </div>
+    </div>
+</div>
+  </form>
+<script>
+function toggleAllDetails(event) {
+    event.preventDefault(); // Prevent default behavior
+
+    const toggleButton = document.getElementById('toggleDetails');
+    const isExpanded = toggleButton.textContent === 'Expand All';
+    const collapses = document.querySelectorAll('.collapse');
+
+    collapses.forEach(collapse => {
+        collapse.classList.toggle('show', isExpanded); // Toggle "show" class
+    });
+
+    toggleButton.textContent = isExpanded ? 'Collapse All' : 'Expand All';
+}
+          
+$(document).ready(function() {
+    $('#f_monthpick').MonthPicker({ Button: false });
+});
+</script>
+
+<style>
+@media print {
+
+  }
+</style>
+
+
+<script type="text/javascript">           
+$(document).ready(function() {
+    // Initialize the MonthPicker
+    $('#f_monthpick').MonthPicker({ Button: false });
+
+    // Run toggle logic on page load
+    toggledtoptions();
+
+    // Attach click event listeners to radio buttons
+    $('#f_period1, #f_period2').on('click', function() {
+        toggledtoptions();
+    });
+});
+
+// Function to toggle date options based on the selected period
+function toggledtoptions() {
+    if ($('#f_period1').is(':checked')) {
+        // Show the month picker and hide date range inputs
+        $('.pr_month').show();
+        $('.pr_fdt, .pr_tdt').hide();
+    } else if ($('#f_period2').is(':checked')) {
+        // Show the date range inputs and hide the month picker
+        $('.pr_month').hide();
+        $('.pr_fdt, .pr_tdt').show();
+    } else {
+        // Hide all options if none are selected
+        $('.pr_month, .pr_fdt, .pr_tdt').hide();
+    }
+}
+
+
+</script>

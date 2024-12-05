@@ -596,6 +596,9 @@ class db_table {
 		);
 	}
 	protected function dbug($data) {
+	    
+	    s ($data);
+	    
 		foreach ( $data as $k => $v ) {
 			$data [$k] = $v;
 			$bind [] = ":" . $k;
@@ -603,9 +606,10 @@ class db_table {
 		/*$bind[] = ':deleted';
 		$data['deleted'] = '0';*/
 		
-		s ($data);
+
 		
-		//s($this->_where);
+		s($this->_where);
+		
 		if(!empty($data))
 		$stmt = str_replace ( $bind, $data, $this->_qry );
 		else
