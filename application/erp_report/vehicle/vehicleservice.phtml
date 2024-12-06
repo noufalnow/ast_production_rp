@@ -10,11 +10,11 @@
 
             <?php if ($ref == ''): ?>
 
-     <table class="table table-bordered table-responsive">
+     <table class="">
        <thead>
         <tr style="font-size: 0.9em; text-align: center;">
-            <th width="20%">Service Type</th>
-            <th width="20%">Vehicle No.</th>
+            <th width="10%">Service Type</th>
+            <th width="10%">Vehicle No.</th>
             <th width="15%"></th>
             <th width="15%" class="pr_month">Date/Month</th>
             <th width="15%" class="pr_fdt" style="display: none;">From Date</th>
@@ -23,34 +23,34 @@
     </thead>
     <tbody>
         <tr>
-            <td>
+            <td style="width:10%;padding-right: 2%;">
                 <div class="form-group">
                     <?= $this->form->f_type->show(); ?>
                 </div>
             </td>
-            <td>
+            <td style="width:10%;">
                 <div class="form-group">
                     <?= $this->form->f_vhlno->show(); ?>
                 </div>
             </td>
             
-             <td  align="center">
+             <td  width="15%" align="center">
                 <div class="form-group">
 					 <?= $this->form->f_period->show() ?>
                 </div>
             </td>
             
-            <td class="pr_month">
+            <td width="15%" class="pr_month">
                 <div class="form-group">
                     <?= $this->form->f_monthpick->show(); ?>
                 </div>
             </td>
-            <td class="pr_fdt" style="display: none;">
+            <td width="15%" class="pr_fdt" style="display: none;">
                 <div class="form-group">
                     <?= $this->form->f_dtfrom->show(); ?>
                 </div>
             </td>
-            <td class="pr_tdt" style="display: none;">
+            <td width="15%" class="pr_tdt" style="display: none;">
                 <div class="form-group">
                     <?= $this->form->f_dtto->show(); ?>
                 </div>
@@ -167,7 +167,7 @@
                                         <th>Done By</th>
                                         <th>Note</th>
                                         <th>Price</th>
-                                        <th>Bill</th>
+                                        <th>Expense No.</th>
                                     </tr>
                                 </thead>
                                 <tbody>
