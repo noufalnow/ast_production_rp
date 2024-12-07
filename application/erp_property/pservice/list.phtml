@@ -103,7 +103,8 @@
         </thead>
         <tbody>
             <?php if (count($this->serviceList) > 0): ?>
-                <?php foreach ($this->serviceList as $index => $service): ?>
+                <?php foreach ($this->serviceList as $index => $service): 
+                $encFileId = $this->encode($service['fileid']); ?>
                     <tr>
                         <td class="center"><?= @++$this->offset; ?></td>
                         <td><?= $service['prop_fileno']; ?></td>

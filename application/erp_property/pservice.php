@@ -24,7 +24,7 @@ class pserviceController extends mvc
                 1 => "Electrical",
                 2 => "Plumbing",
                 3 => "Painting",
-                3 => "Other"
+                4 => "Other"
             )
         ));
         $form->addElement('psvs_complaint_no', 'Complaint No', 'text', 'required', '', array(
@@ -218,7 +218,7 @@ class pserviceController extends mvc
                 1 => "Electrical",
                 2 => "Plumbing",
                 3 => "Painting",
-                3 => "Other"
+                4 => "Other"
             )
         ));
         $form->addElement('psvs_complaint_no', 'Complaint No', 'text', 'required', '', array(
