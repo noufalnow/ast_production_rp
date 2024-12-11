@@ -1066,6 +1066,49 @@
 					<type>view</type>
 				</action>
 			</controller>
+			
+			<controller>
+				<name>calllog</name>
+				<label>Call log Management</label>
+				<description>Call log Management
+				</description>
+				<action>
+					<name>add</name>
+					<label>Add Call log</label>
+					<description>Add Call log</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>edit</name>
+					<label>Modify Call log</label>
+					<description>Modify Call log</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>list</name>
+					<label>List Call logs</label>
+					<description>List Call log</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>fupadd</name>
+					<label>Add followup log </label>
+					<description>Add followup log</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>fupedit</name>
+					<label>Update followup log</label>
+					<description>Update followup log</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+			</controller>
+			
 		</module>
 		<module>
 			<name>erp_fund</name>

@@ -1,0 +1,222 @@
+<?$offset = $this->callLogObj->_voffset;?>
+<form method="get" id="filter" name="filter" action="list">
+	<div class="main-content mt-0 hor-content">
+		<div class="side-app">
+			<!-- CONTAINER -->
+			<div class="main-container container">
+				<!-- PAGE-HEADER -->
+				<div class="page-header">
+					<div>
+						<h1 class="page-title">Business Call Log</h1>
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="javascript:void(0);">Home</a>
+							</li>
+							<li class="breadcrumb-item active" aria-current="page">Manage
+								Call Logs</li>
+						</ol>
+					</div>
+					<div class="ms-auto pageheader-btn">
+						<?=x(array('link'=>'erp_manage/calllog/add','label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')))?>
+					</div>
+				</div>
+				<!-- PAGE-HEADER END -->
+				<!-- ROW -->
+				<div class="row row-sm">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Filters</h3>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="phone_no" class="form-label">Phone Number</label>
+                                            <?=$this->form->f_phone_no->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="name" class="form-label">Name</label>
+                                            <?=$this->form->f_name->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="clog_date" class="form-label">Date</label>
+                                            <?=$this->form->f_date->show()?>
+                                        </div>
+									</div>
+									
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="clog_date" class="form-label">Date</label>
+                                            <?=$this->form->f_month->show()?>
+                                        </div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="logtype" class="form-label">Log Subject</label>
+                                            <?=$this->form->f_logtype->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="status" class="form-label">Action</label>
+                                            <?=$this->form->f_action->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="status" class="form-label">Status</label>
+                                            <?=$this->form->f_status->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3" style="padding-top: 2%;">
+    								<button class="btn <?=$this->filter_class?> mt-4 mb-0"
+    									type="submit">Filter</button>
+    								<input class="btn btn-secondary mt-4 mb-0" name="clear"
+    									type="submit" value="All"></input>
+									</div>
+									
+								</div>
+
+
+							</div>
+						</div>
+					</div>
+					<div class="">
+						<div class="">
+							<div class="card">
+								<div class="card-header">
+									<h3 class="card-title">Properties</h3>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive export-table">
+<table aria-describedby="" class="table table-bordered text-nowrap no-footer">
+    <thead class="border-top">
+        <tr role="row">
+            <th width="5%" class="center">Sl No</th>
+            <th width="15%" class="center">Phone Number</th>
+            <th width="15%" class="center">Name</th>
+            <th width="20%" class="center">Email</th>
+            <th width="10%" class="center">Date</th>
+            <th width="10%" class="center">Log Subject</th>
+            <th width="10%" class="center">Action</th>
+            <th width="5%" class="center">Edit</th>
+            <th width="10%" class="center">Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (count($this->calllogsList) > 0): ?>
+            <?php foreach ($this->calllogsList as $index => $log): 
+            $encLogId = $this->encode($log['clog_id']); 
+            $followups = $this->calllogfollowObj->getFollowsAll(array('cflo_clog_id'=>$log['clog_id']));
+            $latestFollowup = !empty($followups) ? reset($followups) : null; // Get the latest follow-up
+            ?>
+                <tr>
+                    <td class="center"><?= @++$offset; ?></td>
+                    <td><?= $log['clog_phone_no']; ?></td>
+                    <td><?= $log['clog_name']; ?></td>
+                    <td><?= $log['clog_email']; ?></td>
+                    <td class="center"><?= $log['clog_date_lbl']; ?></td>
+                    <td class="center"><?= $log['clog_type_label']; ?></td>
+                    <td class="center"><?= $log['clog_sts_cur_lbl']; ?></td>
+                    <td class="center">
+                        <?php if (empty($followups) && $log['clog_emp'] == USER_ID): ?>
+                            <?= x(array('link'=>'erp_manage/calllog/edit','ref'=>array('ref'=>$encLogId),'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"'))) ?>
+                        <?php endif; ?>
+                    </td>
+                    <td class="center">
+                        <button class="btn btn-sm <?= $log['clog_sts'] == 2 ? 'btn-success' : 'btn-danger'; ?>" type="button" 
+                                data-bs-toggle="collapse" 
+                                data-bs-target="#followups-<?= $index; ?>" 
+                                aria-expanded="false" aria-controls="followups-<?= $index; ?>">
+                            Log Details
+                        </button>
+                    </td>
+                </tr>
+<tr class="collapse-row">
+    <td colspan="9" class="p-0">
+        <div class="collapse p-3" id="followups-<?= $index; ?>">
+            <!-- Log Details Section -->
+            <div class="bg-light p-3 mb-3">
+                <p><i>Log: &nbsp;&nbsp;&nbsp;</i> <span style="font-size: 1.2rem;"><?= $log['clog_log']; ?></span></p>
+                <hr>
+                <p><i>Logged By:&nbsp;&nbsp;&nbsp;</i> <?= $log['emp_name']; ?></p>
+                <p><i>Logged At:&nbsp;&nbsp;&nbsp;</i> <?= $log['clog_date_time_lbl']; ?></p>
+                <p><i>Action Status:&nbsp;&nbsp;&nbsp;</i> <?= $log['clog_sts_for_lbl']; ?></p>
+            </div>
+
+            <!-- Follow-Up Details Section -->
+            <div class="bg-secondary p-4 mb-3" style="background-color: #67ef212b !important;border-radius: 5px;">
+                <h5 class="mt-3">
+                    Follow-up Details
+                    
+                    <?= x(array('link'=>'erp_manage/calllog/fupadd','ref'=>array('ref'=>$encLogId),'label'=>'<button class="btn btn-primary btn-sm shadow" style="float: right; background-color: #e29ae7 !important; border-color: #e29ae7 !important; margin-bottom: 1%;">Add Follow-up</button>',array("param"=>'class="facebox"'))) ?>
+                </h5>
+                <?php if (!empty($followups)): ?>
+                <table class="table table-sm" style="background-color: floralwhite !important;">
+                    <thead>
+                        <tr>
+                            <th class="center" width="20%">Date/Time</th>
+                            <th width="50%">Follow-up Log</th>
+                            <th class="center" width="20%">Action Status</th>
+                            <th class="center" width="20%">Follow-up By</th>
+                            <th class="center" width="10%">Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                        foreach ($followups as $key => $followup): ?>
+                            <tr>
+                                <td class="center"><?= $followup['cflo_date_time_lbl']; ?></td>
+                                <td><?= $followup['cflo_log']; ?></td>
+                                <td class="center"><?= $followup['cflo_sts_lbl']; ?></td>
+                                <td class="left"><?= $followup['emp_name']; ?></td>
+                                <td class="center">
+                                <?php if ($key === 0 && $followup['cflo_emp'] == USER_ID): // Show edit button only for the latest follow-up ?>
+                                    <?= x(array('link'=>'erp_manage/calllog/fupedit','ref'=>array('ref'=>$this->encode($followup['cflo_id'])),'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"'))) ?>
+                                <?php endif; ?>
+                                </td>
+                            </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <?php endif;?>
+            </div>
+        </div>
+    </td>
+</tr>
+
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="9" class="text-center">No call logs available</td>
+            </tr>
+        <?php endif; ?>
+    </tbody>
+</table>
+
+
+
+		<?$this->calllogObj->pagination();?>
+	</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<script>
+$(document).ready(function() {
+    $('#f_month').MonthPicker({ Button: false });
+});
+</script>
