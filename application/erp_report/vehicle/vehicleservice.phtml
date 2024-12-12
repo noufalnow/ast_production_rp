@@ -1,6 +1,6 @@
 <form method="get" id="filter" name="filter" action="">
 <div style="margin-top: 1%;">
-    <div class="col-md-12 card filter-card" style="margin-bottom: 0px;">
+    <div class="col-md-12 card filter-card no-print" style="margin-bottom: 0px;">
         <div class="card-block" style="padding-top: 1%;">
             <div class="full-width">
                 <button name="cmdPrint" value="Print" onclick="$('#report').printElement();" class="btn btn-primary pull-right" style="padding: 2px 12px;">Print</button>
@@ -111,12 +111,14 @@
     <table class="table table-bordered text-nowrap no-footer rpt_frame <?php if ($pages) echo 'no-break-inside'; ?>" style="width: 100%; table-layout: fixed;">
         <thead class="border-top">
             <tr role="row">
-                <th width="5%">Sl No</th>
-                <th width="15%">Vehicle No</th>
-                <th width="10%">Service Date</th>
-                <th width="15%">Service Type</th>
-                <th width="10%">Total Labour</th>
-                <th width="10%">Reading</th>
+                <th class="center" width="5%">Sl No</th>
+                <th class="center" width="15%">Vehicle No</th>
+                <th class="center" width="15%">Model</th>
+                <th class="center" width="10%">Service Date</th>
+                <th class="center" width="19%">Service Type</th>
+                <th class="center" width="12%">Spare Parts (RO.)</th>
+                <th class="center" width="12%">Labour (RO.)</th>
+                <th class="center" width="12%">Total (RO.)</th>
             </tr>
         </thead>
         <tbody>
@@ -124,14 +126,16 @@
             <tr>
                 <td class="center"><?= @++$this->offset; ?></td>
                 <td><?= $status['vhl_no']; ?></td>
-                <td><?= $status['srv_date_start_fmt']; ?></td>
+                <td><?= $status['vman_name']; ?> - <?=$status['type_name']?></td>
+                <td align="center"><?= $status['srv_date_start_fmt']; ?></td>
                 <td><?= $status['srv_type_lbl']; ?></td>
-                <td><?= $status['srv_labour']; ?></td>
-                <td><?= $status['srv_reading']; ?></td>
+                <td align="right"><?= number_format($status['total_item_price'], 3); ?>&nbsp;&nbsp;</td>
+                <td align="right"><?= number_format($status['srv_labour'], 3); ?>&nbsp;&nbsp;</td>
+                <td align="right"><?= number_format(($status['total_item_price']+$status['srv_labour']), 3); ?>&nbsp;&nbsp;</td>
             </tr>
             <!-- Collapsible Additional Details -->
             <tr class="collapse-row">
-                <td colspan="6" class="p-0">
+                <td colspan="8" class="p-0">
                     <div class="collapse" id="details-<?= $index; ?>">
                         <div class="p-3">
                             <!-- Service Details Section -->
@@ -152,6 +156,9 @@
                                 <tr>
                                     <th>Done By</th>
                                     <td><?= $status['done_by']; ?></td>
+                                    <th>Reading (KM)</th>
+                                    <td><?= $status['srv_reading']; ?></td>
+                                    
                                 </tr>
                             </table>
                             
@@ -161,13 +168,12 @@
                             <table class="table table-sm" style="width: 100%; table-layout: fixed;">
                                 <thead>
                                     <tr>
-                                        <th>Item</th>
-                                        <th>Quantity</th>
-                                        <th>Unit</th>
-                                        <th>Done By</th>
-                                        <th>Note</th>
-                                        <th>Price</th>
-                                        <th>Expense No.</th>
+                                        <th width="30%" class="center">Item</th>
+                                        <th width="10%" class="center">Quantity</th>
+                                        <th width="10%" class="center">Unit</th>
+                                        <th width="20%" class="center">Done By</th>
+                                        <th width="20%" class="center">Note</th>
+                                        <th width="10%" class="center">Price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -178,17 +184,17 @@
                                         $itemDetailsArray = explode(' | ', $itemDetailsString); 
                                         foreach ($itemDetailsArray as $itemDetail): 
                                             // Use regex or explode to map each detail
-                                            preg_match('/Item: (?<srv_item>[^,]*), Quantity: (?<quantity>[^,]*), Unit: (?<unit>[^,]*), Done By: (?<done_by>[^,]*), Note: (?<note>[^,]*), Price: (?<price>[^,]*), Bill: (?<bill_id>[^,]*)/', $itemDetail, $matches);
+                                        preg_match('/Item: (?<srv_item>[^,]*), Quantity: (?<quantity>[^,]*), Unit: (?<unit>[^,]*), Done By: (?<done_by>[^,]*), Note: (?<note>[^,]*), Price: (?<price>[^,]*), Bill: (?<bill_id>[^,]*)/', $itemDetail, $matches);
                                             ?>
-                                            <tr>
-                                                <td><?= $matches['srv_item'] ?? ''; ?></td>
-                                                <td><?= $matches['quantity'] ?? ''; ?></td>
-                                                <td><?= $matches['unit'] ?? ''; ?></td>
-                                                <td><?= $matches['done_by'] ?? ''; ?></td>
-                                                <td><?= $matches['note'] ?? ''; ?></td>
-                                                <td><?= $matches['price'] ?? ''; ?></td>
-                                                <td><?= $matches['bill_id'] ?? ''; ?></td>
-                                            </tr>
+                                        <tr>
+                                            <td><?= htmlspecialchars($matches['srv_item'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                            <td align="center"><?= htmlspecialchars($matches['quantity'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                            <td align="center"><?= htmlspecialchars($matches['unit'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                            <td><?= htmlspecialchars($matches['done_by'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                            <td><?= htmlspecialchars($matches['note'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                                            <td align="right"><?= isset($matches['price']) ? number_format((float)$matches['price'], 3) : '0.000'; ?>&nbsp;&nbsp;</td>
+                                        </tr>
+
                                         <?php 
                                         endforeach; 
                                     endif; 
@@ -286,3 +292,12 @@ function toggledtoptions() {
 
 
 </script>
+
+
+<style>
+@media print {
+        .no-print {
+            display: none !important;
+        }
+    }
+</style>

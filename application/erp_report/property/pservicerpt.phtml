@@ -1,71 +1,76 @@
 <form method="get" id="filter" name="filter" action="">
-<div style="margin-top: 1%;">
-    <div class="col-md-12 card filter-card" style="margin-bottom: 0px;">
-        <div class="card-block" style="padding-top: 1%;">
-            <div class="full-width">
-                <button name="cmdPrint" value="Print" onclick="$('#report').printElement();" class="btn btn-primary pull-right" style="padding: 2px 12px;">Print</button>
-            </div>
-            <h5 class="title-margin">Report: Property Maintanance Services</h5>
-        </div>
+	<div style="margin-top: 1%;">
+		<div class="col-md-12 card filter-card no-print"
+			style="margin-bottom: 0px;">
+			<div class="card-block" style="padding-top: 1%;">
+				<div class="full-width">
+					<button name="cmdPrint" value="Print"
+						onclick="$('#report').printElement();"
+						class="btn btn-primary pull-right" style="padding: 2px 12px;">Print</button>
+				</div>
+				<h5 class="title-margin">Report: Property Maintanance Services</h5>
+			</div>
 
             <?php if ($ref == ''): ?>
 
                 <table class="">
-                    <thead>
-                        <tr style="font-size: 0.9em; text-align: center;">
-                            <th width="20%">Property</th>
-                            <th width="20%">Complaint No</th>
-                            <th width="20%">Service Type</th>
-                            <th width="20%">Employee</th>
-                            <th width="20%">Building</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="form-group">
+				<thead>
+					<tr style="font-size: 0.9em; text-align: center;">
+						<th width="20%">Property</th>
+						<th width="20%">Complaint No</th>
+						<th width="20%">Service Type</th>
+						<th width="20%">Employee</th>
+						<th width="20%">Building</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<div class="form-group">
                                     <?=$this->form->f_property->show()?>
                                 </div>
-                            </td>
-                            <td>
-                                <div class="form-group">
+						</td>
+						<td>
+							<div class="form-group">
                                     <?=$this->form->f_complaint_no->show()?>
                                 </div>
-                            </td>
-                            <td>
-                                <div class="form-group">
+						</td>
+						<td>
+							<div class="form-group">
                                     <?=$this->form->f_service_type->show()?>
                                 </div>
-                            </td>
-                            <td>
-                                <div class="form-group">
+						</td>
+						<td>
+							<div class="form-group">
                                     <?=$this->form->f_employee->show()?>
                                 </div>
-                            </td>
-                            <td>
-                                <div class="form-group">
+						</td>
+						<td>
+							<div class="form-group">
                                     <?=$this->form->f_building->show()?>
                                 </div>
-                            </td>
-                        </tr>
-                        <tr style="font-size: 0.9em; text-align: center;">
-                            <th colspan="5">Month</th>
-                        </tr>
-                        <tr>
-                            <td style="text-align: center;">
-                                <div class="form-group">
+						</td>
+					</tr>
+					<tr style="font-size: 0.9em; text-align: center;">
+						<th colspan="5">Month</th>
+					</tr>
+					<tr>
+						<td style="text-align: center;">
+							<div class="form-group">
                                     <?=$this->form->f_monthpick->show()?>
                                 </div>
-                            </td>
-                            <td colspan="1" style="text-align: center;">
-                                <div class="form-group">
-										<button  class="btn <?=$this->filter_class?> mt-4 mb-0" type="submit">Filter</button>
-										<input class="btn btn-secondary mt-4 mb-0" name="clear" type="submit" value="All"></input>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+						</td>
+						<td colspan="1" style="text-align: center;">
+							<div class="form-group">
+								<button class="btn <?=$this->filter_class?> mt-4 mb-0"
+									type="submit">Filter</button>
+								<input class="btn btn-secondary mt-4 mb-0" name="clear"
+									type="submit" value="All"></input>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 
 
 
@@ -73,157 +78,174 @@
 
     </div>
 
-<div class="col-md-12 " style="height: 100%; padding-left: 1%; padding-right: 1%;">
-<div id="report">
+		<div class="col-md-12 "
+			style="height: 100%; padding-left: 1%; padding-right: 1%;">
+			<div id="report">
 <?php include __DIR__ . '/../../../public/css/printstyle_rpt.php.css';?>
-	<div  class="card" style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
+	<div class="card"
+					style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
 					<div style="margin-top: 3%;">
 						<table class="rpt_tbl">
-				<thead>
-					<tr>
-						<th width="1%" rowspan="3">
-							<div class="title-margin">
-								<img width="50" alt=""
-									src="http://<?=$_SERVER ['HTTP_HOST']?>/css/images/ast.png"
-									style="padding-top: 6px; padding-left: 0px; margin-left: 42px; margin-top: 5px;">
-							</div>
-						</th>
-					</tr>
-					<tr>
-						<th ><div class="center" style="width: 79%;">Abdullah
-								Salem Trading Est</div></th>
-					</tr>
-					<tr>
-						<th width=""><div class="center"
-								style="margin-top: 0px; margin-bottom: 10px; width: 79%;">Property Status Report</div></th>
-					</tr>
-				</thead>
-			</table>
-		</div>
-            <div class="card" style="margin-top: 10px; padding: 5px;">
-            <div class="col-md-3">
-                <button class="btn btn-primary mb-3 rpt_frame" id="toggleDetails" type="button" onclick="toggleAllDetails(event)">Expand All</button>
-            </div>
+							<thead>
+								<tr>
+									<th width="1%" rowspan="3">
+										<div class="title-margin">
+											<img width="50" alt=""
+												src="http://<?=$_SERVER ['HTTP_HOST']?>/css/images/ast.png"
+												style="padding-top: 6px; padding-left: 0px; margin-left: 42px; margin-top: 5px;">
+										</div>
+									</th>
+								</tr>
+								<tr>
+									<th><div class="center" style="width: 79%;">Abdullah Salem
+											Trading Est</div></th>
+								</tr>
+								<tr>
+									<th width=""><div class="center"
+											style="margin-top: 0px; margin-bottom: 10px; width: 79%;">Property
+											Status Report</div></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<div class="card" style="margin-top: 10px; padding: 5px;">
+						<div class="col-md-3">
+							<button class="btn btn-primary mb-3 rpt_frame" id="toggleDetails"
+								type="button" onclick="toggleAllDetails(event)">Expand All</button>
+						</div>
 
                         <?php if (count($this->serviceList) > 0): ?>
                             <?php foreach ($this->serviceList as $index => $service): ?>
                             
-                               <table class="table table-bordered text-nowrap no-footer rpt_frame <?php if($pages) echo"no-break-inside";?>" style="width: 100%; table-layout: fixed;">
-                                <thead class="border-top">
-                                    <tr role="row">
-                                        <th width="5%" class="center">Sl No</th>
-                                        <th width="15%" class="center">Property</th>
-                                        <th width="15%" class="center">Complaint No</th>
-                                        <th width="15%" class="center">Service Type</th>
-                                        <th width="10%" class="center">Request Date</th>
-                                        <th width="10%" class="center">Service Done Date</th>
-                                        <th width="10%" class="center">Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                            
-                            
-                                <tr>
-                                    <td class="center"><?= @++$this->offset; ?></td>
-                                    <td><?= $service['prop_fileno']; ?></td>
-                                    <td><?= $service['psvs_complaint_no']; ?></td>
-                                    <td><?= $service['psvs_type_lbl']; ?></td>
-                                    <td><?= $service['psvs_disp_date']; ?></td>
-                                    <td><?= $service['psvs_srv_disp_date']; ?></td>
-                                    <td><?= number_format($service['psvs_amt_tot'], 3); ?></td>
-                                </tr>
-                                <tr class="collapse-row">
-                                    <td colspan="7" class="p-0">
-                                        <div class="collapse" id="details-<?= $index; ?>">
-                                            <div class="p-3">
-                                                <h5 class="mt-3">Service Details</h5>
-                                                <table class="table table-sm" style="width: 100%; table-layout: fixed;">
-                                                    <thead>
-                                                        <tr>
-                                                            <th width="50%">Description</th>
-                                                            <th width="50%">Remarks</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
+                               <table
+							class="table table-bordered text-nowrap no-footer rpt_frame <?php if($pages) echo"no-break-inside";?>"
+							style="width: 100%; table-layout: fixed;">
+							<thead class="border-top">
+								<tr role="row">
+									<th width="5%" class="center">Sl No</th>
+									<th width="12%" class="center">Building</th>
+									<th width="15%" class="center">Property</th>
+									<th width="12%" class="center">Service Type</th>
+									<th width="18%" class="center">Complaint</th>
+									<th width="10%" class="center">Service Date</th>
+									<th width="9%" class="center">Labour (RO.)</th>
+									<th width="9%" class="center">Materials (RO.)</th>
+									<th width="10%" class="center">Total (RO.)</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="center"><?= @++$this->offset; ?></td>
+									<td><?= $service['bld_name']; ?></td>
+									<td align="center"><?= $service['prop_fileno']; ?></td>
+									<td align="center"><?= $service['psvs_type_lbl']; ?></td>
+									<td><?= $service['psvs_remarks']; ?></td>
+									<td align="center"><?= $service['psvs_srv_disp_date']; ?></td>
+									<td align="right"><?= number_format($service['psvs_amt_lab'], 3); ?>&nbsp;&nbsp;</td>
+									<td align="right"><?= number_format($service['psvs_amt_mat'], 3); ?>&nbsp;&nbsp;</td>
+									<td align="right"><?= number_format($service['psvs_amt_tot'], 3); ?>&nbsp;&nbsp;</td>
+								</tr>
+								<tr class="collapse-row">
+									<td colspan="9" class="p-0">
+										<div class="collapse" id="details-<?= $index; ?>">
+											<div class="p-3">
+												<h5 class="mt-3">Service Details</h5>
+												<table class="table table-sm"
+													style="width: 100%; table-layout: fixed;">
+													<thead>
+														<tr>
+															<th width="50%">Description</th>
+															<th width="50%">Remarks</th>
+														</tr>
+													</thead>
+													<tbody>
                                                         <?php
-                                                        $serviceDetails = json_decode($service['psvs_service_json'], true);
-                                                        if (!empty($serviceDetails)) :
-                                                            foreach ($serviceDetails['srv_desc'] as $i => $desc): ?>
+                                $serviceDetails = json_decode($service['psvs_service_json'], true);
+                                if (! empty($serviceDetails)) :
+                                    foreach ($serviceDetails['srv_desc'] as $i => $desc) :
+                                        ?>
                                                                 <tr>
-                                                                    <td><?= $desc; ?></td>
-                                                                    <td><?= $serviceDetails['srv_remarks'][$i] ?? ''; ?></td>
-                                                                </tr>
+															<td><?= $desc; ?></td>
+															<td><?= $serviceDetails['srv_remarks'][$i] ?? ''; ?></td>
+														</tr>
                                                         <?php endforeach; endif; ?>
                                                     </tbody>
-                                                </table>
-                                                <h5>Parts Details</h5>
-                                                <table class="table table-sm" style="width: 100%; table-layout: fixed;">
-                                                    <thead>
-                                                        <tr>
-                                                            <th width="40%">Item Description</th>
-                                                            <th width="30%">Quantity</th>
-                                                            <th width="30%">Amount</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
+												</table>
+												<h5>Parts Details</h5>
+												<table class="table table-sm"
+													style="width: 100%; table-layout: fixed;">
+													<thead>
+														<tr>
+															<th width="40%">Item Description</th>
+															<th width="30%">Quantity</th>
+															<th width="30%">Amount</th>
+														</tr>
+													</thead>
+													<tbody>
                                                         <?php
-                                                        $partsDetails = json_decode($service['psvs_parts_json'], true);
-                                                        if (!empty($partsDetails)) :
-                                                            foreach ($partsDetails['itm_desc'] as $i => $item): ?>
+                                $partsDetails = json_decode($service['psvs_parts_json'], true);
+                                if (! empty($partsDetails)) :
+                                    foreach ($partsDetails['itm_desc'] as $i => $item) :
+                                        ?>
                                                                 <tr>
-                                                                    <td><?= $item; ?></td>
-                                                                    <td><?= $partsDetails['itm_qty'][$i] ?? ''; ?></td>
-                                                                    <td><?= $partsDetails['itm_amount'][$i] ?? ''; ?></td>
-                                                                </tr>
+															<td><?= $item; ?></td>
+															<td><?= $partsDetails['itm_qty'][$i] ?? ''; ?></td>
+															<td><?= $partsDetails['itm_amount'][$i] ?? ''; ?></td>
+														</tr>
                                                         <?php endforeach; endif; ?>
                                                     </tbody>
-                                                </table>
-                                                                                               <h5>Additional Details</h5>
-                                                <table class="table table-sm" style="width: 100%; table-layout: fixed;">
-                                                    <tr>
-                                                        <th>Assigned Employee</th>
-                                                        <td><?= $service['employee_name']; ?></td>
-                                                        <th>Time In</th>
-                                                        <td><?= $service['psvs_time_in']; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Time Out</th>
-                                                        <td><?= $service['psvs_time_out']; ?></td>
-                                                        <th>Remarks</th>
-                                                        <td><?= $service['psvs_remarks']; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Total Material (RO.)</th>
-                                                        <td><?= number_format($service['psvs_amt_mat'], 3); ?></td>
-                                                        <th>Total Labour (RO.)</th>
-                                                        <td><?= number_format($service['psvs_amt_lab'], 3); ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Name</th>
-                                                        <td><?= $service['psvs_signed']; ?></td>
-                                                        <th>Phone</th>
-                                                        <td><?= $service['psvs_signed_phone']; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Feedback</th>
-                                                        <td colspan="3"><?= $service['psvs_fb_lbl']; ?></td>
-                                                    </tr>
-                                                </table> 
-                                                
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                			</table>
+												</table>
+												<h5>Additional Details</h5>
+												<table class="table table-sm"
+													style="width: 100%; table-layout: fixed;">
+													<tr>
+														<th>Assigned Employee</th>
+														<td><?= $service['employee_name']; ?></td>
+														<th>Time In</th>
+														<td><?= $service['psvs_time_in']; ?></td>
+													</tr>
+													<tr>
+														<th>Time Out</th>
+														<td><?= $service['psvs_time_out']; ?></td>
+														<th>Remarks</th>
+														<td><?= $service['psvs_remarks']; ?></td>
+													</tr>
+													<tr>
+														<th>Phone</th>
+														<td><?= $service['psvs_signed_phone']; ?></td>
+														<th>Total Material (RO.)</th>
+														<td><?= number_format($service['psvs_amt_mat'], 3); ?></td>
+													</tr>
+													<tr>
+														<th>Name</th>
+														<td><?= $service['psvs_signed']; ?></td>
+														<th>Total Labour (RO.)</th>
+														<td><?= number_format($service['psvs_amt_lab'], 3); ?></td>
+													</tr>
+													<tr>
+														<th>Feedback</th>
+														<td><?= $service['psvs_fb_lbl']; ?></td>
+														<th>Total Maintanance Cost (RO.)</th>
+														<th><?= number_format($service['psvs_amt_tot'], 3); ?></th>
+
+													</tr>
+												</table>
+
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
                             <?php $pages = true; endforeach; ?>
                         <?php endif; ?>
 
             </div>
-        </div>
-    </div>
-</div>
-  </form>
+				</div>
+			</div>
+		</div>
+
+</form>
 <script>
 function toggleAllDetails(event) {
     event.preventDefault(); // Prevent default behavior
@@ -246,6 +268,8 @@ $(document).ready(function() {
 
 <style>
 @media print {
-
-  }
+	.no-print {
+		display: none !important;
+	}
+}
 </style>

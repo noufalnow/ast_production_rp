@@ -71,7 +71,7 @@ class pserviceController extends mvc
         $form->addElement('psvs_emp', 'Assigned Employee', 'select', '', array(
             'options' => $empList
         ));
-        $form->addElement('psvs_remarks', 'Remarks', 'textarea', '', '', array(
+        $form->addElement('psvs_remarks', 'Complaint', 'textarea', '', '', array(
             'autocomplete' => 'off'
         ));
         
@@ -265,7 +265,7 @@ class pserviceController extends mvc
         $form->addElement('psvs_emp', 'Assigned Employee', 'select', '', array(
             'options' => $empList
         ));
-        $form->addElement('psvs_remarks', 'Remarks', 'textarea', '', '', array(
+        $form->addElement('psvs_remarks', 'Complaint', 'textarea', '', '', array(
             'autocomplete' => 'off'
         ));
         

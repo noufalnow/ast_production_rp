@@ -11857,9 +11857,9 @@ table {
     border-collapse: collapse;
 }
 
-.table> :not(:last-child)> :last-child>* {
+/*.table> :not(:last-child)> :last-child>* {
     border-bottom-color: #eaedf1;
-}
+}*/
 
 .table> :not(caption)>*>* {
     background: transparent;
@@ -28755,9 +28755,9 @@ body.dark-mode *:hover::-webkit-scrollbar-thumb {
     color: inherit;
 }
 
-.dark-mode .table> :not(:last-child)> :last-child>* {
+/*.dark-mode .table> :not(:last-child)> :last-child>* {
     border-bottom-color: rgba(255, 255, 255, 0.1);
-}
+}*/
 
 .dark-mode .dropify-wrapper .dropify-message span.file-icon {
     color: rgba(255, 255, 255, 0.4);

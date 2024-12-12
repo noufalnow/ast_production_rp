@@ -102,15 +102,27 @@ class service extends db_table {
                                     AND sdt.deleted = 0
 
                             ), ' | '
-                        ) AS item_details
+                        ) AS item_details,
+
+                        (
+                            SELECT SUM(sdt.sdt_price)
+                            FROM mis_vhl_srv_det AS sdt
+                            WHERE sdt.sdt_srv_id = mis_vhl_service.srv_id
+                            AND sdt.deleted = 0
+                        ) AS total_item_price,
+                    man.vman_name,
+                    type.type_name
+
                     FROM 
                         mis_vhl_service
                     LEFT JOIN 
                         mis_employee AS emp ON emp.emp_id = mis_vhl_service.srv_done_by AND emp.deleted = 0
                     LEFT JOIN 
-                        mis_vehicle AS vhl ON vhl.vhl_id = mis_vhl_service.srv_vhl_id AND vhl.deleted = 0" );
+                        mis_vehicle AS vhl ON vhl.vhl_id = mis_vhl_service.srv_vhl_id AND vhl.deleted = 0
+                    LEFT JOIN mis_vehicle_type as type on type.type_id = vhl.vhl_type and type.deleted = 0
+				    LEFT JOIN mis_vehicle_man as man on man.vman_id = vhl.vhl_man and man.deleted = 0" );
 		
-		$this->_group = ['mis_vhl_service.srv_id','emp.emp_fname','emp.emp_mname','emp.emp_lname','vhl.vhl_no'];
+		$this->_group = ['man.vman_name','type.type_name','mis_vhl_service.srv_id','emp.emp_fname','emp.emp_mname','emp.emp_lname','vhl.vhl_no'];
 				
 		if (!empty  ( $cond ['f_vhlno'] ))
 			$this->_where [] = "srv_vhl_id= :f_vhlno";

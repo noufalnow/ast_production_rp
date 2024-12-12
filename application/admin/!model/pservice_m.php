@@ -55,6 +55,7 @@ class pservice_m extends db_table {
     				when psvs_feedback = 4 then 'VERY GOOD'
                     when psvs_feedback = 5 then 'EXCELLENT'
 				end as psvs_fb_lbl,
+                bld_name,
 
                 prop_fileno,
                 files.file_id as fileid,
@@ -62,6 +63,7 @@ class pservice_m extends db_table {
             "FROM $this->_table
             LEFT JOIN mis_employee AS emp ON emp.emp_id = $this->_table.psvs_emp AND emp.deleted = 0
             LEFT JOIN mis_property AS prop ON psvs_prop_id = prop.prop_id
+            LEFT JOIN mis_building AS build ON prop.prop_building = build.bld_id
             LEFT JOIN mis_documents AS docsrpt ON docsrpt.doc_type = " . DOC_TYPE_PROP_SRV . "
                 AND docsrpt.doc_ref_type = " . DOC_TYPE_PROP_SRV . "
                 AND docsrpt.doc_ref_id = psvs_id
