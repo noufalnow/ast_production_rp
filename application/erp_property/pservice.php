@@ -376,7 +376,7 @@ class pserviceController extends mvc
                     if ($valid['my_files']) {
                         if ($serviceData['docsid']) {
                             $docs->deleteDocument($serviceData['docsid']);
-                            deleteFile($serviceData['idfile']);
+                            deleteFile($serviceData['fileid']);
                             $file->deleteFile($serviceData['docsid']);
                         }
 

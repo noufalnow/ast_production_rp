@@ -282,12 +282,13 @@
 														</thead>
 														<tbody>
                                                             <?php $encVhlSerId = $this->encode($status['srv_id']);?>
+                                                            <?php $encSrvFileId = $this->encode($status['fileid']);?>		
                                                             <tr
 																style="border-bottom-style: double; border-bottom-width: 4px;">
 																<td colspan="3" align=""><b>Date of Service:
-                                                                        <?=$status['srv_date_start']?></b></td>
+                                                                        <?=$status['srv_date_start_lb']?></b></td>
 																<td colspan="3" align=""><b>Service Type:
-                                                                        <?=$status['srv_type']?></b></td>
+                                                                        <?=$status['srv_type_lbl']?></b></td>
                                                                <td colspan="2" align=""><b>Total Labour:
                                                                         <?=$status['srv_labour']?></b></td>
 															</tr>
@@ -312,21 +313,22 @@
                                                                     <?=$status['done_by']?>
                                                                 </td>
 																<td align="center">
-                                                                    <?=$status['srv_wash']?>
+                                                                    <?=$status['srv_wash_lbl']?>
                                                                 </td>
 																<td align="center">
-                                                                    <?=$status['srv_greese']?>
+                                                                    <?=$status['srv_greese_lbl']?>
                                                                 </td>
 																<td align="center">
                                                                     <?=$status['srv_note']?>
                                                                 </td>
 																<td align="center">
-                                                                    <?=$status['srv_nxt_type']?> -
+                                                                    <?=$status['srv_nxt_type_lbl']?> -
                                                                     <?=$status['srv_reading_next']?> -
-                                                                    <?=$status['srv_date_next']?>
+                                                                    <?=$status['srv_date_next_lb']?>
                                                                 </td>
 																<td align="center">
                                                                     <?=x(array('link'=>'erp_vehicle/services/vhlserviceedit','ref'=>$encVhlSerId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>
+                                                                    <?=x(array('link'=>'default/default/download','ref'=>$encSrvFileId,'label'=>'<i class="fas fa-download"></i>',array("param"=>'opener')))?>
                                                                 </td>
 															</tr>
 															<tr>

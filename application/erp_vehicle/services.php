@@ -116,6 +116,12 @@ class servicesController extends mvc
         $form->addErrorMsg('munit', 'required', 'Unit Required');
         $form->addErrorMsg('mbillid', 'required', 'Expense Entry Required');
         
+        $form->addFile('my_files', 'Document', array(
+            'required' => true,
+            'exten' => 'pdf',
+            'size' => 5375000
+        ));
+        
         
         $mfields = array_keys($form->_elements['item']);
         if ($_POST) {
@@ -179,6 +185,22 @@ class servicesController extends mvc
                                 $serviceDetObj->add($mdata);
                             }
                         }
+                        
+                        require_once __DIR__ . '/../admin/!model/documents.php';
+                        $docs = new documets();
+                        
+                        $fdata = array(
+                            'doc_type' => DOC_TYPE_VHL_SRV,
+                            'doc_ref_type' => DOC_TYPE_VHL_SRV,
+                            'doc_ref_id' => $insert
+                        );
+                        $srvRpt = $docs->add($fdata);
+                        if ($srvRpt) {
+                            $upload = uploadFiles(DOC_TYPE_VHL_SRV, $srvRpt, $valid['my_files']);
+                        }
+                        
+                        
+                        
                         $feedback = ' Service Updated successfully';
                          $this->view->NoViewRender = true;
                         $success = array(
@@ -208,7 +230,13 @@ class servicesController extends mvc
         $decRefId = $this->view->decode($this->view->param['ref']);
         if (! $decRefId)
             die('tampered');
-        $serviceDet = $serviceObj->getDetById($decRefId);
+        
+        $serviceDet = $serviceObj->getDetByVehicleId(array(
+            'srv_id' => $decRefId
+        ));
+        
+        $serviceDet = $serviceDet['0'];
+        
         require_once __DIR__ . '/../admin/!model/employee.php';
         $empModelObj = new employee();
         $empList = $empModelObj->getEmployeePair();
@@ -316,6 +344,12 @@ class servicesController extends mvc
         $form->addErrorMsg('munit', 'required', 'Unit Required');
         $form->addErrorMsg('mbillid', 'required', 'Expense Entry Required');
         
+        $form->addFile('my_files', 'Document', array(
+            'required' => true,
+            'exten' => 'pdf',
+            'size' => 5375000
+        ));
+        
         $mfields = array_keys($form->_elements['item']);
         if ($_POST) {
             if (! isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
@@ -333,6 +367,15 @@ class servicesController extends mvc
                     // if ($_POST ['item'] [$i] != '' && $_POST ['mnote'] [$i] == '')
                     // $form->addmRules ( 'mnote', $i, 'required' );
                 }
+                
+                
+                $form->addFile('my_files', 'Document', array(
+                    'required' => false,
+                    'exten' => 'pdf',
+                    'size' => 5375000
+                ));
+                
+                
                 $valid = $form->vaidate($_POST, $_FILES);
                 $valid = $valid[0];
                 if ($valid == true) {
@@ -375,6 +418,33 @@ class servicesController extends mvc
                                 $serviceDetObj->add($mdata);
                             }
                         }
+                        
+                        
+                        require_once __DIR__ . '/../admin/!model/documents.php';
+                        $docs = new documets();
+                        $file = new files();
+                        
+                        
+                        if ($valid['my_files']) {
+                            if ($serviceDet['docsid']) {
+                                $docs->deleteDocument($serviceDet['docsid']);
+                                deleteFile($serviceDet['fileid']);
+                                $file->deleteFile($serviceDet['docsid']);
+                            }
+                            
+                            $srvdata = array(
+                                'doc_type' => DOC_TYPE_VHL_SRV,
+                                'doc_ref_type' => DOC_TYPE_VHL_SRV,
+                                'doc_ref_id' => $decRefId
+                            );
+                            $srvRpt = $docs->add($srvdata);
+                            if ($srvRpt) {
+                                $upload = uploadFiles(DOC_TYPE_VHL_SRV, $srvRpt, $valid['my_files']);
+                            }
+                        }
+                        
+                        
+                        
                         $feedback = ' Service Updated successfully';
                          $this->view->NoViewRender = true;
                         $success = array(
@@ -387,6 +457,8 @@ class servicesController extends mvc
                 }
             }
         } else {
+            
+            
             $startDt = DateTime::createFromFormat(DFS_DB, $serviceDet['srv_date_start']);
             $startDt = $startDt->format(DF_DD);
             $form->servicedt->setValue($startDt);
@@ -421,5 +493,8 @@ class servicesController extends mvc
         $this->view->form = $form;
         $this->view->formRender = $formRender;
         $this->view->mfields = $mfields;
+        
+        $this->view->encSrvFileId = $this->view->encode($serviceDet['fileid']);
+        
     }
 }

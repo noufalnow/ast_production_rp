@@ -1,5 +1,5 @@
 <div class="dynamic-popup" id="dynamic-popup"><!--  -->
-	<form name="form" method="post" id="edit" action='erp_vehicle/services/vhlserviceedit/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;">
+	<form name="form" method="post" id="edit" action='erp_vehicle/services/vhlserviceedit/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;" enctype="multipart/form-data">
 	<div class="modal-header">
 				<h4 class="card-title">Service details</h4>
 				<button type="button" aria-label="Close" class="btn-close" data-bs-dismiss="modal">
@@ -46,8 +46,13 @@
 
 				<div class="row mb-4">
 					<label class="col-sm-3 form-label" >Note</label>
-					<div class="col-sm-9">
+					<div class="col-sm-5">
                     <?=$this->form->note->show()?>
+                  </div>
+
+					<label class="col-sm-1 form-label" >File <?=x(array('link'=>'default/default/download','ref'=>$this->encSrvFileId,'label'=>'<i class="fas fa-download"></i>',array("param"=>'opener')))?></label>
+					<div class="col-sm-3">
+                    <?=$this->form->my_files->show()?>
                   </div>
 				</div>	
                 <div class="row mb-4 align-items-center">

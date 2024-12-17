@@ -21,30 +21,45 @@ class service extends db_table {
 			
 					case when srv_type = 1 then 'Major Srv'
 						when srv_type = 2 then 'Minor Srv'
-					end as srv_type,
+					end as srv_type_lbl,
 
 					case when srv_wash = 1 then 'No'
 						when srv_wash = 2 then 'Yes'
-					end as srv_wash,
+					end as srv_wash_lbl,
 
 					case when srv_greese = 1 then 'No'
 						when srv_greese = 2 then 'Yes'
-					end as srv_greese,
+					end as srv_greese_lbl,
 
 					case when srv_nxt_type = 1 then 'Major Srv'
 						when srv_nxt_type = 2 then 'Minor Srv'
-					end as srv_nxt_type,
+					end as srv_nxt_type_lbl,
 
-					to_char(srv_date_start,'DD/MM/YYYY') as srv_date_start,
-					to_char(srv_date_next,'DD/MM/YYYY') as srv_date_next,
+					to_char(srv_date_start,'DD/MM/YYYY') as srv_date_start_lb,
+					to_char(srv_date_next,'DD/MM/YYYY') as srv_date_next_lb,
+
+                    files.file_id as fileid,
+                    docsrpt.doc_id as docsid,
 
 	
 				emp.emp_fname ||' '||emp.emp_mname||' '||emp.emp_lname as done_by
  				from $this->_table
 				left join mis_employee as emp on emp.emp_id  = srv_done_by and emp.deleted = 0 
+
+            LEFT JOIN mis_documents AS docsrpt ON docsrpt.doc_type = " . DOC_TYPE_VHL_SRV . "
+                AND docsrpt.doc_ref_type = " . DOC_TYPE_VHL_SRV . "
+                AND docsrpt.doc_ref_id = srv_id
+                AND docsrpt.deleted = 0
+             LEFT JOIN core_files as files on files.file_ref_id = docsrpt.doc_id and files.file_type = " . DOC_TYPE_VHL_SRV . " and files.deleted = 0
+ 
 				" );
 		
-		$this->_where [] = "srv_vhl_id= :srv_vhl_id";
+		
+		if (!empty  ( $cond ['srv_vhl_id'] ))
+		    $this->_where [] = "srv_vhl_id= :srv_vhl_id";
+		
+	    if (!empty  ( $cond ['srv_id'] ))
+	        $this->_where [] = "srv_id= :srv_id";
 		
 		$this->_order [] = 'srv_id DESC';
 		

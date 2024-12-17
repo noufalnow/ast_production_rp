@@ -117,10 +117,10 @@ foreach ($this->serviceList as $index => $service) :
                     ?>
                     <tr>
 													<td class="center"><?= @++$this->offset; ?></td>
-													<td><?= $service['bld_name']; ?></td>
+													<td style="word-wrap: break-word; white-space: normal; max-width: 200px;"><?= $service['bld_name']; ?></td>
 													<td align="center"><?= $service['prop_fileno']; ?></td>
 													<td align="center"><?= $service['psvs_type_lbl']; ?></td>
-													<td><?= $service['psvs_remarks']; ?></td>
+													<td style="word-wrap: break-word; white-space: normal; max-width: 200px;"><?= $service['psvs_remarks']; ?></td>
 													<td align="center"><?= $service['psvs_srv_disp_date']; ?></td>
 													<td align="right"><?= number_format($service['psvs_amt_lab'], 3); ?>&nbsp;&nbsp;</td>
 													<td align="right"><?= number_format($service['psvs_amt_mat'], 3); ?>&nbsp;&nbsp;</td>
@@ -149,7 +149,7 @@ foreach ($this->serviceList as $index => $service) :
 																<thead>
 																	<tr>
 																		<th width="50%">Description</th>
-																		<th width="50%">Remarks</th>
+																		<th width="50%">Complaint</th>
 																	</tr>
 																</thead>
 																<tbody>

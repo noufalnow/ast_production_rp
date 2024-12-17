@@ -33,6 +33,11 @@ class db_table {
 		$username = "ws2019@usr";
 		$password = "ws2019@pwd";
 		
+		//User: astglesp_db_csol_ast
+		//Database: astglesp_db_csol_ast
+		
+		//o8%1$?]z;=;+d$24j{
+		
 		$dbname = "db_csol_ast"; //db_csol_ast
 		$port = 5432;
 		
