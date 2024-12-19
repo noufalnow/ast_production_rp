@@ -21,6 +21,18 @@ class vehicle extends db_table {
 		
 		return parent::fetchPair ( $cond );
 	}
+	
+	public function getVehicleCompanyPair($cond = array()) {
+	    $this->query ( "select vhl_id,vhl_no || COALESCE(' (' || comp_disp_name || ')', '') AS vhl_no  from $this->_table
+                        join core_company as comp on comp.comp_id = $this->_table.vhl_company and comp.deleted = 0" );
+	    
+	    $this->_where [] = " vhl_status IN (1,2) ";
+	    
+	    $this->_order [] = 'vhl_no ASC';
+	    
+	    return parent::fetchPair ( $cond );
+	}
+	
 	public function getVehiclePaginate($cond){
 		
 		$this->paginate ( "select $this->_table.*, 

@@ -99,21 +99,28 @@ $encFileId = $this->encode($this->billInfo['file_id']);?>
 
 											<td style="border-color: #ababab;font-size:9pt" class="left" valign="top">
 											
-											<table class="rpt_frame" style="margin-bottom: 0px;">
-												<tr>
-													<td style="text-align: left;">Buyer's Order No. :</td><td style="text-align: left;"> <b> <?=$this->billInfo['bill_refno']?></b> </td>
-												</tr>
-												<tr>
-													<td style="text-align: left;">WO/LPO :</td><td style="text-align: left;"> <b><?php $encDocFileId = $this->encode($this->billInfo['agr_file']);?>
-												<?=x(array('link'=>'default/default/download','ref'=>$encDocFileId,'label'=>'<i class="glyphicon glyphicon-file text-info">'.$this->billInfo['agr_det'].'</i>',array("param"=>'opener')))?></b></td>
-												</tr>
-												<tr>
-													<td style="text-align: left;">WO Remarks :</td><td style="text-align: left;"><b><?=$this->billInfo['bill_wo_note']?></b></td>
-												</tr>
-												<tr>
-													<td style="text-align: left;">Location :</td><td style="text-align: left;"><b><?=$this->billInfo['bill_location']?></b></td>
-												</tr>
-											</table>
+                                            <table class="rpt_frame" style="margin-bottom: 0px; width: 100%;">
+                                                <tr>
+                                                    <td style="text-align: left; width: 25%;">Order No.</td>
+                                                    <td colspan="3" style="text-align: left; width: 75%;"><b><?= $this->billInfo['bill_refno'] ?></b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align: left; width: 25%;">WO/LPO</td>
+                                                    <td colspan="3" style="text-align: left; width: 75%;">
+                                                        <b>
+                                                            <?php $encDocFileId = $this->encode($this->billInfo['agr_file']); ?>
+                                                            <?= x(array('link' => 'default/default/download', 'ref' => $encDocFileId, 'label' => '<i class="glyphicon glyphicon-file text-info">' . $this->billInfo['agr_det'] . '</i>', array("param" => 'opener'))) ?>
+                                                        </b>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align: left; width: 25%;">Remarks</td>
+                                                    <td style="text-align: left; width: 35%;"><b><?= $this->billInfo['bill_wo_note'] ?></b></td>
+                                                    <td style="text-align: left; width: 15%;">Location</td>
+                                                    <td style="text-align: left; width: 25%;"><b><?= $this->billInfo['bill_location'] ?></b></td>
+                                                </tr>
+                                            </table>
+
 
 											</td>
 											<td style="border-color: #ababab;font-size:9pt" class="left" valign="top" width="25%">
@@ -197,6 +204,11 @@ $encFileId = $this->encode($this->billInfo['file_id']);?>
 					</table>
 
 				</div>
+				
+
+				
+				
+				
 			</div>
 		<div class="modal-footer">
 		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>

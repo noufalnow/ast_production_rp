@@ -1,104 +1,310 @@
 <div class="dynamic-popup" id="dynamic-popup">
-		<div class="modal-content modal-content-demo">
-			<div class="modal-header">
-				<h4 class="card-title">Collection Details</h4>
-				<button type="button" aria-label="Close" class="btn-close" data-bs-dismiss="modal">
-					<span aria-hidden="true">×</span>
-				</button>
+<div class="modal-content modal-content-demo">
+   <div class="modal-header">
+      <h4 class="card-title">Collection Details</h4>
+      <button type="button" aria-label="Close" class="btn-close"
+         data-bs-dismiss="modal">
+      <span aria-hidden="true">×</span>
+      </button>
+   </div>
+   <form name="form" method="post" id="view" action='erp_invoice/collection/view/ref/<?=$this->param['ref']?>'>
+   <div class="modal-body">
+      <div class="col-md-12 card"
+         style="padding-top: 15px; margin-bottom: 3px;">
+         <div style="height: 250px; overflow-y: auto">
+            <table class="table table-bordered">
+               <thead>
+                  <tr>
+                     <td colspan="7"><b><?=$this->collDet['cust_name']?></b></td>
+                     <td colspan="4" align="center"><b><?=$this->collDet['coll_file_no']?></b></td>
+                  </tr>
+                  <tr>
+                     <th width="4%" class="center">Sl No</th>
+                     <th width="4%" class="center">Bill No.</th>
+                     <th width="15%" class="center">Ref No</th>
+                     <th width="5%" class="center">Bill Dt.</th>
+                     <th width="5%" class="center">Due Dt.</th>
+                     <th width="5%" class="center">Company</th>
+                     <th width="35%" class="center">Particulers</th>
+                     <th width="7%" class="center">Credit</th>
+                     <th width="7%" class="center">Discount</th>
+                     <th width="7%" class="center">Payment</th>
+                     <th width="7%" class="center">Balance</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <?if(is_array($this->billList) && count($this->billList)>0):?>
+                  <?php
+                     foreach (@$this->billList as $i => $bill) :
+                             ?>
+                  <tr>
+                     <td class="center"><?=@++$offset;?></td>
+                     <td><?=$bill['bill_book_no']<>''?$bill['bill_book_no']: "AST/".sprintf("%04s", $bill['bill_id']);?></td>
+                     <td><?=$bill['bill_refno']?></td>
+                     <td><?=$bill['bill_billdt']?></td>
+                     <td><?=$bill['bill_billdt']?></td>
+                     <td><?=$bill['comp_disp_name']?></td>
+                     <td><?=$bill['bill_remarks']?></td>
+                     <td><?=$bill['cdet_amt_topay']?></td>
+                     <td><?=$bill['cdet_amt_dis']?></td>
+                     <td><?=$bill['cdet_amt_paid']?></td>
+                     <td><?=$bill['cdet_amt_bal']?></td>
+                  </tr>
+                  <?php endforeach?>
+                  <?endif?>
+                  <?if(is_array($this->demandList) && count($this->demandList)>0):?>
+                  <?php
+                     foreach (@$this->demandList as $i => $demand) :
+                             if ($demand['cdet_amt_paid'] + $demand['cdet_amt_dis'] > 0) :
+                                 ?>
+                  <tr>
+                     <td class="center"><?=@++$offset;?></td>
+                     <td><?="AMP/".sprintf("%04s", $demand['cdmd_id']);?></td>
+                     <td><?=$demand['cdmd_note']?></td>
+                     <td><?=$demand['cdmd_date']?></td>
+                     <td><?=$demand['cdmd_date']?></td>
+                     <td><?=$demand['comp_disp_name']?></td>
+                     <td><?=$demand['cdmd_narration']?></td>
+                     <td><?=$demand['cdet_amt_topay']?></td>
+                     <td><?=$demand['cdet_amt_dis']?></td>
+                     <td><?=$demand['cdet_amt_paid']?></td>
+                     <td><?=number_format($demand['cdet_amt_topay'] - ($demand['cdet_amt_dis']+$demand['cdet_amt_paid']),3)?></td>
+                  </tr>
+                  <?php 
+                     endif;
+                     
+                     endforeach
+                     ?>
+                  <?endif?>
+               </tbody>
+            </table>
+         </div>
+				<div
+					style="font-size: 0.9rem; line-height: 1.8; padding: 10px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px;">
+					<span style="display: inline-block; margin-right: 15px;"> <strong>Payment
+							Date:</strong> <span style="color: #007bff;"><?= $this->collDet['coll_date_lbl'] ?></span>
+					</span> <span style="display: inline-block; margin-right: 15px;"> <strong>Mode:</strong>
+						<span style="color: #007bff;"><?= $this->collDet['coll_mode_lbl'] ?></span>
+					</span> <span style="display: inline-block; margin-right: 15px;"> <strong>Cheque
+							Details:</strong> <span style="color: #007bff;"><?= $this->collDet['coll_chqno'] ?></span>
+					</span> <span style="display: inline-block; margin-right: 15px;"> <strong>Note:</strong>
+						<span style="color: #007bff;"><?= $this->collDet['coll_remarks'] ?></span>
+					</span> <span style="display: inline-block; margin-right: 15px;"> <strong>Total
+							Amount:</strong> <span style="color: #007bff;"><?= $this->collDet['coll_amount'] ?></span>
+					</span> <span style="display: inline-block; margin-right: 15px;"> <strong>Document:</strong>
+            <?php
+            if ($this->collDet['file_id']) :
+                $encFileId = $this->encode($this->collDet['file_id']); 
+                               endif ?>
+            
+            <?=x(array('link' => 'default/default/download','ref' => $encFileId,'label' => '<i class="glyphicon glyphicon-file text-info">' . $this->collDet['file_name'] . '</i>',array("param" => 'opener')))?>
+            </span>
+				</div>
 			</div>
-	<div class="modal-body">	
-		<div class="col-md-12 card" style="padding-top: 15px; margin-bottom: 3px;"> 
-		<div style="height: 250px;overflow-y: auto">
-		<table class="table table-bordered">
-			<thead>
-				<tr><td colspan="7"><b><?=$this->collDet['cust_name']?></b></td>
-					<td colspan="4" align="center"><b><?=$this->collDet['coll_file_no']?></b></td></tr>
-				<tr>
-					<th width="4%" class="center">Sl No</th>
-					<th width="4%" class="center">Bill No.</th>
-					<th width="15%" class="center">Ref No</th>
-					<th width="5%" class="center">Bill Dt.</th>
-					<th width="5%" class="center">Due Dt.</th>
-					<th width="5%" class="center">Company</th>
-					<th width="35%" class="center">Particulers</th>
-					<th width="7%" class="center">Credit</th>
-					<th width="7%" class="center">Discount</th>
-					<th width="7%" class="center">Payment</th>
-					<th width="7%" class="center">Balance</th>
+	<?php if($this->colltype==1):?>		
+      <div class="col-md-12 card"
+         style="padding-top: 15px; margin-bottom: 3px;">
+         <div class="panel panel-default mb-4">
+         
+            <div style="display: flex; justify-content: center; align-items: center; color: red; font-weight: bold; height: 100%;">
+                    <?=$this->errorStatus;?>
+            </div>
+         
+            <div class="panel-heading1">
+               <h4 class="panel-title1">
+                  <a class="accordion-toggle collapsed" data-bs-toggle="collapse"
+                     data-bs-parent="#accordion" href="#collapseTwo"
+                     aria-expanded="false">COMPANY WISE REVENUE SHARE</a>
+               </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse"
+               role="tabpanel" aria-expanded="false">
+               <div class="panel-body">
+                  <div class="card" style="padding: 10px;">
+                     <table class="table table-bordered table-service">
+                        <thead>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <th width="5%" class="center">Bill No.</th>
+                              <th width="25%" class="center">Item</th>
+                              <th width="15%" class="center">Vehicle</th>
+                              <th width="10%" class="center">Amount</th>
+                              <th width="10%" class="center">Quantity</th>
+                              <th width="10%" class="center">Total Amt.</th>
+                              <th width="10%" class="center">Revenue</th>
+                              <th width="10%" class="center">Company</th>
+                           </tr>
+                           <?if(is_array($this->billDet) && count($this->billDet)>0):?>
+                           <? foreach(@$this->billDet as $i=>$row): ?>
+                           <tr>
+                              <td align="center">AST/<?=$row['bill_id']?></td>
+                              <td align="center"><?=$row['item_name']?></td>
+                              <td align="center"><?=$row['vhl_no']?></td>
+                              <td align="center"><?=$row['bdet_amt']?></td>
+                              <td align="center"><?=$row['bdet_qty']?></td>
+                              <td align="center"><?=$row['total_amt']?></td>
+                              <td align="center"><?=$this->form->revenue[$row['bdet_id']]->show()?></td>
+                              <td align="center"><?=$row['comp_disp_name']?></td>
+                           </tr>
+                           <?php endforeach; endif;?>
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="row mb-4">
+                     <div id="mh_varis" class="col-sm-12">
+                        <table width="100%" id="multi_table">
+                           <tr style="font-size: 0.8em;">
+                              <th width="25%" style="padding-bottom: 5px;">Bill No.</th>
+                              <th width="25%" style="padding-bottom: 5px;">Vehicle</th>
+                              <th width="40%" style="padding-bottom: 5px;">Remarks</th>
+                              <th width="10%" style="padding-bottom: 5px;">Share Amount</th>
+                              <th width="0%" style="padding-bottom: 5px;"></th>
+                              <!-- Optional column for spacing -->
+                           </tr>
+                           <tbody id="dup_body">
+                              <?php foreach($this->mfields as $i):?>
+                              <tr class="dup_row" index="<?=$i?>">
+                                 <td valign="top">
+                                    <?=$this->form->mbillno[$i]->show()?>
+                                 </td>
+                                 <td valign="top">
+                                    <?=$this->form->mvehicle[$i]->show()?>
+                                 </td>
+                                 <td valign="top">
+                                    <?=$this->form->mremarks[$i]->show()?>
+                                 </td>
+                                 <td valign="top">
+                                    <?=$this->form->mextshare[$i]->show()?>
+                                 </td>
+                                 <td valign="middle">
+                                    <div>
+                                       <a style="color: blue; margin: 1px;" title="Remove"
+                                          href="#" onclick="delRow(this);return false;"
+                                          class="glyphicon glyphicon-remove"></a>
+                                    </div>
+                                 </td>
+                              </tr>
+                              <?php endforeach;?>
+                           </tbody>
+                        </table>
+                        <div>
+                           <a style="background-color: yellowgreen; margin: 1px;"
+                              id="myLink" title="Add more" href="#"
+                              onclick="addRow('multi_table');return false;" class="btn">More</a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <?php endif;?>
+   </div>
 
-				</tr>
-			</thead>
-			<tbody>
-			<?if(is_array($this->billList) && count($this->billList)>0):?>
-				<?php foreach(@$this->billList as $i=>$bill):
-				?>
-				<tr>
-					<td class="center"><?=@++$offset;?></td>
-					<td><?=$bill['bill_book_no']<>''?$bill['bill_book_no']: "AST/".sprintf("%04s", $bill['bill_id']);?></td>
-					<td><?=$bill['bill_refno']?></td>
-					<td><?=$bill['bill_billdt']?></td>
-					<td><?=$bill['bill_billdt']?></td>
-					<td><?=$bill['comp_disp_name']?></td>
-					<td><?=$bill['bill_remarks']?></td>
-					<td><?=$bill['cdet_amt_topay']?></td>
-					<td><?=$bill['cdet_amt_dis']?></td>
-					<td><?=$bill['cdet_amt_paid']?></td>	
-					<td><?=$bill['cdet_amt_bal']?></td>	
-				</tr>
-				<?php endforeach?>
-			<?endif?>
-			<?if(is_array($this->demandList) && count($this->demandList)>0):?>
-				<?php foreach(@$this->demandList as $i=>$demand):
-				if($demand['cdet_amt_paid']+$demand['cdet_amt_dis'] > 0):?>
-					<tr>
-						<td class="center"><?=@++$offset;?></td>
-						<td><?="AMP/".sprintf("%04s", $demand['cdmd_id']);?></td>
-						<td><?=$demand['cdmd_note']?></td>
-						<td><?=$demand['cdmd_date']?></td>
-						<td><?=$demand['cdmd_date']?></td>
-						<td><?=$demand['comp_disp_name']?></td>
-						<td><?=$demand['cdmd_narration']?></td>
-						<td><?=$demand['cdet_amt_topay']?></td>
-						<td><?=$demand['cdet_amt_dis']?></td>
-						<td><?=$demand['cdet_amt_paid']?></td>
-						<td><?=number_format($demand['cdet_amt_topay'] - ($demand['cdet_amt_dis']+$demand['cdet_amt_paid']),3)?></td>
-						
-					</tr>
-					<?php 
-					endif;
-				endforeach?>
-			<?endif?>
-			</tbody>
-		</table>
+   <div class="modal-footer">
+		<div class="col-sm-2">
+			<button type="button" class="btn btn-primary submit-alias livepost" >Update</button>
+			<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
 		</div>
-		</div>
-		<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th width="8%" class="center">Payment Date</th>
-					<th width="8%" class="center">Mode</th>
-					<th width="10%" class="center">Cheque Details</th>
-					<th width="20%" class="center">Note</th>
-					<th width="15%" class="center">Total Amount</th>
-					<th width="10%" class="center">Document</th>
-				</tr>
-			</thead>
-			<thead>
-				<tr>
-					<th width="20%" class="center"><?=$this->collDet['coll_paydate']?></th>
-					<th width="20%" class="center"><?=$this->collDet['coll_coll_mode']?></th>
-					<th width="20%" class="center"><?=$this->collDet['coll_chqno']?></th>
-					<th width="20%" class="center"><?=$this->collDet['coll_remarks']?></th>
-					<th width="20%" class="center"><?=$this->collDet['coll_amount']?></th>
-					<th width="20%" class="center">	
-					<?php if($this->collDet['file_id']):
-           			$encFileId = $this->encode($this->collDet['file_id']); endif?>		
-           			<?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="glyphicon glyphicon-file text-info">'.$this->collDet['file_name'].'</i>',array("param"=>'opener')))?></th>
-				</tr>
-			</thead>
-			</table>
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-	</div>
+   </div>
+   </form>
 </div>
+
+
+	<script type="text/javascript">
+var rowTemplates = {
+    multi_table: '',
+    multi_table_item: ''
+};
+
+// Initialize row templates for different tables
+$(document).ready(function () {
+    rowTemplates.multi_table = '<tr class="dup_row">' + $('#dup_body > tr:first').html() + '</tr>';
+    rowTemplates.multi_table_item = '<tr class="dup_row_item">' + $('#dup_body_item > tr:first').html() + '</tr>';
+});
+
+// Generic function to add a row
+function addRow(tableId) {
+    var tableBodyId = getTableBodyId(tableId); // Get the corresponding tbody ID
+    var lastRow = $('#' + tableBodyId + ' > tr:last'); // Find the last row in the tbody
+    var index = parseInt(lastRow.attr('index')) || 1; // Get the index of the last row
+    index++;
+
+    console.log(index);
+
+    // Clone the row template but exclude Chosen-rendered containers
+    var newRow = $(rowTemplates[tableId]).clone();
+    newRow.attr('index', index);
+
+    // Remove existing Chosen containers from the cloned row
+    newRow.find('.chosen-container').remove();
+
+    // Reset the new row's input values, remove errors, and update names/IDs
+    newRow.find(':input').each(function () {
+        var name = $(this).attr('name');
+        if (name) {
+            var newName = name.replace(/\[\d+\]/, '[' + index + ']');
+            $(this).attr('name', newName).attr('id', newName).val(''); // Update name and id, clear value
+        }
+    });
+
+    newRow.find('.input_error').removeClass('input_error');
+    newRow.find('.select_error').removeClass('select_error');
+    newRow.find('.error_text').remove();
+
+    // Insert the new row after the last one
+    lastRow.length ? lastRow.after(newRow) : $('#' + tableBodyId).append(newRow);
+    reindexRows(tableBodyId);
+    
+
+    // Reinitialize Chosen only for the new row
+    newRow.find('.chosen-select').chosen({
+        no_results_text: "Oops, nothing found!",
+        search_contains: true,
+        enable_split_word_search: true
+    });
+}
+
+
+// Generic function to delete a row
+function delRow(row) {
+    var tableBody = $(row).closest('tbody'); // Find the parent tbody
+    var rowCount = tableBody.find('tr').length; // Count rows
+
+    console.log("Row Count Before Deletion:", rowCount);
+
+    // Ensure at least one row remains
+    if (rowCount > 1) {
+        $(row).closest('tr').remove(); // Remove the row
+        console.log("Row deleted. Reindexing rows...");
+        reindexRows(tableBody.attr('id')); // Reindex remaining rows
+    } else {
+        console.log("Cannot delete the last row.");
+    }
+}
+
+// Utility function to get the corresponding tbody ID
+function getTableBodyId(tableId) {
+    return tableId === 'multi_table' ? 'dup_body' : 'dup_body_item';
+}
+
+// Utility function to get the corresponding row class
+function getRowClass(tableId) {
+    return tableId === 'multi_table' ? 'dup_row' : 'dup_row_item';
+}
+
+function reindexRows(tableBodyId) {
+    $('#' + tableBodyId + ' > tr').each(function (i) {
+        $(this).attr('index', i + 1); // Update the index attribute
+        $(this).find(':input').each(function () {
+            var name = $(this).attr('name');
+            if (name) {
+                var newName = name.replace(/\[\d+\]/, '[' + (i + 1) + ']');
+                $(this).attr('name', newName).attr('id', newName);
+            }
+        });
+    });
+}
+
+</script>

@@ -123,6 +123,12 @@ class collection extends db_table {
 	public function getCollectionDetByPayId($cond=[]){
 		
 		$this->query ( "select $this->_table.* ,
+                to_char(coll_paydate,'DD/MM/YYYY') as coll_date_lbl,
+                case 
+                    when coll_coll_mode = 1 THEN 'Cash'
+                    when coll_coll_mode = 2 THEN 'Cheque'
+                end as coll_mode_lbl,
+            
 				files.file_id,
 				file_actual_name||'.'||file_exten as file_name,
                 case when coll_cust = '-1' then 'AST Global Managed Properties' 
@@ -135,6 +141,50 @@ class collection extends db_table {
 		
 		return parent::fetchRow($cond);
 	}
+	
+	
+	public function getCollectionBillDetByCollId($cond=[]){
+	    
+	    $this->query ( "SELECT bdet_item,
+                               bdet_id, 
+                               item_name,
+                               item_code,
+                               bdet_qty ,
+                               bdet_amt,
+                               ROUND(bdet_qty * bdet_amt, 3) AS total_amt,
+                               CASE
+                                   WHEN bill_oribill_amt = 0 THEN 0
+                                   ELSE ROUND((cdet_amt_paid / bill_oribill_amt) * (bdet_qty * bdet_amt), 3)
+                               END AS revenue_share, 
+                               bill_id,
+                               vhl_no,
+                               comp_name,
+                               comp_disp_name,
+                               vhl_id 
+                        FROM mis_collection 
+                        LEFT JOIN mis_collection_det AS colldet ON coll_id = colldet.cdet_coll_id
+                        AND colldet.deleted = 0
+                        JOIN mis_bill AS bill ON bill.bill_id = colldet.cdet_bill_id
+                        AND bill.deleted = 0
+                        LEFT JOIN mis_bill_det AS billdet ON billdet.bdet_bill_id = bill.bill_id
+                        AND billdet.deleted = 0
+                        LEFT JOIN mis_item AS item ON item.item_id = billdet.bdet_item
+                        AND item.deleted = 0
+                        AND item.item_type = 1
+                        LEFT JOIN mis_vehicle AS veh ON veh.vhl_id = item.item_vehicle
+                        AND veh.deleted = 0
+                        LEFT JOIN core_company AS comp ON comp.comp_id = veh.vhl_company
+                        AND comp.deleted = 0" );
+	    $this->_where [] = "coll_id= :coll_id";
+	    
+	    $this->_order [] = "bill_id ASC";
+	    
+	    
+	    return parent::fetchAll($cond);
+	}
+	
+	
+	
 	
 	public function getPaymentcollection($cond=array()){
 		$cond = array_filter($cond);
