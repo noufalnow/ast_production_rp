@@ -888,7 +888,7 @@ class property extends db_table
         
         if ($cond['f_company'] != '') {
             $bldComp = " AND build.bld_comp = ".$cond['f_company'] . " ";
-            $billComp = " AND bill.bill_company = ".$cond['f_company'] . " ";
+            $billComp = " AND vhl_company = ".$cond['f_company'] . " ";
             
         }
         
@@ -920,19 +920,19 @@ class property extends db_table
                     UNION ALL
                             
                     SELECT 'Vehicle' AS ref_source,
-                           bill.bill_company AS comp_id,
-                           SUM(cdet_amt_paid) AS total_amount
+                           vhl_company AS comp_id,
+                           SUM(rev_revenue) AS total_amount
                     FROM mis_collection AS coll
-                    LEFT JOIN mis_collection_det AS coldet ON coll.coll_id = coldet.cdet_coll_id
-                        AND coldet.deleted = 0
-                    LEFT JOIN mis_bill AS bill ON bill.bill_id = coldet.cdet_bill_id
-                        AND bill.deleted = 0
+                    LEFT JOIN mis_collection_revenue AS vhlrev ON vhlrev.rev_coll_id = coll.coll_id
+                    AND vhlrev.deleted = 0
+                    LEFT JOIN mis_vehicle AS vhl ON vhl.vhl_id = vhlrev.rev_vhl_id
+                    AND vhl.deleted = 0
                     WHERE coll.deleted = 0
                       AND coll.coll_app_status = 1
                       AND coll.coll_src_type = 1
-                      $collDate
+                      -- $collDate
                       $billComp  
-                    GROUP BY bill.bill_company
+                    GROUP BY vhl_company
                 ");
         
                 unset($cond['f_company']);
@@ -941,6 +941,13 @@ class property extends db_table
       
       return parent::fetchQuery($cond);
       
-        
+      
     }
+    
+    
+
+    
+    
+    
+
 }

@@ -292,6 +292,80 @@ class collection extends db_table {
 		return parent::delete ( $id );
 	}
 	
+	
+	public function getVehicleRevenueByCompany($cond=[]){
+	    
+	    $this->query ( "SELECT vhl_no,
+                        SUM(rev_revenue) AS total_amount,
+                        string_agg(coll_file_no || '-' || coll_amount, ',</br> ') AS inc_details
+                        FROM mis_collection 
+                        LEFT JOIN mis_collection_revenue AS vhlrev ON vhlrev.rev_coll_id = coll_id
+                        AND vhlrev.deleted = 0
+                        LEFT JOIN mis_vehicle AS vhl ON vhl.vhl_id = vhlrev.rev_vhl_id
+                        AND vhl.deleted = 0" );
+	    
+	    $this->_where [] = "mis_collection.coll_app_status= 1";
+	    $this->_where [] = "mis_collection.coll_src_type= 1";    
+	    $this->_where [] = "vhl_company= :vhl_company";
+	        
+	    if (! empty ($cond['f_monthpick'] )) {
+	        //$monthYear = explode ( '/',$cond['f_monthpick'] );
+	        //$this->_where [] = "(EXTRACT(month FROM coll_paydate) = '$monthYear[0]' AND EXTRACT(year FROM coll_paydate) = '$monthYear[1]' )";
+	        unset ($cond['f_monthpick'] );
+	    }
+	    else {
+	        $this->_where [] = " AND TO_CHAR(COALESCE(mis_collection.coll_paydate, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
+	    }
+	    
+	    
+	    $this->_group [] = "vhl_id";
+	    
+	    $this->_order [] = "vhl_no ASC";
+	    
+	    
+	    return parent::fetchAll($cond);
+	}
+	
+	
+	public function getPropertyRevenueByBuilding($cond=[]){
+	    
+	    $this->query ( "SELECT bld_name,
+                           SUM(cdet_amt_paid) AS total_income,
+                           string_agg(coll_file_no || '-' || coll_amount, ',</br> ') AS inc_details
+                    FROM mis_collection
+                    LEFT JOIN mis_collection_det AS coldet ON coll_id = coldet.cdet_coll_id
+                        AND coldet.deleted = 0
+                        AND coldet.cdet_src_type = 2
+                    LEFT JOIN mis_cash_demand AS dmd ON dmd.cdmd_id = coldet.cdet_bill_id
+                        AND dmd.deleted = 0
+                    LEFT JOIN mis_documents AS doc ON doc.doc_id = dmd.cdmd_oth_id
+                        AND doc.doc_ref_type = 3
+                        AND doc.doc_type = 201
+                    LEFT JOIN mis_property prop ON prop.prop_id = doc.doc_ref_id
+                    LEFT JOIN mis_building AS build ON build.bld_id = prop.prop_building" );
+	    
+	    $this->_where [] = "mis_collection.coll_app_status= 1";
+	    $this->_where [] = "mis_collection.coll_src_type= 2";
+	    $this->_where [] = "build.bld_comp= :bld_comp";
+	    
+	    if (! empty ($cond['f_monthpick'] )) {
+	        $monthYear = explode ( '/',$cond['f_monthpick'] );
+	        $this->_where [] = "(EXTRACT(month FROM coll_paydate) = '$monthYear[0]' AND EXTRACT(year FROM coll_paydate) = '$monthYear[1]' )";
+	        unset ($cond['f_monthpick'] );
+	    }
+	    else {
+	        $this->_where [] = " AND TO_CHAR(COALESCE(mis_collection.coll_paydate, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
+	    }
+	    
+	    
+	    $this->_group [] = "build.bld_name";
+	    
+	    $this->_order [] = "build.bld_name ASC";
+	    
+	    
+	    return parent::fetchAll($cond);
+	}
+	
 }
 
 

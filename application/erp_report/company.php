@@ -50,7 +50,9 @@ class companyController extends mvc
 
         
         require_once __DIR__ . '/../admin/!model/property.php';
-        $propertyObj = new property();      
+        $propertyObj = new property(); 
+        $this->view->propertyObj = $propertyObj;
+        
         
         $this->view->financialRevanew = $propertyObj->getFinancialRevenue($where);
         $this->view->financialExpense = $propertyObj->getFinancialExpense($where);
@@ -58,11 +60,25 @@ class companyController extends mvc
         
         if (empty(@$valid['f_monthpick'])) 
             @$valid['f_monthpick'] = date('m/Y');
+        
+        $this->view->f_monthval =  @$valid['f_monthpick'];
 
         $date = DateTime::createFromFormat('m/Y', @$valid['f_monthpick']);
         
         // Format the date as 'M, Y' (e.g., 'Sep, 2024')
         $this->view->f_monthpick =  $date->format('M, Y');
+        
+
+        
+        require_once __DIR__ . '/../admin/!model/collection.php';
+        $collectionObj = new collection();
+        $this->view->collectionObj = $collectionObj;
+        
+        
+        require_once __DIR__ . '/../admin/!model/expense.php';
+        $expenseObj = new expense();
+        $this->view->expenseObj = $expenseObj;
+
 
         $this->view->filter_class = $filter_class;
         $this->view->vehicleList = $vehicleList;

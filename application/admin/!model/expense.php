@@ -1304,6 +1304,352 @@ class expense extends db_table {
 	}
 	
 	
+	public function getVehicleExpenseByCompany($cond=[]){
+	    $cond=array_filter($cond);
+	    
+	    if ($cond['f_monthpick'] == '') {
+	        $expDate = " AND TO_CHAR(COALESCE( exp.exp_billdt, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
+	        $payDate = " AND TO_CHAR(COALESCE( pay.pay_paydate, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
+	        
+	    } else {
+	        $expDate = " AND TO_CHAR(TO_DATE('".$cond['f_monthpick']."', 'MM/YYYY'), 'YYYY-MM') = TO_CHAR(exp.exp_billdt, 'YYYY-MM')";
+	        $payDate = " AND TO_CHAR(TO_DATE('".$cond['f_monthpick']."', 'MM/YYYY'), 'YYYY-MM') = TO_CHAR(pay.pay_paydate, 'YYYY-MM')";
+	    }
+	    
+	    if ($cond['f_company'] != '') {
+	        $company = " WHERE combined.comp_id = ".$cond['f_company'] . " ";
+	    }
+	    
+	    unset($cond['f_company']);
+	    unset($cond['f_monthpick']);
+	    
+	    
+	    $this->query("
+
+                SELECT 
+                    combined.ref_source,
+                    combined.comp_id,
+                    combined.category,
+                    SUM(combined.amount) AS total_amount,
+                    combined.exp_details
+                FROM (
+                    -- First subquery
+                    SELECT 
+                        'Cash Bills' AS ref_source,
+                        exp.exp_company AS comp_id,
+                        SUM(exp.exp_amount) AS amount,
+                        string_agg(exp_file_no || '-' || exp_amount, ',</br> ') AS exp_details,
+                        pcat.cat_name || '-' || scat.cat_name || '-' || ccat.cat_name AS category
+                    FROM 
+                        mis_expense exp
+                    LEFT JOIN 
+                        core_category AS pcat ON pcat.cat_id = exp.exp_pcat
+                        AND pcat.cat_type = 1
+                        AND pcat.deleted = 0
+                    LEFT JOIN 
+                        core_category AS scat ON scat.cat_id = exp.exp_scat
+                        AND scat.cat_type = 2
+                        AND scat.deleted = 0
+                    LEFT JOIN 
+                        core_category AS ccat ON ccat.cat_id = exp.exp_ccat
+                        AND ccat.cat_type = 3
+                        AND ccat.deleted = 0
+                    WHERE 
+                        exp.exp_mainh = 3
+                        AND exp.exp_pay_mode = '1'
+                        AND exp.deleted = 0
+                        AND exp.exp_app_status = '1'
+                        $expDate
+                    GROUP BY 
+                        exp.exp_company, pcat.cat_name, scat.cat_name, ccat.cat_name
+                
+                    UNION ALL
+                
+                    -- Second subquery
+                    SELECT 
+                        'Credit Payments' AS ref_source,
+                        exp.exp_company AS comp_id,
+                        SUM(paydet.pdet_amt_paid) AS amount,
+                        string_agg( DISTINCT pay_file_no || '-' || pay_amount || '-' || exp_file_no || '-' || exp_amount, ',</br> ') AS exp_details,
+                        pcat.cat_name || '-' || scat.cat_name || '-' || ccat.cat_name AS category
+                    FROM 
+                        mis_payment_det paydet
+                    JOIN 
+                        mis_payment AS pay ON pay.pay_id = paydet.pdet_pay_id
+                        AND pay.deleted = 0
+                    LEFT JOIN 
+                        mis_expense exp ON exp.exp_id = paydet.pdet_exp_id
+                        AND exp.exp_pay_mode = '2'
+                        AND exp.deleted = 0
+                        AND exp.exp_app_status = '1'
+                    LEFT JOIN 
+                        core_category AS pcat ON pcat.cat_id = exp.exp_pcat
+                        AND pcat.cat_type = 1
+                        AND pcat.deleted = 0
+                    LEFT JOIN 
+                        core_category AS scat ON scat.cat_id = exp.exp_scat
+                        AND scat.cat_type = 2
+                        AND scat.deleted = 0
+                    LEFT JOIN 
+                        core_category AS ccat ON ccat.cat_id = exp.exp_ccat
+                        AND ccat.cat_type = 3
+                        AND ccat.deleted = 0
+                    WHERE 
+                        paydet.pdet_status = 2
+                        AND paydet.deleted = 0
+                        AND exp.exp_mainh = 3
+                        $payDate    
+                    GROUP BY 
+                        exp.exp_company, pcat.cat_name, scat.cat_name, ccat.cat_name
+                ) AS combined
+
+                $company
+
+                GROUP BY 
+                    ref_source,combined.comp_id, combined.category ,combined.exp_details
+                ORDER BY 
+                    combined.comp_id, combined.category;
+
+
+                ");
+                unset($cond['f_company']);
+                return parent::fetchQuery($cond);
+                
+	}
+	
+	
+	public function getPropertyExpenseByCompany($cond=[]){
+	    $cond=array_filter($cond);
+	    
+	    if ($cond['f_monthpick'] == '') {
+	        $expDate = " AND TO_CHAR(COALESCE( exp.exp_billdt, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
+	        $payDate = " AND TO_CHAR(COALESCE( pay.pay_paydate, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
+	        
+	    } else {
+	        $expDate = " AND TO_CHAR(TO_DATE('".$cond['f_monthpick']."', 'MM/YYYY'), 'YYYY-MM') = TO_CHAR(exp.exp_billdt, 'YYYY-MM')";
+	        $payDate = " AND TO_CHAR(TO_DATE('".$cond['f_monthpick']."', 'MM/YYYY'), 'YYYY-MM') = TO_CHAR(pay.pay_paydate, 'YYYY-MM')";
+	    }
+	    
+	    if ($cond['f_company'] != '') {
+	        $company = " WHERE combined.comp_id = ".$cond['f_company'] . " ";
+	    }
+	    
+	    unset($cond['f_company']);
+	    unset($cond['f_monthpick']);
+	    
+	    
+	    $this->query("
+	        
+                SELECT
+                    combined.ref_source,
+                    combined.comp_id,
+                    combined.category,
+                    SUM(combined.amount) AS total_amount,
+                    combined.exp_details
+                FROM (
+                    -- First subquery
+                    SELECT
+                        'Cash Bills' AS ref_source,
+                        exp.exp_company AS comp_id,
+                        SUM(exp.exp_amount) AS amount,
+                        string_agg(exp_file_no || '-' || exp_amount, ',</br> ') AS exp_details,
+                        pcat.cat_name || '-' || scat.cat_name || '-' || ccat.cat_name AS category
+                    FROM
+                        mis_expense exp
+                    LEFT JOIN
+                        core_category AS pcat ON pcat.cat_id = exp.exp_pcat
+                        AND pcat.cat_type = 1
+                        AND pcat.deleted = 0
+                    LEFT JOIN
+                        core_category AS scat ON scat.cat_id = exp.exp_scat
+                        AND scat.cat_type = 2
+                        AND scat.deleted = 0
+                    LEFT JOIN
+                        core_category AS ccat ON ccat.cat_id = exp.exp_ccat
+                        AND ccat.cat_type = 3
+                        AND ccat.deleted = 0
+                    WHERE
+                        exp.exp_mainh = 2
+                        AND exp.exp_pay_mode = '1'
+                        AND exp.deleted = 0
+                        AND exp.exp_app_status = '1'
+                        $expDate
+                    GROUP BY
+                        exp.exp_company, pcat.cat_name, scat.cat_name, ccat.cat_name
+	        
+                    UNION ALL
+	        
+                    -- Second subquery
+                    SELECT
+                        'Credit Payments' AS ref_source,
+                        exp.exp_company AS comp_id,
+                        SUM(paydet.pdet_amt_paid) AS amount,
+                        string_agg( DISTINCT pay_file_no || '-' || pay_amount || '-' || exp_file_no || '-' || exp_amount, ',</br> ') AS exp_details,
+                        pcat.cat_name || '-' || scat.cat_name || '-' || ccat.cat_name AS category
+                    FROM
+                        mis_payment_det paydet
+                    JOIN
+                        mis_payment AS pay ON pay.pay_id = paydet.pdet_pay_id
+                        AND pay.deleted = 0
+                    LEFT JOIN
+                        mis_expense exp ON exp.exp_id = paydet.pdet_exp_id
+                        AND exp.exp_pay_mode = '2'
+                        AND exp.deleted = 0
+                        AND exp.exp_app_status = '1'
+                    LEFT JOIN
+                        core_category AS pcat ON pcat.cat_id = exp.exp_pcat
+                        AND pcat.cat_type = 1
+                        AND pcat.deleted = 0
+                    LEFT JOIN
+                        core_category AS scat ON scat.cat_id = exp.exp_scat
+                        AND scat.cat_type = 2
+                        AND scat.deleted = 0
+                    LEFT JOIN
+                        core_category AS ccat ON ccat.cat_id = exp.exp_ccat
+                        AND ccat.cat_type = 3
+                        AND ccat.deleted = 0
+                    WHERE
+                        paydet.pdet_status = 2
+                        AND paydet.deleted = 0
+                        AND exp.exp_mainh = 2
+                        $payDate
+                    GROUP BY
+                        exp.exp_company, pcat.cat_name, scat.cat_name, ccat.cat_name
+                ) AS combined
+	        
+                $company
+	        
+                GROUP BY
+                    ref_source,combined.comp_id, combined.category ,combined.exp_details
+                ORDER BY
+                    combined.comp_id, combined.category;
+	        
+	        
+                ");
+                unset($cond['f_company']);
+                return parent::fetchQuery($cond);
+                
+	}
+	
+	
+	public function getOtherExpenseByCompany($cond=[]){
+	    $cond=array_filter($cond);
+	    
+	    if ($cond['f_monthpick'] == '') {
+	        $expDate = " AND TO_CHAR(COALESCE( exp.exp_billdt, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
+	        $payDate = " AND TO_CHAR(COALESCE( pay.pay_paydate, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
+	        
+	    } else {
+	        $expDate = " AND TO_CHAR(TO_DATE('".$cond['f_monthpick']."', 'MM/YYYY'), 'YYYY-MM') = TO_CHAR(exp.exp_billdt, 'YYYY-MM')";
+	        $payDate = " AND TO_CHAR(TO_DATE('".$cond['f_monthpick']."', 'MM/YYYY'), 'YYYY-MM') = TO_CHAR(pay.pay_paydate, 'YYYY-MM')";
+	    }
+	    
+	    if ($cond['f_company'] != '') {
+	        $company = " WHERE combined.comp_id = ".$cond['f_company'] . " ";
+	    }
+	    
+	    unset($cond['f_company']);
+	    unset($cond['f_monthpick']);
+	    
+	    
+	    $this->query("
+	        
+                SELECT
+                    combined.ref_source,
+                    combined.comp_id,
+                    combined.category,
+                    SUM(combined.amount) AS total_amount,
+                    combined.exp_details
+                FROM (
+                    -- First subquery
+                    SELECT
+                        'Cash Bills' AS ref_source,
+                        exp.exp_company AS comp_id,
+                        SUM(exp.exp_amount) AS amount,
+                        string_agg(exp_file_no || '-' || exp_amount, ',</br> ') AS exp_details,
+                        pcat.cat_name || '-' || scat.cat_name || '-' || ccat.cat_name AS category
+                    FROM
+                        mis_expense exp
+                    LEFT JOIN
+                        core_category AS pcat ON pcat.cat_id = exp.exp_pcat
+                        AND pcat.cat_type = 1
+                        AND pcat.deleted = 0
+                    LEFT JOIN
+                        core_category AS scat ON scat.cat_id = exp.exp_scat
+                        AND scat.cat_type = 2
+                        AND scat.deleted = 0
+                    LEFT JOIN
+                        core_category AS ccat ON ccat.cat_id = exp.exp_ccat
+                        AND ccat.cat_type = 3
+                        AND ccat.deleted = 0
+                    WHERE
+                        exp.exp_mainh NOT IN (2, 3)
+                        AND exp.exp_pay_mode = '1'
+                        AND exp.deleted = 0
+                        AND exp.exp_app_status = '1'
+                        $expDate
+                    GROUP BY
+                        exp.exp_company, pcat.cat_name, scat.cat_name, ccat.cat_name
+	        
+                    UNION ALL
+	        
+                    -- Second subquery
+                    SELECT
+                        'Credit Payments' AS ref_source,
+                        exp.exp_company AS comp_id,
+                        SUM(paydet.pdet_amt_paid) AS amount,
+                        string_agg( DISTINCT pay_file_no || '-' || pay_amount || '-' || exp_file_no || '-' || exp_amount, ',</br> ') AS exp_details,
+                        pcat.cat_name || '-' || scat.cat_name || '-' || ccat.cat_name AS category
+                    FROM
+                        mis_payment_det paydet
+                    JOIN
+                        mis_payment AS pay ON pay.pay_id = paydet.pdet_pay_id
+                        AND pay.deleted = 0
+                    LEFT JOIN
+                        mis_expense exp ON exp.exp_id = paydet.pdet_exp_id
+                        AND exp.exp_pay_mode = '2'
+                        AND exp.deleted = 0
+                        AND exp.exp_app_status = '1'
+                    LEFT JOIN
+                        core_category AS pcat ON pcat.cat_id = exp.exp_pcat
+                        AND pcat.cat_type = 1
+                        AND pcat.deleted = 0
+                    LEFT JOIN
+                        core_category AS scat ON scat.cat_id = exp.exp_scat
+                        AND scat.cat_type = 2
+                        AND scat.deleted = 0
+                    LEFT JOIN
+                        core_category AS ccat ON ccat.cat_id = exp.exp_ccat
+                        AND ccat.cat_type = 3
+                        AND ccat.deleted = 0
+                    WHERE
+                        paydet.pdet_status = 2
+                        AND paydet.deleted = 0
+                        AND exp.exp_mainh NOT IN (2, 3)
+                        $payDate
+                    GROUP BY
+                        exp.exp_company, pcat.cat_name, scat.cat_name, ccat.cat_name
+                ) AS combined
+	        
+                $company
+	        
+                GROUP BY
+                    ref_source,combined.comp_id, combined.category ,combined.exp_details
+                ORDER BY
+                    combined.comp_id, combined.category;
+	        
+	        
+                ");
+                unset($cond['f_company']);
+                return parent::fetchQuery($cond);
+                
+	}
+	
+	
+	
+	
+
+	
 	
 	
 }
