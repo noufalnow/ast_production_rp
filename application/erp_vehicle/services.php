@@ -4,6 +4,7 @@ class servicesController extends mvc
 {
     public function vhlserviceAction()
     {
+        
         $this->view->response('ajax');
         require_once __DIR__ . '/../admin/!model/service.php';
         require_once __DIR__ . '/../admin/!model/servicedet.php';
@@ -22,6 +23,9 @@ class servicesController extends mvc
         $itemList = $itemObj->getSrvItemPair(array(
             'item_type' => 2
         ));
+        
+        $itemList['-1'] = '-- Add New Item --';
+        
         $form->addElement('servicedt', 'Service Date', 'text', 'date|required', '', array(
             'class' => 'date_picker',
             '' => 'autocomplete="off"'
@@ -75,10 +79,17 @@ class servicesController extends mvc
         $form->addMultiElement('item', 'Item', 'select', '', array(
             'options' => $itemList
         ), array(
-            'class' => 'full-select'
+            'class' => 'full-select m_item_list'
         ), $count);
+        
+        
+        
         $form->addMultiElement('quantity', 'Quantity', 'float', 'numeric', '', array(
             'class' => ''
+        ), $count);
+        
+        $form->addMultiElement('mitem', 'Item Name', 'text', 'alpha_space', '', array(
+            'class' => 'm_new_item'
         ), $count);
         
         
@@ -132,17 +143,21 @@ class servicesController extends mvc
                 $form->addErrorMsg('quantity', 'required', ' ');
                 $form->addErrorMsg('doneby', 'required', ' ');
                 $form->addErrorMsg('mnote', 'required', ' ');
+                $form->addErrorMsg('mitem', 'required', ' ');
+                $form->addErrorMsg('mitem', 'alpha_space', 'The field may only contain letters and spaces');
+                
                 foreach ($mfields as $i) {
                     if ($_POST['item'][$i] != '' && $_POST['quantity'][$i] == '')
                         $form->addmRules('quantity', $i, 'required');
                     if ($_POST['item'][$i] != '' && $_POST['doneby'][$i] == '')
                         $form->addmRules('doneby', $i, 'required');
-                    // if ($_POST ['item'] [$i] != '' && $_POST ['mnote'] [$i] == '')
-                    // $form->addmRules ( 'mnote', $i, 'required' );
+                     if ($_POST ['item'] [$i] == '-1' && $_POST ['mitem'] [$i] == '')
+                        $form->addmRules ( 'mitem', $i, 'required|alpha_space' );
                 }
                 $valid = $form->vaidate($_POST, $_FILES);
                 $valid = $valid[0];
                 if ($valid == true) {
+                    
                     if (! empty($valid['servicedt'])) {
                         $dtWef = DateTime::createFromFormat(DF_DD, $valid['servicedt']);
                         $dtWef = $dtWef->format(DFS_DB);
@@ -172,9 +187,33 @@ class servicesController extends mvc
                         foreach ($mfields as $i) {
                             $mdata = array();
                             if ($valid['item'][$i] != '') {
+
+                                $ItemId = '';
+
+                                if ($valid['item'][$i] == - 1 && $valid['mitem'][$i] != '') {
+
+                                    $itemDet = $itemObj->getItemByName(array(
+                                        'item_name' => $valid['mitem'][$i]
+                                    ));
+                                    if (! $itemDet['item_id']) {
+
+                                        $nextItemCode = $itemObj->getItemMaxCode();
+
+                                        $itemData = array(
+                                            'item_name' => $valid['mitem'][$i],
+                                            'item_remarks' => $valid['mitem'][$i],
+                                            'item_code' => $nextItemCode['next_item_code'],
+                                            'item_type' => 2
+                                        );
+                                        $ItemId = $itemObj->add($itemData);
+                                    } else
+                                        $ItemId = $itemDet['item_id'];
+                                } else
+                                    $ItemId = $valid['item'][$i];
+
                                 $mdata = array(
                                     'sdt_srv_id' => $insert,
-                                    'sdt_item' => $valid['item'][$i],
+                                    'sdt_item' => $ItemId,
                                     'sdt_qty' => $valid['quantity'][$i],
                                     'sdt_done_by' => $valid['doneby'][$i],
                                     'sdt_note' => $valid['mnote'][$i],
@@ -185,10 +224,10 @@ class servicesController extends mvc
                                 $serviceDetObj->add($mdata);
                             }
                         }
-                        
+
                         require_once __DIR__ . '/../admin/!model/documents.php';
                         $docs = new documets();
-                        
+
                         $fdata = array(
                             'doc_type' => DOC_TYPE_VHL_SRV,
                             'doc_ref_type' => DOC_TYPE_VHL_SRV,
@@ -198,11 +237,9 @@ class servicesController extends mvc
                         if ($srvRpt) {
                             $upload = uploadFiles(DOC_TYPE_VHL_SRV, $srvRpt, $valid['my_files']);
                         }
-                        
-                        
-                        
+
                         $feedback = ' Service Updated successfully';
-                         $this->view->NoViewRender = true;
+                        $this->view->NoViewRender = true;
                         $success = array(
                             'feedback' => $feedback
                         );
@@ -245,6 +282,8 @@ class servicesController extends mvc
         $itemList = $itemObj->getSrvItemPair(array(
             'item_type' => 2
         ));
+        $itemList['-1'] = '-- Add New Item --';
+        
         $form->addElement('servicedt', 'Service Date', 'text', 'date|required', '', array(
             'class' => 'date_picker',
             '' => 'autocomplete="off"'
@@ -306,7 +345,7 @@ class servicesController extends mvc
         $form->addMultiElement('item', 'Item', 'select', '', array(
             'options' => $itemList
         ), array(
-            'class' => 'full-select'
+            'class' => 'full-select m_item_list'
         ), $count);
         $form->addMultiElement('quantity', 'Quantity', 'float', 'numeric', '', array(
             'class' => 'floatonly',
@@ -318,6 +357,10 @@ class servicesController extends mvc
         ), $count);
         $form->addMultiElement('mnote', 'Note', 'text', '', '', array(
             'class' => ''
+        ), $count);
+        
+        $form->addMultiElement('mitem', 'Item Name', 'text', 'alpha_space', '', array(
+            'class' => 'm_new_item'
         ), $count);
         
         
@@ -359,13 +402,17 @@ class servicesController extends mvc
                 $form->addErrorMsg('quantity', 'required', ' ');
                 $form->addErrorMsg('doneby', 'required', ' ');
                 $form->addErrorMsg('mnote', 'required', ' ');
+                $form->addErrorMsg('mitem', 'required', ' ');
+                $form->addErrorMsg('mitem', 'alpha_space', 'The field may only contain letters and spaces');
+                
                 foreach ($mfields as $i) {
                     if ($_POST['item'][$i] != '' && $_POST['quantity'][$i] == '')
                         $form->addmRules('quantity', $i, 'required');
                     if ($_POST['item'][$i] != '' && $_POST['doneby'][$i] == '')
                         $form->addmRules('doneby', $i, 'required');
-                    // if ($_POST ['item'] [$i] != '' && $_POST ['mnote'] [$i] == '')
-                    // $form->addmRules ( 'mnote', $i, 'required' );
+                    if ($_POST ['item'] [$i] == '-1' && $_POST ['mitem'] [$i] == '')
+                        $form->addmRules ( 'mitem', $i, 'required|alpha_space' );
+                            
                 }
                 
                 
@@ -405,9 +452,38 @@ class servicesController extends mvc
                         foreach ($mfields as $i) {
                             $mdata = array();
                             if ($valid['item'][$i] != '') {
+                                
+                                
+                                
+                                $ItemId = '';
+                                
+                                if ($valid['item'][$i] == - 1 && $valid['mitem'][$i] != '') {
+                                    
+                                    $itemDet = $itemObj->getItemByName(array(
+                                        'item_name' => $valid['mitem'][$i]
+                                    ));
+                                    if (! $itemDet['item_id']) {
+                                        
+                                        $nextItemCode = $itemObj->getItemMaxCode();
+                                        
+                                        $itemData = array(
+                                            'item_name' => $valid['mitem'][$i],
+                                            'item_remarks' => $valid['mitem'][$i],
+                                            'item_code' => $nextItemCode['next_item_code'],
+                                            'item_type' => 2
+                                        );
+                                        $ItemId = $itemObj->add($itemData);
+                                    } else
+                                        $ItemId = $itemDet['item_id'];
+                                } else
+                                    $ItemId = $valid['item'][$i];
+                                    
+                                    
+                                
+                                
                                 $mdata = array(
                                     'sdt_srv_id' => $decRefId,
-                                    'sdt_item' => $valid['item'][$i],
+                                    'sdt_item' => $ItemId,
                                     'sdt_qty' => $valid['quantity'][$i],
                                     'sdt_done_by' => $valid['doneby'][$i],
                                     'sdt_note' => $valid['mnote'][$i],

@@ -106,6 +106,7 @@
 					<tr class="dup_row" index="<?=$i?>">
 						<td valign="top">
 		                	<?=$this->form->item[$i]->show()?>
+		                	<?=$this->form->mitem[$i]->show()?>
 						</td>
 						<td valign="top">
 		                	<?=$this->form->quantity[$i]->show()?>
@@ -199,6 +200,8 @@ function addRow(tableId) {
         search_contains: true,
         enable_split_word_search: true
     });
+
+    $('#mitem\\[' + index + '\\]').hide(); // Escaping square brackets
 }
 
 
@@ -241,6 +244,38 @@ function reindexRows(tableBodyId) {
         });
     });
 }
+
+function toggleAssociatedTextboxes(selector, itemPrefix, mitemPrefix) {
+    // Function to toggle visibility based on the dropdown value
+    const toggleVisibility = function (element) {
+        const idOrName = $(element).attr('id') || $(element).attr('name');
+        const associatedTextbox = idOrName.replace(itemPrefix, mitemPrefix);
+
+        if ($(element).val() === '-1') {
+            $(`#${associatedTextbox}, [name="${associatedTextbox}"]`).show();
+        } else {
+            $(`#${associatedTextbox}, [name="${associatedTextbox}"]`).hide();
+        }
+    };
+
+    // Initial visibility on page load
+    $(selector).each(function () {
+        toggleVisibility(this);
+    });
+
+    // Change event listener for dynamic updates
+    $(document).on('change', selector, function () {
+        toggleVisibility(this);
+    });
+}
+
+// Example usage
+toggleAssociatedTextboxes('.m_item_list', 'item', 'mitem');
+
+
+
+
+
 
 </script>
 

@@ -12,6 +12,25 @@ class item extends db_table {
 		return parent::update ( $data, $cond );
 	}
 	
+	public function getItemByName($cond = array()){
+	    $this->query ( "select * from $this->_table" );
+	    if (isset ( $cond ['item_name'] ))
+	        $this->_where[] = "LOWER(TRIM(item_name)) = LOWER(TRIM(:item_name))";
+	        
+	        return parent::fetchRow ( $cond );
+	}
+	
+	public function getItemMaxCode($cond = array()){
+	    
+	    $this->query ( "select MAX(CAST(item_code AS INTEGER)) + 1 AS next_item_code from $this->_table" );
+	    $this->_where[] = "item_type = 2";
+	    $this->_where[] = "item_code ~ '^\d+$'";
+	        
+	    return parent::fetchRow ( $cond );
+	}
+	
+
+	
 	public function getItemPair($cond = array()) {
 		
 		$this->query ( "select item_id,item_code || ' - ' ||item_name|| ' (' ||item_unit|| ' - ' ||item_price || ')' from $this->_table" );
