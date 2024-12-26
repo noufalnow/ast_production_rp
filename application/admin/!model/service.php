@@ -41,6 +41,15 @@ class service extends db_table {
                     files.file_id as fileid,
                     docsrpt.doc_id as docsid,
 
+
+					case when srv_reading_type = 1 then 'KM'
+						when srv_reading_type = 2 then 'Hours'
+					end as srv_reading_type_lbl,
+
+					case when srv_reading_next_type = 1 then 'KM'
+						when srv_reading_next_type = 2 then 'Hours'
+					end as srv_reading_next_type_lbl,
+
 	
 				emp.emp_fname ||' '||emp.emp_mname||' '||emp.emp_lname as done_by
  				from $this->_table
@@ -72,6 +81,16 @@ class service extends db_table {
 		$this->query ( "SELECT 
                         mis_vhl_service.*,
                         vhl_no,
+
+    					case when srv_reading_type = 1 then 'KM'
+    						when srv_reading_type = 2 then 'Hours'
+    					end as srv_reading_type_lbl,
+    
+    					case when srv_reading_next_type = 1 then 'KM'
+    						when srv_reading_next_type = 2 then 'Hours'
+    					end as srv_reading_next_type_lbl,
+
+
                         CASE 
                             WHEN mis_vhl_service.srv_type = 1 THEN 'Major Srv'
                             WHEN mis_vhl_service.srv_type = 2 THEN 'Minor Srv'

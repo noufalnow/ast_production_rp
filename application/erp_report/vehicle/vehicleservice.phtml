@@ -144,20 +144,20 @@
                                 <tr>
                                     <th>Location</th>
                                     <td><?= $status['srv_location']; ?></td>
-                                    <th>Wash</th>
-                                    <td><?= $status['srv_wash_lbl']; ?></td>
+                                    <td>Wash : <b><?= $status['srv_wash_lbl']; ?></b></td>
+                                    <td>Grease : <b><?= $status['srv_greese_lbl']; ?></b></td>
                                 </tr>
                                 <tr>
-                                    <th>Grease</th>
-                                    <td><?= $status['srv_greese_lbl']; ?></td>
+                                    <th>Total Working Hours</th>
+                                    <td><?=$status['srv_working_time']?></td>
                                     <th>Note</th>
                                     <td><?= $status['srv_note']; ?></td>
                                 </tr>
                                 <tr>
                                     <th>Done By</th>
                                     <td><?= $status['done_by']; ?></td>
-                                    <th>Reading (KM)</th>
-                                    <td><?= $status['srv_reading']; ?></td>
+                                    <th>Reading</th>
+                                    <td><?= $status['srv_reading']; ?> (<?=$status['srv_reading_type_lbl']?>)</td>
                                     
                                 </tr>
                             </table>
@@ -209,7 +209,7 @@
                                     <th>Next Service</th>
                                     <td><?= $status['srv_nxt_type_lbl']; ?></td>
                                     <th>Reading</th>
-                                    <td><?= $status['srv_reading_next']; ?></td>
+                                    <td><?= $status['srv_reading_next']; ?> (<?=$status['srv_reading_next_type_lbl']?>)</td>
                                     <th>Date</th>
                                     <td><?= $status['srv_date_next_fmt']; ?></td>
                                 </tr>

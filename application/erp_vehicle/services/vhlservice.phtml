@@ -18,9 +18,12 @@
 					<div class="col-sm-3">
                     <?=$this->form->servicedt->show()?>
                   </div>
-                  <label class="col-sm-2 form-label" >Reading (KM)</label>
-					<div class="col-sm-4">
+                  <label class="col-sm-2 form-label" >Reading</label>
+					<div class="col-sm-2">
                     <?=$this->form->reading->show()?>
+                    </div>
+                    <div class="col-sm-2">
+                    <?=$this->form->readkmhr->show()?>
                   </div>
 				</div>
 				<div class="row mb-4">
@@ -34,12 +37,18 @@
                   </div>
 				</div>
 				<div class="row mb-4">
-					<label class="col-sm-3 form-label" >Wash</label>
-					<div class="col-sm-3">
+				
+				  <label class="col-sm-3 form-label" >Working Hours</label>
+					<div class="col-sm-2">
+                    <?=$this->form->workinghrs->show()?>
+                  </div>
+				
+					<label class="col-sm-1 form-label mb-4" style="margin-left: 8%;" >Wash</label>
+					<div class="col-sm-2" style="margin-top: 1%;">
                     <?=$this->form->wash->show()?>
                   </div>
-                  <label class="col-sm-2 form-label" >Greese</label>
-					<div class="col-sm-3">
+					<label class="col-sm-1 form-label mb-4" >Greese</label>
+					<div class="col-sm-2" style="margin-top: 1%;">
                     <?=$this->form->greese->show()?>
                   </div>
 				</div>
@@ -66,20 +75,23 @@
                     </div>
                 
                     <!-- Label and Input for "Reading (KM)" -->
-                    <label class="form-label" style="width: 10%;">Reading (KM)</label>
-                    <div style="width: 15%;">
+                    <label class="form-label" style="width: 9%;">Reading</label>
+                    <div style="width: 9%;">
                         <?=$this->form->readingnxt->show()?>
+                    </div>
+                    <div style="width: 12%;">
+                        <?=$this->form->readnxtkmhr->show()?>
                     </div>
                 
                     <!-- Label and Input for "Date" -->
-                    <label class="form-label" style="width: 10%;">Date</label>
+                    <label class="form-label" style="width: 5%;">Date</label>
                     <div style="width: 15%;">
                         <?=$this->form->nextDt->show()?>
                     </div>
                 
                     <!-- Label and Input for "Labour" -->
-                    <label class="form-label" style="width: 10%;">Labour</label>
-                    <div style="width: 15%;">
+                    <label class="form-label" style="width: 12%;">Labour Cost(OMR)</label>
+                    <div style="width: 13%;">
                         <?=$this->form->labour->show()?>
                     </div>
                 </div>

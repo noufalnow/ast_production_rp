@@ -47,7 +47,24 @@ class servicesController extends mvc
         ));
         $form->addElement('location', 'Location', 'text', 'required');
         $form->addElement('reading', 'Reading', 'number', 'required');
+        
+        $form->addElement('readkmhr', 'KM/Hours', 'select', 'required', array(
+            'options' => array(
+                1 => "KM",
+                2 => "Hours"
+            )
+        ));
+        
         $form->addElement('readingnxt', 'Reading', 'number', 'required');
+        
+        $form->addElement('readnxtkmhr', 'KM/Hours', 'select', 'required', array(
+            'options' => array(
+                1 => "KM",
+                2 => "Hours"
+            )
+        ));
+        
+        
         $form->addElement('wash', 'Wash', 'radio', 'required', array(
             'options' => array(
                 1 => "No",
@@ -65,10 +82,18 @@ class servicesController extends mvc
             'class' => 'date_picker'
         ));
         
-        $form->addElement('labour', 'Labour', 'text', 'required', 'numeric', array(
+        $form->addElement('labour', 'Labour Cost', 'text', 'required', 'numeric', array(
             'class' => 'floatonly',
             
         ));
+        
+        
+        $form->addElement('workinghrs', 'Working Hours', 'text', 'required', 'numeric', array(
+            'class' => 'floatonly',
+            
+        ));
+        
+
         
         
         $form->addElement('note', 'Note', 'textarea', '', '');
@@ -180,6 +205,10 @@ class servicesController extends mvc
                         'srv_reading_next' => $valid['readingnxt'],
                         'srv_location' => $valid['location'],
                         'srv_labour' => $valid['labour'],
+                        
+                        'srv_working_time' => $valid['workinghrs'],
+                        'srv_reading_type' => $valid['readkmhr'],
+                        'srv_reading_next_type' => $valid['readnxtkmhr'],
                         
                     );
                     $insert = $serviceObj->add($data);
@@ -298,10 +327,17 @@ class servicesController extends mvc
             )
         ));
         
-        $form->addElement('labour', 'Labour', 'text', 'required', 'numeric', array(
+        $form->addElement('labour', 'Labour Cost', 'text', 'required', 'numeric', array(
             'class' => 'floatonly',
             
         ));
+        
+        
+        $form->addElement('workinghrs', 'Working Hours', 'text', 'required', 'numeric', array(
+            'class' => 'floatonly',
+            
+        ));
+        
         $form->addElement('nxtstatus', 'Service', 'select', 'required', array(
             'options' => array(
                 1 => "Major Service",
@@ -310,7 +346,20 @@ class servicesController extends mvc
         ));
         $form->addElement('location', 'Location', 'text', 'required');
         $form->addElement('reading', 'Reading', 'number', 'required');
+        $form->addElement('readkmhr', 'KM/Hours', 'select', 'required', array(
+            'options' => array(
+                1 => "KM",
+                2 => "Hours"
+            )
+        ));
+        
         $form->addElement('readingnxt', 'Reading', 'number', 'required');
+        $form->addElement('readnxtkmhr', 'KM/Hours', 'select', 'required', array(
+            'options' => array(
+                1 => "KM",
+                2 => "Hours"
+            )
+        ));
         $form->addElement('wash', 'Wash', 'radio', 'required', array(
             'options' => array(
                 1 => "No",
@@ -443,6 +492,9 @@ class servicesController extends mvc
                         'srv_reading_next' => $valid['readingnxt'],
                         'srv_location' => $valid['location'],
                         'srv_labour' => $valid['labour'],
+                        'srv_working_time' => $valid['workinghrs'],
+                        'srv_reading_type' => $valid['readkmhr'],
+                        'srv_reading_next_type' => $valid['readnxtkmhr'],
                     );
                     $update = $serviceObj->modify($data, $decRefId);
                     if ($update) {
@@ -551,6 +603,12 @@ class servicesController extends mvc
             $form->readingnxt->setValue($serviceDet['srv_reading_next']);
             $form->location->setValue($serviceDet['srv_location']);
             $form->labour->setValue($serviceDet['srv_labour']);
+            
+            $form->workinghrs->setValue($serviceDet['srv_working_time']);
+            $form->readkmhr->setValue($serviceDet['srv_reading_type']);
+            $form->readnxtkmhr->setValue($serviceDet['srv_reading_next_type']);
+                       
+            
             $i = 0;
             if (count($serviceItemDet) > 0)
                 foreach ($serviceItemDet as $fields) {
