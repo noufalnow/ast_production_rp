@@ -159,6 +159,8 @@ define('DOC_TYPE_COM_AGR', 2004);
 define('DOC_TYPE_COM_SAL', 2005);
 define('DOC_TYPE_COM_VEN', 2006);
 define('DOC_TYPE_COM_COMP', 2007);
+define('DOC_TYPE_COM_LCASE', 20071);
+define('DOC_TYPE_COM_LCASE_UPD', 20072);
 
 define('DOC_TYPE_BILL', 6);
 define('DOC_TYPE_PAY', 7);

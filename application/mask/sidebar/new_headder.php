@@ -364,6 +364,8 @@ function mainMenu($encUserId)
     
     $menuHtml .= '<li class="sub-slide-item">' . x(array('link' => 'erp_manage/calllog/list','label' => 'Business Call Log',array())) . '</li>';
     
+    $menuHtml .= '<li class="sub-slide-item">' . x(array('link' => 'erp_manage/legalcase/list','label' => 'Manage Legal Cases',array())) . '</li>';
+    
     
     $menuHtml .= '</ul>
       </li>';

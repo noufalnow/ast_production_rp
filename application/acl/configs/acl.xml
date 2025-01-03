@@ -1109,6 +1109,49 @@
 				</action>
 			</controller>
 			
+						
+			<controller>
+				<name>legalcase</name>
+				<label>Legal Case Management</label>
+				<description>Legal Case Management</description>
+				<action>
+					<name>add</name>
+					<label>Add Legal Case</label>
+					<description>Add Legal Case</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>edit</name>
+					<label>Modify Legal Case</label>
+					<description>Modify Legal Case</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>list</name>
+					<label>List Legal Cases</label>
+					<description>List Legal Case</description>
+					<resource>application</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>fupadd</name>
+					<label>Add Case Follow-up </label>
+					<description>Add Case Follow-up</description>
+					<resource>application</resource>
+					<type>create</type>
+				</action>
+				<action>
+					<name>fupedit</name>
+					<label>Update Case Follow-up</label>
+					<description>Update Case Follow-up</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+			</controller>
+			
+			
 		</module>
 		<module>
 			<name>erp_fund</name>

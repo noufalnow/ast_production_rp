@@ -1,0 +1,223 @@
+<?$offset = $this->callLogObj->_voffset;?>
+<form method="get" id="filter" name="filter" action="list">
+	<div class="main-content mt-0 hor-content">
+		<div class="side-app">
+			<!-- CONTAINER -->
+			<div class="main-container container">
+				<!-- PAGE-HEADER -->
+				<div class="page-header">
+					<div>
+						<h1 class="page-title">Manage Legal Cases</h1>
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="javascript:void(0);">Home</a>
+							</li>
+							<li class="breadcrumb-item active" aria-current="page">Manage
+								Legal Case</li>
+						</ol>
+					</div>
+					<div class="ms-auto pageheader-btn">
+						<?=x(array('link'=>'erp_manage/legalcase/add','label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')))?>
+					</div>
+				</div>
+				<!-- PAGE-HEADER END -->
+				<!-- ROW -->
+				<div class="row row-sm">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Filters</h3>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="lcas_date" class="form-label">Type</label>
+                                            <?=$this->form->f_lcas_type->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="phone_no" class="form-label">Party Name</label>
+                                            <?=$this->form->f_name->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="name" class="form-label">Lawer</label>
+                                            <?=$this->form->f_lawer_name->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="lcas_date" class="form-label">Status</label>
+                                            <?=$this->form->f_status->show()?>
+                                        </div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-lg-3">
+										<div class="form-group">
+											<label for="logtype" class="form-label">Date</label>
+                                            <?=$this->form->f_date->show()?>
+                                        </div>
+									</div>
+									<div class="col-lg-3" style="padding-top: 2%;">
+    								<button class="btn <?=$this->filter_class?> mt-4 mb-0"
+    									type="submit">Filter</button>
+    								<input class="btn btn-secondary mt-4 mb-0" name="clear"
+    									type="submit" value="All"></input>
+									</div>
+									
+								</div>
+
+
+							</div>
+						</div>
+					</div>
+					<div class="">
+						<div class="">
+							<div class="card">
+								<div class="card-header">
+									<h3 class="card-title">Legal Case List</h3>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive export-table">
+<table aria-describedby="" class="table table-bordered text-nowrap no-footer">
+    <thead class="border-top">
+        <tr role="row">
+            <th width="5%" class="center">Sl No.</th>
+            <th width="15%" class="center">Case Type</th>
+            <th width="15%" class="center">Party Name</th>
+            <th width="15%" class="center">Phone Number</th>
+            <th width="20%" class="center">Lawer</th>
+            <th width="10%" class="center">Date</th>
+            <th width="10%" class="center">Case Details</th>
+            <th width="10%" class="center">Status</th>
+            <th width="5%" class="center">Edit</th>
+            <th width="10%" class="center">Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (count($this->legalcaseList) > 0): ?>
+            <?php foreach ($this->legalcaseList as $index => $log): 
+            $encLogId = $this->encode($log['lcas_id']); 
+            $encFileId = $this->encode($log['fileid']);
+            $followups = $this->legalcasefollowObj->getFollowsAll(array('lcflo_lcas_id'=>$log['lcas_id']));
+            $latestFollowup = !empty($followups) ? reset($followups) : null; // Get the latest follow-up
+            ?>
+                <tr>
+                    <td class="center"><?= @++$offset; ?></td>
+                    <td><?= $log['lcas_type_label']; ?></td>
+                    <td><?= $log['lcas_party']; ?></td>
+                    <td><?= $log['lcas_phone_no']; ?></td>
+                    <td><?= $log['lcas_lawer']; ?></td>
+                    <td><?= $log['lcas_date_lbl']; ?></td>
+                    <td class=""><?= $log['lcas_case_trim']; ?></td>
+                    <td class="center"><?= $log['lcas_sts_lbl']; ?></td>
+                    <td class="center">
+                        <?php if (empty($followups) && $log['lcas_emp'] == USER_ID): ?>
+                            <?= x(array('link'=>'erp_manage/legalcase/edit','ref'=>array('ref'=>$encLogId),'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"'))) ?>
+                        <?php endif; ?>
+                    </td>
+                    <td class="center">
+                        <button class="btn btn-sm <?= !in_array($log['lcas_sts'], [7, 8])  ? 'btn-success' : 'btn-danger'; ?>" type="button" 
+                                data-bs-toggle="collapse" 
+                                data-bs-target="#followups-<?= $index; ?>" 
+                                aria-expanded="false" aria-controls="followups-<?= $index; ?>">
+                            Show Details
+                        </button>
+                    </td>
+                </tr>
+<tr class="collapse-row">
+    <td colspan="10" class="p-0">
+        <div class="collapse p-3" id="followups-<?= $index; ?>">
+            <!-- Log Details Section -->
+            <div class="bg-light p-3 mb-3">
+                <p><i>Case Details: &nbsp;&nbsp;&nbsp;</i> <span style="font-size: 1.2rem;"><?= $log['lcas_case']; ?></span> 
+                
+                <?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="glyphicon glyphicon-download-alt text-info" style="float: right;"></i>',array("param"=>'opener')))?>
+                </p>
+                <hr>
+                <p><i>Logged By:&nbsp;&nbsp;&nbsp;</i> <?= $log['emp_name']; ?></p>
+                <p><i>Logged At:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_date_lbl']; ?></p>
+                <p><i>Status:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_sts_lbl']; ?></p>
+                <p><i>Email:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_email']; ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Phone:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_phone_no']; ?></p>
+                <p><i>Lawer:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_lawer']; ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Office:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_office']; ?></p>
+            </div>
+
+            <!-- Follow-Up Details Section -->
+            <div class="bg-secondary p-4 mb-3" style="background-color: #67ef212b !important;border-radius: 5px;">
+                <h5 class="mt-3">
+                    Follow-up Details
+                    
+                    <?= x(array('link'=>'erp_manage/legalcase/fupadd','ref'=>array('ref'=>$encLogId),'label'=>'<button class="btn btn-primary btn-sm shadow" style="float: right; background-color: #e29ae7 !important; border-color: #e29ae7 !important; margin-bottom: 1%;">Add Follow-up</button>',array("param"=>'class="facebox"'))) ?>
+                </h5>
+                <?php if (!empty($followups)): ?>
+                <table class="table table-sm" style="background-color: floralwhite !important;">
+                    <thead>
+                        <tr>
+                            <th class="center" width="20%">Date</th>
+                            <th width="50%">Follow-up / Update</th>
+                            <th class="center" width="20%">Status</th>
+                            <th class="center" width="20%">Follow-up By</th>
+                            <th class="center"> File</th>
+                            <th class="center" width="10%">Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                        foreach ($followups as $key => $followup): 
+                        $encFollowupFileId = $this->encode($followup['fileid']);?>
+                            <tr>
+                                <td class="center"><?= $followup['lcflo_date_lbl']; ?></td>
+                                <td><?= $followup['lcflo_update']; ?></td>
+                                <td class="center"><?= $followup['lcflo_sts_lbl']; ?></td>
+                                <td class="left"><?= $followup['emp_name']; ?></td>
+                                
+                                 <td class="left"> <?=x(array('link'=>'default/default/download','ref'=>$encFollowupFileId,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?> </td>
+                                
+                                
+                                <td class="center">
+                                <?php if ($key === 0 && $followup['lcflo_emp'] == USER_ID): // Show edit button only for the latest follow-up ?>
+                                    <?= x(array('link'=>'erp_manage/legalcase/fupedit','ref'=>array('ref'=>$this->encode($followup['lcflo_id'])),'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"'))) ?>
+                                <?php endif; ?>
+                                </td>
+                            </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <?php endif;?>
+            </div>
+        </div>
+    </td>
+</tr>
+
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="10" class="text-center">No call logs available</td>
+            </tr>
+        <?php endif; ?>
+    </tbody>
+</table>
+
+
+
+		<?$this->legalcaseObj->pagination();?>
+	</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<script>
+$(document).ready(function() {
+    $('#f_month').MonthPicker({ Button: false });
+});
+</script>

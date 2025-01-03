@@ -1,0 +1,106 @@
+<div class="dynamic-popup" id="dynamic-popup">
+	<form name="form" method="post" id="edit" action='erp_manage/legalcase/edit/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;" enctype="multipart/form-data">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h4 class="card-title">Update Legal Case</h4>
+				<button type="button" aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body" style="margin-top:0px;">
+			
+				<div class="row g-3 mb-2">
+					<div class="col-sm-6">
+						<label class="form-label">Case Type</label>
+						<?=$this->form->lcas_type->show()?>
+					</div>
+					<div class="col-sm-6">
+						<label class="form-label">Party Name</label>
+						<?=$this->form->lcas_party->show()?>
+					</div>
+				</div>
+			
+			
+			
+				<div class="row g-3 mb-2">
+					<div class="col-sm-6">
+						<label class="form-label">Phone Number</label>
+						<?=$this->form->lcas_phone_no->show()?>
+					</div>
+					<div class="col-sm-6">
+						<label class="form-label">Office</label>
+						<?=$this->form->lcas_office->show()?>
+					</div>
+				</div>
+				
+				
+				<div class="row g-3 mb-2">
+					<div class="col-sm-6">
+						<label class="form-label">Lawer</label>
+						<?=$this->form->lcas_lawer->show()?>
+					</div>
+					<div class="col-sm-6">
+						<label class="form-label">Email</label>
+						<?=$this->form->lcas_email->show()?>
+					</div>
+				</div>
+				
+				<div class="row g-3 mb-2">
+					<div class="col-sm-4">
+						<label class="form-label">Date</label>
+						<?=$this->form->lcas_date->show()?>
+					</div>
+					<div class="col-sm-4">
+						<label class="form-label">Current Status</label>
+						<?=$this->form->lcas_sts->show()?>
+					</div>
+					<div class="col-sm-4">
+						<label class="form-label">File Upload <?=x(array('link'=>'default/default/download','ref'=>$this->encFileId,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?></label>
+						<?=$this->form->my_files->show()?>
+					</div>
+				</div>
+				<div class="row g-3 mb-2">
+					<div class="col-12">
+						<label class="form-label">Case Summary</label>
+						<?=$this->form->lcas_case->show()?>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary submit-alias livepost">Update Log</button>
+				<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<style>
+.modal-dialog {
+	width: 65%;
+}
+</style>
+
+
+
+<script>
+$(document).ready(function($) {
+    $('body').on('change', 'input.time', function() {
+        const timePattern = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/; // Regex for valid HH:mm format
+        const value = $(this).val().trim();
+
+        if (!timePattern.test(value)) {
+            // Clear the input if it doesn't match the time format
+            $(this).val("");
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('input').forEach(function (input) {
+        input.addEventListener('focus', function () {
+            this.setAttribute('autocomplete', 'new-' + Math.random().toString(36).substring(2));
+        });
+    });
+});
+
+</script>
