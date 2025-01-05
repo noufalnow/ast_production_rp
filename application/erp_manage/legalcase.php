@@ -43,6 +43,22 @@ class legalcaseController extends mvc
         $form->addElement('lcas_office', 'Office', 'text', 'required|alpha_space', "", array(
             '' => 'autocomplete="offmecl"'
         ));
+        
+        $form->addElement('lcas_no', 'Case No.', 'text', 'required', "", array(
+            '' => 'autocomplete="csnomecl"'
+        ));
+        
+        $form->addElement('lcas_ref', 'Case Reference', 'text', '', "", array(
+            '' => 'autocomplete="csrefcl"'
+        ));
+        
+        $form->addElement('lcas_company', 'Company Name', 'text', '', "", array(
+            '' => 'autocomplete="cscompcl"'
+        ));
+        
+        $form->addElement('lcas_cr', 'CR No.', 'text', '', "", array(
+            '' => 'autocomplete="crfcl"'
+        ));
 
         $form->addElement('lcas_lawer', 'Lawer', 'text', 'required|alpha_space', "", array(
             '' => 'autocomplete="lawmecl"'
@@ -81,6 +97,10 @@ class legalcaseController extends mvc
                     $logdt = date_format($logdt, DFS_DB);
 
                     $data = array(
+                        'lcas_no' => $valid['lcas_no'],
+                        'lcas_ref' => $valid['lcas_ref'],
+                        'lcas_company' => $valid['lcas_company'],
+                        'lcas_cr' => $valid['lcas_cr'],
                         'lcas_type' => $valid['lcas_type'],
                         'lcas_party' => $valid['lcas_party'],
                         'lcas_phone_no' => $valid['lcas_phone_no'],
@@ -157,6 +177,22 @@ class legalcaseController extends mvc
             'onfocus' => "this.removeAttribute('readonly')",
             '' => 'autocomplete="nphecl"'
         ));
+        
+        $form->addElement('lcas_no', 'Case No.', 'text', 'required', "", array(
+            '' => 'autocomplete="csnomecl"'
+        ));
+        
+        $form->addElement('lcas_ref', 'Case Reference', 'text', '', "", array(
+            '' => 'autocomplete="csrefcl"'
+        ));
+        
+        $form->addElement('lcas_company', 'Company Name', 'text', '', "", array(
+            '' => 'autocomplete="cscompcl"'
+        ));
+        
+        $form->addElement('lcas_cr', 'CR No.', 'text', '', "", array(
+            '' => 'autocomplete="crfcl"'
+        ));
 
         $form->addElement('lcas_office', 'Office', 'text', 'required|alpha_space', "", array(
             '' => 'autocomplete="offmecl"'
@@ -209,6 +245,11 @@ class legalcaseController extends mvc
                     $logdtDb = date_format($logdt, DFS_DB);
 
                     $data = array(
+                        
+                        'lcas_no' => $valid['lcas_no'],
+                        'lcas_ref' => $valid['lcas_ref'],
+                        'lcas_company' => $valid['lcas_company'],
+                        'lcas_cr' => $valid['lcas_cr'],
                         'lcas_type' => $valid['lcas_type'],
                         'lcas_party' => $valid['lcas_party'],
                         'lcas_phone_no' => $valid['lcas_phone_no'],
@@ -272,7 +313,13 @@ class legalcaseController extends mvc
                 $form->lcas_date->setValue($logDate ? $logDate->format(DF_DD) : '');
                 $form->lcas_case->setValue($legalcaseDetails['lcas_case']);
                 $form->lcas_sts->setValue($legalcaseDetails['lcas_sts']);
+                
+                $form->lcas_no->setValue($legalcaseDetails['lcas_no']);
+                $form->lcas_ref->setValue($legalcaseDetails['lcas_ref']);
+                $form->lcas_company->setValue($legalcaseDetails['lcas_company']);
+                $form->lcas_cr->setValue($legalcaseDetails['lcas_cr']);
                 $this->view->encFileId = $this->view->encode($legalcaseDetails['fileid']);
+                              
             }
         }
 

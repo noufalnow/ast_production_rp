@@ -7,67 +7,79 @@
 					<span aria-hidden="true">×</span>
 				</button>
 			</div>
-			<div class="modal-body" style="margin-top:0px;">
-			
-				<div class="row g-3 mb-2">
-					<div class="col-sm-6">
-						<label class="form-label">Case Type</label>
-						<?=$this->form->lcas_type->show()?>
-					</div>
-					<div class="col-sm-6">
-						<label class="form-label">Party Name</label>
-						<?=$this->form->lcas_party->show()?>
-					</div>
-				</div>
-			
-			
-			
-				<div class="row g-3 mb-2">
-					<div class="col-sm-6">
-						<label class="form-label">Phone Number</label>
-						<?=$this->form->lcas_phone_no->show()?>
-					</div>
-					<div class="col-sm-6">
-						<label class="form-label">Office</label>
-						<?=$this->form->lcas_office->show()?>
-					</div>
-				</div>
-				
-				
-				<div class="row g-3 mb-2">
-					<div class="col-sm-6">
-						<label class="form-label">Lawer</label>
-						<?=$this->form->lcas_lawer->show()?>
-					</div>
-					<div class="col-sm-6">
-						<label class="form-label">Email</label>
-						<?=$this->form->lcas_email->show()?>
-					</div>
-				</div>
-				
-				
-				<div class="row g-3 mb-2">
-					<div class="col-sm-4">
-						<label class="form-label">Date</label>
-						<?=$this->form->lcas_date->show()?>
-					</div>
-					<div class="col-sm-4">
-						<label class="form-label">Current Status</label>
-						<?=$this->form->lcas_sts->show()?>
-					</div>
-					<div class="col-sm-4">
-						<label class="form-label">File Upload</label>
-						<?=$this->form->my_files->show()?>
-					</div>
-				</div>
-				
-				<div class="row g-3 mb-2">
-					<div class="col-12">
-						<label class="form-label">Case Summary</label>
-						<?=$this->form->lcas_case->show()?>
-					</div>
-				</div>
-			</div>
+            <div class="modal-body" style="margin-top: 0px;">
+                <div class="row g-3 mb-2">
+                    <div class="col-md-4">
+                        <label class="form-label">Case No.</label>
+                        <?=$this->form->lcas_no->show()?>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Case Reference</label>
+                        <?=$this->form->lcas_ref->show()?>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Case Type</label>
+                        <?=$this->form->lcas_type->show()?>
+                    </div>
+                </div>
+            
+                <div class="row g-3 mb-2">
+                    <div class="col-md-4">
+                        <label class="form-label">Party Name</label>
+                        <?=$this->form->lcas_party->show()?>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Company Name</label>
+                        <?=$this->form->lcas_company->show()?>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Cr No.</label>
+                        <?=$this->form->lcas_cr->show()?>
+                    </div>
+                </div>
+            
+                <div class="row g-3 mb-2">
+                    <div class="col-md-4">
+                        <label class="form-label">Phone Number</label>
+                        <?=$this->form->lcas_phone_no->show()?>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Office</label>
+                        <?=$this->form->lcas_office->show()?>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Lawyer</label>
+                        <?=$this->form->lcas_lawer->show()?>
+                    </div>
+                </div>
+            
+                <div class="row g-3 mb-2">
+                    <div class="col-md-4">
+                        <label class="form-label">Email</label>
+                        <?=$this->form->lcas_email->show()?>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Date</label>
+                        <?=$this->form->lcas_date->show()?>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Current Status</label>
+                        <?=$this->form->lcas_sts->show()?>
+                    </div>
+                </div>
+            
+                <div class="row g-3 mb-2">
+                    <div class="col-md-4">
+                        <label class="form-label">File Upload</label>
+                        <?=$this->form->my_files->show()?>
+                    </div>
+                    <div class="col-md-8">
+                        <label class="form-label">Case Summary</label>
+                        <?=$this->form->lcas_case->show()?>
+                    </div>
+                </div>
+            </div>
+
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary submit-alias livepost">Create Case</button>
 				<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
@@ -78,7 +90,7 @@
 
 <style>
 .modal-dialog {
-	width: 65%;
+	width: 75%;
 }
 </style>
 

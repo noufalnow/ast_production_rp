@@ -36,3 +36,13 @@ CREATE TABLE "public"."mis_legal_case_follow" (
     "deleted" smallint DEFAULT '0' NOT NULL,
     CONSTRAINT "mis_legal_case_follow_pkey" PRIMARY KEY ("lcflo_id")
 ) WITH (oids = false);
+
+####################################
+
+ALTER TABLE "mis_legal_case"
+ADD "lcas_no" character varying(250) NULL,
+ADD "lcas_ref" character varying(250) NULL,
+ADD "lcas_company" character varying(250) NULL,
+ADD "lcas_cr" character varying(100) NULL;
+COMMENT ON TABLE "mis_legal_case" IS '';
+
