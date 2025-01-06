@@ -282,13 +282,20 @@
 														</thead>
 														<tbody>
                                                             <?php $encVhlSerId = $this->encode($status['srv_id']);?>
-                                                            <?php $encSrvFileId = $this->encode($status['fileid']);?>		
+                                                            <?php $encSrvFileId = $this->encode($status['fileid']);?>	
+                                                            <?php $encSrvAccFileId = $this->encode($status['accfileid']);?>	
                                                             <tr
 																style="border-bottom-style: double; border-bottom-width: 4px;">
 																<td colspan="2" align="center"><b>Date of Service:
                                                                         <?=$status['srv_date_start_lb']?></b></td>
 																<td colspan="2" align="center"><b>Service Type:
-                                                                        <?=$status['srv_type_lbl']?></b></td>
+                                                              
+                                                              <?php if($status['srv_category_lbl']!=''):?>
+                                                              <?=x(array('link'=>'default/default/download','ref'=>$encSrvFileId,'label'=>$status['srv_category_lbl'].'<i class="fas fa-download"></i>',array("param"=>'opener')))?>
+                                                              <?php endif;?>
+                                                              
+                                                              
+                                                              <?=$status['srv_type_lbl']?></b></td>
                                                                <td colspan="2" align="center"><b>Total Working Hrs:
                                                                         <?=$status['srv_working_time']?></b></td>  
                                                                <td colspan="2" align="center"><b>Total Labour:

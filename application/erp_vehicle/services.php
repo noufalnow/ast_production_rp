@@ -33,7 +33,15 @@ class servicesController extends mvc
         $form->addElement('employee', 'Technician', 'select', 'required', array(
             'options' => $empList
         ));
-        $form->addElement('status', 'Status', 'select', 'required', array(
+        
+        $form->addElement('srv_category', 'Service Category', 'select', 'required', array(
+            'options' => array(
+                1 => "Maintanance Service",
+                2 => "Accident"
+            )
+        ));
+        
+        $form->addElement('status', 'Service Type', 'select', '', array(
             'options' => array(
                 1 => "Major Service",
                 2 => "Minor Service"
@@ -159,8 +167,19 @@ class servicesController extends mvc
         ));
         
         
+        $form->addFile('acc_files', 'Accident Report', array(
+            'required' => true,
+            'exten' => 'pdf',
+            'size' => 5375000
+        ));
+        
+        
         $mfields = array_keys($form->_elements['item']);
         if ($_POST) {
+            
+          
+            
+            
             if (! isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
                 die('---'); // exit script outputting json data
             } else {
@@ -179,9 +198,27 @@ class servicesController extends mvc
                      if ($_POST ['item'] [$i] == '-1' && $_POST ['mitem'] [$i] == '')
                         $form->addmRules ( 'mitem', $i, 'required|alpha_space' );
                 }
+                
+                if ($_POST['srv_category']==1){
+                    $form->addRules("status", 'required',"Service Type is required");
+                    $form->addFile('acc_files', 'Accident Report', array(
+                        'required' => false,
+                        'exten' => 'pdf',
+                        'size' => 5375000
+                    ));
+                    
+                }
+                elseif ($_POST['srv_category']==2){
+                    
+                }
+                
+                
                 $valid = $form->vaidate($_POST, $_FILES);
                 $valid = $valid[0];
                 if ($valid == true) {
+                    
+                    
+                    //s($_POST);
                     
                     if (! empty($valid['servicedt'])) {
                         $dtWef = DateTime::createFromFormat(DF_DD, $valid['servicedt']);
@@ -192,7 +229,8 @@ class servicesController extends mvc
                         $dtnext = $dtnext->format(DFS_DB);
                     }
                     $data = array(
-                        'srv_type' => $valid['status'],
+                        'srv_category' => $valid['srv_category'],
+                        'srv_type' => $valid['status']==''? NULL : $valid['status'],
                         'srv_vhl_id' => $decRefId,
                         'srv_date_start' => $dtWef,
                         'srv_reading' => $valid['reading'],
@@ -211,6 +249,10 @@ class servicesController extends mvc
                         'srv_reading_next_type' => $valid['readnxtkmhr'],
                         
                     );
+                    
+                    //s($data);
+                    
+                    
                     $insert = $serviceObj->add($data);
                     if ($insert) {
                         foreach ($mfields as $i) {
@@ -266,6 +308,22 @@ class servicesController extends mvc
                         if ($srvRpt) {
                             $upload = uploadFiles(DOC_TYPE_VHL_SRV, $srvRpt, $valid['my_files']);
                         }
+                        
+                        if ($valid['acc_files']) {
+                            
+                            $srvdataAcc = array(
+                                'doc_type' => DOC_TYPE_VHL_SRV_ACC,
+                                'doc_ref_type' => DOC_TYPE_VHL_SRV_ACC,
+                                'doc_ref_id' => $insert
+                            );
+                            $srvRptAcc = $docs->add($srvdataAcc);
+                            if ($srvRptAcc) {
+                                $upload = uploadFiles(DOC_TYPE_VHL_SRV_ACC, $srvRptAcc, $valid['my_files']);
+                            }
+                        }
+                        
+                        
+                        
 
                         $feedback = ' Service Updated successfully';
                         $this->view->NoViewRender = true;
@@ -320,7 +378,14 @@ class servicesController extends mvc
         $form->addElement('employee', 'Technician', 'select', 'required', array(
             'options' => $empList
         ));
-        $form->addElement('status', 'Status', 'select', 'required', array(
+        $form->addElement('srv_category', 'Service Category', 'select', 'required', array(
+            'options' => array(
+                1 => "Maintanance Service",
+                2 => "Accident"
+            )
+        ));
+        
+        $form->addElement('status', 'Service Type', 'select', '', array(
             'options' => array(
                 1 => "Major Service",
                 2 => "Minor Service"
@@ -442,6 +507,12 @@ class servicesController extends mvc
             'size' => 5375000
         ));
         
+        $form->addFile('acc_files', 'Accident Report', array(
+            'required' => true,
+            'exten' => 'pdf',
+            'size' => 5375000
+        ));
+        
         $mfields = array_keys($form->_elements['item']);
         if ($_POST) {
             if (! isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
@@ -471,6 +542,26 @@ class servicesController extends mvc
                     'size' => 5375000
                 ));
                 
+                $form->addFile('acc_files', 'Accident Report', array(
+                    'required' => false,
+                    'exten' => 'pdf',
+                    'size' => 5375000
+                ));
+                
+                if ($_POST['srv_category']==1){
+                    $form->addRules("status", 'required',"Service Type is required"); 
+                }elseif($_POST['srv_category']==2 && $serviceDet['accdocsid']==''){
+                    
+                    $form->addFile('acc_files', 'Accident Report', array(
+                        'required' => true,
+                        'exten' => 'pdf',
+                        'size' => 5375000
+                    ));
+                
+                }
+                
+
+                
                 
                 $valid = $form->vaidate($_POST, $_FILES);
                 $valid = $valid[0];
@@ -480,7 +571,8 @@ class servicesController extends mvc
                     $dtnext = DateTime::createFromFormat(DF_DD, $valid['nextDt']);
                     $dtnext = $dtnext->format(DFS_DB);
                     $data = array(
-                        'srv_type' => $valid['status'],
+                        'srv_category' => $valid['srv_category'],
+                        'srv_type' => $valid['status']==''? NULL : $valid['status'],
                         'srv_date_start' => $dtWef,
                         'srv_reading' => $valid['reading'],
                         'srv_done_by' => $valid['employee'],
@@ -572,6 +664,25 @@ class servicesController extends mvc
                         }
                         
                         
+                        if ($valid['acc_files']) {
+                            if ($serviceDet['accdocsid']) {
+                                $docs->deleteDocument($serviceDet['accdocsid']);
+                                deleteFile($serviceDet['accfileid']);
+                                $file->deleteFile($serviceDet['accdocsid']);
+                            }
+                            
+                            $srvdataAcc = array(
+                                'doc_type' => DOC_TYPE_VHL_SRV_ACC,
+                                'doc_ref_type' => DOC_TYPE_VHL_SRV_ACC,
+                                'doc_ref_id' => $decRefId
+                            );
+                            $srvRptAcc = $docs->add($srvdataAcc);
+                            if ($srvRptAcc) {
+                                $upload = uploadFiles(DOC_TYPE_VHL_SRV_ACC, $srvRptAcc, $valid['my_files']);
+                            }
+                        }
+                        
+                        
                         
                         $feedback = ' Service Updated successfully';
                          $this->view->NoViewRender = true;
@@ -593,6 +704,7 @@ class servicesController extends mvc
             $nextDt = DateTime::createFromFormat(DFS_DB, $serviceDet['srv_date_next']);
             $nextDt = $nextDt->format(DF_DD);
             $form->nextDt->setValue($nextDt);
+            $form->srv_category->setValue($serviceDet['srv_category']);
             $form->status->setValue($serviceDet['srv_type']);
             $form->reading->setValue($serviceDet['srv_reading']);
             $form->employee->setValue($serviceDet['srv_done_by']);

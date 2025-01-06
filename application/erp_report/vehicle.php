@@ -419,11 +419,19 @@ class vehicleController extends mvc
             'class' => 'date_picker'
         ));
         
-                
+        
         $form->addElement('f_type', 'Service Type', 'select', '', array(
             'options' => array(
                 1 => "Major Service",
                 2 => "Minor Service"
+            )
+        ));
+        
+                
+        $form->addElement('f_category', 'Service Type', 'select', '', array(
+            'options' => array(
+                1 => "Maintanance Service",
+                2 => "Accident"
             )
         ));
         
@@ -441,6 +449,7 @@ class vehicleController extends mvc
                 $where = array(
                     'f_type' => @$valid['f_type'],
                     'f_vhlno' => @$valid['f_vhlno'],
+                    'f_category' => @$valid['f_category'],
                 );
             }
             $filter_class = 'btn-info'; // Highlight filter button if filters are applied

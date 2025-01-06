@@ -18,9 +18,14 @@ class service extends db_table {
 	public function getDetByVehicleId($cond) {
 		
 		$this->query ( "select *,
+
+
+					case when srv_category = 1 then ''
+						when srv_category = 2 then 'Accident'
+					end as srv_category_lbl,
 			
-					case when srv_type = 1 then 'Major Srv'
-						when srv_type = 2 then 'Minor Srv'
+					case when srv_type = 1 then 'Major Service'
+						when srv_type = 2 then 'Minor Service'
 					end as srv_type_lbl,
 
 					case when srv_wash = 1 then 'No'
@@ -31,8 +36,8 @@ class service extends db_table {
 						when srv_greese = 2 then 'Yes'
 					end as srv_greese_lbl,
 
-					case when srv_nxt_type = 1 then 'Major Srv'
-						when srv_nxt_type = 2 then 'Minor Srv'
+					case when srv_nxt_type = 1 then 'Major Service'
+						when srv_nxt_type = 2 then 'Minor Service'
 					end as srv_nxt_type_lbl,
 
 					to_char(srv_date_start,'DD/MM/YYYY') as srv_date_start_lb,
@@ -40,6 +45,9 @@ class service extends db_table {
 
                     files.file_id as fileid,
                     docsrpt.doc_id as docsid,
+
+                    accfiles.file_id as accfileid,
+                    accdocsrpt.doc_id as accdocsid,
 
 
 					case when srv_reading_type = 1 then 'KM'
@@ -60,6 +68,13 @@ class service extends db_table {
                 AND docsrpt.doc_ref_id = srv_id
                 AND docsrpt.deleted = 0
              LEFT JOIN core_files as files on files.file_ref_id = docsrpt.doc_id and files.file_type = " . DOC_TYPE_VHL_SRV . " and files.deleted = 0
+ 
+
+            LEFT JOIN mis_documents AS accdocsrpt ON accdocsrpt.doc_type = " . DOC_TYPE_VHL_SRV_ACC . "
+                AND accdocsrpt.doc_ref_type = " . DOC_TYPE_VHL_SRV_ACC . "
+                AND accdocsrpt.doc_ref_id = srv_id
+                AND accdocsrpt.deleted = 0
+             LEFT JOIN core_files as accfiles on accfiles.file_ref_id = accdocsrpt.doc_id and accfiles.file_type = " . DOC_TYPE_VHL_SRV_ACC . " and accfiles.deleted = 0
  
 				" );
 		
@@ -82,6 +97,10 @@ class service extends db_table {
                         mis_vhl_service.*,
                         vhl_no,
 
+    					case when srv_category = 1 then ''
+    						when srv_category = 2 then 'Accident'
+    					end as srv_category_lbl,
+
     					case when srv_reading_type = 1 then 'KM'
     						when srv_reading_type = 2 then 'Hours'
     					end as srv_reading_type_lbl,
@@ -92,8 +111,8 @@ class service extends db_table {
 
 
                         CASE 
-                            WHEN mis_vhl_service.srv_type = 1 THEN 'Major Srv'
-                            WHEN mis_vhl_service.srv_type = 2 THEN 'Minor Srv'
+                            WHEN mis_vhl_service.srv_type = 1 THEN 'Major Service'
+                            WHEN mis_vhl_service.srv_type = 2 THEN 'Minor Service'
                         END AS srv_type_lbl,
                         CASE 
                             WHEN mis_vhl_service.srv_wash = 1 THEN 'No'
@@ -104,8 +123,8 @@ class service extends db_table {
                             WHEN mis_vhl_service.srv_greese = 2 THEN 'Yes'
                         END AS srv_greese_lbl,
                         CASE 
-                            WHEN mis_vhl_service.srv_nxt_type = 1 THEN 'Major Srv'
-                            WHEN mis_vhl_service.srv_nxt_type = 2 THEN 'Minor Srv'
+                            WHEN mis_vhl_service.srv_nxt_type = 1 THEN 'Major Service'
+                            WHEN mis_vhl_service.srv_nxt_type = 2 THEN 'Minor Service'
                         END AS srv_nxt_type_lbl,
                         TO_CHAR(mis_vhl_service.srv_date_start, 'DD/MM/YYYY') AS srv_date_start_fmt,
                         TO_CHAR(mis_vhl_service.srv_date_next, 'DD/MM/YYYY') AS srv_date_next_fmt,
@@ -163,6 +182,10 @@ class service extends db_table {
 		
 		if (!empty  ( $cond ['f_type'] ))
 		    $this->_where [] = "srv_type= :f_type";
+		
+	    if (!empty  ( $cond ['f_category'] ))
+	        $this->_where [] = "srv_category= :f_category";
+		    
 			
 		if (!empty  ( $cond ['vhl_comm_status'] ))
 			$this->_where [] = "vhl_comm_status= :vhl_comm_status";

@@ -178,6 +178,7 @@ define('DOC_IMG_PROP', 1002);
 
 define('DOC_TYPE_PROP_SRV', 3001);
 define('DOC_TYPE_VHL_SRV', 4001);
+define('DOC_TYPE_VHL_SRV_ACC', 4002);
 
 
 

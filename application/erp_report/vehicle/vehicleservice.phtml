@@ -13,6 +13,7 @@
      <table class="">
        <thead>
         <tr style="font-size: 0.9em; text-align: center;">
+            <th width="10%">Service Category</th>
             <th width="10%">Service Type</th>
             <th width="10%">Vehicle No.</th>
             <th width="15%"></th>
@@ -23,6 +24,12 @@
     </thead>
     <tbody>
         <tr>
+            <td style="width:10%;padding-right: 2%;">
+                <div class="form-group">
+                    <?= $this->form->f_category->show(); ?>
+                </div>
+            </td>
+        
             <td style="width:10%;padding-right: 2%;">
                 <div class="form-group">
                     <?= $this->form->f_type->show(); ?>
@@ -128,7 +135,7 @@
                 <td><?= $status['vhl_no']; ?></td>
                 <td><?= $status['vman_name']; ?> - <?=$status['type_name']?></td>
                 <td align="center"><?= $status['srv_date_start_fmt']; ?></td>
-                <td><?= $status['srv_type_lbl']; ?></td>
+                <td align="center"><?= $status['srv_type_lbl']; ?> <?=$status['srv_category_lbl']?></td>
                 <td align="right"><?= number_format($status['total_item_price'], 3); ?>&nbsp;&nbsp;</td>
                 <td align="right"><?= number_format($status['srv_labour'], 3); ?>&nbsp;&nbsp;</td>
                 <td align="right"><?= number_format(($status['total_item_price']+$status['srv_labour']), 3); ?>&nbsp;&nbsp;</td>

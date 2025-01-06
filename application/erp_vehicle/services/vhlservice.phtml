@@ -8,10 +8,20 @@
 	</div>
 	<div class="modal-body">
 				<div class="row mb-4" style="margin-top: 15px;">
-					<label class="col-sm-3 form-label" >Status</label>
+				  <label class="col-sm-3 form-label" >Service Category</label>
 					<div class="col-sm-3">
-                    <?=$this->form->status->show()?>
-                  </div>    
+                    <?=$this->form->srv_category->show()?>
+                  </div>
+    			<label class="col-sm-2 form-label srv_type" >Service Type</label>
+    					<div class="col-sm-4 srv_type">
+                        <?=$this->form->status->show()?>
+                      </div> 
+                      
+                 <label class="col-sm-2 form-label acc_rpt" >Accident Report</label>
+					<div class="col-sm-4 acc_rpt">
+                    <?=$this->form->acc_files->show()?>
+                 </div>    
+                      
 				</div>
 				<div class="row mb-4">
 					<label class="col-sm-3 form-label" >Date of Service</label>
@@ -286,7 +296,32 @@ toggleAssociatedTextboxes('.m_item_list', 'item', 'mitem');
 
 
 
+$(document).ready(function() {
 
+	categorytoggle($('#srv_category').val());
+
+	$('#srv_category').on('change',function() {
+		categorytoggle($(this).val());
+	});
+	function categorytoggle(category){
+		if(category==1)
+		{
+			$('.srv_type').show();
+			$('.acc_rpt').hide();
+		}
+		else
+		{
+			$('.srv_type').hide();
+			$('.acc_rpt').show();
+		}
+
+		if(category==''){
+			$('.acc_rpt').hide();
+			$('.srv_type').hide();
+		}
+		
+	}
+});
 
 
 </script>
