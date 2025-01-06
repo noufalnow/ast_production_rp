@@ -616,7 +616,7 @@ class property extends db_table
         else
             $where = " WHERE     COALESCE(popt.year_month, paid.year_month) = TO_CHAR(CURRENT_DATE, 'YYYY-MM') ";
 
-        // $where = " WHERE COALESCE(popt.year_month, dmd.year_month) = '2024-09' ";
+        // $where = " WHERE COALESCE(popt.year_month, dmd.year_month) = '2025-01' ";
         unset($cond);
 
         $this->query("
@@ -629,6 +629,7 @@ class property extends db_table
                               (SELECT TO_CHAR(popt_date, 'YYYY-MM') AS year_month,
                                       SUM(popt_amount) AS total_amount
                                FROM mis_property_payoption AS payop
+                               INNER JOIN mis_documents as docs on payop.popt_doc_id = docs.doc_id and docs.deleted = 0
                                WHERE payop.deleted = 0
                                GROUP BY TO_CHAR(popt_date, 'YYYY-MM')) AS popt
                             FULL OUTER JOIN
@@ -694,6 +695,7 @@ class property extends db_table
                       (SELECT TO_CHAR(popt_date, 'YYYY-MM') AS year_month,
                               SUM(popt_amount) AS total_amount
                        FROM mis_property_payoption AS payop
+                       INNER JOIN mis_documents as docs on payop.popt_doc_id = docs.doc_id and docs.deleted = 0 
                        WHERE payop.deleted = 0
                        GROUP BY TO_CHAR(popt_date, 'YYYY-MM')) AS popt
 
