@@ -318,7 +318,7 @@ class servicesController extends mvc
                             );
                             $srvRptAcc = $docs->add($srvdataAcc);
                             if ($srvRptAcc) {
-                                $upload = uploadFiles(DOC_TYPE_VHL_SRV_ACC, $srvRptAcc, $valid['my_files']);
+                                $upload = uploadFiles(DOC_TYPE_VHL_SRV_ACC, $srvRptAcc, $valid['acc_files']);
                             }
                         }
                         
@@ -678,7 +678,7 @@ class servicesController extends mvc
                             );
                             $srvRptAcc = $docs->add($srvdataAcc);
                             if ($srvRptAcc) {
-                                $upload = uploadFiles(DOC_TYPE_VHL_SRV_ACC, $srvRptAcc, $valid['my_files']);
+                                $upload = uploadFiles(DOC_TYPE_VHL_SRV_ACC, $srvRptAcc, $valid['acc_files']);
                             }
                         }
                         
