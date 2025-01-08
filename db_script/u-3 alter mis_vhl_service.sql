@@ -26,3 +26,11 @@ COMMENT ON COLUMN "mis_vhl_service"."srv_wash" IS '';
 COMMENT ON COLUMN "mis_vhl_service"."srv_greese" IS '';
 COMMENT ON COLUMN "mis_vhl_service"."srv_category" IS '1=> Service, 2=> Accident';
 COMMENT ON TABLE "mis_vhl_service" IS '';
+
+##########################################
+ALTER TABLE "mis_vhl_service"
+ALTER "srv_reading" TYPE text,
+ALTER "srv_reading" DROP DEFAULT,
+ALTER "srv_reading" DROP NOT NULL;
+COMMENT ON COLUMN "mis_vhl_service"."srv_reading" IS '';
+COMMENT ON TABLE "mis_vhl_service" IS '';

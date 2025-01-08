@@ -151,8 +151,8 @@
                                 <tr>
                                     <th>Location</th>
                                     <td><?= $status['srv_location']; ?></td>
-                                    <td>Wash : <b><?= $status['srv_wash_lbl']; ?></b></td>
-                                    <td>Grease : <b><?= $status['srv_greese_lbl']; ?></b></td>
+                                    <td><?php if($status['srv_type']<>3):?> Wash : <b><?= $status['srv_wash_lbl']; ?></b><?php endif;?></td>
+                                    <td><?php if($status['srv_type']<>3):?> Grease : <b><?= $status['srv_greese_lbl']; ?></b><?php endif;?></td>
                                 </tr>
                                 <tr>
                                     <th>Total Working Hours</th>
@@ -163,8 +163,8 @@
                                 <tr>
                                     <th>Done By</th>
                                     <td><?= $status['done_by']; ?></td>
-                                    <th>Reading</th>
-                                    <td><?= $status['srv_reading']; ?> (<?=$status['srv_reading_type_lbl']?>)</td>
+                                    <th><?php if($status['srv_type']<>3):?> Reading <?php endif;?></th>
+                                    <td><?php if($status['srv_type']<>3):?> <?= $status['srv_reading']; ?> (<?=$status['srv_reading_type_lbl']?>)<?php endif;?></td>
                                     
                                 </tr>
                             </table>
@@ -209,6 +209,7 @@
                                 </tbody>
                             </table>
                             
+                           <?php if($status['srv_type']<>3):?> 
                            <!-- Next Service Details Section -->
                             <h5>Next Service Details</h5>
                             <table class="table table-sm" style="width: 100%; table-layout: fixed;">
@@ -221,7 +222,7 @@
                                     <td><?= $status['srv_date_next_fmt']; ?></td>
                                 </tr>
                             </table>
-                            
+                            <?php endif;?>
                             
                         </div>
                     </div>

@@ -422,16 +422,17 @@ class vehicleController extends mvc
         
         $form->addElement('f_type', 'Service Type', 'select', '', array(
             'options' => array(
-                1 => "Major Service",
-                2 => "Minor Service"
+                1 => "MAJOR SERVICE",
+                2 => "MINOR SERVICE",
+                3 => "REPAIR"
             )
         ));
         
                 
         $form->addElement('f_category', 'Service Type', 'select', '', array(
             'options' => array(
-                1 => "Maintanance Service",
-                2 => "Accident"
+                1 => "MAINTANANCE",
+                2 => "ACCIDENT"
             )
         ));
         

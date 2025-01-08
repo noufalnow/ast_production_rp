@@ -21,11 +21,12 @@ class service extends db_table {
 
 
 					case when srv_category = 1 then ''
-						when srv_category = 2 then 'Accident'
+						when srv_category = 2 then 'ACCIDENT'
 					end as srv_category_lbl,
-			
-					case when srv_type = 1 then 'Major Service'
-						when srv_type = 2 then 'Minor Service'
+			        CASE  
+                    WHEN mis_vhl_service.srv_type = 1 THEN 'MAJOR SERVICE'
+                    WHEN mis_vhl_service.srv_type = 2 THEN 'MINOR SERVICE'
+                    WHEN mis_vhl_service.srv_type = 3 THEN 'REPAIR'
 					end as srv_type_lbl,
 
 					case when srv_wash = 1 then 'No'
@@ -35,9 +36,10 @@ class service extends db_table {
 					case when srv_greese = 1 then 'No'
 						when srv_greese = 2 then 'Yes'
 					end as srv_greese_lbl,
-
-					case when srv_nxt_type = 1 then 'Major Service'
-						when srv_nxt_type = 2 then 'Minor Service'
+                    
+                    CASE
+                    WHEN mis_vhl_service.srv_nxt_type = 1 THEN 'MAJOR SERVICE'
+                    WHEN mis_vhl_service.srv_nxt_type = 2 THEN 'MINOR SERVICE'
 					end as srv_nxt_type_lbl,
 
 					to_char(srv_date_start,'DD/MM/YYYY') as srv_date_start_lb,
@@ -98,7 +100,7 @@ class service extends db_table {
                         vhl_no,
 
     					case when srv_category = 1 then ''
-    						when srv_category = 2 then 'Accident'
+    						when srv_category = 2 then 'ACCIDENT'
     					end as srv_category_lbl,
 
     					case when srv_reading_type = 1 then 'KM'
@@ -111,8 +113,9 @@ class service extends db_table {
 
 
                         CASE 
-                            WHEN mis_vhl_service.srv_type = 1 THEN 'Major Service'
-                            WHEN mis_vhl_service.srv_type = 2 THEN 'Minor Service'
+                            WHEN mis_vhl_service.srv_type = 1 THEN 'MAJOR SERVICE'
+                            WHEN mis_vhl_service.srv_type = 2 THEN 'MINOR SERVICE'
+                            WHEN mis_vhl_service.srv_type = 3 THEN 'REPAIR'
                         END AS srv_type_lbl,
                         CASE 
                             WHEN mis_vhl_service.srv_wash = 1 THEN 'No'
@@ -123,8 +126,8 @@ class service extends db_table {
                             WHEN mis_vhl_service.srv_greese = 2 THEN 'Yes'
                         END AS srv_greese_lbl,
                         CASE 
-                            WHEN mis_vhl_service.srv_nxt_type = 1 THEN 'Major Service'
-                            WHEN mis_vhl_service.srv_nxt_type = 2 THEN 'Minor Service'
+                            WHEN mis_vhl_service.srv_nxt_type = 1 THEN 'MAJOR SERVICE'
+                            WHEN mis_vhl_service.srv_nxt_type = 2 THEN 'MINOR SERVICE'
                         END AS srv_nxt_type_lbl,
                         TO_CHAR(mis_vhl_service.srv_date_start, 'DD/MM/YYYY') AS srv_date_start_fmt,
                         TO_CHAR(mis_vhl_service.srv_date_next, 'DD/MM/YYYY') AS srv_date_next_fmt,
