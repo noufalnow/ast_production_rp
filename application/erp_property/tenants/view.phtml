@@ -47,6 +47,16 @@
                   </div>
 			</div>
 			<div class="row mb-4">
+				<label class="col-sm-2 form-label">Email Address</label>
+				<div class="col-sm-4">
+                    <?=$this->tenantDetail['tnt_email']?>
+                  </div>
+				<label class="col-sm-2 form-label">Post Code</label>
+				<div class="col-sm-4">
+                    <?=$this->tenantDetail['tnt_post']?>
+                  </div>
+			</div>
+			<div class="row mb-4">
 				<label class="col-sm-2 form-label">ID Copy</label>
 				<div class="col-sm-4">
 					<?=x(array('link'=>'default/default/download','ref'=>$this->encode($this->tenantDetail['idfile']),'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?>

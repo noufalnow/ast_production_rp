@@ -111,10 +111,28 @@
             <div class="col-md-3">
                 <button class="btn btn-primary mb-3 rpt_frame" id="toggleDetails" type="button" onclick="toggleAllDetails(event)">Expand All</button>
             </div>
+            
+            
+                                <?php
+                    $workCount = 0; // Initialize the work count
+                    $totalLabourCost = 0; // Initialize the total labour cost
+                    $totalMaterialCost = 0; // Initialize the total material cost
+                    $grandTotalCost = 0; // Initialize the grand total cost
+                    ?>
+            
 
-                        <?php if (count($this->vhlService) > 0): ?>
+                 <?php if (count($this->vhlService) > 0): ?>
 
-<?php foreach ($this->vhlService as $index => $status): ?>
+                <?php foreach ($this->vhlService as $index => $status): ?>
+                
+                <?php
+                $workCount++; // Increment work count
+                $totalLabourCost += $status['srv_labour']; // Add labour cost
+                $totalMaterialCost += $status['total_item_price']; // Add material cost
+                $grandTotalCost += $status['srv_labour']+ $status['total_item_price']; // Add total cost
+                ?>
+
+
     <table class="table table-bordered text-nowrap no-footer rpt_frame <?php if ($pages) echo 'no-break-inside'; ?>" style="width: 100%; table-layout: fixed;">
         <thead class="border-top">
             <tr role="row">
@@ -235,6 +253,35 @@
 
 
                         <?php endif; ?>
+                        
+                      <div class="card mt-4" style="border: 1px solid #ddd;">
+    <div class="card-header" style="background-color: #e3eeec; color: #333; border-bottom: 1px solid #ddd;">
+        <h5 class="card-title mb-0">Summary</h5>
+    </div>
+    <div class="card-body" style="background-color: #ffffff;">
+        <table class="table table-bordered text-nowrap no-footer" style="width: 100%;">
+            <tbody>
+                <tr>
+                    <th class="text-left" style="width: 50%;">Number of Works</th>
+                    <td class="text-right" style="font-weight: bold;"><?= $workCount; ?></td>
+                </tr>
+                <tr>
+                    <th class="text-left">Total Labour Cost (RO.)</th>
+                    <td class="text-right" style="font-weight: bold;"><?= number_format($totalLabourCost, 3); ?></td>
+                </tr>
+                <tr>
+                    <th class="text-left">Total Spare Parts Cost (RO.)</th>
+                    <td class="text-right" style="font-weight: bold;"><?= number_format($totalMaterialCost, 3); ?></td>
+                </tr>
+                <tr>
+                    <th class="text-left">Grand Total (RO.)</th>
+                    <td class="text-right" style="font-weight: bold;"><?= number_format($grandTotalCost, 3); ?></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>  
+                        
 
             </div>
         </div>

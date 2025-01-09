@@ -9,13 +9,17 @@
 			</div>
             <div class="modal-body" style="margin-top: 0px;">
                 <div class="row g-3 mb-2">
+                     <div class="col-md-2">
+                        <label class="form-label">Company</label>
+                        <?=$this->form->company->show()?>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Case Reference</label>
+                        <?=$this->form->lcas_ref->show()?>
+                    </div>
                     <div class="col-md-4">
                         <label class="form-label">Case No.</label>
                         <?=$this->form->lcas_no->show()?>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Case Reference</label>
-                        <?=$this->form->lcas_ref->show()?>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Case Type</label>

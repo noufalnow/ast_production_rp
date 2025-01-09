@@ -72,6 +72,9 @@ class legalcase extends db_table {
         if (!empty($cond['f_lcas_type']))
             $this->_where[] = "lcas_type = :f_lcas_type";
         
+        if (!empty($cond['f_company']))
+            $this->_where[] = "lcas_ref_comp = :f_company";
+        
         if (!empty($cond['f_name']))
             $this->_where[] = "LOWER(lcas_party) LIKE '%' || LOWER(:f_name) || '%'";
         

@@ -38,6 +38,10 @@ class tenantsController extends mvc
             'exten' => 'pdf',
             'size' => 5375000
         ));
+        
+        
+        $form->addElement('tnt_email', 'Email', 'text', 'valid_email');
+        $form->addElement('tnt_post', 'Post Code', 'text', '');
 
         if (isset($_POST) && count($_POST) > 0) {
 
@@ -65,7 +69,9 @@ class tenantsController extends mvc
                         'tnt_id_no' => $valid['tnt_id_no'],
                         'tnt_crno' => $valid['tnt_crno'],
                         'tnt_expat' => $valid['tnt_expat'],
-                        'tnt_agr_type' => $valid['tnt_agr_type']
+                        'tnt_agr_type' => $valid['tnt_agr_type'],
+                        'tnt_email'     => $valid['tnt_email'],
+                        'tnt_post'      => $valid['tnt_post'],
                     );
                     $tenantsId = $tenants->add($data);
 
@@ -150,6 +156,9 @@ class tenantsController extends mvc
             'exten' => 'pdf',
             'size' => 5375000
         ));
+        
+        $form->addElement('tnt_email', 'Email', 'text', 'valid_email');
+        $form->addElement('tnt_post', 'Post Code', 'text', '');
 
         $tenantsDetails = $tenants->getTenantsDet(['tnt_id'=>$tenantsId]);
 
@@ -187,7 +196,9 @@ class tenantsController extends mvc
                     'tnt_id_no' => $valid['tnt_id_no'],
                     'tnt_crno' => $valid['tnt_crno'],
                     'tnt_expat' => $valid['tnt_expat'],
-                    'tnt_agr_type' => $valid['tnt_agr_type']
+                    'tnt_agr_type' => $valid['tnt_agr_type'],
+                    'tnt_email'     => $valid['tnt_email'],
+                    'tnt_post'      => $valid['tnt_post'],
                 );
 
                 $modifyTenants = $tenants->modify($data, $tenantsDetails['tnt_id']);
@@ -258,7 +269,9 @@ class tenantsController extends mvc
             $form->tnt_id_no->setValue($tenantsDetails['tnt_id_no']);
             $form->tnt_crno->setValue($tenantsDetails['tnt_crno']);
             $form->tnt_expat->setValue($tenantsDetails['tnt_expat_id']);
-            $form->tnt_agr_type->setValue($tenantsDetails['tnt_agr_type_id']);
+            $form->tnt_agr_type->setValue($tenantsDetails['tnt_agr_type_id']); 
+            $form->tnt_email->setValue($tenantsDetails['tnt_email']);
+            $form->tnt_post->setValue($tenantsDetails['tnt_post']);
         }
 
         $this->view->form = $form;

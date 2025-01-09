@@ -20,6 +20,13 @@ class legalcaseController extends mvc
         include __DIR__ . '/../admin/!model/legalcase.php';
         $form = new form();
         $legalcase = new legalcase();
+        
+        require_once __DIR__ . '/../admin/!model/company.php';
+        $compModelObj = new company();
+        $compList = $compModelObj->getCompanyPair();
+        $form->addElement('company', 'Company', 'select', 'required', array(
+            'options' => $compList
+        ));
 
         $form->addElement('lcas_type', 'Case Type', 'select', 'required', array(
             'options' => array(
@@ -97,6 +104,7 @@ class legalcaseController extends mvc
                     $logdt = date_format($logdt, DFS_DB);
 
                     $data = array(
+                        'lcas_ref_comp' => $valid['company'],
                         'lcas_no' => $valid['lcas_no'],
                         'lcas_ref' => $valid['lcas_ref'],
                         'lcas_company' => $valid['lcas_company'],
@@ -158,6 +166,13 @@ class legalcaseController extends mvc
 
         if (! $legalcaseId)
             die('tampered');
+    
+        require_once __DIR__ . '/../admin/!model/company.php';
+        $compModelObj = new company();
+        $compList = $compModelObj->getCompanyPair();
+        $form->addElement('company', 'Company', 'select', 'required', array(
+            'options' => $compList
+        ));
 
         $form->addElement('lcas_type', 'Case Type', 'select', 'required', array(
             'options' => array(
@@ -245,7 +260,7 @@ class legalcaseController extends mvc
                     $logdtDb = date_format($logdt, DFS_DB);
 
                     $data = array(
-                        
+                        'lcas_ref_comp' => $valid['company'],
                         'lcas_no' => $valid['lcas_no'],
                         'lcas_ref' => $valid['lcas_ref'],
                         'lcas_company' => $valid['lcas_company'],
@@ -300,7 +315,8 @@ class legalcaseController extends mvc
         } else {
             // Assuming $legalcaseDetails contains the data to pre-fill the form
             if (isset($legalcaseDetails)) {
-
+                
+                $form->company->setValue($legalcaseDetails['lcas_ref_comp']);
                 $form->lcas_type->setValue($legalcaseDetails['lcas_type']);
                 $form->lcas_party->setValue($legalcaseDetails['lcas_party']);
                 $form->lcas_office->setValue($legalcaseDetails['lcas_office']);
@@ -344,6 +360,14 @@ class legalcaseController extends mvc
                 4 => 'OTHERS'
             )
         ));
+        
+        
+        require_once __DIR__ . '/../admin/!model/company.php';
+        $compModelObj = new company();
+        $compList = $compModelObj->getCompanyPair();
+        $form->addElement('f_company', 'Company', 'select', '', array(
+            'options' => $compList
+        ));
 
         $form->addElement('f_status', 'Case Status', 'select', '', array(
             'options' => $this->stslist
@@ -366,6 +390,7 @@ class legalcaseController extends mvc
             if ($valid == true) {
                 $where = array(
                     'f_name' => @$valid['f_name'],
+                    'f_company' => @$valid['f_company'],
                     'f_lawer_name' => @$valid['f_lawer_name'],
                     'f_lcas_type' => @$valid['f_lcas_type'],
                     'f_status' => @$valid['f_status'],

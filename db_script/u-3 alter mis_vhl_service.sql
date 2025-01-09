@@ -34,3 +34,16 @@ ALTER "srv_reading" DROP DEFAULT,
 ALTER "srv_reading" DROP NOT NULL;
 COMMENT ON COLUMN "mis_vhl_service"."srv_reading" IS '';
 COMMENT ON TABLE "mis_vhl_service" IS '';
+
+#########################################
+
+ALTER TABLE "mis_legal_case"
+ADD "lcas_ref_comp" smallint NULL;
+COMMENT ON TABLE "mis_legal_case" IS '';
+
+########################################
+
+ALTER TABLE "mis_tenants"
+ADD "tnt_email" character varying(100) NULL,
+ADD "tnt_post" character varying(100) NULL;
+COMMENT ON TABLE "mis_tenants" IS '';
