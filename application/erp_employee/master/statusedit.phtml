@@ -11,44 +11,50 @@
 					<span aria-hidden="true">×</span>
 				</button>
 			</div>
-			<div class="modal-body">
-			<div class="row mb-4" style="margin-top: 15px;">
-				<label class="col-sm-3 form-label">Status</label>
-				<div class="col-sm-9">
-                    <?=$this->form->statusType->show()?>
-                  </div>
-			</div>
-			<div class="row mb-4" style="margin-top: 15px;">
-				<label class="col-sm-3 form-label">Description</label>
-				<div class="col-sm-9">
-                    <?=$this->form->desc->show()?>
-                  </div>
-			</div>
-			<div class="row mb-4" id="dt_request" class="toggler form-group row">
-				<label class="col-sm-3 form-label">Date of Request</label>
-				<div class="col-sm-9">
-                    <?=$this->form->dtRequest->show()?>
-                  </div>
-			</div>
-			<div class="row mb-4" id="dt_approval" class="toggler form-group row">
-				<label class="col-sm-3 form-label">Date of Approval</label>
-				<div class="col-sm-9">
-                    <?=$this->form->dtApproval->show()?>
-                  </div>
-			</div>
-			<div class="row mb-4" id="dt_from" class="toggler form-group row">
-				<label class="col-sm-3 form-label">With effect from </label>
-				<div class="col-sm-9">
-                    <?=$this->form->dtWif->show()?>
-                  </div>
-			</div>
-			<div class="row mb-4" id="dt_end" class="toggler form-group row">
-				<label class="col-sm-3 form-label">End Date </label>
-				<div class="col-sm-9">
-                    <?=$this->form->dtEnd->show()?>
-                  </div>
-			</div>
-		</div>
+            <div class="modal-body">
+                <div class="row mb-4" style="margin-top: 15px;">
+                    <label class="col-sm-3 form-label">Status</label>
+                    <div class="col-sm-9">
+                        <?=$this->form->statusType->show()?>
+                    </div>
+                </div>
+                <div class="row mb-4" style="margin-top: 15px;">
+                    <label class="col-sm-3 form-label">Description</label>
+                    <div class="col-sm-9">
+                        <?=$this->form->desc->show()?>
+                    </div>
+                </div>
+                <div class="row mb-4 toggler" id="dt_request">
+                    <label class="col-sm-3 form-label">Date of Request</label>
+                    <div class="col-sm-9">
+                        <?=$this->form->dtRequest->show()?>
+                    </div>
+                </div>
+                <div class="row mb-4 toggler" id="dt_approval">
+                    <label class="col-sm-3 form-label">Date of Approval</label>
+                    <div class="col-sm-9">
+                        <?=$this->form->dtApproval->show()?>
+                    </div>
+                </div>
+                <div class="row mb-4 toggler" id="dt_from">
+                    <label class="col-sm-3 form-label">With effect from </label>
+                    <div class="col-sm-9">
+                        <?=$this->form->dtWif->show()?>
+                    </div>
+                </div>
+                <div class="row mb-4 toggler" id="dt_end">
+                    <label class="col-sm-3 form-label">Leave End Date</label>
+                    <div class="col-sm-9">
+                        <?=$this->form->dtEnd->show()?>
+                    </div>
+                </div>
+                <div class="row mb-4 toggler" id="leave_docs">
+                    <label class="col-sm-3 form-label">Leave Documents</label>
+                    <div class="col-sm-9">
+                        <?=$this->form->my_files->show()?>
+                    </div>
+                </div>
+            </div>
 		<div class="modal-footer">
 				<button type="button" class="btn btn-primary submit-alias livepost">Save
 					changes</button>
@@ -69,34 +75,59 @@ $(document).ready(function() {
 		
 	});
 	getJaxData($('#company').val(),'dept',source);
-	toggle_field($('#statusType'));
+
+    toggleField($('#statusType').val());
+
+    // Attach change event listener to the statusType dropdown
+    $('#statusType').on('change', function () {
+        toggleField($(this).val());
+    });
+	
 });
 
-function toggle_field(el){
-	console.log(el);
-	var type= $(el).val();
-	$('.toggler').show();
-	if(type == 1)
-	{
+function toggleField(type) {
+    // Case-specific show and hide logic
+    switch (type) {
+        case '1':
+            // Show all relevant fields for type 1
+            $('#dt_from').show();
+            $('#leave_docs').show();
+            $('#dt_request').show();
+            $('#dt_approval').show();
+            $('#dt_end').show();
+            break;
 
-	}
-	else if(type==2)
-	{
-		$('#dt_request').hide();
-		$('#dt_approval').hide();
-		$('#dt_end').hide();
-	}
-	else if(type==3)
-	{
-		$('#dt_end').hide();
-	
-	}
-	else if(type==4)
-	{
-		$('#dt_request').hide();
-		$('#dt_approval').hide();
-		$('#dt_end').hide();
-	}
+        case '2':
+            // Hide and show specific fields for type 2
+             $('#dt_from').show();
+            $('#leave_docs').hide();
+            $('#dt_request').hide();
+            $('#dt_approval').hide();
+            $('#dt_end').hide(); // Only show dt_end
+            break;
+
+        case '3':
+            // Hide and show specific fields for type 3
+             $('#dt_from').show();
+            $('#leave_docs').hide();
+            $('#dt_request').show();
+            $('#dt_approval').show();
+            $('#dt_end').hide(); // Hide dt_end
+            break;
+
+        case '4':
+            // Hide and show specific fields for type 4
+            $('#dt_from').show();
+            $('#leave_docs').hide();
+            $('#dt_request').hide();
+            $('#dt_approval').hide();
+            $('#dt_end').hide(); // Hide everything
+            break;
+
+        default:
+        	 $('.toggler').hide();
+            break;
+    }
 }
 $(document).ready(function($) {
 	$('.modal-dialog').css('width', '50%');

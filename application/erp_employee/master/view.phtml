@@ -293,14 +293,19 @@ if ($this->employeeDetail['emp_doj'] != '') {
 												<?php
                                                 foreach ($this->empStatus as $this->status) :
                                                     $encStsId = $this->encode($this->status['sts_id']);
+                                                    $encSrvFileId = $this->encode($this->status['fileid']);
                                                     ?>
 												<tr>
-														<td align="center"><?=$this->status['emp_mstatus']?></td>
+														<td align="center"><?=$this->status['emp_mstatus']?>
+														
+														<?if($this->status['sts_type']==1): ?><?=x(array('link'=>'default/default/download','ref'=>$encSrvFileId,'label'=>'<i class="fas fa-download"></i>',array("param"=>'opener')))?> <?php endif;?>
+														
+														</td>
 														<td><?=$this->status['sts_remarks']?></td>
 														<td align="center"><?=$this->status['sts_start_date']?></td>
-														<td align="center"><?=$this->status['sts_end_date']?></td>
-														<td align="center"><?=$this->status['sts_apply_date']?></td>
-														<td align="center"><?=$this->status['sts_approval_date']?></td>
+														<td align="center"><?if($this->status['sts_type']!=2): ?><?=$this->status['sts_end_date']?><?php endif;?></td>
+														<td align="center"><?if($this->status['sts_type']!=2): ?><?=$this->status['sts_apply_date']?> <?php endif;?></td>
+														<td align="center"><?if($this->status['sts_type']!=2): ?><?=$this->status['sts_approval_date']?><?php endif;?></td>
 														<td align="center">
 														<?=x(array('link'=>'erp_employee/master/statusedit','ref'=>$encStsId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>
 													</td>

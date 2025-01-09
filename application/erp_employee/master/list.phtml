@@ -174,11 +174,11 @@
 </form>
 
 <script type="text/javascript">
-                    $(document).ready(function() {
-                        var source = '<?=APPURL?>' + 'erp_employee/master/getlive';
-                        $('#f_company').on('change', function() {
-                            getJaxData($('#f_company').val(), 'f_dept', source);
-                        });
-                        getJaxData($('#f_company').val(), 'f_dept', source);
-                    });
-                    </script>
+$(document).ready(function() {
+    var source = '<?=APPURL?>' + 'erp_employee/master/getlive';
+    $('#f_company').on('change', function() {
+        getJaxData($('#f_company').val(), 'f_dept', source);
+    });
+    getJaxData($('#f_company').val(), 'f_dept', source);
+});
+</script>

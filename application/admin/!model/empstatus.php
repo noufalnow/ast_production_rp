@@ -10,6 +10,28 @@ class empstatus extends db_table {
 		return parent::getById ($id);
 	}
 	
+	public function getStatusByStatusId($cond) {
+	    
+	    $this->query ( "select mis_employee_status.*,
+                        files.file_id as fileid,
+                        docsrpt.doc_id as docsid
+                        from $this->_table
+
+                        LEFT JOIN mis_documents AS docsrpt ON docsrpt.doc_type = " . DOC_TYPE_EMP_LVE . "
+                            AND docsrpt.doc_ref_type = " . DOC_TYPE_EMP_LVE . "
+                            AND docsrpt.doc_ref_id = sts_id
+                            AND docsrpt.deleted = 0
+                         LEFT JOIN core_files as files on files.file_ref_id = docsrpt.doc_id and files.file_type = " . DOC_TYPE_EMP_LVE . " and files.deleted = 0
+             
+                        " );
+	    
+	    $this->_where [] = "sts_id = :sts_id";
+	    
+	    return parent::fetchRow($cond);
+	    
+	}
+	
+	
 	
 	public function getEmpStatusByEmpId($cond=array()) {
 		
@@ -22,9 +44,20 @@ class empstatus extends db_table {
 				to_char(sts_start_date,'DD/MM/YYYY') as sts_start_date,
 				to_char(sts_end_date,'DD/MM/YYYY') as sts_end_date,
 				to_char(sts_apply_date,'DD/MM/YYYY') as sts_apply_date,
-				to_char(sts_approval_date,'DD/MM/YYYY') as sts_approval_date				
+				to_char(sts_approval_date,'DD/MM/YYYY') as sts_approval_date,
+                files.file_id as fileid,
+                docsrpt.doc_id as docsid				
 
 				from $this->_table
+
+                LEFT JOIN mis_documents AS docsrpt ON docsrpt.doc_type = " . DOC_TYPE_EMP_LVE . "
+                    AND docsrpt.doc_ref_type = " . DOC_TYPE_EMP_LVE . "
+                    AND docsrpt.doc_ref_id = sts_id
+                    AND docsrpt.deleted = 0
+                 LEFT JOIN core_files as files on files.file_ref_id = docsrpt.doc_id and files.file_type = " . DOC_TYPE_EMP_LVE . " and files.deleted = 0
+
+
+
 				" );
 		
 		if (! empty ( $cond ['sts_emp_id'] ))
