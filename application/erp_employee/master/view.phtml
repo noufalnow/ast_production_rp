@@ -274,6 +274,11 @@ if ($this->employeeDetail['emp_doj'] != '') {
 									<div id="collapseTwo" class="panel-collapse collapse"
 										role="tabpanel" aria-expanded="false">
 										<div class="panel-body">
+										
+										<span class="" style="float: left;">
+											<?=x(array('link'=>'erp_employee/master/status','ref'=>array('ref'=>$this->param['ref']),'label'=>'Employee Status <i class="fas fa-star-half-alt"></i>',array("param"=>'class="facebox"')))?>	
+										</span>
+										
 											<span class="" style="float: right;">
 											<?=x(array('link'=>'erp_employee/master/leavestatus','ref'=>$this->param['ref'],'label'=>'Leave Summary',array("param"=>'class="facebox"')))?>
 										</span>
