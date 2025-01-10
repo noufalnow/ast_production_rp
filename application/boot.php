@@ -469,7 +469,7 @@ function faset($array = array())
     ), $array);
 }
 
-function send_email($message='',$to='',$cc='')
+function send_email($message='',$subject='', $to='',$cc='')
 {
     
         
@@ -508,7 +508,7 @@ function send_email($message='',$to='',$cc='')
             
             // Content
             $mail->isHTML(true); // Set email format to HTML
-            $mail->Subject = 'AST Global Monthly Remiander Mail';
+            $mail->Subject = $subject;
             $mail->Body = $message;
             $mail->AltBody = $message;
             

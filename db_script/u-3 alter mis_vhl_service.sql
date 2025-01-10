@@ -47,3 +47,15 @@ ALTER TABLE "mis_tenants"
 ADD "tnt_email" character varying(100) NULL,
 ADD "tnt_post" character varying(100) NULL;
 COMMENT ON TABLE "mis_tenants" IS '';
+
+
+########################################
+
+
+ALTER TABLE "mis_employee_status"
+ADD "sts_notif_120" smallint NULL DEFAULT '0',
+ADD "sts_notif_170" smallint NULL DEFAULT '0';
+COMMENT ON TABLE "mis_employee_status" IS '';
+
+
+

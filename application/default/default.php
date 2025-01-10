@@ -573,7 +573,7 @@ class defaultController extends mvc
             // d($message);
 
             if (($_SERVER['SERVER_NAME'] != 'localhost')) {
-                if (send_email($message, 'md@astglobal.om', 'info@astglobal.om')) {
+                if (send_email($message, 'AST Global Monthly Remiander Mail', 'md@astglobal.om', 'info@astglobal.om')) {
 
                     // ff
 
@@ -586,6 +586,220 @@ class defaultController extends mvc
                 }
             }
         }
+        
+        require_once __DIR__ . '/../admin/!model/employee.php';
+        $employeeObj = new employee();
+        $leveNotifList = $employeeObj->getEmployeeLeaveNotification(["is_mail"=>true]);
+        
+        if(is_array($leveNotifList) && count($leveNotifList)>0)
+        {
+            $leaveHtml .= "<table style='width: 100%; border-collapse: collapse; border: 1px solid #000;'>";
+            $leaveHtml .= " <tr style='background-color: #f4f4f4;'>";
+            $leaveHtml .= " <th style='border: 1px solid #000; padding: 8px; text-align: left;'>Employee ID</th>";
+            $leaveHtml .= " <th style='border: 1px solid #000; padding: 8px; text-align: left;'>Leave Days</th>";
+            $leaveHtml .= " <th style='border: 1px solid #000; padding: 8px; text-align: left;'>Employee Name</th>";
+            $leaveHtml .= " <th style='border: 1px solid #000; padding: 8px; text-align: left;'>Company</th>";
+            $leaveHtml .= " <th style='border: 1px solid #000; padding: 8px; text-align: left;'>Department</th>";
+            $leaveHtml .= " <th style='border: 1px solid #000; padding: 8px; text-align: left;'>Designation</th>";
+            $leaveHtml .= " <th style='border: 1px solid #000; padding: 8px; text-align: left;'>Notification</th>";
+            $leaveHtml .= " </tr>";
+            
+            foreach ($leveNotifList as $upd) {
+                $leaveHtml .= " <tr>";
+                $leaveHtml .= " <td style='border: 1px solid #000; padding: 8px; text-align: left;'>" . $upd['emp_fileno'] . "</td>";
+                $leaveHtml .= " <td style='border: 1px solid #000; padding: 8px; text-align: left;'>" . $upd['days_on_status'] . "</td>";
+                $leaveHtml .= " <td style='border: 1px solid #000; padding: 8px; text-align: left;'>" . ucwords(strtolower($upd['full_name'])) . "</td>";
+                $leaveHtml .= " <td style='border: 1px solid #000; padding: 8px; text-align: left;'>" . ucwords(strtolower($upd['comp_disp_name'])) . "</td>";
+                $leaveHtml .= " <td style='border: 1px solid #000; padding: 8px; text-align: left;'>" . ucwords(strtolower($upd['dept_name'])) . "</td>";
+                $leaveHtml .= " <td style='border: 1px solid #000; padding: 8px; text-align: left;'>" . ucwords(strtolower($upd['desig_name'])) . "</td>";
+                $leaveHtml .= " <td style='border: 1px solid #000; padding: 8px; text-align: left;'>" . $upd['notification_text'] . "</td>";
+                $leaveHtml .= " </tr>";
+            }
+            
+            $leaveHtml .= "</table>";
+            
+            
+                
+            $message = '<!doctype html>
+                            <html lang="en">
+                              <head>
+                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                                <title>Simple Transactional Email</title>
+                                <style media="all" type="text/css">
+                            @media all {
+                              .btn-primary table td:hover {
+                                background-color: #f0e8eb !important;
+                              }
+                
+                              .btn-primary a:hover {
+                                background-color: #ec0867 !important;
+                                border-color: #ec0867 !important;
+                              }
+                            }
+                            @media only screen and (max-width: 640px) {
+                              .main p,
+                            .main td,
+                            .main span {
+                                font-size: 16px !important;
+                              }
+                
+                              .wrapper {
+                                padding: 8px !important;
+                              }
+                
+                              .content {
+                                padding: 0 !important;
+                              }
+                
+                              .container {
+                                padding: 0 !important;
+                                padding-top: 8px !important;
+                                width: 100% !important;
+                              }
+                
+                              .main {
+                                border-left-width: 0 !important;
+                                border-radius: 0 !important;
+                                border-right-width: 0 !important;
+                              }
+                
+                              .btn table {
+                                max-width: 100% !important;
+                                width: 100% !important;
+                              }
+                
+                              .btn a {
+                                font-size: 16px !important;
+                                max-width: 100% !important;
+                                width: 100% !important;
+                              }
+                            }
+                            @media all {
+                              .ExternalClass {
+                                width: 100%;
+                              }
+                
+                              .ExternalClass,
+                            .ExternalClass p,
+                            .ExternalClass span,
+                            .ExternalClass font,
+                            .ExternalClass td,
+                            .ExternalClass div {
+                                line-height: 100%;
+                              }
+                
+                              .apple-link a {
+                                color: inherit !important;
+                                font-family: inherit !important;
+                                font-size: inherit !important;
+                                font-weight: inherit !important;
+                                line-height: inherit !important;
+                                text-decoration: none !important;
+                              }
+                
+                              #MessageViewBody a {
+                                color: inherit;
+                                text-decoration: none;
+                                font-size: inherit;
+                                font-family: inherit;
+                                font-weight: inherit;
+                                line-height: inherit;
+                              }
+                            }
+                            </style>
+                              </head>
+                              <body style="font-family: Helvetica, sans-serif; -webkit-font-smoothing: antialiased; font-size: 16px; line-height: 1.3; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; background-color: #f4f5f6; margin: 0; padding: 0;">
+                                <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #f4f5f6; width: 100%;" width="100%" bgcolor="#f4f5f6">
+                                  <tr>
+                                    <td class="container" style="font-family: Helvetica, sans-serif; font-size: 16px; vertical-align: top; max-width: 600px; padding: 0; padding-top: 24px; width: 600px; margin: 0 auto;" width="600" valign="top">
+                                      <div class="content" style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 90%; padding: 0;">
+                
+                                        <!-- START CENTERED WHITE CONTAINER -->
+                                        <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">This is preheader text. Some clients will show this text as a preview.</span>
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="main" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background: #ffffff; border: 1px solid #eaebed; border-radius: 16px; width: 100%;" width="100%">
+                
+                                          <!-- START MAIN CONTENT AREA -->
+                                          <tr>
+                                            <td class="wrapper" style="font-family: Helvetica, sans-serif; font-size: 16px; vertical-align: top; box-sizing: border-box; padding: 24px;" valign="top">
+                                              <p style="font-family: Helvetica, sans-serif; font-size: 16px; font-weight: normal; margin: 0; margin-bottom: 16px;">Hi,</p>
+                                              <p style="font-family: Helvetica, sans-serif; font-size: 16px; font-weight: normal; margin: 0; margin-bottom: 16px;">Employee Leave Status Reminder Email from AST Global</p>
+                                              <p style="font-family: Helvetica, sans-serif; font-size: 16px; font-weight: normal; margin: 0; margin-bottom: 16px;">
+                                                For your kind attension!   </p>
+                                              <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; box-sizing: border-box; width: 100%; min-width: 100%;" width="100%">
+                                                <tbody>
+                                                  <tr>
+                                                    <td align="left" style="font-family: Helvetica, sans-serif; font-size: 16px; vertical-align: top; padding-bottom: 16px;" valign="top">
+                                                      <table role="presentation" border="0" cellpadding="4" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+                                                        <tbody>
+                                                        ' . $leaveHtml . '
+                                                        </tbody>
+                                                      </table>
+                                                    </td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                                            
+                                              <p style="font-family: Helvetica, sans-serif; font-size: 16px; font-weight: normal; margin: 0; margin-bottom: 16px;">
+                                                This is a automatic system generated email, based on the data available in the system on ' . date('l, F j, Y H:i') . '</p>
+                                              <p style="font-family: Helvetica, sans-serif; font-size: 16px; font-weight: normal; margin: 0; margin-bottom: 16px;">Good luck! Hope it works.</p>
+                                            </td>
+                                          </tr>
+                                          <!-- END MAIN CONTENT AREA -->
+                                          </table>
+                                        <!-- START FOOTER -->
+                                        <div class="footer" style="clear: both; padding-top: 24px; text-align: center; width: 100%;">
+                                          <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;" width="100%">
+                                            <tr>
+                                              <td class="content-block" style="font-family: Helvetica, sans-serif; vertical-align: top; color: #9a9ea6; font-size: 16px; text-align: center;" valign="top" align="center">
+                                                <span class="apple-link" style="color: #9a9ea6; font-size: 16px; text-align: center;">AST Global</span>
+                                                <br> cSol Management Information System
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                            </tr>
+                                          </table>
+                                        </div>
+                                        <!-- END FOOTER -->
+                                        <!-- END CENTERED WHITE CONTAINER --></div>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </body>
+                            </html>';
+            
+            // d($message);
+            
+            if (($_SERVER['SERVER_NAME'] != 'localhost')) {
+                require_once __DIR__ . '/../admin/!model/empstatus.php';
+                $empStsObj = new empstatus();
+
+                if (send_email($message, 'Employee Leave Status Reminder Email', 'md@astglobal.om', 'info@astglobal.om')) {
+
+                    foreach ($leveNotifList as $upd) {
+
+                        $data = array(
+                            'sts_notif_120' => $upd['status_duration_category'] == '120NP' ? '1' : '0',
+                            'sts_notif_170' => $upd['status_duration_category'] == '170NP' ? '1' : '0'
+                        );
+                        $update = $empStsObj->modify($data, $upd['sts_id']);
+
+                        if ($upd['status_duration_category'] == '170NP' && $upd['sts_notif_120'] == '0') {
+                            $data = array(
+                                'sts_notif_120' => 1
+                            );
+                            $update = $empStsObj->modify($data, $upd['sts_id']);
+                        }
+                    }
+                }
+            }
+            
+            
+                
+            
+        }
+        
+        
 
         require_once __DIR__ . '/../admin/!model/property.php';
         $propertyObj = new property();
@@ -1141,9 +1355,15 @@ class defaultController extends mvc
         $stepsList = $stepsObj->getTktAndStepsByUser(array(
             'user_id' => USER_ID
         ));
+        
+        
+        require_once __DIR__ . '/../admin/!model/employee.php';
+        $employeeObj = new employee();
+        $leveNotifList = $employeeObj->getEmployeeLeaveNotification();
 
         $this->view->updList = $updList;
         $this->view->stepsList = $stepsList;
+        $this->view->leveNotifList = $leveNotifList;
     }
 }
 

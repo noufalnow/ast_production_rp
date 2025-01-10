@@ -602,6 +602,80 @@ class employee extends db_table {
 
         return parent::fetchAll($cond);
     }
+    
+    
+    public function getEmployeeLeaveNotification($cond=[])
+    {
+        
+        if(!empty($cond["is_mail"]))
+        {
+            $andmail = " AND ((DATE_PART('day', now() - sts_start_date) > 120
+                        AND sts_notif_120 = 0)
+                       OR (DATE_PART('day', now() - sts_start_date) > 170
+                           AND sts_notif_170 = 0)) ";
+            unset($cond["is_mail"]);
+        }
+        
+        $this->query("
+                SELECT  
+                    emp_id,
+                    emp_fileno,
+                    empstatus.sts_id,
+                    DATE_PART('day', now() - sts_start_date) AS days_on_status,
+                    TRIM(BOTH ' ' FROM 
+                        COALESCE(emp_fname, '') || ' ' || 
+                        COALESCE(emp_mname, '') || ' ' || 
+                        COALESCE(emp_lname, '')
+                    ) AS full_name,
+			       comp.comp_disp_name,
+			       dept.dept_name,
+			       desig.desig_name,
+                    CASE 
+                        WHEN DATE_PART('day', now() - sts_start_date) > 170 AND sts_notif_170 = 0 THEN '170NP'
+                        WHEN DATE_PART('day', now() - sts_start_date) > 170 AND sts_notif_170 = 1 THEN '170NS'
+                        WHEN DATE_PART('day', now() - sts_start_date) > 120 AND sts_notif_120 = 0 THEN '120NP'
+                        WHEN DATE_PART('day', now() - sts_start_date) > 120 AND sts_notif_120 = 1 THEN '120NS'
+                    END AS status_duration_category,
+
+                    CASE 
+                        WHEN DATE_PART('day', now() - sts_start_date) > 170 AND sts_notif_170 = 0 THEN 'More than 170 Days (6 Month Alert)'
+                        WHEN DATE_PART('day', now() - sts_start_date) > 120 AND sts_notif_120 = 0 THEN '4 Months completed'
+                    END AS notification_text,
+
+                    CASE 
+                        WHEN DATE_PART('day', now() - sts_start_date) > 170 THEN 'More than 170 Days (6 Month Alert)'
+                        WHEN DATE_PART('day', now() - sts_start_date) > 120 THEN '4 Months completed'
+                    END AS notification_popup,
+
+                    sts_notif_120,
+                    sts_notif_170
+                FROM mis_employee
+                LEFT JOIN core_comp_department AS comdept ON comdept.cmpdept_id = mis_employee.emp_comp_dept
+                AND comdept.deleted = 0
+                LEFT JOIN core_company AS comp ON comp.comp_id = comdept.cmpdept_comp_id
+                AND comp.deleted = 0
+                LEFT JOIN core_department AS dept ON dept.dept_id = comdept.cmpdept_dept_id
+                AND dept.deleted = 0
+                LEFT JOIN core_designation AS desig ON desig.desig_id = mis_employee.emp_desig
+                AND desig.deleted = 0
+                LEFT JOIN
+                  (SELECT MAX(sts_id) AS max_status_id,
+                          sts_emp_id
+                   FROM mis_employee_status
+                   WHERE deleted = 0
+                   GROUP BY sts_emp_id) max_status ON max_status.sts_emp_id = mis_employee.emp_id
+                LEFT JOIN mis_employee_status AS empstatus ON empstatus.sts_id = max_status.max_status_id
+                AND empstatus.deleted = 0
+                WHERE mis_employee.deleted = 0
+                  AND empstatus.sts_type = 1 
+                  AND DATE_PART('day', now() - sts_start_date) > 120
+                  $andmail ");
+        return parent::fetchQuery($cond);
+    }
+    
+    
+    
+    
 	
 	
 	public function getEmployeesDocReport($cond = array()){

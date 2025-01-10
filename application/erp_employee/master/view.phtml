@@ -298,12 +298,12 @@ if ($this->employeeDetail['emp_doj'] != '') {
 												<?php
                                                 foreach ($this->empStatus as $this->status) :
                                                     $encStsId = $this->encode($this->status['sts_id']);
-                                                    $encSrvFileId = $this->encode($this->status['fileid']);
+                                                    $encLeaveFileId = $this->encode($this->status['fileid']);
                                                     ?>
 												<tr>
 														<td align="center"><?=$this->status['emp_mstatus']?>
 														
-														<?if($this->status['sts_type']==1): ?><?=x(array('link'=>'default/default/download','ref'=>$encSrvFileId,'label'=>'<i class="fas fa-download"></i>',array("param"=>'opener')))?> <?php endif;?>
+														<?if($this->status['sts_type']==1 && $this->status['fileid'] !=''): ?><?=x(array('link'=>'default/default/download','ref'=>$encLeaveFileId,'label'=>'<i class="fas fa-download"></i>',array("param"=>'opener')))?> <?php endif;?>
 														
 														</td>
 														<td><?=$this->status['sts_remarks']?></td>
