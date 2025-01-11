@@ -83,27 +83,31 @@
 		<div class="modal-body">
 		<div class="col-md-12 card" style="padding-top: 15px; margin-bottom: 3px;"> 
 		<div style="overflow-y: auto">
-            <table style="width: 100%; border-collapse: collapse; border: 1px solid #000;">
-                <tr style="background-color: #f4f4f4;">
-                    <th style="border: 1px solid #000; padding: 8px; text-align: left;">Employee ID</th>
-                    <th style="border: 1px solid #000; padding: 8px; text-align: left;">Leave Days</th>
-                    <th style="border: 1px solid #000; padding: 8px; text-align: left;">Employee Name</th>
-                    <th style="border: 1px solid #000; padding: 8px; text-align: left;">Company</th>
-                    <th style="border: 1px solid #000; padding: 8px; text-align: left;">Department</th>
-                    <th style="border: 1px solid #000; padding: 8px; text-align: left;">Designation</th>
-                    <th style="border: 1px solid #000; padding: 8px; text-align: left;">Notification</th>
+		<table class="table table-bordered">
+				<thead>
+                <tr>
+                    <th >Employee ID</th>
+                    <th >Leave Days</th>
+                    <th >Employee Name</th>
+                    <th >Company</th>
+                    <th >Department</th>
+                    <th >Designation</th>
+                    <th >Notification</th>
                 </tr>
+                </thead>
+                <tbody>
                 <?php foreach ($this->leveNotifList as $upd): ?>
                     <tr>
-                        <td style="border: 1px solid #000; padding: 8px; text-align: left;"><?= $upd['emp_fileno'] ?></td>
-                        <td style="border: 1px solid #000; padding: 8px; text-align: left;"><?= $upd['days_on_status'] ?></td>
-                        <td style="border: 1px solid #000; padding: 8px; text-align: left;"><?= $upd['full_name'] ?></td>
-                        <td style="border: 1px solid #000; padding: 8px; text-align: left;"><?= $upd['comp_disp_name'] ?></td>
-                        <td style="border: 1px solid #000; padding: 8px; text-align: left;"><?= $upd['dept_name'] ?></td>
-                        <td style="border: 1px solid #000; padding: 8px; text-align: left;"><?= $upd['desig_name'] ?></td>
-                        <td style="border: 1px solid #000; padding: 8px; text-align: left;"><?= $upd['notification_popup'] ?></td>
+                        <td><?= $upd['emp_fileno'] ?></td>
+                        <td><?= $upd['days_on_status'] ?></td>
+                        <td><?= $upd['full_name'] ?></td>
+                        <td><?= $upd['comp_disp_name'] ?></td>
+                        <td><?= $upd['dept_name'] ?></td>
+                        <td><?= $upd['desig_name'] ?></td>
+                        <td><?= $upd['notification_popup'] ?></td>
                     </tr>
                 <?php endforeach; ?>
+                </tbody>
             </table>
 		</div>
 		</div>
