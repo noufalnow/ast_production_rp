@@ -7,19 +7,19 @@ class legalcase extends db_table {
     {
         $stsstring = " CASE
                     WHEN $status_field = 1 THEN 'OPEN - DRAFT'
-                    WHEN $status_field = 2 THEN 'OPEN - SCHEDULED FOR HEARING'
-                    WHEN $status_field = 3 THEN 'OPEN - UNDER REVIEW'
-                    WHEN $status_field = 4 THEN 'OPEN - RESOLVED'
-                    WHEN $status_field = 5 THEN 'PENDING'
-                    WHEN $status_field = 6 THEN 'CLOSED'
-                    WHEN $status_field = 7 THEN 'DISMISSED'
-                    WHEN $status_field = 8 THEN 'APPEAL FILED'
+                    WHEN $status_field = 3 THEN 'OPEN - SCHEDULED FOR HEARING'
+                    WHEN $status_field = 4 THEN 'OPEN - UNDER REVIEW'
+                    WHEN $status_field = 5 THEN 'OPEN - RESOLVED'
+                    WHEN $status_field = 6 THEN 'PENDING'
+                    WHEN $status_field = 7 THEN 'CLOSED'
+                    WHEN $status_field = 8 THEN 'DISMISSED'
+                    WHEN $status_field = 9 THEN 'APPEAL FILED'
                     ELSE 'Unknown'
                 END ";
         
         return $stsstring;
     }
-    
+       
 
     public function add($data) {
         return parent::insert($data);

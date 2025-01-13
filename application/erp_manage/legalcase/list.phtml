@@ -128,7 +128,7 @@
                         <?php endif; ?>
                     </td>
                     <td class="center">
-                        <button class="btn btn-sm <?= !in_array($log['lcas_sts'], [7, 8])  ? 'btn-success' : 'btn-danger'; ?>" type="button" 
+                        <button class="btn btn-sm <?= !in_array($log['lcas_sts'], [7, 8])  ? 'btn-danger' : 'btn-success'; ?>" type="button" 
                                 data-bs-toggle="collapse" 
                                 data-bs-target="#followups-<?= $index; ?>" 
                                 aria-expanded="false" aria-controls="followups-<?= $index; ?>">
@@ -136,25 +136,25 @@
                         </button>
                     </td>
                 </tr>
-<tr class="collapse-row">
-    <td colspan="10" class="p-0">
-        <div class="collapse p-3" id="followups-<?= $index; ?>">
-            <!-- Log Details Section -->
-<div class="bg-light p-3 mb-3">
-    <p><i>Case No.:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_no']; ?></p>
-    <p><i>Case Reference:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_ref']; ?></p>
-    <p><i>Case Details:&nbsp;&nbsp;&nbsp;</i> <span style="font-size: 1.2rem;"><?= $log['lcas_case']; ?></span>
-        <?= x(array('link' => 'default/default/download', 'ref' => $encFileId, 'label' => '<i class="glyphicon glyphicon-download-alt text-info" style="float: right;"></i>', array("param" => 'opener'))) ?>
-    </p>
-    <hr>
-    <p><i>Company:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_company']; ?></p>
-    <p><i>CR No.:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_cr']; ?></p>
-    <p><i>Logged By:&nbsp;&nbsp;&nbsp;</i> <?= $log['emp_name']; ?></p>
-    <p><i>Logged At:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_date_lbl']; ?></p>
-    <p><i>Status:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_sts_lbl']; ?></p>
-    <p><i>Email:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_email']; ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Phone:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_phone_no']; ?></p>
-    <p><i>Lawyer:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_lawer']; ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Office:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_office']; ?></p>
-</div>
+                    <tr class="collapse-row">
+                        <td colspan="10" class="p-0">
+                            <div class="collapse p-3" id="followups-<?= $index; ?>">
+                                <!-- Log Details Section -->
+                    <div class="bg-light p-3 mb-3">
+                        <p><i>Case No.:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_no']; ?></p>
+                        <p><i>Case Reference:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_ref']; ?></p>
+                        <p><i>Case Details:&nbsp;&nbsp;&nbsp;</i> <span style="font-size: 1.2rem;"><?= $log['lcas_case']; ?></span>
+                            <?= x(array('link' => 'default/default/download', 'ref' => $encFileId, 'label' => '<i class="glyphicon glyphicon-download-alt text-info" style="float: right;"></i>', array("param" => 'opener'))) ?>
+                        </p>
+                        <hr>
+                        <p><i>Company:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_company']; ?></p>
+                        <p><i>CR No.:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_cr']; ?></p>
+                        <p><i>Logged By:&nbsp;&nbsp;&nbsp;</i> <?= $log['emp_name']; ?></p>
+                        <p><i>Logged At:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_date_lbl']; ?></p>
+                        <p><i>Status:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_sts_lbl']; ?></p>
+                        <p><i>Email:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_email']; ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Phone:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_phone_no']; ?></p>
+                        <p><i>Lawyer:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_lawer']; ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Office:&nbsp;&nbsp;&nbsp;</i> <?= $log['lcas_office']; ?></p>
+                    </div>
 
 
             <!-- Follow-Up Details Section -->
