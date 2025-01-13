@@ -345,7 +345,9 @@
                                                                     <?php $serDet = $this->serviceDetObj->getDetByServiceId(array('sdt_srv_id'=>$status['srv_id']));?>
                                                                     <table
 																		class="table table-bordered table-service">
-                                                                        <?php if (count($serDet)>0):?>
+                                                                        <?php if (count($serDet)>0):
+                                                                        $partCost = 0;    
+                                                                        ?>
                                                                         <tr>
 																			<td align="center"><b>Item</b></td>
 																			<td align="center"><b>Quantity</b></td>
@@ -375,7 +377,7 @@
                                                                             </td>
                                                                             
 																			<td align="center">
-                                                                                <?=$ser['sdt_price']?>
+                                                                                <?=$ser['sdt_price'];?> <?php $partCost+=$ser['sdt_price'];?>
                                                                             </td>
 																			<td align="left">
 																				<?=x(array('link'=>'erp_expense/expense/view','ref'=>$encExpId,'label'=>$ser['sdt_billid'],array("param"=>'class="facebox"')))?>
@@ -387,10 +389,26 @@
                                                                         <?php endforeach;?>
                                                                         <?php endif;?>
                                                                     </table>
+                                                                    
+                                                                    <div class="d-flex justify-content-between flex-wrap gap-3 mb-3">
+                                                                        <div class=" border p-3 " style="flex: 1;background-color: #DFE9EB;">
+                                                                            <strong>Total Spare Parts Cost (RO.): <?= htmlspecialchars($partCost); ?></strong>
+                                                                        </div>
+                                                                        <div class=" border p-3 " style="flex: 1;background-color: #DFE9EB;">
+                                                                            <strong>Total Labour Cost (RO.):<?= htmlspecialchars($status['srv_labour']); ?></strong>
+                                                                        </div>
+                                                                        <div class=" border p-3 " style="flex: 1;background-color: #DFE9EB;">
+                                                                            <strong>Grand Total (RO.):<?= htmlspecialchars($status['srv_labour'] + $partCost); ?></strong>
+                                                                        </div>
+                                                                    </div>
+
 																</td>
 															</tr>
 														</tbody>
 													</table>
+													
+													
+													
 												</div>
                                                 <?php endforeach;?>
                                             </div>
