@@ -166,8 +166,19 @@ class collection extends db_table {
                         AND colldet.deleted = 0
                         JOIN mis_bill AS bill ON bill.bill_id = colldet.cdet_bill_id
                         AND bill.deleted = 0
+
+
                         LEFT JOIN mis_bill_det AS billdet ON billdet.bdet_bill_id = bill.bill_id
                         AND billdet.deleted = 0
+
+    				   JOIN
+    				     (SELECT bdet_bill_id,MAX (bdet_update_sts)AS sts_max
+    				      FROM mis_bill_det
+    				      WHERE deleted = 0
+    				      GROUP BY mis_bill_det.bdet_bill_id) AS max_status ON max_status.bdet_bill_id = billdet.bdet_bill_id
+    				   AND max_status.sts_max = bdet_update_sts
+
+
                         LEFT JOIN mis_item AS item ON item.item_id = billdet.bdet_item
                         AND item.deleted = 0
                         AND item.item_type = 1

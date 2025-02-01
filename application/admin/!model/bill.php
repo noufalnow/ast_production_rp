@@ -21,14 +21,18 @@ class bill extends db_table {
 				comp.comp_disp_name,
 				cust.cust_name,
 				cdet_bill_id,
-				itm_name
+				itm_name,
+                vhl_status
 				", "from $this->_table 
 				left join core_company as comp on comp.comp_id = $this->_table.bill_company and comp.deleted = 0
 				left join mis_customer as cust on cust.cust_id = $this->_table.bill_customer_id and cust.deleted = 0
 				left join mis_collection_det as collbill on collbill.cdet_bill_id = $this->_table.bill_id and collbill.cdet_src_type = 1 and collbill.deleted = 0
 				LEFT JOIN
 				  (SELECT mis_bill_det.bdet_bill_id ,
-				          array_to_string(array_agg(item_name), ', ') AS itm_name
+				          array_to_string(array_agg(item_name), ', ') AS itm_name,
+                   CASE 
+                        WHEN COUNT(item_vehicle) != COUNT(item_name) THEN 'vhl_missing'
+                   END AS vhl_status
 				   FROM mis_bill_det
 				   LEFT JOIN mis_item AS item ON item.item_id = mis_bill_det.bdet_item
 				   AND item.deleted = 0

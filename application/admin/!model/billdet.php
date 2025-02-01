@@ -41,9 +41,22 @@ class billdet extends db_table {
 	public function getBillDet($cond) {
 		$this->query ( "select $this->_table.*, 
 				item.item_name,
-				item.item_unit
+				item.item_unit,
+                vhl_no,
+                comp_name,
+                comp_disp_name,
+                vhl_id,
+                bdet_amt as revenue_share
+                
 				from $this->_table 
 				left join mis_item as item on item.item_id = $this->_table.bdet_item and item.deleted = 0
+
+                LEFT JOIN mis_vehicle AS veh ON veh.vhl_id = item.item_vehicle
+                AND veh.deleted = 0
+
+                LEFT JOIN core_company AS comp ON comp.comp_id = veh.vhl_company
+                AND comp.deleted = 0
+
 				" );
 		if (! empty ( $cond ['bdet_bill_id'] ))
 			$this->_where [] = "bdet_bill_id= :bdet_bill_id";

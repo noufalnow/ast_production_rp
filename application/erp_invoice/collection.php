@@ -735,6 +735,9 @@ class collectionController extends mvc
         $billDet = $collObj->getCollectionBillDetByCollId(array(
             'coll_id' => $decCollId
         ));
+        
+        //s($billDet);
+        
 
         $countIds = [];
 
@@ -867,8 +870,9 @@ class collectionController extends mvc
 
                     $collRevObj->add($data);
                 }
+                                
 
-                if (is_array($valid['mbillno']) && count($valid['mbillno']) > 0) {
+                if (is_array(array_filter($valid['mbillno'])) && count(array_filter($valid['mbillno'])) > 0) {
 
                     foreach ($valid['mbillno'] as $bkey => $bbill) {
                         $data = [];

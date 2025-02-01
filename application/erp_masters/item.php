@@ -101,7 +101,7 @@ class itemController extends mvc {
 			} else {
 			    
 			    
-			    if ($_POST['item_type'] == '1'){
+			    if ($_POST['type'] == '1'){
 			        $form->addRules('vehicle', 'required');
 			    }
 				

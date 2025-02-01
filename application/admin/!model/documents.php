@@ -108,8 +108,8 @@ class documets extends db_table {
 	
 	public function getMaxDynDocNo($cond = array()) {
 	    
-	    $this->query ( "select MAX(doc_dyn_no)+1 as next_dyn_no from $this->_table " );
-	    
+	    $this->query("SELECT COALESCE(MAX(doc_dyn_no), 0) + 1 AS next_dyn_no FROM $this->_table");
+	    	    
 	    $this->_where [] = "doc_ref_type = :doc_ref_type";
 	    $this->_where [] = "doc_ref_id = :doc_ref_id";
 	    
