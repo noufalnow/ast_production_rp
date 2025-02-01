@@ -106,6 +106,7 @@ class documets extends db_table {
 	
 	
 	
+	
 	public function getMaxDynDocNo($cond = array()) {
 	    
 	    $this->query("SELECT COALESCE(MAX(doc_dyn_no), 0) + 1 AS next_dyn_no FROM $this->_table");
