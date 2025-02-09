@@ -498,3 +498,29 @@ $("form").bind("keypress", function (e) {
       
     }
 });
+
+
+function triggerSync() {
+      // Show the overlay before making the API call
+      displayOverlay("Transferring.....");
+
+      // Call the API endpoint
+      fetch("http://192.168.100.48:8077/api/sync/trigger")
+        .then(response => {
+          if (response.ok) {  // Check if status is 200 OK
+            return response.text(); // or response.json() if the API returns JSON
+          } else {
+            throw new Error("Server responded with status " + response.status);
+          }
+        })
+        .then(data => {
+          console.log("API Response:", data);
+          // Remove the overlay once the successful response is received
+          removeOverlay();
+        })
+        .catch(error => {
+          console.error("Error during API call:", error);
+          // Optionally remove the overlay even if there is an error
+          removeOverlay();
+        });
+    }

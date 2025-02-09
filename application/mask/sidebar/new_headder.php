@@ -390,6 +390,11 @@ function mainMenu($encUserId)
         'label' => 'Permissions'
     )) . '</li>';
     
+        
+    if($_SESSION['user_type']==1)
+        $menuHtml .= '<li class="sub-slide-item"> <a href="javascript:void(0);" Onclick="triggerSync();"> Cloud Transfer</a> </li>';
+    
+    
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'default/default/backup',
         'ref' => array(
