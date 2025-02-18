@@ -160,7 +160,8 @@ class collection extends db_table {
                                vhl_no,
                                comp_name,
                                comp_disp_name,
-                               vhl_id 
+                               vhl_id,
+                               brev_revenue  
                         FROM mis_collection 
                         LEFT JOIN mis_collection_det AS colldet ON coll_id = colldet.cdet_coll_id
                         AND colldet.deleted = 0
@@ -177,6 +178,9 @@ class collection extends db_table {
     				      WHERE deleted = 0
     				      GROUP BY mis_bill_det.bdet_bill_id) AS max_status ON max_status.bdet_bill_id = billdet.bdet_bill_id
     				   AND max_status.sts_max = bdet_update_sts
+
+                        LEFT JOIN mis_bill_revenue AS billrev ON billrev.brev_type = 1 AND  billrev.brev_group_id = billdet.bdet_id
+                        AND billrev.deleted = 0
 
 
                         LEFT JOIN mis_item AS item ON item.item_id = billdet.bdet_item

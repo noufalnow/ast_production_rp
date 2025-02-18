@@ -654,6 +654,73 @@ class billController extends mvc
         $billInfo = $billObj->getBillInfo(array(
             'bill_id' => $decBillId
         ));
+
+        // revenue share //
+
+        $billDet = $billObj->getInvoiceDetByBilllId(array(
+            'bill_id' => $decBillId
+        ));
+
+        $countIds = [];
+
+        foreach ($billDet as $bd) {
+            $countIds[] = $bd['bdet_id'];
+            //$billPairList[$bd['bill_id']] = 'AST/' . $bd['bill_id'];
+            //$billIdList[$bd['bdet_id']] = $bd['bill_id'];
+            $vhlIdList[$bd['bdet_id']] = $bd['vhl_id'];
+
+            if (is_null($bd['comp_disp_name'])) {
+                $hasNullCompDispName = true;
+                $this->view->errorStatus = "Company name related to vehicle in Item is still empty";
+            }
+        }
+
+        $form = new form();
+        $form->addMultiElement('revenue', 'Revenue', 'float', 'required|numeric', '', array(
+            'class' => 'input-right'
+        ), $countIds);
+
+        require_once __DIR__ . '/../admin/!model/billrev.php';
+        $billRevObj = new billrev();
+
+        $count = 1;
+
+        if (isset($_POST) && count($_POST) > 0) {
+            $count = array_keys($_POST['mvehicle']);
+        } else {
+            $type2RvenueListPair = $billRevObj->getRevenueListPairType2([
+                'brev_bill_id' => $decBillId
+            ]);
+            
+            //a($type2RvenueListPair);
+            
+            
+            if (is_array($type2RvenueListPair) && count($type2RvenueListPair) > 0)
+                $count = array_keys($type2RvenueListPair);
+        }
+
+        require_once __DIR__ . '/../admin/!model/vehicle.php';
+        $vhlObj = new vehicle();
+        $vehicleList = $vhlObj->getVehicleCompanyPair();
+
+        $form->addMultiElement('mvehicle', 'Vehicle No.', 'select', '', array(
+            'options' => $vehicleList
+        ), array(
+            'class' => 'full-select'
+        ), $count);
+
+        $form->addMultiElement('mremarks', 'Remarks', 'text', '', '', array(
+            'class' => ''
+        ), $count);
+
+        $form->addMultiElement('mextshare', 'Revenue', 'float', 'numeric', '', array(
+            'class' => 'input-right'
+        ), $count);
+
+        $mfields = array_keys($form->_elements['mvehicle']);
+
+        // <<
+
         if ($billInfo) {
             $billDetObj = new billdet();
             $maxBillDetails = $billDetObj->getMaxBillDet(array(
@@ -664,10 +731,120 @@ class billController extends mvc
                 'bdet_update_sts' => $maxBillDetails['max_update']
             ));
         }
+
+        // revenue share //
+        $revenueTotal = 0;
+
+        if (isset($_POST) && count($_POST) > 0) {
+
+            $form->addErrorMsg('revenue', 'required', 'Field is required');
+
+            if (is_array(array_filter($_POST['mvehicle'])) && count(array_filter($_POST['mvehicle'])) > 0) {
+
+                $form->addErrorMsg('mvehicle', 'required', 'Field is required');
+                $form->addErrorMsg('mremarks', 'required', 'Field is required');
+                $form->addErrorMsg('mextshare', 'required', 'Field is required');
+
+                foreach ($_POST['mvehicle'] as $pbkey => $pbill) {
+
+                    $form->addmRules("mvehicle", $pbkey, "required");
+                    $form->addmRules("mremarks", $pbkey, "required");
+                    $form->addmRules("mextshare", $pbkey, "required");
+
+                    $revenueTotal += $_POST['mvehicle'][$pbill];
+                }
+            }
+
+            foreach ($_POST['revenue'] as $rpkey => $rpval) {
+
+                $revenueTotal += (float) $rpval;
+            }
+
+            $valid = $form->vaidate($_POST, $_FILES);
+            $valid = $valid[0];
+
+            $tolerance = 0.0001; // Define acceptable precision
+            if (($revenueTotal - $billInfo['bill_oribill_amt']) > $tolerance) {
+                $this->view->errorStatus = "Total Revenue Share ( $revenueTotal ) cannot be greater than total Collection Amount ( " . $billInfo['bill_oribill_amt'] . " ).";
+            } else if ($valid == true && ! $hasNullCompDispName) {
+
+                $billRevObj->deleteByCollectionId([
+                    'brev_bill_id' => $decBillId
+                ]);
+
+                foreach ($valid['revenue'] as $rkey => $rrev) {
+                    $data = [];
+                    $data['brev_bill_id'] = $decBillId;
+                    $data['brev_type'] = 1;
+                    $data['brev_group_id'] = $rkey;
+                    $data['brev_vhl_id'] = $vhlIdList[$rkey];
+                    $data['brev_remarks'] = '';
+                    $data['brev_revenue'] = $rrev;
+
+                    $billRevObj->add($data);
+                }
+                
+                if (is_array(array_filter($valid['mvehicle'])) && count(array_filter($valid['mvehicle'])) > 0) {
+
+                    foreach ($valid['mvehicle'] as $bkey => $bbill) {
+                        $data = [];
+                        $data['brev_bill_id'] = $decBillId;
+                        $data['brev_type'] = 2;
+                        $data['brev_group_id'] = $bkey;
+                        $data['brev_vhl_id'] = $valid['mvehicle'][$bkey];
+                        $data['brev_remarks'] = $valid['mremarks'][$bkey];
+                        $data['brev_revenue'] = $valid['mextshare'][$bkey];
+
+                        $billRevObj->add($data);
+                    }
+                }
+
+                $feedback = $_SESSION['feedback'] = 'Revenue share details updated successfully.';
+                $form->reset();
+                $this->view->NoViewRender = true;
+                $success = array(
+                    'feedback' => $feedback
+                );
+                $success = json_encode($success);
+                die($success);
+            } else {
+                $this->view->errorStatus = "Data error in form submission " . $this->view->errorStatus;
+            }
+        } else {
+            $preRevList = $billRevObj->getRevenuePairType1([
+                'brev_bill_id' => $decBillId
+            ]);
+            if (is_array($preRevList) && count($preRevList) > 0) {
+                foreach ($preRevList as $pl => $pval)
+                    $form->revenue[$pl]->setValue($pval);
+
+                $preRevListExtra = $billRevObj->getRevenueListType2([
+                    'brev_bill_id' => $decBillId
+                ]);
+
+                if (is_array($preRevListExtra) && count($preRevListExtra) > 0) {
+
+                    foreach ($preRevListExtra as $plex) {
+                        $form->mvehicle[$plex['brev_id']]->setValue($plex['brev_vhl_id']);
+                        $form->mremarks[$plex['brev_id']]->setValue($plex['brev_remarks']);
+                        $form->mextshare[$plex['brev_id']]->setValue($plex['brev_revenue']);
+                    }
+                }
+            } else {
+                foreach ($billDet as $bd)
+                    $form->revenue[$bd['bdet_id']]->setValue($bd['total_amt']);
+            }
+
+
+        }
+
+        $this->view->mfields = $mfields;
+        $this->view->form = $form;
+        $this->view->billDet = $billDet;
+
         $this->view->collection = $collection;
         $this->view->billInfo = $billInfo;
         $this->view->billDetails = $billDetails;
-                
     }
 
     public function viewAction()

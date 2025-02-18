@@ -199,31 +199,224 @@ $encFileId = $this->encode($this->billInfo['file_id']);?>
 							echo $rial . $baisa . ' Only';
 							?></b> 							</td>
 						</tr>
-						
-						
 					</table>
-
 				</div>
-				
 
-				
-				
-				
-			</div>
+   <form name="form" method="post" id="view" action='erp_invoice/bill/miniview/ref/<?=$this->param['ref']?>'> 
+       <div class="col-md-12 card" 
+         style="padding-top: 15px; margin-bottom: 3px;"> 
+         <div class="panel panel-default mb-4"> 
+          
+            <div style="display: flex; justify-content: center; align-items: center; color: red; font-weight: bold; height: 100%;"> 
+                    <?=$this->errorStatus;?> 
+            </div> 
+          
+            <div class="panel-heading1"> 
+               <h4 class="panel-title1"> 
+                  <a class="accordion-toggle collapsed" data-bs-toggle="collapse" 
+                     data-bs-parent="#accordion" href="#collapseTwo" 
+                     aria-expanded="false">COMPANY WISE REVENUE SHARE</a> 
+               </h4> 
+            </div> 
+            <div id="collapseTwo" class="panel-collapse collapse" 
+               role="tabpanel" aria-expanded="false"> 
+
+                  <div class="card" style="padding: 10px;"> 
+                     <table class="table table-bordered table-service"> 
+                        <thead> 
+                        </thead> 
+                        <tbody> 
+                           <tr> 
+                              <th width="25%" class="center">Item</th> 
+                              <th width="15%" class="center">Vehicle</th> 
+                              <th width="10%" class="center">Amount</th> 
+                              <th width="10%" class="center">Quantity</th> 
+                              <th width="10%" class="center">Total Amt.</th> 
+                              <th width="10%" class="center">Revenue</th> 
+                              <th width="10%" class="center">Company</th> 
+                           </tr> 
+                           <?if(is_array($this->billDet) && count($this->billDet)>0):?> 
+                           <? foreach(@$this->billDet as $i=>$row): ?> 
+                           <tr> 
+                              <td align="center"><?=$row['item_name']?></td> 
+                              <td align="center"><?=$row['vhl_no']?></td> 
+                              <td align="center"><?=$row['bdet_amt']?></td> 
+                              <td align="center"><?=$row['bdet_qty']?></td> 
+                              <td align="center"><?=$row['total_amt']?></td> 
+                              <td align="center"><?=$this->form->revenue[$row['bdet_id']]->show()?></td> 
+                              <td align="center"><?=$row['comp_disp_name']?></td> 
+                           </tr> 
+                           <?php endforeach; endif;?> 
+                        </tbody> 
+                     </table> 
+                  </div> 
+                  <div class="row mb-4"> 
+                     <div id="mh_varis" class="col-sm-12"> 
+                        <table width="100%" id="multi_table"> 
+                           <tr style="font-size: 0.8em;"> 
+                              <th width="25%" style="padding-bottom: 5px;">Vehicle</th> 
+                              <th width="65%" style="padding-bottom: 5px;">Remarks</th> 
+                              <th width="10%" style="padding-bottom: 5px;">Share Amount</th> 
+                              <th width="2%" style="padding-bottom: 5px;"></th> 
+                              <!-- Optional column for spacing --> 
+                           </tr> 
+                           <tbody id="dup_body"> 
+                              <?php foreach($this->mfields as $i):?> 
+                              <tr class="dup_row" index="<?=$i?>"> 
+                                 <td valign="top"> 
+                                    <?=$this->form->mvehicle[$i]->show()?> 
+                                 </td> 
+                                 <td valign="top"> 
+                                    <?=$this->form->mremarks[$i]->show()?> 
+                                 </td> 
+                                 <td valign="top"> 
+                                    <?=$this->form->mextshare[$i]->show()?> 
+                                 </td> 
+                                 <td valign="middle"> 
+                                    <div> 
+                                       <a style="color: blue; margin: 1px;" title="Remove" 
+                                          href="#" onclick="delRow(this);return false;" 
+                                          class="glyphicon glyphicon-remove"></a> 
+                                    </div> 
+                                 </td> 
+                              </tr> 
+                              <?php endforeach;?> 
+                           </tbody> 
+                        </table> 
+                        <div> 
+                           <a style="background-color: yellowgreen; margin: 1px;" 
+                              id="myLink" title="Add more" href="#" 
+                              onclick="addRow('multi_table');return false;" class="btn">More</a> 
+                        </div> 
+                     </div> 
+                  </div> 
+            </div> 
+         </div> 
+      </div> 
+
 		<div class="modal-footer">
-		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-	</div>
-		</div>
+			<div class="col-sm-12">
+			
+				<button type="button" class="btn btn-light" data-bs-dismiss="modal"
+					style="float: right;">Close</button>
+			
+				<button type="button" class="btn btn-primary submit-alias livepost" 
+					style="float: right;margin-right: 2%;">Update</button>
 
- <div>
- </div>
- </div>
+			</div>
+		</div>
+		</form>
+		
+	</div>
+		<div></div>
+</div>
+ 
+ 
+ 
+ 
 
 
 <script type="text/javascript">           
 $(document).ready(function() {
     $('#f_monthpick').MonthPicker({ Button: false });
 });
+
+
+var rowTemplates = { 
+    multi_table: '', 
+    multi_table_item: '' 
+}; 
+ 
+// Initialize row templates for different tables 
+$(document).ready(function () { 
+    rowTemplates.multi_table = '<tr class="dup_row">' + $('#dup_body > tr:first').html() + '</tr>'; 
+    rowTemplates.multi_table_item = '<tr class="dup_row_item">' + $('#dup_body_item > tr:first').html() + '</tr>'; 
+}); 
+ 
+// Generic function to add a row 
+function addRow(tableId) { 
+    var tableBodyId = getTableBodyId(tableId); // Get the corresponding tbody ID 
+    var lastRow = $('#' + tableBodyId + ' > tr:last'); // Find the last row in the tbody 
+    var index = parseInt(lastRow.attr('index')) || 1; // Get the index of the last row 
+    index++; 
+ 
+    console.log(index); 
+ 
+    // Clone the row template but exclude Chosen-rendered containers 
+    var newRow = $(rowTemplates[tableId]).clone(); 
+    newRow.attr('index', index); 
+ 
+    // Remove existing Chosen containers from the cloned row 
+    newRow.find('.chosen-container').remove(); 
+ 
+    // Reset the new row's input values, remove errors, and update names/IDs 
+    newRow.find(':input').each(function () { 
+        var name = $(this).attr('name'); 
+        if (name) { 
+            var newName = name.replace(/\[\d+\]/, '[' + index + ']'); 
+            $(this).attr('name', newName).attr('id', newName).val(''); // Update name and id, clear value 
+        } 
+    }); 
+ 
+    newRow.find('.input_error').removeClass('input_error'); 
+    newRow.find('.select_error').removeClass('select_error'); 
+    newRow.find('.error_text').remove(); 
+ 
+    // Insert the new row after the last one 
+    lastRow.length ? lastRow.after(newRow) : $('#' + tableBodyId).append(newRow); 
+    reindexRows(tableBodyId); 
+     
+ 
+    // Reinitialize Chosen only for the new row 
+    newRow.find('.chosen-select').chosen({ 
+        no_results_text: "Oops, nothing found!", 
+        search_contains: true, 
+        enable_split_word_search: true 
+    }); 
+} 
+ 
+ 
+// Generic function to delete a row 
+function delRow(row) { 
+    var tableBody = $(row).closest('tbody'); // Find the parent tbody 
+    var rowCount = tableBody.find('tr').length; // Count rows 
+ 
+    console.log("Row Count Before Deletion:", rowCount); 
+ 
+    // Ensure at least one row remains 
+    if (rowCount > 1) { 
+        $(row).closest('tr').remove(); // Remove the row 
+        console.log("Row deleted. Reindexing rows..."); 
+        reindexRows(tableBody.attr('id')); // Reindex remaining rows 
+    } else { 
+        console.log("Cannot delete the last row."); 
+    } 
+} 
+ 
+// Utility function to get the corresponding tbody ID 
+function getTableBodyId(tableId) { 
+    return tableId === 'multi_table' ? 'dup_body' : 'dup_body_item'; 
+} 
+ 
+// Utility function to get the corresponding row class 
+function getRowClass(tableId) { 
+    return tableId === 'multi_table' ? 'dup_row' : 'dup_row_item'; 
+} 
+ 
+function reindexRows(tableBodyId) { 
+    $('#' + tableBodyId + ' > tr').each(function (i) { 
+        $(this).attr('index', i + 1); // Update the index attribute 
+        $(this).find(':input').each(function () { 
+            var name = $(this).attr('name'); 
+            if (name) { 
+                var newName = name.replace(/\[\d+\]/, '[' + (i + 1) + ']'); 
+                $(this).attr('name', newName).attr('id', newName); 
+            } 
+        }); 
+    }); 
+} 
+ 
+
 </script>
 
 <?php function numtowords($num){ 

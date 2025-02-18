@@ -154,7 +154,11 @@
 					<?php if($_SESSION['user_acl']['erp_invoice/bill/approval']):?>
 					<td class="center">
 						<?php if($bill['bill_app_status']==''):?>
-							<?=x(array('link'=>'erp_invoice/bill/approval','ref'=>$encBillId,'label'=>'<span class="glyphicon glyphicon-ok-circle" style="color:#31708f;font-size: 1.2em;"> </span>',array("param"=>'class="facebox"')))?>
+    						<?php if($bill['rev_count'] > 0):?>
+    								<?=x(array('link'=>'erp_invoice/bill/approval','ref'=>$encBillId,'label'=>'<span class="glyphicon glyphicon-ok-circle" style="color:#31708f;font-size: 1.2em;"> </span>',array("param"=>'class="facebox", title="Approve Bill"')))?>
+    							<?php else:?>
+									<?=x(array('link'=>'erp_invoice/bill/miniview','ref'=>$encBillId,'label'=>'<i class="fas fa-search"></i>',array("param"=>'class="facebox", title="Revenue Share"')))?>
+    						<?php endif?>
 						<?php endif?>
 					</td>
 					<?php endif;?>

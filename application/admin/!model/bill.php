@@ -22,12 +22,22 @@ class bill extends db_table {
 				cust.cust_name,
 				cdet_bill_id,
 				itm_name,
-                vhl_status
+                vhl_status,
+                rev_count
 				", "from $this->_table 
 				left join core_company as comp on comp.comp_id = $this->_table.bill_company and comp.deleted = 0
 				left join mis_customer as cust on cust.cust_id = $this->_table.bill_customer_id and cust.deleted = 0
 				left join mis_collection_det as collbill on collbill.cdet_bill_id = $this->_table.bill_id and collbill.cdet_src_type = 1 and collbill.deleted = 0
+				
 				LEFT JOIN
+				  (SELECT count(*) as rev_count, 
+                    brev_bill_id 
+                    FROM mis_bill_revenue
+                    where deleted = 0
+                    group by brev_bill_id
+				   ) AS billrev on billrev.brev_bill_id = mis_bill.bill_id
+
+                LEFT JOIN
 				  (SELECT mis_bill_det.bdet_bill_id ,
 				          array_to_string(array_agg(item_name), ', ') AS itm_name,
                    CASE 
@@ -409,8 +419,54 @@ class bill extends db_table {
 				
 			return parent::fetchQuery($cond);
 		}
-	
-	
+		
+		
+		public function getInvoiceDetByBilllId($cond=[]){
+		    
+		    $this->query ( "SELECT bdet_item,
+                               bdet_id,
+                               item_name,
+                               item_code,
+                               bdet_qty ,
+                               bdet_amt,
+                               ROUND(bdet_qty * bdet_amt, 3) AS total_amt,
+                               bill_id,
+                               vhl_no,
+                               comp_name,
+                               comp_disp_name,
+                               vhl_id
+                        FROM  mis_bill 
+		        
+                        LEFT JOIN mis_bill_det AS billdet ON billdet.bdet_bill_id = bill_id
+                        AND billdet.deleted = 0
+		        
+    				   JOIN
+    				     (SELECT bdet_bill_id,MAX (bdet_update_sts)AS sts_max
+    				      FROM mis_bill_det
+    				      WHERE deleted = 0
+    				      GROUP BY mis_bill_det.bdet_bill_id) AS max_status ON max_status.bdet_bill_id = billdet.bdet_bill_id
+    				   AND max_status.sts_max = bdet_update_sts
+		        
+		        
+                        LEFT JOIN mis_item AS item ON item.item_id = billdet.bdet_item
+                        AND item.deleted = 0
+                        AND item.item_type = 1
+                        LEFT JOIN mis_vehicle AS veh ON veh.vhl_id = item.item_vehicle
+                        AND veh.deleted = 0
+                        LEFT JOIN core_company AS comp ON comp.comp_id = veh.vhl_company
+                        AND comp.deleted = 0" );
+		    
+		    
+	    
+		    $this->_where [] = "bill_id= :bill_id";
+		    
+		    $this->_order [] = "bill_id ASC";
+		    
+		    
+		    return parent::fetchAll($cond);
+		}
+		
+
 	
 	
 }?>

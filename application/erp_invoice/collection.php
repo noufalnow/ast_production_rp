@@ -735,9 +735,8 @@ class collectionController extends mvc
         $billDet = $collObj->getCollectionBillDetByCollId(array(
             'coll_id' => $decCollId
         ));
-        
-        //s($billDet);
-        
+
+        // s($billDet);
 
         $countIds = [];
 
@@ -746,15 +745,13 @@ class collectionController extends mvc
             $billPairList[$bd['bill_id']] = 'AST/' . $bd['bill_id'];
             $billIdList[$bd['bdet_id']] = $bd['bill_id'];
             $vhlIdList[$bd['bdet_id']] = $bd['vhl_id'];
-            
+
             if (is_null($bd['comp_disp_name'])) {
-                $hasNullCompDispName = true; 
+                $hasNullCompDispName = true;
                 $this->view->errorStatus = "Company name related to vehicle in Item is still empty";
-                
             }
         }
-        
-        
+
         $form = new form();
         $form->addMultiElement('revenue', 'Revenue', 'float', 'required|numeric', '', array(
             'class' => 'input-right'
@@ -773,6 +770,19 @@ class collectionController extends mvc
             ]);
             if (is_array($type2RvenueListPair) && count($type2RvenueListPair) > 0)
                 $count = array_keys($type2RvenueListPair);
+            else {
+                require_once __DIR__ . '/../admin/!model/billrev.php';
+                $billRevObj = new billrev();
+                $type2RvenueListPair = $billRevObj->getRevenueListPairType2([
+                    'brev_bill_id_in' => $billIdList
+                ]);
+                
+                //a($type2RvenueListPair);
+                
+                
+                if (is_array($type2RvenueListPair) && count($type2RvenueListPair) > 0)
+                    $count = array_keys($type2RvenueListPair);
+            }
         }
 
         $form->addMultiElement('mbillno', 'Bill No.', 'select', '', array(
@@ -842,7 +852,7 @@ class collectionController extends mvc
 
             foreach ($_POST['revenue'] as $rpkey => $rpval) {
 
-                $revenueTotal += $rpval;
+                $revenueTotal += (float) $rpval;
             }
 
             $valid = $form->vaidate($_POST, $_FILES);
@@ -851,8 +861,7 @@ class collectionController extends mvc
             $tolerance = 0.0001; // Define acceptable precision
             if (($revenueTotal - $collDet['coll_amount']) > $tolerance) {
                 $this->view->errorStatus = "Total Revenue Share ( $revenueTotal ) cannot be greater than total Collection Amount ( " . $collDet['coll_amount'] . " ).";
-            }
-            else if ($valid == true && !$hasNullCompDispName) {
+            } else if ($valid == true && ! $hasNullCompDispName) {
 
                 $collRevObj->deleteByCollectionId([
                     'rev_coll_id' => $decCollId
@@ -870,7 +879,6 @@ class collectionController extends mvc
 
                     $collRevObj->add($data);
                 }
-                                
 
                 if (is_array(array_filter($valid['mbillno'])) && count(array_filter($valid['mbillno'])) > 0) {
 
@@ -896,7 +904,7 @@ class collectionController extends mvc
                 );
                 $success = json_encode($success);
                 die($success);
-            }else{
+            } else {
                 $this->view->errorStatus = "Data error in form submission " . $this->view->errorStatus;
             }
         } else {
@@ -907,22 +915,38 @@ class collectionController extends mvc
 
                 foreach ($preRevList as $pl => $pval)
                     $form->revenue[$pl]->setValue($pval);
+
+                $preRevListExtra = $collRevObj->getRevenueListType2([
+                    'rev_coll_id' => $decCollId
+                ]);
+
+                if (is_array($preRevListExtra) && count($preRevListExtra) > 0) {
+
+                    foreach ($preRevListExtra as $plex) {
+                        $form->mbillno[$plex['rev_group_id']]->setValue($plex['rev_bill_id']);
+                        $form->mvehicle[$plex['rev_group_id']]->setValue($plex['rev_vhl_id']);
+                        $form->mremarks[$plex['rev_group_id']]->setValue($plex['rev_remarks']);
+                        $form->mextshare[$plex['rev_group_id']]->setValue($plex['rev_revenue']);
+                    }
+                }
             } else {
                 foreach ($billDet as $bd)
-                    $form->revenue[$bd['bdet_id']]->setValue($bd['revenue_share']);
-            }
+                    $form->revenue[$bd['bdet_id']]->setValue($bd['brev_revenue']);
 
-            $preRevListExtra = $collRevObj->getRevenueListType2([
-                'rev_coll_id' => $decCollId
-            ]);
+                //require_once __DIR__ . '/../admin/!model/billrev.php';
+                //$billRevObj = new billrev();
+                $preRevListExtra = $billRevObj->getRevenueListType2([
+                    'brev_bill_id_in' => $billIdList
+                ]);
 
-            if (is_array($preRevListExtra) && count($preRevListExtra) > 0) {
+                if (is_array($preRevListExtra) && count($preRevListExtra) > 0) {
 
-                foreach ($preRevListExtra as $plex) {
-                    $form->mbillno[$plex['rev_group_id']]->setValue($plex['rev_bill_id']);
-                    $form->mvehicle[$plex['rev_group_id']]->setValue($plex['rev_vhl_id']);
-                    $form->mremarks[$plex['rev_group_id']]->setValue($plex['rev_remarks']);
-                    $form->mextshare[$plex['rev_group_id']]->setValue($plex['rev_revenue']);
+                    foreach ($preRevListExtra as $plex) {
+                        $form->mbillno[$plex['brev_id']]->setValue($plex['brev_bill_id']);
+                        $form->mvehicle[$plex['brev_id']]->setValue($plex['brev_vhl_id']);
+                        $form->mremarks[$plex['brev_id']]->setValue($plex['brev_remarks']);
+                        $form->mextshare[$plex['brev_id']]->setValue($plex['brev_revenue']);
+                    }
                 }
             }
         }
