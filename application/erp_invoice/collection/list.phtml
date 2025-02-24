@@ -107,7 +107,11 @@
 					<?php if($_SESSION['user_acl']['erp_invoice/collection/approval']):?>
 					<td class="center">
 					<?php if($pay['coll_app_status']==0):?>
-						<?=x(array('link'=>'erp_invoice/collection/approval','ref'=>$encPayId,'label'=>'<span class="glyphicon glyphicon-ok-circle" style="color:#31708f;font-size: 1.2em;"> </span>',array("param"=>'class="facebox"')))?>  
+						<?php if($pay['rev_count'] > 0):?>
+							<?=x(array('link'=>'erp_invoice/collection/approval','ref'=>$encPayId,'label'=>'<span class="glyphicon glyphicon-ok-circle" style="color:#31708f;font-size: 1.2em;"> </span>',array("param"=>'class="facebox"')))?>
+						<?php else:?>
+							<?=x(array('link'=>'erp_invoice/collection/view','ref'=>$encPayId,'label'=>'<i class="fas fa-search"></i>',array("param"=>'class="facebox"')))?> 
+						<?php endif?>	  
 					<?php endif?>
 					</td>
 					<?php endif;?>					

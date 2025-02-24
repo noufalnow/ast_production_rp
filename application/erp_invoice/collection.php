@@ -745,6 +745,7 @@ class collectionController extends mvc
             $billPairList[$bd['bill_id']] = 'AST/' . $bd['bill_id'];
             $billIdList[$bd['bdet_id']] = $bd['bill_id'];
             $vhlIdList[$bd['bdet_id']] = $bd['vhl_id'];
+            //$vhlCompList[$bd['vhl_id']] = $bd['vhl_company'];
 
             if (is_null($bd['comp_disp_name'])) {
                 $hasNullCompDispName = true;
@@ -773,15 +774,15 @@ class collectionController extends mvc
             else {
                 require_once __DIR__ . '/../admin/!model/billrev.php';
                 $billRevObj = new billrev();
-                $type2RvenueListPair = $billRevObj->getRevenueListPairType2([
-                    'brev_bill_id_in' => $billIdList
-                ]);
                 
-                //a($type2RvenueListPair);
-                
-                
-                if (is_array($type2RvenueListPair) && count($type2RvenueListPair) > 0)
-                    $count = array_keys($type2RvenueListPair);
+                if(is_array($billIdList)){
+                    $type2RvenueListPair = $billRevObj->getRevenueListPairType2([
+                        'brev_bill_id_in' => $billIdList
+                    ]);
+                    
+                    if (is_array($type2RvenueListPair) && count($type2RvenueListPair) > 0)
+                        $count = array_keys($type2RvenueListPair);
+                }
             }
         }
 
@@ -794,6 +795,7 @@ class collectionController extends mvc
         require_once __DIR__ . '/../admin/!model/vehicle.php';
         $vhlObj = new vehicle();
         $vehicleList = $vhlObj->getVehicleCompanyPair();
+        $vhlCompList = $vhlObj->getVehicleCompanyIdPair();
 
         $form->addMultiElement('mvehicle', 'Vehicle No.', 'select', '', array(
             'options' => $vehicleList
@@ -846,11 +848,15 @@ class collectionController extends mvc
                     $form->addmRules("mremarks", $pbkey, "required");
                     $form->addmRules("mextshare", $pbkey, "required");
 
-                    $revenueTotal += $_POST['mbillno'][$pbill];
+                    $revenueTotal += $_POST['mextshare'][$pbkey];
+                    
+                    //v(">>".$_POST['mextshare'][$pbkey]);
                 }
             }
 
             foreach ($_POST['revenue'] as $rpkey => $rpval) {
+                
+                //v("<<".(float) $rpval);
 
                 $revenueTotal += (float) $rpval;
             }
@@ -859,8 +865,8 @@ class collectionController extends mvc
             $valid = $valid[0];
 
             $tolerance = 0.0001; // Define acceptable precision
-            if (($revenueTotal - $collDet['coll_amount']) > $tolerance) {
-                $this->view->errorStatus = "Total Revenue Share ( $revenueTotal ) cannot be greater than total Collection Amount ( " . $collDet['coll_amount'] . " ).";
+            if (abs($revenueTotal - $collDet['coll_amount']) > $tolerance) {
+                $this->view->errorStatus = "Total Revenue Share ( $revenueTotal ) should be equal to total Collection Amount ( " . $collDet['coll_amount'] . " ).";
             } else if ($valid == true && ! $hasNullCompDispName) {
 
                 $collRevObj->deleteByCollectionId([
@@ -876,6 +882,7 @@ class collectionController extends mvc
                     $data['rev_vhl_id'] = $vhlIdList[$rkey];
                     $data['rev_remarks'] = '';
                     $data['rev_revenue'] = $rrev;
+                    $data['rev_comp_id'] = $vhlCompList[$vhlIdList[$rkey]];
 
                     $collRevObj->add($data);
                 }
@@ -891,6 +898,7 @@ class collectionController extends mvc
                         $data['rev_vhl_id'] = $valid['mvehicle'][$bkey];
                         $data['rev_remarks'] = $valid['mremarks'][$bkey];
                         $data['rev_revenue'] = $valid['mextshare'][$bkey];
+                        $data['rev_comp_id'] = $vhlCompList[$valid['mvehicle'][$bkey]];
 
                         $collRevObj->add($data);
                     }
@@ -933,8 +941,8 @@ class collectionController extends mvc
                 foreach ($billDet as $bd)
                     $form->revenue[$bd['bdet_id']]->setValue($bd['brev_revenue']);
 
-                //require_once __DIR__ . '/../admin/!model/billrev.php';
-                //$billRevObj = new billrev();
+                require_once __DIR__ . '/../admin/!model/billrev.php';
+                $billRevObj = new billrev();
                 $preRevListExtra = $billRevObj->getRevenueListType2([
                     'brev_bill_id_in' => $billIdList
                 ]);

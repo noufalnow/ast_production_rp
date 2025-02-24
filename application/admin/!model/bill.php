@@ -310,6 +310,7 @@ class bill extends db_table {
 						to_char(bill_date,'DD/MM/YYYY') as bill_disp_date, 
 						to_char(bill_month,'Month-YYYY') as bill_month, 
 						to_char(bill_rev_date + interval '60' day,'DD/MM/YYYY') as bill_due_date, 
+                        (date_part('day', now()-(bill_rev_date + interval '60' day))) as date_diff,
 				       case when (date_part('day', now()-(bill_rev_date + interval '60' day))) > 0 then bill_credit_amt end as due_amount,
 				       case when (date_part('day', now()-(bill_rev_date + interval '60' day))) > 15 then bill_credit_amt end as due_amount_15,
 				       case when (date_part('day', now()-(bill_rev_date + interval '60' day))) > 30 then bill_credit_amt end as due_amount_30,
@@ -333,6 +334,8 @@ class bill extends db_table {
 				AND contact.deleted = 0
 				$where
 				ORDER BY cust_name asc, mis_bill.bill_month ASC, bill_rev_date ASC" );
+		
+		//d($this->_qry);		
 		
 		return parent::fetchQuery($cond);
 		
@@ -434,7 +437,8 @@ class bill extends db_table {
                                vhl_no,
                                comp_name,
                                comp_disp_name,
-                               vhl_id
+                               vhl_id,
+                               vhl_company 
                         FROM  mis_bill 
 		        
                         LEFT JOIN mis_bill_det AS billdet ON billdet.bdet_bill_id = bill_id

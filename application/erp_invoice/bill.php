@@ -668,6 +668,7 @@ class billController extends mvc
             //$billPairList[$bd['bill_id']] = 'AST/' . $bd['bill_id'];
             //$billIdList[$bd['bdet_id']] = $bd['bill_id'];
             $vhlIdList[$bd['bdet_id']] = $bd['vhl_id'];
+            //$vhlCompList[$bd['vhl_id']] = $bd['vhl_company'];
 
             if (is_null($bd['comp_disp_name'])) {
                 $hasNullCompDispName = true;
@@ -702,6 +703,8 @@ class billController extends mvc
         require_once __DIR__ . '/../admin/!model/vehicle.php';
         $vhlObj = new vehicle();
         $vehicleList = $vhlObj->getVehicleCompanyPair();
+        $vhlCompList = $vhlObj->getVehicleCompanyIdPair();
+        
 
         $form->addMultiElement('mvehicle', 'Vehicle No.', 'select', '', array(
             'options' => $vehicleList
@@ -751,7 +754,7 @@ class billController extends mvc
                     $form->addmRules("mremarks", $pbkey, "required");
                     $form->addmRules("mextshare", $pbkey, "required");
 
-                    $revenueTotal += $_POST['mvehicle'][$pbill];
+                    $revenueTotal += $_POST['mextshare'][$pbkey];
                 }
             }
 
@@ -764,8 +767,8 @@ class billController extends mvc
             $valid = $valid[0];
 
             $tolerance = 0.0001; // Define acceptable precision
-            if (($revenueTotal - $billInfo['bill_oribill_amt']) > $tolerance) {
-                $this->view->errorStatus = "Total Revenue Share ( $revenueTotal ) cannot be greater than total Collection Amount ( " . $billInfo['bill_oribill_amt'] . " ).";
+            if (abs($revenueTotal - $billInfo['bill_oribill_amt']) > $tolerance) {
+                $this->view->errorStatus = "Total Revenue Share ( $revenueTotal ) shoul be eqaul to total Collection Amount ( " . $billInfo['bill_oribill_amt'] . " ).";
             } else if ($valid == true && ! $hasNullCompDispName) {
 
                 $billRevObj->deleteByCollectionId([
@@ -780,6 +783,7 @@ class billController extends mvc
                     $data['brev_vhl_id'] = $vhlIdList[$rkey];
                     $data['brev_remarks'] = '';
                     $data['brev_revenue'] = $rrev;
+                    $data['brev_comp_id'] = $vhlCompList[$vhlIdList[$rkey]];
 
                     $billRevObj->add($data);
                 }
@@ -794,6 +798,7 @@ class billController extends mvc
                         $data['brev_vhl_id'] = $valid['mvehicle'][$bkey];
                         $data['brev_remarks'] = $valid['mremarks'][$bkey];
                         $data['brev_revenue'] = $valid['mextshare'][$bkey];
+                        $data['brev_comp_id'] = $vhlCompList[$valid['mvehicle'][$bkey]];
 
                         $billRevObj->add($data);
                     }

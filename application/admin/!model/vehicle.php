@@ -33,6 +33,15 @@ class vehicle extends db_table {
 	    return parent::fetchPair ( $cond );
 	}
 	
+	
+	public function getVehicleCompanyIdPair($cond = array()) {
+	    $this->query ( "select vhl_id,vhl_company  from $this->_table" );
+	    
+	    $this->_order [] = 'vhl_id ASC';
+	    
+	    return parent::fetchPair ( $cond );
+	}
+	
 	public function getVehiclePaginate($cond){
 		
 		$this->paginate ( "select $this->_table.*, 

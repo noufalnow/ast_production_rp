@@ -54,23 +54,21 @@ class billrev extends db_table
 
     public function getRevenueListType2($cond = array())
     {
-                
         $this->query("select * from $this->_table ");
-        
+
         $cond['brev_type'] = 2;
 
         $this->_where[] = "brev_type = :brev_type";
 
-        if (is_array($cond['brev_bill_id_in']) && ! empty(array_filter($cond['brev_bill_id_in']))){
+        if (is_array($cond['brev_bill_id_in']) && ! empty(array_filter($cond['brev_bill_id_in']))) {
             $this->_where[] = "brev_bill_id IN (" . implode(',', $cond['brev_bill_id_in']) . ")";
             unset($cond['brev_bill_id_in']);
-                        
-        }
-        else
-            if (! empty($cond['brev_bill_id'])) 
-                $this->_where[] = "brev_bill_id = :brev_bill_id";
 
-        return parent::fetchAll($cond);
+            return parent::fetchAll($cond);
+        } else if (! empty($cond['brev_bill_id'])) {
+            $this->_where[] = "brev_bill_id = :brev_bill_id";
+            return parent::fetchAll($cond);
+        }
     }
 
     public function deleteByCollectionId($cond = array())

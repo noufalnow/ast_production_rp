@@ -63,9 +63,19 @@ class collection extends db_table {
                       cashdmd.bill_paid,
                       $pay_amount
 					  cashdmd.cdmd_narr,	
-					  cust.cust_name
+					  cust.cust_name,
+                      rev_count
 					", "from $this->_table 
 					left join mis_customer as cust on cust.cust_id = $this->_table.coll_cust and cust.deleted = 0
+
+    				LEFT JOIN
+    				  (SELECT count(*) as rev_count, 
+                        rev_coll_id 
+                        FROM mis_collection_revenue
+                        where deleted = 0
+                        group by rev_coll_id
+    				   ) AS collrev on collrev.rev_coll_id = coll_id
+
 					$join join (SELECT cdet_coll_id,
 					       string_agg(cdmd_note,',') AS cdmd_note,
 						   string_agg(SUBSTRING (cdmd_narration,0, 50) || '..',',') AS cdmd_narr,
@@ -78,6 +88,7 @@ class collection extends db_table {
 					LEFT JOIN mis_bill AS bill ON bill.bill_id= mis_collection_det.cdet_bill_id
 					AND bill.deleted = 0
 					AND mis_collection_det.cdet_src_type=1
+
 
 					$prop
 
@@ -158,10 +169,12 @@ class collection extends db_table {
                                END AS revenue_share, 
                                bill_id,
                                vhl_no,
+                               vhl_company, 
                                comp_name,
                                comp_disp_name,
                                vhl_id,
-                               brev_revenue  
+                               brev_revenue,
+                               coll_id       
                         FROM mis_collection 
                         LEFT JOIN mis_collection_det AS colldet ON coll_id = colldet.cdet_coll_id
                         AND colldet.deleted = 0

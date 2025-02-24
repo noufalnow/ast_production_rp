@@ -27,3 +27,25 @@ DELIMITER ;;
 CREATE TRIGGER "is_synched_trigger" BEFORE INSERT OR UPDATE ON "public"."mis_bill_revenue" FOR EACH ROW EXECUTE FUNCTION set_is_synched_flag();;
 
 DELIMITER ;
+
+
+// my sql 
+
+CREATE TABLE mis_bill_revenue (
+    brev_id BIGINT NOT NULL,
+    brev_type SMALLINT NOT NULL,
+    brev_group_id SMALLINT NOT NULL,
+    brev_bill_id BIGINT NOT NULL,
+    brev_vhl_id BIGINT NOT NULL,
+    brev_remarks TEXT,
+    brev_revenue DECIMAL(9,3),
+    u_created BIGINT,
+    u_modified BIGINT,
+    u_deleted BIGINT,
+    t_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    t_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    t_deleted TIMESTAMP NULL,
+    deleted SMALLINT NOT NULL DEFAULT 0,
+    is_synched SMALLINT DEFAULT 0
+);
+
