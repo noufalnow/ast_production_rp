@@ -932,7 +932,7 @@ class property extends db_table
                     WHERE coll.deleted = 0
                       AND coll.coll_app_status = 1
                       AND coll.coll_src_type = 1
-                      -- $collDate
+                      $collDate
                       $billComp  
                     GROUP BY vhl_company
                 ");

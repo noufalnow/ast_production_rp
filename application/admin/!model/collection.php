@@ -337,8 +337,8 @@ class collection extends db_table {
 	    $this->_where [] = "vhl_company= :vhl_company";
 	        
 	    if (! empty ($cond['f_monthpick'] )) {
-	        //$monthYear = explode ( '/',$cond['f_monthpick'] );
-	        //$this->_where [] = "(EXTRACT(month FROM coll_paydate) = '$monthYear[0]' AND EXTRACT(year FROM coll_paydate) = '$monthYear[1]' )";
+	        $monthYear = explode ( '/',$cond['f_monthpick'] );
+	        $this->_where [] = "(EXTRACT(month FROM coll_paydate) = '$monthYear[0]' AND EXTRACT(year FROM coll_paydate) = '$monthYear[1]' )";
 	        unset ($cond['f_monthpick'] );
 	    }
 	    else {
