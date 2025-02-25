@@ -106,23 +106,24 @@
 					</td>
 					<?php if($_SESSION['user_acl']['erp_invoice/collection/approval']):?>
 					<td class="center">
-                    <?php if ($pay['coll_app_status'] == 0): ?>
-                        <?php 
-                            $link = 'erp_invoice/collection/view';
-                            $label = '<i class="fas fa-search"></i>'; 
-                    
-                            if ($pay['coll_src_type'] == 1) {
-                                if ($pay['rev_count'] > 0) {
-                                    $link = 'erp_invoice/collection/approval';
-                                    $label = '<span class="glyphicon glyphicon-ok-circle" style="color:#31708f;font-size: 1.2em;"></span>';
-                                }
-                            } else {
-                                $link = 'erp_invoice/collection/approval';
-                                $label = '<span class="glyphicon glyphicon-ok-circle" style="color:#31708f;font-size: 1.2em;"></span>';
-                            }
-                        ?>
-                        <?= x(array('link' => $link, 'ref' => $encPayId, 'label' => $label, 'param' => 'class="facebox"')) ?>
-                    <?php endif; ?>
+<?php if($pay['coll_app_status']==0):?>
+					
+					<?php if($pay['coll_src_type']==1):?>
+					
+						<?php if($pay['coll_src_type']==1 && $pay['rev_count'] > 0):?>
+							<?=x(array('link'=>'erp_invoice/collection/approval','ref'=>$encPayId,'label'=>'<span class="glyphicon glyphicon-ok-circle" style="color:#31708f;font-size: 1.2em;"> </span>',array("param"=>'class="facebox"')))?>
+						<?php else:?>
+							<?=x(array('link'=>'erp_invoice/collection/view','ref'=>$encPayId,'label'=>'<i class="fas fa-search"></i>',array("param"=>'class="facebox"')))?> 
+						<?php endif?>	
+					
+					<?php else:?>
+						<?=x(array('link'=>'erp_invoice/collection/approval','ref'=>$encPayId,'label'=>'<span class="glyphicon glyphicon-ok-circle" style="color:#31708f;font-size: 1.2em;"> </span>',array("param"=>'class="facebox"')))?>
+						
+					<?php endif;?>	
+					
+					
+						  
+					<?php endif?>
 					</td>
 					<?php endif;?>					
 					<td class="center">
