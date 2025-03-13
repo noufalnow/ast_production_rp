@@ -745,6 +745,8 @@ class collectionController extends mvc
             $billPairList[$bd['bill_id']] = 'AST/' . $bd['bill_id'];
             $billIdList[$bd['bdet_id']] = $bd['bill_id'];
             $vhlIdList[$bd['bdet_id']] = $bd['vhl_id'];
+            $revRevenueAdjstList[$bd['bdet_id']] = $bd['rev_revenue_adjst'];
+            
             //$vhlCompList[$bd['vhl_id']] = $bd['vhl_company'];
 
             if (is_null($bd['comp_disp_name'])) {
@@ -883,6 +885,8 @@ class collectionController extends mvc
                     $data['rev_remarks'] = '';
                     $data['rev_revenue'] = $rrev;
                     $data['rev_comp_id'] = $vhlCompList[$vhlIdList[$rkey]];
+                    $data['rev_revenue_adjst'] = $revRevenueAdjstList[$rkey];
+                    
 
                     $collRevObj->add($data);
                 }

@@ -167,6 +167,10 @@ class collection extends db_table {
                                    WHEN bill_oribill_amt = 0 THEN 0
                                    ELSE ROUND((cdet_amt_paid / bill_oribill_amt) * (bdet_qty * bdet_amt), 3)
                                END AS revenue_share, 
+
+
+                               ROUND((billdet.bdet_qty * billdet.bdet_amt) * cdet_amt_dis / NULLIF(bill.bill_oribill_amt, 0),3) as rev_revenue_adjst,
+
                                bill_id,
                                vhl_no,
                                vhl_company, 
