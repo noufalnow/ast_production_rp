@@ -368,6 +368,7 @@ class expense extends db_table {
 				scat.cat_name as scat,
 				ccat.cat_name as ccat,
 				vendor.ven_disp_name,
+                vendor.ven_vat_no,
 				files.file_id,
 				files.file_exten,
 				case when exp_pay_mode = 1 then 'Cash'

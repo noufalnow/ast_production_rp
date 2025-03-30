@@ -181,20 +181,14 @@
 				</tr>
 				<tr>
 				<tr>
-					<th width="5%" class="center">Sl No</th>
-					<th width="5%" class="center">Ref No</th>
-					<th width="5%" class="center">Bill Dt.</th>
+					<th width="5%" class="center">Sl. No.</th>
+					<th width="5%" class="center">Bill No.</th>
+					<th width="5%" class="center">Date</th>
 					<th width="15%" class="center">Vendor</th>
-					<th width="7%" class="center">Company</th>
-					<th width="12%" class="center">Main Head</th>
-					<th width="9%" class="center">Main Cat</th>
-					<th width="9%" class="center">Sub Cat</th>
-					<th width="9%" class="center">Cat</th>
-					<th width="15%" class="center">Particulers</th>
+					<th width="7%" class="center">VAT No.</th>
 					<th width="4%" class="center">Amount</th>
-					<th width="4%" class="center">Credit</th>
-					<th width="4%" class="center">VAT</th>
-					<th width="4%" class="center">Mode</th>
+					<th width="4%" class="center">VAT Amount</th>
+					<th width="4%" class="center">Total Amount</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -205,21 +199,15 @@
 				?>
 				<tr>
 					<td class="center"><?=@++$offset;?></td>
-					<td <?php if($expense['exp_app_status'] ==''):?>style="border-left: 3px solid red;" <?php endif?>>
+					<td class="center">
 						<?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>$expense['exp_refno'],array("param"=>'opener')))?>	
 					</td>
-					<td><?=$expense['exp_billdt']?></td>
+					<td class="center"><?=$expense['exp_billdt']?></td>
 					<td><?=$expense['ven_disp_name']?></td>
-					<td><?=$expense['comp_disp_name']?></td>
-					<td><?=$expense['main_head']?></td>
-					<td><?=$expense['pcat']?></td>
-					<td><?=$expense['scat']?></td>
-					<td><?=$expense['ccat']?></td>
-					<td><?=$expense['exp_details']?></td>
-					<td><?=$expense['exp_novat_amt']?></td>
-					<td><?=$expense['exp_credit_amt']?></td>
-					<td><?=$expense['exp_vat_amt']?></td>
-					<td><?=$expense['pay_mod']?></td>
+					<td class="center"><?=$expense['ven_vat_no']?></td>
+					<td align="right"><?=$expense['exp_novat_amt']?></td>
+					<td align="right"><?=$expense['exp_vat_amt']?></td>
+					<td align="right"><?=$expense['exp_novat_amt']+$expense['exp_vat_amt']?></td>
 				</tr>
 				<?php endforeach?>
 			<?endif?>
