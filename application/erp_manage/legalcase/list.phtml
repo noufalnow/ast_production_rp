@@ -121,14 +121,14 @@
                     <td><?= $log['lcas_phone_no']; ?></td>
                     <td><?= $log['lcas_lawer']; ?></td>
                     <td><?= $log['lcas_date_lbl']; ?></td>
-                    <td class="center"><?= $log['lcas_sts_lbl']; ?></td>
+                    <td class="center"><?= $log['lcflo_sts_lbl'] ?? $log['lcas_sts_lbl']; ?></td>
                     <td class="center">
                         <?php if (empty($followups) && $log['lcas_emp'] == USER_ID): ?>
                             <?= x(array('link'=>'erp_manage/legalcase/edit','ref'=>array('ref'=>$encLogId),'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"'))) ?>
                         <?php endif; ?>
                     </td>
                     <td class="center">
-                        <button class="btn btn-sm <?= !in_array($log['lcas_sts'], [7, 8])  ? 'btn-danger' : 'btn-success'; ?>" type="button" 
+                        <button class="btn btn-sm <?= !in_array($log['top_status'], [7, 8])  ? 'btn-danger' : 'btn-success'; ?>" type="button" 
                                 data-bs-toggle="collapse" 
                                 data-bs-target="#followups-<?= $index; ?>" 
                                 aria-expanded="false" aria-controls="followups-<?= $index; ?>">

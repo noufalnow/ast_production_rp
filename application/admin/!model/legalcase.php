@@ -14,12 +14,13 @@ class legalcase extends db_table {
                     WHEN $status_field = 7 THEN 'CLOSED'
                     WHEN $status_field = 8 THEN 'DISMISSED'
                     WHEN $status_field = 9 THEN 'APPEAL FILED'
-                    ELSE 'Unknown'
+                    ELSE NULL 
                 END ";
         
         return $stsstring;
     }
-       
+    
+    
 
     public function add($data) {
         return parent::insert($data);
@@ -50,16 +51,25 @@ class legalcase extends db_table {
                                 when lcas_type = 3 then 'ACCIDENT'
                                 when lcas_type = 4 then 'OTHERS'
                             end as lcas_type_label,
+                            ".$this->getStatusString("topstatus.lcflo_sts")." AS lcflo_sts_lbl,
                             ".$this->getStatusString('lcas_sts')." AS lcas_sts_lbl,
                             to_char(lcas_date,'DD/MM/YYYY') as lcas_date_lbl,
                             emp_fname ||' '||emp_mname||' '||emp_lname as emp_name,
 
-                            files.file_id as fileid
+                            files.file_id as fileid,
+                            
+                            coalesce(topstatus.lcflo_sts,lcas_sts) as top_status
 
                         ", "from $this->_table
 
         				LEFT JOIN core_users AS users ON users.user_id = lcas_emp
                         LEFT JOIN mis_employee AS emp ON emp.emp_id = users.user_emp_id	AND users.deleted = 0
+
+                        LEFT JOIN (SELECT MAX(lcflo_id) as lcflo_id_max, lcflo_lcas_id
+                        FROM mis_legal_case_follow
+                        WHERE deleted = '0'
+                        GROUP BY lcflo_lcas_id) as maxstatus on maxstatus.lcflo_lcas_id = lcas_id
+                        LEFT join mis_legal_case_follow as topstatus on topstatus.lcflo_id = maxstatus.lcflo_id_max 
 
                         LEFT JOIN mis_documents AS docsrpt ON docsrpt.doc_type = " . DOC_TYPE_COM_LCASE . "
                             AND docsrpt.doc_ref_type = " . DOC_TYPE_COM_LCASE . "
@@ -82,7 +92,7 @@ class legalcase extends db_table {
             $this->_where[] = "LOWER(lcas_lawer) LIKE '%' || LOWER(:f_lawer_name) || '%'";
         
         if (!empty($cond['f_status']))
-            $this->_where[] = "lcas_sts = :f_status";
+            $this->_where[] = "coalesce(topstatus.lcflo_sts,lcas_sts) = :f_status";
         
         if (!empty($cond['f_date']))
             $this->_where[] = "lcas_date = TO_DATE(:f_date, 'DD/MM/YYYY')";
