@@ -109,7 +109,7 @@ class empstatus extends db_table {
     	            ORDER BY sts_emp_id ASC, sts_id ASC) AS sts_next
     	        FROM mis_employee_status
     	        WHERE sts_type IN (1,
-    	            2)
+    	            2) and sts_emp_id = :sts_emp_id
     	        ORDER BY sts_emp_id ASC, sts_id ASC) with_next
     	        LEFT JOIN mis_employee_status AS status ON with_next.sts_next = status.sts_id AND status.sts_type = 2
     	        LEFT JOIN mis_employee AS emp ON emp.emp_id = with_next.sts_emp_id
