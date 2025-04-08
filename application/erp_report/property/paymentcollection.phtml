@@ -125,7 +125,7 @@
 					<td align="center"><?=$coll['coll_file_no']?></td>
 					<td align="left"><?=$coll['bill_no']?> <?=$coll['cdmd_narr']?> </td>
 					<td align="right">
-					<?=x(array('link'=>'erp_invoice/collection/view','ref'=>$encPayId,'label'=>number_format($coll['coll_amount'],3),array("param"=>'class="facebox"')))?>
+					<?=x(array('link'=>'erp_invoice/collection/view','ref'=>$encPayId,'label'=>number_format((float)$coll['coll_amount'],3),array("param"=>'class="facebox"')))?>
 					
 					<? $total+=$coll['coll_amount'];?></td>
 				</tr>
