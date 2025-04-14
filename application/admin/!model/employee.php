@@ -644,6 +644,7 @@ class employee extends db_table {
 
                     CASE 
                         WHEN DATE_PART('day', now() - sts_start_date) > 170 THEN 'More than 170 Days (6 Month Alert)'
+                        WHEN DATE_PART('day', now() - sts_start_date) > 150 THEN '5 Months completed'
                         WHEN DATE_PART('day', now() - sts_start_date) > 120 THEN '4 Months completed'
                     END AS notification_popup,
 
