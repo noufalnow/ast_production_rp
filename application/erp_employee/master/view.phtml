@@ -193,10 +193,6 @@ if ($this->employeeDetail['emp_doj'] != '') {
 											</thead>
 										</table>
 									
-									<?php if($this->employeeDetail['emc_status']<>1 && ( $this->employeeDetail['emp_desig']==8 || $this->employeeDetail['emp_desig']==9)): ?>
-									<?=x(array('link'=>'erp_employee/master/empcontract','ref'=>$this->param['ref'],'label'=>'<button class="btn btn-success pull-right"> Contract Status</button>',array("param"=>'class="facebox"')))?>
-									<?php endif;?>
-									
 									<div>
 											<table class="" style="max-width: 40%; display: table;">
 												<thead>
@@ -322,13 +318,18 @@ if ($this->employeeDetail['emp_doj'] != '') {
 									</div>
 								</div>
 							<?php endif;?>
+							
+							<?php if($this->employeeDetail['emc_status']<>1 && ( $this->employeeDetail['emp_desig']==8 || $this->employeeDetail['emp_desig']==9 || $this->employeeDetail['emp_desig']==19)): ?>
+							<div style="top: 0px;margin-bottom: 4rem;">	<?=x(array('link'=>'erp_employee/master/empcontract','ref'=>$this->param['ref'],'label'=>'<button class="btn btn-success pull-right"> Contract Status</button>',array("param"=>'class="facebox"')))?></div>
+							<?php endif;?>
+							
 							<?php if (count($this->empContract)>0):?>
 							<div class="panel panel-default mb-4">
 									<div class="panel-heading1">
 										<h4 class="panel-title1">
 											<a class="accordion-toggle collapsed"
 												data-bs-toggle="collapse" data-bs-parent="#accordion"
-												href="#collapseThree" aria-expanded="false">Contract Status</a>
+												href="#collapseThree" aria-expanded="false" >Contract Status</a>
 										</h4>
 									</div>
 									<div id="collapseThree" class="panel-collapse collapse"

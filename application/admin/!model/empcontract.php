@@ -48,28 +48,38 @@ class empcontract extends db_table {
 			$where [] = " vhl_no like '%' || :f_vhlno || '%' ";
 		if (! empty ( $cond ['f_type'] ))
 			$where [] = " vhl_type = :f_type ";
+		
+			
 		if (! empty ( $cond ['f_name'] ))
 			$where [] = " ((lower(emp_fname) like '%' || lower(:f_name) || '%'
 					OR lower(emp_mname) like '%' || lower(:f_name) || '%'
 					OR lower(emp_lname) like '%' || lower(:f_name) || '%'
 					)OR
 					(lower(emp_fname)||' '||lower(emp_mname)||' '||lower(emp_lname) like '%' || lower(:f_name) || '%')) ";
+		
+			
+			
+		if (! empty ( $cond ['f_employee'] ))
+		    $where [] = " emc_emp_id = :f_employee ";
+			
 		if (! empty ( $cond ['f_customer'] ))
 			$where [] = " emc_cust_id = :f_customer ";
 		if (! empty ( $cond ['f_status'] ))
 			$where [] = " emc_status = :f_status ";
 		
-		if (! empty ( $cond ['vhl_id'] )){
-			$where [] = " vhl_id = :vhl_id ";
-			$order  = " ORDER BY sts_end_date DESC,  emc_status DESC,  emc_id DESC ";
+		if (! empty ( $cond ['f_vehicle'] )){
+			$where [] = " vhl_id = :f_vehicle ";
+			//$order  = " ORDER BY sts_end_date DESC,  emc_status DESC,  emc_id DESC ";
 		}
 		else 
-			$order  = " ORDER BY emc_cust_id,type_id,vhl_id,emc_id DESC ";
+			$order  = " ORDER BY vhl_type, vhl_id, emc_cust_id,type_id,emc_id DESC ";
 							
 		$where = ' WHERE ' . implode ( ' AND ', $where );
 				
 		$this->query (
 				"SELECT emc_id,
+                emc_emp_id,
+                emc_vhl_id,
 				vhl_no,
 				type.type_name,
 				cust_name,

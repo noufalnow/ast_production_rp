@@ -14,6 +14,17 @@ class vehicletype extends db_table
 
         return parent::fetchPair($cond);
     }
+    
+    public function getCommercialVehiclePair($cond = array())
+    {
+        $this->query("select type_id,type_name from $this->_table
+                      join mis_vehicle  as veh on veh.vhl_type = type_id and veh.vhl_comm_status = 2
+            ");
+        $this->_order[] = 'type_name ASC';
+        
+        return parent::fetchPair($cond);
+    }
+    
 
     public function add($data)
     {

@@ -71,12 +71,31 @@ class vehicleController extends mvc
 
         require_once __DIR__ . '/../admin/!model/vehicletype.php';
         $vhlTypeModelObj = new vehicletype();
-        $typeList = $vhlTypeModelObj->getVehiclePair();
+        $typeList = $vhlTypeModelObj->getCommercialVehiclePair();
+        
+        require_once __DIR__ . '/../admin/!model/employee.php';
+        $empModelObj = new employee();
+        $empList = $empModelObj->getAllEmployeePair();
+        $form->addElement('f_employee', 'Employee', 'select', '', array(
+            'options' => $empList
+        ));
 
         $customerObj = new customer();
         $customerList = $customerObj->getCustomerPair();
 
-        $form->addElement('f_vhlno', 'Vehicle No ', 'text', '');
+        require_once __DIR__ . '/../admin/!model/vehicle.php';
+        $vehModelObj = new vehicle();
+        
+        $vehList = $vehModelObj->getCommActiveVehiclePair();
+        $this->view->activeEmpList = $empModelObj->getContractEmployeePair();
+        $this->view->vehList = $vehList;
+        
+        $form->addElement('f_vehicle', 'Vehicle', 'select', '', array(
+            'options' => $vehList
+        ));
+        
+        
+        
         $form->addElement('f_type', 'Vehice Type', 'select', '', array(
             'options' => $typeList
         ));
@@ -102,15 +121,17 @@ class vehicleController extends mvc
             $valid = $valid[0];
             if ($valid == true) {
                 $where = array(
-                    'f_vhlno' => @$valid['f_vhlno'],
+                    'f_vehicle' => @$valid ['f_vehicle'],
                     'f_type' => @$valid['f_type'],
-                    'f_name' => @$valid['f_name'],
+                    'f_employee' => @$valid['f_employee'],
                     'f_customer' => @$valid['f_customer'],
                     'f_status' => @$valid['f_status']
                 );
             }
             $filter_class = 'btn-info';
         }
+        
+        $this->view->f_status = @$valid['f_status'];
 
         $vehicleContract = new empcontract();
 

@@ -886,6 +886,31 @@ class employee extends db_table {
 		
 		return parent::fetchPair ( $cond );
 	}
+	
+	public function getContractEmployeePair($cond = array()) {
+	    $this->query ( "select emp_id, emp_fname ||' '||emp_mname||' '||emp_lname as emp_name from $this->_table" );
+	    
+	    $cond ['emp_status'] = 1;
+	    $this->_where [] = " emp_status= :emp_status ";
+	    
+	    $this->_where [] = " emp_desig IN (8,9,19) ";
+	    
+	    $this->_order [] = 'emp_fname ASC';
+	    
+	    return parent::fetchPair ( $cond );
+	}
+	
+	
+	public function getAllEmployeePair($cond = array()) {
+	    $this->query ( "select emp_id, emp_fname ||' '||emp_mname||' '||emp_lname as emp_name from $this->_table" );
+	    
+	    //$cond ['emp_status'] = 1;
+	    //$this->_where [] = "emp_status= :emp_status";
+	    
+	    $this->_order [] = 'emp_fname ASC';
+	    
+	    return parent::fetchPair ( $cond );
+	}
 }
 
 
