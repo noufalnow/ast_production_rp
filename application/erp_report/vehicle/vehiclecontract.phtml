@@ -172,68 +172,175 @@
 	<!-- Step 4: Summary Section -->
 	<hr style="margin-top:40px;">
 
-    	<!-- =============================== -->
-    <!-- Employees Without Contract -->
-    <!-- =============================== -->
-    <h4 style="color:#2a3f5f; margin-top:30px;">Employees Without Contract</h4>
-    
-    <?php if (count($unassignedEmps) > 0): ?>
-    	<table class="rpt_frame" style="width:60%; margin-bottom:20px;">
-    		<thead>
-    			<tr>
-    				<th width="10%" class="center">Sl.</th>
-    				<th>Employee Name</th>
-    			</tr>
-    		</thead>
-    		<tbody>
-    			<?php $emSl = 0; ?>
-    			<?php foreach ($unassignedEmps as $empId => $empName): ?>
-    				<tr>
-    					<td class="center"><?= ++$emSl ?></td>
-    					<td>
-    						<a href="/erp_report/vehicle/vehiclecontract?f_employee=<?=$empId?>"  style="text-decoration:none; color:#004085;">
-    							<?=$empName?>
-    						</a>
-    					</td>
-    				</tr>
-    			<?php endforeach; ?>
-    		</tbody>
-    	</table>
-    <?php else: ?>
-    	<p><em>All employees are assigned to active contracts.</em></p>
-    <?php endif; ?>
-    
-    
-    <!-- =============================== -->
-    <!-- Vehicles Without Contract -->
-    <!-- =============================== -->
-    <h4 style="color:#2a3f5f; margin-top:30px;">Vehicles Without Contract</h4>
-    
-    <?php if (count($unassignedVehs) > 0): ?>
-    	<table class="rpt_frame" style="width:60%;">
-    		<thead>
-    			<tr>
-    				<th width="10%" class="center">Sl.</th>
-    				<th>Vehicle No</th>
-    			</tr>
-    		</thead>
-    		<tbody>
-    			<?php $vhSl = 0; ?>
-    			<?php foreach ($unassignedVehs as $vehId => $vehNo): ?>
-    				<tr>
-    					<td class="center"><?= ++$vhSl ?></td>
-    					<td>
-    						<a href="/erp_report/vehicle/vehiclecontract?f_vehicle=<?=$vehId?>" style="text-decoration:none; color:#004085;">
-    							<?=$vehNo?>
-    						</a>
-    					</td>
-    				</tr>
-    			<?php endforeach; ?>
-    		</tbody>
-    	</table>
-    <?php else: ?>
-    	<p><em>All vehicles are currently under contract.</em></p>
-    <?php endif; ?>
+<?php 
+    // Step 1: Deduplicate used IDs
+    $usedEmpIds = array_unique($usedEmpIds);
+    $usedVehIds = array_unique($usedVehIds);
+
+    // Step 2: Find unassigned ones
+    $unassignedEmps = array_diff_key($this->activeEmpList, array_flip($usedEmpIds));
+    $unassignedVehs = array_diff_key($this->vehList, array_flip($usedVehIds));
+
+    // Step 3: Find assigned ones (those that are in use)
+    $assignedEmps = array_intersect_key($this->activeEmpList, array_flip($usedEmpIds));
+    $assignedVehs = array_intersect_key($this->vehList, array_flip($usedVehIds));
+?>
+
+
+<style>
+.table-pair {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 20px;
+	margin-top: 25px;
+}
+.table-block {
+	flex: 1;
+	min-width: 45%;
+}
+.table-block h4 {
+	color: #2a3f5f;
+	margin-bottom: 10px;
+}
+.table-block table {
+	width: 100%;
+}
+.center {
+	text-align: center;
+}
+</style>
+
+
+<!-- =============================== -->
+<!-- UNDER CONTRACT ROW -->
+<!-- =============================== -->
+<div class="table-pair">
+	<div class="table-block">
+		<h4>Employees Under Contract</h4>
+		<?php if (count($assignedEmps) > 0): ?>
+			<table class="rpt_frame">
+				<thead>
+					<tr>
+						<th width="10%" class="center">Sl.</th>
+						<th>Employee Name</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $emSl = 0; ?>
+					<?php foreach ($assignedEmps as $empId => $empName): ?>
+						<tr>
+							<td class="center"><?= ++$emSl ?></td>
+							<td>
+								<a href="/erp_report/vehicle/vehiclecontract?f_employee=<?=$empId?>" style="text-decoration:none; color:#004085;">
+									<?=$empName?>
+								</a>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		<?php else: ?>
+			<p><em>No employees currently have an active contract.</em></p>
+		<?php endif; ?>
+	</div>
+
+	<div class="table-block">
+		<h4>Vehicles Under Contract</h4>
+		<?php if (count($assignedVehs) > 0): ?>
+			<table class="rpt_frame">
+				<thead>
+					<tr>
+						<th width="10%" class="center">Sl.</th>
+						<th>Vehicle No</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $vhSl = 0; ?>
+					<?php foreach ($assignedVehs as $vehId => $vehNo): ?>
+						<tr>
+							<td class="center"><?= ++$vhSl ?></td>
+							<td>
+								<a href="/erp_report/vehicle/vehiclecontract?f_vehicle=<?=$vehId?>" style="text-decoration:none; color:#004085;">
+									<?=$vehNo?>
+								</a>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		<?php else: ?>
+			<p><em>No vehicles are currently under contract.</em></p>
+		<?php endif; ?>
+	</div>
+</div>
+
+
+
+<!-- =============================== -->
+<!-- WITHOUT CONTRACT ROW -->
+<!-- =============================== -->
+<div class="table-pair">
+	<div class="table-block">
+		<h4>Employees Without Contract</h4>
+		<?php if (count($unassignedEmps) > 0): ?>
+			<table class="rpt_frame">
+				<thead>
+					<tr>
+						<th width="10%" class="center">Sl.</th>
+						<th>Employee Name</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $emSl = 0; ?>
+					<?php foreach ($unassignedEmps as $empId => $empName): ?>
+						<tr>
+							<td class="center"><?= ++$emSl ?></td>
+							<td>
+								<a href="/erp_report/vehicle/vehiclecontract?f_employee=<?=$empId?>" style="text-decoration:none; color:#004085;">
+									<?=$empName?>
+								</a>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		<?php else: ?>
+			<p><em>All employees are assigned to active contracts.</em></p>
+		<?php endif; ?>
+	</div>
+
+	<div class="table-block">
+		<h4>Vehicles Without Contract</h4>
+		<?php if (count($unassignedVehs) > 0): ?>
+			<table class="rpt_frame">
+				<thead>
+					<tr>
+						<th width="10%" class="center">Sl.</th>
+						<th>Vehicle No</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $vhSl = 0; ?>
+					<?php foreach ($unassignedVehs as $vehId => $vehNo): ?>
+						<tr>
+							<td class="center"><?= ++$vhSl ?></td>
+							<td>
+								<a href="/erp_report/vehicle/vehiclecontract?f_vehicle=<?=$vehId?>" style="text-decoration:none; color:#004085;">
+									<?=$vehNo?>
+								</a>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		<?php else: ?>
+			<p><em>All vehicles are currently under contract.</em></p>
+		<?php endif; ?>
+	</div>
+</div>
+
+
 	
 	
 	<?php endif;?>
