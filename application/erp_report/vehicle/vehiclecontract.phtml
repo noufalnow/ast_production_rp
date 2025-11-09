@@ -152,22 +152,8 @@
 	</tbody>
 	</table>
 
-	<?php 
 	
-	    //s($this->vehList,$usedVehIds);
-		// --- Step 2: Deduplicate used IDs ---
-		$usedEmpIds = array_unique($usedEmpIds);
-		$usedVehIds = array_unique($usedVehIds);
-
-		// --- Step 3: Find unassigned ones ---
-		$unassignedEmps = array_diff_key($this->activeEmpList, array_flip($usedEmpIds));
-		
-		
-		
-		$unassignedVehs = array_diff_key($this->vehList, array_flip($usedVehIds));
-	?>
-	
-	<?php if($this->f_status==1):?>
+<?php if($this->f_status==1):?>
 
 	<!-- Step 4: Summary Section -->
 	<hr style="margin-top:40px;">

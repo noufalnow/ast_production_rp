@@ -69,7 +69,6 @@ class empcontract extends db_table {
 		
 		if (! empty ( $cond ['f_vehicle'] )){
 			$where [] = " vhl_id = :f_vehicle ";
-			//$order  = " ORDER BY sts_end_date DESC,  emc_status DESC,  emc_id DESC ";
 		}
 		else 
 			$order  = " ORDER BY vhl_type, vhl_id, emc_cust_id,type_id,emc_id DESC ";

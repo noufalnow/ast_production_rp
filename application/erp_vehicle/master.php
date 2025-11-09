@@ -355,7 +355,7 @@ class masterController extends mvc
         require_once __DIR__ . '/../admin/!model/empcontract.php';
         $vehicleContract = new empcontract();
         $contractList = $vehicleContract->getVehicleContractReport(array(
-            'vhl_id' => $decVhlId
+            'f_vehicle' => $decVhlId
         ));
         require_once __DIR__ . '/../admin/!model/service.php';
         require_once __DIR__ . '/../admin/!model/servicedet.php';
