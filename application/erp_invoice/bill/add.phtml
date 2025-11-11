@@ -1,139 +1,166 @@
 <div class="dynamic-popup" id="dynamic-popup">
-	<form name="form" method="post" id="add"
-		action='erp_invoice/bill/add' style="margin-bottom: 0px;" enctype="multipart/form-data">
+	<form name="form" method="post" id="add" action='erp_invoice/bill/add'
+		style="margin-bottom: 0px;" enctype="multipart/form-data">
 		<div class="modal-content modal-content-demo">
 			<div class="modal-header">
 				<h4 class="card-title">Create Invoice</h4>
-				<button type="button" aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+				<button type="button" aria-label="Close" class="btn-close"
+					data-bs-dismiss="modal">
 					<span aria-hidden="true">×</span>
 				</button>
 			</div>
-			
-		<div class="modal-body">
-			<div id="report" class="ribbon-box">
-				<div class=""
-					style="border-right-width: 1px; margin-right: 0px; margin-bottom: 1pt; padding: 1%; background-color:; border: 1px solid #c6d9f9">
-					<div class="card-block">
-						<div class="row" style="margin-top:  -25px;">
-							<table class="form-label"
-								width="90%">
-								<tr>
-									<th width="1%"></th>
-									<th width="8%">Company</th>
-									<td width="20%">Customer</td>
-									<th width="6%">Date</th>
-									<th width="10%">Bill Month</th>
-									<th width="10%">Review Date</th>
-									<!--<th width="10%">Ref No.</th>-->
-								</tr>
-								<tr>
-									<td></td>
-									<td valign="top"><?=$this->form->company->show()?>
-							
-									
-									<td valign="top"><?=$this->form->customer->show()?></td>
-									<td valign="top"><?=$this->form->billdt->show()?></td>
-									<td valign="top"><?=$this->form->billmonth->show()?></td>
-									<td valign="top"><?=$this->form->revdt->show()?></td>
-									<!--<td valign="top"><?//=$form->refno->show()?></td>-->
-								</tr>
-							</table>
-							<table class="form-label" style="margin-top: 15px;"
-								width="90%">
-								<tr>
-									<th width="1%"></th>
-									<th width="18%">Work Order</th>
-									<td width="12%">Note</td>
-									<th width="10%">Location</th>
-									<th width="10%">Payment Mode</th>
-								</tr>
-								<tr>
-									<td></td>
-									<td valign="top"><?=$this->form->wolpo->show()?>
-							
-									
-									<td valign="top"><?=$this->form->wonote->show()?></td>
-									<td valign="top"><?=$this->form->location->show()?></td>
-									<td valign="top"><?=$this->form->mode->show()?></td>
-								</tr>
-							</table>
-						</div>
 
-						<table class="" style="margin-top: 15px;" id="multi_table">
-							<tr style="font-size: 0.8em;">
-								<th width="39%" style="padding-bottom: 5px;">Bill Particulers</th>
-								<th width="17%" style="padding-bottom: 5px;">Remarks</th>
-								<th width="10%" style="padding-bottom: 5px;">(Quantity)</th>
-								<th width="13%" style="padding-bottom: 5px;">(Rial)</th>
-								<th width="10%" style="padding-bottom: 5px;">(Baisa)</th>
-								<th width="11%" align="center" style="padding-bottom: 5px;">(Total)</th>
-								<th width="5%" style="padding-bottom: 5px;"></th>
-							</tr>
+			<div class="modal-body">
+				<div id="report" class="ribbon-box">
+					<div class=""
+						style="border-right-width: 1px; margin-right: 0px; margin-bottom: 1pt; padding: 1%; background-color:; border: 1px solid #c6d9f9">
+						<div class="card-block">
+							<div class="row" style="margin-top: -25px;">
+								<table class="form-label" width="90%">
+									<tr>
+										<th width="1%"></th>
+										<th width="8%">Company</th>
+										<td width="20%">Customer</td>
+										<th width="6%">Date</th>
+										<th width="10%">Bill Month</th>
+										<th width="10%">Review Date</th>
+										<!--<th width="10%">Ref No.</th>-->
+									</tr>
+									<tr>
+										<td></td>
+										<td valign="top"><?=$this->form->company->show()?>
+							
+									
+									
+										
+										<td valign="top"><?=$this->form->customer->show()?></td>
+										<td valign="top"><?=$this->form->billdt->show()?></td>
+										<td valign="top"><?=$this->form->billmonth->show()?></td>
+										<td valign="top"><?=$this->form->revdt->show()?></td>
+										<!--<td valign="top"><?//=$form->refno->show()?></td>-->
+									</tr>
+								</table>
+								<table class="form-label" style="margin-top: 15px;" width="90%">
+									<tr>
+										<th width="1%"></th>
+										<th width="18%">Work Order</th>
+										<td width="12%">Note</td>
+										<th width="10%">Location</th>
+										<th width="10%">Payment Mode</th>
+									</tr>
+									<tr>
+										<td></td>
+										<td valign="top"><?=$this->form->wolpo->show()?>
+							
+									
+									
+										
+										<td valign="top"><?=$this->form->wonote->show()?></td>
+										<td valign="top"><?=$this->form->location->show()?></td>
+										<td valign="top"><?=$this->form->mode->show()?></td>
+									</tr>
+								</table>
+							</div>
+
+							<table class="" style="margin-top: 15px;" id="multi_table">
+								<tr style="font-size: 0.8em;">
+									<th width="39%" style="padding-bottom: 5px;">Bill Particulers</th>
+									<th width="17%" style="padding-bottom: 5px;">Remarks</th>
+									<th width="10%" style="padding-bottom: 5px;">(Quantity)</th>
+									<th width="13%" style="padding-bottom: 5px;">(Rial)</th>
+									<th width="10%" style="padding-bottom: 5px;">(Baisa)</th>
+									<th width="11%" align="center" style="padding-bottom: 5px;">(Total)</th>
+									<th width="5%" style="padding-bottom: 5px;"></th>
+								</tr>
 			<?php foreach($this->mfields as $i):?>
 			<tbody id="dup_body">
-								<tr class="dup_row" index="<?=$i?>">
-									<td>
-										<div class="mainselection" style="max-width: 400px !important;"><?=$this->form->particuler[$i]->show()?></div>
-									</td>
-									<td>
-										<div class="mainselection"><?=$this->form->remarks[$i]->show()?></div>
-									</td>
-									<td>
-										<div class="mainselection"><?=$this->form->qty[$i]->show()?></div>
-									</td>
-									<td>
-										<div class="mainselection"><?=$this->form->amount[$i]->show()?></div>
-									</td>
-									<td>
-										<div class="mainselection"><?=$this->form->baisa[$i]->show()?></div>
-									</td>
-									<td align="center">
-										<div>
-											<input class="total" type="hidden" name="total_[<?=$i?>]"
-												id="total_[<?=$i?>]" value="0">
-											<div
-												style="float: right; font-weight: bold; margin-right: 4%; padding-top: 0px; font-size: 1.5rem !important;"></div>
-										</div>
-									</td>
-									<td valign="middle">
-										<div>
-											<a style="color: blue; margin: 1px;" title="Remove" href="#"
-												onclick="delRow(this);return false;"
-												class="glyphicon glyphicon-remove"></a>
-										</div>
-									</td>
-								</tr>
+									<tr class="dup_row" index="<?=$i?>">
+										<td>
+											<div class="mainselection"
+												style="max-width: 400px !important;"><?=$this->form->particuler[$i]->show()?></div>
+										</td>
+										<td>
+											<div class="mainselection"><?=$this->form->remarks[$i]->show()?></div>
+										</td>
+										<td>
+											<div class="mainselection"><?=$this->form->qty[$i]->show()?></div>
+										</td>
+										<td>
+											<div class="mainselection"><?=$this->form->amount[$i]->show()?></div>
+										</td>
+										<td>
+											<div class="mainselection"><?=$this->form->baisa[$i]->show()?></div>
+										</td>
+										<td align="center">
+											<div>
+												<input class="total" type="hidden" name="total_[<?=$i?>]"
+													id="total_[<?=$i?>]" value="0">
+												<div
+													style="float: right; font-weight: bold; margin-right: 4%; padding-top: 0px; font-size: 1.5rem !important;"></div>
+											</div>
+										</td>
+										<td valign="middle">
+											<div>
+												<a style="color: blue; margin: 1px;" title="Remove" href="#"
+													onclick="delRow(this);return false;"
+													class="glyphicon glyphicon-remove"></a>
+											</div>
+										</td>
+									</tr>
 			<?php endforeach;?>
 						
 			</tbody>
-						</table>
-						<h5
-							style="margin-top: 0px; margin-bottom: 0px; padding-bottom: 4px;"></h5>
-						<div>
-							<a style="background-color: yellowgreen; margin: 1px;"
-								id="myLink" title="Add more" href="#"
-								onclick="addRow('multi_table');return false;" class="btn">More
-								(Ctrl+0)</a>
-							<div id="grandT"
-								style="border-right-width: 9px; float: right; font-size: 22pt; font-weight: bolder; margin-right: 2.3%; padding-top: -3px; color: red; border-block: outset; margin-top: 12px;">.</div>
-						</div>
-						<div class="row mb-4">
-							<div class="col-md-6" style="margin-top: 1.5%;">
+							</table>
+
+							<div class="row">
+								<!-- Header row with Add button and Grand Total -->
+								<div
+									class="col-12 d-flex justify-content-between align-items-center">
+									<a style="background-color: yellowgreen; margin: 1px;"
+										id="myLink" title="Add more" href="#"
+										onclick="addRow('multi_table');return false;" class="btn">
+										More (Ctrl+0) </a>
+
+									<div id="grandT"
+										style="font-size: 22pt; font-weight: bolder; color: coral; border-block: outset; padding: 5px 15px; margin-top: 5px;">
+										.</div>
+								</div>
+							</div>
+
+							<!-- Second row: VAT fields and Net Total aligned right -->
+							<div class="row mt-3 justify-content-end align-items-center">
+								<div class="col-sm-2 text-end">
+                                    <?=$this->form->vatoption->show()?>
+                                  </div>
+                                
+                                								<div class="col-sm-2 text-end" id="vatgroup">
+                                    <?=$this->form->vatamount->show()?>
+                                  </div>
+
+								<div class="col-sm-4 text-end" id="netTotal">
+									<label style="font-weight: bold;">Net Total:</label> <span
+										id="netT"
+										style="font-size: 22pt; font-weight: bolder; color: red; border-block: outset; padding: 5px 15px;">0.000</span>
+								</div>
+							</div>
+
+
+							<div class="row mb-4">
+								<div class="col-md-6" style="margin-top: 1.5%;">
 						<?=$this->form->note->show()?>
 					</div>
-							<div class="col-md-3" style="margin-top: 1.5%;">
+								<div class="col-md-3" style="margin-top: 1.5%;">
 						<?=$this->form->my_files->show()?>
 					</div>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button"
-					class="btn btn-primary submit-alias livepost">Create
-					Invoice</button>
-				<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-			</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary submit-alias livepost">Create
+						Invoice</button>
+					<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+				</div>
 	
 	</form>
 </div>
@@ -225,7 +252,15 @@ $(document).ready(function($) {
 
 	});
 
+	enableVat();
+
+	$('#vatamount').on('keyup change', function() {
+	    showNetAmount();
+	});
+
 });
+
+
 
 
 function zerofillPaisa(el)
@@ -268,19 +303,89 @@ function showTotal(index) {
 	
 }
 
-function showGrandTotal() {
-	var gtotal = 0;
-	$('.total').each(function() {
-		gtotal = gtotal + parseFloat($(this).val());
-	})
-	gtotal = gtotal.toFixed(3);
-
-	
-	if(!isNaN(gtotal))
-		$('#grandT').html(gtotal);
-	else
-		$('#grandT').html('00.000');
+function enableVat(e) {
+    if ($('#vatoption1').is(':checked')) {
+        $('#vatgroup').show();
+        calculateVAT();
+        showNetAmount();
+        
+    } else {
+        $('#vatgroup').hide();
+        $('#vatamount').val('');
+        showNetAmount();
+    }
 }
+
+
+
+/**
+ * showGrandTotal()
+ * → Calculates total of all items and updates #grandT.
+ * → Also triggers VAT and Net Total recalculations.
+ */
+function showGrandTotal() {
+    var gtotal = 0;
+
+    // --- Sum all item totals ---
+    $('.total').each(function() {
+        var val = parseFloat($(this).val());
+        if (!isNaN(val)) gtotal += val;
+    });
+
+    gtotal = gtotal.toFixed(3);
+
+    // --- Update Grand Total display ---
+    if (!isNaN(gtotal)) {
+        $('#grandT').html(gtotal);
+    } else {
+        $('#grandT').html('00.000');
+        gtotal = 0;
+    }
+
+    // --- Recalculate VAT and Net Total ---
+    calculateVAT();
+    showNetAmount();
+}
+
+
+/**
+ * calculateVAT()
+ * → Automatically calculates VAT based on current Grand Total (if VAT enabled).
+ * → Updates #vatamount input field.
+ */
+function calculateVAT() {
+    var grandTotal = parseFloat($('#grandT').text()) || 0;
+    var vatRate = 0.05; // Default 5%
+
+    if ($('#vatoption1').is(':checked')) {
+        var vatAmount = grandTotal * vatRate;
+        $('#vatamount').val(vatAmount.toFixed(3));
+    } else {
+        $('#vatamount').val('0.000');
+    }
+}
+
+
+/**
+ * showNetAmount()
+ * → Always calculates and updates Net Total = Grand Total + VAT (only if VAT enabled).
+ * → Reads current values directly from DOM.
+ */
+function showNetAmount() {
+    var grandTotal = parseFloat($('#grandT').text()) || 0;
+    var vatAmount = 0;
+
+    if ($('#vatoption1').is(':checked')) {
+        vatAmount = parseFloat($('#vatamount').val()) || 0;
+    }
+
+    var netTotal = grandTotal + vatAmount;
+    $('#netT').html(netTotal.toFixed(3));
+}
+
+
+
+
 
 function delRow(row){
 	if($('.dup_row').length>1){
@@ -317,6 +422,8 @@ $(document).ready(function() {
 	});
 	getJaxData($('#customer').val(),'wolpo',source);
 });
+
+
 
 </script>
 

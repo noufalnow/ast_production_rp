@@ -105,16 +105,37 @@
 						
 			</tbody>
 						</table>
-						<h5
-							style="margin-top: 0px; margin-bottom: 0px; padding-bottom: 4px;"></h5>
-						<div>
-							<a style="background-color: yellowgreen; margin: 1px;"
-								id="myLink" title="Add more" href="#"
-								onclick="addRow('multi_table');return false;" class="btn">More
-								(Ctrl+0)</a>
-							<div id="grandT"
-								style="border-right-width: 9px; float: right; font-size: 22pt; font-weight: bolder; margin-right: 2.3%; padding-top: -3px; color: red; border-block: outset; margin-top: 12px;">.</div>
-						</div>
+							<div class="row"> 
+								<!-- Header row with Add button and Grand Total --> 
+								<div 
+									class="col-12 d-flex justify-content-between align-items-center"> 
+									<a style="background-color: yellowgreen; margin: 1px;" 
+										id="myLink" title="Add more" href="#" 
+										onclick="addRow('multi_table');return false;" class="btn"> 
+										More (Ctrl+0) </a> 
+ 
+									<div id="grandT" 
+										style="font-size: 22pt; font-weight: bolder; color: coral; border-block: outset; padding: 5px 15px; margin-top: 5px;"> 
+										.</div> 
+								</div> 
+							</div> 
+ 
+							<!-- Second row: VAT fields and Net Total aligned right --> 
+							<div class="row mt-3 justify-content-end align-items-center"> 
+								<div class="col-sm-2 text-end"> 
+                                    <?=$this->form->vatoption->show()?> 
+                                  </div> 
+                                 
+                                								<div class="col-sm-2 text-end" id="vatgroup"> 
+                                    <?=$this->form->vatamount->show()?> 
+                                  </div> 
+ 
+								<div class="col-sm-4 text-end" id="netTotal"> 
+									<label style="font-weight: bold;">Net Total:</label> <span 
+										id="netT" 
+										style="font-size: 22pt; font-weight: bolder; color: red; border-block: outset; padding: 5px 15px;">0.000</span> 
+								</div> 
+							</div> 
 						<div class="row mb-4">
         					<div class="col-md-6" style="margin-top: 1.5%;">
         						<?=$this->form->note->show()?>
@@ -231,6 +252,13 @@ $(document).ready(function($) {
 
 	});
 
+
+	enableVat(); 
+	 
+	$('#vatamount').on('keyup change', function() { 
+	    showNetAmount(); 
+	}); 
+
 });
 
 
@@ -274,19 +302,86 @@ function showTotal(index) {
 	
 }
 
-function showGrandTotal() {
-	var gtotal = 0;
-	$('.total').each(function() {
-		gtotal = gtotal + parseFloat($(this).val());
-	})
-	gtotal = gtotal.toFixed(3);
+function enableVat(e) { 
+    if ($('#vatoption1').is(':checked')) { 
+        $('#vatgroup').show(); 
+        calculateVAT(); 
+        showNetAmount(); 
+         
+    } else { 
+        $('#vatgroup').hide(); 
+        $('#vatamount').val(''); 
+        showNetAmount(); 
+    } 
+} 
 
-	
-	if(!isNaN(gtotal))
-		$('#grandT').html(gtotal);
-	else
-		$('#grandT').html('00.000');
-}
+
+/** 
+ * showGrandTotal() 
+ * → Calculates total of all items and updates #grandT. 
+ * → Also triggers VAT and Net Total recalculations. 
+ */ 
+function showGrandTotal() { 
+    var gtotal = 0; 
+ 
+    // --- Sum all item totals --- 
+    $('.total').each(function() { 
+        var val = parseFloat($(this).val()); 
+        if (!isNaN(val)) gtotal += val; 
+    }); 
+ 
+    gtotal = gtotal.toFixed(3); 
+ 
+    // --- Update Grand Total display --- 
+    if (!isNaN(gtotal)) { 
+        $('#grandT').html(gtotal); 
+    } else { 
+        $('#grandT').html('00.000'); 
+        gtotal = 0; 
+    } 
+ 
+    // --- Recalculate VAT and Net Total --- 
+    calculateVAT(); 
+    showNetAmount(); 
+} 
+ 
+ 
+/** 
+ * calculateVAT() 
+ * → Automatically calculates VAT based on current Grand Total (if VAT enabled). 
+ * → Updates #vatamount input field. 
+ */ 
+function calculateVAT() { 
+    var grandTotal = parseFloat($('#grandT').text()) || 0; 
+    var vatRate = 0.05; // Default 5% 
+ 
+    if ($('#vatoption1').is(':checked')) { 
+        var vatAmount = grandTotal * vatRate; 
+        $('#vatamount').val(vatAmount.toFixed(3)); 
+    } else { 
+        $('#vatamount').val('0.000'); 
+    } 
+} 
+ 
+ 
+/** 
+ * showNetAmount() 
+ * → Always calculates and updates Net Total = Grand Total + VAT (only if VAT enabled). 
+ * → Reads current values directly from DOM. 
+ */ 
+function showNetAmount() { 
+    var grandTotal = parseFloat($('#grandT').text()) || 0; 
+    var vatAmount = 0; 
+ 
+    if ($('#vatoption1').is(':checked')) { 
+        vatAmount = parseFloat($('#vatamount').val()) || 0; 
+    } 
+ 
+    var netTotal = grandTotal + vatAmount; 
+    $('#netT').html(netTotal.toFixed(3)); 
+} 
+ 
+ 
 
 function delRow(row){
 	if($('.dup_row').length>1){

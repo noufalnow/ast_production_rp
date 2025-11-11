@@ -1,293 +1,329 @@
-<div class="card-block" style="padding-top: 3%;padding-left: 14%;padding-right: 13%;">
-<button name="cmdPrint" value="  Print  " onclick="$('#report').printElement();" class="btn btn btn-primary pull-right" style="padding: 2px 12px;padding-top: 2px;margin-top: -4%;">Print</button>
-	<h5 class="title-margin">Invoice No : <b> 
-											<?=$this->billInfo['bill_book_no']<>''?$this->billInfo['bill_book_no']: "AST/".sprintf("%04s", $this->billInfo['bill_id']);?>
-											</b></h5>
+<div class="card-block" style="padding-top: 3%; padding-left: 14%; padding-right: 13%;">
+    <button 
+        name="cmdPrint" 
+        value="Print" 
+        onclick="$('#report').printElement();" 
+        class="btn btn-primary pull-right" 
+        style="padding: 2px 12px; margin-top: -4%;">
+        Print
+    </button>
+
+    <h5 class="title-margin">
+        Invoice No :
+        <b>
+            <?php
+                echo $this->billInfo['bill_book_no'] <> ''
+                    ? $this->billInfo['bill_book_no']
+                    : "AST/" . sprintf("%04s", $this->billInfo['bill_id']);
+            ?>
+        </b>
+    </h5>
 </div>
 
-<div class="col-md-12 card" style="height: 100%;padding-right: 2%;margin-left: 14%;max-width: 800px;padding-left: 2%; border-color: lightskyblue;">
-		
-<?php if(count($this->collection)>0):?>
-<div class="card-block" style="padding-top: 2%;">
-	<h4>Collection Details</h4>
+<div class="col-md-12 card" style="height: auto; padding-right: 2%; margin-left: 14%; max-width: 800px; padding-left: 2%; border-color: lightskyblue;">
+
+    <?php if (count($this->collection) > 0): ?>
+        <div class="card-block" style="padding-top: 2%;">
+            <h4>Collection Details</h4>
+        </div>
+
+        <div class="card">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="center" width="3%">Sl No</th>
+                        <th class="center" width="5%">Payment Date</th>
+                        <th class="center" width="5%">Amount Pending</th>
+                        <th class="center" width="5%">Amount Collected</th>
+                        <th class="center" width="5%">Balance Amount</th>
+                        <th class="center" width="15%">Remarks</th>
+                        <th class="center" width="5%">Coll. File No.</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($this->collection as $coll): ?>
+                        <tr>
+                            <td class="center"><?= ++$offset; ?></td>
+                            <td class="center"><?= $coll['coll_date']; ?></td>
+                            <td class="center"><?= $coll['cdet_amt_topay']; ?></td>
+                            <td class="center"><?= $coll['cdet_amt_paid']; ?></td>
+                            <td class="center"><?= $coll['cdet_amt_bal']; ?></td>
+                            <td><?= $coll['coll_remarks']; ?></td>
+                            <td class="center">
+                                <?php if ($coll['file_id']):
+                                    $encFileId = $this->encode($coll['file_id']);
+                                endif; ?>
+
+                                <?= x([
+                                    'link' => 'default/default/download',
+                                    'ref' => $encFileId,
+                                    'label' => '<i class="glyphicon glyphicon-file text-info">' . $coll['coll_file_no'] . '</i>',
+                                    'param' => 'opener'
+                                ]); ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    <?php endif; ?>
+
+    <?php $encFileId = $this->encode($this->billInfo['file_id']); ?>
+
+    <?php if ($this->billInfo['bill_cancellation_status'] == 1): ?>
+        <div class="ribbon ribbon-top-left">
+            <span style="background-color: #FF0000;">Cancelled</span>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($this->billInfo['bill_pstatus'] == 1): ?>
+        <div class="ribbon ribbon-top-left">
+            <span>Paid</span>
+        </div>
+    <?php endif; ?>
+
+    <div id="report" class="ribbon-box">
+        <?php include_once __DIR__ . '/../../../public/css/printstyle.php.css'; ?>
+
+        <div style="margin-left: 15px; margin-top: 30px; padding: 0 5px; border-radius: 0px;">
+            <div style="margin-top: 4rem; margin-bottom: 1pt;">
+                <table class="rpt_tbl">
+                    <tr>
+                        <th width="100%">
+                            <table style="margin-bottom: 1px; padding-left: 20px;" width="100%">
+                                <tbody>
+                                    <tr>
+                                        <th width="44%" style="font-family: Tahoma;">
+                                            <div style="font-size: 1.8rem; letter-spacing: -1px; transform: scale(1, 2); font-family: Times;">
+                                                ABDULLAH BIN SALEM
+                                            </div>
+                                            <div style="font-size: 14px; float: left; margin-top: 2%; letter-spacing: -1px;">
+                                                TRADING EST. (Since 1976)
+                                            </div>
+                                        </th>
+                                        <th width="12%">
+                                            <div class="title-margin" style="margin-left: 6%;">
+                                                <img alt="" src="http://<?= $_SERVER['HTTP_HOST'] ?>/css/images/ast.png"
+                                                     style="padding-bottom: 7px; padding-left: 10pt;" width="44">
+                                            </div>
+                                        </th>
+                                        <th width="44%" align="right">
+                                            <div style="font-size: 1.6rem; font-family: f11; float: right; transform: scale(1, 2); margin-top: -2.5rem;">
+                                                <b> مؤسسة عبدالله بن سالم للتجارة </b>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" align="center" style="color:blue">www.astglobal.om</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </th>
+                    </tr>
+
+                    <tr>
+                        <th colspan="9" style="border-top: 1px solid black;">
+                            <table class="rpt_tbl" style="margin-top: 13px;">
+                                <tr>
+                                    <th><div class="center" style="width: 96%;">I N V O I C E</div></th>
+                                </tr>
+                            </table>
+                        </th>
+                    </tr>
+
+                    <tr>
+                        <td width="95%">
+                            <div>
+                                <table width="95%" class="rpt_frame" style="margin-bottom: -5px;">
+                                    <tr>
+                                        <td width="50%" style="border-color: #ababab;">
+                                            <b>Abdullah Bin Salem Trading Est.</b><br>
+                                            Block No: 257, Way No: 5704, Bousher<br>
+                                            PO Box: 967, Postal Code: 130, Al Azaiba<br>
+                                            Sultanate of Oman<br>
+                                            Phone: 99666760, 99557678<br>
+                                            Email: info@astglobal.om
+                                        </td>
+
+                                        <?php 
+                                            if ($this->billInfo['bill_date']) {
+                                                $billDt = DateTime::createFromFormat(DFS_DB, $this->billInfo['bill_date']);
+                                                $billDt = $billDt->format(DF_DD);
+                                            }
+                                        ?>
+
+                                        <td style="border-color: #ababab;">
+                                            Invoice No: 
+                                            <b>
+                                                <?php
+                                                    echo $this->billInfo['bill_book_no'] <> ''
+                                                        ? $this->billInfo['bill_book_no']
+                                                        : "AST/" . sprintf("%04s", $this->billInfo['bill_id']);
+                                                ?>
+                                            </b>
+                                        </td>
+
+                                        <td style="border-color: #ababab;" valign="top">
+                                            Dated: <b><?= $billDt; ?></b><br>
+                                            <?php 
+                                                if ($this->billInfo['bill_month']) {
+                                                    $billMth = DateTime::createFromFormat(DFS_DB, $this->billInfo['bill_month']);
+                                                    $billMth = date_format($billMth, 'F-Y');
+                                                    echo "Bill for the month: <b>" . $billMth . "</b>";
+                                                }
+                                            ?>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="border-color: #ababab;">
+                                            Buyer<br>
+                                            <b><?= $this->billInfo['cust_name']; ?></b><br>
+                                            <?= $this->billInfo['con_house']; ?><br>
+                                            <?= $this->billInfo['con_street1']; ?><br>
+                                            <?= $this->billInfo['con_place']; ?>
+                                        </td>
+
+                                        <td style="border-color: #ababab;" valign="top">
+                                            Buyer's Order No.: <?= $this->billInfo['bill_refno']; ?>
+                                        </td>
+
+                                        <td style="border-color: #ababab;" valign="top" width="25%">
+                                            Note:
+                                            <span><?= $this->billInfo['bill_remarks']; ?></span>
+                                            <?php if ($this->billInfo['bill_cancellation_status']): ?>
+                                                <span style="color:red;">CANCELLED</span>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="<?= !$this->billInfo['bill_cancellation_status'] ? 'watermark' : ''; ?>" style="margin-bottom: 1%;">
+                <table class="rpt_frame">
+                    <thead>
+                        <tr>
+                            <th colspan="6" class="empty"></th>
+                        </tr>
+                        <tr style="border-bottom: 2px solid;">
+                            <th class="center" width="5%">Sl No</th>
+                            <th class="center" width="58%">Description</th>
+                            <th class="center" width="8%">Rate (OMR)</th>
+                            <th class="center" width="3%">Quantity</th>
+                            <th class="center" width="5%">Unit</th>
+                            <th class="center" width="8%">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($this->billDetails as $det): ?>
+                            <tr>
+                                <td class="center"><?= ++$i; ?></td>
+                                <td class="left"><?= $det['item_name']; ?> <?= $det['bdet_remarks'] <> '' ? '-' . $det['bdet_remarks'] : ''; ?></td>
+                                <td align="right"><?= $det['bdet_amt']; ?></td>
+                                <td align="right"><?= number_format($det['bdet_qty'], 2); ?></td>
+                                <td class="left"><?= $det['item_unit']; ?></td>
+                                <td align="right">
+                                    <?= number_format($det['bdet_qty'] * $det['bdet_amt'], 3); ?>
+                                    <?php $grandTotal += $det['bdet_qty'] * $det['bdet_amt']; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+
+                        <?php if ($i < 13): for ($j = $i; $j < 13; $j++): ?>
+                            <tr>
+                                <td class="center">&nbsp;</td>
+                                <td class="left">&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        <?php endfor; endif; ?>
+
+						<?php if(($this->billInfo['bill_vat_amt'])>0):?>
+                        <tr>
+                            <td></td>
+                            <td colspan="4" style="text-align: right;"><b>VAT:</b></td>
+                            <td style="text-align: right;"><b><?= number_format($this->billInfo['bill_vat_amt'], 3); ?></b></td>
+                        </tr>
+                        <?php endif;?>
+
+                        <tr>
+                            <td class="center" style="border-top: 2pt solid;"></td>
+                            <td colspan="4" style="border-top: 2pt solid; text-align: right;"><b>Total:</b></td>
+                            <td style="border-top: 2pt solid; text-align: right;"><b><?= number_format( $grandTotal + ($this->billInfo['bill_vat_amt'] ?? 0), 3); ?></b></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 1%; margin-bottom: 1%;">
+                <table class="rpt_tbl" style="font-size: 9pt;">
+                    <tr>
+                        <td colspan="2" class="left">
+                            Amount Chargeable (in words)<br>
+                            <b>
+                                <?php
+                                    $gTotal = explode('.', number_format( $grandTotal + ($this->billInfo['bill_vat_amt'] ?? 0), 3));
+                                    $gTotal[0] = str_replace(',', '', $gTotal[0]);
+                                    $gTotal[1] = str_replace(',', '', $gTotal[1]);
+                                    $baisa = '';
+
+                                    $rial = 'R.O ' . translateToWords((int)$gTotal[0]);
+                                    if (!empty($gTotal[1]) && $gTotal[1] != 0) {
+                                        $baisa = ' And Baisa ' . translateToWords((int)$gTotal[1]);
+                                    }
+                                    echo $rial . $baisa . ' Only';
+                                ?>
+                            </b>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" class="left" align="right">
+                            <i>Declaration:</i><br>
+                            We declare that the invoice shows the actual price of the goods/service described and all particulars are true and correct.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td align="right" valign="top">
+                            <br><br>
+                            For Abdullah Bin Salem Trading Est.<br>
+                            Authorised Signatory
+                        </td>
+                        <td valign="top" style="float: left;">
+                            <br><br>
+                            Receiver's Signature
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" class="left">
+                            <i>Remarks:</i><br>
+                            PAYMENT TERMS: Within 30 days or as per the agreement from the date of invoice submission.<br>
+                            Cheques should be in favour of <b>ABDULLAH SALEM TRADING EST.</b>
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="rpt_tbl" style="font-size: 9pt; margin-top: 2%;">
+                    <tr><td>&nbsp;</td></tr>
+                    <tr><td style="border-top: 1px solid #ababab;"></td></tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr><td>&nbsp;</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-		
-	<div class="card">
-		<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th class="center" width="3%">Sl No</th>
-					<th class="center" width="5%">Payment Date</th>
-					<th class="center" width="5%">Amount Pending</th>
-					<th class="center" width="5%">Amount Collected</th>
-					<th class="center" width="5%">Balance Amount</th>
-					<th class="center" width="15%">Remarks</th>
-					<th class="center" width="5%">Coll. File No. </th>
-				</tr>
-			</thead>
-			<tbody>
-			<?php foreach ($this->collection as $coll): ?>
-				<tr>
-					<td class="center"><?=@++$offset;?></td>
-					<td class="center"><?=$coll['coll_date']?></td>
-					<td class="center"><?=$coll['cdet_amt_topay']?></td>
-					<td class="center"><?=$coll['cdet_amt_paid']?></td>
-					<td class="center"><?=$coll['cdet_amt_bal']?></td>
-					<td><?=$coll['coll_remarks']?></td>
-					<td class="center">
-					
-					<?php if($coll['file_id']):
-					$encFileId = $this->encode($coll['file_id']); endif?>		
-           			<?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="glyphicon glyphicon-file text-info">'.$coll['coll_file_no'].'</i>',array("param"=>'opener')))?>
-					</td>
-				</tr>
-				<?php endforeach;?>
-			</tbody>
-		</table>
-	</div>
-<?php endif;
-$encFileId = $this->encode($this->billInfo['file_id']);?>
-		
-
-<?php if($this->billInfo['bill_cancellation_status']==1):?>
-  <div class="ribbon ribbon-top-left">		
-  	<span style="background-color: #FF0000;">Cancelled</span>
-  </div>
-<?php endif;?>
-<?php if($this->billInfo['bill_pstatus']==1):?>
-  <div class="ribbon ribbon-top-left" >		
-  	<span>Paid</span>
-  </div>
-<?php endif;?>
-<div id="report" class="ribbon-box">
-<?php include_once __DIR__ . '/../../../public/css/printstyle.php.css';?>
-
-			<div class=""
-				style="margin-left: 15px; margin-top: 30px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px; margin-right: 15px;border-radius: 0px;">
-				<div style="margin-top: 4rem; margin-bottom: 1pt;">
-					<table class="rpt_tbl">
-						<tr>
-							<th width="100%">
-								<table style="margin-bottom: 1px; padding-left: 20px;" width="100%; ">
-									<tbody>
-										<tr>
-											<th style="font-family: Tahoma;"
-												width="44%">
-												<div
-													style="font-size: 1.8rem; letter-spacing: -1px; transform: scale(1, 2); font-family: f1; font-family: Times;">ABDULLAH
-													BIN SALEM</div>
-												<div
-													style="font-size: 14px; float: left; margin-right: 5%; margin-top: 2%; letter-spacing: -1px;">TRADING
-													EST. (Since 1976)</div>
-											</th>
-											<th width="12%">
-												<div class="title-margin" style="margin-left: 6%;">
-												<img alt="" src="http://<?=$_SERVER ['HTTP_HOST']?>/css/images/ast.png"
-														style="padding-bottom: 7px; padding-left: 10pt;"
-														width="44">
-												</div>
-											</th>
-											<th width="44%" align="right">
-												<div
-													style="font-size: 1.6rem; font-family: f11; float: right; transform: scale(1, 2); margin-top: -2.5rem;">
-													<b> مؤسسة عبدالله بن سالم للتجارة </b>
-												</div>
-
-											</th>
-										</tr>
-										<tr><td colspan="3" align="center" style="color:blue">www.astglobal.om</td></tr>
-									</tbody>
-								</table>
-							</th>
-						</tr>
-						<tr>
-							<th class="empty" colspan="9"
-								style="border-top: 1px solid black;">
-								<table class="rpt_tbl" style="margin-top: 13px;">
-									<tr style="border: medium none;">
-										<th style="border: medium none;"><div class="center"
-												style="width: 96%;">I N V O I C E</div></th>
-									</tr>
-								</table>
-
-							</th>
-						</tr>
-						<tr>
-							<td width="95%">
-								<div style="/*padding-left: 1%; padding-right: 1%;*/">
-									<table width="95%" class="rpt_frame"
-										style="margin-bottom: -5px;">
-										<tr>
-											<td style="border-color: #ababab;/*font-size:9pt*/" class="left" width="50%"><b>Abdullah Bin Salem Trading Est.</b>
-												<!--  <br>Office No : 3,&nbsp;Building No : 286,&nbsp;Al Madheena&nbsp;-->
-												<br>Block No : 257,&nbsp;Way No : 5704,&nbsp;Bousher			
-												<br>PO Box : 967,&nbsp;Postal Code : 130,&nbsp; Al Azaiba
-												<br>Sultanate of Oman <br>
-												Phone:99666760,99557678; email-:info@astglobal.om</td>
-											<? 	if($this->billInfo['bill_date']){
-												$billDt = DateTime::createFromFormat(DFS_DB,$this->billInfo['bill_date']);
-												$billDt = $billDt->format(DF_DD);
-											}
-											?>												 
-											<td style="border-color: #ababab;font-size:9pt" class="left" valign="top">Invoice No : <b> 
-											<?=$this->billInfo['bill_book_no']<>''?$this->billInfo['bill_book_no']: "AST/".sprintf("%04s", $this->billInfo['bill_id']);?>
-											</b></td>
-											<td style="border-color: #ababab;font-size:9pt" class="left" valign="top">Dated :  <b><?=$billDt;?></b>
-											<?php 
-											if($this->billInfo['bill_month']){
-												$billMth = DateTime::createFromFormat(DFS_DB,$this->billInfo['bill_month']);
-												$billMth = date_format($billMth, 'F-Y');
-												echo "<br> Bill for the month: <b> ".$billMth ."</b>";
-											}
-											?>
-											</td>
-										</tr>
-										<tr>
-											<td style="border-color: #ababab;font-size:9pt" class="left">Buyer <b><br><?=$this->billInfo['cust_name']?></b> <br>
-											<?=$this->billInfo['con_house']?><br><?=$this->billInfo['con_street1']?> <br><?=$this->billInfo['con_place']?>
-											</td>
-
-											<td style="border-color: #ababab;font-size:9pt" class="left" valign="top">Buyer's Order No. : <?=$this->billInfo['bill_refno']?></td>
-											<td style="border-color: #ababab;font-size:9pt" class="left" valign="top" width="25%">
-											Note : <span style="background-color:"> <?=$this->billInfo['bill_remarks'];?> </span>
-											<?if($this->billInfo['bill_cancellation_status']):?> 
- 												<span style="color:red">C A N C E L L E D </span> <?php endif?>
-											</td>
-										</tr>
-									</table>
-								</div>
-							</td>
-						</tr>
-
-					</table>
-				</div>
 
 
-				<div style="margin-bottom: 1%;" <?if(!$this->billInfo['bill_cancellation_status']):?>class="watermark" <?php endif?> >
-					<table class="rpt_frame">
-						<thead>
-							<tr>
-								<th class="empty" colspan="6"></th>
-							</tr>
-							<tr style="border-bottom: 2px solid;" >
-								<th class="center" width="5%">Sl No</th>
-								<th class="center" width="58%">Description</th>
-								<th class="center" width="8%">Rate (OMR)</th>
-								<th class="center" width="3%">Quantity</th>
-								<th class="center" width="5%">Unit</th>
-								<th class="center" width="8%">Amount</th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php foreach($this->billDetails as $det):?>
-							<tr>
-								<td class="center"><?=++$i?></td>
-								<td class="left" ><?=$det['item_name']?> <?=$det['bdet_remarks']<>''?'-'.$det['bdet_remarks']:'';?></td>
-								<td align="right" ><?=$det['bdet_amt']?></td>
-								<td align="right" ><?=number_format($det['bdet_qty'],2)?></td>
-								<td class="left"> <?=$det['item_unit']?> </td>								
-								<td align="right"><?=number_format($det['bdet_qty']*$det['bdet_amt'],3)?>  <?php $grandTotal +=$det['bdet_qty']*$det['bdet_amt']; ?></td>
-							</tr>
-							
-
-							
-							<?php endforeach;?>
-							
-							<?php if($i<14): for($j=$i;$j<14;$j++):?>
-							<tr>
-								<td class="center">&nbsp;</td>
-								<td class="left" >&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<?php endfor; endif;?>
-							
-							<tr>
-								<td style="border-top: 2pt solid;" class="center"></td>
-								<td colspan="4" align="right" style="border-top: 2pt solid;"><b>Total :</b></td>
-								<td align="right" style="border-top: 2pt solid;"><b><?=number_format($grandTotal,3)?></b></td>
-							</tr>
-						</tbody>
-
-					</table>
-				</div>
-				<div style="margin-top: 1%; margin-bottom: 1%;     bottom: 0;    left: 0;">
-					<table class="rpt_tbl" style="font-size: 9pt;">
-						<tr>
-							<td colspan="2" class="left">Amount Chargeable (in words) <br> <b><?
-							
-							$gTotal = explode ( '.', number_format($grandTotal,3));						
-							$gTotal [0]= str_replace( ',', '', $gTotal [0]);
-							$gTotal [1]= str_replace( ',', '', $gTotal [1]);
-							
-							
-							$rial = 'R.O '.translateToWords( (int)$gTotal [0] ) ;
-								
-							if ($gTotal [1] != '' && $gTotal [1] != 0)
-								$baisa = ' And Baisa ' . translateToWords( (int)$gTotal [1] );
-							echo $rial . $baisa . ' Only';
-							?></b> 							</td>
-						</tr>
-						
-						
-						<tr>
-							<td colspan="2" class="left" valign="top" style="float: right" align="right">
-							<i>Declaration: </i><br> We declare that the invoice shows the
-								actual price of the goods/service <br>described and all particulars
-								are true and correct.
-							</td>
-						</tr>
-						
-						
-						<tr>
-						
-							<td valign="top" style="float: right" align="right">
-							<br>
-							<br>
-							For Abdullah Bin Salem Trading Est. <br>
-								Authorised Signatory</td>	
-						
-							<td align="left" valign="top" style="float: left" align="left">
-							<br>
-							<br>Receiver's signature
-							</td>
-								
-
-						</tr>
-						
-						<tr>
-							<td colspan="2" class="left"><i>Remarks:</i> <br>PAYMENT TERMS: With in 30
-								days Or as per the agreement from the date of invoice submission <br> Cheques should be in
-								favour of <b>ABDULLAH SALEM TRADING EST.</b>
-									</td>
-						</tr>
-						
-						
-					</table>
-					<table class="rpt_tbl" style="font-size: 9pt;margin-top: 2%; ">
-					<tr>
-							<td>&nbsp;</td>
-					</tr>
-						<tr
-							style="border-bottom: medium none; border-left: medium none; border-right: medium none;">
-							<td style="border-bottom: medium none; border-left: medium none; border-right: medium none; border-top: 1px solid #ababab;">
-							</td>
-						</tr> 
-											<tr>
-							<td>&nbsp;</td>
-					</tr>
-										<tr>
-							<td>&nbsp;</td>
-					</tr>
-					</table>
-				</div>
-			</div>
-		</div>
-		</div>
-</div> <div>
-<div style="margin-left: auto;margin-right: auto;width: 40%;"> <i> Time Sheet :</i><p><?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="glyphicon glyphicon-file text-info">'.$this->billInfo['file_name'].'</i>',array("param"=>'opener')))?>
+<div style="margin-left: 11%;margin-right: auto;width: 40%;"> <i> Time Sheet :</i><p><?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="glyphicon glyphicon-file text-info">'.$this->billInfo['file_name'].'</i>',array("param"=>'opener')))?>
 </div>
 <div style="padding-left: 10%;padding-right: 8%;">
 <?php 

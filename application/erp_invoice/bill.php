@@ -57,6 +57,19 @@ class billController extends mvc
         $form->addElement('location', 'Location ', 'text', 'required', '', array(
             '' => 'autocomplete="off"'
         ));
+        
+        
+        $form->addElement('vatoption', 'VAT', 'checkbox', '', array(
+            'options' => array(
+                "1" => "Vat"
+            )
+        ),  array(
+            "" => "onClick='enableVat(this)'"
+        ));
+        $form->addElement('vatamount', 'VAT Amount', 'float', 'numeric', '', array(
+            'class' => 'fig'
+        ));
+        
         require_once __DIR__ . '/../admin/!model/company.php';
         $compModelObj = new company();
         $compList = $compModelObj->getCompanyPair();
@@ -140,7 +153,9 @@ class billController extends mvc
                     'bill_pstatus' => $valid['mode'],
                     'bill_wo' => $valid['wolpo'],
                     'bill_wo_note' => $valid['wonote'] != '' ? $valid['wonote'] : NULL,
-                    'bill_location' => $valid['location']
+                    'bill_location' => $valid['location'],
+                    'bill_vat_option' => $valid['vatoption'],
+                    'bill_vat_amt' => $valid['vatamount'],
                 );
                 $billId = $bill->add($data);
                 $total = 0;
@@ -158,6 +173,9 @@ class billController extends mvc
                         $total += $valid['qty'][$i] * (float) ($valid['amount'][$i] . '.' . $valid['baisa'][$i]);
                         $det = $billDet->add($data);
                     }
+                    
+                    $total += $valid['vatamount'];
+                    
                     $udata['bill_oribill_amt'] = $total;
                     $udata['bill_total'] = $total;
                     if ($valid['mode'] == 2)
@@ -233,6 +251,19 @@ class billController extends mvc
         $form->addElement('location', 'Location ', 'text', 'required', '', array(
             '' => 'autocomplete="off"'
         ));
+        
+        
+        $form->addElement('vatoption', 'VAT', 'checkbox', '', array(
+            'options' => array(
+                "1" => "Vat"
+            )
+        ),  array(
+            "" => "onClick='enableVat(this)'"
+        ));
+        $form->addElement('vatamount', 'VAT Amount', 'float', 'numeric', '', array(
+            'class' => 'fig'
+        ));
+        
         require_once __DIR__ . '/../admin/!model/company.php';
         $compModelObj = new company();
         $compList = $compModelObj->getCompanyPair();
@@ -342,7 +373,9 @@ class billController extends mvc
                     'bill_pstatus' => $valid['mode'],
                     'bill_wo' => $valid['wolpo'],
                     'bill_wo_note' => $valid['wonote'] != '' ? $valid['wonote'] : NULL,
-                    'bill_location' => $valid['location']
+                    'bill_location' => $valid['location'],
+                    'bill_vat_option' => $valid['vatoption'],
+                    'bill_vat_amt' => $valid['vatamount'],
                 );
                 $update = $billObj->modify($data, $decBillId);
                 $total = 0;
@@ -361,6 +394,9 @@ class billController extends mvc
                         $total += $valid['qty'][$i] * (float) ($valid['amount'][$i] . '.' . $valid['baisa'][$i]);
                         $billDetObj->add($data);
                     }
+                    
+                    $total += $valid['vatamount'];
+                    
                     $udata['bill_oribill_amt'] = $total;
                     $udata['bill_total'] = $total;
                     if ($valid['mode'] == 2)
@@ -402,6 +438,10 @@ class billController extends mvc
             $form->wolpo->setValue($billInfo['bill_wo']);
             $form->wonote->setValue($billInfo['bill_wo_note']);
             $form->location->setValue($billInfo['bill_location']);
+            
+            $form->vatoption->setValue($billInfo['bill_vat_option']);
+            $form->vatamount->setValue($billInfo['bill_vat_amt']);
+            
             if ($billInfo['bill_date'] != '') {
                 $billDt = DateTime::createFromFormat(DFS_DB, $billInfo['bill_date']);
                 $billDt = $billDt->format(DF_DD);

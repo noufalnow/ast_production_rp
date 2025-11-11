@@ -231,3 +231,12 @@ WHERE to_char(cdmd_month, 'YYYY-MM') = '2024-09'  AND
 # UPDATE "mis_property_payoption" SET "popt_date" = '2024-09-29' WHERE "popt_id" = '9028' AND "popt_id" = '9028';
 
 
+
+#####################
+
+
+VAT ON INVOICE
+
+ALTER TABLE "mis_bill"
+ADD "bill_vat_option" smallint NOT NULL DEFAULT '0',
+ADD "bill_vat_amt" numeric(13,3) NULL;

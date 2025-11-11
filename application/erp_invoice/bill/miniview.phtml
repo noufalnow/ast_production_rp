@@ -162,7 +162,7 @@ $encFileId = $this->encode($this->billInfo['file_id']);?>
 								<td align="right" ><?=$det['bdet_amt']?></td>
 								<td align="right" ><?=number_format($det['bdet_qty'],2)?></td>
 								<td class="left"> <?=$det['item_unit']?> </td>								
-								<td align="right"><?=number_format($det['bdet_qty']*$det['bdet_amt'],3)?>  <?php $grandTotal +=$det['bdet_qty']*$det['bdet_amt']; ?></td>
+								<td align="right" style="text-align: right;"><?=number_format($det['bdet_qty']*$det['bdet_amt'],3)?>  <?php $grandTotal +=$det['bdet_qty']*$det['bdet_amt']; ?></td>
 							</tr>
 							<?php endforeach;?>
 							<tr>
@@ -173,11 +173,17 @@ $encFileId = $this->encode($this->billInfo['file_id']);?>
 								<td>&nbsp;</td>
 								<td>&nbsp;</td>
 							</tr>
-							<tr>
-								<td style="border-top: 2pt solid;" class="center"></td>
-								<td colspan="4" align="right" style="border-top: 2pt solid;"><b>Total :</b></td>
-								<td align="right" style="border-top: 2pt solid;"><b><?=number_format($grandTotal,3)?></b></td>
-							</tr>
+                            <tr>
+                                <td class="center"></td>
+                                <td colspan="4" style="text-align: right;"><b>VAT :</b></td>
+                                <td style="text-align: right;"><b><?= number_format($this->billInfo['bill_vat_amt'], 3) ?></b></td>
+                            </tr>
+                            <tr>
+                                <td class="center" style="border-top: 2pt solid;"></td>
+                                <td colspan="4" style="text-align: right; border-top: 2pt solid;"><b>Total :</b></td>
+                                <td style="text-align: right; border-top: 2pt solid;"><b><?= number_format($grandTotal + ($this->billInfo['bill_vat_amt'] ?? 0), 3) ?></b></td>
+                            </tr>
+
 						</tbody>
 
 					</table>
@@ -187,7 +193,7 @@ $encFileId = $this->encode($this->billInfo['file_id']);?>
 						<tr>
 							<td colspan="2" class="left">Amount Chargeable (in words) <br> <b><?
 							
-							$gTotal = explode ( '.', number_format($grandTotal,3));						
+							$gTotal = explode ( '.', number_format( $grandTotal + ($this->billInfo['bill_vat_amt'] ?? 0), 3));						
 							$gTotal [0]= str_replace( ',', '', $gTotal [0]);
 							$gTotal [1]= str_replace( ',', '', $gTotal [1]);
 							
