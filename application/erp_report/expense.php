@@ -402,6 +402,22 @@ class expenseController extends mvc
             );
             $filter_class = 'btn btn-info';
         }
+        else {
+            if (empty($_GET)) {
+                                
+                $currentMonth = date('Y-m'); // Format: YYYY-MM (e.g., 2025-11)
+
+                $where['f_monthpick'] = date('m/Y');
+                //$where['f_period'] = 1;
+                
+                $form->f_monthpick->setValue($currentMonth);
+                $form->f_period->setValue(1);
+                
+                $filter_class = 'btn btn-info';
+                
+                
+            }
+        }
         
         $where['exp_vat_option'] = 1;
         
