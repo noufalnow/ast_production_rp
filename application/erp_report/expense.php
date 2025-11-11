@@ -187,10 +187,33 @@ class expenseController extends mvc
                 'f_mode' => 3
             );
             $filter_class = 'btn btn-info';
+        }else {
+            if (empty($_GET)) {
+
+                $form->f_mode->setValue(3);
+                
+                $where = array(
+                    'f_mode' => 3
+                );
+
+                $currentMonth = date('Y-m'); // Format: YYYY-MM (e.g., 2025-11)
+                
+                
+                $where['f_monthpick'] = date('m/Y');
+                //$where['f_period'] = 1;
+                
+                $form->f_monthpick->setValue($currentMonth);
+                $form->f_period->setValue(1);
+                
+                $filter_class = 'btn btn-info';
+                
+                
+            }
         }
 
         $expObj = new expense();
         
+        $expObj->_pagelimit  = 1000; 
         $expenseList = $expObj->geExpenseReport(@$where);
         $expenseSummery = $expObj->geExpenseReportSummary(@$where);
         $this->view->expObj= $expObj;

@@ -140,6 +140,7 @@
 	              <div class="form-group ">
 	              	<button class="btn <?=$this->filter_class?>" type="submit" >Filter</button>
 					<input class="btn btn-secondary" name="clear" type="submit" value="All"></input>
+					<button class="btn btn-secondary-gradient" type="button" onClick="tableToExcelX();" >Export Excel</button> 
 	              </div>
 				</td>
 			</tr>
@@ -211,27 +212,28 @@ style="margin-bottom: 2px;margin-left: 1%;margin-right: 2%; padding-bottom: 0px;
 				</thead>
 			</table>
 		</div>
-		<table class="rpt_frame">
+		<table class="rpt_frame" style="table-layout: fixed; width: 100%;" id="report_table">
 			<thead>
 				<tr>
 					<th class="empty" colspan="13"></th>
 				</tr>
 				<tr>
-				<tr>
-					<th width="5%" class="center">Sl No</th>
-					<th width="5%" class="center">Ref No</th>
-					<th width="5%" class="center">Bill Dt.</th>
-					<th width="15%" class="center">Vendor</th>
-					<th width="7%" class="center">Company</th>
-					<th width="12%" class="center">Main Head</th>
-					<th width="9%" class="center">Main Cat</th>
-					<th width="9%" class="center">Sub Cat</th>
-					<th width="9%" class="center">Cat</th>
-					<th width="15%" class="center">Particulers</th>
-					<th width="4%" class="center">Amount</th>
-					<th width="4%" class="center">Credit</th>
-					<th width="4%" class="center">Mode</th>
-				</tr>
+                <tr>
+                    <th width="4%" class="center">Sl No</th>
+                    <th width="6%" class="center">Ref No</th>
+                    <th width="5%" class="center">Bill Dt.</th>
+                    <th width="14%" class="center">Vendor</th>
+                    <th width="7%" class="center">Company</th>
+                    <th width="11%" class="center">Main Head</th>
+                    <th width="8%" class="center">Main Cat</th>
+                    <th width="8%" class="center">Sub Cat</th>
+                    <th width="8%" class="center">Cat</th>
+                    <th width="13%" class="center">Particulers</th>
+                    <th width="4%" class="center">Amount</th>
+                    <th width="4%" class="center">Credit</th>
+                    <th width="4%" class="center">Mode</th>
+                </tr>
+
 			</thead>
 			<tbody>
 			<?if(is_array($this->expenseList) && count($this->expenseList)>0):?>
@@ -240,7 +242,7 @@ style="margin-bottom: 2px;margin-left: 1%;margin-right: 2%; padding-bottom: 0px;
 				?>
 				<tr>
 					<td class="center"><?=@++$offset;?></td>
-					<td <?php if($expense['exp_app_status'] ==''):?>style="border-left: 3px solid red;" <?php endif?>>
+					<td <?php if($expense['exp_app_status'] ==''):?>style="border-left: 3px solid red;" <?php endif?> width="5%">
 					<?=x(array('link'=>'erp_expense/expense/view','ref'=>$encExpId,'label'=>$expense['exp_refno'],array("param"=>'class="facebox"')))?>			
 					</td>
 					<td><?=$expense['exp_billdt']?></td>
@@ -251,15 +253,15 @@ style="margin-bottom: 2px;margin-left: 1%;margin-right: 2%; padding-bottom: 0px;
 					<td><?=$expense['scat']?></td>
 					<td><?=$expense['ccat']?></td>
 					<td><?=$expense['exp_details']?></td>
-					<td><?=$expense['exp_amount']?></td>
-					<td><?=$expense['exp_credit_amt']?></td>
+                    <td style="text-align: right;"><?=$expense['exp_amount']?></td>
+                    <td style="text-align: right;"><?=$expense['exp_credit_amt']?></td>
 					<td><?=$expense['pay_mod']?></td>
 				</tr>
 				<?php endforeach?>
 			<?endif?>
 			</tbody>
 		</table>
-		<?$this->expObj->pagination();?>
+		<?//$this->expObj->pagination();?>
 		<div>
 			<table class="rpt_tbl">
 				<thead>
@@ -274,6 +276,7 @@ style="margin-bottom: 2px;margin-left: 1%;margin-right: 2%; padding-bottom: 0px;
 </div>
 </div>
 </form>
+<script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js"></script>
 
 
 
@@ -366,5 +369,18 @@ function fixmainhead(){
 		$('#mh_veh').hide();
 	}
 }
+
+function tableToExcelX() {
+	let table = document.getElementById("report_table");
+	var dt = new Date();
+	var time = (dt.getMonth() + 1) + '' + dt.getDate() + '' + dt.getFullYear() + '' + dt.getHours() + '' + dt.getMinutes() + dt.getSeconds();
+	TableToExcel.convert(table, { // html code may contain multiple tables so here we are refering to 1st table tag
+		name: `Export_Report_` + time + `.xlsx`, // fileName you could use any name
+		sheet: {
+			name: 'Sheet 1' // sheetName
+		}
+	});
+}
+
 </script>
 

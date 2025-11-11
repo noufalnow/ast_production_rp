@@ -2207,6 +2207,7 @@ fieldset:disabled a.btn {
     color: #fff;
     background: linear-gradient(to bottom right, #ce4300 0%, #fb854c 100%) !important;
     border-color: #eb6f33;
+    box-shadow: 3px 3px 7px 0 rgba(17, 16, 18, 0.4);
 }
 
 .btn-secondary-gradient:hover {
