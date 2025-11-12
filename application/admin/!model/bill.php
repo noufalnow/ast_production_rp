@@ -102,7 +102,7 @@ class bill extends db_table {
 		
 		$this->query ( "select $this->_table.*, 
 				to_char(bill_date,'DD/MM/YYYY') as bill_disp_date,
-				comp.comp_name,
+				comp.comp_name,comp.comp_disp_name,
 				cust.*,
 				custcon.*,
 				files.file_id,

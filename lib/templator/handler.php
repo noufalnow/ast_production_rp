@@ -264,6 +264,8 @@ class mvc
     public $view;
 
     public $NoViewRender;
+    
+    public $template;
 
     public function __construct()
     {
@@ -315,8 +317,13 @@ class view extends viewbase
                 require_once __DIR__ . "/../../application/mask/sidebar/new_headder.php";
             }
 
-            $action = __DIR__ . $action . ".phtml";
-            // s($action);
+            
+            if($this->template)
+                $action = __DIR__ . $action ."/". $this->template . ".phtml";
+            else    
+                $action = __DIR__ . $action . ".phtml";
+            
+             
             // check readable then include
 
             if (! file_exists($action)) {

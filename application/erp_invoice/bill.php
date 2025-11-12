@@ -921,6 +921,18 @@ class billController extends mvc
                 'bdet_update_sts' => $maxBillDetails['max_update']
             ));
         }
+        
+        //a($this->billInfo);
+        
+        if ($billInfo['comp_disp_name'] === 'AST') {
+            $this->view->template = 'bill_ast';
+        } elseif ($billInfo['comp_disp_name'] === 'FSL') {
+            $this->view->template = 'bill_faisal';
+        } else {
+            $this->view->template = 'bill_ast';
+        }
+        
+        
         $this->view->collection = $collection;
         $this->view->billInfo = $billInfo;
         $this->view->collection = $collection;
