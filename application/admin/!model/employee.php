@@ -893,7 +893,7 @@ class employee extends db_table {
 	    $cond ['emp_status'] = 1;
 	    $this->_where [] = " emp_status= :emp_status ";
 	    
-	    $this->_where [] = " emp_desig IN (8,9,19) ";
+	    $this->_where [] = " emp_desig IN (8,9) ";
 	    
 	    $this->_order [] = 'emp_fname ASC';
 	    

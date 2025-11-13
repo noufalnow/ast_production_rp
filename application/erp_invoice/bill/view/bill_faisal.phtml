@@ -119,39 +119,42 @@
 <div style="display:flex;justify-content:space-between;align-items:flex-start;
             border-bottom:3px solid #2c6eb5;padding-bottom:10px;margin-bottom:20px;direction:ltr;">
 
-    <!-- English Section (Left) -->
-    <div style="flex:1;text-align:left;">
-        <h2 style="margin:0;color:#2c6eb5;font-size:18px;letter-spacing:0.5px;">
-            FAISAL ABDULLAH SALEM AL MASHAIKHI TRADING
-        </h2>
-        <div style="font-size:12px;color:#333;line-height:1.5;margin-top:3px;">
-            Block No: 257, Way No: 5704, Bousher<br>
-            PO Box: 967, Postal Code: 130, Al Azaiba<br>
-            Sultanate of Oman<br>
-            Phone: 99666760, 99557678<br>
-            Email: info@astglobal.om
-        </div>
+<!-- English Section (Left) -->
+<div style="flex:1;text-align:left;">
+    <h2 style="margin:0;color:#2c6eb5;font-size:18px;letter-spacing:0.5px;">
+        FAISAL ABDULLAH SALEM AL MASHAIKHI TRADING
+    </h2>
+    <div style="font-size:12px;color:#333;line-height:1.5;margin-top:3px;">
+        CR No: 1045331<br>
+        Block No: 257, Way No: 5704, Bousher<br>
+        PO Box: 967, Postal Code: 130, Al Azaiba<br>
+        Sultanate of Oman<br>
+        Phone: 99666760, 99557678<br>
+        Email: info@astglobal.om
     </div>
+</div>
 
-    <!-- Center Logo -->
-    <div style="text-align:center;padding:0 15px;">
-        <img src="http://<?= $_SERVER['HTTP_HOST'] ?>/css/images/fasm_logo.png"
-             width="95" alt="">
-    </div>
+<!-- Center Logo -->
+<div style="text-align:center;padding:0 15px;">
+    <img src="http://<?= $_SERVER['HTTP_HOST'] ?>/css/images/fasm_logo.png"
+         width="95" alt="">
+</div>
 
-    <!-- Arabic Section (Right) -->
-    <div style="flex:1;text-align:right;">
-        <h2 style="margin:0;color:#2c6eb5;font-size:20px;font-family:'Tahoma','Arial';">
-            فَيْصَل عبدالله سالم المشايخي للتجارة
-        </h2>
-        <div style="font-size:12px;color:#333;line-height:1.6;margin-top:3px;direction:rtl;">
-            كتلة رقم ٢٥٧، الطريق رقم ٥٧٠٤، بوشر<br>
-            ص.ب ٩٦٧، الرمز البريدي ١٣٠، العذيبة<br>
-            سلطنة عُمان<br>
-            هاتف: ٩٩٦٦٦٧٦٠ ، ٩٩٥٥٧٦٧٨<br>
-            البريد الإلكتروني: info@astglobal.om
-        </div>
+<!-- Arabic Section (Right) -->
+<div style="flex:1;text-align:right;">
+    <h2 style="font-size:20px; font-family:f11; float:right; transform:scale(1,2); margin-bottom:1.4rem;">
+        فَيْصَل عبدالله سالم المشايخي للتجارة
+    </h2>
+    <div style="font-size:12px;color:#333;line-height:1.6;margin-top:3px;direction:rtl;">
+        رقم السجل التجاري: ١٠٤٥٣٣١<br>
+        كتلة رقم ٢٥٧، الطريق رقم ٥٧٠٤، بوشر<br>
+        ص.ب ٩٦٧، الرمز البريدي ١٣٠، العذيبة<br>
+        سلطنة عُمان<br>
+        هاتف: ٩٩٦٦٦٧٦٠ ، ٩٩٥٥٧٦٧٨<br>
+        البريد الإلكتروني: info@astglobal.om
     </div>
+</div>
+
 </div>
 
 
@@ -161,13 +164,13 @@
             <b>Invoice No:</b>
             <?php
                 echo $this->billInfo['bill_book_no'] ?: "FAST/" . sprintf("%04s", $this->billInfo['bill_id']);
-            ?><br>
+            ?><br><br>
             <?php
                 if ($this->billInfo['bill_date']) {
                     $billDt = DateTime::createFromFormat(DFS_DB, $this->billInfo['bill_date']);
                     echo "<b>Date:</b> " . $billDt->format(DF_DD);
                 }
-            ?><br>
+            ?><br><br>
             <?php
                 if ($this->billInfo['bill_month']) {
                     $billMth = DateTime::createFromFormat(DFS_DB, $this->billInfo['bill_month']);
@@ -179,9 +182,20 @@
         <div style="width:48%;border:1px solid #ccc;padding:8px;border-radius:4px;">
             <b>Customer:</b><br>
             <?= $this->billInfo['cust_name']; ?><br>
-            <?= $this->billInfo['con_house']; ?><br>
-            <?= $this->billInfo['con_place']; ?><br>
-            <?= $this->billInfo['con_street1']; ?>
+			<?php $addressParts = array_filter([
+                $this->billInfo['con_house'] ?? '',
+                $this->billInfo['con_place'] ?? '',
+                $this->billInfo['con_street1'] ?? ''
+            ]);?>
+			<?=implode(', ', $addressParts);?><br>
+            <b>Buyer's Order No.: </b>
+            <?= $this->billInfo['bill_refno']; ?><br>
+            <b>Note: </b>
+            
+            <?= $this->billInfo['bill_remarks']; ?>
+            <?php if ($this->billInfo['bill_cancellation_status']): ?>
+                <span style="color:red;">CANCELLED</span>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -248,8 +262,8 @@
     </table>
 
     <!-- Amount in words -->
-    <div style="margin-top:15px;">
-        <b>Amount in Words:</b><br>
+    <div style="margin-top:3px;">
+        <b>Amount in Words:</b>
         <?php
             $netTotal = $grandTotal - ($this->billInfo['bill_discount'] ?? 0) + ($this->billInfo['bill_vat_amt'] ?? 0);
             $gTotal = explode('.', number_format($netTotal, 3));
@@ -261,19 +275,19 @@
     </div>
 
     <!-- Declaration + Footer -->
-    <div style="margin-top:25px;border-top:1px solid #aaa;padding-top:10px;font-size:12px;">
+    <div style="margin-top:20px;border-top:1px solid #aaa;padding-top:1px;font-size:12px;">
         <div style="display:flex;justify-content:space-between;">
             <div style="width:60%;">
                 <b>Declaration:</b><br>
                 We declare that this invoice shows the true and correct particulars of the goods/services supplied.
             </div>
             <div style="text-align:right;">
-                <b>For Faisal Abdullah Salem Al Mashaikhi Trading</b><br><br><br>
-                <span style="border-top:1px solid #555;">Authorised Signatory</span>
+                <b>For Faisal Abdullah Salem Al Mashaikhi Trading</b><br><br><br><br><br>
+                <span style="border-top:1px solid #555;margin-bottom:50px">Authorised Signatory</span>
             </div>
         </div>
 
-        <div style="margin-top:20px;">
+        <div style="margin-top:5px;">
             <b>Remarks:</b> Payment terms — within 30 days from invoice date.<br>
             Cheques should be made payable to <b>FAISAL ABDULLAH SALEM AL MASHAIKHI TRADING</b>.
         </div>

@@ -158,9 +158,7 @@
 					</td>
 					<td align="center"><?=$property['doc_issue_date']?></td>
 					<td align="center"><?=$property['doc_expiry_date']?></td>
-					<?php if($property['prop_status']==1):?>
-					<td align="left" colspan="4"><?=$property['popt_type'];?></td>
-					<?php elseif($property['popt_type']):?>
+					<?php if($property['popt_type']):?>
 					<td align="right"><?=$property['popt_amount']; $total+=$property['popt_amount'];?></td>
 					<td <?if($property['popt_type_id']==3): ?>style="font-weight: bold; color:red" <?php endif?>> <?=$property['popt_type'];?></td>
 					<td align="center"> <?//if($property['prop_account']=="BA"):?>

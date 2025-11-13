@@ -13,6 +13,9 @@ body {
 	print-color-adjust: exact !important;
 }
 
+@font-face { font-family: f1; src: url('../../../../../css/fonts/A_Nefel_Sereke_Qelew.ttf'); }
+@font-face { font-family: f11; src: url('../../../../../css/fonts/Ptbldhad.ttf'); }
+
 .invoice-wrapper {
 	width: 210mm;
 	min-height: 270mm;
@@ -23,6 +26,7 @@ body {
 	background: #fff;
 	border: none;
 	overflow: hidden;
+	padding-bottom: 5mm;
 }
 
 /* ------------------------------------

@@ -319,7 +319,7 @@ if ($this->employeeDetail['emp_doj'] != '') {
 								</div>
 							<?php endif;?>
 							
-							<?php if($this->employeeDetail['emc_status']<>1 && ( $this->employeeDetail['emp_desig']==8 || $this->employeeDetail['emp_desig']==9 || $this->employeeDetail['emp_desig']==19)): ?>
+							<?php if($this->employeeDetail['emc_status']<>1 && ( $this->employeeDetail['emp_desig']==8 || $this->employeeDetail['emp_desig']==9 )): ?>
 							<div style="top: 0px;margin-bottom: 4rem;">	<?=x(array('link'=>'erp_employee/master/empcontract','ref'=>$this->param['ref'],'label'=>'<button class="btn btn-success pull-right"> Contract Status</button>',array("param"=>'class="facebox"')))?></div>
 							<?php endif;?>
 							
