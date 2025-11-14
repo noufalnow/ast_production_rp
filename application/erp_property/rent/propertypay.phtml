@@ -114,7 +114,6 @@
 					<th width="8%" class="center">Building</th>
 					<th width="3%" class="center">Category</th>
 					<th width="15%" class="center">Agreement By</th>
-					<th width="5%" class="center">Mobile no</th>
 					<th width="5%" class="center">Doc No</th>
 					<th width="6%" class="center">Start Date</th>
 					<th width="6%" class="center">End Date</th>
@@ -153,7 +152,6 @@
 					<td><?=$property['bld_name']?></td>
 					<td><? echo $property['prop_cat']==1?"Shop":"Flat";?></td>
 					<td><?=$property['agr_tenant']?></td>
-					<td align="center"><?=$property['agr_mobile']?></td>
 					<td align="center"><?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>$property['doc_no'],array("param"=>"opener")))?>
 					</td>
 					<td align="center"><?=$property['doc_issue_date']?></td>
@@ -161,24 +159,53 @@
 					<?php if($property['popt_type']):?>
 					<td align="right"><?=$property['popt_amount']; $total+=$property['popt_amount'];?></td>
 					<td <?if($property['popt_type_id']==3): ?>style="font-weight: bold; color:red" <?php endif?>> <?=$property['popt_type'];?></td>
-					<td align="center"> <?//if($property['prop_account']=="BA"):?>
-					<!--  style="background-image: repeating-linear-gradient(165deg, white, greenyellow 30px, greenyellow 30px, white 60px);" -->
-					<?php // endif?> 
+
+
+<td style="
+    background-image: <?= ($property['cdmd_pstatus'] <> 1)
+        ? 'repeating-linear-gradient(165deg, white, orange 30px, orange 30px, white 60px)'
+        : 'repeating-linear-gradient(165deg, white, greenyellow 30px, greenyellow 30px, white 60px)' ?>;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+">
+
+
 					<? if($property['cdmd_pstatus']<>1): ?>
 						
 						
-							<? if($property['cdet_bill_id'] == NULL): ?>
-								<?=x(array('link'=>'erp_property/rent/adddemand','ref'=>$encPayOption,'label'=>'<b>'.$property['popt_date'].'</b>',array("param"=>'class="facebox"')))?>
-    						<?php else:?>
-            					  	<?=$property['popt_date'];?>
-            				<?php endif;?>
-    						
-    						<? if($property['cdet_bill_id'] == NULL && $property['cdmd_id'] <> NULL): ?>
-    							<?=x(array('link'=>'erp_property/rent/deletedemand','ref'=>$encCdmdId,'label'=>'<i class="fas fa-trash"></i>',array("param"=>'class="facebox"')))?>
-    						<?php endif?>
+ 			<div style="display:flex;  gap:8px; line-height:1;padding-left: 1rem;">
+
+        <?php if ($property['cdet_bill_id'] == NULL): ?>
+            <?= x([
+                'link'  => 'erp_property/rent/adddemand',
+                'ref'   => $encPayOption,
+                'label' => '<b>'.$property['popt_date'].'</b>',
+                ['param' => ' class="facebox btn btn-secondary" '],
+                'style' => ' style="background-color: #eeeeee30 !important; 
+                   padding: 0px 3px; 
+                   color: blue; 
+                   line-height:2;" '
+            ]) ?>            
+            
+        <?php else: ?>
+            <span style="line-height:1;"><?= $property['popt_date']; ?></span>
+        <?php endif; ?>
+
+        <?php if ($property['cdet_bill_id'] == NULL && $property['cdmd_id'] <> NULL): ?>
+            <?= x([
+                'link'  => 'erp_property/rent/deletedemand',
+                'ref'   => $encCdmdId,
+                'label' => '<i class="fas fa-trash" style="line-height: 2;"></i>',
+                ['param' => ' class="facebox" '],
+                'style' => ' style="line-height:1;" '
+            ]) ?>
+                        
+            </div>
+        <?php endif; ?>
 
 					<?php else:?>
-					  	<?=$property['popt_date'];?>
+					  	<div style="display:flex;  gap:8px; line-height:1;padding-left: 1rem;"><?=$property['popt_date'];?></div>
 					<?php endif;?>
 					</td>
 					<td><?= $property['popt_bank_det']?></td>

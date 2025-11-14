@@ -70,8 +70,12 @@ class empcontract extends db_table {
 		if (! empty ( $cond ['f_vehicle'] )){
 			$where [] = " vhl_id = :f_vehicle ";
 		}
-		else 
-			$order  = " ORDER BY vhl_type, vhl_id, emc_cust_id,type_id,emc_id DESC ";
+		 		
+		if (!empty($cond['f_employee']) || !empty($cond['f_vehicle'])) {
+		    $order = "ORDER BY vhl_type, (emc_date_end IS NULL) DESC, emc_date_end DESC";
+		} else {
+		    $order = "ORDER BY vhl_type, vhl_id, emc_cust_id, type_id, emc_id DESC";
+		}
 							
 		$where = ' WHERE ' . implode ( ' AND ', $where );
 				

@@ -888,17 +888,42 @@ class employee extends db_table {
 	}
 	
 	public function getContractEmployeePair($cond = array()) {
-	    $this->query ( "select emp_id, emp_fname ||' '||emp_mname||' '||emp_lname as emp_name from $this->_table" );
 	    
-	    $cond ['emp_status'] = 1;
-	    $this->_where [] = " emp_status= :emp_status ";
+	    $this->query("
+        select emp_id,
+               emp_fname ||' '||emp_mname||' '||emp_lname ||
+               CASE WHEN empstatus.sts_type = 1 THEN ' <b>[ON LEAVE] </b>' ELSE '' END
+               as emp_name
+        from $this->_table
+	        
+        left join (
+            SELECT max(sts_id) AS max_status_id, sts_emp_id
+            FROM mis_employee_status
+            WHERE deleted = 0
+            GROUP BY sts_emp_id
+        ) max_status
+            on max_status.sts_emp_id = $this->_table.emp_id
+	        
+        left join mis_employee_status empstatus
+            on empstatus.sts_id = max_status.max_status_id
+           and empstatus.deleted = 0
+    ");
 	    
-	    $this->_where [] = " emp_desig IN (8,9) ";
+	    // Active employees only
+	    $cond['emp_status'] = 1;
+	    $this->_where[] = " emp_status = :emp_status ";
 	    
-	    $this->_order [] = 'emp_fname ASC';
+	    // REMOVE THIS LINE (we no longer skip leave employees)
+	    // $this->_where [] = " empstatus.sts_type NOT IN [1] ";
 	    
-	    return parent::fetchPair ( $cond );
+	    // Restrict designations
+	    $this->_where[] = " emp_desig IN (8,9) ";
+	    
+	    $this->_order[] = 'emp_fname ASC';
+	    
+	    return parent::fetchPair($cond);
 	}
+	
 	
 	
 	public function getAllEmployeePair($cond = array()) {

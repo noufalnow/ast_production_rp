@@ -250,7 +250,8 @@ function x($param = array(), $alt = '')
 
             return '<a href="javascript:;" onclick="getOpener (' . "'" . 'report' . "'" . ',' . "'" . $link . "'" . ');" ><i class="fas fa-search"></i></a>';
         } else
-            return "<a " . @$param[0]['param'] . "  href = '" . $link . "'" . @$param['aatr'] . ">" . $param['label'] . "</a>";
+            //return "<a " . @$param[0]['param'] . "  href = '" . $link . "'" . @$param['aatr'] . ">" . $param['label'] . "</a>";
+            return "<a " . @$param[0]['param'] . "  href = '" . $link . "'" . @$param['aatr'] ." ". @$param['style'] . ">" . $param['label'] . "</a>";
     } elseif ($alt)
         return $alt;
 }
