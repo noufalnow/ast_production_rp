@@ -4,7 +4,7 @@ class rentController extends mvc
 {
     public function propertypayAction()
     {
-        $this->view->response('window');
+        //$this->view->response('window');
         $where = [];
         require_once __DIR__ . '/../admin/!model/property.php';
 
@@ -103,8 +103,24 @@ class rentController extends mvc
         $propObj = new property();
 
         $propertyList = $propObj->getPropertyPayReport(@$where);
-
-        // s($propertyList);
+        
+        
+        $yearPlot = $propObj->getRentDrillDownYears();
+        
+        //s($yearPlot); 
+        
+        $jsYearly = [];
+        foreach ($yearPlot as $row) {
+            $jsYearly[$row['year']] = (float)$row['yearly_collected'];
+        }
+        
+       
+        
+        $yearPlot = json_encode($jsYearly, JSON_PRETTY_PRINT);
+        
+        //v($yearPlot);
+        
+        $this->view->yearPlot = $yearPlot;
 
         // To update file name formated with file No.
         /*
@@ -253,5 +269,36 @@ class rentController extends mvc
         $this->view->propertyList = $propertyList;
     }
     
-    
+    public function propertypayplotAction() {
+        
+        $this->view->response('ajax');
+        $this->view->NoViewRender = true;
+        
+        $year = $this->view->param['f_year'] ?? null;
+        
+        if (!$year) {
+            header('Content-Type: application/json');
+            echo json_encode([]);
+            return;
+        }
+        
+        require_once __DIR__ . '/../admin/!model/property.php';
+        $propObj = new property();
+        $monthData = $propObj->getRentDrillDownMonthByYear(['f_year' => $year]);
+        
+//         /s($monthData);
+        
+        // Expected DB rows:
+        // [ ["year_month" => "2024-01", "monthly_collected" => "25000.00"], ... ]
+        
+        $formatted = [];
+        foreach ($monthData as $row) {
+            $formatted[$row['month_name']] = (float)$row['monthly_collected'];
+        }     
+        
+        header('Content-Type: application/json');
+        echo json_encode($formatted);
+        exit;
+    }
+
 }

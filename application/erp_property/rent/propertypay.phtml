@@ -1,247 +1,492 @@
-<div style="margin-top:1%;">
-	<div class="col-md-12 card filter-card" style="margin-bottom: 0px;">
-	<div class="card-block" style="padding-top: 1%;">
-	<div class="full-width">
-		<button name="cmdPrint" value="  Print  " onclick="$('#report').printElement();" class="btn btn btn-primary pull-right" style="padding: 2px 12px;">Print</button></div>
-	<h5 class="title-margin">Report: <?=$this->title?></h5>
-	
-	</div>
-	<form method="get" id="filter" name="filter" action="propertypay">
-	<?php if($ref==''):?>
-		<table class="">
-			<tr style="font-size: 0.8em;">
-				<th width="6%">Property No</th>
-				<th width="12%">Building</th>
-				<th width="6%">Category</th>
-				<th width="6%">Type</th>
-			</tr>
-			<tr>	
-				<td>
-					<div class="form-group ">
-                	<?=$this->form->f_propno->show()?>
-              		</div>
-				</td>
-				<td>
-					<div class="form-group ">
-                	<?=$this->form->f_building->show()?>
-              		</div>
-				</td>
-				<td>
-					<div class="form-group ">
-                	<?=$this->form->f_prop_cat->show()?>
-              		</div>
-				</td>
-				<td>
-					<div class="form-group ">
-                	<?=$this->form->f_prop_type->show()?>
-              		</div>
-				</td>
-			</tr>		
-			<tr style="font-size: 0.8em;">
-				<th width="7%">Pay Month</th>
-				<th width="9%">Tenant</th>
-				<th width="6%">Pay Date</th>
-				<th width="7%">Status</th>
-				<th width="7%"></th>
-			</tr>		
-			<tr>
-				<td>
-					<div class="form-group">
-                	<?=$this->form->f_monthpick->show()?>
-              		</div>
-				</td>
-				<td>
-					<div class="form-group ">
-                	<?=$this->form->f_tenant->show()?>
-              		</div>
-				</td>
-				<td>
-					<div class="form-group">
-                	<?=$this->form->f_date->show()?>
-              		</div>
-				</td>
-				<td>
-					<div class="form-group">
-                	<?=$this->form->f_status->show()?>
-              		</div>
-				</td>
-				<td align="center">
-	              <div class="form-group ">
-					<button tabindex="0" class="btn <?= $this->filter_class?>" type="submit" >Filter</button>
-					<input class="btn btn-secondary" name="clear" type="submit" value="All"></input>
-	              </div>
-				</td>
-			</tr>
-		</table>
-		<?php endif?>
-		</form>
-	</div>
-<div class="col-md-12 " style="height: 100%; padding-left: 1%; padding-right: 1%;">
-<div id="report">
-<?php include __DIR__ . '/../../../public/css/printstyle_rpt.php.css';?>
-	<div  class="card" style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
-					<div style="margin-top: 3%;">
-						<table class="rpt_tbl">
-				<thead>
-					<tr>
-						<th width="8%" rowspan="3">
-							<div class="title-margin">
-								<img width="50" alt=""
-									src="http://<?=$_SERVER ['HTTP_HOST']?>/css/images/ast.png"
-									style="padding-top: 6px; padding-left: 0px; margin-left: 42px; margin-top: 5px;">
-							</div>
-						</th>
-					</tr>
-					<tr>
-						<th ><div class="center" style="width: 79%;">Abdullah
-								Salem Trading Est</div><div class="center" style="width: 79%;">Property Management</div></th>
-					</tr>
-					<tr>
-						<th width=""><div class="center"
-								style="margin-top: 0px; margin-bottom: 10px; width: 79%;"><?=$this->title;?></div></th>
-					</tr>
-				</thead>
-			</table>
-		</div>
-		<table class="rpt_frame">
-			<thead>
-				<tr>
-					<th class="empty" colspan="13"></th>
-				</tr>
-				<tr>
-					<th width="3%" class="center">Sl No</th>
-					<th width="5%" class="center">File No</th>
-					<th width="8%" class="center">Building</th>
-					<th width="3%" class="center">Category</th>
-					<th width="15%" class="center">Agreement By</th>
-					<th width="5%" class="center">Doc No</th>
-					<th width="6%" class="center">Start Date</th>
-					<th width="6%" class="center">End Date</th>
-					<th width="6%" class="center">Rent Amount</th>
-					<th width="4%" class="center">Payment Option</th>
-					<th width="6%" class="center">Date</th>
-					<th width="6%" class="center">Pay Det.</th>
-				</tr>
-			</thead>
-			<tbody>
-			
-			<?if(count($this->propertyList)>0):?>
-				<?php foreach($this->propertyList as $property):
-					if ($ref!='') {
-						if ($property ['doc_type'] == 3)
-							$tpropPropList [$property ['prop_id']] = $property ['doc_type'];
-						
-						if ($property ['doc_type'] == 2) {
-							if (isset ( $tpropPropList [$property ['prop_id']] ))
-								continue;
-						}
-					}
-				
-				$encPropId = $this->encode($property['prop_id']);
-				$encFileId = $this->encode($property['file_id']);
-				$encPayOption = $this->encode($property['popt_id']);
-				$encCdmdId = $this->encode($property['cdmd_id']);
-				
-				?>
-				<?php if($grouph!=$property['doc_type']):?>
-				<?php $sl = 1;?>
-				<?php endif;?>
-				<tr>
-					<td class="center"><?=@$sl++;?> </td>
-					<td><?=x(array('link'=>'erp_report/property/paymentcollection', 'ref'=>array('f_property'=>$property['prop_id']),'label'=>$property['prop_fileno'],array("param"=>"opener")))?> </td>
-					<td><?=$property['bld_name']?></td>
-					<td><? echo $property['prop_cat']==1?"Shop":"Flat";?></td>
-					<td><?=$property['agr_tenant']?></td>
-					<td align="center"><?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>$property['doc_no'],array("param"=>"opener")))?>
-					</td>
-					<td align="center"><?=$property['doc_issue_date']?></td>
-					<td align="center"><?=$property['doc_expiry_date']?></td>
-					<?php if($property['popt_type']):?>
-					<td align="right"><?=$property['popt_amount']; $total+=$property['popt_amount'];?></td>
-					<td <?if($property['popt_type_id']==3): ?>style="font-weight: bold; color:red" <?php endif?>> <?=$property['popt_type'];?></td>
+<form method="get" id="filter" name="filter" action="propertypay">
+	<div class="main-content mt-0 hor-content">
+		<div class="side-app">
+			<div class="main-container container">
 
+				<!-- PAGE-HEADER -->
+				<div class="page-header">
+					<div>
+						<h1 class="page-title"><?=$this->title?></h1>
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
+							<li class="breadcrumb-item active">Property Payment</li>
+						</ol>
+					</div>
+					<div class="ms-auto pageheader-btn">
+						<button name="cmdPrint" value="Print"
+							onclick="$('#report').printElement();"
+							class="btn btn-primary btn-icon text-white me-2">
+							Print <i class="fe fe-printer"></i>
+						</button>
+					</div>
+				</div>
+				<!-- PAGE-HEADER END -->
 
-<td style="
-    background-image: <?= ($property['cdmd_pstatus'] <> 1)
-        ? 'repeating-linear-gradient(165deg, white, orange 30px, orange 30px, white 60px)'
-        : 'repeating-linear-gradient(165deg, white, greenyellow 30px, greenyellow 30px, white 60px)' ?>;
-    padding: 0;
-    align-items: center;
-    justify-content: center;
-">
+<!-- TABS CONTAINER -->
+<ul class="nav nav-tabs" id="reportTabs" role="tablist">
 
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="filter-tab" data-bs-toggle="tab" data-bs-target="#filterTab" type="button" role="tab">
+      Filters
+    </button>
+  </li>
+   <li class="nav-item" role="presentation">
+    <button class="nav-link " id="chart-tab" data-bs-toggle="tab" data-bs-target="#chartTab" type="button" role="tab">
+      Chart View
+    </button>
+  </li>
+</ul>
 
-					<? if($property['cdmd_pstatus']<>1): ?>
-						
-						
- 			<div style="display:flex;  gap:8px; line-height:1;padding-left: 1rem;">
+<div class="tab-content" id="reportTabsContent">
 
-        <?php if ($property['cdet_bill_id'] == NULL): ?>
-            <?= x([
-                'link'  => 'erp_property/rent/adddemand',
-                'ref'   => $encPayOption,
-                'label' => '<b>'.$property['popt_date'].'</b>',
-                ['param' => ' class="facebox btn btn-secondary" '],
-                'style' => ' style="background-color: #eeeeee30 !important; 
-                   padding: 0px 3px; 
-                   color: blue; 
-                   line-height:2;" '
-            ]) ?>            
-            
-        <?php else: ?>
-            <span style="line-height:1;"><?= $property['popt_date']; ?></span>
-        <?php endif; ?>
+  <!-- ================= CHART TAB ================= -->
+  <div class="tab-pane fade p-3"  id="chartTab" role="tabpanel" style="background: white;">
+    <div style="max-width: 900px; margin: auto;">
+        <a id="backButton" href="javascript:void(0);" style="display:none;">⬅ Back to Year View</a>
+        <div id="chart"></div>
+    </div>
+  </div>
 
-        <?php if ($property['cdet_bill_id'] == NULL && $property['cdmd_id'] <> NULL): ?>
-            <?= x([
-                'link'  => 'erp_property/rent/deletedemand',
-                'ref'   => $encCdmdId,
-                'label' => '<i class="fas fa-trash" style="line-height: 2;"></i>',
-                ['param' => ' class="facebox" '],
-                'style' => ' style="line-height:1;" '
-            ]) ?>
-                        
+  <!-- ================= FILTER TAB ================= -->
+  <div class="tab-pane fade show active p-3" id="filterTab" role="tabpanel">
+    <form method="get" id="filter" name="filter" action="list">
+
+      <div class="row row-sm">
+        <div class="col-lg-12">
+          <div class="card" style="border-radius: 20px !important;">
+            <div class="card-header">
+              <h3 class="card-title">Filters</h3>
             </div>
-        <?php endif; ?>
 
-					<?php else:?>
-					  	<div style="display:flex;  gap:8px; line-height:1;padding-left: 1rem;"><?=$property['popt_date'];?></div>
-					<?php endif;?>
-					</td>
-					<td><?= $property['popt_bank_det']?></td>
-					<?php else:?>
-					<td align="left" colspan="4"><?=$property['agr_paydet'];?></td>
-					<? endif ?>
-				</tr>
-				<?php $grouph=$property['doc_type'];?>
-				<?php endforeach?>
-			<?endif?>
-			<tr><th align="right"  colspan="9" style="text-align: right;">Total </th> 
-			<th style="text-align: right;" align="right"><?=number_format((float)$total,3)?> </th>
-			<th colspan="3"></th></tr>
+            <div class="card-body">
+
+            <?php if($ref==''): ?>
+            <div class="row">
+              <div class="col-lg-3">
+                <div class="form-group">
+                  <label class="form-label">Property No</label>
+                  <?=$this->form->f_propno->show()?>
+                </div>
+              </div>
+
+              <div class="col-lg-3">
+                <div class="form-group">
+                    <label class="form-label">Building</label>
+                    <?=$this->form->f_building->show()?>
+                </div>
+              </div>
+
+              <div class="col-lg-3">
+                <div class="form-group">
+                    <label class="form-label">Category</label>
+                    <?=$this->form->f_prop_cat->show()?>
+                </div>
+              </div>
+
+              <div class="col-lg-3">
+                <div class="form-group">
+                    <label class="form-label">Type</label>
+                    <?=$this->form->f_prop_type->show()?>
+                </div>
+              </div>
+
+              <div class="col-lg-3">
+                <div class="form-group">
+                    <label class="form-label">Pay Month</label>
+                    <?=$this->form->f_monthpick->show()?>
+                </div>
+              </div>
+
+              <div class="col-lg-3">
+                <div class="form-group">
+                    <label class="form-label">Tenant</label>
+                    <?=$this->form->f_tenant->show()?>
+                </div>
+              </div>
+
+              <div class="col-lg-3">
+                <div class="form-group">
+                    <label class="form-label">Pay Date</label>
+                    <?=$this->form->f_date->show()?>
+                </div>
+              </div>
+
+              <div class="col-lg-3">
+                <div class="form-group">
+                    <label class="form-label">Status</label>
+                    <?=$this->form->f_status->show()?>
+                </div>
+              </div>
+            </div>
+            <?php endif; ?>
+
+            <div style="text-align: right;">
+                <button class="btn <?=$this->filter_class?> mt-4 mb-0" type="submit">Filter</button>
+                <input class="btn btn-secondary mt-4 mb-0" name="clear" type="submit" value="All" />
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </form>
+  </div>
+
+</div>
+
+				
+				
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+	  var yearly = <?=$this->yearPlot?>;
+	  var backBtn = document.querySelector("#backButton");
+	  var isYearlyView = true; // Track current view state
+	  var currentMonthlyData = null; // Store current monthly data for tooltips
+
+	  var chartOptions = {
+	    chart: {
+	      type: 'bar',
+	      height: 380,
+	      toolbar: { show: false },
+	      animations: { speed: 400 },
+	      events: {
+	        dataPointSelection: function(event, chartContext, config) {
+	          // Only allow drill-down in yearly view
+	          if (isYearlyView) {
+	            let year = config.w.config.xaxis.categories[config.dataPointIndex];
+	            fetchMonthlyData(year);
+	          }
+	          // In monthly view, do nothing (prevent drill-down)
+	        }
+	      }
+	    },
+
+	    tooltip: {
+	    	  shared: false,
+	    	  intersect: true,
+	    	  x: { show: false },
+	    	  y: {
+	    	    formatter: function (value, { dataPointIndex, w }) {
+	    	      if (isYearlyView) {
+	    	        const year = w.globals.categoryLabels[dataPointIndex] || "";
+	    	        return year + ": " + value.toLocaleString(undefined, { minimumFractionDigits: 3 });
+	    	      } else {
+	    	        const month = w.globals.categoryLabels[dataPointIndex] || "";
+	    	        return month + ": " + value.toLocaleString(undefined, { minimumFractionDigits: 3 });
+	    	      }
+	    	    }
+	    	  },
+	    	  header: {
+	    	    show: false
+	    	  }
+	    	},
+	    series: [{
+	      name: 'Yearly Collection',
+	      data: Object.values(yearly)
+	    }],
+	    xaxis: { categories: Object.keys(yearly) },
+	    title: { text: 'Collection Summary (Year → Month)' },
+	    colors: ['#1E88E5']
+	  };
+
+	  var chartEl = document.querySelector("#chart");
+	  if (!chartEl) {
+	    console.error("❌ #chart container missing.");
+	    return;
+	  }
+
+	  var chart = new ApexCharts(chartEl, chartOptions);
+	  chart.render();
+
+	  function fetchMonthlyData(year) {
+	    chart.updateOptions({ title: { text: "Loading Monthly Data..." } });
+
+	    $.ajax({
+	      url: "/erp_property/rent/propertypayplot",
+	      method: "GET",
+	      data: { f_year: year },
+	      dataType: "json",
+	      success: function(response) {
+	        if (response && Object.keys(response).length > 0) {
+	          backBtn.style.display = "inline-block";
+	          isYearlyView = false; // Switch to monthly view
+	          currentMonthlyData = response; // Store monthly data for reference
+	          updateToMonthly(year, response);
+	        } else {
+	          alert("No monthly data found for " + year);
+	          chart.updateOptions({ title: { text: 'Collection Summary (Year → Month)' } });
+	        }
+	      },
+	      error: function() {
+	        alert("Failed to load monthly data!");
+	        chart.updateOptions({ title: { text: 'Collection Summary (Year → Month)' } });
+	      }
+	    });
+	  }
+
+	  function updateToMonthly(year, monthlyData) {
+	    const months = Object.keys(monthlyData);
+	    const firstMonth = months[0];
+	    const lastMonth  = months[months.length - 1];
+
+	    const rangeLabel = (firstMonth === lastMonth)
+	          ? firstMonth + " " + year
+	          : firstMonth + "–" + lastMonth + " " + year;
+
+	    chart.updateOptions({
+	      series: [{
+	        name: rangeLabel, // This is the series name shown in legend, not individual bar tooltips
+	        data: Object.values(monthlyData)
+	      }],
+	      xaxis: { 
+	        categories: months // Individual month names for x-axis and tooltips
+	      },
+	      title: { text: "Collection Breakdown (" + rangeLabel + ")" }
+	    });
+	  }
+
+	  backBtn.addEventListener("click", function(e) {
+	    e.preventDefault();
+	    backBtn.style.display = "none";
+	    isYearlyView = true; // Switch back to yearly view
+	    currentMonthlyData = null; // Clear monthly data
+	    
+	    chart.updateOptions({
+	      series: [{
+	        name: "Yearly Collection",
+	        data: Object.values(yearly)
+	      }],
+	      xaxis: { categories: Object.keys(yearly) },
+	      title: { text: "Collection Summary (Year → Month)" }
+	    });
+	  });
+
+	});
+</script>
+
+
 			
-			</tbody>
-		</table>
-		<div>
-			<table class="rpt_tbl">
-				<thead>
-				<tr><td>&nbsp;</td></tr>
-					<tr><?php $date = new DateTime();
+
+
+
+				<div class="" style="height: 100%;">
+					<div id="report">
+<?php include __DIR__ . '/../../../public/css/printstyle_rpt.php.css';?>
+	<div class="card"
+							style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px; border-radius: 20px !important;">
+							<div style="margin-top: 3%;">
+<table class="rpt_tbl">
+    <thead>
+        <tr>
+            <th width="15%" rowspan="3" style="text-align:center; vertical-align:middle;">
+                <div class="title-margin">
+                    <img width="50" alt=""
+                        src="http://<?= $_SERVER['HTTP_HOST'] ?>/css/images/ast.png"
+                        style="margin: 5px auto; display:block;">
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <div class="center" style="width: 79%;">Abdullah Salem Trading Est</div>
+                <div class="center" style="width: 79%;">Property Management</div>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <div class="center" style="margin-top: 0; margin-bottom: 10px; width: 79%;">
+                    <?= $this->title; ?>
+                </div>
+            </th>
+        </tr>
+    </thead>
+</table>
+
+							</div>
+<table class="rpt_frame">
+    <thead>
+        <tr><th class="empty" colspan="13"></th></tr>
+<tr>
+    <th width="4%" class="center">Sl No</th>
+    <th width="6%" class="center">File No</th>
+    <th width="11%" class="center">Building</th>
+    <th width="4%" class="center">Category</th>
+    <th width="21%" class="center">Agreement By</th>
+    <th width="6%" class="center">Doc No</th>
+    <th width="8%" class="center">Start Date</th>
+    <th width="8%" class="center">End Date</th>
+    <th width="5%" class="center">Payment Option</th>
+    <th width="9%" class="center">Rent Amount</th>
+    <th width="8%" class="center">Date</th>
+</tr>
+
+    </thead>
+
+    <tbody>
+    <?php if (count($this->propertyList) > 0): ?>
+
+        <?php foreach ($this->propertyList as $property): ?>
+
+            <?php
+                if ($ref != '') {
+                    if ($property['doc_type'] == 3) {
+                        $tpropPropList[$property['prop_id']] = $property['doc_type'];
+                    }
+
+                    if ($property['doc_type'] == 2 && isset($tpropPropList[$property['prop_id']])) {
+                        continue;
+                    }
+                }
+
+                $encPropId     = $this->encode($property['prop_id']);
+                $encFileId     = $this->encode($property['file_id']);
+                $encPayOption  = $this->encode($property['popt_id']);
+                $encCdmdId     = $this->encode($property['cdmd_id']);
+
+                if ($grouph != $property['doc_type']) {
+                    $sl = 1;
+                }
+            ?>
+
+            <tr>
+                <td class="center"><?= @$sl++; ?></td>
+
+                <td>
+                    <?= x(['link' => 'erp_report/property/paymentcollection',
+                           'ref'  => ['f_property' => $property['prop_id']],
+                           'label'=> $property['prop_fileno'],
+                           ['param' => 'opener']
+                    ]) ?>
+                </td>
+
+                <td><?= $property['bld_name'] ?></td>
+                <td><?= ($property['prop_cat'] == 1) ? "Shop" : "Flat" ?></td>
+                <td><?= $property['agr_tenant'] ?></td>
+
+                <td class="center">
+                    <?= x(['link'  => 'default/default/download',
+                           'ref'   => $encFileId,
+                           'label' => $property['doc_no'],
+                           ['param' => 'opener']
+                    ]) ?>
+                </td>
+
+                <td class="center"><?= $property['doc_issue_date'] ?></td>
+                <td class="center"><?= $property['doc_expiry_date'] ?></td>
+
+                <?php if ($property['popt_type']): ?>
+
+
+                    <td
+                        <?php if ($property['popt_type_id'] == 3): ?>
+                            style="font-weight:bold;color:red"
+                        <?php endif; ?>
+                    >
+                        <?= $property['popt_type'] ?>
+                    </td>
+
+                    <td align="right">
+                        <?php $total += $property['popt_amount']; ?>
+                        <?= $property['popt_amount'] ?>
+                    </td>
+                    
+                    <td style="
+                        background-image: <?= ($property['cdmd_pstatus'] != 1)
+                        ? 'repeating-linear-gradient(165deg, white, orange 30px, orange 30px, white 60px)'
+                        : 'repeating-linear-gradient(165deg, white, greenyellow 30px, greenyellow 30px, white 60px)' ?>;
+                        padding:0; align-items:center; justify-content:center;
+                    ">
+
+                        <?php $grouph = $property['doc_type']; ?>
+
+                        <?php if ($property['cdmd_pstatus'] <> 1): ?>
+                            <div style="display:flex; gap:8px; line-height:1; padding-left:1rem;">
+
+                                <?php if ($property['cdet_bill_id'] == NULL): ?>
+                                    <?= x([
+                                        'link'  => 'erp_property/rent/adddemand',
+                                        'ref'   => $encPayOption,
+                                        'label' => '<b>'.$property['popt_date'].'</b>',
+                                        ['param' => ' class="facebox btn btn-secondary" '],
+                                        'style' => ' style="
+                                            background-color:#eeeeee30 !important;
+                                            padding:0px 3px;
+                                            color:blue;
+                                            line-height:2;
+                                        " title="Cash Demand"'
+                                    ]) ?>
+                                <?php else: ?>
+                                    <span style="line-height:1;"><?= $property['popt_date'] ?></span>
+                                <?php endif; ?>
+
+                                <?php if ($property['cdet_bill_id'] == NULL && $property['cdmd_id'] != NULL): ?>
+                                    <?= x([
+                                        'link'  => 'erp_property/rent/deletedemand',
+                                        'ref'   => $encCdmdId,
+                                        'label' => '<i class="fas fa-trash" style="line-height:2;"></i>',
+                                        ['param' => ' class="facebox" '],
+                                        'style' => ' style="line-height:1;" title="Delete Cash Demand"'
+                                    ]) ?>
+                                <?php endif; ?>
+
+                            </div>
+                        <?php else: ?>
+                            <div style="display:flex; gap:8px; line-height:1; padding-left:1rem;">
+                                <?= $property['popt_date'] ?>
+                            </div>
+                        <?php endif; ?>
+                    </td>
+
+                <?php else: ?>
+                    <td colspan="4" align="left"><?= $property['agr_paydet'] ?></td>
+                <?php endif; ?>
+
+            </tr>
+
+        <?php endforeach; ?>
+
+    <?php endif; ?>
+
+        <tr>
+            <th colspan="9" style="text-align:right;">Total</th>
+            <th style="text-align:right;"><?= number_format((float)$total, 3) ?></th>
+            <th></th>
+        </tr>
+
+    </tbody>
+</table>
+
+							<div>
+								<table class="rpt_tbl">
+									<thead>
+										<tr>
+											<td>&nbsp;</td>
+										</tr>
+										<tr><?php $date = new DateTime();
 					$date = $date->format('d/m/y H:i')?>
-						<td><div class="title-margin rpt_footer"><small><?=$this->title;?></small></div><div class="rpt_footer" style="float: right;"><small>(<?=$date?>)</small></div></td>
-					</tr>
-				</thead>
-			</table>
-		</div>
-	</div>
-</div>
-</div>
+						<td><div class="title-margin rpt_footer">
+													<small><?=$this->title;?></small>
+												</div>
+												<div class="rpt_footer" style="float: right;">
+													<small>(<?=$date?>)</small>
+												</div></td>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
 
-</div>
+			</div>
 
-<script type="text/javascript">           
+			<script type="text/javascript">           
 $(document).ready(function() {
     $('#f_monthpick').MonthPicker({ Button: false });
 });
 </script>
-

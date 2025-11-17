@@ -150,7 +150,7 @@ function mainMenu($encUserId)
     
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_property/rent/propertypay',
-        'label' => 'Rent Schedule',array("param" => 'wide_opener'))). '</li>';
+        'label' => 'Rent Schedule')). '</li>';
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_property/pservice/list',
         'label' => 'Maintanance'

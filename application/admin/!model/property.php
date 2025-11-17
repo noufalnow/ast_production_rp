@@ -470,6 +470,62 @@ class property extends db_table
 
         return parent::fetchQuery($cond);
     }
+    
+    
+    public function getRentDrillDownYears($cond = array())
+    {  
+       $this->query("SELECT 
+                EXTRACT(YEAR FROM coll.coll_paydate)::INT AS year,
+                SUM(cdet_amt_paid) AS yearly_collected
+            FROM mis_collection AS coll
+            LEFT JOIN mis_collection_det AS coldet 
+                ON coll.coll_id = coldet.cdet_coll_id
+                AND coldet.deleted = 0
+                AND coldet.cdet_src_type = 2
+            WHERE coll.coll_src_type = 2
+              AND coll.coll_app_status = 1
+              AND coll.deleted = 0
+              AND coll.coll_paydate IS NOT NULL
+              AND EXTRACT(YEAR FROM coll.coll_paydate) BETWEEN 2019 AND EXTRACT(YEAR FROM CURRENT_DATE)
+            GROUP BY EXTRACT(YEAR FROM coll.coll_paydate)
+            ORDER BY year;
+            ");	
+		return parent::fetchQuery($cond);
+    }
+    
+    public function getRentDrillDownMonthByYear($cond = array())
+    {
+        $where = "";
+        
+        if (!empty($cond['f_year'])) {
+            $where = " AND EXTRACT(YEAR FROM coll.coll_paydate) = :f_year ";
+        }
+        
+        $this->query("SELECT
+            TO_CHAR(coll.coll_paydate, 'Mon') AS month_name,
+            EXTRACT(MONTH FROM coll.coll_paydate)::INT AS month_no,
+            SUM(cdet_amt_paid) AS monthly_collected
+        FROM mis_collection AS coll
+        LEFT JOIN mis_collection_det AS coldet
+          ON coll.coll_id = coldet.cdet_coll_id
+         AND coldet.deleted = 0
+         AND coldet.cdet_src_type = 2
+         AND (coldet.cdet_status = 2 OR coldet.cdet_status IS NULL)
+        WHERE coll.coll_src_type = 2
+          AND coll.coll_app_status = 1
+          AND coll.deleted = 0
+          AND coll.coll_paydate IS NOT NULL
+          $where
+        GROUP BY month_name, month_no
+        ORDER BY month_no;
+    ");
+          
+          return parent::fetchQuery($cond);
+    }
+    
+    
+    
+    
 
     public function getPropDocExpiryReport($cond = array())
     {
