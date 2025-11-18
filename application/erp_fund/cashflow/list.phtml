@@ -1,4 +1,4 @@
-<?$offset = $this->cashBookObj->_voffset;?>
+<?php $offset = $this->cashBookObj->_voffset; ?>
 <form method="get" id="filter" name="filter" action="list">
 	<div class="main-content mt-0 hor-content">
 		<div class="side-app">
@@ -9,17 +9,16 @@
 					<div>
 						<h1 class="page-title">Cash Flow List</h1>
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="javascript:void(0);">Home</a>
-							</li>
-							<li class="breadcrumb-item active" aria-current="page">Manage
-								Cash Flow List</li>
+							<li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
+							<li class="breadcrumb-item active" aria-current="page">Manage Cash Flow List</li>
 						</ol>
 					</div>
 					<div class="ms-auto pageheader-btn">
-						<?=x(array('link'=>'erp_fund/cashflow/flow','label'=>'<button class="btn btn-success pull-right" >Cash Flow</button>',array("param"=>'class="facebox"')))?> 
+						<?= x(array('link'=>'erp_fund/cashflow/flow','label'=>'<button class="btn btn-success pull-right" >Cash Flow</button>', array("param"=>'class="facebox"'))) ?>
 					</div>
 				</div>
 				<!-- PAGE-HEADER END -->
+
 				<!-- ROW -->
 				<div class="row row-sm">
 					<div class="">
@@ -30,71 +29,76 @@
 								</div>
 								<div class="card-body">
 									<div class="table-responsive export-table">
-                                        <table aria-describedby="" class="table table-bordered no-footer">
-                                                <thead class="border-top">
-                                                  <tr role="row">
-					<th width="3%" class="center">Sl No</th>
-					<th width="3%" class="center">Date</th>
-					<th width="40%" class="center">Det.</th>
-					<th width="4%" class="center">Debit</th>
-					<th width="4%" class="center">Credit</th>
-					<th width="3%" class="center">Edit</th>
-					<?php if($_SESSION['user_acl']['erp_fund/cashflow/fview']):?>
-					<th width="3%" class="center">View</th>
-					<?php endif;?>
-				</tr>
-			</thead>
-			<tbody>
-			<?if(count( $this->cashBookList)>0):?>
-				<?php foreach( $this->cashBookList as $cashBook):
-					$encCbId = $this->encode($cashBook['cb_id']);
-				
-					if($cashBook['cfcount']==$cashBook['acount'])
-						$icon = '<span class="glyphicon glyphicon-ok-circle" style="color:green"> </span>';
-					elseif($cashBook['acount']==0)
-						$icon = '<span class="glyphicon glyphicon-exclamation-sign" style="color:red">';
-					else
-						$icon = '<span class="glyphicon glyphicon-ok-circle" style="color:blue">';
-				?>
-				<tr>
-					<td class="center"><?=@++ $this->offset;?></td>
-					<td align="center"><?=$cashBook['cb_dip_dt']?></td>
-					<td><?=$cashBook['cb_debit_note']?> <?=$cashBook['exp_details']?>  </td>
-					<td align="right"><?=$cashBook['cb_debit']?></td>
-					<td align="right"><?=$cashBook['cb_credit']?></td>					
+                                    <table aria-describedby="" class="table table-bordered no-footer table-fixed">
 
-					<td class="center"><?=x(array('link'=>'erp_fund/cashflow/fedit','ref'=>$encCbId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?> 
-					</td>
-					<?php if($_SESSION['user_acl']['erp_fund/cashflow/fview']):?>
-					<td class="center">
-						<?=x(array('link'=>'erp_fund/cashflow/fview','ref'=>$encCbId,'label'=>'<button type="button" class="btn btn-default btn-lg" style="padding-top: 1px;padding-bottom: 0px;">
-						  '.$icon.'
-						</button>',array("param"=>'wide_opener')))?> 						
-					</td>
-					<?php endif;?>
-				</tr>
-				<?php endforeach?>
-			<?endif?>
-			</tbody>
-		</table>
-		<? $this->cashBookObj->pagination();?>
-	</div>
-</div>
-<?=x(array('link'=>'erp_fund/cashflow/cashfreport','label'=>'
-	<div class="col-md-3">
-		<div class="card">
-				<div class="card-block" style="background-color: ;">
-				<div class="card-block">
-					<h4 class="card-title center">Cash Flow Report</h4>
-					<p class="card-text">
-						<small class="text-muted"></small>
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
-', array("param"=>'wide_opener')),'<br><br>')?>
+                                    	<thead class="border-top">
+                                    		<tr role="row">
+                                    			<th width="2%" class="center">Sl No</th>
+                                    			<th width="4%" class="center">Date</th>
+                                    			<th width="40%" class="center">Det.</th>
+                                    			<th width="4%" class="center">Debit</th>
+                                    			<th width="4%" class="center">Credit</th>
+                                    			<th width="3%" class="center">Edit</th>
+                                    			<?php if($_SESSION['user_acl']['erp_fund/cashflow/fview']): ?>
+                                    				<th width="3%" class="center">View</th>
+                                    			<?php endif; ?>
+                                    		</tr>
+                                    	</thead>
 
+
+											<tbody>
+											<?php if(count($this->cashBookList) > 0): ?>
+												<?php foreach($this->cashBookList as $cashBook):
+													$encCbId = $this->encode($cashBook['cb_id']);
+
+													if($cashBook['cfcount'] == $cashBook['acount'])
+														$icon = '<span class="glyphicon glyphicon-ok-circle" style="color:green"> </span>';
+													elseif($cashBook['acount'] == 0)
+														$icon = '<span class="glyphicon glyphicon-exclamation-sign" style="color:red"></span>';
+													else
+														$icon = '<span class="glyphicon glyphicon-ok-circle" style="color:blue"></span>';
+												?>
+												<tr>
+													<td class="center"><?= ++$this->offset; ?></td>
+													<td align="center"><?= $cashBook['cb_dip_dt'] ?></td>
+													<td class="td-wrap" style="width:40%;">
+														<?= $cashBook['cb_debit_note'] ?> <?= $cashBook['exp_details'] ?>
+													</td>
+													<td align="right"><?= $cashBook['cb_debit'] ?></td>
+													<td align="right"><?= $cashBook['cb_credit'] ?></td>
+													<td class="center">
+														<?= x(array('link'=>'erp_fund/cashflow/fedit', 'ref'=>$encCbId, 'label'=>'<i class="fas fa-edit"></i>', array("param"=>'class="facebox"'))) ?>
+													</td>
+
+													<?php if($_SESSION['user_acl']['erp_fund/cashflow/fview']): ?>
+													<td class="center">
+														<?= x(array(
+															'link'  => 'erp_fund/cashflow/fview',
+															'ref'   => $encCbId,
+															'label' => '<button type="button" class="btn btn-default btn-lg" style="padding-top: 1px;padding-bottom: 0px;">'.$icon.'</button>',
+															array("param" => 'wide_opener')
+														)) ?>
+													</td>
+													<?php endif; ?>
+												</tr>
+												<?php endforeach; ?>
+											<?php endif; ?>
+											</tbody>
+
+										</table>
+
+										<?php $this->cashBookObj->pagination(); ?>
+
+									</div><!-- table-responsive end -->
+								</div><!-- card-body end -->
+							</div><!-- card end -->
+						</div>
+					</div>
+				</div><!-- row end -->
+
+			</div><!-- main-container end -->
+		</div><!-- side-app end -->
+	</div><!-- main-content end -->
 </form>
 <script>
 
@@ -128,4 +132,23 @@ $.extend($.expr[':'], {
 .modal-dialog{
 	 width: 85%;
 }
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;             /* prevents overflow */
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.table-fixed {
+  table-layout: fixed;          /* forces wrapping in columns */
+  width: 100%;
+}
+
+.td-wrap {
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: anywhere;      /* prevents long text overflow */
+}
+
 </style>

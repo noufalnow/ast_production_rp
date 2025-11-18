@@ -267,63 +267,78 @@
                 </table>
             </div>
 
-            <div style="margin-top: 1%; margin-bottom: 1%;">
-                <table class="rpt_tbl" style="font-size: 9pt;">
-                    <tr>
-                        <td colspan="2" class="left">
-                            Amount Chargeable (in words)<br>
-                            <b>
-                                <?php
-                                    $gTotal = explode('.', number_format( $grandTotal + ($this->billInfo['bill_vat_amt'] ?? 0), 3));
-                                    $gTotal[0] = str_replace(',', '', $gTotal[0]);
-                                    $gTotal[1] = str_replace(',', '', $gTotal[1]);
-                                    $baisa = '';
 
-                                    $rial = 'R.O ' . translateToWords((int)$gTotal[0]);
-                                    if (!empty($gTotal[1]) && $gTotal[1] != 0) {
-                                        $baisa = ' And Baisa ' . translateToWords((int)$gTotal[1]);
-                                    }
-                                    echo $rial . $baisa . ' Only';
-                                ?>
-                            </b>
-                        </td>
-                    </tr>
+				<div style="margin-top: 1%; margin-bottom: 1%;     bottom: 0;    left: 0;"> 
+					<table class="rpt_tbl" style="font-size: 9pt;"> 
+						<tr> 
+							<td colspan="2" class="left">Amount Chargeable (in words) <br> <b><? 
+							 
+							$gTotal = explode ( '.', number_format($grandTotal,3));						 
+							$gTotal [0]= str_replace( ',', '', $gTotal [0]); 
+							$gTotal [1]= str_replace( ',', '', $gTotal [1]); 
+							 
+							 
+							$rial = 'R.O '.translateToWords( (int)$gTotal [0] ) ; 
+								 
+							if ($gTotal [1] != '' && $gTotal [1] != 0) 
+								$baisa = ' And Baisa ' . translateToWords( (int)$gTotal [1] ); 
+							echo $rial . $baisa . ' Only'; 
+							?></b> 							</td> 
+						</tr> 
+						 
+						 
+						<tr> 
+							<td colspan="2" class="left" valign="top" style="float: right" align="right"> 
+							<i>Declaration: </i><br> We declare that the invoice shows the 
+								actual price of the goods/service <br>described and all particulars 
+								are true and correct. 
+							</td> 
+						</tr> 
+						 
+						 
+						<tr> 
+						 
+							<td valign="top" style="float: right" align="right"> 
+							<br> 
+							<br> 
+							For Ibn Abdullah Salem Trading SPC. <br> 
+								Authorised Signatory</td>	 
+						 
+							<td align="left" valign="top" style="float: left" align="left"> 
+							<br> 
+							<br>Receiver's signature 
+							</td> 
+								 
+ 
+						</tr> 
+						 
+						<tr> 
+							<td colspan="2" class="left"><i>Remarks:</i> <br>PAYMENT TERMS: With in 30 
+								days Or as per the agreement from the date of invoice submission <br> Cheques should be in 
+								favour of <b> IBN ABDULLAH SALEM TRADING SPC.</b> 
+									</td> 
+						</tr> 
+						 
+						 
+					</table> 
+					<table class="rpt_tbl" style="font-size: 9pt;margin-top: 2%; "> 
+					<tr> 
+							<td>&nbsp;</td> 
+					</tr> 
+						<tr 
+							style="border-bottom: medium none; border-left: medium none; border-right: medium none;"> 
+							<td style="border-bottom: medium none; border-left: medium none; border-right: medium none; border-top: 1px solid #ababab;"> 
+							</td> 
+						</tr>  
+											<tr> 
+							<td>&nbsp;</td> 
+					</tr> 
+										<tr> 
+							<td>&nbsp;</td> 
+					</tr> 
+					</table> 
+				</div> 
 
-                    <tr>
-                        <td colspan="2" class="left" align="right">
-                            <i>Declaration:</i><br>
-                            We declare that the invoice shows the actual price of the goods/service described and all particulars are true and correct.
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td align="right" valign="top">
-                            <br><br>
-                            For Ibn Abdullah Salem Trading SPC<br>
-                            Authorised Signatory
-                        </td>
-                        <td valign="top" style="float: left;">
-                            <br><br>
-                            Receiver's Signature
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="2" class="left">
-                            <i>Remarks:</i><br>
-                            PAYMENT TERMS: Within 30 days or as per the agreement from the date of invoice submission.<br>
-                            Cheques should be in favour of <b>IBN ABDULLAH SALEM TRADING SPC</b>
-                        </td>
-                    </tr>
-                </table>
-
-                <table class="rpt_tbl" style="font-size: 9pt; margin-top: 2%;">
-                    <tr><td>&nbsp;</td></tr>
-                    <tr><td style="border-top: 1px solid #ababab;"></td></tr>
-                    <tr><td>&nbsp;</td></tr>
-                    <tr><td>&nbsp;</td></tr>
-                </table>
-            </div>
         </div>
     </div>
 </div>
