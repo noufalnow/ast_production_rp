@@ -2,7 +2,7 @@
 		<div class="modal-content modal-content-demo">
 			<div class="modal-header">
 				<h4 class="card-title"> &nbsp; Invoice No : <b> 
-											<?=$this->billInfo['bill_book_no']<>''?$this->billInfo['bill_book_no']: "AST/".sprintf("%04s", $this->billInfo['bill_id']);?>
+											<?=$this->billInfo['bill_book_no']<>''?$this->billInfo['bill_book_no']: $this->billInfo['comp_disp_name']."/".sprintf("%04s", $this->billInfo['bill_id']);?>
 											</b></h4>
 				<button type="button" aria-label="Close" class="btn-close" data-bs-dismiss="modal">
 					<span aria-hidden="true">×</span>
@@ -79,7 +79,7 @@ $encFileId = $this->encode($this->billInfo['file_id']);?>
 											}
 											?>												 
 											<td style="border-color: #ababab;font-size:9pt" class="left" valign="top">Invoice No : <b> 
-											<?=$this->billInfo['bill_book_no']<>''?$this->billInfo['bill_book_no']: "AST/".sprintf("%04s", $this->billInfo['bill_id']);?>
+											<?=$this->billInfo['bill_book_no']<>''?$this->billInfo['bill_book_no']: $this->billInfo['comp_disp_name']."/".sprintf("%04s", $this->billInfo['bill_id']);?>
 											</b></td>
 											<td style="border-color: #ababab;font-size:9pt" class="left" valign="top">Dated :  <b><?=$billDt;?></b>
 											<?php 

@@ -73,6 +73,7 @@ class billController extends mvc
         require_once __DIR__ . '/../admin/!model/company.php';
         $compModelObj = new company();
         $compList = $compModelObj->getCompanyPair();
+        $compList['-1'] = 'BIN AST';
         $form->addElement('company', 'Company', 'select', 'required', array(
             'options' => $compList
         ));
@@ -139,6 +140,11 @@ class billController extends mvc
                 // update po number
                 $poDet = $documentsObj->getDocumentById($valid['wolpo']);
                 $bill = new bill();
+                
+                
+                $valid['vatoption'] = trim($valid['vatoption'] ?? '') === '' ? 0 : $valid['vatoption'];
+                $valid['vatamount']    = trim($valid['vatamount'] ?? '') === '' ? 0 : $valid['vatamount'];
+                                               
                 $data = array(
                     'bill_company' => $valid['company'],
                     // 'bill_refno'=>$valid['refno'],
@@ -157,6 +163,15 @@ class billController extends mvc
                     'bill_vat_option' => $valid['vatoption'],
                     'bill_vat_amt' => $valid['vatamount'],
                 );
+                               
+                
+                if($valid['company'] =='-1')
+                {
+                    $valid['company'] = 1;
+                    $data['bill_company'] = 1;
+                    $data['bill_company_alias'] = 1;
+                }
+                
                 $billId = $bill->add($data);
                 $total = 0;
                 if ($billId) {
@@ -267,6 +282,7 @@ class billController extends mvc
         require_once __DIR__ . '/../admin/!model/company.php';
         $compModelObj = new company();
         $compList = $compModelObj->getCompanyPair();
+        $compList['-1'] = 'BIN AST';
         $form->addElement('company', 'Company', 'select', 'required', array(
             'options' => $compList
         ));
@@ -360,6 +376,11 @@ class billController extends mvc
                 }
                 // update po number
                 $poDet = $documentsObj->getDocumentById($valid['wolpo']);
+                
+                
+                $valid['vatoption'] = trim($valid['vatoption'] ?? '') === '' ? 0 : $valid['vatoption'];
+                $valid['vatamount']    = trim($valid['vatamount'] ?? '') === '' ? 0 : $valid['vatamount'];
+
                 $data = array(
                     'bill_company' => $valid['company'],
                     // 'bill_refno'=>$valid['refno'],
@@ -377,6 +398,22 @@ class billController extends mvc
                     'bill_vat_option' => $valid['vatoption'],
                     'bill_vat_amt' => $valid['vatamount'],
                 );
+                
+
+                
+                                
+                if($valid['company'] =='-1')
+                {
+                    $valid['company'] = 1;
+                    $data['bill_company'] = 1;
+                    $data['bill_company_alias'] = 1;
+                }else{
+                    $data['bill_company_alias'] = 0;
+                }
+                
+                
+                
+                
                 $update = $billObj->modify($data, $decBillId);
                 $total = 0;
                 if ($update) {
@@ -430,6 +467,10 @@ class billController extends mvc
                 }
             }
         } else {
+            
+            if($billInfo['bill_company_alias']==1) 
+                $billInfo['bill_company'] = '-1';
+                
             $form->company->setValue($billInfo['bill_company']);
             // $form->refno->setValue($billInfo['bill_refno']);
             $form->customer->setValue($billInfo['bill_customer_id']);
@@ -807,7 +848,7 @@ class billController extends mvc
             $valid = $valid[0];
 
             $tolerance = 0.0001; // Define acceptable precision
-            if (abs($revenueTotal - $billInfo['bill_oribill_amt']) > $tolerance) {
+            if (abs($revenueTotal - ($billInfo['bill_oribill_amt']- $billInfo['bill_vat_amt'])) > $tolerance) {
                 $this->view->errorStatus = "Total Revenue Share ( $revenueTotal ) shoul be eqaul to total Collection Amount ( " . $billInfo['bill_oribill_amt'] . " ).";
             } else if ($valid == true && ! $hasNullCompDispName) {
 
@@ -925,7 +966,10 @@ class billController extends mvc
         //a($this->billInfo);
         
         if ($billInfo['comp_disp_name'] === 'AST') {
-            $this->view->template = 'bill_ast';
+            if ($billInfo['bill_company_alias'] === 1)
+                $this->view->template = 'bill_bin_ast';
+            else
+                $this->view->template = 'bill_ast';
         } elseif ($billInfo['comp_disp_name'] === 'FSL') {
             $this->view->template = 'bill_faisal';
         } else {

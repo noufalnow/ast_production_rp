@@ -39,7 +39,7 @@
                              ?>
                   <tr>
                      <td class="center"><?=@++$offset;?></td>
-                     <td><?=$bill['bill_book_no']<>''?$bill['bill_book_no']: "AST/".sprintf("%04s", $bill['bill_id']);?></td>
+                     <td><?=$bill['bill_book_no']<>''?$bill['bill_book_no']: $bill['comp_disp_name']."/".sprintf("%04s", $bill['bill_id']);?></td>
                      <td><?=$bill['bill_refno']?></td>
                      <td><?=$bill['bill_billdt']?></td>
                      <td><?=$bill['bill_billdt']?></td>
@@ -138,7 +138,7 @@
                            <?if(is_array($this->billDet) && count($this->billDet)>0):?>
                            <? foreach(@$this->billDet as $i=>$row): ?>
                            <tr>
-                              <td align="center">AST/<?=$row['bill_id']?></td>
+                              <td align="center"><?=$row['comp_disp_name']?>/<?=$row['bill_id']?></td>
                               <td align="center"><?=$row['item_name']?></td>
                               <td align="center"><?=$row['vhl_no']?></td>
                               <td align="center"><?=$row['bdet_amt']?></td>

@@ -79,7 +79,7 @@ class collection extends db_table {
 					$join join (SELECT cdet_coll_id,
 					       string_agg(cdmd_note,',') AS cdmd_note,
 						   string_agg(SUBSTRING (cdmd_narration,0, 50) || '..',',') AS cdmd_narr,
-	       				   array_to_string(array_agg('AST/00' || bill_id || '-' || cdet_amt_paid ), ', ') AS bill_no,
+                           array_to_string(array_agg(comp.comp_disp_name || '/00' || bill_id || '-' || cdet_amt_paid), ', ') AS bill_no,
                            array_to_string(array_agg(cdet_amt_paid), ', ') AS bill_paid
 					FROM mis_collection_det
 					LEFT JOIN mis_cash_demand AS dmd ON dmd.cdmd_id= mis_collection_det.cdet_bill_id
@@ -88,6 +88,8 @@ class collection extends db_table {
 					LEFT JOIN mis_bill AS bill ON bill.bill_id= mis_collection_det.cdet_bill_id
 					AND bill.deleted = 0
 					AND mis_collection_det.cdet_src_type=1
+
+                    left join core_company as comp on comp.comp_id = bill.bill_company and comp.deleted = 0
 
 
 					$prop
@@ -274,7 +276,7 @@ class collection extends db_table {
 				$join join (SELECT cdet_coll_id,
 				       string_agg(cdmd_note,',') AS cdmd_note,
 					   string_agg(SUBSTRING (cdmd_narration,0, 50) || '..',',') AS cdmd_narr,
-       				   array_to_string(array_agg('AST/00' || bill_id || '-' || cdet_amt_paid ), ', ') AS bill_no,
+       				   array_to_string(array_agg(comp.comp_disp_name || '/00' || bill_id || '-' || cdet_amt_paid), ', ') AS bill_no,
                        array_to_string(array_agg(cdet_amt_paid), ', ') AS bill_paid
 				FROM mis_collection_det
 				LEFT JOIN mis_cash_demand AS dmd ON dmd.cdmd_id= mis_collection_det.cdet_bill_id
@@ -283,6 +285,8 @@ class collection extends db_table {
 				LEFT JOIN mis_bill AS bill ON bill.bill_id= mis_collection_det.cdet_bill_id
 				AND bill.deleted = 0
 				AND mis_collection_det.cdet_src_type=1
+
+                left join core_company as comp on comp.comp_id = bill.bill_company and comp.deleted = 0
 
 				$prop
 

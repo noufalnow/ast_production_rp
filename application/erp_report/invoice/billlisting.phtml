@@ -142,7 +142,7 @@
 				?>
 				<tr  <?=$trclass;?>>
 					<td class="center"><?=@++$offset;?></td>
-					<td style="cursor: pointer;"><?$label = $bill['bill_book_no']<>''?$bill['bill_book_no']." (AST/".sprintf("%04s", $bill['bill_id']).")": "AST/".sprintf("%04s", $bill['bill_id'])?> 
+					<td style="cursor: pointer;"><?$label = $bill['bill_book_no']<>''?$bill['bill_book_no']." (".$bill['comp_disp_name']."/".sprintf("%04s", $bill['bill_id']).")": $bill['comp_disp_name']."/".sprintf("%04s", $bill['bill_id'])?> 
 						<?=x(array('link'=>'erp_invoice/bill/miniview','ref'=>$encBillId,'label'=>$label,array("param"=>'class="facebox"')))?>
 					</td>
 					<td><?=$bill['cust_name']?></td>

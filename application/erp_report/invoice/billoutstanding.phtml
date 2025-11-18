@@ -173,7 +173,7 @@ $date = $date->format('d/m/Y')?>
 				<?php $vhlTotal = 0; endif?>
 				<tr>
 					<td class="center"><?=@++$offset;?></td>
-					<td align="center"><?=x(array('link'=>'erp_invoice/bill/view','ref'=>$encBillId,'label'=>$bill['bill_book_no']<>''?$bill['bill_book_no']." (AST/".sprintf("%04s", $bill['bill_id']).")": "AST/".sprintf("%04s", $bill['bill_id']),array("param"=>'opener'))) ?> </td>
+					<td align="center"><?=x(array('link'=>'erp_invoice/bill/view','ref'=>$encBillId,'label'=>$bill['bill_book_no']<>''?$bill['bill_book_no']." (".$bill['comp_disp_name']."/".sprintf("%04s", $bill['bill_id']).")": $bill['comp_disp_name']."/".sprintf("%04s", $bill['bill_id']),array("param"=>'opener'))) ?> </td>
 					<td align="center"><?=$bill['bill_refno']?></td>
 					<td align="center"><?=$bill['bill_disp_date']?></td>
 					<td align="center"><?=$bill['bill_due_date']?></td>

@@ -50,7 +50,7 @@
 				<tr>
 					<td class="center"><?=@++$offset;?></td>
 					<td align="center"><?=$this->form2->check[$bill['bill_id']]->show()?></td>
-					<td><?=$bill['bill_book_no']<>''?$bill['bill_book_no']: "AST/".sprintf("%04s", $bill['bill_id']);?></td>
+					<td><?=$bill['bill_book_no']<>''?$bill['bill_book_no']: $bill['comp_disp_name']."/".sprintf("%04s", $bill['bill_id']);?></td>
 					<td><?=$bill['bill_refno']?></td>
 					<td><?=$bill['bill_billdt']?></td>
 					<td><?=$bill['bill_billdt']?></td>

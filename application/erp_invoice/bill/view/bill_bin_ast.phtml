@@ -13,7 +13,7 @@
             <?php
                 echo $this->billInfo['bill_book_no'] <> ''
                     ? $this->billInfo['bill_book_no']
-                    : "AST/" . sprintf("%04s", $this->billInfo['bill_id']);
+                    : $this->billInfo['comp_disp_name']."/" . sprintf("%04s", $this->billInfo['bill_id']);
             ?>
         </b>
     </h5>
@@ -164,7 +164,7 @@
                                                 <?php
                                                     echo $this->billInfo['bill_book_no'] <> ''
                                                         ? $this->billInfo['bill_book_no']
-                                                        : "AST/" . sprintf("%04s", $this->billInfo['bill_id']);
+                                                        : $this->billInfo['comp_disp_name']."/" . sprintf("%04s", $this->billInfo['bill_id']);
                                                 ?>
                                             </b>
                                         </td>

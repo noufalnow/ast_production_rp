@@ -77,7 +77,7 @@
             <?php
                 echo $this->billInfo['bill_book_no'] <> ''
                     ? $this->billInfo['bill_book_no']
-                    : "FAST/" . sprintf("%04s", $this->billInfo['bill_id']);
+                    : $this->billInfo['comp_disp_name']."/" . sprintf("%04s", $this->billInfo['bill_id']);
             ?>
         </b>
     </h5>
@@ -163,7 +163,7 @@
         <div style="width:48%;border:1px solid #ccc;padding:8px;border-radius:4px;">
             <b>Invoice No:</b>
             <?php
-                echo $this->billInfo['bill_book_no'] ?: "FAST/" . sprintf("%04s", $this->billInfo['bill_id']);
+            echo $this->billInfo['bill_book_no'] ?: $this->billInfo['comp_disp_name']."/" . sprintf("%04s", $this->billInfo['bill_id']);
             ?><br><br>
             <?php
                 if ($this->billInfo['bill_date']) {

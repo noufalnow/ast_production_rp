@@ -14,11 +14,15 @@
             <?php
                 echo $this->billInfo['bill_book_no'] <> ''
                     ? $this->billInfo['bill_book_no']
-                    : "AST/" . sprintf("%04s", $this->billInfo['bill_id']);
+                    : $this->billInfo['comp_disp_name']."/" . sprintf("%04s", $this->billInfo['bill_id']);
             ?>
         </b>
     </h5>
 </div>
+
+
+
+
 
 <div class="col-md-12 card" style="height: auto; padding-right: 2%; margin-left: 14%; max-width: 800px; padding-left: 2%; border-color: lightskyblue;">
 
@@ -160,7 +164,7 @@
                                                 <?php
                                                     echo $this->billInfo['bill_book_no'] <> ''
                                                         ? $this->billInfo['bill_book_no']
-                                                        : "AST/" . sprintf("%04s", $this->billInfo['bill_id']);
+                                                        : $this->billInfo['comp_disp_name']."/" . sprintf("%04s", $this->billInfo['bill_id']);
                                                 ?>
                                             </b>
                                         </td>

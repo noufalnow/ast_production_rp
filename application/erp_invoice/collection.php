@@ -867,9 +867,11 @@ class collectionController extends mvc
             $valid = $valid[0];
 
             $tolerance = 0.0001; // Define acceptable precision
-            if (abs($revenueTotal - $collDet['coll_amount']) > $tolerance) {
-                $this->view->errorStatus = "Total Revenue Share ( $revenueTotal ) should be equal to total Collection Amount ( " . $collDet['coll_amount'] . " ).";
-            } else if ($valid == true && ! $hasNullCompDispName) {
+            //if (abs($revenueTotal - $collDet['coll_amount']) > $tolerance) {
+                //$this->view->errorStatus = "Total Revenue Share ( $revenueTotal ) should be equal to total Collection Amount ( " . $collDet['coll_amount'] . " ).";
+            //} else 
+                
+            if ($valid == true && ! $hasNullCompDispName) {
 
                 $collRevObj->deleteByCollectionId([
                     'rev_coll_id' => $decCollId

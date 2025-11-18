@@ -240,3 +240,12 @@ VAT ON INVOICE
 ALTER TABLE "mis_bill"
 ADD "bill_vat_option" smallint NOT NULL DEFAULT '0',
 ADD "bill_vat_amt" numeric(13,3) NULL;
+
+##################
+
+
+ALTER TABLE "mis_bill"
+ADD "bill_company_alias" smallint NOT NULL DEFAULT '0';
+COMMENT ON COLUMN "mis_bill"."bill_company_alias" IS '1=> Bin Abullah Salem Trading';
+
+
