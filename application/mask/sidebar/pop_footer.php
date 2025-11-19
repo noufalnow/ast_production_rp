@@ -52,7 +52,7 @@
 <?php echo ('<script src="http://' . $_SERVER['HTTP_HOST'] . '/js/application.js"></script>'); ?>
   
 <?php echo("						
-		 	<div style='width: 100%;margin-top: 16px;padding-top: 10px;display: flex;margin-left: 25%;'><p  style='
+		 	<div class='no-print' style='width: 100%;margin-top: 16px;padding-top: 10px;display: flex;margin-left: 25%;'><p  style='
     padding: 10px 0px;
     text-align: center;
     color: #999; padding-top: 0px;'>Copyright: &#169; CreativeSol  Management Information System,All rights reserverd </p> </div>

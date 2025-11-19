@@ -1,209 +1,256 @@
-<?php 
-echo '<script src="http://' . $_SERVER['HTTP_HOST'] . '/js/highcharts.js"></script>';?>
+<?php
+// Modernized Cash Flow Details Report
+// Drop-in replacement. Keep your existing PHP variables: $this->cashBookDet, $this->cashFlowDet, $this->param, $_SESSION, x(), lx(), encode(), etc.
 
-<div style="margin-top:1%;">
-	<div class="col-md-12 card filter-card" style="margin-bottom: 0px;">
-	<div class="card-block" style="padding-top: 1%;">
-	<div class="full-width">
-		<button name="cmdPrint" value="  Print  " onclick="$('#report').printElement();" class="btn btn btn-primary pull-right" style="margin-top: -30px;;margin-right: 0%;">Print</button>
-		<?=x(array('link'=>'erp_fund/cashflow/fedit','ref'=> $this->param['ref'],'label'=>'<button value="  Edit  " class="btn btn btn-primary pull-right" style="margin-top: -30px;margin-right: 1%;"><i class="glyphicon glyphicon-edit"></i>Edit</button>',array("param"=>'class="facebox"')))?>
-		<h5 class="title-margin" style="padding-bottom: 14px;">Report: Cash Flow Details </h5>
-	</div>
-</div></div>
-<div class="col-md-12 " style="height: 100%; padding-left: 1%; padding-right: 1%;">
-<div id="report">
-<?php include __DIR__ . '/../../../public/css/printstyle_rpt.php.css';?>
-	<div  class="card" style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
-					<div style="margin-top: 3%;">
-						<table class="rpt_tbl">
+// Prepare plot array for Highcharts
+$plot = [];
+if (!empty($this->cashFlowDet)) {
+    foreach ($this->cashFlowDet as $det) {
+        $plot[] = [
+            'name' => trim($det['cf_note'] ?? 'Item'),
+            'y' => floatval($det['cf_amount'] ?? 0),
+        ];
+    }
+}
 
+?>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cash Flow Details - Report</title>
 
-<div style="/*! padding: 3%; */padding-left: 3%;padding-right: 3%;padding-top: 2%;">
-		<table class="rpt_tbl">
-			<thead>
-				<tr>
-					<th width="1%" rowspan="4">
-						<div class="title-margin">
-							<img width="39" alt=""
-								src="http://<?=$_SERVER ['HTTP_HOST']?>/css/images/ast.png"
-								style="padding-top: 6px; padding-left: 0px; margin-left: 42px; margin-top: 5px;">
-						</div>
-					</th>
-				</tr>
-				<tr>
-					<th><div class="center" style="width: 79%;">Abdullah Salem
-							Trading Est</div></th>
-				</tr>
-				<tr>
-					<th width=""><div class="center"
-							style="margin-top: 0px; margin-bottom: 10px; width: 79%;"></div></th>
-				</tr>
-				<tr>
-					<th width=""><div class="center"
-							style="margin-top: 0px; width: 79%;"> Cash Flow Details </div></th>
-				</tr>
-			</thead>
-		</table>
-	</div>
+    <!-- Bootstrap (also used for print when injected inside #report) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<div style="/*! padding: 3%; */padding-left: 3%;padding-right: 3%;">
+    <!-- Optional: Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="" crossorigin="anonymous" />
 
-		<table class="rpt_frame">
-			<thead>
-				<tr>
-					<td width="15%" class="empty" style="border: 1px solid white;">Date:</td>
-					<th width="20%" class="empty" style="border: 1px solid white;"><?= $this->cashBookDet['cb_dip_dt']?></th>
-					<td width="40%"  align="right" class="empty" style="border: 1px solid white; ">Source:</td>
-					<th width="40%" class="empty" style="border: 1px solid white;"><?= $this->cashBookDet['source_type']?></th>
-				</tr>
-				<tr>
-					<td class="empty" style="border: 1px solid white;">Debit Amount:</td>
-					<th class="empty" style="border: 1px solid white;"><?= $this->cashBookDet['cb_debit']?></th>
-					<td align="right" class="empty" style="border: 1px solid white; ">Source Details:</td>
-					<th class="empty" style="border: 1px solid white;"><?= $this->cashBookDet['source_details']?></th>
-				</tr>
-				<tr>
-					<td width="10%" class="empty" style="border: 1px solid white;">Note:</td>
-					<th colspan="3" class="empty" style="border: 1px solid white;"><?= $this->cashBookDet['cb_debit_note']?></th>
-				</tr>
-			</thead>
-		</table>
+    <style>
+        /* Page layout */
+        body { background: #f6f7fb; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
+        .report-wrap { max-width: 1100px; margin: 18px auto; }
+        .action-bar { display:flex; gap:8px; align-items:center; }
+        .report-card { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 6px 18px rgba(20,20,50,0.06); }
+        .company-logo { width:64px; height:auto; opacity:0.95; }
+        .company-line { font-weight:700; letter-spacing:0.4px; }
+        .arabic { font-family: 'Tahoma', sans-serif; font-weight:600; }
+        .info-bar { background: #f1f5f9; padding:10px 14px; border-radius:6px; }
+        .signature-line { height: 1px; background: #cfcfcf; margin-top:48px; }
+        /* toggle switch for approve */
+        .switch { position: relative; display: inline-block; width: 46px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #0d6efd; }
+        input:checked + .slider:before { transform: translateX(22px); }
 
+        /* report table tweaks */
+        .table-report th, .table-report td { vertical-align: middle; border-top: 1px solid #e6e9ef; }
 
-		<div class="row mb-4" style="margin-top: 15px;">
-		<div id="mh_varis" class="col-sm-12">
-		<table class="rpt_frame">
-				<tbody>
-					<tr style="font-size: 0.8em;">
-						<th class="text-center" style="padding-bottom: 5px;" width="10%">Date</th>
-						<th class="text-center" style="padding-bottom: 5px;" width="40%">Details</th>
-						<th class="text-center" style="padding-bottom: 5px;" width="10%">Amount (RO)</th>
-						<th class="text-center" style="padding-bottom: 5px;" width="20%">Assigned To</th>
-						<th class="text-center" style="padding-bottom: 5px;" width="10%">Progress</th>
-						<?php if($_SESSION['user_acl']['erp_fund/cashflow/toggle']):?>
-						<th class="text-center" style="padding-bottom: 5px;" width="5%">Approve</th>
-						<?php endif;?>
-					</tr>
-				</tbody>
-				<tbody >
-				<?php if(count( $this->cashFlowDet)>0):?>
-				<?php $i = 0; 
-				foreach ( $this->cashFlowDet as $det):
-					$encCfDetId = $this->encode($det['cf_id']);
-					$plot[$i]['label'] = $det['cf_note'];
-					$plot[$i]['amount'] = $det['cf_amount'];
-					$i++;
-					
-				?>
-					<tr index="0">
-						<td class="text-center" valign="top"><?=$det['cdet_dip_dt']?>
-						</td>
-						<td valign="top">
-							<div class="amtrow">
-								<?=$det['cf_note']?>
-							</div>
-						</td>
-						<td valign="top" align="right" style="padding-right: 5px;">
-							<div class="amtrow">
-								<?=$det['cf_amount']?>
-							</div>
-						</td>
-						<td valign="top">
-							<div class="cheqrow">
-								<?=$det['emp_name']?>
-							</div>
-						</td>
-						<td class="center">
-							<?=x(array('link'=>'erp_fund/cashflow/billview','ref'=>$encCfDetId,'label'=>'<progress value="'.$det['pro_percentage'].'" min="0" max="100"></progress>',array("param"=>'class="facebox"')))?>
-							
-						</td>
-						<?php if($_SESSION['user_acl']['erp_fund/cashflow/toggle']):?>
-						<td>
-    						<?php  $checked =  $det['cf_approve']==1?"":"checked" ;?>
-    						<?=lx(array('link'=>'erp_fund/cashflow/toggle','ref'=>$encCfDetId,'label'=>'
-    						<label class="switch" style="margin-left: 7px;margin-bottom: 0px;">
-    						  <input type="checkbox" '.$checked.' onclick="return false;">
-    						  <span class="slider round"></span>
-    						</label>',array("param"=>'class="facebox"' )))?>
-						</td>
-						<?php endif;?>
-						
-					</tr>
-					<?php endforeach;?>
-					<?php endif;?>
-				</tbody>
-			</table>
-		</div>
-	</div>
+        /* chart container */
+        #container { margin: 10px auto; }
 
-		<table class="rpt_frame">
-			<thead>
-				<tr>
-					<td align="right" width="50%" class="empty " style="border: 1px solid white;"><b>Total:</b></td>
-					<td width="30%" class="empty" style="border: 1px solid white; "><b><?= $this->cashBookDet['cb_credit']?></b></td>
-				</tr>
-				<tr>
-					<td align="right" width="50%" class="empty" style="border: 1px solid white;"><b>Balance:</b></td>
-					<td width="30%" class="empty" style="border: 1px solid white; "><b><?=number_format( $this->cashBookDet['cb_debit']- $this->cashBookDet['cb_credit'],3)?></b></td>
-				</tr>
-			</thead>
-		</table>
-				
+        /* print styles */
+        @media print {
+            body { background: #fff; }
+            .action-bar, .no-print { display: none !important; }
+            .report-wrap { max-width: 100%; margin: 0; }
+            .report-card { box-shadow: none; border: 0; padding: 6px; }
+            .table-report th, .table-report td { border: 1px solid #222 !important; font-size: 12px; }
+            #container svg { width: 100% !important; height: auto !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="report-wrap">
+
+    <!-- Actions -->
+    <div class="mb-3 action-bar no-print">
+        <?= x(array('link'=>'erp_fund/cashflow/fedit','ref'=> $this->param['ref'],'label'=>'<button class="btn btn-outline-primary btn-sm"><i class="fa fa-edit"></i> Edit</button>',array("param"=>'class="facebox"'))) ?>
+
+        <button class="btn btn-primary btn-sm ms-auto" onclick="window.print();">
+            <i class="fa fa-print"></i> Print
+        </button>
+    </div>
+
+    <div class="report-card">
+
+        <!-- Header -->
+        <div class="d-flex align-items-center mb-3">
+            <img src="http://<?=$_SERVER['HTTP_HOST']?>/css/images/ast.png" alt="logo" class="company-logo me-3" />
+            <div class="flex-grow-1 text-center">
+                <div class="company-line">Abdullah Salem Trading Est</div>
+                <div class="arabic">مؤسسة عبدالله بن سالم للتجارة</div>
+                <div class="text-muted mt-1">Cash Flow Details</div>
+            </div>
+            <div style="width:64px"></div>
+        </div>
+
+        <!-- Info bar -->
+        <div class="row info-bar mb-3">
+            <div class="col-md-4"> <strong>Date:</strong> <div><?= htmlspecialchars($this->cashBookDet['cb_dip_dt'] ?? '') ?></div></div>
+            <div class="col-md-4"> <strong>Debit Amount:</strong> <div><?= htmlspecialchars($this->cashBookDet['cb_debit'] ?? '') ?></div></div>
+            <div class="col-md-4"> <strong>Source:</strong> <div><?= htmlspecialchars($this->cashBookDet['source_type'] ?? '') ?></div></div>
+            <div class="col-12 mt-2"> <strong>Source Details:</strong> <?= htmlspecialchars($this->cashBookDet['source_details'] ?? '') ?> </div>
+            <div class="col-12 mt-2"> <strong>Note:</strong> <?= htmlspecialchars($this->cashBookDet['cb_debit_note'] ?? '') ?> </div>
+        </div>
+
+        <!-- Items + chart row -->
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table class="table table-sm table-report">
+                        <thead class="table-light text-center">
+                            <tr>
+                                <th style="width:10%;">Date</th>
+                                <th style="width:45%;">Details</th>
+                                <th style="width:12%; text-align:right">Amount (RO)</th>
+                                <th style="width:18%;">Assigned To</th>
+                                <th style="width:10%;">Progress</th>
+                                <?php if($_SESSION['user_acl']['erp_fund/cashflow/toggle']): ?>
+                                    <th style="width:5%;">Approve</th>
+                                <?php endif; ?>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (!empty($this->cashFlowDet)):
+                                foreach ($this->cashFlowDet as $det):
+                                    $encCfDetId = $this->encode($det['cf_id']);
+                            ?>
+                            <tr>
+                                <td class="text-center"><?= htmlspecialchars($det['cdet_dip_dt'] ?? '') ?></td>
+                                <td><?= nl2br(htmlspecialchars($det['cf_note'] ?? '')) ?></td>
+                                <td class="text-end"><?= number_format(floatval($det['cf_amount'] ?? 0),3) ?></td>
+                                <td><?= htmlspecialchars($det['emp_name'] ?? '') ?></td>
+                                <td class="text-center">
+                                    <div style="min-width:90px;">
+                                        <progress value="<?= intval($det['pro_percentage'] ?? 0) ?>" max="100" style="width:100%; height:12px;"></progress>
+                                    </div>
+                                </td>
+                                <?php if($_SESSION['user_acl']['erp_fund/cashflow/toggle']): ?>
+                                <td class="text-center">
+                                    <?php $checked = ($det['cf_approve'] == 1) ? 'checked' : '' ; ?>
+                                    <?= lx(array('link'=>'erp_fund/cashflow/toggle','ref'=>$encCfDetId,'label'=>
+                                        '<label class="switch"> <input type="checkbox" '.$checked.' onclick="return false;"> <span class="slider"></span> </label>',
+                                        array("param"=>'class="facebox"')
+                                    )) ?>
+                                </td>
+                                <?php endif; ?>
+                            </tr>
+                            <?php endforeach; endif; ?>
+                        </tbody>
+                    </table>
+                </div>
 
 
+                <!-- Totals -->
+                <div class="d-flex justify-content-end mt-3">
+                    <div style="min-width:320px;">
+                        <div class="d-flex justify-content-between border-top pt-2">
+                            <div><strong>Total:</strong></div>
+                            <div><strong><?= htmlspecialchars($this->cashBookDet['cb_credit'] ?? '') ?></strong></div>
+                        </div>
+                        <div class="d-flex justify-content-between border-top pt-2 mt-2">
+                            <div><strong>Balance:</strong></div>
+                            <div><strong><?= number_format(floatval(($this->cashBookDet['cb_debit'] ?? 0) - ($this->cashBookDet['cb_credit'] ?? 0)),3) ?></strong></div>
+                        </div>
+                    </div>
+                </div>
 
-<div id="container" style="margin: 0 auto"></div>
+            </div> <!-- end left column -->
+
+            </div> <!-- end row removed chart column -->
+
+<!-- Full-width Chart Area -->
+<div class="card p-3 my-4" style="min-height:380px;">
+    <h6 class="text-center text-muted mb-2">Breakdown by Item</h6>
+    <div id="printPlotArea">
+<div id="container" style="min-height:350px; width:100%; margin:0 auto;"></div>
 </div>
-</div>
-</div>
-</div>
 
-<?php include "../footer";?>
-<script type="text/javascript">
+        <!-- Signature area -->
+        <div class="row mt-4">
+            <div class="col-6 text-start">
+                <div class="text-muted">Verified By:</div>
+                <div class="signature-line"></div>
+            </div>
+            <div class="col-6 text-end">
+                <div class="text-muted">Approved By:</div>
+                <div class="signature-line" style="float:right; width:220px;"></div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class=" text-muted small mt-4">Cash Flow Details (<?= (new DateTime())->format('d/m/y') ?>)</div>
+
+    </div> <!-- report card -->
+
+</div> <!-- report wrap -->
 
 
-Highcharts.chart('container', {
-    chart: {
-        plotBackgroundColor: null,
-        plotBorderWidth: null,
-        plotShadow: false,
-        type: 'pie'
-    },
-    title: {
-        text: ''
-    },
-    tooltip: {
-        pointFormat: '{series.name}: <b> RO. {point.y:.3f} </b>'
-    },
-    plotOptions: {
-        pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
-            dataLabels: {
-                enabled: true,
-                format: '<b>{point.name}</b>: {point.y:.3f} ',
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<?php echo '<script src="http://' . $_SERVER['HTTP_HOST'] . '/js/highcharts.js"></script>'; ?>
 
-                
-                style: {
-                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    var chartData = <?= json_encode(array_values($plot)) ?>;
+
+    if (!chartData || chartData.length === 0) {
+        chartData = [{ name: 'No Data', y: 0 }];
+    }
+
+    // Auto height based on slice count
+    var dynamicHeight = 20 * chartData.length;
+    if (dynamicHeight < 400) dynamicHeight = 400; // Minimum height
+
+    Highcharts.chart('container', {
+        chart: {
+            type: 'pie',
+            backgroundColor: null,
+            height: dynamicHeight,   // <<-- IMPORTANT
+            width: null
+        },
+        title: { text: '' },
+        tooltip: {
+            pointFormat: '{series.name}: <b>RO. {point.y:.3f}</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                size: '50%',              // smaller center pie
+                innerSize: '60%',
+                dataLabels: {
+                    enabled: true,
+                    allowOverlap: true,
+                    distance: 20,          // move labels outside
+                    connectorShape: 'crookedLine',
+                    crookDistance: '70%',  // avoid crossing lines
+                    style: {
+                        fontSize: '10px',
+                        color: '#000'
+                    },
+                    formatter: function () {
+                        return this.point.name + ': ' + this.point.y.toFixed(3);
+                    }
                 }
             }
-        }
-    },
-    series: [{
-        name: 'RO',
-        colorByPoint: true,
-        data: [
-			<?foreach ($plot as $val): ?>
-            
-        	{
-            name: '<?=$val['label']?>',
-            y: <?=$val['amount']?>,
         },
+        series: [{
+            name: 'RO',
+            colorByPoint: true,
+            data: chartData
+        }]
+    });
 
-        <?php endforeach;?>
-
-        ]
-    }]
 });
+
 </script>
+
+</body>
+</html>

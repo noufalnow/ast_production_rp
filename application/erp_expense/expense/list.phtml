@@ -26,8 +26,8 @@
 							<div class="card-header">
 								<h3 class="card-title">Filters</h3>
 							</div>
-							
-							
+
+
 							<div class="card-body">
 								<div class="row">
 									<div class="col-lg-3">
@@ -100,11 +100,11 @@
 									<div class="col-lg-3">
 										<div class="form-group">
 											<label class="form-label"></label>
-                                            
-                                        </div>
+
+										</div>
 									</div>
 								</div>
-								
+
 								<button class="btn <?=$this->filter_class?> mt-4 mb-0"
 									type="submit">Filter</button>
 								<input class="btn btn-secondary mt-4 mb-0" name="clear"
@@ -115,56 +115,69 @@
 					<!-- ROW -->
 					<div class="">
 						<div class="">
+						
+						<!--  -->
+						
 							<div class="card">
 								<div class="card-header">
 									<h3 class="card-title">Expenses</h3>
 								</div>
 								<div class="card-body">
 									<div class="table-responsive export-table">
-                                        <table aria-describedby="" class="table table-bordered no-footer">
-                                                <thead class="border-top">
-                                                  <tr role="row">
-					<th width="5%" class="center">Sl No</th>
-					<th width="5%" class="center">Ref No</th>
-					<th width="15%" class="center">Vendor</th>
-					<th width="3%" class="center">Com.</th>
-					<th width="5%" class="center">Head</th>
-					<th width="15%" class="center">Category</th>
-					<th width="15%" class="center">Particulers</th>
-					<th width="4%" class="center">Amount</th>
-					<th width="4%" class="center">Credit</th>
-					<th width="4%" class="center">Mode</th>
-					<th width="5%" class="center"><i class="glyphicon glyphicon-search"></i><i class="glyphicon glyphicon-edit"></i> </th>
-					<th width="3%" class="center"><i class="glyphicon glyphicon-ok"></i></th>
+										<table aria-describedby=""
+											class="table table-bordered no-footer">
+											<thead class="border-top">
+												<tr role="row">
+													<th width="5%" class="center">Sl No</th>
+													<th width="5%" class="center">Ref No</th>
+													<th width="15%" class="center">Vendor</th>
+													<th width="3%" class="center">Com.</th>
+													<th width="5%" class="center">Head</th>
+													<th width="15%" class="center">Category</th>
+													<th width="15%" class="center">Particulers</th>
+													<th width="4%" class="center">Amount</th>
+													<th width="4%" class="center">Credit</th>
+													<th width="4%" class="center">Mode</th>
+													<th width="5%" class="center"><i
+														class="glyphicon glyphicon-search"></i><i
+														class="glyphicon glyphicon-edit"></i></th>
+													<th width="3%" class="center"><i
+														class="glyphicon glyphicon-ok"></i></th>
 					<?php if($_SESSION['user_acl']['erp_expense/expense/update']):?>
-					<th width="5%" class="center"><i class="glyphicon glyphicon-transfer"></i></th>
+					<th width="5%" class="center"><i
+														class="glyphicon glyphicon-transfer"></i></th>
 					<?php endif;?>
-					<th width="8%" class="center"><i class="glyphicon glyphicon-open-file"></i></th>
-					<!--  <th width="6%" class="center">Delete</th>-->
-				</tr>
-			</thead>
-			<tbody>
+					<th width="8%" class="center"><i
+														class="glyphicon glyphicon-open-file"></i></th>
+													<!--  <th width="6%" class="center">Delete</th>-->
+												</tr>
+											</thead>
+											<tbody>
 			<?if(count($this->expenseList)>0):?>
-				<?php foreach($this->expenseList as $expense):
-					$encExpId = $this->encode($expense['exp_id']);
-					$encFileId = $this->encode($expense['file_id']);
-					$cellstyle = '';
-				?>
-				<tr class="<?if($expense['exp_update_status']==3){?>redrow<?}elseif($expense['exp_update_status']==4){?>yellowrow
+				<?php
+
+foreach ($this->expenseList as $expense) :
+        $encExpId = $this->encode($expense['exp_id']);
+        $encFileId = $this->encode($expense['file_id']);
+        $cellstyle = '';
+        ?>
+				<tr
+													class="<?if($expense['exp_update_status']==3){?>redrow<?}elseif($expense['exp_update_status']==4){?>yellowrow
 						<?}elseif($expense['exp_update_status']==5){?>owrenchrow<?}?>">
-					<td class="center"><?=@++$this->offset;?></td>
-					<td <?php if($expense['exp_app_status'] ==''):?>style="border-left: 3px solid red;" <?php endif?>>
+													<td class="center"><?=@++$this->offset;?></td>
+													<td <?php if($expense['exp_app_status'] ==''):?>
+														style="border-left: 3px solid red;" <?php endif?>>
 						<?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>$expense['exp_refno'],array("param"=>'opener')))?>
 						[<?=$expense['exp_disp_date']?>]
 					</td>
-					<td><?=$expense['ven_name']?></td>
-					<td><?=$expense['comp_disp_name']?></td>
-					<td><?=$expense['main_head']?></td>
-					<td><?=$expense['pcat']?>-<?=$expense['scat']?>-<?=$expense['ccat']?></td>
-					<td><?=$expense['exp_details']?></td>
-					<td><?=$expense['exp_amount']?></td>
-					<td><?=$expense['exp_credit_amt']?></td>
-					<td><?=$expense['pay_mod']?></td>
+													<td><?=$expense['ven_name']?></td>
+													<td><?=$expense['comp_disp_name']?></td>
+													<td><?=$expense['main_head']?></td>
+													<td><?=$expense['pcat']?>-<?=$expense['scat']?>-<?=$expense['ccat']?></td>
+													<td><?=$expense['exp_details']?></td>
+													<td><?=$expense['exp_amount']?></td>
+													<td><?=$expense['exp_credit_amt']?></td>
+													<td><?=$expense['pay_mod']?></td>
 
 					<?php if(in_array($expense['exp_id'], $this->editIDS)):?>	
 						<td class="center">
@@ -203,14 +216,22 @@
 						<?php endif?>	
 						
 					</td>
-				</tr>
+												</tr>
 				<?php endforeach?>
 			<?endif?>
 			</tbody>
-		</table>
+										</table>
 		<?$this->expObj->pagination();?>
 	</div>
-</div></div></div></div></div></div></div></div>
+								</div>
+							</div>
+							<!--  -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </form>
 <script type="text/javascript">     
 $(document).ready(function() {

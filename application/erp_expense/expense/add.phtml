@@ -71,8 +71,22 @@
 					<?php endforeach;?>
 					</tbody>
 					</table>
-					<div><a  style="background-color: yellowgreen;margin: 1px;" id="myLink" title="Add more" href="#" onclick="addRow('multi_table');return false;" class="btn">More</a>
-					</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; width: 91%;">
+                        <a style="background-color: yellowgreen; margin: 1px;"
+                           id="myLink"
+                           title="Add more"
+                           href="#"
+                           onclick="addRow('multi_table'); return false;"
+                           class="btn">
+                           More
+                        </a>
+                        <span style="background-color: lightgray; margin: 1px;width: 20%;"
+                              id="parTotal"
+                              title="Total"
+                              class="btn">
+                              --
+                        </span>
+                    </div>
                   </div>
 				</div>	
 				<div class="row mb-4">
@@ -361,6 +375,7 @@ function delRow(row){
 	if($('.dup_row').length>1){
 		$(row).parents('tr').remove();
 	}
+	calculateTotal();
 }
 function addRow(elemId) {
 	
@@ -392,6 +407,22 @@ function addRow(elemId) {
 		});
 	});
 }
+
+function calculateTotal() {
+    let sum = 0;
+
+    $('input[name^="mamount"]').each(function () {
+        let val = parseFloat($(this).val()) || 0;
+        sum += val;
+    });
+
+    $('#parTotal').text(sum.toFixed(3));
+}
+
+$(document).on('keyup', 'input[name^="mamount"]', function () {
+    //console.log("keyup triggered"); // debug
+    calculateTotal();
+});
 
 </script>
 

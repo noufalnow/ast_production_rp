@@ -1,159 +1,181 @@
-<div style="margin-top:1%;">
-	<div class="col-md-12 card filter-card" style="margin-bottom: 0px;">
-	<div class="card-block" style="padding-top: 1%;">
-	<div class="full-width">
-		<button name="cmdPrint" value="  Print  " onclick="$('#report').printElement();" class="btn btn btn-primary pull-right" style="padding: 2px 12px;">Print</button></div>
-				<h5 class="title-margin">Remittance Voucher</h5>
-	</div>
-	</div>
-<div class="col-md-12 " style="height: 100%; padding-left: 1%; padding-right: 1%;">
-<div id="report">
-<?php include __DIR__ . '/../../../public/css/printstyle_rpt.php.css';?>
-	<div  class="card" style="margin-top: 10px; padding-left: 5px; border-right-width: 1px; margin-right: 0px; padding-right: 5px;">
-					<div style="margin-top: 3%;">
-						<table class="rpt_tbl">
-							<thead>
-								<tr>
-									<th width="1%" rowspan="4">
-										<div class="title-margin">
-											<img width="50" alt=""
-												src="http://<?=$_SERVER ['HTTP_HOST']?>/css/images/ast.png"
-												style="padding-top: 6px; padding-left: 0px; margin-left: 42px; margin-top: 5px;">
-										</div>
-									</th>
-								</tr>
-								<tr>
-									<th><div class="center" style="width: 79%;">ABDULLAH BIN SALEM TRADING EST.</div></th>
-								</tr>
-								<tr>
-									<th width="">
-										<div class="center"
-											style="margin-top: 0px; margin-bottom: 10px; width: 79%; font-family: f11; font-size:9pt;">
-											<b> مؤسسة عبدالله بن سالم للتجارة </b>
-										</div>
+<div class="container mt-3">
 
-									</th>
-								</tr>
-								<tr>
-									<th>
-										<div class="center"
-											style="margin-top: 0px; margin-bottom: 10px; width: 79%;">Remittance Advice</div>
-									</th>
-								</tr>
-							</thead>
-						</table>
+	<!-- Top Card -->
+	<div class="card shadow-sm border-0 mb-3">
+		<div class="card-body d-flex justify-content-between align-items-center">
+			<h4 class="mb-0 fw-bold">📄 Remittance Advice</h4>
+			<button type="button" onclick="$('#report').printElement();" class="btn btn-primary btn-sm">
+				<i class="fa fa-print"></i> Print
+			</button>
+		</div>
+	</div>
+
+	<div id="report">
+
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+		<style>
+			.table th, .table td {
+				border: 1px solid #444 !important;
+			}
+
+			.signature-line {
+				border-bottom: 1px solid #777;
+				margin-top: 40px;
+				height: 1px;
+			}
+
+			.info-box {
+				background: #f7f7f7;
+				border: 1px solid #ddd;
+				padding: 10px;
+				border-radius: 5px;
+				font-size: 13px;
+			}
+
+			@media print {
+				button, .btn, .no-print {
+					display: none !important;
+				}
+				body {
+					background: white;
+				}
+				table {
+					font-size: 12px !important;
+				}
+			}
+		</style>
+
+
+		<!-- Main Print Card -->
+		<div class="card shadow-sm border-0 p-4">
+
+			<!-- Header Section -->
+			<div class="text-center mb-3">
+				<img src="http://<?=$_SERVER['HTTP_HOST']?>/css/images/ast.png" width="65" class="mb-2 opacity-75">
+
+				<h5 class="fw-bold mt-2">ABDULLAH BIN SALEM TRADING EST.</h5>
+
+				<div class="arabic fw-bold" style="font-size: 14px;">مؤسسة عبدالله بن سالم للتجارة</div>
+
+				<h6 class="text-secondary mt-1">REMISSION / PAYMENT ADVICE</h6>
+			</div>
+
+
+			<!-- Document Details Box -->
+			<div class="row mb-3">
+				<div class="col-md-6">
+					<div class="info-box">
+						<strong>Voucher No:</strong> <?=$this->payDet['voucher_no'] ?? 'N/A'?><br>
+						<strong>Payment Mode:</strong> <?=$this->payDet['pay_mode'] ?? 'Cash'?><br>
+						<strong>Bank / Ref No:</strong> <?=$this->payDet['pay_ref_no'] ?? ''?>
 					</div>
-					<table class="rpt_frame">
-			<thead>
-				<tr>
-					<td class="empty" colspan="7" style="border: 1px solid white;">
-					VENDOR NAME: <b><?=$this->payDet['ven_name']?> </b>
-					</td>
-					<td class="empty" colspan="2" style="border: 1px solid white;">
-					<?php $date = new DateTime();$date = $date->format('d/m/Y')?>
-					Date : <b><?=$date;?></b></td>
-				</tr>
-				<tr>
-					<th class="empty" colspan="9"></th>
-				</tr>
-				<tr>
-					<th width="4%" class="center">Sl No</th>
-					<th width="15%" class="center">Our Ref.</th>
-					<th width="15%" class="center">Your Ref.</th>
-					<th width="5%" class="center">Bill Dt.</th>
-					<th width="35%" class="center">Particulers</th>
-					<th width="7%" class="center">To Pay</th>
-					<th width="7%" class="center">Discount</th>
-					<th width="7%" class="center">Payment</th>
-					<th width="7%" class="center">Balance</th>
-				</tr>
-			</thead>
-			<tbody>
-			<?if(count($this->paymentList )>0):?>
-				<?php foreach($this->paymentList as $pay):
-				$topay  = $pay['exp_credit_amt'];
-				$balance = $topay-($pay['pdet_amt_paid']+$pay['pdet_amt_dis']);
-				?>
-				<tr>
-					<td class="center"><?=@++$offset;?></td>
-					<td><?=$pay['exp_file_no']?></td>
-					<td><?=$pay['exp_refno']?></td>
-					<td><?=$pay['exp_billdt']?></td>
-					<td><?=$pay['exp_details']?></td>
-					<td align="right"><?=number_format($topay,3);?> <?php $totalTopay+=$topay;?></td>
-					<td align="right"><?=$pay['pdet_amt_dis']?>   <?php $discount+=$pay['pdet_amt_dis'];?></td>
-					<td align="right"><?=$pay['pdet_amt_paid']?>  <?php $paid+=$pay['pdet_amt_paid'];?></td>	
-					<td align="right"><?=number_format($balance,3);?> <?php $totBalance+=$balance;?></td>	
-				</tr>
-				<?php endforeach?>
-				<tr><td colspan="5" align="right"><b> Total:</b> </td>
-					<td align="right"> <b><?=number_format($totalTopay,3)?></b></td>
-					<td align="right"> <b><?=number_format($discount,3)?></b></td>
-					<td align="right"> <b><?=number_format($paid,3)?></b></td>
-					<td align="right"> <b><?=number_format($totBalance,3)?></b></td>
-				</tr>
-			<?endif?>
-			
-				<tr>
-					<td class="empty" colspan="9" style="border: 1px solid white;"></td>
-				</tr>
-				<tr>
-					<td class="empty" colspan="9" style="border: 1px solid white;"></td>
-				</tr>
-				
-				<tr>
-					<td class="empty" colspan="9" style="border: 1px solid white;"></td>
-				</tr>
-				<tr>
-					<td class="empty" colspan="9" style="border: 1px solid white;"></td>
-				</tr>
-			
-			<tr>
-					<td class="empty" style="border: 1px solid white;">
-					</td>
-					<td class="empty" colspan="4" style="border: 1px solid white;">
-					Verified By: 
-					</td>
-					<td class="empty" colspan="4" style="border: 1px solid white;">
-					
-					Approved By : </td>
-			</tr>
-			
-				<tr>
-					<td class="empty" colspan="9" style="border: 1px solid white;"></td>
-				</tr>
-				<tr>
-					<td class="empty" colspan="9" style="border: 1px solid white;"></td>
-				</tr>
-				
-								<tr>
-					<td class="empty" colspan="9" style="border: 1px solid white;"></td>
-				</tr>
-				<tr>
-					<td class="empty" colspan="9" style="border: 1px solid white;"></td>
-				</tr>
-			
-			</tbody>
-		</table>
-		<div>
-			<table class="rpt_tbl">
-				<thead>
-					<tr><?php $date = new DateTime();
-					$date = $date->format('d/m/y')?>
-						<th><div class="title-margin rpt_footer"><h5>CreativeSol MIS - Remittance Advice (<?=$date?>)</h5></div></th>
+				</div>
+
+				<div class="col-md-6">
+					<div class="info-box">
+						<strong>Date:</strong> <?= (new DateTime())->format('d/m/Y'); ?><br>
+						<strong>Prepared By:</strong> <?=$this->payDet['prepared_by'] ?? 'System' ?><br>
+						<strong>Payment Date:</strong> <?= $this->payDet['payment_date'] ?? (new DateTime())->format('d/m/Y') ?>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Vendor Details Box -->
+			<div class="info-box mb-3">
+				<div class="row">
+					<div class="col-md-6">
+						<strong>Vendor Name:</strong> <?=$this->payDet['ven_name']?><br>
+						<strong>Vendor Code:</strong> <?=$this->payDet['vendor_code'] ?? '---'?>
+					</div>
+					<div class="col-md-6">
+						<strong>Address:</strong> <?=$this->payDet['ven_address'] ?? '---'?><br>
+						<strong>Contact:</strong> <?=$this->payDet['ven_phone'] ?? '---'?>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Table -->
+			<table class="table table-bordered table-sm align-middle">
+				<thead class="table-secondary text-center">
+					<tr>
+						<th width="4%">Sl</th>
+						<th width="12%">Our Ref.</th>
+						<th width="12%">Your Ref.</th>
+						<th width="8%">Bill Dt.</th>
+						<th>Particulars</th>
+						<th width="10%">To Pay</th>
+						<th width="10%">Discount</th>
+						<th width="10%">Payment</th>
+						<th width="10%">Balance</th>
 					</tr>
 				</thead>
+
+				<tbody>
+				<?php if(count($this->paymentList) > 0): ?>
+					<?php
+					foreach ($this->paymentList as $pay):
+						$topay = $pay['exp_credit_amt'];
+						$balance = $topay - ($pay['pdet_amt_paid'] + $pay['pdet_amt_dis']);
+					?>
+						<tr>
+							<td class="text-center"><?= ++$offset; ?></td>
+							<td><?=$pay['exp_file_no']?></td>
+							<td><?=$pay['exp_refno']?></td>
+							<td><?=$pay['exp_billdt']?></td>
+							<td><?=$pay['exp_details']?></td>
+
+							<td class="text-end"><?=number_format($topay,3);?> <?php $totalTopay += $topay; ?></td>
+							<td class="text-end"><?=$pay['pdet_amt_dis']?> <?php $discount += $pay['pdet_amt_dis']; ?></td>
+							<td class="text-end"><?=$pay['pdet_amt_paid']?> <?php $paid += $pay['pdet_amt_paid']; ?></td>
+							<td class="text-end"><?=number_format($balance,3);?> <?php $totBalance += $balance; ?></td>
+						</tr>
+					<?php endforeach; ?>
+
+					<!-- Totals -->
+					<tr class="fw-bold bg-light">
+						<td colspan="5" class="text-end">Total:</td>
+						<td class="text-end"><?=number_format($totalTopay,3)?></td>
+						<td class="text-end"><?=number_format($discount,3)?></td>
+						<td class="text-end"><?=number_format($paid,3)?></td>
+						<td class="text-end"><?=number_format($totBalance,3)?></td>
+					</tr>
+
+				<?php endif; ?>
+				</tbody>
 			</table>
+
+
+			<!-- Signature Area -->
+			<div class="row mt-5">
+				<div class="col-4">
+					<strong>Prepared By:</strong>
+					<div class="signature-line"></div>
+				</div>
+				<div class="col-4">
+					<strong>Verified By:</strong>
+					<div class="signature-line"></div>
+				</div>
+				<div class="col-4">
+					<strong>Approved By:</strong>
+					<div class="signature-line"></div>
+				</div>
+			</div>
+
+
+			<!-- Footer -->
+			<div class=" mt-4 text-muted small">
+				CreativeSol MIS – Remittance Advice (<?= (new DateTime())->format('d/m/y'); ?>)
+			</div>
+
 		</div>
 	</div>
 </div>
-</div>
-</form>
-</div>
-<script type="text/javascript">           
-$(document).ready(function() {
-    $('#f_monthpick').MonthPicker({ Button: false });
-});
-</script>
 
-
+<style>
+	.arabic {
+		font-family: 'Tahoma', sans-serif;
+	}
+</style>

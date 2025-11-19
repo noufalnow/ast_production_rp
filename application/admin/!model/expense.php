@@ -16,6 +16,22 @@ class expense extends db_table {
 		return parent::getById ($id);
 	}
 	
+	public function getExpenseByVendorAndRefNo($cond) {
+	    
+	    $this->query ( "select count(*) as ref_count from $this->_table" );
+
+	    $this->_where [] = "exp_vendor= :exp_vendor";
+	    $this->_where [] = "exp_refno= trim(:exp_refno)";
+	    
+	    if (! empty ( $cond ['exclude'] )){
+	        $this->_where[] = "exp_id NOT IN (".$cond ['exclude'].")";
+	        unset($cond ['exclude']);
+	    }
+	    	    
+	    return parent::fetchRow( $cond );
+	}
+	
+	
 	public function getExpenseDetailsById($cond = array()) {
 		$this->query ( 
 			"select $this->_table.*,
@@ -63,7 +79,7 @@ class expense extends db_table {
 		$this->query ( "select exp_id,exp_id as selection from $this->_table" );
 		
 		if (! empty ( $cond ['exclude'] )){
-			$where [] = "exp_id NOT IN (".$cond ['exclude'].")";
+		    $this->_where[] = "exp_id NOT IN (".$cond ['exclude'].")";
 			unset($cond ['exclude']);
 		}
 		
@@ -81,7 +97,7 @@ class expense extends db_table {
 		$this->query ( "select exp_id,exp_credit_amt as selection from $this->_table" );
 		
 		if (! empty ( $cond ['exclude'] )){
-			$where [] = "exp_id NOT IN (".$cond ['exclude'].")";
+		    $this->_where = "exp_id NOT IN (".$cond ['exclude'].")";
 			unset($cond ['exclude']);
 		}
 		
@@ -150,7 +166,7 @@ class expense extends db_table {
 		
 		if (! empty ( $cond ['f_refno'] ))
 			$this->_where [] = "
-					(lower(exp_refno) like '%' || lower(:f_refno) || '%')";
+					(lower(exp_refno) like trim(lower(:f_refno)))";
 		
 		if (! empty ( $cond ['f_particulers'] ))
 			$this->_where [] = "
@@ -246,7 +262,7 @@ class expense extends db_table {
 		
 		if (! empty ( $cond ['f_refno'] ))
 			$where [] = "
-					(lower(exp_refno) like '%' || lower(:f_refno) || '%')";
+					(lower(exp_refno) like trim(lower(:f_refno)))";
 		
 		if (! empty ( $cond ['f_particulers'] ))
 			$where [] = "
@@ -475,7 +491,7 @@ class expense extends db_table {
 		
 		if (! empty ( $cond ['f_refno'] ))
 			$where [] = "
-				(lower(exp_refno) like '%' || lower(:f_refno) || '%')";
+				(lower(exp_refno) like trim(lower(:f_refno)))";
 		
 		if (! empty ( $cond ['f_particulers'] ))
 			$where [] = "
@@ -778,7 +794,7 @@ class expense extends db_table {
 		
 		if (! empty ( $cond ['f_refno'] ))
 			$where [] = "
-				(lower(exp_refno) like '%' || lower(:f_refno) || '%')";
+				(lower(exp_refno) like trim(lower(:f_refno)))";
 		
 		if (! empty ( $cond ['f_particulers'] ))
 			$where [] = "
@@ -964,7 +980,7 @@ class expense extends db_table {
 		
 		if (! empty ( $cond ['f_refno'] ))
 			$where [] = "
-        (lower(exp_refno) like '%' || lower(:f_refno) || '%')";
+                    (lower(exp_refno) like trim(lower(:f_refno)))";
 			
 			if (! empty ( $cond ['f_particulers'] ))
 				$where [] = "
@@ -1181,7 +1197,7 @@ class expense extends db_table {
 		
 		if (! empty ( $cond ['f_refno'] ))
 			$where [] = "
-					(lower(exp_refno) like '%' || lower(:f_refno) || '%')";
+					(lower(exp_refno) like trim(lower(:f_refno)))";
 		
 		if (! empty ( $cond ['f_particulers'] ))
 			$where [] = "

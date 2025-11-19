@@ -74,9 +74,27 @@
 				</tbody>
 				</table>
 				<?php if($this->expDet['exp_app_status'] == ''):?>
-					<div><a  style="background-color: yellowgreen;margin: 1px;" id="myLink" title="Add more" href="#" onclick="addRow('multi_table');return false;" class="btn">More</a>
-					</div>
-				 <?php endif?>
+<div style="display: flex; justify-content: space-between; align-items: center; width: 94%;">
+    
+    <a style="background-color: yellowgreen; margin: 1px;"
+       id="myLink"
+       title="Add more"
+       href="#"
+       onclick="addRow('multi_table'); return false;"
+       class="btn">
+       More
+    </a>
+
+    <span style="background-color: lightgray; margin: 1px;width: 20%;"
+          id="parTotal"
+          title="Total"
+          class="btn">
+          --
+    </span>
+
+</div>
+<?php endif;?>
+				 
 			</div>
 			</div>
 				<div class="row mb-4">
@@ -184,9 +202,9 @@ $(document).ready(function() {
 
     expAmountInput = document.getElementById('amount'); 
     vatAmountInput = document.getElementById('vatamount'); 
-    expAmount = parseFloat(expAmountInput.value) || 0; 
-    vatAmount = expAmount * 0.05; 
-    vatAmountInput.value = vatAmount.toFixed(3); 
+    //expAmount = parseFloat(expAmountInput.value) || 0; 
+    //vatAmount = expAmount * 0.05; 
+    //vatAmountInput.value = vatAmount.toFixed(3); 
     function calculateVAT() { 
         const expAmount = parseFloat(expAmountInput.value) || 0; 
         const vatAmount = expAmount * 0.05; 
@@ -387,6 +405,7 @@ function delRow(row){
 	if($('.dup_row').length>1){
 		$(row).parents('tr').remove();
 	}
+	calculateTotal();
 }
 function addRow(elemId) {
 	
@@ -418,6 +437,23 @@ function addRow(elemId) {
 		});
 	});
 }
+
+function calculateTotal() {
+    let sum = 0;
+
+    $('input[name^="mamount"]').each(function () {
+        let val = parseFloat($(this).val()) || 0;
+        sum += val;
+    });
+
+    $('#parTotal').text(sum.toFixed(3));
+}
+
+$(document).on('keyup', 'input[name^="mamount"]', function () {
+    //console.log("keyup triggered"); // debug
+    calculateTotal();
+});
+
 </script>
 
 <script type="text/javascript">

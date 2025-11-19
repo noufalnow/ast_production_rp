@@ -27,18 +27,18 @@ class expenseController extends mvc
         $form->addElement('cbamount', 'CB Amount', 'float', 'numeric', '', array(
             'class' => 'fig'
         ));
-        
+
         $form->addElement('vatoption', 'VAT', 'checkbox', '', array(
             'options' => array(
                 "1" => "Vat"
             )
-        ),  array(
+        ), array(
             "" => "onClick='enableVat(this)'"
         ));
         $form->addElement('vatamount', 'VAT Amount', 'float', 'numeric', '', array(
             'class' => 'fig'
         ));
-        
+
         $form->addElement('remarks', 'Remarks', 'text', 'alpha_space');
         require_once __DIR__ . '/../admin/!model/cashflow.php';
         $cashFlow = new cashflow();
@@ -167,12 +167,11 @@ class expenseController extends mvc
                 elseif ($_POST['paydtption'] == '2')
                     $form->addRules('paydays', 'required');
             }
-            
-            
-                if ($_POST['vatoption'] == '1'){
-                    $form->addRules('vatamount', 'required');
-                }
-            
+
+            if ($_POST['vatoption'] == '1') {
+                $form->addRules('vatamount', 'required');
+            }
+
             $form->addErrorMsg('mamount', 'required', ' ');
             foreach ($mfields as $i) {
                 if ($_POST['mainhead'] == 1) {
@@ -270,101 +269,111 @@ class expenseController extends mvc
                         $ccId = $cCatDet['cat_id'];
                 } else
                     $ccId = $valid['cCatSelect'];
-                $billdt = DateTime::createFromFormat(DF_DD, $valid['billdt']);
-                $billdt = date_format($billdt, DFS_DB);
-                
-                if ($valid['vatoption'] == 0){
-                    $valid['vatamount'] = 0;
-                }
-                
-                $data = array(
+
+                require_once __DIR__ . '/../admin/!model/expense.php';
+                $expenseObj = new expense();
+                $empVendor = $expenseObj->getExpenseByVendorAndRefNo(array(
                     'exp_vendor' => $vId,
-                    'exp_refno' => $valid['refno'],
-                    'exp_company' => $valid['company'],
-                    'exp_mainh' => $valid['mainhead'],
-                    'exp_pcat' => $cpId,
-                    'exp_scat' => $csId,
-                    'exp_ccat' => $ccId,
-                    'exp_billdt' => $billdt,
-                    'exp_pay_mode' => $valid['paymod'],
-                    'exp_details' => $valid['particulers'],
-                    'exp_amount' => $valid['amount'] + ($valid['vatamount']==''?0:$valid['vatamount']),
-                    'exp_novat_amt' => $valid['amount'],
-                    'exp_pstatus' => $valid['paymod'],
-                    'exp_oribill_amt' => $valid['amount'] + ($valid['vatamount']==''?0:$valid['vatamount']),
-                );
-                if ($valid['paymod'] == 2)
-                    $data['exp_credit_amt'] =  $valid['amount'] + ($valid['vatamount']==''?0:$valid['vatamount']);
-                else
-                    $data['exp_credit_amt'] = NULL;
-                if ($valid['paydtption'] == 1) {
-                    $paydate = DateTime::createFromFormat(DF_DD, $valid['payby']);
-                    $paydate = date_format($paydate, DFS_DB);
-                    $data['exp_paydate'] = $paydate;
-                } else
-                    $data['exp_paydate'] = NULL;
-                if ($valid['paydtption'] == 2)
-                    $data['exp_paydays'] = $valid['paydays'];
-                else
-                    $data['exp_paydays'] = NULL;
-                if ($valid['cashFlow'])
-                    $data['exp_cash_flow'] = $valid['cashFlow'];
-                
-                    if ($valid['vatoption'] == 1){
-                    $data['exp_vat_amt'] = $valid['vatamount'];
-                    $data['exp_vat_option'] = $valid['vatoption'];
+                    'exp_refno' => $valid['refno']
+                ));
+
+                if ($empVendor['ref_count'] > 0) {
+                    $form->refno->setError("Reference no already selected for the vendor");
+                } else {
+
+                    $billdt = DateTime::createFromFormat(DF_DD, $valid['billdt']);
+                    $billdt = date_format($billdt, DFS_DB);
+
+                    if ($valid['vatoption'] == 0) {
+                        $valid['vatamount'] = 0;
                     }
+
+                    $data = array(
+                        'exp_vendor' => $vId,
+                        'exp_refno' => $valid['refno'],
+                        'exp_company' => $valid['company'],
+                        'exp_mainh' => $valid['mainhead'],
+                        'exp_pcat' => $cpId,
+                        'exp_scat' => $csId,
+                        'exp_ccat' => $ccId,
+                        'exp_billdt' => $billdt,
+                        'exp_pay_mode' => $valid['paymod'],
+                        'exp_details' => $valid['particulers'],
+                        'exp_amount' => $valid['amount'] + ($valid['vatamount'] == '' ? 0 : $valid['vatamount']),
+                        'exp_novat_amt' => $valid['amount'],
+                        'exp_pstatus' => $valid['paymod'],
+                        'exp_oribill_amt' => $valid['amount'] + ($valid['vatamount'] == '' ? 0 : $valid['vatamount'])
+                    );
+                    if ($valid['paymod'] == 2)
+                        $data['exp_credit_amt'] = $valid['amount'] + ($valid['vatamount'] == '' ? 0 : $valid['vatamount']);
                     else
-                    {
+                        $data['exp_credit_amt'] = NULL;
+                    if ($valid['paydtption'] == 1) {
+                        $paydate = DateTime::createFromFormat(DF_DD, $valid['payby']);
+                        $paydate = date_format($paydate, DFS_DB);
+                        $data['exp_paydate'] = $paydate;
+                    } else
+                        $data['exp_paydate'] = NULL;
+                    if ($valid['paydtption'] == 2)
+                        $data['exp_paydays'] = $valid['paydays'];
+                    else
+                        $data['exp_paydays'] = NULL;
+                    if ($valid['cashFlow'])
+                        $data['exp_cash_flow'] = $valid['cashFlow'];
+
+                    if ($valid['vatoption'] == 1) {
+                        $data['exp_vat_amt'] = $valid['vatamount'];
+                        $data['exp_vat_option'] = $valid['vatoption'];
+                    } else {
                         $data['exp_vat_amt'] = NULL;
                         $data['exp_vat_option'] = NULL;
                     }
-                    
-                    
-                require_once __DIR__ . '/../admin/!model/expensemhref.php';
-                $exprefObj = new expensemhref();
-                $insert = $expenseObj->add($data);
-                if ($insert) {
-                    $this->view->feedback = 'Expense details added successfully';
-                    $refData = array_values($refData);
-                    if (count($refData) > 0)
-                        foreach ($refData as $rfkey => $rData) {
-                            $data = array();
-                            if ($rData) {
-                                $data = array(
-                                    'eref_exp_id' => $insert,
-                                    'eref_main_head' => $valid['mainhead'],
-                                    'eref_main_head_ref' => $rData,
-                                    'eref_amount' => $valid['mamount'][$rfkey]==''? 0:$valid['mamount'][$rfkey],
-                                );
-                                $det = $exprefObj->add($data);
+
+                    require_once __DIR__ . '/../admin/!model/expensemhref.php';
+                    $exprefObj = new expensemhref();
+                    $insert = $expenseObj->add($data);
+                    if ($insert) {
+                        $this->view->feedback = 'Expense details added successfully';
+                        $refData = array_values($refData);
+                        if (count($refData) > 0)
+                            foreach ($refData as $rfkey => $rData) {
+                                $data = array();
+                                if ($rData) {
+                                    $data = array(
+                                        'eref_exp_id' => $insert,
+                                        'eref_main_head' => $valid['mainhead'],
+                                        'eref_main_head_ref' => $rData,
+                                        'eref_amount' => $valid['mamount'][$rfkey] == '' ? 0 : $valid['mamount'][$rfkey]
+                                    );
+                                    $det = $exprefObj->add($data);
+                                }
                             }
+                        // a($valid);
+                        if ($valid['percb'] == 1) {
+                            require_once __DIR__ . '/../admin/!model/cashbook.php';
+                            $cashBookObj = new cashbook();
+                            $cbData = array(
+                                'cb_type' => CASH_BOOK_PER,
+                                'cb_type_ref' => USER_ID,
+                                'cb_exp_id' => $insert,
+                                'cb_credit' => $valid['cbamount'] != '' ? $valid['cbamount'] : $valid['amount'],
+                                'cb_date' => $billdt
+                            );
+                            $cashBookObj->add($cbData);
                         }
-                    // a($valid);
-                    if ($valid['percb'] == 1) {
-                        require_once __DIR__ . '/../admin/!model/cashbook.php';
-                        $cashBookObj = new cashbook();
-                        $cbData = array(
-                            'cb_type' => CASH_BOOK_PER,
-                            'cb_type_ref' => USER_ID,
-                            'cb_exp_id' => $insert,
-                            'cb_credit' => $valid['cbamount'] != '' ? $valid['cbamount'] : $valid['amount'],
-                            'cb_date' => $billdt
-                        );
-                        $cashBookObj->add($cbData);
-                    }
-                    if ($valid['my_files']) {
-                        $upload = uploadFiles(DOC_TYPE_EXP, $insert, $valid['my_files']);
-                        if ($upload) {
-                            $form->reset();
+                        if ($valid['my_files']) {
+                            $upload = uploadFiles(DOC_TYPE_EXP, $insert, $valid['my_files']);
                             if ($upload) {
-                                $this->view->feedback = 'Expense details added successfully';
-                            } else {
-                                $this->view->feedback = 'Expense details added successfully;Unable to upload file';
+                                $form->reset();
+                                if ($upload) {
+                                    $this->view->feedback = 'Expense details added successfully';
+                                } else {
+                                    $this->view->feedback = 'Expense details added successfully;Unable to upload file';
+                                }
                             }
                         }
+                        $this->view->NoViewRender = true;
                     }
-                    $this->view->NoViewRender = true;
                 }
             }
         }
@@ -409,19 +418,18 @@ class expenseController extends mvc
         $form->addElement('cbamount', 'CB Amount', 'float', 'numeric', '', array(
             'class' => 'fig'
         ));
-        
-        
+
         $form->addElement('vatoption', 'VAT', 'checkbox', '', array(
             'options' => array(
                 "1" => "Vat"
             )
-        ),  array(
+        ), array(
             "" => "onClick='enableVat(this)'"
         ));
         $form->addElement('vatamount', 'VAT Amount', 'float', 'numeric', '', array(
             'class' => 'fig'
         ));
-        
+
         $form->addElement('remarks', 'Remarks', 'text', 'alpha_space');
         require_once __DIR__ . '/../admin/!model/cashflow.php';
         $cashFlow = new cashflow();
@@ -508,10 +516,7 @@ class expenseController extends mvc
                 1 => "Update Document"
             )
         ));
-        
-        
-        
-        
+
         require_once __DIR__ . '/../admin/!model/expensemhref.php';
         $exprefObj = new expensemhref();
         $count = 1;
@@ -557,8 +562,7 @@ class expenseController extends mvc
                 1 => "Personnal Cash Book"
             )
         ));
-        
-        
+
         if (isset($_POST) && count($_POST) > 0) {
             if ($expDet['exp_app_status'] == '' || in_array($expDet['exp_id'], $editIDS)) {
                 if ($_POST['selVendor'] == '-1')
@@ -603,11 +607,11 @@ class expenseController extends mvc
                             $form->addmRules('vehicle', $i, 'required');
                     }
                 }
-                
-                if ($_POST['vatoption'] == '1'){
+
+                if ($_POST['vatoption'] == '1') {
                     $form->addRules('vatamount', 'required');
                 }
-                
+
                 $valid = $form->vaidate($_POST, $_FILES);
                 $valid = $valid[0];
                 if ($valid == true) {
@@ -680,118 +684,127 @@ class expenseController extends mvc
                             $ccId = $cCatDet['cat_id'];
                     } else
                         $ccId = $valid['cCatSelect'];
-                    $billdt = DateTime::createFromFormat(DF_DD, $valid['billdt']);
-                    $billdt = date_format($billdt, DFS_DB);
-                    
-                    if ($valid['vatoption'] == 0){
-                        $valid['vatamount'] = 0;
-                    }
-                    
-                    
-                    $data = array(
+
+                    // require_once __DIR__ . '/../admin/!model/expense.php';
+                    $expenseVenObj = new expense();
+                    $empVendor = $expenseVenObj->getExpenseByVendorAndRefNo(array(
                         'exp_vendor' => $vId,
                         'exp_refno' => $valid['refno'],
-                        'exp_company' => $valid['company'],
-                        'exp_mainh' => $valid['mainhead'],
-                        'exp_pcat' => $cpId,
-                        'exp_scat' => $csId,
-                        'exp_ccat' => $ccId,
-                        'exp_billdt' => $billdt,
-                        'exp_pay_mode' => $valid['paymod'],
-                        'exp_details' => $valid['particulers'],
-                        'exp_amount' => $valid['amount'] + ($valid['vatamount']==''?0:$valid['vatamount']),
-                        'exp_novat_amt' => $valid['amount'],
-                        'exp_pstatus' => $valid['paymod'],
-                        'exp_oribill_amt' =>  $valid['amount'] + ($valid['vatamount']==''?0:$valid['vatamount']),
-                    );
-                    if ($valid['paymod'] == 2)
-                        $data['exp_credit_amt'] =  $valid['amount'] + ($valid['vatamount']==''?0:$valid['vatamount']);
-                    else
-                        $data['exp_credit_amt'] = NULL;
-                        if(!empty($valid['payby'])){
-                    $paydate = DateTime::createFromFormat(DF_DD, $valid['payby']);
-                    $paydate = date_format($paydate, DFS_DB);
+                        'exclude' => $decExpId
+                    ));
+                   
+
+                    if ($empVendor['ref_count'] > 0) {
+                        $form->refno->setError("Reference no already selected for the vendor");
+                    } else {
+
+                        $billdt = DateTime::createFromFormat(DF_DD, $valid['billdt']);
+                        $billdt = date_format($billdt, DFS_DB);
+
+                        if ($valid['vatoption'] == 0) {
+                            $valid['vatamount'] = 0;
                         }
-                    if ($valid['paydtption'] == 1)
-                        $data['exp_paydate'] = $paydate;
-                    else
-                        $data['exp_paydate'] = NULL;
-                    if ($valid['paydtption'] == 2)
-                        $data['exp_paydays'] = $valid['paydays'];
-                    else
-                        $data['exp_paydays'] = NULL;
-                    if ($valid['cashFlow'])
-                        $data['exp_cash_flow'] = $valid['cashFlow'];
-                    else
-                        $data['exp_cash_flow'] = NULL;
-                    
-                    if ($valid['vatoption'] == 1){
-                        $data['exp_vat_amt'] = $valid['vatamount'];
-                        $data['exp_vat_option'] = $valid['vatoption'];
-                    }
-                    else
-                    {
-                        $data['exp_vat_amt'] = NULL;
-                        $data['exp_vat_option'] = NULL;
-                    }
-                        
-                        
-                    $update = $expenseObj->modify($data, $decExpId);
-                    if ($update) {
-                       $exprefObj->deleteExpRefByExpId(array(
-                            'eref_exp_id' => $decExpId
-                        ));
-                        $refData = array_values($refData);
-                        if (count($refData) > 0)
-                            foreach ($refData as $rfkey => $rData) {
-                                $data = array();
-                                if ($rData) {
-                                    $data = array(
-                                        'eref_exp_id' => $decExpId,
-                                        'eref_main_head' => $valid['mainhead'],
-                                        'eref_main_head_ref' => $rData,
-                                        'eref_amount' => $valid['mamount'][$rfkey]
-                                    );
-                                    $det = $exprefObj->add($data);
+
+                        $data = array(
+                            'exp_vendor' => $vId,
+                            'exp_refno' => $valid['refno'],
+                            'exp_company' => $valid['company'],
+                            'exp_mainh' => $valid['mainhead'],
+                            'exp_pcat' => $cpId,
+                            'exp_scat' => $csId,
+                            'exp_ccat' => $ccId,
+                            'exp_billdt' => $billdt,
+                            'exp_pay_mode' => $valid['paymod'],
+                            'exp_details' => $valid['particulers'],
+                            'exp_amount' => $valid['amount'] + ($valid['vatamount'] == '' ? 0 : $valid['vatamount']),
+                            'exp_novat_amt' => $valid['amount'],
+                            'exp_pstatus' => $valid['paymod'],
+                            'exp_oribill_amt' => $valid['amount'] + ($valid['vatamount'] == '' ? 0 : $valid['vatamount'])
+                        );
+                        if ($valid['paymod'] == 2)
+                            $data['exp_credit_amt'] = $valid['amount'] + ($valid['vatamount'] == '' ? 0 : $valid['vatamount']);
+                        else
+                            $data['exp_credit_amt'] = NULL;
+                        if (! empty($valid['payby'])) {
+                            $paydate = DateTime::createFromFormat(DF_DD, $valid['payby']);
+                            $paydate = date_format($paydate, DFS_DB);
+                        }
+                        if ($valid['paydtption'] == 1)
+                            $data['exp_paydate'] = $paydate;
+                        else
+                            $data['exp_paydate'] = NULL;
+                        if ($valid['paydtption'] == 2)
+                            $data['exp_paydays'] = $valid['paydays'];
+                        else
+                            $data['exp_paydays'] = NULL;
+                        if ($valid['cashFlow'])
+                            $data['exp_cash_flow'] = $valid['cashFlow'];
+                        else
+                            $data['exp_cash_flow'] = NULL;
+
+                        if ($valid['vatoption'] == 1) {
+                            $data['exp_vat_amt'] = $valid['vatamount'];
+                            $data['exp_vat_option'] = $valid['vatoption'];
+                        } else {
+                            $data['exp_vat_amt'] = NULL;
+                            $data['exp_vat_option'] = NULL;
+                        }
+
+                        $update = $expenseObj->modify($data, $decExpId);
+                        if ($update) {
+                            $exprefObj->deleteExpRefByExpId(array(
+                                'eref_exp_id' => $decExpId
+                            ));
+                            $refData = array_values($refData);
+                            if (count($refData) > 0)
+                                foreach ($refData as $rfkey => $rData) {
+                                    $data = array();
+                                    if ($rData) {
+                                        $data = array(
+                                            'eref_exp_id' => $decExpId,
+                                            'eref_main_head' => $valid['mainhead'],
+                                            'eref_main_head_ref' => $rData,
+                                            'eref_amount' => $valid['mamount'][$rfkey]
+                                        );
+                                        $det = $exprefObj->add($data);
+                                    }
+                                }
+                            require_once __DIR__ . '/../admin/!model/cashbook.php';
+                            $cashBookObj = new cashbook();
+                            $cbData = array(
+                                'cb_type' => CASH_BOOK_PER,
+                                'cb_type_ref' => USER_ID,
+                                'cb_exp_id' => $decExpId,
+                                'cb_credit' => $valid['cbamount'] != '' ? $valid['cbamount'] : $valid['amount'],
+                                'cb_date' => $billdt
+                            );
+                            if ($valid['percb'] == 1 && $expDet['cb_id'] != '' && $expDet['cb_type_ref'] == USER_ID) {
+                                $cashBookObj->modify($cbData, $expDet['cb_id']);
+                            } elseif ($valid['percb'] == 1 && $expDet['cb_id'] == '') {
+                                $cashBookObj->add($cbData);
+                            }
+                            if ($valid['percb'] == '' && $expDet['cb_id'] != '' && $expDet['cb_type_ref'] == USER_ID) {
+                                $cashBookObj->deleteCashBook($expDet['cb_id']);
+                            }
+
+                            $this->view->feedback = 'Expense details Updated successfully';
+
+                            if ($valid['docUpdate'] == 1) {
+                                if (! empty($expDet['file_id'])) {
+                                    $file = new files();
+                                    deleteFile($expDet['file_id']);
+                                    $file->deleteFile($expDet['file_id']);
+                                }
+                                $upload = uploadFiles(DOC_TYPE_EXP, $decExpId, $valid['my_files']);
+                                $form->reset();
+                                if ($upload) {
+                                    $this->view->feedback = 'Expense details added successfully';
+                                } else {
+                                    $this->view->feedback = 'Expense details added successfully;Unable to upload file';
                                 }
                             }
-                        require_once __DIR__ . '/../admin/!model/cashbook.php';
-                        $cashBookObj = new cashbook();
-                        $cbData = array(
-                            'cb_type' => CASH_BOOK_PER,
-                            'cb_type_ref' => USER_ID,
-                            'cb_exp_id' => $decExpId,
-                            'cb_credit' => $valid['cbamount'] != '' ? $valid['cbamount'] : $valid['amount'],
-                            'cb_date' => $billdt
-                        );
-                        if ($valid['percb'] == 1 && $expDet['cb_id'] != '' && $expDet['cb_type_ref'] == USER_ID) {
-                            $cashBookObj->modify($cbData, $expDet['cb_id']);
-                        } elseif ($valid['percb'] == 1 && $expDet['cb_id'] == '') {
-                            $cashBookObj->add($cbData);
+                            $this->view->NoViewRender = true;
                         }
-                        if ($valid['percb'] == '' && $expDet['cb_id'] != '' && $expDet['cb_type_ref'] == USER_ID) {
-                            $cashBookObj->deleteCashBook($expDet['cb_id']);
-                        }
-                        
-                        $this->view->feedback = 'Expense details Updated successfully';
-                        
-                        if ($valid['docUpdate'] == 1) {
-                            if (! empty($expDet['file_id'])) {
-                                $file = new files();
-                                deleteFile($expDet['file_id']);
-                                $file->deleteFile($expDet['file_id']);
-                            }
-                            $upload = uploadFiles(DOC_TYPE_EXP, $decExpId, $valid['my_files']);
-                            $form->reset();
-                            if ($upload) {
-                                $this->view->feedback = 'Expense details added successfully';
-                            } else {
-                                $this->view->feedback = 'Expense details added successfully;Unable to upload file';
-                            }
-                        
-                    }
-                    $this->view->NoViewRender = true;
-                        
                     }
                 }
             }
@@ -814,10 +827,10 @@ class expenseController extends mvc
             $form->particulers->setValue($expDet['exp_details']);
             $form->amount->setValue($expDet['exp_novat_amt']);
             $form->paymod->setValue($expDet['exp_pay_mode']);
-            
+
             $form->vatamount->setValue($expDet['exp_vat_amt']);
             $form->vatoption->setValue($expDet['exp_vat_option']);
-                        
+
             $form->payby->setValue($pbd);
             $form->billdt->setValue($billDt);
             $form->paydays->setValue($expDet['exp_paydays']);
@@ -1218,8 +1231,8 @@ class expenseController extends mvc
             'class' => ''
         ), $expRefDetPair);
         $mfields = [];
-        if(is_array($form->_elements['mamount']))
-        $mfields = array_keys($form->_elements['mamount']);
+        if (is_array($form->_elements['mamount']))
+            $mfields = array_keys($form->_elements['mamount']);
         if (isset($_POST) && count($_POST) > 0) {
             $form->addErrorMsg('mamount', 'required', ' ');
             $valid = $form->vaidate($_POST, $_FILES);
@@ -1265,7 +1278,7 @@ class expenseController extends mvc
                     if ($upload) {
                         $form->reset();
                         if ($exupdate) {
-                            
+
                             $feedback = 'Details Updated successfully';
                             $success = array(
                                 'feedback' => $feedback
@@ -1273,7 +1286,6 @@ class expenseController extends mvc
                             $_SESSION['feedback'] = $feedback;
                             $success = json_encode($success);
                             die($success);
-                            
                         }
                     }
                 }
@@ -1285,7 +1297,6 @@ class expenseController extends mvc
         $this->view->mfields = $mfields;
         $this->view->expRefDetails = $expRefDetails;
     }
-    
 
     public function getliveAction()
     {
@@ -1299,52 +1310,52 @@ class expenseController extends mvc
 
                 require_once __DIR__ . '/../admin/!model/category.php';
                 $catModelObj = new category();
-                
-                $ptype = $_POST ['pType'];
 
-                switch ($_POST ['refParam']) {
-                    case 'parent' :
-                        
-                        $sCatList = $catModelObj->getCategoryPair ( array (
-                        'cat_type' => 2,
-                        'cat_parent' => $_POST ['refId']
-                        ) );
-                        
-                        $data [] = array (
+                $ptype = $_POST['pType'];
+
+                switch ($_POST['refParam']) {
+                    case 'parent':
+
+                        $sCatList = $catModelObj->getCategoryPair(array(
+                            'cat_type' => 2,
+                            'cat_parent' => $_POST['refId']
+                        ));
+
+                        $data[] = array(
                             'key' => '',
                             'value' => 'Select Sub Category'
                         );
-                        if (!empty($ptype))
-                            $sCatList ["-1"] = "--Add New Sub Category--";
-                            
-                            if (count ( $sCatList ))
-                                foreach ( $sCatList as $key => $val )
-                                    $data [] = array (
-                                        'key' => $key,
-                                        'value' => $val
-                                    );
-                                    break;
-                                    
-                    case 'sub' :
-                        $cCatList = $catModelObj->getCategoryPair ( array (
-                        'cat_type' => 3,
-                        'cat_parent' => $_POST ['refId']
-                        ) );
-                        
-                        $data [] = array (
+                        if (! empty($ptype))
+                            $sCatList["-1"] = "--Add New Sub Category--";
+
+                        if (count($sCatList))
+                            foreach ($sCatList as $key => $val)
+                                $data[] = array(
+                                    'key' => $key,
+                                    'value' => $val
+                                );
+                        break;
+
+                    case 'sub':
+                        $cCatList = $catModelObj->getCategoryPair(array(
+                            'cat_type' => 3,
+                            'cat_parent' => $_POST['refId']
+                        ));
+
+                        $data[] = array(
                             'key' => '',
                             'value' => 'Select Child Category'
                         );
-                        if (!empty($ptype))
-                            $cCatList ["-1"] = "--Add New Child Category--";
-                            
-                            if (count ( $cCatList ))
-                                foreach ( $cCatList as $key => $val )
-                                    $data [] = array (
-                                        'key' => $key,
-                                        'value' => $val
-                                    );
-                                    break;
+                        if (! empty($ptype))
+                            $cCatList["-1"] = "--Add New Child Category--";
+
+                        if (count($cCatList))
+                            foreach ($cCatList as $key => $val)
+                                $data[] = array(
+                                    'key' => $key,
+                                    'value' => $val
+                                );
+                        break;
                 }
 
                 $data = json_encode($data);
