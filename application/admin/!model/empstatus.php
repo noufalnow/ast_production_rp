@@ -17,12 +17,28 @@ class empstatus extends db_table {
                         docsrpt.doc_id as docsid
                         from $this->_table
 
-                        LEFT JOIN mis_documents AS docsrpt ON docsrpt.doc_type = " . DOC_TYPE_EMP_LVE . "
-                            AND docsrpt.doc_ref_type = " . DOC_TYPE_EMP_LVE . "
-                            AND docsrpt.doc_ref_id = sts_id
-                            AND docsrpt.deleted = 0
-                         LEFT JOIN core_files as files on files.file_ref_id = docsrpt.doc_id and files.file_type = " . DOC_TYPE_EMP_LVE . " and files.deleted = 0
-             
+                LEFT JOIN mis_documents AS docsrpt 
+                    ON docsrpt.doc_type = 
+                           CASE sts_type 
+                               WHEN 1 THEN " . DOC_TYPE_EMP_LVE . " 
+                               WHEN 2 THEN " . DOC_TYPE_EMP_LVER . " 
+                           END
+                    AND docsrpt.doc_ref_type = 
+                           CASE sts_type 
+                               WHEN 1 THEN " . DOC_TYPE_EMP_LVE . " 
+                               WHEN 2 THEN " . DOC_TYPE_EMP_LVER . " 
+                           END
+                    AND docsrpt.doc_ref_id = sts_id
+                    AND docsrpt.deleted = 0
+                
+                LEFT JOIN core_files AS files 
+                    ON files.file_ref_id = docsrpt.doc_id
+                    AND files.file_type = 
+                           CASE sts_type 
+                               WHEN 1 THEN " . DOC_TYPE_EMP_LVE . " 
+                               WHEN 2 THEN " . DOC_TYPE_EMP_LVER . " 
+                           END
+                    AND files.deleted = 0             
                         " );
 	    
 	    $this->_where [] = "sts_id = :sts_id";
@@ -50,11 +66,29 @@ class empstatus extends db_table {
 
 				from $this->_table
 
-                LEFT JOIN mis_documents AS docsrpt ON docsrpt.doc_type = " . DOC_TYPE_EMP_LVE . "
-                    AND docsrpt.doc_ref_type = " . DOC_TYPE_EMP_LVE . "
+                LEFT JOIN mis_documents AS docsrpt 
+                    ON docsrpt.doc_type = 
+                           CASE sts_type 
+                               WHEN 1 THEN " . DOC_TYPE_EMP_LVE . " 
+                               WHEN 2 THEN " . DOC_TYPE_EMP_LVER . " 
+                           END
+                    AND docsrpt.doc_ref_type = 
+                           CASE sts_type 
+                               WHEN 1 THEN " . DOC_TYPE_EMP_LVE . " 
+                               WHEN 2 THEN " . DOC_TYPE_EMP_LVER . " 
+                           END
                     AND docsrpt.doc_ref_id = sts_id
                     AND docsrpt.deleted = 0
-                 LEFT JOIN core_files as files on files.file_ref_id = docsrpt.doc_id and files.file_type = " . DOC_TYPE_EMP_LVE . " and files.deleted = 0
+                
+                LEFT JOIN core_files AS files 
+                    ON files.file_ref_id = docsrpt.doc_id
+                    AND files.file_type = 
+                           CASE sts_type 
+                               WHEN 1 THEN " . DOC_TYPE_EMP_LVE . " 
+                               WHEN 2 THEN " . DOC_TYPE_EMP_LVER . " 
+                           END
+                    AND files.deleted = 0
+
 
 
 

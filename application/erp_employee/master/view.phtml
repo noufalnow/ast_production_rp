@@ -278,42 +278,78 @@ if ($this->employeeDetail['emp_doj'] != '') {
 											<span class="" style="float: right;">
 											<?=x(array('link'=>'erp_employee/master/leavestatus','ref'=>$this->param['ref'],'label'=>'Leave Summary',array("param"=>'class="facebox"')))?>
 										</span>
-											<table class="table table-bordered">
-												<thead>
-													<tr>
-														<th class="center" width="5%">Type</th>
-														<th class="center" width="15%">Remarks</th>
-														<th class="center" width="8%">With Effect From</th>
-														<th class="center" width="8%">End Date</th>
-														<th class="center" width="8%">Appl Date</th>
-														<th class="center" width="8%">Approval Date</th>
-														<th class="center" width="8%">Edit</th>
-													</tr>
-												</thead>
-												<tbody>
-												<?php
-                                                foreach ($this->empStatus as $this->status) :
-                                                    $encStsId = $this->encode($this->status['sts_id']);
-                                                    $encLeaveFileId = $this->encode($this->status['fileid']);
-                                                    ?>
-												<tr>
-														<td align="center"><?=$this->status['emp_mstatus']?>
-														
-														<?if($this->status['sts_type']==1 && $this->status['fileid'] !=''): ?><?=x(array('link'=>'default/default/download','ref'=>$encLeaveFileId,'label'=>'<i class="fas fa-download"></i>',array("param"=>'opener')))?> <?php endif;?>
-														
-														</td>
-														<td><?=$this->status['sts_remarks']?></td>
-														<td align="center"><?=$this->status['sts_start_date']?></td>
-														<td align="center"><?if($this->status['sts_type']!=2): ?><?=$this->status['sts_end_date']?><?php endif;?></td>
-														<td align="center"><?if($this->status['sts_type']!=2): ?><?=$this->status['sts_apply_date']?> <?php endif;?></td>
-														<td align="center"><?if($this->status['sts_type']!=2): ?><?=$this->status['sts_approval_date']?><?php endif;?></td>
-														<td align="center">
-														<?=x(array('link'=>'erp_employee/master/statusedit','ref'=>$encStsId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>
-													</td>
-													</tr>
-												<?php endforeach;?>
-											</tbody>
-											</table>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th class="center" width="5%">Type</th>
+                                                    <th class="center" width="15%">Remarks</th>
+                                                    <th class="center" width="8%">With Effect From</th>
+                                                    <th class="center" width="8%">End Date</th>
+                                                    <th class="center" width="8%">Appl Date</th>
+                                                    <th class="center" width="8%">Approval Date</th>
+                                                    <th class="center" width="5%">Files</th>
+                                                    <th class="center" width="5%">Edit</th>
+                                                </tr>
+                                            </thead>
+                                        
+                                            <tbody>
+                                            <?php foreach ($this->empStatus as $this->status) : 
+                                                $encStsId = $this->encode($this->status['sts_id']);
+                                                $encLeaveFileId = $this->encode($this->status['fileid']);
+                                            ?>
+                                                <tr>
+                                                    <td align="center">
+                                                        <?=$this->status['emp_mstatus']?>
+                                                    </td>
+                                        
+                                                    <td><?=$this->status['sts_remarks']?></td>
+                                        
+                                                    <td align="center"><?=$this->status['sts_start_date']?></td>
+                                        
+                                                    <td align="center">
+                                                        <?php if($this->status['sts_type'] != 2): ?>
+                                                            <?=$this->status['sts_end_date']?>
+                                                        <?php endif; ?>
+                                                    </td>
+                                        
+                                                    <td align="center">
+                                                        <?php if($this->status['sts_type'] != 2): ?>
+                                                            <?=$this->status['sts_apply_date']?>
+                                                        <?php endif; ?>
+                                                    </td>
+                                        
+                                                    <td align="center">
+                                                        <?php if($this->status['sts_type'] != 2): ?>
+                                                            <?=$this->status['sts_approval_date']?>
+                                                        <?php endif; ?>
+                                                    </td>
+                                        
+                                                    <!-- New download column -->
+                                                    <td align="center">
+                                                        <?php if(($this->status['sts_type']==1 || $this->status['sts_type']==2) && $this->status['fileid'] != ''): ?>
+                                                            <?=x(array(
+                                                                'link' => 'default/default/download',
+                                                                'ref'  => $encLeaveFileId,
+                                                                'label' => '<i class="fas fa-download"></i>',
+                                                                array("param" => 'opener')
+                                                            ))?>
+                                                        <?php endif; ?>
+                                                    </td>
+                                        
+                                                    <td align="center">
+                                                        <?=x(array(
+                                                            'link'=>'erp_employee/master/statusedit',
+                                                            'ref'=>$encStsId,
+                                                            'label'=>'<i class="fas fa-edit"></i>',
+                                                            array("param"=>'class="facebox"')
+                                                        ))?>
+                                                    </td>
+                                                </tr>
+                                        
+                                            <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+
 										</div>
 									</div>
 								</div>

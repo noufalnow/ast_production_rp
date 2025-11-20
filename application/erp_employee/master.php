@@ -2,7 +2,7 @@
 
 class masterController extends mvc
 {
-    
+
     protected $doctype = array(
         '1' => "Passport",
         '2' => "Resident ID",
@@ -16,14 +16,13 @@ class masterController extends mvc
         '10' => "OXY License",
         '11' => "OXY H2S",
         '12' => "Work Contract",
-        '13'=> "Third party Insurance",
+        '13' => "Third party Insurance",
         '14' => "Fitness Medical Report",
         '15' => "Opal Medical",
         '16' => "Opal LC",
         '17' => "Opal Passport",
-        '18' => "Opal Safety Certificate" 
+        '18' => "Opal Safety Certificate"
     );
-    
 
     public function addAction()
     {
@@ -727,7 +726,7 @@ class masterController extends mvc
             )
         ));
 
-        $form->addElement('endDt', 'End End', 'text', 'required', '', array(
+        $form->addElement('endDt', 'Status Date', 'text', 'required', '', array(
             '' => 'readonly',
             'class' => 'date_picker'
         ));
@@ -937,25 +936,23 @@ class masterController extends mvc
                 }
             }
         }
-        
-        foreach ($this->doctype as $dtkey=>$dlabel ){
-            $tdocs= $docs->getDocuments(array(
+
+        foreach ($this->doctype as $dtkey => $dlabel) {
+            $tdocs = $docs->getDocuments(array(
                 'doc_type' => $dtkey,
                 'doc_ref_type' => DOC_TYPE_EMP,
                 'doc_ref_id' => $empId
             ));
-            
-            if(is_array($tdocs) && count($tdocs)>0){
+
+            if (is_array($tdocs) && count($tdocs) > 0) {
                 $docList[$dtkey] = $tdocs;
             }
-            
-            
-            $tdocs=[];
+
+            $tdocs = [];
         }
-        
+
         $this->view->docList = $docList;
         $this->view->doctype = $this->doctype;
-        
 
         $ppDocs = $docs->getDocuments(array(
             'doc_type' => 1,
@@ -1014,7 +1011,7 @@ class masterController extends mvc
             'doc_ref_type' => DOC_TYPE_EMP,
             'doc_ref_id' => $empId
         ));
-        
+
         $workContrDocs = $docs->getDocuments(array(
             'doc_type' => 12,
             'doc_ref_type' => DOC_TYPE_EMP,
@@ -1518,29 +1515,27 @@ class masterController extends mvc
             '' => 'readonly',
             'class' => 'date_picker'
         ));
-        
+
         $form->addFile('my_files', 'Leave Documents', array(
             'required' => true,
             'exten' => 'pdf',
             'size' => 5375000
         ));
-        
 
         if ($_POST) {
             if (! isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
                 die('---'); // exit script outputting json data
             } else {
-                
-                if($_POST['statusType']==1)
+
+                if ($_POST['statusType'] == 1)
                     $form->addRules("dtEnd", 'required');
-                
-                if($_POST['statusType']!=1)
+
+                if ($_POST['statusType'] != 1)
                     $form->addFile('my_files', 'Leave Documents', array(
                         'required' => false,
                         'exten' => 'pdf',
                         'size' => 5375000
                     ));
-                    
 
                 $valid = $form->vaidate($_POST, $_FILES);
                 $valid = $valid[0];
@@ -1589,21 +1584,27 @@ class masterController extends mvc
                                 'emp_status' => $empStatus
                             ), $decEmpId);
                         }
-                        
-                        
-                        require_once __DIR__ . '/../admin/!model/documents.php';
-                        $docs = new documets();
-                        
-                        $fdata = array(
-                            'doc_type' => DOC_TYPE_EMP_LVE,
-                            'doc_ref_type' => DOC_TYPE_EMP_LVE,
-                            'doc_ref_id' => $insert
-                        );
-                        $leaveRpt = $docs->add($fdata);
-                        if ($leaveRpt) {
-                            $upload = uploadFiles(DOC_TYPE_EMP_LVE, $leaveRpt, $valid['my_files']);
+
+                        if ($valid['my_files']) {
+
+                            if ($valid['statusType'] == 1)
+                                $documentType = DOC_TYPE_EMP_LVE;
+                            else if ($valid['statusType'] == 2)
+                                $documentType = DOC_TYPE_EMP_LVER;
+
+                            require_once __DIR__ . '/../admin/!model/documents.php';
+                            $docs = new documets();
+
+                            $fdata = array(
+                                'doc_type' => $documentType,
+                                'doc_ref_type' => $documentType,
+                                'doc_ref_id' => $insert
+                            );
+                            $leaveRpt = $docs->add($fdata);
+                            if ($leaveRpt) {
+                                $upload = uploadFiles($documentType, $leaveRpt, $valid['my_files']);
+                            }
                         }
-                        
 
                         $feedback = 'Employee status updated successfully';
 
@@ -1655,7 +1656,9 @@ class masterController extends mvc
         if (! $decStsId)
             die('tampered');
 
-        $stsDetails = $empStsObj->getStatusByStatusId(['sts_id'=>$decStsId]);
+        $stsDetails = $empStsObj->getStatusByStatusId([
+            'sts_id' => $decStsId
+        ]);
 
         $form->addElement('statusType', 'Type', 'select', 'required', array(
             'options' => array(
@@ -1686,7 +1689,7 @@ class masterController extends mvc
             '' => 'readonly',
             'class' => 'date_picker'
         ));
-        
+
         $form->addFile('my_files', 'Leave Documents', array(
             'required' => true,
             'exten' => 'pdf',
@@ -1697,8 +1700,8 @@ class masterController extends mvc
             if (! isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
                 die('---'); // exit script outputting json data
             } else {
-                
-                if($_POST['statusType']==1)
+
+                if ($_POST['statusType'] == 1)
                     $form->addRules("dtEnd", 'required');
 
                 $valid = $form->vaidate($_POST, $_FILES);
@@ -1750,29 +1753,36 @@ class masterController extends mvc
                                 'emp_status' => $empStatus
                             ), $stsDetails['sts_emp_id']);
                         }
-                        
+
                         require_once __DIR__ . '/../admin/!model/documents.php';
                         $docs = new documets();
                         $file = new files();
-                        
+
                         if ($valid['my_files']) {
                             if ($stsDetails['docsid']) {
                                 $docs->deleteDocument($stsDetails['docsid']);
                                 deleteFile($stsDetails['fileid']);
                                 $file->deleteFile($stsDetails['docsid']);
                             }
-                            
-                            $srvdata = array(
-                                'doc_type' => DOC_TYPE_EMP_LVE,
-                                'doc_ref_type' => DOC_TYPE_EMP_LVE,
+
+                            if ($valid['statusType'] == 1)
+                                $documentType = DOC_TYPE_EMP_LVE;
+                            else if ($valid['statusType'] == 2)
+                                $documentType = DOC_TYPE_EMP_LVER;
+
+                            require_once __DIR__ . '/../admin/!model/documents.php';
+                            $docs = new documets();
+
+                            $fdata = array(
+                                'doc_type' => $documentType,
+                                'doc_ref_type' => $documentType,
                                 'doc_ref_id' => $decStsId
                             );
-                            $leaveRpt = $docs->add($srvdata);
+                            $leaveRpt = $docs->add($fdata);
                             if ($leaveRpt) {
-                                $upload = uploadFiles(DOC_TYPE_EMP_LVE, $leaveRpt, $valid['my_files']);
+                                $upload = uploadFiles($documentType, $leaveRpt, $valid['my_files']);
                             }
                         }
-                        
 
                         $feedback = 'Employee status modified successfully';
 
@@ -1814,25 +1824,24 @@ class masterController extends mvc
 
         $this->view->form = $form;
     }
-    
+
     public function leavestatusAction()
     {
         $this->view->response('ajax');
         require_once __DIR__ . '/../admin/!model/empstatus.php';
-        
+
         $empStsObj = new empstatus();
-        
+
         $decEmpId = $this->view->decode($this->view->param['ref']);
-        
+
         if (! $decEmpId)
             die('tampered');
-            
-            $leaveDetail = $empStsObj->getLeaveSummary(array(
-                'sts_emp_id' => $decEmpId
-            ));
-            $this->view->leaveDetail = $leaveDetail;
-            //s($leaveDetail);
 
+        $leaveDetail = $empStsObj->getLeaveSummary(array(
+            'sts_emp_id' => $decEmpId
+        ));
+        $this->view->leaveDetail = $leaveDetail;
+        // s($leaveDetail);
     }
 
     public function vehicleregAction()

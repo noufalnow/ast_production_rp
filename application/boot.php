@@ -150,6 +150,7 @@ define('DOC_TYPE_EXP', 5);
 define('DOC_TYPE_EXP_UPD', 5001);
 
 define('DOC_TYPE_EMP_LVE', 2200);
+define('DOC_TYPE_EMP_LVER', 2201);
 
 
 

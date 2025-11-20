@@ -143,6 +143,8 @@ class vehicle extends db_table {
 		if (! empty ( $cond ['f_type'] ))
 			$where [] = "vhl_type = :f_type";
 		
+		$where  [] = " vhl_status IN (1,2) ";
+		
 		if (! empty ( $cond ['f_monthpick'] )){
 			$monthYear = explode('/',$cond ['f_monthpick']);
 			$where [] = "(EXTRACT(month FROM doc_expiry_month) = '$monthYear[0]' AND EXTRACT(year FROM doc_expiry_month) = '$monthYear[1]' )";
@@ -202,6 +204,7 @@ class vehicle extends db_table {
 		$where [] = ' mis_vehicle.deleted = 0 ';
 		// $where [] = ' mis_vehicle.emp_status = 1 ';
 		// $where [] = ' doc_type !=2';
+		$where  [] = " vhl_status IN (1,2) ";
 		$where = ' WHERE ' . implode ( ' AND ', $where );
 		
 		$this->query ( "
@@ -251,6 +254,9 @@ class vehicle extends db_table {
 				$monthYear = explode ( '/', $cond ['f_monthpick'] );
 				$where  = " (EXTRACT(month FROM doc_expiry_month) = '$monthYear[0]' AND EXTRACT(year FROM doc_expiry_month) = '$monthYear[1]' ) ";
 			}
+			
+			
+			$where .= " AND vhl_status IN (1,2) ";
 			unset ( $cond ['f_monthpick'] );
 			
 			$this->query ( "SELECT count(doc_type) AS COUNT,
@@ -329,6 +335,7 @@ class vehicle extends db_table {
 		if (! empty ( $cond ['f_cCatSelect'] ))
 			$where [] = "ccat.cat_id = :f_cCatSelect";
 		
+		$where  [] = " vhl_status IN (1,2) ";
 		
 		$where [] = ' mis_vehicle.deleted = 0 ';
 		$where = ' WHERE ' . implode ( ' AND ', $where );
@@ -431,6 +438,7 @@ class vehicle extends db_table {
 		if (! empty ( $cond ['f_cCatSelect'] ))
 			$where [] = "ccat.cat_id = :f_cCatSelect";
 		
+		$where [] = " vhl_status IN (1,2) ";
 		$where [] = ' mis_vehicle.deleted = 0 ';
 		$where = ' WHERE ' . implode ( ' AND ', $where );
 		
