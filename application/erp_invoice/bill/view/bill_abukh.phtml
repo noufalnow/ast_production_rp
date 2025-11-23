@@ -114,52 +114,51 @@
 
 <div class="invoice-wrapper watermark">
 
-    <!-- Header -->
 <!-- Header -->
 <div style="display:flex;justify-content:space-between;align-items:flex-start;
-            border-bottom:3px solid #2c6eb5;padding-bottom:10px;margin-bottom:20px;direction:ltr;">
+            border-bottom:3px solid indigo;padding-bottom:10px;margin-bottom:20px;direction:ltr;">
 
-<!-- English Section (Left) -->
-<div style="flex:1;text-align:left;">
-    <h2 style="margin:0;color:#2c6eb5;font-size:18px;letter-spacing:0.5px;">
-        FAISAL ABDULLAH SALEM AL MASHAIKHI TRADING
-    </h2>
-    <div style="font-size:12px;color:#333;line-height:1.5;margin-top:3px;">
-        CR No: 1045331<br>
-        Block No: 257, Way No: 5704, Bousher<br>
-        PO Box: 967, Postal Code: 130, Al Azaiba<br>
-        Sultanate of Oman<br>
-        Phone: 99666760, 99557678<br>
-        Email: info@astglobal.om
+    <!-- English Section (Left) -->
+    <div style="flex:1;text-align:left;">
+        <h2 style="margin:0;color:indigo;font-size:18px;letter-spacing:0.5px;font-weight: bolder;">
+            ABU-KHALID AL MUKHINI TRAD. EST.
+        </h2>
+        <div style="font-size:12px;color:#333;line-height:1.5;margin-top:3px;">
+            <!-- CR No removed as requested -->
+            Block No: 257, Way No: 5704, Bousher<br>
+            PO Box: 967, Postal Code: 130, Al Azaiba<br>
+            Sultanate of Oman<br>
+            Phone: 99666760, 99557678<br>
+            Email: info@astglobal.om
+        </div>
     </div>
-</div>
 
-<!-- Center Logo -->
-<div style="text-align:center;padding:0 15px;">
-    <img src="http://<?= $_SERVER['HTTP_HOST'] ?>/css/images/fasm_logo.png"
-         width="95" alt="">
-</div>
-
-<!-- Arabic Section (Right) -->
-<div style="flex:1;text-align:right;">
-    <h2 style="font-size:20px; font-family:f11; 
-               display:block; text-align:right; margin-bottom:6px;">
-        فَيْصَل عبدالله سالم المشايخي للتجارة
-    </h2>
-
-    <div style="font-size:12px;color:#333;line-height:1.6;margin-top:3px;
-                direction:rtl; white-space:nowrap;">
-        رقم السجل التجاري: ١٠٤٥٣٣١<br>
-        كتلة رقم ٢٥٧، الطريق رقم ٥٧٠٤، بوشر<br>
-        ص.ب ٩٦٧، الرمز البريدي ١٣٠، العذيبة<br>
-        سلطنة عُمان<br>
-        هاتف: ٩٩٦٦٦٧٦٠ ، ٩٩٥٥٧٦٧٨<br>
-        البريد الإلكتروني: info@astglobal.om
+    <!-- Center Logo -->
+    <div style="text-align:center;padding:0 15px;">
+        <img src="http://<?= $_SERVER['HTTP_HOST'] ?>/css/images/fasm_logo.png"
+             width="15" alt="">
     </div>
+
+    <!-- Arabic Section (Right) -->
+    <div style="flex:1;text-align:right;">
+        <h2 style="font-size:30px; font-family:f11; 
+                   display:block; text-align:right; margin-bottom:6px;margin-top: -20px; color:indigo">
+            مؤسسة أبو خالد المخيني للتجارة
+        </h2>
+
+        <div style="font-size:12px;color:#333;line-height:1.6;margin-top:3px;
+                    direction:rtl; white-space:nowrap;">
+            <!-- CR line removed in Arabic too -->
+            كتلة رقم ٢٥٧، الطريق رقم ٥٧٠٤، بوشر<br>
+            ص.ب ٩٦٧، الرمز البريدي ١٣٠، العذيبة<br>
+            سلطنة عُمان<br>
+            هاتف: ٩٩٦٦٦٧٦٠ ، ٩٩٥٥٧٦٧٨<br>
+            البريد الإلكتروني: info@astglobal.om
+        </div>
+    </div>
+
 </div>
 
-
-</div>
 
 
     <!-- Invoice Meta -->
@@ -204,7 +203,7 @@
     </div>
 
     <div style="text-align:center;margin-top:10px;">
-        <h3 style="margin:0;color:#2c6eb5;">TAX INVOICE</h3>
+        <h3 style="margin:0;color:indigo;">TAX INVOICE</h3>
     </div>
 
     <!-- Invoice Table -->
@@ -235,7 +234,7 @@
             <?php endforeach; ?>
 
             <!-- Blank Rows for A4 fill -->
-            <?php if($i < 11): for($j=$i; $j<11; $j++): ?>
+            <?php if($i < 13): for($j=$i; $j<13; $j++): ?>
                 <tr>
                     <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
                 </tr>
@@ -286,14 +285,14 @@
                 We declare that this invoice shows the true and correct particulars of the goods/services supplied.
             </div>
             <div style="text-align:right;">
-                <b>For Faisal Abdullah Salem Al Mashaikhi Trading</b><br><br><br><br><br>
+                <b>For Adil Abdullah Salem Trading Est.</b><br><br><br><br><br>
                 <span style="border-top:1px solid #555;margin-bottom:50px">Authorised Signatory</span>
             </div>
         </div>
 
         <div style="margin-top:5px;">
             <b>Remarks:</b> Payment terms — within 30 days from invoice date.<br>
-            Cheques should be made payable to <b>FAISAL ABDULLAH SALEM AL MASHAIKHI TRADING</b>.
+            Cheques should be made payable to <b>ABU-KHALID AL MUKHINI TRAD. EST.</b>.
         </div>
     </div>
 

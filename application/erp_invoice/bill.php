@@ -972,6 +972,10 @@ class billController extends mvc
                 $this->view->template = 'bill_ast';
         } elseif ($billInfo['comp_disp_name'] === 'FSL') {
             $this->view->template = 'bill_faisal';
+        } elseif ($billInfo['comp_disp_name'] === 'ADL') {
+            $this->view->template = 'bill_adil';
+        } elseif ($billInfo['comp_disp_name'] === 'ABK') {
+            $this->view->template = 'bill_abukh';
         } else {
             $this->view->template = 'bill_ast';
         }

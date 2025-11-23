@@ -179,6 +179,11 @@ table.tbl {
 	.tbl th, .tbl td {
 		border-color: #666;
 	}
+	
+	div[style*="direction:rtl"] {
+    	white-space: nowrap;
+	}
+	
 }
 
 /* ------------------------------------
@@ -206,4 +211,11 @@ table.tbl {
 .right { text-align: right; }
 .left { text-align: left; }
 .bold { font-weight: bold; }
+
+
+div[style*="direction:rtl"] {
+    white-space: nowrap;
+}
+
+
 </style>
