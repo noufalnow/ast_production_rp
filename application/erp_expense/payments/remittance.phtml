@@ -174,6 +174,216 @@
 	</div>
 </div>
 
+
+
+<div class="container mt-4">
+
+    <!-- Header -->
+    <div class="card shadow-sm border-0 p-4">
+
+        <div class="text-center mb-3">
+            <img src="http://<?=$_SERVER['HTTP_HOST']?>/css/images/ast.png" width="65" class="mb-2 opacity-75">
+
+            <h5 class="fw-bold mt-2">ABDULLAH BIN SALEM TRADING EST.</h5>
+            <div class="arabic fw-bold" style="font-size:14px;">مؤسسة عبدالله بن سالم للتجارة</div>
+
+            <h5 class="text-primary fw-bold mt-3">ACKNOWLEDGMENT CASH RECEIPT</h5>
+        </div>
+
+        <!-- Receipt Information -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="info-box">
+                    <strong>Receipt No:</strong> <?=$this->payDet['voucher_no'] ?? 'N/A'?><br>
+                    <strong>Payment Mode:</strong> <?=$this->payDet['pay_mode'] ?? 'Cash'?><br>
+                    <strong>Reference No:</strong> <?=$this->payDet['pay_ref_no'] ?? '---'?>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="info-box">
+                    <strong>Date:</strong> <?= (new DateTime())->format('d/m/Y'); ?><br>
+                    <strong>Received By:</strong> <?=$this->payDet['prepared_by'] ?? 'Cashier' ?><br>
+                    <strong>Receipt Date:</strong> <?=$this->payDet['payment_date'] ?? (new DateTime())->format('d/m/Y'); ?>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vendor Information -->
+        <div class="info-box mb-3">
+            <div class="row">
+                <div class="col-md-6">
+                    <strong>Received From:</strong> <?=$this->payDet['ven_name']?><br>
+                    <strong>Vendor Code:</strong> <?=$this->payDet['vendor_code'] ?? '---'?>
+                </div>
+                <div class="col-md-6">
+                    <strong>Address:</strong> <?=$this->payDet['ven_address'] ?? '---'?><br>
+                    <strong>Contact:</strong> <?=$this->payDet['ven_phone'] ?? '---'?>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Summary -->
+        <table class="table table-bordered table-sm align-middle">
+            <thead class="table-secondary text-center">
+                <tr>
+                    <th>Description</th>
+                    <th width="20%">Amount (OMR)</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>
+                        Payment received against outstanding invoices.<br>
+                        <strong>Reference:</strong> Remittance Advice No. <?=$this->payDet['voucher_no'] ?? '---'?>
+                    </td>
+
+                    <td class="text-end fw-bold">
+                        <?=number_format($paid ?? $this->payDet['amount_paid'] ?? 0, 3)?>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Amount in Words -->
+        <div class="info-box mb-3">
+            <strong>Amount in Words:</strong><br>
+            <em>
+                <?php
+                    $amount = $paid ?? ($this->payDet['amount_paid'] ?? 0);
+                    if(!function_exists('convert_number_to_words')){
+                        function convert_number_to_words($number) {
+                            $hyphen      = '-';
+                            $conjunction = ' and ';
+                            $separator   = ', ';
+                            $negative    = 'negative ';
+                            $decimal     = ' point ';
+                            $dictionary  = array(
+                                0 => 'zero',
+                                1 => 'one',
+                                2 => 'two',
+                                3 => 'three',
+                                4 => 'four',
+                                5 => 'five',
+                                6 => 'six',
+                                7 => 'seven',
+                                8 => 'eight',
+                                9 => 'nine',
+                                10 => 'ten',
+                                11 => 'eleven',
+                                12 => 'twelve',
+                                13 => 'thirteen',
+                                14 => 'fourteen',
+                                15 => 'fifteen',
+                                16 => 'sixteen',
+                                17 => 'seventeen',
+                                18 => 'eighteen',
+                                19 => 'nineteen',
+                                20 => 'twenty',
+                                30 => 'thirty',
+                                40 => 'forty',
+                                50 => 'fifty',
+                                60 => 'sixty',
+                                70 => 'seventy',
+                                80 => 'eighty',
+                                90 => 'ninety',
+                                100 => 'hundred',
+                                1000 => 'thousand',
+                                1000000 => 'million',
+                            );
+
+                            if (!is_numeric($number)) {
+                                return false;
+                            }
+
+                            if ($number < 0) {
+                                return $negative . convert_number_to_words(abs($number));
+                            }
+
+                            $string = $fraction = null;
+
+                            if (strpos($number, '.') !== false) {
+                                list($number, $fraction) = explode('.', $number);
+                            }
+
+                            switch (true) {
+                                case $number < 21:
+                                    $string = $dictionary[$number];
+                                    break;
+                                case $number < 100:
+                                    $tens   = ((int) ($number / 10)) * 10;
+                                    $units  = $number % 10;
+                                    $string = $dictionary[$tens];
+                                    if ($units) {
+                                        $string .= $hyphen . $dictionary[$units];
+                                    }
+                                    break;
+                                case $number < 1000:
+                                    $hundreds  = floor($number / 100);
+                                    $remainder = $number % 100;
+                                    $string = $dictionary[$hundreds] . ' ' . $dictionary[100];
+                                    if ($remainder) {
+                                        $string .= $conjunction . convert_number_to_words($remainder);
+                                    }
+                                    break;
+                                default:
+                                    $baseUnit   = pow(1000, floor(log($number, 1000)));
+                                    $numBaseUnits = (int) ($number / $baseUnit);
+                                    $remainder = $number % $baseUnit;
+                                    $string = convert_number_to_words($numBaseUnits) . ' ' . $dictionary[$baseUnit];
+                                    if ($remainder) {
+                                        $string .= $remainder < 100 ? $conjunction : $separator;
+                                        $string .= convert_number_to_words($remainder);
+                                    }
+                                    break;
+                            }
+
+                            if ($fraction !== null && is_numeric($fraction)) {
+                                $string .= $decimal;
+                                $words = array();
+                                foreach (str_split((string) $fraction) as $digit) {
+                                    $words[] = $dictionary[$digit];
+                                }
+                                $string .= implode(' ', $words);
+                            }
+
+                            return $string;
+                        }
+                    }
+
+                    echo ucfirst(convert_number_to_words($amount)) . " Omani Riyals Only.";
+                ?>
+            </em>
+        </div>
+
+        <!-- Signature Section -->
+        <div class="row mt-5">
+            <div class="col-4">
+                <strong>Received By:</strong>
+                <div class="signature-line"></div>
+            </div>
+
+            <div class="col-4">
+                <strong>Checked By:</strong>
+                <div class="signature-line"></div>
+            </div>
+
+            <div class="col-4">
+                <strong>Authorized By:</strong>
+                <div class="signature-line"></div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-4 text-muted small">
+            CreativeSol MIS – Cash Receipt (<?= (new DateTime())->format('d/m/y'); ?>)
+        </div>
+
+    </div>
+</div>
+
+
 <style>
 	.arabic {
 		font-family: 'Tahoma', sans-serif;

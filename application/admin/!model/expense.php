@@ -97,8 +97,8 @@ class expense extends db_table {
 		$this->query ( "select exp_id,exp_credit_amt as selection from $this->_table" );
 		
 		if (! empty ( $cond ['exclude'] )){
-		    $this->_where = "exp_id NOT IN (".$cond ['exclude'].")";
-			unset($cond ['exclude']);
+		    $this->_where[] = "exp_id NOT IN (" . $cond['exclude'] . ")";
+		    unset($cond ['exclude']);
 		}
 		
 		$this->_where [] = "exp_vendor = :f_selVendor";
