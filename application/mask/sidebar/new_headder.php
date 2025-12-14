@@ -347,14 +347,18 @@ function mainMenu($encUserId)
     $menuHtml .= x(array(
         'link' => 'erp_fund/cashflow/list',
         'label' => '<div class="side-menu__item ' . @$active['erp_fund/cashflow/list'] . '">
-                  <i class="side-menu__icon fa-solid fa-house"></i><span class="side-menu__label">Cash Flow</span></div>'
+        <i class="side-menu__icon fa-solid fa-money-bill-trend-up"></i>
+        <span class="side-menu__label">Cash Flow</span>
+    </div>'
     ));
-
+    
     
     $menuHtml .= '<li class="slide">
-    	<a class="side-menu__item ' . @$active['erp_manage/company/list'] . ' is-expanded" data-bs-toggle="slide" href="javascript:void(0);">
-                  <i class="side-menu__icon fa-solid fa-house"></i><span class="side-menu__label">Company</span></a>
-    	<ul class="slide-menu open">';
+    <a class="side-menu__item ' . @$active['erp_manage/company/list'] . ' is-expanded" data-bs-toggle="slide" href="javascript:void(0);">
+        <i class="side-menu__icon fa-solid fa-building"></i>
+        <span class="side-menu__label">Company</span>
+    </a>
+    <ul class="slide-menu open">';
     
     
     
@@ -371,9 +375,13 @@ function mainMenu($encUserId)
       </li>';
     
     $menuHtml .= '<li class="slide">
-    	<a class="side-menu__item ' . @$active['erp_manage/updates/list'] . ' is-expanded" data-bs-toggle="slide" href="javascript:void(0);">
-                  <i class="side-menu__icon fa-solid fa-building"></i><span class="side-menu__label">Others</span></a>
-    	<ul class="slide-menu open">';
+    <a class="side-menu__item ' . @$active['erp_manage/updates/list'] . ' is-expanded"
+       data-bs-toggle="slide" href="javascript:void(0);">
+        <i class="side-menu__icon fa-solid fa-ellipsis"></i>
+        <span class="side-menu__label">Others</span>
+    </a>
+    <ul class="slide-menu open">';
+    
     
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_manage/updates/list',
