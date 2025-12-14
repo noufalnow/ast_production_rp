@@ -562,25 +562,25 @@ pre code {
 
 @media (min-width: 576px) {
     .container {
-        max-width: 540px;
+        max-width: 97%;
     }
 }
 
 @media (min-width: 768px) {
     .container {
-        max-width: 720px;
+        max-width: 97%;
     }
 }
 
 @media (min-width: 992px) {
     .container {
-        max-width: 960px;
+        max-width: 97%;
     }
 }
 
 @media (min-width: 1280px) {
     .container {
-        max-width: 1140px;
+        max-width: 97%;
     }
 }
 
@@ -14247,9 +14247,9 @@ a.tag-addon:hover {
     }
 
     .col-xxl-4 {
-        -ms-flex: 0 0 33.33333333%;
+       /* -ms-flex: 0 0 33.33333333%;
         flex: 0 0 33.33333333%;
-        max-width: 33.33333333%;
+        max-width: 33.33333333%;*/
     }
 
     .col-xxl-5 {
@@ -30879,7 +30879,7 @@ video {
     .horizontal .hor-header .container,
     .horizontal .horizontal-main .container,
     .horizontal .main-content.hor-content .container {
-        max-width: 85% !important;
+        max-width: 97% !important;
         padding: 0;
     }
 
@@ -41087,8 +41087,8 @@ ul li .legend-dots {
     -webkit-transform: rotate(45deg);
     width: 100px;
     display: block;
-    background: #79A70A;
-    background: linear-gradient(#f8463f 0%, #f8463f 100%);
+    /*background: #79A70A;
+    background: linear-gradient(#f8463f 0%, #f8463f 100%);*/
     box-shadow: 0 3px 10px -5px rgb(0, 0, 0);
     position: absolute;
     top: 19px;

@@ -111,11 +111,7 @@
 					<th width="2%" class="center">Status</th>
 					<th width="3%" class="center">Bill Amount</th>
 					<th width="3%" class="center">Credit</th>
-					<th width="2%" class="center">Edit</th>
-					<th width="4%" class="center">View</th>
-					<?php if($_SESSION['user_acl']['erp_invoice/bill/approval']):?>
-					<th width="2%" class="center">Approve</th>
-					<?php endif;?>
+					<th width="4%" class="center">Actions</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -135,24 +131,19 @@
 					<td><?=$bill['cust_name']?></td>
 					<td><?=$bill['bill_refno']?></td>
 					<td><?=$bill['bill_remarks']?></td>
-					<td><?=$bill['bill_month']?></td>
-					<td><?=$mode[$bill['bill_pstatus']]?></td>
-					<td><?=number_format($bill['bill_total'],3)?></td>	
-					<td><?=number_format($bill['bill_credit_amt'],3)?></td>						
+					<td class="center"><?=$bill['bill_month']?></td>
+					<td class="center"><?=$mode[$bill['bill_pstatus']]?></td>
+					<td class="text-end"><?=number_format($bill['bill_total'],3)?></td>
+					<td class="text-end"><?=number_format($bill['bill_credit_amt'],3)?></td>						
 					<td class="center">
 						<?php if($bill['bill_app_status']==''):?>
 							<?=x(array('link'=>'erp_invoice/bill/edit','ref'=>$encBillId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>
 						<?php elseif($bill['bill_app_status']==1 && $bill['bill_cancellation_status'] <> 1 && $bill['cdet_bill_id']==""):?>
 							<?=x(array('link'=>'erp_invoice/bill/editenable','ref'=>$encBillId,'label'=>'<i class="glyphicon glyphicon-retweet" style="color:red"></i>',array("param"=>'class="facebox"')))?>
 						<?php endif?>
-  
-					</td>
-					<td class="center">
 						<?=x(array('link'=>'erp_invoice/bill/miniview','ref'=>$encBillId,'label'=>'<i class="fas fa-search"></i>',array("param"=>'class="facebox"')))?>
 						<?=x(array('link'=>'erp_invoice/bill/view','ref'=>$encBillId,'label'=>'<i class="glyphicon glyphicon glyphicon-print text-info" style="margin-left: 2px;"></i>',array("param"=>'wide_opener')))?> 
-					</td>
 					<?php if($_SESSION['user_acl']['erp_invoice/bill/approval']):?>
-					<td class="center">
 						<?php if($bill['bill_app_status']==''):?>
     						<?php if($bill['rev_count'] > 0):?>
     								<?=x(array('link'=>'erp_invoice/bill/approval','ref'=>$encBillId,'label'=>'<span class="glyphicon glyphicon-ok-circle" style="color:#31708f;font-size: 1.2em;"> </span>',array("param"=>'class="facebox", title="Approve Bill"')))?>

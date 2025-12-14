@@ -409,13 +409,16 @@ function mainMenu($encUserId)
     
     $menuHtml .= '</ul>
       </li>';
+  
+    
     
     $menuHtml .= x(array(
         'link' => 'admin/users/changepwd',
         'ref' => array(
             'ref' => $encUserId
         ),
-        'label' => '<li class="' . @$active['admin/users/changepwd'] . '">' . 'Change Password' . '</li>',
+        'label' => '<div class="side-menu__item ' . @$active['admin/users/changepwd'] . '">
+                  <i class="side-menu__icon fa-solid fa-key"></i><span class="side-menu__label">Change Password</span></div>',
         array(
             "param" => 'class="facebox"'
         )
@@ -739,7 +742,7 @@ echo ('
 						</a>
 						<!-- LOGO -->
 					</div>
-					<div class="main-sidemenu">
+					<div class="main-sidemenu" style="max-width: 85% !important;">
 						<div class="slide-left disabled" id="slide-left">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24"
 								height="24" viewBox="0 0 24 24">
