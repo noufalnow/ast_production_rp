@@ -14,7 +14,7 @@
 						</ol>
 					</div>
 					<div class="ms-auto pageheader-btn">
-                        <?=x(array('link'=>'erp_property/master/add','label'=>'<button class="btn btn-success pull-right btn btn-primary btn-icon text-white me-2" >Add Property <i
+                        <?=x(array('link'=>'erp_projects/master/add','label'=>'<button class="btn btn-success pull-right btn btn-primary btn-icon text-white me-2" >Add Property <i
 							class="fe fe-plus"></i></button>',array("param"=>'class="facebox"')),'<br><br>')?>
 					</div>
 				</div>
@@ -135,17 +135,17 @@
 														style="color: red; font-weight: bold" <?php endif?>>
                                                         <?=$property['property_status']?>
                                                         <?php if($property['prop_building_type']==""):?>
-                                                        <?=x(array('link'=>'erp_property/master/status','ref'=>$encPropId,'label'=>'<i class="fas fa-star-half-alt"></i>',array("param"=>'class="facebox"')))?>
+                                                        <?=x(array('link'=>'erp_projects/master/status','ref'=>$encPropId,'label'=>'<i class="fas fa-star-half-alt"></i>',array("param"=>'class="facebox"')))?>
                                                         <?php endif?>
                                                     </td>
 													<td class="center">
                                                         <?=x(array('link'=>'erp_report/property/paymentcollection','ref'=>array('f_property'=>$property['prop_id']),'label'=>'<i class="fas fa-tasks"></i>',array("param"=>'wide_opener')))?>
                                                     </td>
 													<td class="center">
-                                                        <?=x(array('link'=>'erp_property/master/edit','ref'=>$encPropId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>
+                                                        <?=x(array('link'=>'erp_projects/master/edit','ref'=>$encPropId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>
                                                     </td>
 													<td class="center">
-                                                        <?=x(array('link'=>'erp_property/master/view','ref'=>$encPropId,'label'=>'<i class="fas fa-search"></i>'))?>
+                                                        <?=x(array('link'=>'erp_projects/master/view','ref'=>$encPropId,'label'=>'<i class="fas fa-search"></i>'))?>
                                                     </td>
 												</tr>
                                                 <?php endforeach?>

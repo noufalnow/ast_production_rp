@@ -634,7 +634,7 @@ class masterController extends mvc
             'size' => 4480000
         ));
         $propImage = $docs->getTopDocumentsByRef(array(
-            'doc_ref_type' => DOC_IMG_PROP,
+            'doc_ref_type' => DOC_IMG_PROJECT,
             'doc_ref_id' => $propId
         ));
         $propImage = $propImage['0'];
@@ -648,7 +648,7 @@ class masterController extends mvc
                 if ($imValid == true) {
                     $data = array(
                         'doc_type' => 5, // @todo image document type create constants
-                        'doc_ref_type' => DOC_IMG_PROP,
+                        'doc_ref_type' => DOC_IMG_PROJECT,
                         'doc_ref_id' => $propId
                     );
                     $insert = $docs->add($data);
@@ -661,11 +661,11 @@ class masterController extends mvc
                                 $file->deleteFile($propImage['file_id']);
                             }
                         }
-                        $upload = uploadFiles(DOC_IMG_PROP, $insert, $imValid['photo']);
+                        $upload = uploadFiles(DOC_IMG_PROJECT, $insert, $imValid['photo']);
                         
                         
                         $form->reset();
-                        $this->view->url = APPURL . "erp_property/master/propdocs/ref/" . $this->view->param['ref'];
+                        $this->view->url = APPURL . "erp_projects/master/propdocs/ref/" . $this->view->param['ref'];
                         $this->view->status = 11;
                         $this->view->target = "menu2";
                         
@@ -697,7 +697,7 @@ class masterController extends mvc
                     }
                     $data = array(
                         'doc_type' => $valid['doctype'],
-                        'doc_ref_type' => DOC_TYPE_PROP,
+                        'doc_ref_type' => DOC_TYPE_PROJECT,
                         'doc_ref_id' => $propId,
                         'doc_no' => $valid['docno'],
                         'agr_tnt_id' => $valid['agr_tenant'],
@@ -722,9 +722,9 @@ class masterController extends mvc
                             $update = $property->modify(array(
                                 "prop_status" => 2
                             ), $propId);
-                        $upload = uploadFiles(DOC_TYPE_PROP, $insert, $valid['my_files']);
+                        $upload = uploadFiles(DOC_TYPE_PROJECT, $insert, $valid['my_files']);
                         $form->reset();
-                        $this->view->url = APPURL . "erp_property/master/propdocs/ref/" . $this->view->param['ref'];
+                        $this->view->url = APPURL . "erp_projects/master/propdocs/ref/" . $this->view->param['ref'];
                         $this->view->status = 11;
                         $this->view->target = "menu2";
                         if ($upload) {
@@ -740,7 +740,7 @@ class masterController extends mvc
         }
         $leaseDocs = $docs->getDocuments(array(
             'doc_type' => 201,
-            'doc_ref_type' => DOC_TYPE_PROP,
+            'doc_ref_type' => DOC_TYPE_PROJECT,
             'doc_ref_id' => $propId
         ));
         $this->view->form = $form;
@@ -764,7 +764,7 @@ class masterController extends mvc
         $propDocId = $this->view->decode($this->view->param['ref']);
         $docDetails = $docs->getDocumentDetails(array(
             'doc_id' => $propDocId,
-            'doc_ref_type' => DOC_TYPE_PROP
+            'doc_ref_type' => DOC_TYPE_PROJECT
         ));
         // s($docDetails);
         if (! $propDocId)
@@ -875,7 +875,7 @@ class masterController extends mvc
                             ), $docDetails['doc_ref_id']);
                         deleteFile($docDetails['file_id']);
                         $file->deleteFile($docDetails['file_id']);
-                        $upload = uploadFiles(DOC_TYPE_PROP, $propDocId, $valid['my_files']);
+                        $upload = uploadFiles(DOC_TYPE_PROJECT, $propDocId, $valid['my_files']);
                         if ($upload) {
                             $form->reset();
                             $this->view->feedback = 'Document details modified successfully';
@@ -923,7 +923,7 @@ class masterController extends mvc
             die('tampered');
         $documentDetail = $document->getDocumentDetails(array(
             'doc_id' => $decDocumentId,
-            'doc_ref_type' => DOC_TYPE_PROP
+            'doc_ref_type' => DOC_TYPE_PROJECT
         ));
         if ($_POST) {
             if (! isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
@@ -986,7 +986,7 @@ class masterController extends mvc
             'size' => 5000000
         ));
         $propImage = $docs->getTopDocumentsByRef(array(
-            'doc_ref_type' => DOC_IMG_PROP,
+            'doc_ref_type' => DOC_IMG_PROJECT,
             'doc_ref_id' => $propId
         ));
         $propImage = $propImage['0'];
@@ -999,7 +999,7 @@ class masterController extends mvc
                 if ($imValid == true) {
                     $data = array(
                         'doc_type' => 5, // @todo image document type create constants
-                        'doc_ref_type' => DOC_IMG_PROP,
+                        'doc_ref_type' => DOC_IMG_PROJECT,
                         'doc_ref_id' => $propId
                     );
                     $insert = $docs->add($data);
@@ -1013,9 +1013,9 @@ class masterController extends mvc
                             }
                         }
 
-                        $upload = uploadFiles(DOC_IMG_PROP, $insert, $imValid['photo']);
+                        $upload = uploadFiles(DOC_IMG_PROJECT, $insert, $imValid['photo']);
                         $form->reset();
-                        $this->view->url = APPURL . "erp_property/master/propdocscomm/ref/" . $this->view->param['ref'];
+                        $this->view->url = APPURL . "erp_projects/master/propdocscomm/ref/" . $this->view->param['ref'];
                         $this->view->status = 11;
                         $this->view->target = "menu2";
 
@@ -1046,7 +1046,7 @@ class masterController extends mvc
                     }
                     $data = array(
                         'doc_type' => $valid['doctype'],
-                        'doc_ref_type' => DOC_TYPE_PROP,
+                        'doc_ref_type' => DOC_TYPE_PROJECT,
                         'doc_ref_id' => $propId,
                         'doc_no' => $valid['docno'],
                         'doc_issue_date' => $doi,
@@ -1057,8 +1057,8 @@ class masterController extends mvc
                         $data['doc_alert_days'] = $valid['alert'];
                     $insert = $docs->add($data);
                     if ($insert) {
-                        $upload = uploadFiles(DOC_TYPE_PROP, $insert, $valid['my_files']);
-                        $this->view->url = APPURL . "erp_property/master/propdocscomm/ref/" . $this->view->param['ref'];
+                        $upload = uploadFiles(DOC_TYPE_PROJECT, $insert, $valid['my_files']);
+                        $this->view->url = APPURL . "erp_projects/master/propdocscomm/ref/" . $this->view->param['ref'];
                         $this->view->status = 11;
                         $this->view->target = "menu2";
 
@@ -1075,12 +1075,12 @@ class masterController extends mvc
         }
         $fireDocs = $docs->getDocuments(array(
             'doc_type' => 202,
-            'doc_ref_type' => DOC_TYPE_PROP,
+            'doc_ref_type' => DOC_TYPE_PROJECT,
             'doc_ref_id' => $propId
         ));
         $insDocs = $docs->getDocuments(array(
             'doc_type' => 203,
-            'doc_ref_type' => DOC_TYPE_PROP,
+            'doc_ref_type' => DOC_TYPE_PROJECT,
             'doc_ref_id' => $propId
         ));
         $this->view->form = $form;
@@ -1102,7 +1102,7 @@ class masterController extends mvc
         $propDocId = $this->view->decode($this->view->param['ref']);
         $docDetails = $docs->getDocumentDetails(array(
             'doc_id' => $propDocId,
-            'doc_ref_type' => DOC_TYPE_PROP
+            'doc_ref_type' => DOC_TYPE_PROJECT
         ));
         // s($docDetails);
         if (! $propDocId)
@@ -1184,7 +1184,7 @@ class masterController extends mvc
                          * "prop_status" => 2
                          * ), $docDetails['doc_ref_id']);
                          */
-                        $upload = uploadFiles(DOC_TYPE_PROP, $propDocId, $valid['my_files']);
+                        $upload = uploadFiles(DOC_TYPE_PROJECT, $propDocId, $valid['my_files']);
 
                         if ($upload) {
                             $form->reset();
@@ -1222,7 +1222,7 @@ class masterController extends mvc
             die('tampered');
         $documatesDetail = $documates->getDocumentDetails(array(
             'doc_id' => $decDocId,
-            'doc_ref_type' => DOC_TYPE_PROP
+            'doc_ref_type' => DOC_TYPE_PROJECT
         ));
         $docMst = array(
             '201' => "Lease Contract"
@@ -1349,11 +1349,11 @@ class masterController extends mvc
             'prop_id' => $decPropId
         ));
         $propDocs = $docs->getTopDocumentsByRef(array(
-            'doc_ref_type' => DOC_TYPE_PROP,
+            'doc_ref_type' => DOC_TYPE_PROJECT,
             'doc_ref_id' => $decPropId
         ));
         $propImage = $docs->getTopDocumentsByRef(array(
-            'doc_ref_type' => DOC_IMG_PROP,
+            'doc_ref_type' => DOC_IMG_PROJECT,
             'doc_ref_id' => $decPropId
         ));
         $propImage = $propImage['0'];
@@ -1433,11 +1433,11 @@ class masterController extends mvc
             'prop_id' => $decPropId
         ));
         $propDocs = $docs->getTopDocumentsByRef(array(
-            'doc_ref_type' => DOC_TYPE_PROP,
+            'doc_ref_type' => DOC_TYPE_PROJECT,
             'doc_ref_id' => $decPropId
         ));
         $propImage = $docs->getTopDocumentsByRef(array(
-            'doc_ref_type' => DOC_IMG_PROP,
+            'doc_ref_type' => DOC_IMG_PROJECT,
             'doc_ref_id' => $decPropId
         ));
         $propImage = $propImage['0'];

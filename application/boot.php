@@ -124,82 +124,121 @@ define('DFS_DB', 'Y-m-d');
 define('DF_DD', 'd/m/Y');
 define('DFF_DB', 'Y-m-d H:i:s T');
 
-// define constants:
-define('DOC_TYPE_MEM', 1);
-define('DOC_TYPE_MEM_PHOTO', 100);
 
-// define constants: documents type
-define('CAT_TYPE_CONS', 1);
-define('CAT_TYPE_VHLS', 2);
+/* =========================================================
+ * DOCUMENT TYPE CONSTANTS (REVIEWED)
+ * ========================================================= */
 
-// define constants: documents type
+
+/* -------------------------
+ * MEMBER / BASIC
+ * ------------------------- */
+define('DOC_TYPE_MEM',        1);
+define('DOC_TYPE_MEM_PHOTO',  100);
+
+
+/* -------------------------
+ * CATEGORY TYPES
+ * ------------------------- */
+define('CAT_TYPE_CONS',  1);
+define('CAT_TYPE_VHLS',  2);
+
+
+/* -------------------------
+ * CONTACT TYPES
+ * ------------------------- */
+define('CONT_TYPE_COMP',  1);
+define('CONT_TYPE_EMP',   2);
+define('CONT_TYPE_PROJECT', 3);   // was PROP
+define('CONT_TYPE_CUST',  4);
 define('CONT_TYPE_VENDR', 5);
 
-// define constants: address_type
-define('CONT_TYPE_COMP', 1);
-define('CONT_TYPE_EMP', 2);
-define('CONT_TYPE_PROP', 3);
-define('CONT_TYPE_CUST', 4);
 
-// define constants: documents type
-define('DOC_TYPE_COMP', 1);
-define('DOC_TYPE_EMP', 2);
-define('DOC_TYPE_PROP', 3);
-define('DOC_TYPE_VHCL', 4);
-define('DOC_TYPE_EXP', 5);
-define('DOC_TYPE_EXP_UPD', 5001);
-
-define('DOC_TYPE_EMP_LVE', 2200);
-define('DOC_TYPE_EMP_LVER', 2201);
+/* -------------------------
+ * CORE DOCUMENT TYPES
+ * ------------------------- */
+define('DOC_TYPE_COMP',     1);
+define('DOC_TYPE_EMP',      2);
+define('DOC_TYPE_PROJECT',  3);   // was PROP
+define('DOC_TYPE_VHCL',     4);
+define('DOC_TYPE_EXP',      5);
+define('DOC_TYPE_EXP_UPD',  5001);
 
 
+/* -------------------------
+ * EMPLOYEE DOCUMENTS
+ * ------------------------- */
+define('DOC_TYPE_EMP_LVE',   2200);
+define('DOC_TYPE_EMP_LVER',  2201);   // ✅ preserved
 
-define('DOC_TYPE_COM', 2000);
-define('DOC_TYPE_COM_EMP', 2001);
-define('DOC_TYPE_COM_PROP', 2002);
-define('DOC_TYPE_COM_VHL', 2003);
-define('DOC_TYPE_COM_AGR', 2004);
-define('DOC_TYPE_COM_SAL', 2005);
-define('DOC_TYPE_COM_VEN', 2006);
-define('DOC_TYPE_COM_COMP', 2007);
-define('DOC_TYPE_COM_LCASE', 20071);
-define('DOC_TYPE_COM_LCASE_UPD', 20072);
 
-define('DOC_TYPE_BILL', 6);
-define('DOC_TYPE_PAY', 7);
-define('DOC_TYPE_COLL', 8);
-define('DOC_TYPE_TKT', 9);
-define('DOC_TYPE_TKT_ACT', 10);
+/* -------------------------
+ * COMMUNICATION DOCUMENTS
+ * ------------------------- */
+define('DOC_TYPE_COM',        2000);
+define('DOC_TYPE_COM_EMP',    2001);
+define('DOC_TYPE_COM_PROJECT',2002);  // was PROP
+define('DOC_TYPE_COM_VHL',    2003);
+define('DOC_TYPE_COM_AGR',    2004);
+define('DOC_TYPE_COM_SAL',    2005);
+define('DOC_TYPE_COM_VEN',    2006);
+define('DOC_TYPE_COM_COMP',   2007);
 
-define('DOC_TYPE_TNT', 11); //id=>1101, cr=>1102
-define('DOC_TYPE_TNT_ID', 1101);
-define('DOC_TYPE_TNT_CR', 1102);
+define('DOC_TYPE_COM_LCASE',      20071);
+define('DOC_TYPE_COM_LCASE_UPD',  20072);
 
-define('DOC_IMG_EMP', 100);
-define('DOC_IMG_VHL', 1001);
-define('DOC_IMG_PROP', 1002);
 
-define('DOC_TYPE_PROP_SRV', 3001);
-define('DOC_TYPE_VHL_SRV', 4001);
+/* -------------------------
+ * BILLING / FINANCE
+ * ------------------------- */
+define('DOC_TYPE_BILL',      6);
+define('DOC_TYPE_PAY',       7);
+define('DOC_TYPE_COLL',      8);
+define('DOC_TYPE_TKT',       9);
+define('DOC_TYPE_TKT_ACT',   10);
+
+
+/* -------------------------
+ * IMAGE DOCUMENTS
+ * ------------------------- */
+define('DOC_IMG_EMP',     100);
+define('DOC_IMG_VHL',     1001);
+define('DOC_IMG_PROJECT', 1002);   // was PROP
+
+
+/* -------------------------
+ * SERVICE DOCUMENTS
+ * ------------------------- */
+define('DOC_TYPE_PROJECT_SRV', 3001);   // was PROP_SRV
+define('DOC_TYPE_VHL_SRV',     4001);
 define('DOC_TYPE_VHL_SRV_ACC', 4002);
 
 
-
-
+/* -------------------------
+ * CASH BOOK
+ * ------------------------- */
 define('CASH_BOOK_COMP', 1);
-define('CASH_BOOK_PER', 2);
+define('CASH_BOOK_PER',  2);
 
-// Update type
 
-define('UPD_TYP_EMP', 1);
-define('UPD_TYP_PROP', 2);
-define('UPD_TYP_VHL', 3);
-define('UPD_TYP_INV', 4);
-define('UPD_TYP_COMP', 5);
+/* -------------------------
+ * UPDATE TYPES
+ * ------------------------- */
+define('UPD_TYP_EMP',     1);
+define('UPD_TYP_PROJECT', 2);   // was PROP
+define('UPD_TYP_VHL',     3);
+define('UPD_TYP_INV',     4);
+define('UPD_TYP_COMP',    5);
 
-// Cash Demand Type
 
-define('CASHDMD_TYP_PROP', 1);
+/* -------------------------
+ * CASH DEMAND TYPES
+ * ------------------------- */
+define('CASHDMD_TYP_PROJECT', 1);   // was PROP
+
+
+
+
 
 function accx($link = '', $html = '')
 {

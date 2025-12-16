@@ -64,7 +64,7 @@ class proppayoption extends db_table {
                           agr_tnt_id  
 				    FROM
 				        mis_documents 
-                        WHERE doc_ref_type = " . DOC_TYPE_PROP . " and doc_type = 201
+                        WHERE doc_ref_type = " . DOC_TYPE_PROJECT . " and doc_type = 201
 						AND deleted = 0) AS propdocs ON 
                             propdocs.doc_ref_id = $this->_table.popt_prop_id and 
                             propdocs.doc_id     = $this->_table.popt_doc_id	

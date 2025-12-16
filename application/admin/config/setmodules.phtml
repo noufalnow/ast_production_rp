@@ -64,7 +64,7 @@
                                             <tr>
 												<td>
 													<div class="acclink">
-                                                        <?=accx('acl/config/setcontrollers','<a href="javascript:;" onclick="window.location.href=\''.APPURL.'acl/config/setcontrollers/ref/'.$encryptedModuleId.'/usergroup/\'+$(\'#module_ug\').val()+\'/users/\'+$(\'#module_usr\').val()">'.strtoupper($modules['module_label']).'</a>');?>
+                                                        <?=accx('admin/config/setcontrollers','<a href="javascript:;" onclick="window.location.href=\''.APPURL.'admin/config/setcontrollers/ref/'.$encryptedModuleId.'/usergroup/\'+$(\'#module_ug\').val()+\'/users/\'+$(\'#module_usr\').val()">'.strtoupper($modules['module_label']).'</a>');?>
                                                     </div>
 												</td>
 												<td align="center"><input class="create"
@@ -112,7 +112,7 @@ function getPermission(el) {
     var type = $(el).attr('id');
     $.ajax({
         type: 'POST',
-        url: '<?=APPURL?>acl/config/getpermission/ajax/ajax',
+        url: '<?=APPURL?>admin/config/getpermission/ajax/ajax',
         data: {
             'id': value,
             'type': type

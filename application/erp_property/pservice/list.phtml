@@ -14,7 +14,7 @@
 						</ol>
 					</div>
 					<div class="ms-auto pageheader-btn">
-						<?=x(array('link'=>'erp_property/pservice/add','label'=>'<button class="btn btn-success pull-right btn btn-primary btn-icon text-white me-2">Add Service <i class="fe fe-plus"></i></button>',array("param"=>'class="facebox"')),'<br><br>')?>
+						<?=x(array('link'=>'erp_projects/pservice/add','label'=>'<button class="btn btn-success pull-right btn btn-primary btn-icon text-white me-2">Add Service <i class="fe fe-plus"></i></button>',array("param"=>'class="facebox"')),'<br><br>')?>
 					</div>
 				</div>
 				<!-- PAGE-HEADER END -->
@@ -127,7 +127,7 @@ foreach ($this->serviceList as $index => $service) :
 													<td align="right"><?= number_format($service['psvs_amt_tot'], 3); ?>&nbsp;&nbsp;</td>
 
 													<td class="center">
-							<?= x(array('link'=>'erp_property/pservice/edit','ref'=>$this->encode($service['psvs_id']),'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"'))); ?>
+							<?= x(array('link'=>'erp_projects/pservice/edit','ref'=>$this->encode($service['psvs_id']),'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"'))); ?>
 						</td>
 													<td class="center">
 							<?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="fas fa-search"></i>',array("param"=>'opener')))?>

@@ -75,7 +75,7 @@ class defaultController extends mvc
                         $_SESSION['user_log_id'] = $logId;
 
                         /*
-                         * require_once __DIR__ . "/../acl/!model/Aclactions.php";
+                         * require_once __DIR__ . "/../admin/!model/Aclactions.php";
                          * $actionAccessModelObj = new Aclactions ();
                          * $cond ['aacc_role_id'] = $_SESSION ['user_id'];
                          * $cond ['aacc_role_type'] = 2;
@@ -194,7 +194,7 @@ class defaultController extends mvc
                             $_SESSION['COMP_LABL2'] = 'VENPALAVATTOM';
                         }
 
-                        require_once __DIR__ . "/../acl/!model/Aclactions.php";
+                        require_once __DIR__ . "/../admin/!model/Aclactions.php";
                         $actionAccessModelObj = new Aclactions();
                         $cond['aacc_role_id'] = $_SESSION['user_id'];
                         $cond['aacc_role_type'] = 2;

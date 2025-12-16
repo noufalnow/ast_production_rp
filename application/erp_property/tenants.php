@@ -398,7 +398,7 @@ class tenantsController extends mvc
         $docs = new documets();
         $leaseDocs = $docs->getDocuments(array(
             'doc_type' => 201,
-            'doc_ref_type' => DOC_TYPE_PROP,
+            'doc_ref_type' => DOC_TYPE_PROJECT,
             'agr_tnt_id' => $decTenantsId
         ));
         

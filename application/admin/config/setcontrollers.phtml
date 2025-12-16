@@ -14,7 +14,7 @@
 					</ol>
 				</div>
 				<div class="ms-auto pageheader-btn" style="margin-top: 35px;">
-						<?=x(array('link'=>'acl/config/setmodules','ref'=>array('ref'=>$this->param['ref'],'usergroup'=>$this->param['usergroup'],'users'=>$this->param['users']),'label'=>'<button class="btn btn-info pull-right" style="margin-bottom: 10px;    margin-right: 1em;    margin-top: -3em;">Back</button>'))?>
+						<?=x(array('link'=>'admin/config/setmodules','ref'=>array('ref'=>$this->param['ref'],'usergroup'=>$this->param['usergroup'],'users'=>$this->param['users']),'label'=>'<button class="btn btn-info pull-right" style="margin-bottom: 10px;    margin-right: 1em;    margin-top: -3em;">Back</button>'))?>
                     </div>
 				</div>
 				<form name="form" method="post" id="add" name="add" action="">
@@ -63,7 +63,7 @@
                                             <tr>
 												<td>
 													<div class="acclink">
-                                                        <?=accx('acl/config/setactions','<a href="javascript:;" onclick="window.location.href=\''.APPURL.'acl/config/setactions/ref/'.$encryptedControllerId.'/usergroup/\'+$(\'#controller_ug\').val()+\'/users/\'+$(\'#controller_usr\').val()">'.strtoupper($controllers['controller_label']).'</a>');?>
+                                                        <?=accx('admin/config/setactions','<a href="javascript:;" onclick="window.location.href=\''.APPURL.'admin/config/setactions/ref/'.$encryptedControllerId.'/usergroup/\'+$(\'#controller_ug\').val()+\'/users/\'+$(\'#controller_usr\').val()">'.strtoupper($controllers['controller_label']).'</a>');?>
                                                     </div>
 												</td>
 												<td align="center"><input class="create"
@@ -117,7 +117,7 @@ function getPermission(el) {
     var type = $(el).attr('id');
     $.ajax({
         type: 'POST',
-        url: '<?=APPURL?>acl/config/getpermission/ajax/ajax',
+        url: '<?=APPURL?>admin/config/getpermission/ajax/ajax',
         data: {
             'id': value,
             'type': type,

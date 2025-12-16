@@ -55,7 +55,7 @@
                         <p class="text-white mb-0">Rent Due  <?=date('M,Y', strtotime($this->propertyData['year_month'] ?? date('M,Y')));?></p>
                       </div>
                       <div class="ms-auto">
-                        <?=x(array('link'=>'erp_property/rent/propertypayview','ref'=>'','label'=>'<i class="fa fa-bar-chart text-white fs-30 me-2 mt-2"></i>',array("param"=>'class="facebox"')))?> 
+                        <?=x(array('link'=>'erp_projects/rent/propertypayview','ref'=>'','label'=>'<i class="fa fa-bar-chart text-white fs-30 me-2 mt-2"></i>',array("param"=>'class="facebox"')))?> 
                       </div>
                     </div>
                   </div>

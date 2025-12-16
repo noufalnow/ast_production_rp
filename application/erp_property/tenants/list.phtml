@@ -16,7 +16,7 @@
 						</ol>
 					</div>
 					<div class="ms-auto pageheader-btn">
-                        <?=x(array('link'=>'erp_property/tenants/add','label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')),'<br><br>')?>
+                        <?=x(array('link'=>'erp_projects/tenants/add','label'=>'<button class="btn btn-success pull-right" >Add</button>',array("param"=>'class="facebox"')),'<br><br>')?>
 					</div>
 				</div>
 				<!-- PAGE-HEADER END -->
@@ -92,7 +92,7 @@
                                                 $encTntId = $this->encode($tenant['tnt_id']);
                                                 ?>
                                         <tr
-											onclick="getContentX('<?=APPURL.'erp_property/tenants/'?>tenant_agr','<?=$encTntId;?>','tnt_target_<?=$tenant['tnt_id'];?>');"
+											onclick="getContentX('<?=APPURL.'erp_projects/tenants/'?>tenant_agr','<?=$encTntId;?>','tnt_target_<?=$tenant['tnt_id'];?>');"
 											style="cursor: pointer;">
 											<td class="center">
                                                 <?=@++$offset;?>
@@ -122,10 +122,10 @@
                                                 <?=$tenant['tnt_crno']?>
                                             </td>
 											<td class="center">
-                                                <?=x(array('link'=>'erp_property/tenants/edit','ref'=>array('ref'=>$encTntId),'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>
+                                                <?=x(array('link'=>'erp_projects/tenants/edit','ref'=>array('ref'=>$encTntId),'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>
                                             </td>
 											<td class="center">
-                                                <?=x(array('link'=>'erp_property/tenants/view','ref'=>array('ref'=>$encTntId),'label'=>'<i class="fas fa-search"></i>',array("param"=>'class="facebox"')))?>
+                                                <?=x(array('link'=>'erp_projects/tenants/view','ref'=>array('ref'=>$encTntId),'label'=>'<i class="fas fa-search"></i>',array("param"=>'class="facebox"')))?>
                                             </td>
 										</tr>
 										<tr id='tnt_target_<?=$tenant['tnt_id'];?>'

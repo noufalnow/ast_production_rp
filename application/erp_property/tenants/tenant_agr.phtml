@@ -36,13 +36,13 @@
 								?>
 									<tr>
 										<td class="center">
-										<?=x(array('link'=>'erp_property/master/view','ref'=>$encPropId,'label'=>$doc['prop_fileno']))?></td>
-										<td class="center"><?=x(array('link'=>'erp_property/master/propdocsview','ref'=>$encDocId1,'label'=>$doc['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<?=x(array('link'=>'erp_projects/master/view','ref'=>$encPropId,'label'=>$doc['prop_fileno']))?></td>
+										<td class="center"><?=x(array('link'=>'erp_projects/master/propdocsview','ref'=>$encDocId1,'label'=>$doc['doc_no'],array("param"=>'class="facebox"')))?></td>
 										<td class="center"><?=$doc['agr_rent']?></td>
 										<td class="center"><?=$doi?></td>
 										<td class="center"><?=$doe?></td>
-										<td align="center"> <?if(true):?><?=x(array('link'=>'erp_property/master/payoptions','ref'=>$encDocId1,'label'=>'<i style="font-size: 25px;" class="glyphicon glyphicon-usd text-info"></i>',array("param"=>'class="facebox"')))?><?endif?></td>
-										<td class="center"><?php if($doc['to_collect']):?> <?=x(array('link'=>'erp_property/tenants/tenant_payments','ref'=>$encDocId1,'label'=>"<b>".$doc['collected']." / ".$doc['to_collect']."</b>",array("param"=>'class="facebox"')))?><?php endif;?></td>										
+										<td align="center"> <?if(true):?><?=x(array('link'=>'erp_projects/master/payoptions','ref'=>$encDocId1,'label'=>'<i style="font-size: 25px;" class="glyphicon glyphicon-usd text-info"></i>',array("param"=>'class="facebox"')))?><?endif?></td>
+										<td class="center"><?php if($doc['to_collect']):?> <?=x(array('link'=>'erp_projects/tenants/tenant_payments','ref'=>$encDocId1,'label'=>"<b>".$doc['collected']." / ".$doc['to_collect']."</b>",array("param"=>'class="facebox"')))?><?php endif;?></td>										
 										<td class="center"> 
 											<div style="margin-left:20px;">
     											<?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="fas fa-search" title="View"></i>',array("exten"=>$doc['file_exten'])))?>

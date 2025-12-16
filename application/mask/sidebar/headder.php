@@ -72,8 +72,8 @@ function barMenu($encUserId)
         'link' => 'default/default/dashboard',
         'label' => 'Dashboard'
     )) . '</li>';
-    $menuHtml .= '<li class="' . @$active['acl/config/setmodules'] . '">' . x(array(
-        'link' => 'acl/config/setmodules',
+    $menuHtml .= '<li class="' . @$active['admin/config/setmodules'] . '">' . x(array(
+        'link' => 'admin/config/setmodules',
         'label' => 'Permissions'
     )) . '</li>';
     $menuHtml .= '<li class="' . @$active['admin/users/changepwd'] . '">' . x(array(
@@ -124,9 +124,9 @@ function mainMenu($encUserId)
     $active[_REQUEST] = 'active';
     if (_REQUEST == 'erp_employee/master/view')
         $active['erp_employee/master/list'] = 'active';
-    if (_REQUEST == 'erp_property/master/view' || _REQUEST == 'erp_masters/building/list')
+    if (_REQUEST == 'erp_projects/master/view' || _REQUEST == 'erp_masters/building/list')
 
-        $active['erp_property/master/list'] = 'active';
+        $active['erp_projects/master/list'] = 'active';
     if (_REQUEST == 'erp_vehicle/master/view')
         $active['erp_vehicle/master/list'] = 'active';
     if (_REQUEST == 'erp_masters/customer/view')
@@ -134,10 +134,10 @@ function mainMenu($encUserId)
     if (_REQUEST == 'erp_masters/vendor/view')
         $active['erp_masters/vendor/list'] = 'active';
 
-    if (_REQUEST == 'acl/config/setcontrollers')
-        $active['acl/config/setmodules'] = 'active';
-    if (_REQUEST == 'acl/config/setactions')
-        $active['acl/config/setmodules'] = 'active';
+    if (_REQUEST == 'admin/config/setcontrollers')
+        $active['admin/config/setmodules'] = 'active';
+    if (_REQUEST == 'admin/config/setactions')
+        $active['admin/config/setmodules'] = 'active';
 
     $menuHtml = '<div class="">
 					<div id="wrapper" ' . @$toggleText . '>
@@ -158,12 +158,12 @@ function mainMenu($encUserId)
         'label' => '<li class="' . @$active['erp_employee/master/list'] . '">' . 'EMPLOYEES' . '</li>'
     ));
     $menuHtml .= x(array(
-        'link' => 'erp_property/master/list',
-        'label' => '<li class="' . @$active['erp_property/master/list'] . '">' . 'PROPERTY' . '</li>'
+        'link' => 'erp_projects/master/list',
+        'label' => '<li class="' . @$active['erp_projects/master/list'] . '">' . 'PROPERTY' . '</li>'
     ));
     $menuHtml .= x(array(
-        'link' => 'erp_property/tenants/list',
-        'label' => '<li class="' . @$active['erp_property/tenants/list'] . '">' . 'TENANTS' . '</li>'
+        'link' => 'erp_projects/tenants/list',
+        'label' => '<li class="' . @$active['erp_projects/tenants/list'] . '">' . 'TENANTS' . '</li>'
     ));
     $menuHtml .= x(array(
         'link' => 'erp_vehicle/master/list',
@@ -222,8 +222,8 @@ function mainMenu($encUserId)
         'label' => '<li class="' . @$active['admin/users/index'] . '">' . 'USERS' . '</li>'
     ));
     $menuHtml .= x(array(
-        'link' => 'acl/config/setmodules',
-        'label' => '<li class="' . @$active['acl/config/setmodules'] . '">' . 'PERMISSIONS' . '</li>'
+        'link' => 'admin/config/setmodules',
+        'label' => '<li class="' . @$active['admin/config/setmodules'] . '">' . 'PERMISSIONS' . '</li>'
     ));
     $menuHtml .= x(array(
         'link' => 'admin/users/changepwd',

@@ -235,7 +235,7 @@ class property extends db_table
 				   FROM
 				     (SELECT max(doc_id) AS mdoc_id
 				      FROM mis_documents
-				      WHERE doc_ref_type = " . DOC_TYPE_PROP . "
+				      WHERE doc_ref_type = " . DOC_TYPE_PROJECT . "
 				        AND deleted = 0
 				      GROUP BY doc_type,doc_ref_type,doc_ref_id)max_group
 				   LEFT JOIN mis_documents AS docs ON docs.doc_id = max_group.mdoc_id
@@ -321,7 +321,7 @@ class property extends db_table
 		   FROM
 		     (SELECT max(doc_id) AS mdoc_id
 		      FROM mis_documents
-		      WHERE doc_ref_type = " . DOC_TYPE_PROP . "
+		      WHERE doc_ref_type = " . DOC_TYPE_PROJECT . "
 							AND deleted = 0
 							GROUP BY doc_type,doc_ref_type,doc_ref_id)max_group
 							LEFT JOIN mis_documents AS docs ON docs.doc_id = max_group.mdoc_id
@@ -444,7 +444,7 @@ class property extends db_table
                           agr_tnt_id
 				        FROM
 				        mis_documents 
-                        WHERE doc_ref_type = " . DOC_TYPE_PROP . " and doc_type = 201
+                        WHERE doc_ref_type = " . DOC_TYPE_PROJECT . " and doc_type = 201
 						AND deleted = 0) AS propdocs ON propdocs.doc_ref_id = mis_property.prop_id
                     left join mis_tenants as tenants on tenants.tnt_id = propdocs.agr_tnt_id and tenants.deleted = 0
 					LEFT JOIN core_files as files on files.file_ref_id = propdocs.doc_id and files.deleted = 0 AND files.file_type IN(3)

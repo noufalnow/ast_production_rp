@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	    chart.updateOptions({ title: { text: "Loading Monthly Data..." } });
 
 	    $.ajax({
-	      url: "/erp_property/rent/propertypayplot",
+	      url: "/erp_projects/rent/propertypayplot",
 	      method: "GET",
 	      data: { f_year: year },
 	      dataType: "json",
@@ -409,7 +409,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                 <?php if ($property['cdet_bill_id'] == NULL): ?>
                                     <?= x([
-                                        'link'  => 'erp_property/rent/adddemand',
+                                        'link'  => 'erp_projects/rent/adddemand',
                                         'ref'   => $encPayOption,
                                         'label' => '<b>'.$property['popt_date'].'</b>',
                                         ['param' => ' class="facebox btn btn-secondary" '],
@@ -426,7 +426,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                 <?php if ($property['cdet_bill_id'] == NULL && $property['cdmd_id'] != NULL): ?>
                                     <?= x([
-                                        'link'  => 'erp_property/rent/deletedemand',
+                                        'link'  => 'erp_projects/rent/deletedemand',
                                         'ref'   => $encCdmdId,
                                         'label' => '<i class="fas fa-trash" style="line-height:2;"></i>',
                                         ['param' => ' class="facebox" '],

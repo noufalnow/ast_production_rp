@@ -4,7 +4,7 @@
 			<h1 class="page-title"><?=$this->propertyDetail['prop_no']?>&nbsp;/<?=$this->propertyDetail['bld_name']?>&nbsp;/<?=$this->propertyDetail['prop_name']?> </h1>
 		</div>                            
 		<div class="ms-auto pageheader-btn">
-                            <?=x(array('link'=>'erp_property/master/list','label'=>'<button class="btn btn-info pull-right" style="margin-bottom: 10px;    margin-right: 1em; ">Back</button>'))?>
+                            <?=x(array('link'=>'erp_projects/master/list','label'=>'<button class="btn btn-info pull-right" style="margin-bottom: 10px;    margin-right: 1em; ">Back</button>'))?>
                             </div>                            
 	</div>
 	<div class="row row-sm">
@@ -19,14 +19,14 @@
     								data-bs-target="#Summary" aria-current="page" href="#Summary"
     								aria-selected="true" role="tab">Summary</a></li>
 								<?php if($this->propertyDetail['prop_building_type']!=1):?>
-								<li class="nav-item" role="presentation"><?=accx('erp_property/master/propdocs', '<a class="nav-link ' . @$this->doc_class . '"
-    						      data-bs-toggle="tab" href="#menu2" data-bs-target="#menu2" onclick= "getContent(\'' . APPURL . 'erp_property/master/propdocs\',\'' . $this->param['ref'] . '\',\'menu2\')" aria-selected="false" role="tab" tabindex="-1">Documents</a>');?></li>
+								<li class="nav-item" role="presentation"><?=accx('erp_projects/master/propdocs', '<a class="nav-link ' . @$this->doc_class . '"
+    						      data-bs-toggle="tab" href="#menu2" data-bs-target="#menu2" onclick= "getContent(\'' . APPURL . 'erp_projects/master/propdocs\',\'' . $this->param['ref'] . '\',\'menu2\')" aria-selected="false" role="tab" tabindex="-1">Documents</a>');?></li>
     							<?php else:?>
-    							<li class="nav-item" role="presentation"><?=accx('erp_property/master/propdocscomm', '<a class="nav-link ' . @$this->doc_class . ' "
-    						      data-bs-toggle="tab" href="#menu2" data-bs-target="#menu2" onclick= "getContent(\'' . APPURL . 'erp_property/master/propdocscomm\',\'' . $this->param['ref'] . '\',\'menu2\')" aria-selected="false" role="tab" tabindex="-1">Documents</a>');?></li>
+    							<li class="nav-item" role="presentation"><?=accx('erp_projects/master/propdocscomm', '<a class="nav-link ' . @$this->doc_class . ' "
+    						      data-bs-toggle="tab" href="#menu2" data-bs-target="#menu2" onclick= "getContent(\'' . APPURL . 'erp_projects/master/propdocscomm\',\'' . $this->param['ref'] . '\',\'menu2\')" aria-selected="false" role="tab" tabindex="-1">Documents</a>');?></li>
     							<?php endif;?>
-    							<li class="nav-item" role="presentation"><?=accx('erp_property/master/profile', '<a class="nav-link ' . @$this->profile_class . ' "
-    						      data-bs-toggle="tab" href="#menu3" data-bs-target="#menu3" onclick= "getContent(\'' . APPURL . 'erp_property/master/profile\',\'' . $this->param['ref'] . '\',\'menu3\')" aria-selected="false" role="tab" tabindex="-1">Profile</a>');?></li>
+    							<li class="nav-item" role="presentation"><?=accx('erp_projects/master/profile', '<a class="nav-link ' . @$this->profile_class . ' "
+    						      data-bs-toggle="tab" href="#menu3" data-bs-target="#menu3" onclick= "getContent(\'' . APPURL . 'erp_projects/master/profile\',\'' . $this->param['ref'] . '\',\'menu3\')" aria-selected="false" role="tab" tabindex="-1">Profile</a>');?></li>
     						</ul>
 					</div>
 					<div class="tab-content mb-3">
@@ -131,7 +131,7 @@
 											$encDocId = $this->encode($doc['doc_id']);
 											?>
 												<tr>
-													<td><?=x(array('link'=>'erp_property/master/propdocsview','ref'=>$encDocId,'label'=>$this->docMst[$doc['doc_type']],array("param"=>'class="facebox"')))?> </td>
+													<td><?=x(array('link'=>'erp_projects/master/propdocsview','ref'=>$encDocId,'label'=>$this->docMst[$doc['doc_type']],array("param"=>'class="facebox"')))?> </td>
 													<td><?=$doc['doc_no']?></td>
 													<td><?=$doc['agr_tenant']?></td>
 													<td class="center"><?=$doc['agr_rent']?></td>
@@ -139,12 +139,12 @@
 													<td class="center"><?=$doi?></td>
 													<td class="center"><?=$doe?></td>
 													<td class="center"><?=$doc['agr_paydet']?></td>
-													<td align="center"> <?php if($doc['doc_type']==201):?> <?=x(array('link'=>'erp_property/master/payoptions','ref'=>$encDocId,'label'=>'<i style="font-size: 25px;" class="glyphicon glyphicon-usd text-info"></i>',array("param"=>'class="facebox"')))?><?php endif?></td>
+													<td align="center"> <?php if($doc['doc_type']==201):?> <?=x(array('link'=>'erp_projects/master/payoptions','ref'=>$encDocId,'label'=>'<i style="font-size: 25px;" class="glyphicon glyphicon-usd text-info"></i>',array("param"=>'class="facebox"')))?><?php endif?></td>
 													<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$doc['file_exten'])))?></td>
 													<?php if($this->propertyDetail['prop_building_type']==1):?>
-													<td class="center"> <?=x(array('link'=>'erp_property/master/propdocscommedit','ref'=>$encDocId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?></td>
+													<td class="center"> <?=x(array('link'=>'erp_projects/master/propdocscommedit','ref'=>$encDocId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?></td>
 													<?php else:?>
-													<td class="center"> <?=x(array('link'=>'erp_property/master/propdocsedit','ref'=>$encDocId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?></td>
+													<td class="center"> <?=x(array('link'=>'erp_projects/master/propdocsedit','ref'=>$encDocId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?></td>
 													<?php endif?>
 													<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?></td>
 												</tr>
@@ -162,8 +162,8 @@
 				</div>
 			</div>
 <?php 
-$COMMDOCTYPE= DOC_TYPE_COM_PROP; $COMMDOCREFID= $this->decPropId;
-$UPDTYPE = UPD_TYP_PROP; $UPDREFID = $this->decPropId;
+$COMMDOCTYPE= DOC_TYPE_COM_PROJECT; $COMMDOCREFID= $this->decPropId;
+$UPDTYPE = UPD_TYP_PROJECT; $UPDREFID = $this->decPropId;
 if($this->propertyDetail['prop_building_type']==1){
     viewAction(array('module'=>'erp_manage', 'controller'=>'documents', 'action'=>'documents', 'param'=>array('type'=>$COMMDOCTYPE,'ref'=>$COMMDOCREFID)));
 }

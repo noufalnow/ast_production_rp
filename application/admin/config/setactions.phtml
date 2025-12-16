@@ -14,7 +14,7 @@
 					</ol>
 				</div>
 				<div class="ms-auto pageheader-btn" style="margin-top: 35px;">
-                    <?=x(array('link'=>'acl/config/setcontrollers','ref'=>array('ref'=>$this->moduleId,'usergroup'=>$this->param['usergroup'],'users'=>$this->param['users']),'label'=>'<button class="btn btn-info pull-right" style="margin-bottom: 10px;    margin-right: 1em;    margin-top: -3em;">Back</button>'))?>
+                    <?=x(array('link'=>'admin/config/setcontrollers','ref'=>array('ref'=>$this->moduleId,'usergroup'=>$this->param['usergroup'],'users'=>$this->param['users']),'label'=>'<button class="btn btn-info pull-right" style="margin-bottom: 10px;    margin-right: 1em;    margin-top: -3em;">Back</button>'))?>
                 </div>
 			</div>
 			<form name="form" method="post" id="add" name="add" action="">
@@ -99,7 +99,7 @@ function getPermission(el) {
     var type = $(el).attr('id');
     $.ajax({
         type: 'POST',
-        url: '<?=APPURL?>acl/config/getpermission/ajax/ajax',
+        url: '<?=APPURL?>admin/config/getpermission/ajax/ajax',
         data: {
             'id': value,
             'type': type,

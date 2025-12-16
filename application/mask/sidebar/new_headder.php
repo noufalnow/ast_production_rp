@@ -26,12 +26,12 @@ function mainMenu($encUserId)
         _REQUEST == 'erp_employee/salary/list')    
         $active['erp_employee/master/list'] = 'active';
 
-    if (_REQUEST == 'erp_property/master/view' || 
-        _REQUEST == 'erp_property/tenants/list' || 
+    if (_REQUEST == 'erp_projects/master/view' || 
+        _REQUEST == 'erp_projects/tenants/list' || 
         _REQUEST == 'erp_masters/building/list' ||
-        _REQUEST == 'erp_property/pservice/list' ||
+        _REQUEST == 'erp_projects/pservice/list' ||
         _REQUEST == 'erp_masters/building/dash')
-        $active['erp_property/master/list'] = 'active';
+        $active['erp_projects/master/list'] = 'active';
 
     if (_REQUEST == 'erp_vehicle/master/view')
         $active['erp_vehicle/master/list'] = 'active';
@@ -54,8 +54,8 @@ function mainMenu($encUserId)
         
 
         if (_REQUEST == 'admin/users/index' ||
-            _REQUEST == 'acl/config/setactions' ||
-            _REQUEST == 'acl/config/setmodules')
+            _REQUEST == 'admin/config/setactions' ||
+            _REQUEST == 'admin/config/setmodules')
             $active['erp_manage/updates/list'] = 'active';
         
     $menuHtml = '';
@@ -119,7 +119,7 @@ function mainMenu($encUserId)
       </li>';
 
     $menuHtml .= '<li class="slide">
-    	<a class="side-menu__item ' . @$active['erp_property/master/list'] . ' is-expanded" data-bs-toggle="slide" href="javascript:void(0);">
+    	<a class="side-menu__item ' . @$active['erp_projects/master/list'] . ' is-expanded" data-bs-toggle="slide" href="javascript:void(0);">
                   <i class="side-menu__icon fa-solid fa-building"></i><span class="side-menu__label">Properties</span></a>
     	<ul class="slide-menu open">';
     
@@ -130,12 +130,12 @@ function mainMenu($encUserId)
     )) . '</li>';
 
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
-        'link' => 'erp_property/master/list',
+        'link' => 'erp_projects/master/list',
         'label' => 'Property'
     )) . '</li>';
 
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
-        'link' => 'erp_property/tenants/list',
+        'link' => 'erp_projects/tenants/list',
         'label' => 'Tenants'
     )) . '</li>';
     
@@ -149,10 +149,10 @@ function mainMenu($encUserId)
 
     
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
-        'link' => 'erp_property/rent/propertypay',
+        'link' => 'erp_projects/rent/propertypay',
         'label' => 'Rent Schedule')). '</li>';
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
-        'link' => 'erp_property/pservice/list',
+        'link' => 'erp_projects/pservice/list',
         'label' => 'Maintanance'
     )) . '</li>';
     
@@ -394,7 +394,7 @@ function mainMenu($encUserId)
     )) . '</li>';
     
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
-        'link' => 'acl/config/setmodules',
+        'link' => 'admin/config/setmodules',
         'label' => 'Permissions'
     )) . '</li>';
     

@@ -103,7 +103,7 @@ function _run($_req)
 
             header("Location:" . APPURL);
         }
-    } /*elseif ($_SESSION['user_type'] == 4) { 
+    } elseif ($_SESSION['user_id'] == 1) { 
 
         $_SESSION['EVNT_DEVP'] = TRUE;
 
@@ -121,7 +121,7 @@ function _run($_req)
 
         // v('Admin access');
         
-    } */ else {
+    }  else {
 
         // check here or on bbefore from the globel list whether the request exist
 

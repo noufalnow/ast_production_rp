@@ -6,7 +6,7 @@
 <div id="photo_target" class="card" style="top: 38px; margin-bottom: 40px; <?=$this->imgDisplay?>">
 		<div class="card-block">
 			<h5>Add Photo</h5>
-			<form name="$this->imgform" method="post" id="$this->imgform" action='erp_property/master/propdocscomm/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;" enctype="multipart/form-data">
+			<form name="$this->imgform" method="post" id="$this->imgform" action='erp_projects/master/propdocscomm/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;" enctype="multipart/form-data">
 			<div class="panel-body">
 				<table style="max-width: 60%; float: left;" class="table">
 					<thead>
@@ -40,7 +40,7 @@
 <div id="action_target" class="card" style="top: 38px; margin-bottom: 40px; <?=$this->docDisplay?>">
 		<div class="card-block">
 			<h5>Add Documents</h5>
-			<form name="docform" method="post" id="docform" action='erp_property/master/propdocscomm/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;" enctype="multipart/form-data">
+			<form name="docform" method="post" id="docform" action='erp_projects/master/propdocscomm/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;" enctype="multipart/form-data">
 				<div class="row mb-4" style="margin-top: 15px;">
 					<label class="col-sm-2 form-label" >Document Type</label>
 					<div class="col-sm-4">
@@ -124,13 +124,13 @@
 								$encDocId1 = $this->encode($doc['doc_id']);
 								?>
 									<tr>
-										<td><?=x(array('link'=>'erp_property/master/propdocsview','ref'=>$encDocId1,'label'=>$doc['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<td><?=x(array('link'=>'erp_projects/master/propdocsview','ref'=>$encDocId1,'label'=>$doc['doc_no'],array("param"=>'class="facebox"')))?></td>
 										<td class="center"><?=$doi?></td>
 										<td class="center"><?=$doe?></td>
 										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$doc['file_exten'])))?></td>
 										<td class="center">
 										<?if(!$delete1Off):?>
-											<?=x(array('link'=>'erp_property/master/propdocsdelete','ref'=>$encDocId1,'label'=>'<i class="glyphicon glyphicon-trash text-info"></i>',array("param"=>'class="facebox"')))?>
+											<?=x(array('link'=>'erp_projects/master/propdocsdelete','ref'=>$encDocId1,'label'=>'<i class="glyphicon glyphicon-trash text-info"></i>',array("param"=>'class="facebox"')))?>
 										<?endif?></td>
 										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?></td>
 									</tr>
@@ -174,14 +174,14 @@
 								$encDocId2 = $this->encode($docIn['doc_id']);
 								?>
 									<tr>
-										<td><?=x(array('link'=>'erp_property/master/propdocsview','ref'=>$encDocId2,'label'=>$docIn['doc_no'],array("param"=>'class="facebox"')))?></td>
+										<td><?=x(array('link'=>'erp_projects/master/propdocsview','ref'=>$encDocId2,'label'=>$docIn['doc_no'],array("param"=>'class="facebox"')))?></td>
 										<td><?=$docIn['doc_desc']?></td>
 										<td class="center"><?=$doi?></td>
 										<td class="center"><?=$doe?></td>
 										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encDocId2,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$docIn['file_exten'])))?></td>
 										<td class="center">
 										<?if(!$delete5Off):?>
-											<?=x(array('link'=>'erp_property/master/propdocsdelete','ref'=>$encDocId2,'label'=>'<i class="glyphicon glyphicon-trash text-danger"></i>',array("param"=>'class="facebox"')))?>
+											<?=x(array('link'=>'erp_projects/master/propdocsdelete','ref'=>$encDocId2,'label'=>'<i class="glyphicon glyphicon-trash text-danger"></i>',array("param"=>'class="facebox"')))?>
 										<?endif?></td>
 										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encDocId2,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?></td>
 									</tr>

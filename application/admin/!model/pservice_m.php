@@ -16,11 +16,11 @@ class pservice_m extends db_table {
                         files.file_id as fileid,
                         docsrpt.doc_id as docsid
         FROM $this->_table
-        LEFT JOIN mis_documents AS docsrpt ON docsrpt.doc_type = " . DOC_TYPE_PROP_SRV . "
-            AND docsrpt.doc_ref_type = " . DOC_TYPE_PROP_SRV . "
+        LEFT JOIN mis_documents AS docsrpt ON docsrpt.doc_type = " . DOC_TYPE_PROJECT_SRV . "
+            AND docsrpt.doc_ref_type = " . DOC_TYPE_PROJECT_SRV . "
             AND docsrpt.doc_ref_id = psvs_id
             AND docsrpt.deleted = 0
-         LEFT JOIN core_files as files on files.file_ref_id = docsrpt.doc_id and files.file_type = " . DOC_TYPE_PROP_SRV . " and files.deleted = 0");
+         LEFT JOIN core_files as files on files.file_ref_id = docsrpt.doc_id and files.file_type = " . DOC_TYPE_PROJECT_SRV . " and files.deleted = 0");
 
         $this->_where[] = "psvs_id = :psvs_id";
         
@@ -64,11 +64,11 @@ class pservice_m extends db_table {
             LEFT JOIN mis_employee AS emp ON emp.emp_id = $this->_table.psvs_emp AND emp.deleted = 0
             LEFT JOIN mis_property AS prop ON psvs_prop_id = prop.prop_id
             LEFT JOIN mis_building AS build ON prop.prop_building = build.bld_id
-            LEFT JOIN mis_documents AS docsrpt ON docsrpt.doc_type = " . DOC_TYPE_PROP_SRV . "
-                AND docsrpt.doc_ref_type = " . DOC_TYPE_PROP_SRV . "
+            LEFT JOIN mis_documents AS docsrpt ON docsrpt.doc_type = " . DOC_TYPE_PROJECT_SRV . "
+                AND docsrpt.doc_ref_type = " . DOC_TYPE_PROJECT_SRV . "
                 AND docsrpt.doc_ref_id = psvs_id
                 AND docsrpt.deleted = 0
-             LEFT JOIN core_files as files on files.file_ref_id = docsrpt.doc_id and files.file_type = " . DOC_TYPE_PROP_SRV . " and files.deleted = 0"
+             LEFT JOIN core_files as files on files.file_ref_id = docsrpt.doc_id and files.file_type = " . DOC_TYPE_PROJECT_SRV . " and files.deleted = 0"
             );
 
         if (!empty($cond['f_date_range'])) {

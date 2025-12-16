@@ -164,13 +164,13 @@ class pserviceController extends mvc
                     $docs = new documets();
                     
                     $data = array(
-                        'doc_type' => DOC_TYPE_PROP_SRV,
-                        'doc_ref_type' => DOC_TYPE_PROP_SRV,
+                        'doc_type' => DOC_TYPE_PROJECT_SRV,
+                        'doc_ref_type' => DOC_TYPE_PROJECT_SRV,
                         'doc_ref_id' => $result
                     );
                     $srvRpt = $docs->add($data);
                     if ($srvRpt) {
-                        $upload = uploadFiles(DOC_TYPE_PROP_SRV, $srvRpt, $valid['my_files']);
+                        $upload = uploadFiles(DOC_TYPE_PROJECT_SRV, $srvRpt, $valid['my_files']);
                     }
                     
                     
@@ -381,13 +381,13 @@ class pserviceController extends mvc
                         }
 
                         $data = array(
-                            'doc_type' => DOC_TYPE_PROP_SRV,
-                            'doc_ref_type' => DOC_TYPE_PROP_SRV,
+                            'doc_type' => DOC_TYPE_PROJECT_SRV,
+                            'doc_ref_type' => DOC_TYPE_PROJECT_SRV,
                             'doc_ref_id' => $decPsvsId
                         );
                         $srvRpt = $docs->add($data);
                         if ($srvRpt) {
-                            $upload = uploadFiles(DOC_TYPE_PROP_SRV, $srvRpt, $valid['my_files']);
+                            $upload = uploadFiles(DOC_TYPE_PROJECT_SRV, $srvRpt, $valid['my_files']);
                         }
                     }
                     
