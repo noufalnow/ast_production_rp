@@ -38,7 +38,7 @@ class db_table {
 		
 		//o8%1$?]z;=;+d$24j{
 		
-		$dbname = "db_csol_ast"; //db_csol_ast
+		$dbname = "	db_csol_ast_rp"; //db_csol_ast
 		$port = 5432;
 		
 		/*$username = "dbadmin";

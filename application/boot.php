@@ -33,7 +33,7 @@ use PHPMailer\PHPMailer\Exception;
 function send_mail($message)
 {
     
-    //print_r((array)$message); die();
+    print_r((array)$message); die();
     
     if (defined('USER_ID')) {
 

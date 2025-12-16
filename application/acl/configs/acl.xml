@@ -5,10 +5,52 @@
 			<name>admin</name>
 			<label>admin Module</label>
 			<description>admin activities</description>
+
+			<controller>
+				<name>config</name>
+				<label>Permission Management</label>
+				<description>Permission Related activity</description>
+				<action>
+					<name>setmodules</name>
+					<label>Set Module Permissions</label>
+					<description>Set Module Permissions</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>setcontrollers</name>
+					<label>Set Activity Permissions</label>
+					<description>Set Activity Permissions</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>setactions</name>
+					<label>Set Actions Permissions</label>
+					<description>Set Actions Permissions</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+				<action>
+					<name>getpermission</name>
+					<label>getpermission</label>
+					<description>getpermission</description>
+					<resource>default</resource>
+					<type>view</type>
+				</action>
+				<action>
+					<name>resources</name>
+					<label>resources</label>
+					<description>resources</description>
+					<resource>application</resource>
+					<type>update</type>
+				</action>
+			</controller>
+
 			<controller>
 				<name>users</name>
-				<label>users Related</label>
-				<description>users Related activity</description>
+				<label>User Management</label>
+				<description>User Management</description>
 				<action>
 					<name>index</name>
 					<label>index</label>
@@ -61,6 +103,7 @@
 			</controller>
 
 		</module>
+
 		<module>
 			<name>default</name>
 			<label>Defaut Module</label>
@@ -141,51 +184,7 @@
 				</action>
 			</controller>
 		</module>
-		<module>
-			<name>acl</name>
-			<label>acl Module</label>
-			<description>acl activities</description>
-			<controller>
-				<name>config</name>
-				<label>config Related</label>
-				<description>config Related activity</description>
-				<action>
-					<name>setmodules</name>
-					<label>setmodules</label>
-					<description>setmodules</description>
-					<resource>application</resource>
-					<type>update</type>
-				</action>
-				<action>
-					<name>setcontrollers</name>
-					<label>setcontrollers</label>
-					<description>setcontrollers</description>
-					<resource>application</resource>
-					<type>update</type>
-				</action>
-				<action>
-					<name>setactions</name>
-					<label>setactions</label>
-					<description>setactions</description>
-					<resource>application</resource>
-					<type>update</type>
-				</action>
-				<action>
-					<name>getpermission</name>
-					<label>getpermission</label>
-					<description>getpermission</description>
-					<resource>default</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>resources</name>
-					<label>resources</label>
-					<description>resources</description>
-					<resource>application</resource>
-					<type>update</type>
-				</action>
-			</controller>
-		</module>
+
 		<module>
 			<name>erp_employee</name>
 			<label>Employee Module</label>
@@ -258,70 +257,6 @@
 					<type>update</type>
 				</action>
 				<action>
-					<name>empcontract</name>
-					<label>Employee Contract</label>
-					<description>Add Employee Contract</description>
-					<resource>application</resource>
-					<type>create</type>
-				</action>
-				<action>
-					<name>empcontractedit</name>
-					<label>Modify Employee Contract</label>
-					<description>Modify Employee Contract</description>
-					<resource>application</resource>
-					<type>update</type>
-				</action>
-				<action>
-					<name>empcontractupdate</name>
-					<label>Contract Update Status</label>
-					<description>Contract Update Status</description>
-					<resource>application</resource>
-					<type>update</type>
-				</action>
-				<action>
-					<name>empdocs</name>
-					<label>Employee Documents</label>
-					<description>View and Add Employee Documents and Photo
-					</description>
-					<resource>application</resource>
-					<type>create</type>
-				</action>
-				<action>
-					<name>empdocsedit</name>
-					<label>Employee Documents Edit</label>
-					<description>Modify Employee Documents</description>
-					<resource>application</resource>
-					<type>update</type>
-				</action>
-				<action>
-					<name>empdocview</name>
-					<label>Employee Documents View</label>
-					<description>View Employee Documents</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>empdocdelete</name>
-					<label>Delete Employee Documents </label>
-					<description>Delete Employee Documents</description>
-					<resource>application</resource>
-					<type>delete</type>
-				</action>
-				<action>
-					<name>profile</name>
-					<label>Employee Profile View</label>
-					<description>View Employee Profile</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>vehiclereg</name>
-					<label>Driver, Operator Vehicle Registration</label>
-					<description>Driver, Operator Vehicle Registration</description>
-					<resource>application</resource>
-					<type>create</type>
-				</action>
-				<action>
 					<name>getlive</name>
 					<label>Employee Department Ajax</label>
 					<description>Employee Department Ajax</description>
@@ -329,277 +264,95 @@
 					<type>view</type>
 				</action>
 			</controller>
-			<controller>
-				<name>salary</name>
-				<label>Employee Salary</label>
-				<description>Employee Salary Recods and Monthly Salary </description>
-
-				<action>
-					<name>emppay</name>
-					<label>Employee Salary Add and View</label>
-					<description>Employee Salary Add and View</description>
-					<resource>application</resource>
-					<type>create</type>
-				</action>
-				<action>
-					<name>emppayedit</name>
-					<label>Modify Employee Salary</label>
-					<description>Modify Employee Salary</description>
-					<resource>application</resource>
-					<type>update</type>
-				</action>
-				<action>
-					<name>list</name>
-					<label>Monthly Payroll List</label>
-					<description>Modify Employee Salary</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>salary</name>
-					<label>Monthly Payroll Preparation</label>
-					<description>Monthly Payroll Preparation</description>
-					<resource>application</resource>
-					<type>update</type>
-				</action>
-				<action>
-					<name>report</name>
-					<label>Monthly Payroll Report</label>
-					<description>Monthly Payroll Report</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-			</controller>
 		</module>
 		<module>
-			<name>erp_property</name>
-			<label>Propery Module</label>
-			<description>Propery Master and Rent </description>
+			<name>erp_projects</name>
+			<label>Projects Module</label>
+			<description>Projects And Contracts </description>
 			<controller>
 				<name>master</name>
-				<label>Propery Master and Document Management</label>
-				<description>Propery Master and Document Management</description>
+				<label>Projects Master and Document Management</label>
+				<description>Projects Master and Document Management</description>
 				<action>
 					<name>add</name>
-					<label>Add Property</label>
-					<description>Add Property or Building </description>
+					<label>Add Projects</label>
+					<description>Add Projects</description>
 					<resource>application</resource>
 					<type>create</type>
 				</action>
 				<action>
 					<name>edit</name>
-					<label>Modify Property Details</label>
-					<description>Modify Property or Building Deatils</description>
+					<label>Modify Projects Details</label>
+					<description>Modify Projects Deatils</description>
 					<resource>application</resource>
 					<type>update</type>
 				</action>
 				<action>
 					<name>list</name>
-					<label>Property Listing </label>
-					<description>Property Listing Page</description>
+					<label>Projects Listing </label>
+					<description>Projects Listing Page</description>
 					<resource>application</resource>
 					<type>view</type>
 				</action>
 				<action>
 					<name>view</name>
-					<label>Property Details View </label>
-					<description>Property Details View</description>
+					<label>Projects Details View </label>
+					<description>Projects Details View</description>
 					<resource>application</resource>
 					<type>view</type>
 				</action>
 				<action>
-					<name>payoptions</name>
-					<label>Property Pay option  </label>
-					<description>Property Rent payment option </description>
-					<resource>application</resource>
-					<type>create</type>
-				</action>
-				<action>
-					<name>propdocs</name>
-					<label>Property Documents</label>
-					<description>View and Add Property Documents and Photo
+					<name>projdocs</name>
+					<label>Projects Documents</label>
+					<description>View and Add Projects Documents and Photo
 					</description>
 					<resource>application</resource>
 					<type>create</type>
 				</action>
 				<action>
-					<name>propdocsedit</name>
-					<label>Property Documents Edit</label>
-					<description>Modify Property Documents</description>
+					<name>projdocsedit</name>
+					<label>Projects Documents Edit</label>
+					<description>Modify Projects Documents</description>
 					<resource>application</resource>
 					<type>update</type>
 				</action>
 				<action>
-					<name>propdocview</name>
-					<label>Property Documents View</label>
-					<description>View Property Documents</description>
+					<name>projdocview</name>
+					<label>Projects Documents View</label>
+					<description>View Projects Documents</description>
 					<resource>application</resource>
 					<type>view</type>
 				</action>
 				<action>
-					<name>propdocdelete</name>
-					<label>Delete Property Documents </label>
-					<description>Delete Property Documents</description>
+					<name>projdocdelete</name>
+					<label>Delete Projects Documents </label>
+					<description>Delete Projects Documents</description>
 					<resource>application</resource>
 					<type>delete</type>
 				</action>
 				<action>
-					<name>profile</name>
-					<label>Property Profile View</label>
-					<description>View Property Profile</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>payoptions</name>
-					<label>Property Pay option  </label>
-					<description>Property rent payment option </description>
-					<resource>application</resource>
-					<type>create</type>
-				</action>
-				<action>
 					<name>status</name>
-					<label>Property Status Update  </label>
-					<description>Property current status update</description>
+					<label>Projects Status Update  </label>
+					<description>Projects current status update</description>
 					<resource>application</resource>
 					<type>update</type>
 				</action>
 
 				<action>
-					<name>propdocscomm</name>
-					<label>Property Building Documents</label>
-					<description>Property - Buildings Common Documents view and add
+					<name>projdocscomm</name>
+					<label>Projects Customer Documents</label>
+					<description>Projects - Customer Common Documents view and add
 					</description>
 					<resource>application</resource>
 					<type>create</type>
 				</action>
 				<action>
-					<name>propdocscommedit</name>
-					<label>Property Building Documents Edit</label>
-					<description>Modify Property - Buildings Common Documents
+					<name>projdocscommedit</name>
+					<label>Projects Customer Documents Edit</label>
+					<description>Modify Projects - Customer Common Documents
 					</description>
 					<resource>application</resource>
 					<type>update</type>
-				</action>
-			</controller>
-			<controller>
-				<name>rent</name>
-				<label>Propery Rentals</label>
-				<description>Propery Rental and Demand</description>
-				<action>
-					<name>propertypay</name>
-					<label>Property Rent Schedule</label>
-					<description>Property Rent Schedule Listing</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>propertypayplot</name>
-					<label>Rent Collection</label>
-					<description>Rent Collection Drill Down Graph</description>
-					<resource>default</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>propertypayview</name>
-					<label>Property Rent Schedule</label>
-					<description>Property Rent Schedule View</description>
-					<resource>default</resource>
-					<type>view</type>
-				</action>				
-				<action>
-					<name>adddemand</name>
-					<label>Demand Rent Collection</label>
-					<description>Demand Pproperty Rent Collection</description>
-					<resource>application</resource>
-					<type>update</type>
-				</action>
-				<action>
-					<name>deletedemand</name>
-					<label>Remove Cash Demand</label>
-					<description>Remove Cash Demand</description>
-					<resource>application</resource>
-					<type>update</type>
-				</action>
-			</controller>
-			<controller>
-				<name>tenants</name>
-				<label>Tenants Management</label>
-				<description>Tenants Related activity</description>
-				<action>
-					<name>list</name>
-					<label>List Tenants</label>
-					<description>List Tenants</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>add</name>
-					<label>Add New Tenants</label>
-					<description>Add New Tenants</description>
-					<resource>application</resource>
-					<type>create</type>
-				</action>
-				<action>
-					<name>edit</name>
-					<label>Edit Tenants Details</label>
-					<description>Edit Building Tenants</description>
-					<resource>application</resource>
-					<type>update</type>
-				</action>
-				<action>
-					<name>view</name>
-					<label>View Tenants Details</label>
-					<description>View Tenants Details</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>tenant_agr</name>
-					<label>View Tenants Agreements</label>
-					<description>View Tenants Agreements</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>tenant_payments</name>
-					<label>View Tenants Payments</label>
-					<description>View Tenants Payments</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-			</controller>
-			<controller>
-				<name>pservice</name>
-				<label>Property Service </label>
-				<description>Property Service Related activity</description>
-				<action>
-					<name>list</name>
-					<label>List Property Service </label>
-					<description>List Property Service </description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>add</name>
-					<label>Add New Property Service </label>
-					<description>Add New Property Service </description>
-					<resource>application</resource>
-					<type>create</type>
-				</action>
-				<action>
-					<name>edit</name>
-					<label>Edit Property Service Details</label>
-					<description>Edit Building Property Service </description>
-					<resource>application</resource>
-					<type>update</type>
-				</action>
-				<action>
-					<name>view</name>
-					<label>View Property Service Details</label>
-					<description>View Property Service Details</description>
-					<resource>application</resource>
-					<type>view</type>
 				</action>
 			</controller>
 		</module>
@@ -647,63 +400,8 @@
 					<resource>application</resource>
 					<type>update</type>
 				</action>
+			</controller>
 
-				<action>
-					<name>vhldocs</name>
-					<label>Vehicle Documents</label>
-					<description>View and Add Vehicle Documents and Photo
-					</description>
-					<resource>application</resource>
-					<type>create</type>
-				</action>
-				<action>
-					<name>vhldocsedit</name>
-					<label>Vehicle Documents Edit</label>
-					<description>Modify Vehicle Documents</description>
-					<resource>application</resource>
-					<type>update</type>
-				</action>
-				<action>
-					<name>propdocview</name>
-					<label>Vehicle Documents View</label>
-					<description>View Vehicle Documents</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>vhldocsdelete</name>
-					<label>Delete Vehicle Documents </label>
-					<description>Delete Vehicle Documents</description>
-					<resource>application</resource>
-					<type>delete</type>
-				</action>
-				<action>
-					<name>vhldocsview</name>
-					<label>Vehicle Profile View</label>
-					<description>View Vehicle Profile</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-			</controller>
-			<controller>
-				<name>services</name>
-				<label>Vehicle Service Management</label>
-				<description>Vehicle Service Management</description>
-				<action>
-					<name>vhlservice</name>
-					<label>Add and View Vehicle Service</label>
-					<description>Add Vehicle Service</description>
-					<resource>application</resource>
-					<type>create</type>
-				</action>
-				<action>
-					<name>vhlserviceedit</name>
-					<label>Modify Vehicle Service Entry</label>
-					<description>Modify Vehicle Service Entry</description>
-					<resource>application</resource>
-					<type>update</type>
-				</action>
-			</controller>
 		</module>
 		<module>
 			<name>erp_expense</name>
@@ -952,7 +650,7 @@
 		</module>
 		<module>
 			<name>erp_manage</name>
-			<label> Company and Common Document  </label>
+			<label> Company and Common Documents  </label>
 			<description> Company and Common Document Management</description>
 			<controller>
 				<name>company</name>
@@ -987,9 +685,6 @@
 					<resource>default</resource>
 					<type>view</type>
 				</action>
-				
-				
-				
 				<action>
 					<name>list</name>
 					<label>List Company Documents</label>
@@ -1073,7 +768,7 @@
 					<type>view</type>
 				</action>
 			</controller>
-			
+
 			<controller>
 				<name>calllog</name>
 				<label>Call log Management</label>
@@ -1115,8 +810,8 @@
 					<type>update</type>
 				</action>
 			</controller>
-			
-						
+
+
 			<controller>
 				<name>legalcase</name>
 				<label>Legal Case Management</label>
@@ -1157,8 +852,8 @@
 					<type>update</type>
 				</action>
 			</controller>
-			
-			
+
+
 		</module>
 		<module>
 			<name>erp_fund</name>
@@ -1225,35 +920,6 @@
 					<resource>application</resource>
 					<type>update</type>
 				</action>
-			</controller>
-
-			<controller>
-				<name>cashbook</name>
-				<label>Cash Book Management</label>
-				<description>Cash Book Management</description>
-				<action>
-					<name>list</name>
-					<label>Cash Book List</label>
-					<description>Cash Book List</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>add</name>
-					<label>Add Cash Book Entry</label>
-					<description>Add Cash Book Entry</description>
-					<resource>application</resource>
-					<type>create</type>
-				</action>
-
-				<action>
-					<name>cashreport</name>
-					<label>Cash Book Report</label>
-					<description>Cash Book Report</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-
 			</controller>
 		</module>
 		<module>
@@ -1392,7 +1058,7 @@
 					<type>update</type>
 				</action>
 			</controller>
-			
+
 			<controller>
 				<name>vman</name>
 				<label>Vehicle Manufacturer</label>
@@ -1419,47 +1085,6 @@
 					<type>update</type>
 				</action>
 			</controller>
-			
-			<controller>
-				<name>building</name>
-				<label>Building Master</label>
-				<description>Building Related activity</description>
-				<action>
-					<name>dash</name>
-					<label>Building Status Board</label>
-					<description>Building Status Board</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>list</name>
-					<label>List Building</label>
-					<description>List Building</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>add</name>
-					<label>Add New Building</label>
-					<description>Add New Building</description>
-					<resource>application</resource>
-					<type>create</type>
-				</action>
-				<action>
-					<name>edit</name>
-					<label>Edit Building Details</label>
-					<description>Edit Building Details</description>
-					<resource>application</resource>
-					<type>update</type>
-				</action>
-				<action>
-					<name>view</name>
-					<label>View Building Details</label>
-					<description>View Building Details</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-			</controller>
 		</module>
 		<module>
 			<name>erp_report</name>
@@ -1476,77 +1101,6 @@
 					<resource>application</resource>
 					<type>view</type>
 				</action>
-				<action>
-					<name>empdocument</name>
-					<label>Report : Employees Documents</label>
-					<description>Report : Employees</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>empcontract</name>
-					<label>Report : Drivers / Operators Contract</label>
-					<description>Report : Drivers / Operators Contract</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-			</controller>
-			<controller>
-				<name>property</name>
-				<label>Property/ Rental and Collection Reports</label>
-				<description>Property and Rental Reports</description>
-				<action>
-					<name>property</name>
-					<label>Report : Properties</label>
-					<description>Report : Properties</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>propdocument</name>
-					<label>Report : Properties Documents</label>
-					<description>Report : Properties</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>propertymeter</name>
-					<label>Report : Property Electrical and Water Meter</label>
-					<description>Report : Property Electrical and Water Meter
-					</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>propvacant</name>
-					<label>Report : Vacant Property Report</label>
-					<description>Report : Vacant Property Report</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>paymentcollection</name>
-					<label>Report : Payment Collection Rent and Invoice</label>
-					<description>Report : Payment Collection Rent and Invoice
-					</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>tenantagreements</name>
-					<label>Report : Agreements By Tenants</label>
-					<description>Report : Report : Agreements By Tenants
-					</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-				<action>
-					<name>pservicerpt</name>
-					<label>View Property Service Report</label>
-					<description>View Property Service Report</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
 			</controller>
 			<controller>
 				<name>vehicle</name>
@@ -1560,13 +1114,6 @@
 					<type>view</type>
 				</action>
 				<action>
-					<name>vhldocument</name>
-					<label>Report : Vehicles Documents</label>
-					<description>Report : Vehicles</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-				<action>
 					<name>commveh</name>
 					<label>Report : Commercial Vehicles</label>
 					<description>Report : Commercial Vehicles</description>
@@ -1574,23 +1121,6 @@
 					<type>view</type>
 				</action>
 
-				<action>
-					<name>vehicleservice</name>
-					<label>Report : Vehicle Service Report</label>
-					<description>Report : Vehicle Service Report</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
-
-
-
-				<action>
-					<name>vehiclecontract</name>
-					<label>Report : Vehicle Contract</label>
-					<description>Report : Vehicle Contract</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
 
 				<action>
 					<name>vhlexpense</name>
@@ -1614,7 +1144,7 @@
 					<resource>application</resource>
 					<type>view</type>
 				</action>
-				
+
 				<action>
 					<name>expensevat</name>
 					<label>Report : Expenses VAT Report</label>
@@ -1622,7 +1152,7 @@
 					<resource>application</resource>
 					<type>view</type>
 				</action>
-				
+
 				<action>
 					<name>expensecategorywise</name>
 					<label>Report : Expenses Category Wise</label>
@@ -1692,18 +1222,6 @@
 					<type>view</type>
 				</action>
 
-			</controller>
-			<controller>
-				<name>company</name>
-				<label>Company Reports</label>
-				<description>Company Reports</description>
-				<action>
-					<name>statement</name>
-					<label>Monthly Finantial Statement</label>
-					<description>Monthly Finantial Statement</description>
-					<resource>application</resource>
-					<type>view</type>
-				</action>
 			</controller>
 		</module>
 
