@@ -8,7 +8,7 @@
 						onclick="$('#report').printElement();"
 						class="btn btn-primary pull-right" style="padding: 2px 12px;">Print</button>
 				</div>
-				<h5 class="title-margin">Report: Property Maintanance Services</h5>
+				<h5 class="title-margin">Report: Projects Maintanance Services</h5>
 			</div>
 
             <?php if ($ref == ''): ?>
@@ -16,7 +16,7 @@
                 <table class="">
 				<thead>
 					<tr style="font-size: 0.9em; text-align: center;">
-						<th width="20%">Property</th>
+						<th width="20%">Projects</th>
 						<th width="20%">Complaint No</th>
 						<th width="20%">Service Type</th>
 						<th width="20%">Employee</th>
@@ -47,7 +47,7 @@
 						</td>
 						<td>
 							<div class="form-group">
-                                    <?=$this->form->f_building->show()?>
+                                    <?=$this->form->customer->show()?>
                                 </div>
 						</td>
 					</tr>
@@ -102,7 +102,7 @@
 								</tr>
 								<tr>
 									<th width=""><div class="center"
-											style="margin-top: 0px; margin-bottom: 10px; width: 79%;">Property
+											style="margin-top: 0px; margin-bottom: 10px; width: 79%;">Projects
 											Status Report</div></th>
 								</tr>
 							</thead>
@@ -140,7 +140,7 @@
 								<tr role="row">
 									<th width="5%" class="center">Sl No</th>
 									<th width="12%" class="center">Building</th>
-									<th width="15%" class="center">Property</th>
+									<th width="15%" class="center">Projects</th>
 									<th width="12%" class="center">Service Type</th>
 									<th width="18%" class="center">Complaint</th>
 									<th width="10%" class="center">Service Date</th>

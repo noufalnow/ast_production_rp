@@ -2,15 +2,13 @@
 $viewbase = new viewbase();
 $encUserId = $viewbase->encode($_SESSION['user_id']);
 
-
 require_once __DIR__ . '/../../admin/!model/documents.php';
 $docs = new documets();
 $empImage = $docs->getTopDocumentsByRef(array(
     'doc_ref_type' => DOC_IMG_EMP,
     'doc_ref_id' => $_SESSION['user_emp_id']
 ));
-$empProfileImage= $empImage['0'];
-
+$empProfileImage = $empImage['0'];
 
 function mainMenu($encUserId)
 {
@@ -22,66 +20,50 @@ function mainMenu($encUserId)
         $toggleText = 'class="toggled"';
 
     $active[_REQUEST] = 'active';
-    if (_REQUEST == 'erp_employee/master/view' ||
-        _REQUEST == 'erp_employee/salary/list')    
+    if (_REQUEST == 'erp_employee/master/view' || _REQUEST == 'erp_employee/salary/list')
         $active['erp_employee/master/list'] = 'active';
 
-    if (_REQUEST == 'erp_projects/master/view' || 
-        _REQUEST == 'erp_projects/tenants/list' || 
-        _REQUEST == 'erp_masters/building/list' ||
-        _REQUEST == 'erp_projects/pservice/list' ||
-        _REQUEST == 'erp_masters/building/dash')
+    if (_REQUEST == 'erp_projects/master/view' || _REQUEST == 'erp_projects/tenants/list' || _REQUEST == 'erp_masters/building/list' || _REQUEST == 'erp_projects/pservice/list' || _REQUEST == 'erp_masters/building/dash')
         $active['erp_projects/master/list'] = 'active';
 
     if (_REQUEST == 'erp_vehicle/master/view')
         $active['erp_vehicle/master/list'] = 'active';
 
-    if (_REQUEST == 'erp_masters/vendor/view' ||
-        _REQUEST == 'erp_masters/vendor/list' ||
-        _REQUEST == 'erp_expense/payments/list')
+    if (_REQUEST == 'erp_masters/vendor/view' || _REQUEST == 'erp_masters/vendor/list' || _REQUEST == 'erp_expense/payments/list')
         $active['erp_expense/expense/list'] = 'active';
-        
 
-    if (_REQUEST == 'erp_masters/customer/view' ||
-        _REQUEST == 'erp_masters/customer/list' ||
-        _REQUEST == 'erp_invoice/collection/list')
+    if (_REQUEST == 'erp_masters/customer/view' || _REQUEST == 'erp_masters/customer/list' || _REQUEST == 'erp_invoice/collection/list')
         $active['erp_invoice/bill/list'] = 'active';
-        
 
-    if (_REQUEST == 'erp_vehicle/master/list' ||
-        _REQUEST == 'erp_masters/item/list')
+    if (_REQUEST == 'erp_vehicle/master/list' || _REQUEST == 'erp_masters/item/list')
         $active['erp_vehicle/master/list'] = 'active';
-        
 
-        if (_REQUEST == 'admin/users/index' ||
-            _REQUEST == 'admin/config/setactions' ||
-            _REQUEST == 'admin/config/setmodules')
-            $active['erp_manage/updates/list'] = 'active';
-        
+    if (_REQUEST == 'admin/users/index' || _REQUEST == 'admin/config/setactions' || _REQUEST == 'admin/config/setmodules')
+        $active['erp_manage/updates/list'] = 'active';
+
     $menuHtml = '';
-    
-    
+
     $menuHtml .= '<li class="slide">
     	<a class="side-menu__item ' . @$active['default/default/dashboard'] . ' is-expanded" data-bs-toggle="slide" href="javascript:void(0);">
                   <i class="side-menu__icon fa-solid fa-house"></i><span class="side-menu__label">Dashboard</span></a>
     	<ul class="slide-menu open">';
-    
+
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'default/default/dashboard',
         'label' => 'Dashboard'
     )) . '</li>';
-     
+
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'default/default/dashboardgraph',
         'label' => 'Dashboard - Graph',
-        array("param" => 'wide_opener')
+        array(
+            "param" => 'wide_opener'
+        )
     )) . '</li>';
-    
+
     $menuHtml .= '</ul>
       </li>';
-    
-    
-    
+
     $menuHtml .= '<li class="slide">
     	<a class="side-menu__item ' . @$active['erp_employee/master/list'] . ' is-expanded" data-bs-toggle="slide" href="javascript:void(0);">
                   <i class="side-menu__icon fa-solid fa-users"></i><span class="side-menu__label">Employees</span></a>
@@ -100,17 +82,37 @@ function mainMenu($encUserId)
             <li class="sub-slide">
             <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Reports</span><i class="sub-angle fa fa-angle-right"></i></a>
             <ul class="sub-slide-menu">
-              <li class="sub-slide-item">'.                          
-              x(array('link' => 'erp_report/employee/employee','label' => 'Employees',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/employee/employee',
+        'label' => 'Employees',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/employee/empdocument','label' => 'Documents',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/employee/empdocument',
+        'label' => 'Documents',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/employee/empdocument','label' => 'Document Expiry',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/employee/empdocument',
+        'label' => 'Document Expiry',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/employee/empcontract','label' => 'Operator Status',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/employee/empcontract',
+        'label' => 'Operator Status',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
             </ul>
             </li>
@@ -120,134 +122,167 @@ function mainMenu($encUserId)
 
     $menuHtml .= '<li class="slide">
     	<a class="side-menu__item ' . @$active['erp_projects/master/list'] . ' is-expanded" data-bs-toggle="slide" href="javascript:void(0);">
-                  <i class="side-menu__icon fa-solid fa-building"></i><span class="side-menu__label">Properties</span></a>
+                  <i class="side-menu__icon fa-solid fa-building"></i><span class="side-menu__label">Projects</span></a>
     	<ul class="slide-menu open">';
-    
-    
-    $menuHtml .= '<li class="sub-slide-item">' . x(array(
-        'link' => 'erp_masters/building/dash',
-        'label' => 'Building Status Board'
-    )) . '</li>';
 
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_projects/master/list',
-        'label' => 'Property'
+        'label' => 'Projects'
     )) . '</li>';
 
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
-        'link' => 'erp_projects/tenants/list',
-        'label' => 'Tenants'
+        'link' => 'erp_masters/customer/list',
+        'label' => 'Clients'
     )) . '</li>';
-    
 
-
-    $menuHtml .= '<li class="sub-slide-item">' . x(array(
-        'link' => 'erp_masters/building/list',
-        'label' => 'Buildings'
-    )) . '</li>';
-    
-
-    
-    $menuHtml .= '<li class="sub-slide-item">' . x(array(
-        'link' => 'erp_projects/rent/propertypay',
-        'label' => 'Rent Schedule')). '</li>';
-    $menuHtml .= '<li class="sub-slide-item">' . x(array(
-        'link' => 'erp_projects/pservice/list',
-        'label' => 'Maintanance'
-    )) . '</li>';
-    
     $menuHtml .= '
             <li class="sub-slide">
             <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Reports</span><i class="sub-angle fa fa-angle-right"></i></a>
             <ul class="sub-slide-menu">
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/property/property','label' => 'Properties',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/property/property',
+        'label' => 'Projects',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/property/propdocument','label' => 'Property Document',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/property/propdocument',
+        'label' => 'Projects Document',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/property/propdocument','ref' => array('ref' => 'exp'),'label' => 'Document Expiry',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/property/propdocument',
+        'ref' => array(
+            'ref' => 'exp'
+        ),
+        'label' => 'Document Expiry',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/property/propvacant','label' => 'Property Status',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/property/propvacant',
+        'label' => 'Projects Status',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/property/propertymeter','label' => 'Property Meter',array("param" => 'wide_opener'))).'
-              </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/property/tenantagreements','label' => 'Tenant Agreements',array("param" => 'wide_opener'))).'
-              </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/property/pservicerpt','label' => 'Maintanance Report',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/property/tenantagreements',
+        'label' => 'Tenant Agreements',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
             </ul>
             </li>
             ';
-    
+
     $menuHtml .= '</ul>
       </li>';
-    
+
     $menuHtml .= '<li class="slide">
     	<a class="side-menu__item ' . @$active['erp_vehicle/master/list'] . ' is-expanded" data-bs-toggle="slide" href="javascript:void(0);">
                   <i class="side-menu__icon fa-solid fa-truck-monster"></i><span class="side-menu__label">Vehicles</span></a>
     	<ul class="slide-menu open">';
-    
+
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_vehicle/master/list',
         'label' => 'Vehicles'
     )) . '</li>';
-    
+
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_masters/item/list',
         'label' => 'Items'
     )) . '</li>';
-    
+
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_masters/vhtype/list',
         'label' => 'Vehicle Type'
     )) . '</li>';
-    
+
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_masters/vman/list',
         'label' => 'Vehicle Manufacturer'
     )) . '</li>';
-    
-    
+
     $menuHtml .= '
             <li class="sub-slide">
             <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Reports</span><i class="sub-angle fa fa-angle-right"></i></a>
             <ul class="sub-slide-menu">
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/vehicle/vehicle','label' => 'Vehicles',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/vehicle/vehicle',
+        'label' => 'Vehicles',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/vehicle/vhldocument','label' => 'Vehicle Document',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/vehicle/vhldocument',
+        'label' => 'Vehicle Document',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/vehicle/vhldocument','ref' => array('ref' => 'exp'),'label' => 'Vehicle Expiry',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/vehicle/vhldocument',
+        'ref' => array(
+            'ref' => 'exp'
+        ),
+        'label' => 'Vehicle Expiry',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/vehicle/vhlexpense','label' => 'Vehicle Expense',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/vehicle/vhlexpense',
+        'label' => 'Vehicle Expense',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/vehicle/commveh','label' => 'Commercial',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/vehicle/commveh',
+        'label' => 'Commercial',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/vehicle/vehiclecontract','label' => 'Vehicle Contract',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/vehicle/vehiclecontract',
+        'label' => 'Vehicle Contract',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/vehicle/vehicleservice','label' => 'Vehicle Service',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/vehicle/vehicleservice',
+        'label' => 'Vehicle Service',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
             </ul>
             </li>
             ';
-    
-    
+
     $menuHtml .= '</ul>
       </li>';
-    
-    
 
     $menuHtml .= '<li class="slide">
     	<a class="side-menu__item ' . @$active['erp_expense/expense/list'] . ' is-expanded" data-bs-toggle="slide" href="javascript:void(0);">
@@ -263,87 +298,129 @@ function mainMenu($encUserId)
         'link' => 'erp_masters/vendor/list',
         'label' => 'Vendor'
     )) . '</li>';
-    
+
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_expense/payments/list',
         'label' => 'Payments'
     )) . '</li>';
-    
-    
+
     $menuHtml .= '
             <li class="sub-slide">
             <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Reports</span><i class="sub-angle fa fa-angle-right"></i></a>
             <ul class="sub-slide-menu">
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/expense/expense','label' => 'Expense',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/expense/expense',
+        'label' => 'Expense',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/expense/expensevat','label' => 'Expense VAT',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/expense/expensevat',
+        'label' => 'Expense VAT',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/expense/expvensummary','label' => 'Vender Summary',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/expense/expvensummary',
+        'label' => 'Vender Summary',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/expense/expensecategorywise','label' => 'Expense Category wise',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/expense/expensecategorywise',
+        'label' => 'Expense Category wise',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/expense/payments','ref' => array('ref' => 'exp'),'label' => 'Credit Payments',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/expense/payments',
+        'ref' => array(
+            'ref' => 'exp'
+        ),
+        'label' => 'Credit Payments',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
             </ul>
             </li>
             ';
-    
 
     $menuHtml .= '</ul>
       </li>';
-    
-    
+
     $menuHtml .= '<li class="slide">
     	<a class="side-menu__item ' . @$active['erp_invoice/bill/list'] . ' is-expanded" data-bs-toggle="slide" href="javascript:void(0);">
                   <i class="side-menu__icon fa-solid fa-file-text"></i><span class="side-menu__label">Invoices</span></a>
     	<ul class="slide-menu open">';
-    
+
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_invoice/bill/list',
         'label' => 'Invoice'
     )) . '</li>';
-    
-    $menuHtml .= '<li class="sub-slide-item">' . x(array(
-        'link' => 'erp_masters/customer/list',
-        'label' => 'Customer'
-    )) . '</li>';
-    
+
+
+
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_invoice/collection/list',
         'label' => 'Collections'
     )) . '</li>';
-    
-    
+
     $menuHtml .= '
             <li class="sub-slide">
             <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Reports</span><i class="sub-angle fa fa-angle-right"></i></a>
             <ul class="sub-slide-menu">
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/invoice/billbycustomer','label' => 'Outstanding Summary',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/invoice/billbycustomer',
+        'label' => 'Outstanding Summary',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/invoice/billoutstanding','label' => 'Outstanding In Detail',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/invoice/billoutstanding',
+        'label' => 'Outstanding In Detail',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/invoice/billlisting','label' => 'Bill Listing',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/invoice/billlisting',
+        'label' => 'Bill Listing',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
-              <li class="sub-slide-item">'.
-              x(array('link' => 'erp_report/property/paymentcollection','ref' => array('ref' => 'exp'),'label' => 'Payment Collection',array("param" => 'wide_opener'))).'
+              <li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/property/paymentcollection',
+        'ref' => array(
+            'ref' => 'exp'
+        ),
+        'label' => 'Payment Collection',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '
               </li>
             </ul>
             </li>
             ';
-    
-    
+
     $menuHtml .= '</ul>
       </li>';
-    
-    
+
     $menuHtml .= x(array(
         'link' => 'erp_fund/cashflow/list',
         'label' => '<div class="side-menu__item ' . @$active['erp_fund/cashflow/list'] . '">
@@ -351,29 +428,43 @@ function mainMenu($encUserId)
         <span class="side-menu__label">Cash Flow</span>
     </div>'
     ));
-    
-    
+
     $menuHtml .= '<li class="slide">
     <a class="side-menu__item ' . @$active['erp_manage/company/list'] . ' is-expanded" data-bs-toggle="slide" href="javascript:void(0);">
         <i class="side-menu__icon fa-solid fa-building"></i>
         <span class="side-menu__label">Company</span>
     </a>
     <ul class="slide-menu open">';
-    
-    
-    
-    $menuHtml .= '<li class="sub-slide-item">' . x(array('link' => 'erp_manage/company/list','label' => 'Company Documents',array())) . '</li>';
-        
-    $menuHtml .= '<li class="sub-slide-item">' . x(array('link' => 'erp_report/company/statement','label' => 'Monthly Statement',array("param" => 'wide_opener'))) . '</li>';
-    
-    $menuHtml .= '<li class="sub-slide-item">' . x(array('link' => 'erp_manage/calllog/list','label' => 'Business Call Log',array())) . '</li>';
-    
-    $menuHtml .= '<li class="sub-slide-item">' . x(array('link' => 'erp_manage/legalcase/list','label' => 'Manage Legal Cases',array())) . '</li>';
-    
-    
+
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
+        'link' => 'erp_manage/company/list',
+        'label' => 'Company Documents',
+        array()
+    )) . '</li>';
+
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
+        'link' => 'erp_report/company/statement',
+        'label' => 'Monthly Statement',
+        array(
+            "param" => 'wide_opener'
+        )
+    )) . '</li>';
+
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
+        'link' => 'erp_manage/calllog/list',
+        'label' => 'Business Call Log',
+        array()
+    )) . '</li>';
+
+    $menuHtml .= '<li class="sub-slide-item">' . x(array(
+        'link' => 'erp_manage/legalcase/list',
+        'label' => 'Manage Legal Cases',
+        array()
+    )) . '</li>';
+
     $menuHtml .= '</ul>
       </li>';
-    
+
     $menuHtml .= '<li class="slide">
     <a class="side-menu__item ' . @$active['erp_manage/updates/list'] . ' is-expanded"
        data-bs-toggle="slide" href="javascript:void(0);">
@@ -381,28 +472,25 @@ function mainMenu($encUserId)
         <span class="side-menu__label">Others</span>
     </a>
     <ul class="slide-menu open">';
-    
-    
+
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_manage/updates/list',
         'label' => 'Notifications'
     )) . '</li>';
-    
+
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'admin/users/index',
         'label' => 'Users'
     )) . '</li>';
-    
+
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'admin/config/setmodules',
         'label' => 'Permissions'
     )) . '</li>';
-    
-        
-    if($_SESSION['user_type']==1)
+
+    if ($_SESSION['user_type'] == 1)
         $menuHtml .= '<li class="sub-slide-item"> <a href="javascript:void(0);" Onclick="triggerSync();"> Cloud Transfer</a> </li>';
-    
-    
+
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'default/default/backup',
         'ref' => array(
@@ -413,13 +501,10 @@ function mainMenu($encUserId)
             "param" => 'class="facebox"'
         )
     )) . '</li>';
-    
-    
+
     $menuHtml .= '</ul>
       </li>';
-  
-    
-    
+
     $menuHtml .= x(array(
         'link' => 'admin/users/changepwd',
         'ref' => array(
@@ -432,40 +517,35 @@ function mainMenu($encUserId)
         )
     ));
 
-
     return $menuHtml;
 }
 
-
-function notify(){
-    
+function notify()
+{
     require_once __DIR__ . '/../../admin/!model/updates.php';
-    
+
     $updateObj = new updates();
     $updList = $updateObj->getPendingUpdatesByUser(array(
         'upd_assign' => USER_ID
     ));
-    
-    //a($updList);
-    
-    
-    
-    $notif .='<div class="drop-heading border-bottom">
+
+    // a($updList);
+
+    $notif .= '<div class="drop-heading border-bottom">
         <div class="d-flex">
         <h6 class="mt-1 mb-0 fs-16 fw-semibold">You have
         Notification</h6>
         <div class="ms-auto">
-        <span class="badge bg-success rounded-pill">'.count($updList).'</span>
+        <span class="badge bg-success rounded-pill">' . count($updList) . '</span>
         </div>
         </div>
         </div>
     <div class="notifications-menu">';
-    
-    
-    if(is_array($updList) && count($updList)>0)
-        foreach ($updList as $row):
-    
-    $notif .= '
+
+    if (is_array($updList) && count($updList) > 0)
+        foreach ($updList as $row) :
+
+            $notif .= '
 
     <a class="dropdown-item d-flex" href="#">
     	<div
@@ -473,15 +553,15 @@ function notify(){
     		<i class="fe fe-message-square"></i>
     	</div>
     	<div class="mt-1 wd-80p">
-    		<h5 class="notification-label mb-1">'.ucwords(strtolower($row['upd_note'])).'</h5>
-    		<span class="notification-subtext">'.$row['upd_enddttime'].'</span>
+    		<h5 class="notification-label mb-1">' . ucwords(strtolower($row['upd_note'])) . '</h5>
+    		<span class="notification-subtext">' . $row['upd_enddttime'] . '</span>
     	</div>
     </a>';
-    endforeach;
-    
-    
-    $notif .='</div>';
-    
+        endforeach
+    ;
+
+    $notif .= '</div>';
+
     return $notif;
 }
 
@@ -628,13 +708,16 @@ echo ('
 												class="fe fe-bell"></i><span class="pulse"></span> </a>
 											<div
 												class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-													'.
-                                                        notify()
-													.'
+													' . notify() . '
 												<div class="dropdown-divider m-0"></div>
-                                                '.
-                                                lx(array('link'=>'erp_manage/updates/list','ref'=>'','label'=>'View all Notifications',array("param"=>'class="dropdown-item text-center p-3 text-muted"' ))).
-                                                '</div>
+                                                ' . lx(array(
+    'link' => 'erp_manage/updates/list',
+    'ref' => '',
+    'label' => 'View all Notifications',
+    array(
+        "param" => 'class="dropdown-item text-center p-3 text-muted"'
+    )
+)) . '</div>
 										</div>
 										<!-- NOTIFICATIONS -->
 										<div class="dropdown d-md-flex message">
@@ -702,7 +785,7 @@ echo ('
 										<div class="dropdown d-md-flex profile-1">
 											<a href="javascript:void(0);" data-bs-toggle="dropdown"
 												class="nav-link leading-none d-flex px-1"> <span> <img
-													src="'.IMAGEURL.$this->encode($empProfileImage['file_id']).'"
+													src="' . IMAGEURL . $this->encode($empProfileImage['file_id']) . '"
 													alt="profile-user"
 													class="avatar profile-user brround cover-image" />
 											</span>
@@ -711,14 +794,14 @@ echo ('
 												class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
 												<div class="drop-heading">
 													<div class="text-center">
-														<h5 class="text-dark mb-0">'.ucwords(strtolower($_SESSION['user_dip_name'])).'</h5>
-														<small class="text-muted">'.$_SESSION['user_role'].'</small>
+														<h5 class="text-dark mb-0">' . ucwords(strtolower($_SESSION['user_dip_name'])) . '</h5>
+														<small class="text-muted">' . $_SESSION['user_role'] . '</small>
 													</div>
 												</div>
 												<div class="dropdown-divider m-0"></div>
 												<a class="dropdown-item" href=""> <i
 													class="dropdown-icon fe fe-user"></i> Profile
-												</a> <a class="dropdown-item" href="'.APPURL.'default/default/logout'.'"> <i
+												</a> <a class="dropdown-item" href="' . APPURL . 'default/default/logout' . '"> <i
 													class="dropdown-icon fe fe-alert-circle"></i> Sign out
 												</a>
 											</div>
@@ -762,7 +845,7 @@ echo ('
 							<li class="sub-category">
 								<h3>Main</h3>
 							</li>
-              				'.mainMenu($encUserId).'
+              				' . mainMenu($encUserId) . '
 						</ul>
 						<div class="slide-right" id="slide-right">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24"
@@ -777,7 +860,8 @@ echo ('
 			<!--/APP-SIDEBAR-->
 
 
-		</div>');?>
+		</div>');
+?>
 		
 		
 

@@ -676,9 +676,8 @@ class collectionController extends mvc
                 "" => "Both"
             )
         ));
-        require_once __DIR__ . '/../admin/!model/building.php';
-        $buildingObj = new building();
-        $buildingList = $buildingObj->getBuildingPair();
+
+        $buildingList =[]];
         require_once __DIR__ . '/../admin/!model/property.php';
         $propModelObj = new property();
         $propList = $propModelObj->getPropetyPair();

@@ -801,17 +801,6 @@ class defaultController extends mvc
         
         
 
-        require_once __DIR__ . '/../admin/!model/property.php';
-        $propertyObj = new property();
-        $this->view->propertyData = $propertyObj->getDashsummary();
-        $this->view->propertyData = $this->view->propertyData['0'];
-
-        $this->view->propertyDataPre = $propertyObj->getDashsummary([
-            'Month' => 'pre'
-        ]);
-        $this->view->propertyDataPre = $this->view->propertyDataPre['0'];
-
-        $dashSalesGraph = $propertyObj->getDashsummaryGraph();
 
         // a($dashSalesGraph);
 
@@ -1351,12 +1340,6 @@ class defaultController extends mvc
             'upd_assign' => USER_ID
         ));
 
-        $stepsObj = new ticketssteps();
-        $stepsList = $stepsObj->getTktAndStepsByUser(array(
-            'user_id' => USER_ID
-        ));
-        
-        
         require_once __DIR__ . '/../admin/!model/employee.php';
         $employeeObj = new employee();
         $leveNotifList = $employeeObj->getEmployeeLeaveNotification();

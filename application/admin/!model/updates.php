@@ -44,7 +44,7 @@ class updates extends db_table {
 						left join core_users as users on users.user_id  = upd_reported and users.deleted = 0
 
 						left join mis_employee as employee on employee.emp_id  = upd_type_refid and employee.deleted = 0 and upd_type = 1
-						left join mis_property as poperty on poperty.prop_id  = upd_type_refid and poperty.deleted = 0 and upd_type = 2
+						left join mis_projects as poperty on poperty.prop_id  = upd_type_refid and poperty.deleted = 0 and upd_type = 2
 						left join mis_vehicle as vehicle on vehicle.vhl_id  = upd_type_refid and vehicle.deleted = 0 and upd_type = 3
 						left join mis_bill as bill on bill.bill_id  = upd_type_refid and bill.deleted = 0 and upd_type = 4 and bill.bill_cancellation_status = 0
 						" );
@@ -81,6 +81,8 @@ class updates extends db_table {
 	
 	public function getPendingUpdatesByUser($cond = array())
 	{
+	    
+	    return [];
 		$this->query ( "select
 				to_char(upd_dttime,'DD/MM/YYYY') as upd_dttime,
 				to_char(upd_enddttime,'DD/MM/YYYY') as upd_enddttime,
@@ -94,7 +96,7 @@ class updates extends db_table {
 				end as ref_name
 				from $this->_table
 				left join mis_employee as employee on employee.emp_id  = upd_type_refid and employee.deleted = 0 and upd_type = 1
-				left join mis_property as poperty on poperty.prop_id  = upd_type_refid and poperty.deleted = 0 and upd_type = 2
+				left join mis_projects as poperty on poperty.prop_id  = upd_type_refid and poperty.deleted = 0 and upd_type = 2
 				left join mis_vehicle as vehicle on vehicle.vhl_id  = upd_type_refid and vehicle.deleted = 0 and upd_type = 3
 				left join mis_bill as bill on bill.bill_id  = upd_type_refid and bill.deleted = 0 and upd_type = 4 and bill.bill_cancellation_status = 0
 				" );

@@ -1,0 +1,108 @@
+<div class="dynamic-popup" id="dynamic-popup">
+	<form name="form" method="post" id="edit"
+		action="erp_projects/master/edit/ref/<?= $this->param['ref'] ?>"
+		style="margin-bottom: 0px;">
+
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h4 class="card-title">Update Project Details</h4>
+				<button type="button" aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+
+			<div class="modal-body">
+
+				<!-- CUSTOMER + PROJECT CODE -->
+				<div class="row mb-4" style="margin-top: 15px;">
+					<label class="col-sm-2 form-label">Customer</label>
+					<div class="col-sm-4">
+						<?= $this->form->project_client_id->show() ?>
+					</div>
+
+					<label class="col-sm-2 form-label">Project Code</label>
+					<div class="col-sm-4">
+						<?= $this->form->project_code->show() ?>
+					</div>
+				</div>
+
+				<!-- PROJECT NAME + FILE NO -->
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label">Project Name</label>
+					<div class="col-sm-4">
+						<?= $this->form->project_name->show() ?>
+					</div>
+
+					<label class="col-sm-2 form-label">File No</label>
+					<div class="col-sm-4">
+						<?= $this->form->project_fileno->show() ?>
+					</div>
+				</div>
+
+				<!-- CATEGORY + TYPE -->
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label">Category</label>
+					<div class="col-sm-4">
+						<?= $this->form->project_category->show() ?>
+					</div>
+
+					<label class="col-sm-2 form-label">Type</label>
+					<div class="col-sm-4">
+						<?= $this->form->project_type->show() ?>
+					</div>
+				</div>
+
+				<!-- SECTOR + CONTRACT MODE -->
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label">Sector</label>
+					<div class="col-sm-4">
+						<?= $this->form->project_sector->show() ?>
+					</div>
+
+					<label class="col-sm-2 form-label">Contract Mode</label>
+					<div class="col-sm-4">
+						<?= $this->form->project_contract_mode->show() ?>
+					</div>
+				</div>
+
+				<!-- BUDGET + DURATION -->
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label">Project Budget</label>
+					<div class="col-sm-4">
+						<?= $this->form->project_budget->show() ?>
+					</div>
+
+					<label class="col-sm-2 form-label">Duration (Months)</label>
+					<div class="col-sm-4">
+						<?= $this->form->project_duration_months->show() ?>
+					</div>
+				</div>
+
+				<!-- REMARKS -->
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label">Remarks</label>
+					<div class="col-sm-10">
+						<?= $this->form->project_remarks->show() ?>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary submit-alias livepost">
+					Update Project
+				</button>
+				<button type="button" class="btn btn-light" data-bs-dismiss="modal">
+					Close
+				</button>
+			</div>
+
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function () {
+	$('.modal-dialog').css('width', '70%');
+});
+</script>

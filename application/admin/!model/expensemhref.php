@@ -53,7 +53,7 @@ class expensemhref extends db_table {
 			vhl_no as ref_name3
 			from $this->_table 
 			LEFT JOIN mis_employee as emp on emp.emp_id = $this->_table.eref_main_head_ref and $this->_table.eref_main_head = 1  and emp.deleted= 0
-			LEFT JOIN mis_property as prop on prop.prop_id = $this->_table.eref_main_head_ref and $this->_table.eref_main_head = 2 and prop.deleted= 0
+			LEFT JOIN mis_projects as prop on prop.prop_id = $this->_table.eref_main_head_ref and $this->_table.eref_main_head = 2 and prop.deleted= 0
 			left join mis_building as building on building.bld_id = prop.prop_building and building.deleted = 0 and building.deleted= 0
 			LEFT JOIN mis_vehicle as vhl on vhl.vhl_id = $this->_table.eref_main_head_ref and $this->_table.eref_main_head = 3 and vhl.deleted= 0
 		" );

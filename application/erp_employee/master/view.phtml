@@ -359,61 +359,7 @@ if ($this->employeeDetail['emp_doj'] != '') {
 							<div style="top: 0px;margin-bottom: 4rem;">	<?=x(array('link'=>'erp_employee/master/empcontract','ref'=>$this->param['ref'],'label'=>'<button class="btn btn-success pull-right"> Contract Status</button>',array("param"=>'class="facebox"')))?></div>
 							<?php endif;?>
 							
-							<?php if (count($this->empContract)>0):?>
-							<div class="panel panel-default mb-4">
-									<div class="panel-heading1">
-										<h4 class="panel-title1">
-											<a class="accordion-toggle collapsed"
-												data-bs-toggle="collapse" data-bs-parent="#accordion"
-												href="#collapseThree" aria-expanded="false" >Contract Status</a>
-										</h4>
-									</div>
-									<div id="collapseThree" class="panel-collapse collapse"
-										role="tabpanel" aria-expanded="false">
-										<div class="panel-body">
-											<table class="table table-bordered">
-												<thead>
-													<tr>
-														<th class="center" width="5%">Machine</th>
-														<th class="center" width="8%">Customer</th>
-														<th class="center" width="8%">Project</th>
-														<th class="center" width="5%">Location</th>
-														<th class="center" width="5%">Start</th>
-														<th class="center" width="10%">Remarks</th>
-														<th class="center" width="2%">Modify</th>
-														<th class="center" width="5%">End</th>
-														<th class="center" width="10%">Remarks</th>
-														<th class="center" width="2%">Update</th>
-													</tr>
-												</thead>
-												<tbody>
-												<?php
-                                                foreach ($this->empContract as $this->status) :
-                                                    $encEmcId = $this->encode($this->status['emc_id']);
-                                                    ?>
-												<tr>
-														<td align="center"><?=$this->status['vhl_no']?></td>
-														<td align="left"><?=$this->status['cust_name']?></td>
-														<td align="center"><?=$this->status['emc_project']?></td>
-														<td align="center"><?=$this->status['emc_location']?></td>
-														<td align="center"><?=$this->status['emc_date_start']?></td>
-														<td align="center"><?=$this->status['emc_note']?></td>
-														<td align="center">
-														<?=x(array('link'=>'erp_employee/master/empcontractedit','ref'=>$encEmcId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>
-													</td>
-														<td align="center"><?=$this->status['emc_date_end']?></td>
-														<td align="center"><?=$this->status['emc_note2']?></td>
-														<td align="center">
-														<?=x(array('link'=>'erp_employee/master/empcontractupdate','ref'=>$encEmcId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?>
-													</td>
-													</tr>
-												<?php endforeach;?>
-											</tbody>
-											</table>
-										</div>
-									</div>
-								</div>
-							<?php endif;?>
+
 						</div>
 						</div>
 						<div class="tab-pane" id="menu1" role="tabpanel"></div>

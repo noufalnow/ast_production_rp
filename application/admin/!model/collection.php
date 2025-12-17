@@ -37,7 +37,7 @@ class collection extends db_table {
 			$join = '';
 			
 			$build = '  JOIN mis_property_payoption AS prop_pay1 on prop_pay1.popt_id = dmd.cdmd_ref_id and prop_pay1.deleted= 0
-						JOIN mis_property as prop on prop.prop_id = prop_pay1.popt_prop_id and prop.deleted = 0 and prop.prop_building = ' .$cond['f_building'] . ' ';
+						JOIN mis_projects as prop on prop.prop_id = prop_pay1.popt_prop_id and prop.deleted = 0 and prop.prop_building = ' .$cond['f_building'] . ' ';
 		}
 			
 		if (! empty ($cond['f_property'] ))
@@ -228,7 +228,7 @@ class collection extends db_table {
 		if (! empty ($cond['f_building'] )){
 			$join = '';
 			$build = '  JOIN mis_property_payoption AS prop_pay1 on prop_pay1.popt_id = dmd.cdmd_ref_id and prop_pay1.deleted= 0
-						JOIN mis_property as prop on prop.prop_id = prop_pay1.popt_prop_id and prop.deleted = 0 and prop.prop_building = ' .$cond['f_building'] . ' ';
+						JOIN mis_projects as prop on prop.prop_id = prop_pay1.popt_prop_id and prop.deleted = 0 and prop.prop_building = ' .$cond['f_building'] . ' ';
 		}
 		
 		if (! empty ($cond['f_property'] ))
@@ -377,7 +377,7 @@ class collection extends db_table {
                     LEFT JOIN mis_documents AS doc ON doc.doc_id = dmd.cdmd_oth_id
                         AND doc.doc_ref_type = 3
                         AND doc.doc_type = 201
-                    LEFT JOIN mis_property prop ON prop.prop_id = doc.doc_ref_id
+                    LEFT JOIN mis_projects prop ON prop.prop_id = doc.doc_ref_id
                     LEFT JOIN mis_building AS build ON build.bld_id = prop.prop_building" );
 	    
 	    $this->_where [] = "mis_collection.coll_app_status= 1";

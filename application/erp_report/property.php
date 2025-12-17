@@ -27,17 +27,18 @@ class propertyController extends mvc
             )
         ));
 
-        require_once __DIR__ . '/../admin/!model/building.php';
-        $buildingObj = new building();
-        $buildingList = $buildingObj->getBuildingPair();
+        require_once __DIR__ . '/../admin/!model/customer.php';
+        $customerObj = new customer();
+        $customerList = $customerObj->getCustomerPair();
+        $form->addElement('customer', 'Customer', 'select', 'required', array(
+            'options' => $customerList
+        ));
 
         require_once __DIR__ . '/../admin/!model/property.php';
         $propModelObj = new property();
         $propList = $propModelObj->getPropetyPair();
 
-        $form->addElement('f_building', 'Building', 'select', '', array(
-            'options' => $buildingList
-        ));
+
         $form->addElement('f_property', 'Property', 'select', '', array(
             'options' => $propList
         ));
@@ -121,11 +122,11 @@ class propertyController extends mvc
             '' => 'readonly'
         ));
         $form->addElement('f_propno', 'Property No ', 'text', 'alpha_space');
-        require_once __DIR__ . '/../admin/!model/building.php';
-        $buildingObj = new building();
-        $buildingList = $buildingObj->getBuildingPair();
-        $form->addElement('f_building', 'Building', 'select', '', array(
-            'options' => $buildingList
+        require_once __DIR__ . '/../admin/!model/customer.php';
+        $customerObj = new customer();
+        $customerList = $customerObj->getCustomerPair();
+        $form->addElement('customer', 'Customer', 'select', 'required', array(
+            'options' => $customerList
         ));
         $form->addElement('f_prop_cat', 'Category', 'select', '', array(
             'options' => array(
@@ -248,12 +249,11 @@ class propertyController extends mvc
             99 => "Pent House"
         );
 
-        require_once __DIR__ . '/../admin/!model/building.php';
-        $buildingObj = new building();
-        $buildingList = $buildingObj->getBuildingPair();
-
-        $form->addElement('f_building', 'Building', 'select', '', array(
-            'options' => $buildingList
+        require_once __DIR__ . '/../admin/!model/customer.php';
+        $customerObj = new customer();
+        $customerList = $customerObj->getCustomerPair();
+        $form->addElement('customer', 'Customer', 'select', 'required', array(
+            'options' => $customerList
         ));
         $form->addElement('f_prop_cat', 'Category', 'select', '', array(
             'options' => array(
@@ -336,12 +336,11 @@ class propertyController extends mvc
             99 => "Pent House"
         );
 
-        require_once __DIR__ . '/../admin/!model/building.php';
-        $buildingObj = new building();
-        $buildingList = $buildingObj->getBuildingPair();
-
-        $form->addElement('f_building', 'Building', 'select', '', array(
-            'options' => $buildingList
+        require_once __DIR__ . '/../admin/!model/customer.php';
+        $customerObj = new customer();
+        $customerList = $customerObj->getCustomerPair();
+        $form->addElement('customer', 'Customer', 'select', 'required', array(
+            'options' => $customerList
         ));
         $form->addElement('f_prop_cat', 'Category', 'select', '', array(
             'options' => array(
@@ -428,12 +427,11 @@ class propertyController extends mvc
             99 => "Pent House"
         );
 
-        require_once __DIR__ . '/../admin/!model/building.php';
-        $buildingObj = new building();
-        $buildingList = $buildingObj->getBuildingPair();
-
-        $form->addElement('f_building', 'Building', 'select', '', array(
-            'options' => $buildingList
+        require_once __DIR__ . '/../admin/!model/customer.php';
+        $customerObj = new customer();
+        $customerList = $customerObj->getCustomerPair();
+        $form->addElement('customer', 'Customer', 'select', 'required', array(
+            'options' => $customerList
         ));
         $form->addElement('f_prop_cat', 'Category', 'select', '', array(
             'options' => array(
@@ -495,12 +493,11 @@ class propertyController extends mvc
             '' => 'readonly'
         ));
   
-        require_once __DIR__ . '/../admin/!model/building.php';
-        $buildingObj = new building();
-        $buildingList = $buildingObj->getBuildingPair();
-        
-        $form->addElement('f_building', 'Building', 'select', '', array(
-            'options' => $buildingList
+        require_once __DIR__ . '/../admin/!model/customer.php';
+        $customerObj = new customer();
+        $customerList = $customerObj->getCustomerPair();
+        $form->addElement('customer', 'Customer', 'select', 'required', array(
+            'options' => $customerList
         ));
         $form->addElement('f_prop_cat', 'Category', 'select', '', array(
             'options' => array(
@@ -515,9 +512,7 @@ class propertyController extends mvc
             )
         ));
                 
-        require_once __DIR__ . '/../admin/!model/tenants.php';
-        $tenantsObj = new tenants();
-        $tenantsList = $tenantsObj->getTenantsPair();
+
         
         $form->addElement('f_tenants', 'Tenants', 'select', '', array(
             'options' => $tenantsList));
@@ -577,88 +572,6 @@ class propertyController extends mvc
         $this->view->propLevel = $propLevel;
     }
     
-    
-    
-    public function pservicerptAction()
-    {
-        
-        $this->view->response('window');
-        require_once __DIR__ . '/../admin/!model/pservice_m.php';
-        require_once __DIR__ . '/../admin/!model/employee.php';
-        require_once __DIR__ . '/../admin/!model/property.php';
-        
-        $form = new form();
-        
-        // Fetch dropdown options
-        $empModelObj = new employee();
-        $empList = $empModelObj->getEmployeePair();
-        $propertyModelObj = new property();
-        $propertyList = $propertyModelObj->getPropetyPair();
-        
-        // Add form elements
-        $form->addElement('f_complaint_no', 'Complaint No', 'text', '');
-        $form->addElement('f_service_type', 'Service Type', 'select', '', array(
-            'options' => array(
-                1 => "Electrical",
-                2 => "Plumbing",
-                3 => "Painting",
-                4 => "Other"
-            )
-        ));
-        $form->addElement('f_employee', 'Employee', 'select', '', array(
-            'options' => $empList
-        ));
-        $form->addElement('f_property', 'Property', 'select', '', array(
-            'options' => $propertyList
-        ) );
-        
-        $form->addElement('f_monthpick', 'Select Month ', 'text', '', '', array(
-            '' => 'readonly'
-        ));
-        require_once __DIR__ . '/../admin/!model/building.php';
-        $buildingObj = new building();
-        $buildingList = $buildingObj->getBuildingPair();
-        $form->addElement('f_building', 'Building', 'select', '', array(
-            'options' => $buildingList
-        ));
-        
-        // Reset filters if "All" is selected
-        if (isset($_GET) && isset($_GET['clear']) && $_GET['clear'] == 'All') {
-            $form->reset();
-            unset($_GET);
-        }
-        
-        $filter_class = 'btn-primary'; // Default button class
-        
-        // Process filters if any are applied
-        if (is_array($_GET) && count(array_filter($_GET)) > 0) {
-            $valid = $form->vaidate($_GET);
-            $valid = $valid[0];
-            if ($valid == true) {
-                $where = array(
-                    'psvs_complaint_no' => @$valid['f_complaint_no'],
-                    'psvs_type' => @$valid['f_service_type'],
-                    'prop_building' => @$valid['f_building'],
-                    'psvs_emp' => @$valid['f_employee'],
-                    'psvs_prop_id' => @$valid['f_property'],
-                    'f_monthpick' => @$valid['f_monthpick']
-                );
-            }
-            $filter_class = 'btn-info'; // Highlight filter button if filters are applied
-        }
-        
-        // Fetch data
-        $serviceObj = new pservice_m();
-        $serviceObj->_pagelimit = 50;
-        $serviceList = $serviceObj->getPropertyServicePaginate(@$where);
-        $offset = $serviceObj->_voffset;
-        
-        // Pass data to the view
-        $this->view->form = $form;
-        $this->view->serviceList = $serviceList;
-        $this->view->serviceObj = $serviceObj;
-        $this->view->offset = $offset;
-        $this->view->filter_class = $filter_class;
-    }
+
     
 }

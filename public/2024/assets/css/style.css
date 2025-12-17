@@ -10435,7 +10435,7 @@ form input::-webkit-input-placeholder {
     -ms-flex-direction: column;
     flex-direction: column;
     -ms-flex-pack: center;
-    justify-content: center;
+    justify-content: start;
     min-height: 100vh;
 }
 
@@ -10451,7 +10451,7 @@ body.fixed-header .page {
 
 .page-main {
     -ms-flex: 1 1 auto;
-    flex: 1 1 auto;
+    flex: 0 0 auto;
 }
 
 .page-content {

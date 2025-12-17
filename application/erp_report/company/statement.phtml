@@ -332,12 +332,12 @@ tr.content-row:hover {
                 
                 endif;
                 
-                $incomeProperty  = $this->collectionObj->getPropertyRevenueByBuilding(['f_monthpick'=>$this->f_monthval,'bld_comp'=>$row['comp_id']]);
-                $expenseProperty = $this->expenseObj->getPropertyExpenseByCompany(['f_monthpick'=>$this->f_monthval,'f_company'=>$row['comp_id']]);
+                $incomeProjects  = $this->collectionObj->getProjectsRevenueByBuilding(['f_monthpick'=>$this->f_monthval,'bld_comp'=>$row['comp_id']]);
+                $expenseProjects = $this->expenseObj->getProjectsExpenseByCompany(['f_monthpick'=>$this->f_monthval,'f_company'=>$row['comp_id']]);
                 
                 
                 
-                if($row['type'] == "Property"):
+                if($row['type'] == "Projects"):
                 
                 echo "<tr class='details-row' data-index='{$index}' style='display: none;'>";
                 echo "<td colspan='4' style='padding: 10px; background-color: #f9f9f9;'>"; ?>
@@ -353,8 +353,8 @@ tr.content-row:hover {
                             </tr>
                         </thead>
                         <tbody>
-                        <?php if(is_array($incomeProperty) && count($incomeProperty) > 0): ?>
-                            <?php foreach ($incomeProperty as $buildinc): ?>
+                        <?php if(is_array($incomeProjects) && count($incomeProjects) > 0): ?>
+                            <?php foreach ($incomeProjects as $buildinc): ?>
                                 <tr>
                                     <td style="text-align: right; padding: 8px; border: 1px solid #ddd;"><?=$buildinc['bld_name']?></td>
                                     <td style="text-align: right; padding: 8px; border: 1px solid #ddd;"><?=$buildinc['total_income']?><button type="button" 
@@ -380,8 +380,8 @@ tr.content-row:hover {
                             </tr>
                         </thead>
                         <tbody>
-                        <?php if(is_array($expenseProperty) && count($expenseProperty) > 0): ?>
-                            <?php foreach ($expenseProperty as $vehexp): ?>
+                        <?php if(is_array($expenseProjects) && count($expenseProjects) > 0): ?>
+                            <?php foreach ($expenseProjects as $vehexp): ?>
                                 <tr>
                                 	<td style="text-align: right; padding: 8px; border: 1px solid #ddd;"><?=$vehexp['ref_source']?></td>                                
                                     <td style="text-align: right; padding: 8px; border: 1px solid #ddd;"><?=$vehexp['category']?></td>

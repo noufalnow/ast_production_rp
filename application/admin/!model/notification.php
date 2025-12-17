@@ -56,7 +56,7 @@ class notification extends db_table
                 LEFT JOIN mis_employee AS employee ON employee.emp_id = upd_type_refid
                 AND employee.deleted = 0
                 AND upd_type = 1
-                LEFT JOIN mis_property AS poperty ON poperty.prop_id = upd_type_refid
+                LEFT JOIN mis_projects AS poperty ON poperty.prop_id = upd_type_refid
                 AND poperty.deleted = 0
                 AND upd_type = 2
                 LEFT JOIN mis_vehicle AS vehicle ON vehicle.vhl_id = upd_type_refid
@@ -190,8 +190,8 @@ class notification extends db_table
                            bld_name ,
                            prop_fileno ,
                            tnt_full_name
-                    FROM mis_property
-                    LEFT JOIN mis_building AS build ON build.bld_id = mis_property.prop_building
+                    FROM mis_projects
+                    LEFT JOIN mis_building AS build ON build.bld_id = mis_projects.prop_building
                     AND build.deleted = 0
                     INNER JOIN
                       (SELECT doc_type,
@@ -221,11 +221,11 @@ class notification extends db_table
                                    doc_ref_type,
                                    doc_ref_id) max_group
                        LEFT JOIN mis_documents AS docs ON docs.doc_id = max_group.mdoc_id
-                       AND docs.deleted = 0) AS propdocs ON propdocs.doc_ref_id = mis_property.prop_id
+                       AND docs.deleted = 0) AS propdocs ON propdocs.doc_ref_id = mis_projects.prop_id
                     LEFT JOIN mis_tenants AS tenants ON tenants.tnt_id = propdocs.agr_tnt_id
                     AND tenants.deleted = 0
-                    WHERE mis_property.deleted = 0
-                      AND mis_property.prop_status = 2
+                    WHERE mis_projects.deleted = 0
+                      AND mis_projects.prop_status = 2
 
                        AND (date_part('month', (doc_expiry_month)) = date_part('month', (Now()))
                        AND date_part('year', (doc_expiry_month)) = date_part('year', (Now()))) 

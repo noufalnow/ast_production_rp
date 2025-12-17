@@ -414,7 +414,7 @@ class expense extends db_table {
 				$p_joinType join (SELECT SUM (eref_amount) AS mref_sum,
 								           eref_exp_id
 								FROM mis_expense_href
-								JOIN mis_property AS prop ON eref_main_head_ref = prop.prop_id
+								JOIN mis_projects AS prop ON eref_main_head_ref = prop.prop_id
 								AND eref_main_head = 2
 								AND prop.deleted = 0
 								AND prop.prop_building = $mhprop
@@ -608,7 +608,7 @@ class expense extends db_table {
 			$p_joinType join (SELECT SUM (eref_amount) AS mref_sum,
 							           eref_exp_id
 							FROM mis_expense_href
-							JOIN mis_property AS prop ON eref_main_head_ref = prop.prop_id
+							JOIN mis_projects AS prop ON eref_main_head_ref = prop.prop_id
 							AND eref_main_head = 2
 							AND prop.deleted = 0
 							AND prop.prop_building = $mhprop
@@ -646,7 +646,7 @@ class expense extends db_table {
 				$p_joinType join (SELECT SUM (eref_amount) AS mref_sum,
 								           eref_exp_id
 								FROM mis_expense_href
-								JOIN mis_property AS prop ON eref_main_head_ref = prop.prop_id
+								JOIN mis_projects AS prop ON eref_main_head_ref = prop.prop_id
 								AND eref_main_head = 2
 								AND prop.deleted = 0
 								AND prop.prop_building = $mhprop
@@ -680,7 +680,7 @@ class expense extends db_table {
 				$p_joinType join (SELECT SUM (eref_amount) AS mref_sum,
 								           eref_exp_id
 								FROM mis_expense_href
-								JOIN mis_property AS prop ON eref_main_head_ref = prop.prop_id
+								JOIN mis_projects AS prop ON eref_main_head_ref = prop.prop_id
 								AND eref_main_head = 2
 								AND prop.deleted = 0
 								AND prop.prop_building = $mhprop
@@ -736,7 +736,7 @@ class expense extends db_table {
 				$p_joinType join (SELECT SUM (eref_amount) AS mref_sum,
 								           eref_exp_id
 								FROM mis_expense_href
-								JOIN mis_property AS prop ON eref_main_head_ref = prop.prop_id
+								JOIN mis_projects AS prop ON eref_main_head_ref = prop.prop_id
 								AND eref_main_head = 2
 								AND prop.deleted = 0
 								AND prop.prop_building = $mhprop
@@ -772,7 +772,7 @@ class expense extends db_table {
 				$p_joinType join (SELECT SUM (eref_amount) AS mref_sum,
 								           eref_exp_id
 								FROM mis_expense_href
-								JOIN mis_property AS prop ON eref_main_head_ref = prop.prop_id
+								JOIN mis_projects AS prop ON eref_main_head_ref = prop.prop_id
 								AND eref_main_head = 2
 								AND prop.deleted = 0
 								AND prop.prop_building = $mhprop
@@ -1294,7 +1294,7 @@ class expense extends db_table {
 			$p_joinType join (SELECT SUM (eref_amount) AS mref_sum,
 			eref_exp_id
 			FROM mis_expense_href
-			JOIN mis_property AS prop ON eref_main_head_ref = prop.prop_id
+			JOIN mis_projects AS prop ON eref_main_head_ref = prop.prop_id
 			AND eref_main_head = 2
 			AND prop.deleted = 0
 			AND prop.prop_building = $mhprop

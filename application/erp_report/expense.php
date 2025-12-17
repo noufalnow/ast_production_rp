@@ -79,9 +79,12 @@ class expenseController extends mvc
         $vehModelObj = new vehicle();
         $vehList = $vehModelObj->getVehiclePair();
 
-        require_once __DIR__ . '/../admin/!model/building.php';
-        $buildingObj = new building();
-        $buildingList = $buildingObj->getBuildingPair();
+        require_once __DIR__ . '/../admin/!model/customer.php';
+        $customerObj = new customer();
+        $customerList = $customerObj->getCustomerPair();
+        $form->addElement('customer', 'Customer', 'select', 'required', array(
+            'options' => $customerList
+        ));
 
         $form->addElement('f_employee', 'Employee', 'multiselect', '', array(
             'options' => $empList
@@ -105,9 +108,6 @@ class expenseController extends mvc
             "data-placeholder" => "Choose Vehicles"
         ));
 
-        $form->addElement('f_building', 'Building', 'select', '', array(
-            'options' => $buildingList
-        ));
 
         $form->addElement('f_mode', 'Mode', 'select', '', array(
             'options' => array(
@@ -294,9 +294,12 @@ class expenseController extends mvc
         $vehModelObj = new vehicle();
         $vehList = $vehModelObj->getVehiclePair();
         
-        require_once __DIR__ . '/../admin/!model/building.php';
-        $buildingObj = new building();
-        $buildingList = $buildingObj->getBuildingPair();
+        require_once __DIR__ . '/../admin/!model/customer.php';
+        $customerObj = new customer();
+        $customerList = $customerObj->getCustomerPair();
+        $form->addElement('customer', 'Customer', 'select', 'required', array(
+            'options' => $customerList
+        ));
         
         $form->addElement('f_employee', 'Employee', 'multiselect', '', array(
             'options' => $empList
@@ -320,9 +323,6 @@ class expenseController extends mvc
             "data-placeholder" => "Choose Vehicles"
         ));
         
-        $form->addElement('f_building', 'Building', 'select', '', array(
-            'options' => $buildingList
-        ));
         
         $form->addElement('f_mode', 'Mode', 'select', '', array(
             'options' => array(

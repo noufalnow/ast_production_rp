@@ -26,9 +26,9 @@ class propstatus extends db_table {
 				property.prop_no,
 				property.prop_fileno 
 				from $this->_table
-				left join mis_property as property on property.prop_id = $this->_table.psts_prop_id and property.deleted = 0
+				left join mis_projects as property on property.prop_id = $this->_table.psts_prop_id and property.deleted = 0
 				left join mis_building as building on building.bld_id = property.prop_building and building.deleted = 0
-				left join mis_property as atchprop on atchprop.prop_id = $this->_table.psts_attach_prop and atchprop.deleted = 0
+				left join mis_projects as atchprop on atchprop.prop_id = $this->_table.psts_attach_prop and atchprop.deleted = 0
 				" );
 		if (! empty ( $cond ['psts_prop_id'] ))
 			$this->_where [] = "psts_prop_id= :psts_prop_id";
