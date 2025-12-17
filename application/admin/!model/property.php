@@ -94,8 +94,8 @@ class property extends db_table
                    AND customer.deleted = 0
         ");
 
-        if (! empty($cond['prop_id']))
-            $this->_where[] = "project_id = :prop_id";
+        if (! empty($cond['project_id']))
+            $this->_where[] = "project_id = :project_id";
 
         if (! empty($cond['prop_fileno']))
             $this->_where[] = "LOWER(project_fileno) = LOWER(:prop_fileno)";

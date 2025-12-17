@@ -14,15 +14,12 @@ class documets extends db_table {
 	public function getDocuments($cond = array()) {
 	
 		$this->query ( "select *,
-                tnt_full_name as agr_tenant,
-                tnt_phone as agr_mobile,
                 payments.collected,
                 payments.to_collect,
-                prop_fileno,
-                prop_id
+                project_fileno,
+                project_id
                 from $this->_table 
-                left join mis_projects as property on property.prop_id = doc_ref_id and doc_type = 201
-                left join mis_tenants as tenants on tenants.tnt_id = agr_tnt_id and tenants.deleted = 0
+                left join mis_projects as property on property.project_id = doc_ref_id and doc_type = 201
 				left join core_files as files on files.file_ref_id = $this->_table.doc_id and files.deleted = 0
 		        left join ( SELECT ROUND(SUM(popt_amount)) AS to_collect,
                      ROUND(SUM((cdmd_total-cdmd_credit_amt))) AS collected,

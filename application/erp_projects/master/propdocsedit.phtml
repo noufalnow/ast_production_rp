@@ -1,79 +1,103 @@
 <div class="dynamic-popup" id="dynamic-popup">
-	<form name="form" method="post" id="edit" action='erp_projects/master/propdocsedit/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;" enctype="multipart/form-data">
+	<form name="form"
+		  method="post"
+		  id="edit"
+		  action="erp_projects/master/propdocsedit/ref/<?=$this->param['ref']?>"
+		  style="margin-bottom:0px;"
+		  enctype="multipart/form-data">
+
 		<div class="modal-content modal-content-demo">
 			<div class="modal-header">
-				<h4 class="card-title">Modify Document Details</h4>
+				<h4 class="card-title">Modify Project Contract / Document</h4>
 				<button type="button" aria-label="Close" class="btn-close" data-bs-dismiss="modal">
 					<span aria-hidden="true">×</span>
 				</button>
 			</div>
-		<div class="modal-body"> 
-				<div class="row mb-4" style="margin-top: 15px;">
-					<label class="col-sm-2 form-label" >Tenant</label>
-					<div class="col-sm-4">
-                    <?=$this->form->agr_tenant->show()?>
-                 	 </div>
-					<label class="col-sm-2 form-label" >Agreement No.</label>
-					<div class="col-sm-4">
-                    <?=$this->form->docno->show()?>
-                  </div>
-				</div>
-				<div class="row mb-4">
-					<label class="col-sm-2 form-label" >Agreement Start Date</label>
-					<div class="col-sm-4">
-                    <?=$this->form->doi->show()?>
-                  </div>
 
-					<label class="col-sm-2 form-label" >Agreement End Date</label>
-					<div class="col-sm-4">
-                    <?=$this->form->doe->show()?>
-                  </div>
-				</div>
-				<div class="row mb-4">
-					<label class="col-sm-2 form-label" >Agreement Amount</label>
-					<div class="col-sm-4">
-                    <?=$this->form->agr_amount->show()?>
-                  </div>
+			<div class="modal-body">
 
-					<label class="col-sm-2 form-label" >Rent Amount</label>
+				<!-- CONTRACT PARTY -->
+				<div class="row mb-4" style="margin-top:15px;">
+
+					<label class="col-sm-2 form-label">Contract / Agreement No</label>
 					<div class="col-sm-4">
-                    <?=$this->form->agr_rent->show()?>
-                  </div>
+						<?=$this->form->docno->show()?>
+					</div>
 				</div>
+
+				<!-- DATES -->
 				<div class="row mb-4">
-					<label class="col-sm-2 form-label" >Payment Details</label>
+					<label class="col-sm-2 form-label">Contract Start Date</label>
 					<div class="col-sm-4">
-                    <?=$this->form->agr_paydet->show()?>
-                  </div>
-					<label class="col-sm-2 form-label" >Remarks</label>
+						<?=$this->form->doi->show()?>
+					</div>
+
+					<label class="col-sm-2 form-label">Contract End Date</label>
 					<div class="col-sm-4">
-                    <?=$this->form->docremark->show()?>
-                  </div>
-				</div>		
-			<div class="row mb-4">
-				<div id="" class="col-sm-3">
-					<div class="">
-						<label class="form-label">Upload Document <?=$this->form->docUpdate->show()?></label>
-	                     
-	                  </div>
+						<?=$this->form->doe->show()?>
+					</div>
 				</div>
-				<div class="col-sm-4" style="margin-left:  -80px;">
-					<div id="docUpload">
-                 		<?=$this->form->my_files->show()?>
-                 	</div>
+
+				<!-- AMOUNTS -->
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label">Contract Value</label>
+					<div class="col-sm-4">
+						<?=$this->form->agr_amount->show()?>
+					</div>
+
+					<label class="col-sm-2 form-label">Advance / Stage Amount</label>
+					<div class="col-sm-4">
+						<?=$this->form->agr_rent->show()?>
+					</div>
 				</div>
-			<label class="col-sm-2 form-label" >Alert days</label>
-				<div class="col-sm-2">
-                <?=$this->form->alert->show()?>
-            </div>
-				
+
+				<!-- PAYMENT + REMARKS -->
+				<div class="row mb-4">
+					<label class="col-sm-2 form-label">Payment / Milestone Details</label>
+					<div class="col-sm-4">
+						<?=$this->form->agr_paydet->show()?>
+					</div>
+
+					<label class="col-sm-2 form-label">Remarks</label>
+					<div class="col-sm-4">
+						<?=$this->form->docremark->show()?>
+					</div>
+				</div>
+
+				<!-- FILE UPLOAD -->
+				<div class="row mb-4">
+					<div class="col-sm-3">
+						<label class="form-label">
+							Update Contract Document
+							<?=$this->form->docUpdate->show()?>
+						</label>
+					</div>
+
+					<div class="col-sm-4" style="margin-left:-80px;">
+						<div id="docUpload">
+							<?=$this->form->my_files->show()?>
+						</div>
+					</div>
+
+					<label class="col-sm-2 form-label">Alert Days</label>
+					<div class="col-sm-2">
+						<?=$this->form->alert->show()?>
+					</div>
+				</div>
+
 			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary submit-alias livepost">
+					Update Contract
+				</button>
+				<button type="button" class="btn btn-light" data-bs-dismiss="modal">
+					Close
+				</button>
 			</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-primary submit-alias livepost" >Update</button>
-		<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-	</div>
-</form>	
+
+		</div>
+	</form>
 </div>
 
 <script type="text/javascript">           

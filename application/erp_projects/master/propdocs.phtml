@@ -1,5 +1,5 @@
 <div style="padding-top: 3px;">
-	<a onclick="toggleAction();" href="javascript: void(0)"><button class="btn btn-success pull-right" style="margin-left: 5px;">Add Documents</button></a>
+	<a onclick="toggleAction();" href="javascript: void(0)"><button class="btn btn-success pull-right" style="margin-left: 5px;">Add/ Renew Documents</button></a>
 	<a onclick="togglePhoto();" href="javascript: void(0)"><button class="btn btn-success pull-right">Upload Photo</button></a>	
 </div>
 
@@ -41,64 +41,48 @@
 		<div class="card-block">
 			<h5>Add Documents</h5>
 			<form name="docform" method="post" id="docform" action='erp_projects/master/propdocs/ref/<?=$this->param['ref']?>' style="margin-bottom: 0px;" enctype="multipart/form-data">
-				<div class="row mb-4" style="margin-top: 15px;">
-					<label class="col-sm-2 form-label" >Tenant</label>
-					<div class="col-sm-4">
-                    <?=$this->form->agr_tenant->show()?>
-                  </div>
-				</div>
-				<div class="row mb-4">
-					<label class="col-sm-2 form-label" >Document Type</label>
-					<div class="col-sm-4">
-                    <?=$this->form->doctype->show()?>
-                  </div>
-					<label class="col-sm-2 form-label" >Agreement No.</label>
-					<div class="col-sm-4">
-                    <?=$this->form->docno->show()?>
-                  </div>
-				</div>
-				<div class="row mb-4">
-					<label class="col-sm-2 form-label" >Agreement Start Date</label>
-					<div class="col-sm-4">
-                    <?=$this->form->doi->show()?>
-                  </div>
 
-					<label class="col-sm-2 form-label" >Agreement End Date</label>
-					<div class="col-sm-4">
-                    <?=$this->form->doe->show()?>
-                  </div>
-				</div>
-				<div class="row mb-4">
-					<label class="col-sm-2 form-label" >Agreement Amount</label>
-					<div class="col-sm-4">
-                    <?=$this->form->agr_amount->show()?>
-                  </div>
 
-					<label class="col-sm-2 form-label" >Rent Amount</label>
-					<div class="col-sm-4">
-                    <?=$this->form->agr_rent->show()?>
-                  </div>
-				</div>
-				<div class="row mb-4">
-					<label class="col-sm-2 form-label" >Payment Details</label>
-					<div class="col-sm-4">
-                    <?=$this->form->agr_paydet->show()?>
-                  </div>
-					<label class="col-sm-2 form-label" >Remarks</label>
-					<div class="col-sm-4">
-                    <?=$this->form->docremark->show()?>
-                  </div>
-				</div>														
-				<div class="row mb-4">
-					<label class="col-sm-2 form-label" >Upload Document</label>
-					<div class="col-sm-4">
-                    <?=$this->form->my_files->show()?>
-                  </div>
-					<label class="col-sm-2 form-label" >Alert days</label>
-					<div class="col-sm-4">
-                    <?=$this->form->alert->show()?>
-                  </div>
-				</div>
+			<div class="row mb-4">
+				<label class="col-sm-2 form-label">Document Type</label>
+				<div class="col-sm-4"><?=$this->form->doctype->show()?></div>
+
+				<label class="col-sm-2 form-label">Contract / Agreement No</label>
+				<div class="col-sm-4"><?=$this->form->docno->show()?></div>
+			</div>
+
+			<div class="row mb-4">
+				<label class="col-sm-2 form-label">Contract Start Date</label>
+				<div class="col-sm-4"><?=$this->form->doi->show()?></div>
+
+				<label class="col-sm-2 form-label">Contract End Date</label>
+				<div class="col-sm-4"><?=$this->form->doe->show()?></div>
+			</div>
+
+			<div class="row mb-4">
+				<label class="col-sm-2 form-label">Contract Amount</label>
+				<div class="col-sm-4"><?=$this->form->agr_amount->show()?></div>
+
+				<label class="col-sm-2 form-label">Advance / Stage Amount</label>
+				<div class="col-sm-4"><?=$this->form->agr_rent->show()?></div>
+			</div>
+
+			<div class="row mb-4">
+				<label class="col-sm-2 form-label">Payment / Milestone Details</label>
+				<div class="col-sm-4"><?=$this->form->agr_paydet->show()?></div>
+
+				<label class="col-sm-2 form-label">Remarks</label>
+				<div class="col-sm-4"><?=$this->form->docremark->show()?></div>
+			</div>
+
+			<div class="row mb-4">
+				<label class="col-sm-2 form-label">Upload Document</label>
+				<div class="col-sm-4"><?=$this->form->my_files->show()?></div>
+
+				<label class="col-sm-2 form-label">Alert Days</label>
+				<div class="col-sm-4"><?=$this->form->alert->show()?></div>
+			</div>
+
 				<div class="row mb-4">
 					<div class="col-md-9"></div>
 					<div class="col-md-3">	
@@ -115,54 +99,43 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h4 class="panel-title1">
-							<a href="#collapse2" data-parent="#" data-toggle="collapse">Lease Contract</a>
+							<a href="#collapse2" data-parent="#" data-toggle="collapse">Project Contracts / Agreements</a>
 						</h4>
 					</div>
 					<div class="panel-collapse" id="collapse2">
 						<div class="panel-body">
 	
-							<table class="table table-bordered">
-								<thead>
-									<tr>
-										<th width="10%"class="center">Agreement No.</th>
-										<th width="12%"class="center">Agreement By</th>
-										<th width="12%"class="center">Mobile No</th>
-										<th width="12%"class="center">Rent Amount</th>
-										<th width="10%"class="center">Agreement Start </th>
-										<th width="10%"class="center">Agreement End</th>
-										<th width="5%"class="center">View</th>
-										<th width="5%"class="center">Delete</th>
-										<th width="5%"class="center">Download</th>
-									</tr>
-								</thead>
-								<tbody>
-								<?php foreach ($this->leaseDocs as $doc):
-								$doi = DateTime::createFromFormat(DFS_DB,$doc['doc_issue_date']);
-								$doi = $doi->format(DF_DD);
-								$doe = DateTime::createFromFormat(DFS_DB,$doc['doc_expiry_date']);
-								$doe = $doe->format(DF_DD);
-								$encFileId = $this->encode($doc['file_id']);
-								$encDocId1 = $this->encode($doc['doc_id']);
-								?>
-									<tr>
-										<td><?=x(array('link'=>'erp_projects/master/propdocsview','ref'=>$encDocId1,'label'=>$doc['doc_no'],array("param"=>'class="facebox"')))?></td>
-										<td><?=$doc['agr_tenant']?></td>
-										<td class="center"><?=$doc['agr_mobile']?></td>
-										<td class="center"><?=$doc['agr_rent']?></td>
-										<td class="center"><?=$doi?></td>
-										<td class="center"><?=$doe?></td>
-										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$doc['file_exten'])))?></td>
-										<td class="center">
-										<?if(!$delete1Off):?>
-											<?=x(array('link'=>'erp_projects/master/propdocsdelete','ref'=>$encDocId1,'label'=>'<i class="glyphicon glyphicon-trash text-info"></i>',array("param"=>'class="facebox"')))?>
-										<?endif?></td>
-										<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?></td>
-									</tr>
-								<?php 
-								$delete1Off = true;
-								endforeach;?>
-								</tbody>
-							</table>
+<table class="table table-bordered">
+	<thead>
+	<tr>
+		<th>Agreement No</th>
+		<th>Advance / Stage Amount</th>
+		<th>Start Date</th>
+		<th>End Date</th>
+		<th>View</th>
+		<th>Delete</th>
+		<th>Download</th>
+	</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($this->leaseDocs as $doc):
+		$doi = DateTime::createFromFormat(DFS_DB,$doc['doc_issue_date'])->format(DF_DD);
+		$doe = DateTime::createFromFormat(DFS_DB,$doc['doc_expiry_date'])->format(DF_DD);
+		$encFileId = $this->encode($doc['file_id']);
+		$encDocId  = $this->encode($doc['doc_id']);
+	?>
+	<tr>
+		<td><?=x(['link'=>'erp_projects/master/propdocsview','ref'=>$encDocId,'label'=>$doc['doc_no'],['param'=>'class="facebox"']])?></td>
+		<td class="center"><?=$doc['agr_rent']?></td>
+		<td class="center"><?=$doi?></td>
+		<td class="center"><?=$doe?></td>
+		<td class="center"><?=x(['link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="fas fa-search"></i>', ['exten'=>$doc['file_exten']]])?></td>
+		<td class="center"><?=x(['link'=>'erp_projects/master/propdocsdelete','ref'=>$encDocId,'label'=>'<i class="glyphicon glyphicon-trash text-info"></i>', ['param'=>'class="facebox"']])?></td>
+		<td class="center"><?=x(['link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>', ['param'=>'opener']])?></td>
+	</tr>
+	<?php endforeach;?>
+	</tbody>
+</table>
 	
 						</div>
 					</div>

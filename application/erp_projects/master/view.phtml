@@ -1,166 +1,186 @@
 <div class="main-container container">
-	<div class="page-header" style="margin-bottom: 0.5rem;margin-top: 0.5rem;">
+
+	<div class="page-header" style="margin-bottom:0.5rem;margin-top:0.5rem;">
 		<div>
-			<h1 class="page-title"><?=$this->propertyDetail['prop_no']?>&nbsp;/<?=$this->propertyDetail['bld_name']?>&nbsp;/<?=$this->propertyDetail['prop_name']?> </h1>
-		</div>                            
+			<h1 class="page-title">
+				<?=$this->propertyDetail['project_code']?> /
+				<?=$this->propertyDetail['cust_name']?> /
+				<?=$this->propertyDetail['project_name']?>
+			</h1>
+		</div>
 		<div class="ms-auto pageheader-btn">
-                            <?=x(array('link'=>'erp_projects/master/list','label'=>'<button class="btn btn-info pull-right" style="margin-bottom: 10px;    margin-right: 1em; ">Back</button>'))?>
-                            </div>                            
+			<?=x([
+				'link'=>'erp_projects/master/list',
+				'label'=>'<button class="btn btn-info pull-right" style="margin-bottom:10px;margin-right:1em;">Back</button>'
+			])?>
+		</div>
 	</div>
+
 	<div class="row row-sm">
 		<div class="col-xxl-4 col-xl-12">
 			<div class="card custom-card">
 				<div class="card-body">
+
+					<!-- TABS -->
 					<div class="col-12">
-						<ul class="nav nav-tabs tab-style-1 d-sm-flex d-block"
-							role="tablist">
-    							<li class="nav-item" role="presentation"><a
-    								class="nav-link active" data-bs-toggle="tab"
-    								data-bs-target="#Summary" aria-current="page" href="#Summary"
-    								aria-selected="true" role="tab">Summary</a></li>
-								<?php if($this->propertyDetail['prop_building_type']!=1):?>
-								<li class="nav-item" role="presentation"><?=accx('erp_projects/master/propdocs', '<a class="nav-link ' . @$this->doc_class . '"
-    						      data-bs-toggle="tab" href="#menu2" data-bs-target="#menu2" onclick= "getContent(\'' . APPURL . 'erp_projects/master/propdocs\',\'' . $this->param['ref'] . '\',\'menu2\')" aria-selected="false" role="tab" tabindex="-1">Documents</a>');?></li>
-    							<?php else:?>
-    							<li class="nav-item" role="presentation"><?=accx('erp_projects/master/propdocscomm', '<a class="nav-link ' . @$this->doc_class . ' "
-    						      data-bs-toggle="tab" href="#menu2" data-bs-target="#menu2" onclick= "getContent(\'' . APPURL . 'erp_projects/master/propdocscomm\',\'' . $this->param['ref'] . '\',\'menu2\')" aria-selected="false" role="tab" tabindex="-1">Documents</a>');?></li>
-    							<?php endif;?>
-    							<li class="nav-item" role="presentation"><?=accx('erp_projects/master/profile', '<a class="nav-link ' . @$this->profile_class . ' "
-    						      data-bs-toggle="tab" href="#menu3" data-bs-target="#menu3" onclick= "getContent(\'' . APPURL . 'erp_projects/master/profile\',\'' . $this->param['ref'] . '\',\'menu3\')" aria-selected="false" role="tab" tabindex="-1">Profile</a>');?></li>
-    						</ul>
+						<ul class="nav nav-tabs tab-style-1 d-sm-flex d-block" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link active"
+								   data-bs-toggle="tab"
+								   data-bs-target="#Summary"
+								   href="#Summary"
+								   role="tab">
+									Summary
+								</a>
+							</li>
+
+							<li class="nav-item">
+								<?=accx(
+									'erp_projects/master/propdocs',
+									'<a class="nav-link ' . @$this->doc_class . '"
+										data-bs-toggle="tab"
+										href="#menu2"
+										data-bs-target="#menu2"
+										onclick="getContent(\'' . APPURL . 'erp_projects/master/propdocs\',\'' . $this->param['ref'] . '\',\'menu2\')"
+										role="tab">
+										Documents
+									</a>'
+								);?>
+							</li>
+
+						</ul>
 					</div>
+
+					<!-- TAB CONTENT (IMPORTANT FIX) -->
 					<div class="tab-content mb-3">
-						<div class="tab-pane active show" id="Summary" role="tabpanel">
-							<div class="panel-group1" id="accordion1">
-								<div class="panel panel-default mb-4">
-									<div class="panel-heading1">
-										<h4 class="panel-title1">
-											<a class="accordion-toggle collapsed"
-												data-bs-toggle="collapse" data-bs-parent="#accordion"
-												href="#collapseFive" aria-expanded="false">Projects
-												Information</a>
-										</h4>
-									</div>
-								<div id="collapse1" class="panel-collapse">
-									<div class="panel-body">
-										<table class="table table-bordered" style="max-width: 60%;float: left; ">
-											<thead>
-												<tr>
-													<th>Projects No</th>
-													<th> <?=$this->propertyDetail['prop_no']?></th>
-												</tr>
-												<tr>
-													<th>Projects Building</th>
-													<th><?=$this->propertyDetail['bld_name']?></th>
-												</tr>
-												<tr>
-													<th>Proerty Name</th>
-													<th><?=$this->propertyDetail['prop_name']?></th>
-												</tr>
-												<tr>
-													<th>Category</th>
-													<th><?=$this->vtcat[$this->propertyDetail['prop_cat']]?></th>
-												</tr>
-												<tr>
-													<th>Type</th>
-													<th><?=$this->propType[$this->propertyDetail['prop_type']]?></th>
-												</tr>
-												<tr>
-													<th>Level</th>
-													<th><?=$this->propLevel[$this->propertyDetail['prop_level']]?></th>
-												</tr>
-												<tr>
-													<th>Elecricity [Meter]-[Account]-[Recharge]</th>
-													<th>[<?=$this->propertyDetail['prop_elec_meter']?>]-[<?=$this->propertyDetail['prop_elec_account']?>]-[<?=$this->propertyDetail['prop_elec_recharge']?>]</th>
-												</tr>
-												<tr>
-													<th>Water Meter No</th>
-													<th><?=$this->propertyDetail['prop_water']?></th>
-												</tr>
-												<tr>
-													<th>Remarks</th>
-													<th><?=$this->propertyDetail['prop_remarks']?></th>
-												</tr>
-												<tr>
-													<th>File No.</th>
-													<th><?=$this->propertyDetail['prop_fileno']?></th>
-												</tr>
-											</thead>
-										</table>
-										
-										<div>
-										<table class="" style="max-width: 40%; display: table;">
-											<thead>
-												<tr style="padding-left: 1em;" >
-													<th class="center" style="padding-left: 15px;"><div style="margin-top: 1em;border-style: double;">  
-													<a href = '<?=IMAGEURL?><?=$this->encode($this->propImage['file_id']);?>' class='lightbox' >								
-														<img style="padding-left: 0%; "width="380" alt="" src="<?=IMAGEURL?><?=$this->encode($this->propImage['file_id']);?>"></a>
-													</div></th>
-												</tr>
-												</thead>
-										</table></div>
-								<div style="display: table; width: 100%;"><label>Documets Details</label>
-										<table class="table table-bordered">
-											<thead>
-												<tr>
-													<th width="8%"class="center">Type</th>
-													<th width="5%"class="center">Doc No.</th>
-													<th width="12%"class="center">Agreement By</th>
-													<th width="8%"class="center">Rent Amount</th>
-													<th width="8%"class="center">Agreement Amount</th>
-													<th width="8%"class="center">Agreement Start </th>
-													<th width="4%"class="center">Agreement End</th>
-													<th width="4%"class="center">Payment Details</th>
-													<th width="10%"class="center">Payment Schedule</th>
-													<th width="5%"class="center">View</th>
-													<th width="5%"class="center">Edit</th>
-													<th width="5%"class="center">Download</th>
-												</tr>
-											</thead>
-											<tbody>
-											<?php $dup =0;?>
-											<?php
-											
-											$docCount = count($this->propDocs);
-											foreach ($this->propDocs as $doc):
-											$doi = DateTime::createFromFormat(DFS_DB,$doc['doc_issue_date']);
-											$doi = $doi->format(DF_DD);
-											$doe = DateTime::createFromFormat(DFS_DB,$doc['doc_expiry_date']);
-											$doe = $doe->format(DF_DD);
-											$encFileId = $this->encode($doc['file_id']);
-											$encDocId = $this->encode($doc['doc_id']);
-											?>
-												<tr>
-													<td><?=x(array('link'=>'erp_projects/master/propdocsview','ref'=>$encDocId,'label'=>$this->docMst[$doc['doc_type']],array("param"=>'class="facebox"')))?> </td>
-													<td><?=$doc['doc_no']?></td>
-													<td><?=$doc['agr_tenant']?></td>
-													<td class="center"><?=$doc['agr_rent']?></td>
-													<td class="center"><?=$doc['agr_amount']?></td>
-													<td class="center"><?=$doi?></td>
-													<td class="center"><?=$doe?></td>
-													<td class="center"><?=$doc['agr_paydet']?></td>
-													<td align="center"> <?php if($doc['doc_type']==201):?> <?=x(array('link'=>'erp_projects/master/payoptions','ref'=>$encDocId,'label'=>'<i style="font-size: 25px;" class="glyphicon glyphicon-usd text-info"></i>',array("param"=>'class="facebox"')))?><?php endif?></td>
-													<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="fas fa-search"></i>',array("exten"=>$doc['file_exten'])))?></td>
-													<?php if($this->propertyDetail['prop_building_type']==1):?>
-													<td class="center"> <?=x(array('link'=>'erp_projects/master/propdocscommedit','ref'=>$encDocId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?></td>
-													<?php else:?>
-													<td class="center"> <?=x(array('link'=>'erp_projects/master/propdocsedit','ref'=>$encDocId,'label'=>'<i class="fas fa-edit"></i>',array("param"=>'class="facebox"')))?></td>
-													<?php endif?>
-													<td class="center"> <?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',array("param"=>'opener')))?></td>
-												</tr>
-											<?php $dup =1; endforeach;?>
-											</tbody>
-										</table>
-										</div>
-									</div>
-								</div>
-							</div>
+
+						<!-- SUMMARY TAB -->
+						<div class="tab-pane fade show active" id="Summary" role="tabpanel">
+
+							<table class="table table-bordered" style="max-width:65%; float:left;">
+								<tr><th>Project Code</th><td><?=$this->propertyDetail['project_code']?></td></tr>
+								<tr><th>Project Name</th><td><?=$this->propertyDetail['project_name']?></td></tr>
+								<tr><th>Customer</th><td><?=$this->propertyDetail['cust_name']?></td></tr>
+								<tr><th>Category</th><td><?=$this->projectCategory[$this->propertyDetail['project_category']]?></td></tr>
+								<tr><th>Type</th><td><?=$this->projectType[$this->propertyDetail['project_type']]?></td></tr>
+								<tr><th>Sector</th><td><?=$this->projectSector[$this->propertyDetail['project_sector']]?></td></tr>
+								<tr><th>Contract Mode</th><td><?=$this->projectContractMode[$this->propertyDetail['project_contract_mode']]?></td></tr>
+								<tr><th>Budget</th><td><?=number_format($this->propertyDetail['project_budget'],3)?></td></tr>
+								<tr><th>Duration (Months)</th><td><?=$this->propertyDetail['project_duration_months']?></td></tr>
+								<tr><th>Status</th><td><?=$this->propertyDetail['project_status_label']?></td></tr>
+								<tr><th>File No</th><td><?=$this->propertyDetail['project_fileno']?></td></tr>
+								<tr><th>Remarks</th><td><?=$this->propertyDetail['project_remarks']?></td></tr>
+							</table>
+
+							<table style="max-width:40%; float:right;">
+								<tr>
+									<td class="text-center">
+										<a href="<?=IMAGEURL?><?=$this->encode($this->propImage['file_id']);?>" class="lightbox">
+											<img width="380"
+												 src="<?=IMAGEURL?><?=$this->encode($this->propImage['file_id']);?>">
+										</a>
+									</td>
+								</tr>
+							</table>
+
+							<div style="display: table; width: 100%;">
+	<label>Project Documents & Contracts</label>
+
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th width="8%" class="center">Document Type</th>
+				<th width="5%" class="center">Contract / Doc No</th>
+				<th width="8%" class="center">Advance / Stage Amount</th>
+				<th width="8%" class="center">Contract Value</th>
+				<th width="8%" class="center">Contract Start</th>
+				<th width="4%" class="center">Contract End</th>
+				<th width="4%" class="center">Payment / Milestone Details</th>
+				<th width="5%" class="center">View</th>
+				<th width="5%" class="center">Edit</th>
+				<th width="5%" class="center">Download</th>
+			</tr>
+		</thead>
+
+		<tbody>
+		<?php
+		foreach ($this->propDocs as $doc):
+			$doi = DateTime::createFromFormat(DFS_DB,$doc['doc_issue_date'])->format(DF_DD);
+			$doe = DateTime::createFromFormat(DFS_DB,$doc['doc_expiry_date'])->format(DF_DD);
+			$encFileId = $this->encode($doc['file_id']);
+			$encDocId  = $this->encode($doc['doc_id']);
+		?>
+			<tr>
+				<td>
+					<?=x([
+						'link'=>'erp_projects/master/propdocsview',
+						'ref'=>$encDocId,
+						'label'=>$this->docMst[$doc['doc_type']],
+						['param'=>'class="facebox"']
+					])?>
+				</td>
+
+				<td><?=$doc['doc_no']?></td>
+				<td class="center"><?=$doc['agr_rent']?></td>
+				<td class="center"><?=$doc['agr_amount']?></td>
+				<td class="center"><?=$doi?></td>
+				<td class="center"><?=$doe?></td>
+				<td class="center"><?=$doc['agr_paydet']?></td>
+
+
+
+				<td class="center">
+					<?=x([
+						'link'=>'default/default/download',
+						'ref'=>$encFileId,
+						'label'=>'<i class="fas fa-search"></i>',
+						['exten'=>$doc['file_exten']]
+					])?>
+				</td>
+
+
+					<td class="center">
+						<?=x([
+							'link'=>'erp_projects/master/propdocsedit',
+							'ref'=>$encDocId,
+							'label'=>'<i class="fas fa-edit"></i>',
+							['param'=>'class="facebox"']
+						])?>
+					</td>
+
+
+				<td class="center">
+					<?=x([
+						'link'=>'default/default/download',
+						'ref'=>$encFileId,
+						'label'=>'<i class="glyphicon glyphicon-download-alt text-info"></i>',
+						['param'=>'opener']
+					])?>
+				</td>
+			</tr>
+		<?php endforeach;?>
+		</tbody>
+	</table>
+</div>
+							
 						</div>
-					</div>
-    				<div class="tab-pane" id="menu2" role="tabpanel"></div>
-    				<div class="tab-pane" id="menu3" role="tabpanel"></div>
-				</div>
-			</div>
+
+						<!-- DOCUMENTS TAB (AJAX TARGET) -->
+						<div class="tab-pane fade" id="menu2" role="tabpanel"></div>
+
+						<!-- PROFILE TAB (AJAX TARGET) -->
+						<div class="tab-pane fade" id="menu3" role="tabpanel"></div>
+
+					</div><!-- /tab-content -->
+
+				</div><!-- /card-body -->
+			</div><!-- /card -->
+		</div>
+	</div>
+</div>
+
+
+
 <?php 
 $COMMDOCTYPE= DOC_TYPE_COM_PROJECT; $COMMDOCREFID= $this->decPropId;
 $UPDTYPE = UPD_TYP_PROJECT; $UPDREFID = $this->decPropId;
@@ -170,10 +190,6 @@ if($this->propertyDetail['prop_building_type']==1){
 viewAction(array('module'=>'erp_manage', 'controller'=>'updates', 'action'=>'updates', 'param'=>array('type'=>$UPDTYPE,'ref'=>$UPDREFID)));
 ?>
 
-</div>
-</div>
-</div>
-</div>
 
 <script type="text/javascript">           
 /*$(document).ready(function() {
