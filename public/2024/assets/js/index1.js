@@ -15,7 +15,7 @@ $(function (e) {
 
 
 
-
+/*
 
 
 
@@ -173,4 +173,4 @@ if (document.querySelector("#linechart")) {
 // Update the data periodically every 3 seconds (or your desired interval)
 window.setInterval(function () {
   iteration++;
-}, 3000);
+}, 3000); */

@@ -38,12 +38,6 @@
 									</div>
 									<div class="col-lg-3">
 										<div class="form-group">
-											<label for="name" class="form-label">Company</label>
-                                            <?=$this->form->f_company->show()?>
-                                        </div>
-									</div>
-									<div class="col-lg-3">
-										<div class="form-group">
 											<label class="form-label"> Vendor</label>
                                             <?=$this->form->f_selVendor->show()?>
                                         </div>
@@ -129,9 +123,8 @@
 											<thead class="border-top">
 												<tr role="row">
 													<th width="5%" class="center">Sl No</th>
-													<th width="5%" class="center">Ref No</th>
 													<th width="15%" class="center">Vendor</th>
-													<th width="3%" class="center">Com.</th>
+													<th width="5%" class="center">Ref No</th>
 													<th width="5%" class="center">Head</th>
 													<th width="15%" class="center">Category</th>
 													<th width="15%" class="center">Particulers</th>
@@ -165,13 +158,13 @@ foreach ($this->expenseList as $expense) :
 													class="<?if($expense['exp_update_status']==3){?>redrow<?}elseif($expense['exp_update_status']==4){?>yellowrow
 						<?}elseif($expense['exp_update_status']==5){?>owrenchrow<?}?>">
 													<td class="center"><?=@++$this->offset;?></td>
+													<td><?=$expense['ven_name']?></td>
 													<td <?php if($expense['exp_app_status'] ==''):?>
 														style="border-left: 3px solid red;" <?php endif?>>
 						<?=x(array('link'=>'default/default/download','ref'=>$encFileId,'label'=>$expense['exp_refno'],array("param"=>'opener')))?>
 						[<?=$expense['exp_disp_date']?>]
 					</td>
-													<td><?=$expense['ven_name']?></td>
-													<td><?=$expense['comp_disp_name']?></td>
+
 													<td><?=$expense['main_head']?></td>
 													<td><?=$expense['pcat']?>-<?=$expense['scat']?>-<?=$expense['ccat']?></td>
 													<td><?=$expense['exp_details']?></td>

@@ -552,3 +552,14 @@ function triggerSync() {
           removeOverlay();
         });
     }
+	
+	
+	function handleClientChange() {
+	    getJaxData(
+	        $('#client').val(),
+	        'project',
+	        baseurl + 'erp_expense/expense/getlive',
+	        'projects',
+	        true
+	    );
+	}

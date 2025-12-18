@@ -23,7 +23,7 @@ class expenseController extends mvc
         $form->addElement('client', 'Clients', 'select', 'required', [
             'options' => $customerList
         ], array(
-            '' => 'onchange="getJaxData($(\'#client\').val(),\'project\',\'getlive\',\'projects\',true);"'
+            '' => 'onchange="handleClientChange();"'
         ));
 
         $form->addElement('project', 'Project', 'select', 'required', array(
@@ -65,9 +65,6 @@ class expenseController extends mvc
         require_once __DIR__ . '/../admin/!model/vehicle.php';
         $vehModelObj = new vehicle();
         $vehList = $vehModelObj->getVehiclePair();
-        // $form->addElement ( 'employee', 'Employee', 'select','',array('options'=>$empList));
-        // $form->addElement ( 'property', 'Property', 'select','',array('options'=>$propList));
-        // $form->addElement ( 'vehicle', 'Vehicle', 'select','',array('options'=>$vehList));
         require_once __DIR__ . '/../admin/!model/category.php';
         $catModelObj = new category();
         $pCatList = $catModelObj->getCategoryPair(array(
@@ -326,7 +323,72 @@ class expenseController extends mvc
                     require_once __DIR__ . '/../admin/!model/expensemhref.php';
                     $exprefObj = new expensemhref();
                     $insert = $expenseObj->add($data);
+                    
+                   
+                    
                     if ($insert) {
+                        
+                        d("insert");
+                        
+                        
+                        require_once __DIR__ . '/../admin/!model/expense_date.php';
+                        $expDateObj = new expense_date();
+                        
+                        $expdt = $billdt;
+                        
+                        $row = $expDateObj->fetchRow([
+                            'expdt_date' => $expdt,
+                        ]);
+                        
+                        if ($row) {
+                            $expdt_id = $row['expdt_id'];
+                        } else {
+                            $expdt_id = $expDateObj->add([
+                                'expdt_date' => $expdt,
+                            ]);
+                        }
+                        
+                        d("date part");
+                        
+                        /*********/
+                        
+                        $entityId = resolveEntity(
+                            6,
+                            $valid['mainhead'],
+                            'MAIN HEAD #' . $valid['mainhead']
+                            );
+                        
+                        addOrSumLine(
+                            $expdt_id,
+                            $entityId,
+                            $data['exp_amount']
+                            );
+                        
+                        
+                       /***********/
+                        
+                        if ($cpId) {
+                            $eid = resolveEntity(3, $cpId, 'PCAT #' . $cpId);
+                            addOrSumLine($expdt_id, $eid, $data['exp_amount']);
+                        }
+                        
+                        if ($csId) {
+                            $eid = resolveEntity(4, $csId, 'SCAT #' . $csId);
+                            addOrSumLine($expdt_id, $eid, $data['exp_amount']);
+                        }
+                        
+                        if ($ccId) {
+                            $eid = resolveEntity(5, $ccId, 'CCAT #' . $ccId);
+                            addOrSumLine($expdt_id, $eid, $data['exp_amount']);
+                        }
+                        
+                        /***************/
+                        
+                        
+                        
+                        
+                        
+                        
                         $this->view->feedback = 'Expense details added successfully';
                         $refData = array_values($refData);
                         if (count($refData) > 0)
@@ -342,19 +404,26 @@ class expenseController extends mvc
                                     $det = $exprefObj->add($data);
                                 }
                             }
-                        // a($valid);
-                        if ($valid['percb'] == 1) {
-                            require_once __DIR__ . '/../admin/!model/cashbook.php';
-                            $cashBookObj = new cashbook();
-                            $cbData = array(
-                                'cb_type' => CASH_BOOK_PER,
-                                'cb_type_ref' => USER_ID,
-                                'cb_exp_id' => $insert,
-                                'cb_credit' => $valid['cbamount'] != '' ? $valid['cbamount'] : $valid['amount'],
-                                'cb_date' => $billdt
-                            );
-                            $cashBookObj->add($cbData);
+                        
+                        foreach ($refData as $rfkey => $rData) {
+                            if (!$rData) continue;
+                            
+                            $amount = $valid['mamount'][$rfkey] ?: 0;
+                            
+                            if ($amount <= 0) continue;
+                            
+                            $eid = resolveEntity(
+                                $valid['mainhead'],              // example: vehicle
+                                $rData,
+                                'REF #' . $rData
+                                );
+                            
+                            addOrSumLine($expdt_id, $eid, $amount);
                         }
+                        
+                        
+                        // a($valid);
+
                         if ($valid['my_files']) {
                             $upload = uploadFiles(DOC_TYPE_EXP, $insert, $valid['my_files']);
                             if ($upload) {
@@ -384,6 +453,65 @@ class expenseController extends mvc
         $this->view->mfields = $mfields;
         $this->view->form = $form;
     }
+    
+    
+    
+
+    
+    function resolveEntity($type, $refId, $name, $unit = 'OMR') {
+        
+        require_once __DIR__ . '/../admin/!model/expense_entity.php';
+        $expEntObj = new expense_entity();
+        
+        //global $expEntObj;
+        
+        $row = $expEntObj->fetchRow([
+            'expent_type'   => $type,
+            'expent_ref_id' => $refId,
+        ]);
+        
+        if ($row)
+            return $row['expent_id'];
+            
+            return $expEntObj->add([
+                'expent_type'   => $type,
+                'expent_ref_id' => $refId,
+                'expent_name'   => $name,
+                'expent_unit'   => $unit,
+            ]);
+    }
+    
+    
+    
+
+    
+    function addOrSumLine($dateId, $entityId, $amount) {
+        
+        require_once __DIR__ . '/../admin/!model/expense_line.php';
+        $expLineObj = new expense_line();
+        //global $expLineObj;
+        
+        $row = $expLineObj->fetchRow([
+            'exdtline_date_id'   => $dateId,
+            'exdtline_entity_id' => $entityId,
+        ]);
+        
+        if ($row) {
+            $expLineObj->modify([
+                'exdtline_amount' => $row['exdtline_amount'] + $amount
+            ], [
+                'exdtline_id' => $row['exdtline_id']
+            ]);
+        } else {
+            $expLineObj->add([
+                'exdtline_date_id'   => $dateId,
+                'exdtline_entity_id' => $entityId,
+                'exdtline_amount'    => $amount,
+            ]);
+        }
+    }
+    
+    
 
     public function editAction()
     {
@@ -418,7 +546,7 @@ class expenseController extends mvc
         $form->addElement('client', 'Clients', 'select', 'required', [
             'options' => $customerList
         ], array(
-            '' => 'onchange="getJaxData($(\'#client\').val(),\'project\',\'getlive\',\'projects\',true);"'
+            '' => 'onchange="handleClientChange();"'
         ));
         
         $form->addElement('project', 'Project', 'select', 'required', array(
@@ -534,7 +662,7 @@ class expenseController extends mvc
         $exprefObj = new expensemhref();
         $count = 1;
         if (isset($_POST) && count($_POST) > 0) {
-            $count = max(array_keys($_POST['employee']), array_keys($_POST['property']), array_keys($_POST['vehicle']));
+            $count = max(array_keys($_POST['employee']), array_keys($_POST['vehicle']));
         } else {
             $expRefDetails = $exprefObj->getExpRefIdRef(array(
                 'eref_exp_id' => $decExpId,
@@ -624,6 +752,8 @@ class expenseController extends mvc
                 if ($_POST['vatoption'] == '1') {
                     $form->addRules('vatamount', 'required');
                 }
+                
+                //s($_POST);
 
                 $valid = $form->vaidate($_POST, $_FILES);
                 $valid = $valid[0];

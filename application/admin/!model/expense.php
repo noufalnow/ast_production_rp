@@ -414,10 +414,10 @@ class expense extends db_table {
 				$p_joinType join (SELECT SUM (eref_amount) AS mref_sum,
 								           eref_exp_id
 								FROM mis_expense_href
-								JOIN mis_projects AS prop ON eref_main_head_ref = prop.prop_id
+								JOIN mis_projects AS prop ON eref_main_head_ref = prop.project_id
 								AND eref_main_head = 2
 								AND prop.deleted = 0
-								AND prop.prop_building = $mhprop
+								AND prop.project_client_id = $mhprop
 								WHERE mis_expense_href.deleted = 0
 								  AND eref_status = 1
 								GROUP BY eref_exp_id

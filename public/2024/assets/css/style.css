@@ -10020,7 +10020,7 @@ form input::-webkit-input-placeholder {
 
 .modal-open .ui-datepicker {
     z-index: 9999 !important;
-    top: 170px !important;
+    /*top: 170px !important;*/
 }
 
 .nav-sidebar .list-unstyled li:last-child {

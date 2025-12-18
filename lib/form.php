@@ -518,6 +518,8 @@ class form {
 			if (is_array ( $element )) {
 				$gump1 = new GUMP ();
 				
+				//v($post[$key]);
+				if(is_array($post[$key]))
 				$mdata = $gump1->sanitize ( $post [$key] );
 				$gump1->validation_rules ( array_filter ( $this->_mrules [$key] ) );
 				
