@@ -272,6 +272,14 @@ class property extends db_table
 
         return parent::fetchQuery($cond);
     }
+    
+    public function getProjectsPair($cond = array()) {
+        $this->query ( "select project_id,project_name from $this->_table" );
+        $this->_where[]  = "project_client_id = :project_client_id";  
+        $this->_order [] = 'project_name ASC';
+        
+        return parent::fetchPair ( $cond );
+    }
 
     public function getTenantsReport($cond = array())
     {}
@@ -287,4 +295,5 @@ class property extends db_table
 
     public function getFinancialRevenue($cond = [])
     {}
+    
 }

@@ -119,6 +119,7 @@ function getContent(postlink,refId,target) {
 			  });*/
 		}
 		$(".chosen-select").chosen({no_results_text: "Oops, nothing found!",
+			allow_single_deselect: true,
 		    search_contains: true,
 		    enable_split_word_search: true
 		});
@@ -402,6 +403,7 @@ function setDatePicker(dateElement){
 
 function getJaxData(refId, refElement,url,refParam,pType)
 {
+	
 	if((refId!='')&&(refId!=null)&&(refId!=undefined))
 	{
 		$.ajax({
@@ -416,6 +418,32 @@ function getJaxData(refId, refElement,url,refParam,pType)
 							  },
 			  dataType: 'json'
 		});
+	}
+	else{
+
+		var refElementObj = $('#' + refElement);
+
+		// Destroy chosen first (VERY IMPORTANT)
+		if (refElementObj.hasClass('chosen-select')) {
+		    refElementObj.chosen('destroy');
+		}
+
+		// Clear options
+		refElementObj.empty();
+
+		// Re-add placeholder option (MANDATORY)
+		refElementObj.append(
+		    $('<option>', {
+		        value: '',
+		        text: '-- Select --'
+		    })
+		);
+
+		// Re-initialize chosen
+		refElementObj.chosen({
+		    width: '100%'
+		});
+		
 	}
 }
 function fillJaxData(options, refElement)

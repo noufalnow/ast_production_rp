@@ -302,6 +302,11 @@ class element {
 	public function setError($value) {
 		$this->_error = $value;
 	}
+	
+	public function setOptions($options=[])
+	{
+	    $this->_options = $options;
+	}
 	public function setAttr($value) {
 		$this->_attribs = $value;
 	}

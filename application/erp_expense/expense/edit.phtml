@@ -18,6 +18,19 @@
               </div>
 			</div>
 			<div class="row mb-4" style="margin-top: 15px;">
+			
+			  <label class="col-sm-2 form-label" >Client</label>
+				<div class="col-sm-4">
+                <?=$this->form->client->show()?>
+              </div>
+              
+              <label class="col-sm-1 form-label" >Project</label>
+				<div class="col-sm-4">
+                <?=$this->form->project->show()?>
+              </div>
+              
+			</div>
+			<div class="row mb-4" style="margin-top: 15px;">
 				<label class="col-sm-2 form-label" >Ref No:
 					</label>
 				<div class="col-sm-3">
@@ -27,11 +40,6 @@
 					</label>
 				<div class="col-sm-2">
                 <?=$this->form->billdt->show()?>
-              </div>
-				<label class="col-sm-1 form-label" style="width: 8%;">Company
-					</label>
-				<div class="col-sm-2">
-                <?=$this->form->company->show()?>
               </div>
 			</div>
 			<div class="row mb-4">
@@ -52,9 +60,6 @@
 				<tr class="dup_row" index="<?=$i?>">
 					<td class="mh_emp" valign="top">
 	                	<?=$this->form->employee[$i]->show()?>
-					</td>
-					<td class="mh_prop" valign="top">
-	                	<?=$this->form->property[$i]->show()?>
 					</td>
 					<td class="mh_veh" valign="top">
 	                	<?=$this->form->vehicle[$i]->show()?>

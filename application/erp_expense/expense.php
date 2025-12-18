@@ -17,6 +17,18 @@ class expenseController extends mvc
         $form->addElement('selVendor', 'Vendor', 'select', 'required', array(
             'options' => $venderList
         ));
+        require_once __DIR__ . '/../admin/!model/customer.php';
+        $customerObj = new customer();
+        $customerList = $customerObj->getCustomerPair();
+        $form->addElement('client', 'Clients', 'select', 'required', [
+            'options' => $customerList
+        ], array(
+            '' => 'onchange="getJaxData($(\'#client\').val(),\'project\',\'getlive\',\'projects\',true);"'
+        ));
+
+        $form->addElement('project', 'Project', 'select', 'required', array(
+            'options' => []
+        ));
         $form->addElement('pCategory', 'Add New Parent Category', 'text', 'alpha_space');
         $form->addElement('sCategory', 'Add New Sub Category ', 'text', 'alpha_space');
         $form->addElement('cCategory', 'Add New Child Category ', 'text', 'alpha_space');
@@ -46,15 +58,10 @@ class expenseController extends mvc
         $form->addElement('cashFlow', 'Cash Flow', 'select', '', array(
             'options' => $cashFlowList
         ));
-        require_once __DIR__ . '/../admin/!model/company.php';
-        $compModelObj = new company();
-        $compList = $compModelObj->getCompanyPair();
+
         require_once __DIR__ . '/../admin/!model/employee.php';
         $empModelObj = new employee();
         $empList = $empModelObj->getEmployeePair();
-        require_once __DIR__ . '/../admin/!model/property.php';
-        $propModelObj = new property();
-        $propList = $propModelObj->getPropetyPair();
         require_once __DIR__ . '/../admin/!model/vehicle.php';
         $vehModelObj = new vehicle();
         $vehList = $vehModelObj->getVehiclePair();
@@ -75,9 +82,7 @@ class expenseController extends mvc
         $pCatList["-1"] = "--Add New Parent Category--";
         $sCatList["-1"] = "--Add New Sub Category--";
         $cCatList["-1"] = "--Add New Child Category--";
-        $form->addElement('company', 'Company', 'select', 'required', array(
-            'options' => $compList
-        ));
+
         $form->addElement('pCatSelect', 'Parent Category', 'select', 'required', array(
             'options' => $pCatList
         ));
@@ -90,9 +95,8 @@ class expenseController extends mvc
         $form->addElement('mainhead', 'Main Head', 'select', 'required', array(
             'options' => array(
                 1 => "Employee",
-                2 => "Property",
                 3 => "Vehicle",
-                4 => "Port Operation"
+                4 => "Others"
             )
         ));
         $form->addElement('billdt', 'Bill Date', 'text', 'date|required', '', array(
@@ -125,18 +129,14 @@ class expenseController extends mvc
         ));
         $count = 1;
         if (isset($_POST) && count($_POST) > 0) {
-            $count = max(array_keys($_POST['employee']), array_keys($_POST['property']), array_keys($_POST['vehicle']));
+            $count = max(array_keys($_POST['employee']), array_keys($_POST['vehicle']));
         }
         $form->addMultiElement('employee', 'Employee', 'select', '', array(
             'options' => $empList
         ), array(
             'class' => 'full-select'
         ), $count);
-        $form->addMultiElement('property', 'Property', 'select', '', array(
-            'options' => $propList
-        ), array(
-            'class' => 'full-select'
-        ), $count);
+
         $form->addMultiElement('vehicle', 'Vehicle', 'select', '', array(
             'options' => $vehList
         ), array(
@@ -180,12 +180,6 @@ class expenseController extends mvc
                     if ($_POST['mamount'][$i] != '' && $_POST['employee'][$i] == '')
                         $form->addmRules('employee', $i, 'required');
                 }
-                if ($_POST['mainhead'] == 2) {
-                    if ($_POST['property'][$i] != '' && $_POST['mamount'][$i] == '')
-                        $form->addmRules('mamount', $i, 'numeric|required');
-                    if ($_POST['mamount'][$i] != '' && $_POST['property'][$i] == '')
-                        $form->addmRules('property', $i, 'required');
-                }
                 if ($_POST['mainhead'] == 3) {
                     if ($_POST['vehicle'][$i] != '' && $_POST['mamount'][$i] == '')
                         $form->addmRules('mamount', $i, 'numeric|required');
@@ -199,8 +193,6 @@ class expenseController extends mvc
                 // s($valid); d(lllllllllllllllllllllllllllllllllllllll);
                 if ($valid['mainhead'] == 1)
                     $refData = $valid['employee'];
-                else if ($valid['mainhead'] == 2)
-                    $refData = $valid['property'];
                 else if ($valid['mainhead'] == 3)
                     $refData = $valid['vehicle'];
                 require_once __DIR__ . '/../admin/!model/expense.php';
@@ -291,7 +283,9 @@ class expenseController extends mvc
                     $data = array(
                         'exp_vendor' => $vId,
                         'exp_refno' => $valid['refno'],
-                        'exp_company' => $valid['company'],
+                        'exp_client_id' => $valid['client'],
+                        'exp_project_id' => $valid['project'],
+                        'exp_company' => 1,
                         'exp_mainh' => $valid['mainhead'],
                         'exp_pcat' => $cpId,
                         'exp_scat' => $csId,
@@ -375,6 +369,16 @@ class expenseController extends mvc
                         $this->view->NoViewRender = true;
                     }
                 }
+            } else {
+                if (! empty($_POST['client'])) {
+                    require_once __DIR__ . '/../admin/!model/property.php';
+                    $propModelObj = new property();
+
+                    $projectList = $propModelObj->getProjectsPair([
+                        'project_client_id' => $_POST['client']
+                    ]);
+                    $form->project->setOptions($projectList);
+                }
             }
         }
         $this->view->mfields = $mfields;
@@ -408,6 +412,22 @@ class expenseController extends mvc
         $form->addElement('selVendor', 'Vendor', 'select', 'required', array(
             'options' => $venderList
         ));
+        require_once __DIR__ . '/../admin/!model/customer.php';
+        $customerObj = new customer();
+        $customerList = $customerObj->getCustomerPair();
+        $form->addElement('client', 'Clients', 'select', 'required', [
+            'options' => $customerList
+        ], array(
+            '' => 'onchange="getJaxData($(\'#client\').val(),\'project\',\'getlive\',\'projects\',true);"'
+        ));
+        
+        $form->addElement('project', 'Project', 'select', 'required', array(
+            'options' => []
+        ));
+
+        // $projectsObj = new property();
+        // $customerList = $projectsObj->getProjectsPair();
+
         $form->addElement('pCategory', 'Add New Parent Category', 'text', 'alpha_space');
         $form->addElement('sCategory', 'Add New Sub Category ', 'text', 'alpha_space');
         $form->addElement('cCategory', 'Add New Child Category ', 'text', 'alpha_space');
@@ -437,9 +457,6 @@ class expenseController extends mvc
         $form->addElement('cashFlow', 'Cash Flow', 'select', '', array(
             'options' => $cashFlowList
         ));
-        require_once __DIR__ . '/../admin/!model/company.php';
-        $compModelObj = new company();
-        $compList = $compModelObj->getCompanyPair();
         require_once __DIR__ . '/../admin/!model/employee.php';
         $empModelObj = new employee();
         $empList = $empModelObj->getEmployeePair();
@@ -463,9 +480,7 @@ class expenseController extends mvc
         $pCatList["-1"] = "--Add New Parent Category--";
         $sCatList["-1"] = "--Add New Sub Category--";
         $cCatList["-1"] = "--Add New Child Category--";
-        $form->addElement('company', 'Company', 'select', 'required', array(
-            'options' => $compList
-        ));
+
         $form->addElement('pCatSelect', 'Parent Category', 'select', 'required', array(
             'options' => $pCatList
         ));
@@ -478,10 +493,8 @@ class expenseController extends mvc
         $form->addElement('mainhead', 'Main Head', 'select', 'required', array(
             'options' => array(
                 1 => "Employee",
-                2 => "Property",
                 3 => "Vehicle",
-                4 => "Port Operation"
-            )
+                4 => "Others"            )
         ));
         $form->addElement('billdt', 'Bill Date', 'text', 'date|required', '', array(
             'class' => 'date_picker',
@@ -692,7 +705,6 @@ class expenseController extends mvc
                         'exp_refno' => $valid['refno'],
                         'exclude' => $decExpId
                     ));
-                   
 
                     if ($empVendor['ref_count'] > 0) {
                         $form->refno->setError("Reference no already selected for the vendor");
@@ -707,8 +719,9 @@ class expenseController extends mvc
 
                         $data = array(
                             'exp_vendor' => $vId,
+                            'exp_client_id' => $valid['client'],
+                            'exp_project_id' => $valid['project'],
                             'exp_refno' => $valid['refno'],
-                            'exp_company' => $valid['company'],
                             'exp_mainh' => $valid['mainhead'],
                             'exp_pcat' => $cpId,
                             'exp_scat' => $csId,
@@ -806,9 +819,31 @@ class expenseController extends mvc
                             $this->view->NoViewRender = true;
                         }
                     }
+                }else{
+                    if (! empty($_POST['client'])) {
+                        require_once __DIR__ . '/../admin/!model/property.php';
+                        $propModelObj = new property();
+                        
+                        $projectList = $propModelObj->getProjectsPair([
+                            'project_client_id' => $_POST['client']
+                        ]);
+                        $form->project->setOptions($projectList);
+                    }
                 }
             }
         } else {
+            
+            
+            require_once __DIR__ . '/../admin/!model/property.php';
+            $propModelObj = new property();
+            
+            $projectList = $propModelObj->getProjectsPair([
+                'project_client_id' => $expDet['exp_client_id']
+            ]);
+            $form->project->setOptions($projectList);
+            
+            
+            
             if ($expDet['exp_paydate']) {
                 $pbd = DateTime::createFromFormat(DFS_DB, $expDet['exp_paydate']);
                 $pbd = $pbd->format(DF_DD);
@@ -817,9 +852,12 @@ class expenseController extends mvc
                 $billDt = DateTime::createFromFormat(DFS_DB, $expDet['exp_billdt']);
                 $billDt = $billDt->format(DF_DD);
             }
+            
+            $form->client->setValue($expDet['exp_client_id']);
+            $form->project->setValue($expDet['exp_project_id']);
+            
             $form->selVendor->setValue($expDet['exp_vendor']);
             $form->refno->setValue($expDet['exp_refno']);
-            $form->company->setValue($expDet['exp_company']);
             $form->mainhead->setValue($expDet['exp_mainh']);
             $form->pCatSelect->setValue($expDet['exp_pcat']);
             $form->sCatSelect->setValue($expDet['exp_scat']);
@@ -1351,6 +1389,27 @@ class expenseController extends mvc
 
                         if (count($cCatList))
                             foreach ($cCatList as $key => $val)
+                                $data[] = array(
+                                    'key' => $key,
+                                    'value' => $val
+                                );
+                        break;
+
+                    case 'projects':
+                        require_once __DIR__ . '/../admin/!model/property.php';
+                        $propModelObj = new property();
+
+                        $projectList = $propModelObj->getProjectsPair([
+                            'project_client_id' => $_POST['refId']
+                        ]);
+
+                        $data[] = array(
+                            'key' => '',
+                            'value' => 'Select Project'
+                        );
+
+                        if (count($projectList))
+                            foreach ($projectList as $key => $val)
                                 $data[] = array(
                                     'key' => $key,
                                     'value' => $val
