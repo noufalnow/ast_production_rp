@@ -148,7 +148,15 @@ class expenseController extends mvc
             'exten' => 'pdf',
             'size' => 5375000
         ));
+        
+        
+        
+        
         if (isset($_POST) && count($_POST) > 0) {
+            
+            
+            
+            
             if ($_POST['selVendor'] == '-1')
                 $form->addRules('vendor', 'required');
             if ($_POST['pCatSelect'] == '-1')
@@ -187,6 +195,9 @@ class expenseController extends mvc
             $valid = $form->vaidate($_POST, $_FILES);
             $valid = $valid[0];
             if ($valid == true) {
+                
+               
+                
                 // s($valid); d(lllllllllllllllllllllllllllllllllllllll);
                 if ($valid['mainhead'] == 1)
                     $refData = $valid['employee'];
@@ -266,9 +277,11 @@ class expenseController extends mvc
                     'exp_refno' => $valid['refno']
                 ));
 
-                if ($empVendor['ref_count'] > 0) {
-                    $form->refno->setError("Reference no already selected for the vendor");
-                } else {
+                //if ($empVendor['ref_count'] > 0) {
+                    //$form->refno->setError("Reference no already selected for the vendor");       
+                //} else 
+                
+                {
 
                     $billdt = DateTime::createFromFormat(DF_DD, $valid['billdt']);
                     $billdt = date_format($billdt, DFS_DB);
@@ -324,74 +337,61 @@ class expenseController extends mvc
                     $exprefObj = new expensemhref();
                     $insert = $expenseObj->add($data);
                     
-                   
-                    
+
                     if ($insert) {
                         
-                        d("insert");
+
                         
-                        
+                        //ini_set('display_errors', 1);
+                        //ini_set('display_startup_errors', 1);
+                        //error_reporting(E_ALL);
+
                         require_once __DIR__ . '/../admin/!model/expense_date.php';
                         $expDateObj = new expense_date();
-                        
+
                         $expdt = $billdt;
-                        
-                        $row = $expDateObj->fetchRow([
-                            'expdt_date' => $expdt,
+
+                        $row = $expDateObj->getExpenseDateByDate([
+                            'expdt_date' => $expdt
                         ]);
-                        
+
                         if ($row) {
                             $expdt_id = $row['expdt_id'];
                         } else {
                             $expdt_id = $expDateObj->add([
-                                'expdt_date' => $expdt,
+                                'expdt_date' => $expdt
                             ]);
                         }
-                        
-                        d("date part");
-                        
-                        /*********/
-                        
-                        $entityId = resolveEntity(
-                            6,
-                            $valid['mainhead'],
-                            'MAIN HEAD #' . $valid['mainhead']
-                            );
-                        
-                        addOrSumLine(
-                            $expdt_id,
-                            $entityId,
-                            $data['exp_amount']
-                            );
-                        
-                        
-                       /***********/
-                        
+
+
+
+
+                        $entityId = $this->resolveEntity(6, $valid['mainhead'], 'MAIN HEAD #' . $valid['mainhead']);
+                        $this->addOrSumLine($expdt_id, $entityId, $data['exp_amount'],$insert);
+
+
                         if ($cpId) {
-                            $eid = resolveEntity(3, $cpId, 'PCAT #' . $cpId);
-                            addOrSumLine($expdt_id, $eid, $data['exp_amount']);
+                            $eidPc = $this->resolveEntity(3, $cpId, 'PCAT #' . $cpId,'',$entityId);
+                            $this->addOrSumLine($expdt_id, $eidPc, $data['exp_amount'],$insert);
                         }
-                        
+
                         if ($csId) {
-                            $eid = resolveEntity(4, $csId, 'SCAT #' . $csId);
-                            addOrSumLine($expdt_id, $eid, $data['exp_amount']);
+                            $eidSc = $this->resolveEntity(4, $csId, 'SCAT #' . $csId,'',$eidPc);
+                            $this->addOrSumLine($expdt_id, $eidSc, $data['exp_amount'],$insert);
                         }
-                        
+
                         if ($ccId) {
-                            $eid = resolveEntity(5, $ccId, 'CCAT #' . $ccId);
-                            addOrSumLine($expdt_id, $eid, $data['exp_amount']);
+                            $eidCc = $this->resolveEntity(5, $ccId, 'CCAT #' . $ccId,'',$eidSc);
+                            $this->addOrSumLine($expdt_id, $eidCc, $data['exp_amount'],$insert);
                         }
-                        
-                        /***************/
-                        
-                        
-                        
-                        
-                        
-                        
+
+
+
                         $this->view->feedback = 'Expense details added successfully';
+                        if(is_array($refData) && count($refData) > 0)
+                        {
                         $refData = array_values($refData);
-                        if (count($refData) > 0)
+                        if (count($refData) > 0) {
                             foreach ($refData as $rfkey => $rData) {
                                 $data = array();
                                 if ($rData) {
@@ -404,22 +404,26 @@ class expenseController extends mvc
                                     $det = $exprefObj->add($data);
                                 }
                             }
-                        
-                        foreach ($refData as $rfkey => $rData) {
-                            if (!$rData) continue;
-                            
-                            $amount = $valid['mamount'][$rfkey] ?: 0;
-                            
-                            if ($amount <= 0) continue;
-                            
-                            $eid = resolveEntity(
-                                $valid['mainhead'],              // example: vehicle
-                                $rData,
-                                'REF #' . $rData
-                                );
-                            
-                            addOrSumLine($expdt_id, $eid, $amount);
-                        }
+
+                            foreach ($refData as $rfkey => $rData) {
+                                if (! $rData)
+                                    continue;
+
+                                $amount = $valid['mamount'][$rfkey] ?: 0;
+
+                                if ($amount <= 0)
+                                    continue;
+
+                                    $eid = $this->resolveEntity(
+                                        ($valid['mainhead'] == 1 ? 1 : ($valid['mainhead'] == 3 ? 2 : null)),
+                                        $rData,
+                                        'REF #' . $rData
+                                        );
+
+                                $this->addOrSumLine($expdt_id, $eid, $amount,$insert);
+                            }
+                        }}
+
                         
                         
                         // a($valid);
@@ -453,63 +457,130 @@ class expenseController extends mvc
         $this->view->mfields = $mfields;
         $this->view->form = $form;
     }
-    
-    
-    
 
-    
-    function resolveEntity($type, $refId, $name, $unit = 'OMR') {
-        
+    function resolveEntity($type, $refId, $name, $unit = 'OMR',$parentId=null)
+    {
         require_once __DIR__ . '/../admin/!model/expense_entity.php';
         $expEntObj = new expense_entity();
-        
+
         //global $expEntObj;
-        
-        $row = $expEntObj->fetchRow([
-            'expent_type'   => $type,
-            'expent_ref_id' => $refId,
+
+        $row = $expEntObj->fetchEntityByTypeAndId([
+            'expent_type' => $type,
+            'expent_ref_id' => $refId
         ]);
-        
+
         if ($row)
             return $row['expent_id'];
-            
-            return $expEntObj->add([
-                'expent_type'   => $type,
-                'expent_ref_id' => $refId,
-                'expent_name'   => $name,
-                'expent_unit'   => $unit,
-            ]);
-    }
-    
-    
-    
 
-    
-    function addOrSumLine($dateId, $entityId, $amount) {
-        
+        return $expEntObj->add([
+            'expent_type' => $type,
+            'expent_ref_id' => $refId,
+            'expent_name' => $name,
+            'expent_unit' => $unit,
+            'parent_expent_id'=>$parentId
+        ]);
+    }
+
+    /*function addOrSumLine($dateId, $entityId, $amount,$expenseId)
+    {
         require_once __DIR__ . '/../admin/!model/expense_line.php';
         $expLineObj = new expense_line();
         //global $expLineObj;
-        
-        $row = $expLineObj->fetchRow([
-            'exdtline_date_id'   => $dateId,
-            'exdtline_entity_id' => $entityId,
+
+        $row = $expLineObj->fetchExpenseLineByTypeAndId([
+            'exdtline_date_id' => $dateId,
+            'exdtline_entity_id' => $entityId
         ]);
-        
+
         if ($row) {
             $expLineObj->modify([
                 'exdtline_amount' => $row['exdtline_amount'] + $amount
-            ], [
-                'exdtline_id' => $row['exdtline_id']
-            ]);
+            ],  $row['exdtline_id']);
         } else {
+            $expLineObj->add([
+                'exdtline_date_id' => $dateId,
+                'exdtline_entity_id' => $entityId,
+                'exdtline_amount' => $amount
+            ]);
+        }
+    }*/
+    
+    
+    function addOrSumLine($dateId, $entityId, $amount, $expenseId)
+    {
+        if ($amount == 0) return;
+        
+        require_once __DIR__ . '/../admin/!model/expense_line.php';
+        $expLineObj = new expense_line();
+        
+        $row = $expLineObj->getLineByDateEntityAndSource([
+            'exdtline_date_id'   => $dateId,
+            'exdtline_entity_id' => $entityId,
+            'source_exp_id'      => $expenseId
+        ]);
+        
+        if ($row) {
+            
+            $expLineObj->modify([
+                'exdtline_amount' => $row['exdtline_amount'] + $amount
+            ], $row['exdtline_id']);
+            
+        } else {
+            
             $expLineObj->add([
                 'exdtline_date_id'   => $dateId,
                 'exdtline_entity_id' => $entityId,
                 'exdtline_amount'    => $amount,
+                'source_exp_id'      => $expenseId
             ]);
         }
     }
+    
+    function reverseExpenseLines1($expenseId)
+    {
+        require_once __DIR__ . '/../admin/!model/expense_line.php';
+        $expLineObj = new expense_line();
+        
+        // fetch all old contributions
+        $oldLines = $expLineObj->getLinesBySourceExpense([
+            'source_exp_id' => $expenseId
+        ]);
+        
+        foreach ($oldLines as $line) {
+            
+            // reverse the contribution
+            $expLineObj->modify([
+                'exdtline_amount' => $line['exdtline_amount'] * -1
+            ], $line['exdtline_id']);
+        }
+        
+        // optional cleanup
+        //$expLineObj->cleanupZeroLines($expenseId);
+    }
+    
+    function reverseExpenseLines($expenseId)
+    {
+        require_once __DIR__ . '/../admin/!model/expense_line.php';
+        $expLineObj = new expense_line();
+        
+        $oldLines = $expLineObj->getLinesBySourceExpense([
+            'source_exp_id' => $expenseId
+        ]);
+        
+        foreach ($oldLines as $line) {
+            
+            // mark old contribution as reversed (do NOT flip repeatedly)
+            $expLineObj->modify([
+                'exdtline_amount' => 0,
+                'deleted'         => 1,
+                't_deleted'       => date('Y-m-d H:i:s'),
+                'u_deleted'       => USER_ID
+            ], $line['exdtline_id']);
+        }
+    }
+    
+    
     
     
 
@@ -548,7 +619,7 @@ class expenseController extends mvc
         ], array(
             '' => 'onchange="handleClientChange();"'
         ));
-        
+
         $form->addElement('project', 'Project', 'select', 'required', array(
             'options' => []
         ));
@@ -622,7 +693,8 @@ class expenseController extends mvc
             'options' => array(
                 1 => "Employee",
                 3 => "Vehicle",
-                4 => "Others"            )
+                4 => "Others"
+            )
         ));
         $form->addElement('billdt', 'Bill Date', 'text', 'date|required', '', array(
             'class' => 'date_picker',
@@ -752,8 +824,8 @@ class expenseController extends mvc
                 if ($_POST['vatoption'] == '1') {
                     $form->addRules('vatamount', 'required');
                 }
-                
-                //s($_POST);
+
+                // s($_POST);
 
                 $valid = $form->vaidate($_POST, $_FILES);
                 $valid = $valid[0];
@@ -898,7 +970,10 @@ class expenseController extends mvc
                             $exprefObj->deleteExpRefByExpId(array(
                                 'eref_exp_id' => $decExpId
                             ));
-                            $refData = array_values($refData);
+                            
+                            $this->reverseExpenseLines($decExpId);
+                            
+                           /* $refData = array_values($refData);
                             if (count($refData) > 0)
                                 foreach ($refData as $rfkey => $rData) {
                                     $data = array();
@@ -912,23 +987,96 @@ class expenseController extends mvc
                                         $det = $exprefObj->add($data);
                                     }
                                 }
-                            require_once __DIR__ . '/../admin/!model/cashbook.php';
-                            $cashBookObj = new cashbook();
-                            $cbData = array(
-                                'cb_type' => CASH_BOOK_PER,
-                                'cb_type_ref' => USER_ID,
-                                'cb_exp_id' => $decExpId,
-                                'cb_credit' => $valid['cbamount'] != '' ? $valid['cbamount'] : $valid['amount'],
-                                'cb_date' => $billdt
-                            );
-                            if ($valid['percb'] == 1 && $expDet['cb_id'] != '' && $expDet['cb_type_ref'] == USER_ID) {
-                                $cashBookObj->modify($cbData, $expDet['cb_id']);
-                            } elseif ($valid['percb'] == 1 && $expDet['cb_id'] == '') {
-                                $cashBookObj->add($cbData);
+
+                            */
+                            
+                            /************/
+                            
+                            require_once __DIR__ . '/../admin/!model/expense_date.php';
+                            $expDateObj = new expense_date();
+                            
+                            $expdt = $billdt;
+                            
+                            $row = $expDateObj->getExpenseDateByDate([
+                                'expdt_date' => $expdt
+                            ]);
+                            
+                            if ($row) {
+                                $expdt_id = $row['expdt_id'];
+                            } else {
+                                $expdt_id = $expDateObj->add([
+                                    'expdt_date' => $expdt
+                                ]);
                             }
-                            if ($valid['percb'] == '' && $expDet['cb_id'] != '' && $expDet['cb_type_ref'] == USER_ID) {
-                                $cashBookObj->deleteCashBook($expDet['cb_id']);
+                            
+                            
+                            
+                            
+                            $entityId = $this->resolveEntity(6, $valid['mainhead'], 'MAIN HEAD #' . $valid['mainhead']);
+                            $this->addOrSumLine($expdt_id, $entityId, $data['exp_amount'],$decExpId);
+                            
+                            
+                            if ($cpId) {
+                                $eidPc = $this->resolveEntity(3, $cpId, 'PCAT #' . $cpId,'',$entityId);
+                                $this->addOrSumLine($expdt_id, $eidPc, $data['exp_amount'],$decExpId);
                             }
+                            
+                            if ($csId) {
+                                $eidSc = $this->resolveEntity(4, $csId, 'SCAT #' . $csId,'',$eidPc);
+                                $this->addOrSumLine($expdt_id, $eidSc, $data['exp_amount'],$decExpId);
+                            }
+                            
+                            if ($ccId) {
+                                $eidCc = $this->resolveEntity(5, $ccId, 'CCAT #' . $ccId,'',$eidSc);
+                                $this->addOrSumLine($expdt_id, $eidCc, $data['exp_amount'],$decExpId);
+                            }
+                            
+                            
+                            
+                            /************/
+                            
+                            
+                            if(is_array($refData) && count($refData) > 0)
+                            {
+                                $refData = array_values($refData);
+                                if (count($refData) > 0) {
+                                    foreach ($refData as $rfkey => $rData) {
+                                        $data = array();
+                                        if ($rData) {
+                                            $data = array(
+                                                'eref_exp_id' => $decExpId,
+                                                'eref_main_head' => $valid['mainhead'],
+                                                'eref_main_head_ref' => $rData,
+                                                'eref_amount' => $valid['mamount'][$rfkey] == '' ? 0 : $valid['mamount'][$rfkey]
+                                            );
+                                            $det = $exprefObj->add($data);
+                                        }
+                                    }
+                                    
+                                    foreach ($refData as $rfkey => $rData) {
+                                        if (! $rData)
+                                            continue;
+                                            
+                                            $amount = $valid['mamount'][$rfkey] ?: 0;
+                                            
+                                            if ($amount <= 0)
+                                                continue;
+                                                
+                                                $eid = $this->resolveEntity(
+                                                    ($valid['mainhead'] == 1 ? 1 : ($valid['mainhead'] == 3 ? 2 : null)),
+                                                    $rData,
+                                                    'REF #' . $rData
+                                                    );
+                                                
+                                                $this->addOrSumLine($expdt_id, $eid, $amount,$decExpId);
+                                                
+                                    }
+                                }}
+                                
+                                require_once __DIR__ . '/../admin/!model/expense_line.php';
+                                $expLineObj = new expense_line();
+                                $expLineObj->cleanupZeroLines($decExpId);
+                            
 
                             $this->view->feedback = 'Expense details Updated successfully';
 
@@ -949,11 +1097,11 @@ class expenseController extends mvc
                             $this->view->NoViewRender = true;
                         }
                     }
-                }else{
+                } else {
                     if (! empty($_POST['client'])) {
                         require_once __DIR__ . '/../admin/!model/property.php';
                         $propModelObj = new property();
-                        
+
                         $projectList = $propModelObj->getProjectsPair([
                             'project_client_id' => $_POST['client']
                         ]);
@@ -962,18 +1110,15 @@ class expenseController extends mvc
                 }
             }
         } else {
-            
-            
+
             require_once __DIR__ . '/../admin/!model/property.php';
             $propModelObj = new property();
-            
+
             $projectList = $propModelObj->getProjectsPair([
                 'project_client_id' => $expDet['exp_client_id']
             ]);
             $form->project->setOptions($projectList);
-            
-            
-            
+
             if ($expDet['exp_paydate']) {
                 $pbd = DateTime::createFromFormat(DFS_DB, $expDet['exp_paydate']);
                 $pbd = $pbd->format(DF_DD);
@@ -982,10 +1127,10 @@ class expenseController extends mvc
                 $billDt = DateTime::createFromFormat(DFS_DB, $expDet['exp_billdt']);
                 $billDt = $billDt->format(DF_DD);
             }
-            
+
             $form->client->setValue($expDet['exp_client_id']);
             $form->project->setValue($expDet['exp_project_id']);
-            
+
             $form->selVendor->setValue($expDet['exp_vendor']);
             $form->refno->setValue($expDet['exp_refno']);
             $form->mainhead->setValue($expDet['exp_mainh']);
@@ -1118,7 +1263,150 @@ class expenseController extends mvc
             }
             $filter_class = 'btn-info';
         }
+        
+        
         $expObj = new expense();
+        
+        $pivotList = $expObj->expensePivotTable();
+        
+        $columnGroups = [];   // [HEAD_NAME => [categories, particulars]]
+        $dates = [];
+        $columnMeta = [];     // HEAD | DETAIL
+        $currentHead = null;
+        
+        foreach ($pivotList as $r) {
+            
+            $dates[$r['date']] = true;
+            
+            if ($r['level'] === 'HEAD') {
+                $currentHead = $r['name'];
+                
+                if (!isset($columnGroups[$currentHead])) {
+                    $columnGroups[$currentHead] = [
+                        'categories'  => [],
+                        'particulars' => []
+                    ];
+                }
+                continue;
+            }
+            
+            // DETAIL rows
+            if ($r['ref_type'] === 'CATEGORY') {
+                $columnGroups[$currentHead]['categories'][$r['name']] = true;
+            } else {
+                $columnGroups[$currentHead]['particulars'][$r['name']] = true;
+            }
+        }
+        
+        /* ---------- ORDERED COLUMNS + META ---------- */
+        
+        $orderedColumns = [];
+        
+        foreach ($columnGroups as $head => $grp) {
+            
+            // HEAD
+            $orderedColumns[] = $head;
+            $columnMeta[$head] = 'HEAD';
+            $columnHead[$head] = $head;
+            
+            // CATEGORY
+            foreach (array_keys($grp['categories']) as $cat) {
+                $orderedColumns[] = $cat;
+                $columnMeta[$cat] = 'CATEGORY';
+                $columnHead[$cat] = $head;
+            }
+            
+            // PARTICULARS
+            foreach (array_keys($grp['particulars']) as $p) {
+                $orderedColumns[] = $p;
+                $columnMeta[$p] = 'ATOMIC';
+                $columnHead[$p] = $head;
+            }
+        }
+        
+        
+        
+        /* ---------- INIT PIVOT ---------- */
+        
+        $dates = array_keys($dates);
+        $pivot = [];
+        
+        foreach ($dates as $date) {
+            foreach ($orderedColumns as $col) {
+                $pivot[$date][$col] = 0;
+            }
+        }
+        
+        /* ---------- FILL VALUES ---------- */
+        
+        foreach ($pivotList as $r) {
+            $pivot[$r['date']][$r['name']] += (float)$r['amount'];
+        }
+        
+        /* ---------- TOTALS (NO DOUBLE COUNT) ---------- */
+        
+        $rowTotals    = [];
+        $columnTotals = array_fill_keys($orderedColumns, 0);
+        $grandTotal   = 0;
+        
+        foreach ($pivot as $date => $cols) {
+            
+            $rowTotals[$date] = 0;
+            
+            // ✅ CORRECT PLACE
+            $othersCounted = false;
+            $hasAtomic = false;
+            
+            // First pass: check if atomic exists
+            foreach ($cols as $col => $val) {
+                if ($columnMeta[$col] === 'ATOMIC' && $val > 0) {
+                    $hasAtomic = true;
+                    break;
+                }
+            }
+            
+            foreach ($cols as $col => $val) {
+                
+                // RULE 1: ATOMIC
+                if ($columnMeta[$col] === 'ATOMIC') {
+                    $rowTotals[$date] += $val;
+                    $columnTotals[$col] += $val;
+                    $grandTotal += $val;
+                    continue;
+                }
+                
+                // RULE 2: OTHERS → count ONCE
+                if (
+                    !$hasAtomic &&
+                    !$othersCounted &&
+                    $columnMeta[$col] === 'HEAD' &&
+                    $col === 'OTHERS'
+                    ) {
+                        $rowTotals[$date] += $val;
+                        $grandTotal += $val;
+                        $othersCounted = true;
+                    }
+            }
+        }
+        
+        
+        
+        
+        
+        /* ---------- SEND TO VIEW ---------- */
+        
+        $this->view->columns       = $orderedColumns;
+        $this->view->pivot         = $pivot;
+        $this->view->rowTotals     = $rowTotals;
+        $this->view->columnTotals  = $columnTotals;
+        $this->view->columnMeta    = $columnMeta;
+        $this->view->grandTotal    = $grandTotal;
+        
+        
+        //s($columns); s($pivot); d();
+        
+        
+        
         $expenseList = $expObj->geExpensePaginate(@$where);
         // /s($expenseList);
         $offset = $expObj->_voffset;

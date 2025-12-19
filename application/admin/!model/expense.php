@@ -1663,6 +1663,91 @@ class expense extends db_table {
 	}
 	
 	
+	public function expensePivotTable($cond=[]){
+
+	    
+	    $this->query("
+	        
+WITH expense_base AS (
+    SELECT
+        d.expdt_date,
+        l.exdtline_amount,
+        e.expent_type,
+        e.expent_ref_id,
+        e.expent_name,
+        c.cat_name,
+        emp.emp_fname,
+        v.vhl_no
+    FROM mis_expense_line l
+    JOIN mis_expense_date d
+        ON d.expdt_id = l.exdtline_date_id
+    JOIN mis_expense_entity e
+        ON e.expent_id = l.exdtline_entity_id
+    LEFT JOIN core_category c
+        ON c.cat_id = e.expent_ref_id
+    LEFT JOIN mis_employee emp
+        ON emp.emp_id = e.expent_ref_id
+    LEFT JOIN mis_vehicle v
+        ON v.vhl_id = e.expent_ref_id
+    WHERE l.deleted = 0
+)
+
+
+SELECT
+    expdt_date AS date,
+    'HEAD' AS level,
+    'MAIN HEAD' AS ref_type,
+    CASE expent_ref_id
+        WHEN 1 THEN 'EMPLOYEE-'
+        WHEN 2 THEN 'VEHICLE-'
+        ELSE 'OTHERS'
+    END AS name,
+    SUM(exdtline_amount) AS amount
+FROM expense_base
+WHERE expent_type = 6
+GROUP BY
+    expdt_date,
+    expent_ref_id
+
+UNION ALL
+
+
+SELECT
+    expdt_date AS date,
+    'DETAIL' AS level,
+    CASE
+        WHEN expent_type IN (3,4,5) THEN 'CATEGORY'
+        WHEN expent_type = 1 THEN 'EMPLOYEE-'
+        WHEN expent_type = 2 THEN 'VEHICLE-'
+        ELSE 'OTHER'
+    END AS ref_type,
+    CASE
+        WHEN expent_type IN (3,4,5) THEN cat_name
+        WHEN expent_type = 1 THEN emp_fname
+        WHEN expent_type = 2 THEN vhl_no
+        ELSE expent_name
+    END AS name,
+    SUM(exdtline_amount) AS amount
+FROM expense_base
+WHERE expent_type <> 6
+GROUP BY
+    expdt_date,
+    ref_type,
+    name
+
+ORDER BY
+    date,
+    level DESC,
+    ref_type,
+    name;
+	        
+	        
+                ");
+                return parent::fetchQuery($cond);
+                
+	}
+	
+	
 	
 	
 

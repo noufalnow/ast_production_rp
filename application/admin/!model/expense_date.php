@@ -17,7 +17,7 @@ class expense_date extends db_table
         return parent::update($data, $cond);
     }
 
-    public function getById($id)
+    public function getExpenseDateById($id)
     {
         return parent::getById($id);
     }
@@ -33,7 +33,6 @@ class expense_date extends db_table
         if (! empty($cond['f_date_to']))
             $this->_where[] = "expdt_date <= :f_date_to";
 
-        $this->_where[] = "deleted = 0";
         $this->_order[] = "expdt_date DESC";
 
         return parent::fetchAll($cond);
@@ -47,8 +46,16 @@ class expense_date extends db_table
         if (! empty($cond['expdt_id']))
             $this->_where[] = "expdt_id = :expdt_id";
 
-        $this->_where[] = "deleted = 0";
-
+        return parent::fetchRow($cond);
+    }
+    
+    
+    public function getExpenseDateByDate($cond = [])
+    {
+        $this->query("select * from $this->_table");
+        
+        $this->_where[] = "expdt_date = :expdt_date";
+            
         return parent::fetchRow($cond);
     }
 }
