@@ -25,6 +25,92 @@
               </div>
             </div>
             <!-- PAGE-HEADER END -->
+            
+            
+            <?php
+$orderedColumns = $this->columns;
+$pivot          = $this->pivot;
+$rowTotals      = $this->rowTotals;
+$columnTotals   = $this->columnTotals;
+$columnMeta     = $this->columnMeta;
+$grandTotal     = $this->grandTotal;
+$rawColumnTotals = $this->rawColumnTotals;
+
+?>
+
+<div class="pivot-scroll">
+    <table class="pivot-table">
+
+<thead>
+<tr>
+    <th style="text-align:center;vertical-align: bottom;width: 40px !important;">DATE</th>
+    <?php foreach ($orderedColumns as $col): ?>
+<th class="rotate">
+    <div><?= htmlspecialchars($col) ?></div>
+</th>
+    <?php endforeach; ?>
+    <th style="text-align:center;vertical-align: bottom;">ROW&nbsp;TOTAL</th>
+</tr>
+</thead>
+
+<tbody>
+
+<?php foreach ($pivot as $date => $cols): ?>
+<tr>
+    <td><?= $date ?></td>
+
+    <?php foreach ($orderedColumns as $col): ?>
+        <td>
+            <?= number_format($cols[$col], 3) ?>
+        </td>
+    <?php endforeach; ?>
+
+    <td class="row-total">
+        <?= number_format($rowTotals[$date], 3) ?>
+    </td>
+</tr>
+<?php endforeach; ?>
+
+
+<!-- RAW COLUMN TOTAL -->
+<tr class="raw-total">
+    <td>RAW&nbsp;TOTAL</td>
+
+    <?php foreach ($orderedColumns as $col): ?>
+        <td><?= number_format($rawColumnTotals[$col], 3) ?></td>
+    <?php endforeach; ?>
+
+    <td class="dash">-</td>
+</tr>
+
+
+<!-- FINAL TOTAL -->
+<tr class="final-total">
+    <td>TOTAL</td>
+
+    <?php foreach ($orderedColumns as $col): ?>
+        <td>
+        <?php
+            if ($columnMeta[$col] === 'ATOMIC') {
+                echo number_format($columnTotals[$col], 3);
+            } elseif ($col === 'OTHERS') {
+                echo number_format($columnTotals[$col] ?? 0, 3);
+            } else {
+                echo '<span class="dash">-</span>';
+            }
+        ?>
+        </td>
+    <?php endforeach; ?>
+
+    <td class="grand-total">
+        <?= number_format($grandTotal, 3) ?>
+    </td>
+</tr>
+
+</tbody>
+</table></div>
+
+            
 
 
           </div>
@@ -45,4 +131,166 @@ $(document).ready(function($) {
 	getContent(baseurl+'default/default/notify');
 });	
 <?php endif; ?>
+</script>
+
+
+<style>
+.pivot-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 13px;
+    color: #333;
+}
+
+/* Header */
+.pivot-table thead th {
+    background: #2f4050;
+    color: #fff;
+    /*text-align: center;*/
+    padding: 8px 6px;
+    border: 1px solid #d1d1d1;
+    white-space: nowrap;
+}
+
+/* Body cells */
+.pivot-table td {
+    border: 1px solid #dcdcdc;
+    padding: 6px 8px;
+    text-align: right;
+}
+
+/* Date column */
+.pivot-table td:first-child {
+    text-align: left;
+    font-weight: 600;
+    background: #fafafa;
+}
+
+/* Zebra rows */
+.pivot-table tbody tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+/* Row total */
+.pivot-table .row-total {
+    font-weight: 700;
+    background: #eef4ff;
+}
+
+/* RAW TOTAL row */
+.pivot-table .raw-total {
+    background: #fff3cd;
+    font-weight: 700;
+    border-top: 2px solid #e0b400;
+}
+
+/* FINAL TOTAL row */
+.pivot-table .final-total {
+    background: #f3f3f3;
+    font-weight: 800;
+    border-top: 2px solid #999;
+}
+
+/* Grand total cell */
+.pivot-table .grand-total {
+    background: #dff0d8;
+    font-weight: 800;
+}
+
+/* Dash cell */
+.pivot-table .dash {
+    color: #999;
+    /*text-align: center;*/
+}
+
+/* Hover effect */
+.pivot-table tbody tr:hover {
+    background: #eef6ff;
+}
+
+/* Horizontal scroll container */
+.pivot-scroll {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+    border: 1px solid #ddd;
+    background: #fff;
+}
+
+/* Keep table wider than viewport */
+.pivot-table {
+    min-width: 1200px; /* adjust based on column count */
+}
+
+/* Smooth scrolling */
+.pivot-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+.pivot-scroll::-webkit-scrollbar-thumb {
+    background: #bbb;
+    border-radius: 4px;
+}
+.pivot-scroll::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Rotated column */
+.pivot-table th.rotate {
+    width: 40px;
+    min-width: 40px;
+    max-width: 40px;
+    height: 260px;
+    padding: 0;
+    position: relative;
+    vertical-align: bottom;
+}
+
+/* Rotated text — TOP aligned */
+.pivot-table th.rotate > div {
+    position: absolute;
+    top: 257px;          /* 👈 start from top */
+    left: 16px;
+
+    transform: rotate(-90deg);
+    transform-origin: top left;
+
+    white-space: nowrap;
+}
+
+/* Enable wrapping ONLY when long */
+.pivot-table th.rotate.wrap > div {
+    white-space: normal;
+    max-height: 260px;
+    overflow: hidden;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+
+
+
+
+</style>
+<script>/*
+document.addEventListener("DOMContentLoaded", function () {
+
+    document.querySelectorAll(".pivot-table th.rotate").forEach(th => {
+        const div = th.querySelector("div");
+
+        // Temporarily remove rotation to measure natural height
+        div.style.transform = "none";
+        const height = div.scrollHeight;
+
+        // Restore rotation
+        div.style.transform = "translateX(-50%) rotate(-90deg)";
+
+        if (height > 200) {
+            th.classList.add("wrap");
+        }
+    });
+
+});*/
 </script>

@@ -225,601 +225,156 @@ class defaultController extends mvc
 
     public function dashboardAction()
     {
-        require_once __DIR__ . '/../admin/!model/documents.php';
-        $docs = new documets();
 
-        require_once __DIR__ . '/../admin/!model/notification.php';
-        $notification = new notification();
-
-        $notifStatus = $notification->getNotificationStatus();
-
-        if (empty($notifStatus['notif_id'])) {
-
-            // a($notifStatus);
-
-            $notif = $notification->getNotificationReport();
-
-            $style = 'style="font-family: Helvetica, sans-serif; font-size: 16px; vertical-align: top;  text-align: center; border: 1px solid #9999999c ;background-color: white; padding: .3em .3em;"';
-            $lstyle = 'style="font-family: Helvetica, sans-serif; font-size: 16px; vertical-align: top;  text-align: left; border: 1px solid #9999999c ;background-color: white; padding: .3em .3em;"';
-
-            // s($notif);
-
-            if (count($notif["upd_list"]) > 0) {
-                $updhtml .= " <tr>";
-                $updhtml .= " <th $style> Head </th>";
-                $updhtml .= " <th $style> Title </th>";
-                $updhtml .= " <th $style> Note </th>";
-                $updhtml .= " <th $style> Ref:</th>";
-                $updhtml .= " <th $style> Employee</th>";
-                $updhtml .= " <th $style> Expiry Date</th>";
-                $updhtml .= " </tr>";
-                foreach ($notif["upd_list"] as $upd) {
-                    $updhtml .= " <tr>";
-                    $updhtml .= " <td $style> " . ucwords(strtolower($upd['txt_type'])) . "</td>";
-                    $updhtml .= " <td $style> " . ucwords(strtolower($upd['upd_title'])) . "</td>";
-                    $updhtml .= " <td $style> " . ucwords(strtolower($upd['upd_note'])) . "</td>";
-                    $updhtml .= " <td $style> " . ucwords(strtolower($upd['ref_name'])) . "</td>";
-                    $updhtml .= " <td $style> " . ucwords(strtolower($upd['user_name'])) . "</td>";
-                    $updhtml .= " <td $style> " . $upd['upd_enddttime'] . "</td>";
-                    $updhtml .= " </tr>";
+        
+        require_once __DIR__ . '/../admin/!model/expense.php';
+        
+        $expObj = new expense();
+        
+        $pivotList = $expObj->expensePivotTable();
+        
+        $columnGroups = [];   // [HEAD_NAME => [categories, particulars]]
+        $dates = [];
+        $columnMeta = [];     // HEAD | DETAIL
+        $currentHead = null;
+        
+        foreach ($pivotList as $r) {
+            
+            $dates[$r['date']] = true;
+            
+            if ($r['level'] === 'HEAD') {
+                $currentHead = $r['name'];
+                
+                if (!isset($columnGroups[$currentHead])) {
+                    $columnGroups[$currentHead] = [
+                        'categories'  => [],
+                        'particulars' => []
+                    ];
                 }
+                continue;
             }
-
-            if (count($notif["all_docslist"]) > 0) {
-                $alldochtml .= " <tr>";
-                $alldochtml .= " <th $style> Document Type </th>";
-                $alldochtml .= " <th $style> Company </th>";
-                $alldochtml .= " <th $style> Doc. No. </th>";
-                $alldochtml .= " <th $style> Doc. Desc.</th>";
-                $alldochtml .= " <th $style> Remarks</th>";
-                $alldochtml .= " <th $style> Expiry Date</th>";
-                $alldochtml .= " </tr>";
-                foreach ($notif["all_docslist"] as $alldoc) {
-                    $alldochtml .= " <tr>";
-                    $alldochtml .= " <td $style> " . ucwords(strtolower($alldoc['doc_type_name'])) . "</td>";
-                    $alldochtml .= " <td $style> " . ucwords(strtolower($alldoc['comp_name'])) . "</td>";
-                    $alldochtml .= " <td $style> " . $alldoc['doc_no'] . "</td>";
-                    $alldochtml .= " <td $style> " . ucwords(strtolower($alldoc['doc_desc'])) . "</td>";
-                    $alldochtml .= " <td $style> " . ucwords(strtolower($alldoc['doc_remarks'])) . "</td>";
-                    $alldochtml .= " <td $style> " . $alldoc['end_date'] . "</td>";
-                    $alldochtml .= " </tr>";
-                }
-            }
-
-            if (count($notif["emp_docslist"]) > 0) {
-                $emphtml .= " <tr>";
-                $emphtml .= " <th $style> File No. </th>";
-                $emphtml .= " <th $style> Employee Name </th>";
-                $emphtml .= " <th $style> Designation </th>";
-                $emphtml .= " <th $style> Doc. Type</th>";
-                $emphtml .= " <th $style> Doc. No.</th>";
-                $emphtml .= " <th $style> Doc. Description</th>";
-                $emphtml .= " <th $style> Expiry Date</th>";
-                $emphtml .= " </tr>";
-                foreach ($notif["emp_docslist"] as $empdoc) {
-                    $emphtml .= " <tr>";
-                    $emphtml .= " <td $style> " . $empdoc['emp_fileno'] . "</td>";
-                    $emphtml .= " <td $lstyle> " . ucwords(strtolower($empdoc['emp_name'])) . "</td>";
-                    $emphtml .= " <td $style> " . ucwords(strtolower($empdoc['desig_name'])) . "</td>";
-                    $emphtml .= " <td $style> " . ucwords(strtolower($empdoc['doc_type_name'])) . "</td>";
-                    $emphtml .= " <td $style> " . $empdoc['doc_no'] . "</td>";
-                    $emphtml .= " <td $style> " . ucwords(strtolower($empdoc['doc_desc'])) . "</td>";
-                    $emphtml .= " <td $style> " . $empdoc['doc_expiry_date'] . "</td>";
-                    $emphtml .= " </tr>";
-                }
-            }
-
-            if (count($notif["prop_docslist"]) > 0) {
-                $prophtml .= " <tr>";
-                $prophtml .= " <th $style> File No. </th>";
-                $prophtml .= " <th $style> Tenant Name </th>";
-                $prophtml .= " <th $style> Building </th>";
-                $prophtml .= " <th $style> Doc. Type</th>";
-                $prophtml .= " <th $style> Doc. No.</th>";
-                $prophtml .= " <th $style> Amount</th>";
-                $prophtml .= " <th $style> Phone</th>";
-                $prophtml .= " <th $style> Expiry Date</th>";
-                $prophtml .= " </tr>";
-                foreach ($notif["prop_docslist"] as $propdoc) {
-                    $prophtml .= " <tr>";
-                    $prophtml .= " <td $style> " . $propdoc['prop_fileno'] . "</td>";
-                    $prophtml .= " <td $lstyle> " . ucwords(strtolower($propdoc['tnt_full_name'])) . "</td>";
-                    $prophtml .= " <td $style> " . ucwords(strtolower($propdoc['bld_name'])) . "</td>";
-                    $prophtml .= " <td $style> " . ucwords(strtolower($propdoc['doc_type_name'])) . "</td>";
-                    $prophtml .= " <td $style> " . ucwords(strtolower($propdoc['doc_no'])) . "</td>";
-                    $prophtml .= " <td $style> " . $propdoc['agr_amount'] . "</td>";
-                    $prophtml .= " <td $style> " . ucwords(strtolower($propdoc['tnt_phone'])) . "</td>";
-                    $prophtml .= " <td $style> " . $propdoc['doc_expiry_date'] . "</td>";
-                    $prophtml .= " </tr>";
-                }
-            }
-
-            if (count($notif["vhl_docslist"]) > 0) {
-                $vehhtml .= " <tr>";
-                $vehhtml .= " <th $style> Plate No. </th>";
-                $vehhtml .= " <th $style> Vehicle </th>";
-                $vehhtml .= " <th $style> Model </th>";
-                $vehhtml .= " <th $style> Doc. Type</th>";
-                $vehhtml .= " <th $style> Doc. No.</th>";
-                $vehhtml .= " <th $style> Description</th>";
-                $vehhtml .= " <th $style> Remarks</th>";
-                $vehhtml .= " <th $style> Expiry Date</th>";
-                $vehhtml .= " </tr>";
-                foreach ($notif["vhl_docslist"] as $vhlpdoc) {
-                    $vehhtml .= " <tr>";
-                    $vehhtml .= " <td $style> " . $vhlpdoc['vhl_no'] . "</td>";
-                    $vehhtml .= " <td $style> " . ucwords(strtolower($vhlpdoc['type_name'])) . "</td>";
-                    $vehhtml .= " <td $style> " . ucwords(strtolower($vhlpdoc['vhl_model'])) . "</td>";
-                    $vehhtml .= " <td $style> " . ucwords(strtolower($vhlpdoc['doc_type_name'])) . "</td>";
-                    $vehhtml .= " <td $style> " . ucwords(strtolower($vhlpdoc['doc_no'])) . "</td>";
-                    $vehhtml .= " <td $style> " . ucwords(strtolower($vhlpdoc['doc_desc'])) . "</td>";
-                    $vehhtml .= " <td $style> " . ucwords(strtolower($vhlpdoc['doc_remarks'])) . "</td>";
-                    $vehhtml .= " <td $style> " . $vhlpdoc['doc_expiry_date'] . "</td>";
-                    $vehhtml .= " </tr>";
-                }
-            }
-
-            $message = '<!doctype html>
-                            <html lang="en">
-                              <head>
-                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-                                <title>Simple Transactional Email</title>
-                                <style media="all" type="text/css">
-                            @media all {
-                              .btn-primary table td:hover {
-                                background-color: #f0e8eb !important;
-                              }
-                            
-                              .btn-primary a:hover {
-                                background-color: #ec0867 !important;
-                                border-color: #ec0867 !important;
-                              }
-                            }
-                            @media only screen and (max-width: 640px) {
-                              .main p,
-                            .main td,
-                            .main span {
-                                font-size: 16px !important;
-                              }
-                            
-                              .wrapper {
-                                padding: 8px !important;
-                              }
-                            
-                              .content {
-                                padding: 0 !important;
-                              }
-                            
-                              .container {
-                                padding: 0 !important;
-                                padding-top: 8px !important;
-                                width: 100% !important;
-                              }
-                            
-                              .main {
-                                border-left-width: 0 !important;
-                                border-radius: 0 !important;
-                                border-right-width: 0 !important;
-                              }
-                            
-                              .btn table {
-                                max-width: 100% !important;
-                                width: 100% !important;
-                              }
-                            
-                              .btn a {
-                                font-size: 16px !important;
-                                max-width: 100% !important;
-                                width: 100% !important;
-                              }
-                            }
-                            @media all {
-                              .ExternalClass {
-                                width: 100%;
-                              }
-                            
-                              .ExternalClass,
-                            .ExternalClass p,
-                            .ExternalClass span,
-                            .ExternalClass font,
-                            .ExternalClass td,
-                            .ExternalClass div {
-                                line-height: 100%;
-                              }
-                            
-                              .apple-link a {
-                                color: inherit !important;
-                                font-family: inherit !important;
-                                font-size: inherit !important;
-                                font-weight: inherit !important;
-                                line-height: inherit !important;
-                                text-decoration: none !important;
-                              }
-                            
-                              #MessageViewBody a {
-                                color: inherit;
-                                text-decoration: none;
-                                font-size: inherit;
-                                font-family: inherit;
-                                font-weight: inherit;
-                                line-height: inherit;
-                              }
-                            }
-                            </style>
-                              </head>
-                              <body style="font-family: Helvetica, sans-serif; -webkit-font-smoothing: antialiased; font-size: 16px; line-height: 1.3; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; background-color: #f4f5f6; margin: 0; padding: 0;">
-                                <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #f4f5f6; width: 100%;" width="100%" bgcolor="#f4f5f6">
-                                  <tr>
-                                    <td class="container" style="font-family: Helvetica, sans-serif; font-size: 16px; vertical-align: top; max-width: 600px; padding: 0; padding-top: 24px; width: 600px; margin: 0 auto;" width="600" valign="top">
-                                      <div class="content" style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 90%; padding: 0;">
-                            
-                                        <!-- START CENTERED WHITE CONTAINER -->
-                                        <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">This is preheader text. Some clients will show this text as a preview.</span>
-                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="main" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background: #ffffff; border: 1px solid #eaebed; border-radius: 16px; width: 100%;" width="100%">
-                            
-                                          <!-- START MAIN CONTENT AREA -->
-                                          <tr>
-                                            <td class="wrapper" style="font-family: Helvetica, sans-serif; font-size: 16px; vertical-align: top; box-sizing: border-box; padding: 24px;" valign="top">
-                                              <p style="font-family: Helvetica, sans-serif; font-size: 16px; font-weight: normal; margin: 0; margin-bottom: 16px;">Hi there</p>
-                                              <p style="font-family: Helvetica, sans-serif; font-size: 16px; font-weight: normal; margin: 0; margin-bottom: 16px;">Monthly Reminder Email from AST Global</p>
-                                              <p style="font-family: Helvetica, sans-serif; font-size: 16px; font-weight: normal; margin: 0; margin-bottom: 16px;">
-                                                Below are the reminders for dates falling in the month of   ' . date('F, Y') . '</p>
-                                              <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; box-sizing: border-box; width: 100%; min-width: 100%;" width="100%">
-                                                <tbody>
-                                                  <tr>
-                                                    <td align="left" style="font-family: Helvetica, sans-serif; font-size: 16px; vertical-align: top; padding-bottom: 16px;" valign="top">
-                                                      <table role="presentation" border="0" cellpadding="4" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
-                                                        <tbody>
-                                                        ' . $updhtml . '
-                                                        </tbody>
-                                                      </table>
-                                                    </td>
-                                                  </tr>
-                                                </tbody>
-                                              </table>
-                            
-                                              <p style="font-family: Helvetica, sans-serif; font-size: 16px; font-weight: normal; margin: 0; margin-bottom: 16px;">
-                                                Below are the attached documents in various category, those expiry dates falling in the month of   ' . date('F, Y') . '</p>
-                                              <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; box-sizing: border-box; width: 100%; min-width: 100%;" width="100%">
-                                                <tbody>
-                                                  <tr>
-                                                    <td align="left" style="font-family: Helvetica, sans-serif; font-size: 16px; vertical-align: top; padding-bottom: 16px;" valign="top">
-                                                      <table role="presentation" border="0" cellpadding="4" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
-                                                        <tbody>
-                                                        ' . $alldochtml . '
-                                                        </tbody>
-                                                      </table>
-                                                    </td>
-                                                  </tr>
-                                                </tbody>
-                                              </table>
-                            
-                                              <p style="font-family: Helvetica, sans-serif; font-size: 16px; font-weight: normal; margin: 0; margin-bottom: 16px;">
-                                                Below are the Employee related documents, those expiry dates falling in the month of   ' . date('F, Y') . '</p>                  
-                                                <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; box-sizing: border-box; width: 100%; min-width: 100%;" width="100%">
-                                                <tbody>
-                                                  <tr>
-                                                    <td align="left" style="font-family: Helvetica, sans-serif; font-size: 16px; vertical-align: top; padding-bottom: 16px;" valign="top">
-                                                      <table role="presentation" border="0" cellpadding="4" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
-                                                        <tbody>
-                                                        ' . $emphtml . '
-                                                        </tbody>
-                                                      </table>
-                                                    </td>
-                                                  </tr>
-                                                </tbody>
-                                              </table>
-                            
-                                              <p style="font-family: Helvetica, sans-serif; font-size: 16px; font-weight: normal; margin: 0; margin-bottom: 16px;">
-                                                Below are the Property related documents, those expiry dates falling in the month of   ' . date('F, Y') . '</p> 
-                                              <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; box-sizing: border-box; width: 100%; min-width: 100%;" width="100%">
-                                                <tbody>
-                                                  <tr>
-                                                    <td align="left" style="font-family: Helvetica, sans-serif; font-size: 16px; vertical-align: top; padding-bottom: 16px;" valign="top">
-                                                      <table role="presentation" border="0" cellpadding="4" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
-                                                        <tbody>
-                                                        ' . $prophtml . '
-                                                        </tbody>
-                                                      </table>
-                                                    </td>
-                                                  </tr>
-                                                </tbody>
-                                              </table>
-                            
-                                              <p style="font-family: Helvetica, sans-serif; font-size: 16px; font-weight: normal; margin: 0; margin-bottom: 16px;">
-                                                Below are the Vehicle related documents, those expiry dates falling in the month of   ' . date('F, Y') . '</p> 
-                                              <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; box-sizing: border-box; width: 100%; min-width: 100%;" width="100%">
-                                                <tbody>
-                                                  <tr>
-                                                    <td align="left" style="font-family: Helvetica, sans-serif; font-size: 16px; vertical-align: top; padding-bottom: 16px;" valign="top">
-                                                      <table role="presentation" border="0" cellpadding="4" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
-                                                        <tbody>
-                                                        ' . $vehhtml . '
-                                                        </tbody>
-                                                      </table>
-                                                    </td>
-                                                  </tr>
-                                                </tbody>
-                                              </table>
-                                              <p style="font-family: Helvetica, sans-serif; font-size: 16px; font-weight: normal; margin: 0; margin-bottom: 16px;">
-                                                This is a automatic system generated email, based on the data available in the system on ' . date('l, F j, Y H:i') . '</p>
-                                              <p style="font-family: Helvetica, sans-serif; font-size: 16px; font-weight: normal; margin: 0; margin-bottom: 16px;">Good luck! Hope it works.</p>
-                                            </td>
-                                          </tr>
-                                          <!-- END MAIN CONTENT AREA -->
-                                          </table>
-                                        <!-- START FOOTER -->
-                                        <div class="footer" style="clear: both; padding-top: 24px; text-align: center; width: 100%;">
-                                          <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;" width="100%">
-                                            <tr>
-                                              <td class="content-block" style="font-family: Helvetica, sans-serif; vertical-align: top; color: #9a9ea6; font-size: 16px; text-align: center;" valign="top" align="center">
-                                                <span class="apple-link" style="color: #9a9ea6; font-size: 16px; text-align: center;">AST Global</span>
-                                                <br> cSol Management Information System
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                            </tr>
-                                          </table>
-                                        </div>
-                                        <!-- END FOOTER -->
-                                        <!-- END CENTERED WHITE CONTAINER --></div>
-                                    </td>
-                                  </tr>
-                                </table>
-                              </body>
-                            </html>';
-
-            // d($message);
-
-            if (($_SERVER['SERVER_NAME'] != 'localhost')) {
-                if (send_email($message, 'AST Global Monthly Remiander Mail', 'md@astglobal.om', 'info@astglobal.om')) {
-
-                    // ff
-
-                    $notification->add([
-                        'notif_month' => date('Y-m-d'),
-                        'notif_email' => '{}',
-                        'notif_content' => $message,
-                        'notif_status' => true
-                    ]);
-                }
+            
+            // DETAIL rows
+            if ($r['ref_type'] === 'CATEGORY') {
+                $columnGroups[$currentHead]['categories'][$r['name']] = true;
+            } else {
+                $columnGroups[$currentHead]['particulars'][$r['name']] = true;
             }
         }
         
-        require_once __DIR__ . '/../admin/!model/employee.php';
-        $employeeObj = new employee();
-        $leveNotifList = $employeeObj->getEmployeeLeaveNotification(["is_mail"=>true]);
+        /* ---------- ORDERED COLUMNS + META ---------- */
         
-        if(is_array($leveNotifList) && count($leveNotifList)>0)
-        {
-            $leaveHtml .= "<table style='width: 100%; border-collapse: collapse; border: 1px solid #000;'>";
-            $leaveHtml .= " <tr style='background-color: #f4f4f4;'>";
-            $leaveHtml .= " <th style='border: 1px solid #000; padding: 8px; text-align: left;'>Employee ID</th>";
-            $leaveHtml .= " <th style='border: 1px solid #000; padding: 8px; text-align: left;'>Leave Days</th>";
-            $leaveHtml .= " <th style='border: 1px solid #000; padding: 8px; text-align: left;'>Employee Name</th>";
-            $leaveHtml .= " <th style='border: 1px solid #000; padding: 8px; text-align: left;'>Company</th>";
-            $leaveHtml .= " <th style='border: 1px solid #000; padding: 8px; text-align: left;'>Department</th>";
-            $leaveHtml .= " <th style='border: 1px solid #000; padding: 8px; text-align: left;'>Designation</th>";
-            $leaveHtml .= " <th style='border: 1px solid #000; padding: 8px; text-align: left;'>Notification</th>";
-            $leaveHtml .= " </tr>";
+        $orderedColumns = [];
+        
+        foreach ($columnGroups as $head => $grp) {
             
-            foreach ($leveNotifList as $upd) {
-                $leaveHtml .= " <tr>";
-                $leaveHtml .= " <td style='border: 1px solid #000; padding: 8px; text-align: left;'>" . $upd['emp_fileno'] . "</td>";
-                $leaveHtml .= " <td style='border: 1px solid #000; padding: 8px; text-align: left;'>" . $upd['days_on_status'] . "</td>";
-                $leaveHtml .= " <td style='border: 1px solid #000; padding: 8px; text-align: left;'>" . ucwords(strtolower($upd['full_name'])) . "</td>";
-                $leaveHtml .= " <td style='border: 1px solid #000; padding: 8px; text-align: left;'>" . ucwords(strtolower($upd['comp_disp_name'])) . "</td>";
-                $leaveHtml .= " <td style='border: 1px solid #000; padding: 8px; text-align: left;'>" . ucwords(strtolower($upd['dept_name'])) . "</td>";
-                $leaveHtml .= " <td style='border: 1px solid #000; padding: 8px; text-align: left;'>" . ucwords(strtolower($upd['desig_name'])) . "</td>";
-                $leaveHtml .= " <td style='border: 1px solid #000; padding: 8px; text-align: left;'>" . $upd['notification_text'] . "</td>";
-                $leaveHtml .= " </tr>";
+            // HEAD
+            $orderedColumns[] = $head;
+            $columnMeta[$head] = 'HEAD';
+            $columnHead[$head] = $head;
+            
+            // CATEGORY
+            foreach (array_keys($grp['categories']) as $cat) {
+                $orderedColumns[] = $cat;
+                $columnMeta[$cat] = 'CATEGORY';
+                $columnHead[$cat] = $head;
             }
             
-            $leaveHtml .= "</table>";
+            // PARTICULARS
+            foreach (array_keys($grp['particulars']) as $p) {
+                $orderedColumns[] = $p;
+                $columnMeta[$p] = 'ATOMIC';
+                $columnHead[$p] = $head;
+            }
+        }
+        
+        
+        
+        /* ---------- INIT PIVOT ---------- */
+        
+        $dates = array_keys($dates);
+        $pivot = [];
+        
+        foreach ($dates as $date) {
+            foreach ($orderedColumns as $col) {
+                $pivot[$date][$col] = 0;
+            }
+        }
+        
+        /* ---------- FILL VALUES ---------- */
+        
+        foreach ($pivotList as $r) {
+            $pivot[$r['date']][$r['name']] += (float)$r['amount'];
+        }
+        
+        /* ---------- TOTALS (NO DOUBLE COUNT) ---------- */
+        
+        $rowTotals    = [];
+        $columnTotals = array_fill_keys($orderedColumns, 0);
+        $grandTotal   = 0;
+        $rawColumnTotals = $columnTotals;
+        
+        foreach ($pivot as $date => $cols) {
             
+            $rowTotals[$date] = 0;
             
-                
-            $message = '<!doctype html>
-                            <html lang="en">
-                              <head>
-                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-                                <title>Simple Transactional Email</title>
-                                <style media="all" type="text/css">
-                            @media all {
-                              .btn-primary table td:hover {
-                                background-color: #f0e8eb !important;
-                              }
-                
-                              .btn-primary a:hover {
-                                background-color: #ec0867 !important;
-                                border-color: #ec0867 !important;
-                              }
-                            }
-                            @media only screen and (max-width: 640px) {
-                              .main p,
-                            .main td,
-                            .main span {
-                                font-size: 16px !important;
-                              }
-                
-                              .wrapper {
-                                padding: 8px !important;
-                              }
-                
-                              .content {
-                                padding: 0 !important;
-                              }
-                
-                              .container {
-                                padding: 0 !important;
-                                padding-top: 8px !important;
-                                width: 100% !important;
-                              }
-                
-                              .main {
-                                border-left-width: 0 !important;
-                                border-radius: 0 !important;
-                                border-right-width: 0 !important;
-                              }
-                
-                              .btn table {
-                                max-width: 100% !important;
-                                width: 100% !important;
-                              }
-                
-                              .btn a {
-                                font-size: 16px !important;
-                                max-width: 100% !important;
-                                width: 100% !important;
-                              }
-                            }
-                            @media all {
-                              .ExternalClass {
-                                width: 100%;
-                              }
-                
-                              .ExternalClass,
-                            .ExternalClass p,
-                            .ExternalClass span,
-                            .ExternalClass font,
-                            .ExternalClass td,
-                            .ExternalClass div {
-                                line-height: 100%;
-                              }
-                
-                              .apple-link a {
-                                color: inherit !important;
-                                font-family: inherit !important;
-                                font-size: inherit !important;
-                                font-weight: inherit !important;
-                                line-height: inherit !important;
-                                text-decoration: none !important;
-                              }
-                
-                              #MessageViewBody a {
-                                color: inherit;
-                                text-decoration: none;
-                                font-size: inherit;
-                                font-family: inherit;
-                                font-weight: inherit;
-                                line-height: inherit;
-                              }
-                            }
-                            </style>
-                              </head>
-                              <body style="font-family: Helvetica, sans-serif; -webkit-font-smoothing: antialiased; font-size: 16px; line-height: 1.3; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; background-color: #f4f5f6; margin: 0; padding: 0;">
-                                <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #f4f5f6; width: 100%;" width="100%" bgcolor="#f4f5f6">
-                                  <tr>
-                                    <td class="container" style="font-family: Helvetica, sans-serif; font-size: 16px; vertical-align: top; max-width: 600px; padding: 0; padding-top: 24px; width: 600px; margin: 0 auto;" width="600" valign="top">
-                                      <div class="content" style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 90%; padding: 0;">
-                
-                                        <!-- START CENTERED WHITE CONTAINER -->
-                                        <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">This is preheader text. Some clients will show this text as a preview.</span>
-                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="main" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background: #ffffff; border: 1px solid #eaebed; border-radius: 16px; width: 100%;" width="100%">
-                
-                                          <!-- START MAIN CONTENT AREA -->
-                                          <tr>
-                                            <td class="wrapper" style="font-family: Helvetica, sans-serif; font-size: 16px; vertical-align: top; box-sizing: border-box; padding: 24px;" valign="top">
-                                              <p style="font-family: Helvetica, sans-serif; font-size: 16px; font-weight: normal; margin: 0; margin-bottom: 16px;">Hi,</p>
-                                              <p style="font-family: Helvetica, sans-serif; font-size: 16px; font-weight: normal; margin: 0; margin-bottom: 16px;">Employee Leave Status Reminder Email from AST Global</p>
-                                              <p style="font-family: Helvetica, sans-serif; font-size: 16px; font-weight: normal; margin: 0; margin-bottom: 16px;">
-                                                For your kind attension!   </p>
-                                              <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; box-sizing: border-box; width: 100%; min-width: 100%;" width="100%">
-                                                <tbody>
-                                                  <tr>
-                                                    <td align="left" style="font-family: Helvetica, sans-serif; font-size: 16px; vertical-align: top; padding-bottom: 16px;" valign="top">
-                                                      <table role="presentation" border="0" cellpadding="4" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
-                                                        <tbody>
-                                                        ' . $leaveHtml . '
-                                                        </tbody>
-                                                      </table>
-                                                    </td>
-                                                  </tr>
-                                                </tbody>
-                                              </table>
-                                                            
-                                              <p style="font-family: Helvetica, sans-serif; font-size: 16px; font-weight: normal; margin: 0; margin-bottom: 16px;">
-                                                This is a automatic system generated email, based on the data available in the system on ' . date('l, F j, Y H:i') . '</p>
-                                              <p style="font-family: Helvetica, sans-serif; font-size: 16px; font-weight: normal; margin: 0; margin-bottom: 16px;">Good luck! Hope it works.</p>
-                                            </td>
-                                          </tr>
-                                          <!-- END MAIN CONTENT AREA -->
-                                          </table>
-                                        <!-- START FOOTER -->
-                                        <div class="footer" style="clear: both; padding-top: 24px; text-align: center; width: 100%;">
-                                          <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;" width="100%">
-                                            <tr>
-                                              <td class="content-block" style="font-family: Helvetica, sans-serif; vertical-align: top; color: #9a9ea6; font-size: 16px; text-align: center;" valign="top" align="center">
-                                                <span class="apple-link" style="color: #9a9ea6; font-size: 16px; text-align: center;">AST Global</span>
-                                                <br> cSol Management Information System
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                            </tr>
-                                          </table>
-                                        </div>
-                                        <!-- END FOOTER -->
-                                        <!-- END CENTERED WHITE CONTAINER --></div>
-                                    </td>
-                                  </tr>
-                                </table>
-                              </body>
-                            </html>';
+            // ✅ CORRECT PLACE
+            $othersCounted = false;
+            $hasAtomic = false;
             
-            // d($message);
+            // First pass: check if atomic exists
+            foreach ($cols as $col => $val) {
+                
+                $rawColumnTotals[$col] += $val;
+                
+                if ($columnMeta[$col] === 'ATOMIC' && $val > 0) {
+                    $hasAtomic = true;
+                    break;
+                }
+            }
             
-            if (($_SERVER['SERVER_NAME'] != 'localhost')) {
-                require_once __DIR__ . '/../admin/!model/empstatus.php';
-                $empStsObj = new empstatus();
-
-                if (send_email($message, 'Employee Leave Status Reminder Email', 'md@astglobal.om', 'info@astglobal.om')) {
-
-                    foreach ($leveNotifList as $upd) {
-
-                        $data = array(
-                            'sts_notif_120' => $upd['status_duration_category'] == '120NP' ? '1' : '0',
-                            'sts_notif_170' => $upd['status_duration_category'] == '170NP' ? '1' : '0'
-                        );
-                        $update = $empStsObj->modify($data, $upd['sts_id']);
-
-                        if ($upd['status_duration_category'] == '170NP' && $upd['sts_notif_120'] == '0') {
-                            $data = array(
-                                'sts_notif_120' => 1
-                            );
-                            $update = $empStsObj->modify($data, $upd['sts_id']);
-                        }
+            foreach ($cols as $col => $val) {
+                
+                // RULE 1: ATOMIC
+                if ($columnMeta[$col] === 'ATOMIC') {
+                    $rowTotals[$date] += $val;
+                    $columnTotals[$col] += $val;
+                    $grandTotal += $val;
+                    continue;
+                }
+                
+                // RULE 2: OTHERS → count ONCE
+                if (
+                    !$hasAtomic &&
+                    !$othersCounted &&
+                    $columnMeta[$col] === 'HEAD' &&
+                    $col === 'OTHERS'
+                    ) {
+                        $rowTotals[$date] += $val;
+                        $columnTotals['OTHERS'] += $val;
+                        $grandTotal += $val;
+                        $othersCounted = true;
                     }
-                }
             }
-            
-            
-                
-            
         }
+        
+        
+        
+        
+        
+        /* ---------- SEND TO VIEW ---------- */
+        
+        $this->view->columns       = $orderedColumns;
+        $this->view->pivot         = $pivot;
+        $this->view->rowTotals     = $rowTotals;
+        $this->view->columnTotals  = $columnTotals;
+        $this->view->columnMeta    = $columnMeta;
+        $this->view->grandTotal    = $grandTotal;
+        $this->view->rawColumnTotals = $rawColumnTotals;
         
         
 
 
-        // a($dashSalesGraph);
-
-        $this->view->paidAmount = [];
-        $this->view->billCollection = [];
-        $this->view->totalExpenditure = [];
-        $this->view->labels = [];
-
-        // Loop through the results to populate the arrays
-        foreach ($dashSalesGraph as $row) {
-            $this->view->paidAmount[] = $row['paid_amount'];
-            $this->view->billCollection[] = $row['bill_collection'];
-            $this->view->totalExpenditure[] = $row['total_expenditure'];
-            $this->view->labels[] = DateTime::createFromFormat('Y-m', $row['year_month'])->format('M y');
-        }
-
-        // a( $this->view->totalAmount,$this->view->paidAmount,$this->view->labels);
-
-        // a($this->view->propertyData);
 
         require_once __DIR__ . '/../admin/!model/updates.php';
 

@@ -1670,13 +1670,17 @@ class expense extends db_table {
 	        
 WITH expense_base AS (
     SELECT
-        d.expdt_date,
+        TO_CHAR(d.expdt_date, 'DD/MM/YYYY') AS expdt_date,
         l.exdtline_amount,
         e.expent_type,
         e.expent_ref_id,
         e.expent_name,
         c.cat_name,
-        emp.emp_fname,
+        TRIM(BOTH ' ' FROM 
+                        COALESCE(emp_fname, '') || ' ' || 
+                        COALESCE(emp_mname, '') || ' ' || 
+                        COALESCE(emp_lname, '')
+                    ) AS full_name,
         v.vhl_no
     FROM mis_expense_line l
     JOIN mis_expense_date d
@@ -1723,7 +1727,7 @@ SELECT
     END AS ref_type,
     CASE
         WHEN expent_type IN (3,4,5) THEN cat_name
-        WHEN expent_type = 1 THEN emp_fname
+        WHEN expent_type = 1 THEN full_name
         WHEN expent_type = 2 THEN vhl_no
         ELSE expent_name
     END AS name,

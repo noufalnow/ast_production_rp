@@ -27,67 +27,6 @@
 								<h3 class="card-title">Filters</h3>
 							</div>
 							
-<?php
-$orderedColumns = $this->columns;
-$pivot          = $this->pivot;
-$rowTotals      = $this->rowTotals;
-$columnTotals   = $this->columnTotals;
-$columnMeta     = $this->columnMeta;
-$grandTotal     = $this->grandTotal;
-?>
-
-<table border="1" cellpadding="6" cellspacing="0"
-       style="border-collapse:collapse;width:100%">
-
-<thead>
-<tr>
-    <th>Date</th>
-    <?php foreach ($orderedColumns as $col): ?>
-        <th><?= htmlspecialchars($col) ?></th>
-    <?php endforeach; ?>
-    <th>ROW&nbsp;TOTAL</th>
-</tr>
-</thead>
-
-<tbody>
-
-<?php foreach ($pivot as $date => $cols): ?>
-<tr>
-    <td><strong><?= $date ?></strong></td>
-
-    <?php foreach ($orderedColumns as $col): ?>
-        <td style="text-align:right">
-            <?= number_format($cols[$col], 3) ?>
-        </td>
-    <?php endforeach; ?>
-
-    <td style="text-align:right;font-weight:bold">
-        <?= number_format($rowTotals[$date], 3) ?>
-    </td>
-</tr>
-<?php endforeach; ?>
-
-<!-- COLUMN TOTAL -->
-<tr style="background:#f3f3f3;font-weight:bold">
-    <td>TOTAL</td>
-
-    <?php foreach ($orderedColumns as $col): ?>
-<td>
-<?= ($columnMeta[$col] === 'ATOMIC')
-        ? number_format($columnTotals[$col], 3)
-        : '-'
-?>
-</td>
-
-    <?php endforeach; ?>
-
-    <td style="text-align:right">
-        <?= number_format($grandTotal, 3) ?>
-    </td>
-</tr>
-
-</tbody>
-</table>
 
 
 
