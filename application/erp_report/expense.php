@@ -37,13 +37,13 @@ class expenseController extends mvc
         require_once __DIR__ . '/../admin/!model/category.php';
         $catModelObj = new category();
         $pCatList = $catModelObj->getCategoryPair(array(
-            'cat_type' => 1
-        ));
-        $sCatList = $catModelObj->getCategoryPair(array(
             'cat_type' => 2
         ));
-        $cCatList = $catModelObj->getCategoryPair(array(
+        $sCatList = $catModelObj->getCategoryPair(array(
             'cat_type' => 3
+        ));
+        $cCatList = $catModelObj->getCategoryPair(array(
+            'cat_type' => 4
         ));
 
         $form->addElement('f_pCatSelect', 'Parent Cat', 'select', '', array(
@@ -252,13 +252,13 @@ class expenseController extends mvc
         require_once __DIR__ . '/../admin/!model/category.php';
         $catModelObj = new category();
         $pCatList = $catModelObj->getCategoryPair(array(
-            'cat_type' => 1
-        ));
-        $sCatList = $catModelObj->getCategoryPair(array(
             'cat_type' => 2
         ));
-        $cCatList = $catModelObj->getCategoryPair(array(
+        $sCatList = $catModelObj->getCategoryPair(array(
             'cat_type' => 3
+        ));
+        $cCatList = $catModelObj->getCategoryPair(array(
+            'cat_type' => 4
         ));
         
         $form->addElement('f_pCatSelect', 'Parent Cat', 'select', '', array(
@@ -443,13 +443,13 @@ class expenseController extends mvc
         require_once __DIR__ . '/../admin/!model/category.php';
         $catModelObj = new category();
         $pCatList = $catModelObj->getCategoryPair(array(
-            'cat_type' => 1
-        ));
-        $sCatList = $catModelObj->getCategoryPair(array(
             'cat_type' => 2
         ));
-        $cCatList = $catModelObj->getCategoryPair(array(
+        $sCatList = $catModelObj->getCategoryPair(array(
             'cat_type' => 3
+        ));
+        $cCatList = $catModelObj->getCategoryPair(array(
+            'cat_type' => 4
         ));
 
         $form->addElement('f_pCatSelect', 'Parent Cat', 'select', '', array(

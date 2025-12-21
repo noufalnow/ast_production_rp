@@ -613,6 +613,7 @@ echo ('
 <link href="http://' . $_SERVER['HTTP_HOST'] . '/css/ui.multiselect.css" rel="stylesheet">
 <link href="http://' . $_SERVER['HTTP_HOST'] . '/2024/assets/css/custom.css" rel="stylesheet">
 <script src="http://' . $_SERVER['HTTP_HOST'] . '/js/jquery-1.12.3.min.js"></script>
+<script src="http://' . $_SERVER['HTTP_HOST'] . '/js/tableToExcel.js"></script>
 <script> var baseurl = "' . APPURL . '"</script>
 
 

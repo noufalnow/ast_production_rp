@@ -68,13 +68,13 @@ class expenseController extends mvc
         require_once __DIR__ . '/../admin/!model/category.php';
         $catModelObj = new category();
         $pCatList = $catModelObj->getCategoryPair(array(
-            'cat_type' => 1
-        ));
-        $sCatList = $catModelObj->getCategoryPair(array(
             'cat_type' => 2
         ));
-        $cCatList = $catModelObj->getCategoryPair(array(
+        $sCatList = $catModelObj->getCategoryPair(array(
             'cat_type' => 3
+        ));
+        $cCatList = $catModelObj->getCategoryPair(array(
+            'cat_type' => 4
         ));
         $pCatList["-1"] = "--Add New Parent Category--";
         $sCatList["-1"] = "--Add New Sub Category--";
@@ -89,12 +89,14 @@ class expenseController extends mvc
         $form->addElement('cCatSelect', 'Child Category', 'select', 'required', array(
             'options' => $cCatList
         ));
+        $labels = [
+            1 => 'EMPLOYEE',
+            3 => 'VEHICLE',
+            4 => 'OTHERS',
+        ];
+        
         $form->addElement('mainhead', 'Main Head', 'select', 'required', array(
-            'options' => array(
-                1 => "Employee",
-                3 => "Vehicle",
-                4 => "Others"
-            )
+            'options' => $labels
         ));
         $form->addElement('billdt', 'Bill Date', 'text', 'date|required', '', array(
             'class' => 'date_picker',
@@ -223,12 +225,12 @@ class expenseController extends mvc
                 if ($valid['pCatSelect'] == - 1 && $valid['pCategory'] != '') {
                     $pCatDet = $catModelObj->getCategoryByName(array(
                         'cat_name' => $valid['pCategory'],
-                        'cat_type' => 1
+                        'cat_type' => 2
                     ));
                     if (! $pCatDet['cat_id']) {
                         $catData = array(
                             'cat_name' => $valid['pCategory'],
-                            'cat_type' => 1
+                            'cat_type' => 2
                         );
                         $cpId = $catModelObj->add($catData);
                     } else
@@ -238,13 +240,13 @@ class expenseController extends mvc
                 if ($valid['sCatSelect'] == - 1 && $valid['sCategory'] != '') {
                     $sCatDet = $catModelObj->getCategoryByName(array(
                         'cat_name' => $valid['sCategory'],
-                        'cat_type' => 2,
+                        'cat_type' => 3,
                         'cat_parent' => $cpId
                     ));
                     if (! $sCatDet['cat_id']) {
                         $catData = array(
                             'cat_name' => $valid['sCategory'],
-                            'cat_type' => 2,
+                            'cat_type' => 3,
                             'cat_parent' => $cpId
                         );
                         $csId = $catModelObj->add($catData);
@@ -255,13 +257,13 @@ class expenseController extends mvc
                 if ($valid['cCatSelect'] == - 1 && $valid['cCategory'] != '') {
                     $cCatDet = $catModelObj->getCategoryByName(array(
                         'cat_name' => $valid['cCategory'],
-                        'cat_type' => 3,
+                        'cat_type' => 4,
                         'cat_parent' => $csId
                     ));
                     if (! $cCatDet['cat_id']) {
                         $catData = array(
                             'cat_name' => $valid['cCategory'],
-                            'cat_type' => 3,
+                            'cat_type' => 4,
                             'cat_parent' => $csId
                         );
                         $ccId = $catModelObj->add($catData);
@@ -366,7 +368,14 @@ class expenseController extends mvc
 
 
 
-                        $entityId = $this->resolveEntity(6, $valid['mainhead'], 'MAIN HEAD #' . $valid['mainhead']);
+                        
+                        $label = $labels[$valid['mainhead']] ?? 'UNKNOWN';
+                        
+                        $entityId = $this->resolveEntity(
+                            6,
+                            $valid['mainhead'],
+                            '[' . $label . ']'
+                            );
                         $this->addOrSumLine($expdt_id, $entityId, $data['exp_amount'],$insert);
 
 
@@ -417,7 +426,9 @@ class expenseController extends mvc
                                     $eid = $this->resolveEntity(
                                         ($valid['mainhead'] == 1 ? 1 : ($valid['mainhead'] == 3 ? 2 : null)),
                                         $rData,
-                                        'REF #' . $rData
+                                        'REF #' . $rData,
+                                        '',
+                                        $eidCc
                                         );
 
                                 $this->addOrSumLine($expdt_id, $eid, $amount,$insert);
@@ -668,13 +679,13 @@ class expenseController extends mvc
         require_once __DIR__ . '/../admin/!model/category.php';
         $catModelObj = new category();
         $pCatList = $catModelObj->getCategoryPair(array(
-            'cat_type' => 1
-        ));
-        $sCatList = $catModelObj->getCategoryPair(array(
             'cat_type' => 2
         ));
-        $cCatList = $catModelObj->getCategoryPair(array(
+        $sCatList = $catModelObj->getCategoryPair(array(
             'cat_type' => 3
+        ));
+        $cCatList = $catModelObj->getCategoryPair(array(
+            'cat_type' => 4
         ));
         $pCatList["-1"] = "--Add New Parent Category--";
         $sCatList["-1"] = "--Add New Sub Category--";
@@ -689,12 +700,15 @@ class expenseController extends mvc
         $form->addElement('cCatSelect', 'Child Category', 'select', 'required', array(
             'options' => $cCatList
         ));
+        
+        $labels = [
+            1 => 'EMPLOYEE',
+            3 => 'VEHICLE',
+            4 => 'OTHERS',
+        ];
+        
         $form->addElement('mainhead', 'Main Head', 'select', 'required', array(
-            'options' => array(
-                1 => "Employee",
-                3 => "Vehicle",
-                4 => "Others"
-            )
+            'options' => $labels
         ));
         $form->addElement('billdt', 'Bill Date', 'text', 'date|required', '', array(
             'class' => 'date_picker',
@@ -853,12 +867,12 @@ class expenseController extends mvc
                     if ($valid['pCatSelect'] == - 1 && $valid['pCategory'] != '') {
                         $pCatDet = $catModelObj->getCategoryByName(array(
                             'cat_name' => $valid['pCategory'],
-                            'cat_type' => 1
+                            'cat_type' => 2
                         ));
                         if (! $pCatDet['cat_id']) {
                             $catData = array(
                                 'cat_name' => $valid['pCategory'],
-                                'cat_type' => 1
+                                'cat_type' => 2
                             );
                             $cpId = $catModelObj->add($catData);
                         } else
@@ -868,13 +882,13 @@ class expenseController extends mvc
                     if ($valid['sCatSelect'] == - 1 && $valid['sCategory'] != '') {
                         $sCatDet = $catModelObj->getCategoryByName(array(
                             'cat_name' => $valid['sCategory'],
-                            'cat_type' => 2,
+                            'cat_type' => 3,
                             'cat_parent' => $cpId
                         ));
                         if (! $sCatDet['cat_id']) {
                             $catData = array(
                                 'cat_name' => $valid['sCategory'],
-                                'cat_type' => 2,
+                                'cat_type' => 3,
                                 'cat_parent' => $cpId
                             );
                             $csId = $catModelObj->add($catData);
@@ -885,13 +899,13 @@ class expenseController extends mvc
                     if ($valid['cCatSelect'] == - 1 && $valid['cCategory'] != '') {
                         $cCatDet = $catModelObj->getCategoryByName(array(
                             'cat_name' => $valid['cCategory'],
-                            'cat_type' => 3,
+                            'cat_type' => 4,
                             'cat_parent' => $csId
                         ));
                         if (! $cCatDet['cat_id']) {
                             $catData = array(
                                 'cat_name' => $valid['cCategory'],
-                                'cat_type' => 3,
+                                'cat_type' => 4,
                                 'cat_parent' => $csId
                             );
                             $ccId = $catModelObj->add($catData);
@@ -1012,7 +1026,15 @@ class expenseController extends mvc
                             
                             
                             
-                            $entityId = $this->resolveEntity(6, $valid['mainhead'], 'MAIN HEAD #' . $valid['mainhead']);
+
+                            
+                            $label = $labels[$valid['mainhead']] ?? 'UNKNOWN';
+                            
+                            $entityId = $this->resolveEntity(
+                                6,
+                                $valid['mainhead'],
+                                '[' . $label . ']'
+                                );
                             $this->addOrSumLine($expdt_id, $entityId, $data['exp_amount'],$decExpId);
                             
                             
@@ -1065,7 +1087,9 @@ class expenseController extends mvc
                                                 $eid = $this->resolveEntity(
                                                     ($valid['mainhead'] == 1 ? 1 : ($valid['mainhead'] == 3 ? 2 : null)),
                                                     $rData,
-                                                    'REF #' . $rData
+                                                    'REF #' . $rData,
+                                                    '',
+                                                    $eidCc
                                                     );
                                                 
                                                 $this->addOrSumLine($expdt_id, $eid, $amount,$decExpId);
@@ -1200,13 +1224,13 @@ class expenseController extends mvc
         require_once __DIR__ . '/../admin/!model/category.php';
         $catModelObj = new category();
         $pCatList = $catModelObj->getCategoryPair(array(
-            'cat_type' => 1
-        ));
-        $sCatList = $catModelObj->getCategoryPair(array(
             'cat_type' => 2
         ));
-        $cCatList = $catModelObj->getCategoryPair(array(
+        $sCatList = $catModelObj->getCategoryPair(array(
             'cat_type' => 3
+        ));
+        $cCatList = $catModelObj->getCategoryPair(array(
+            'cat_type' => 4
         ));
         $form->addElement('f_pCatSelect', 'Parent Cat', 'select', '', array(
             'options' => $pCatList
@@ -1432,13 +1456,13 @@ class expenseController extends mvc
         require_once __DIR__ . '/../admin/!model/category.php';
         $catModelObj = new category();
         $pCatList = $catModelObj->getCategoryPair(array(
-            'cat_type' => 1
-        ));
-        $sCatList = $catModelObj->getCategoryPair(array(
             'cat_type' => 2
         ));
-        $cCatList = $catModelObj->getCategoryPair(array(
+        $sCatList = $catModelObj->getCategoryPair(array(
             'cat_type' => 3
+        ));
+        $cCatList = $catModelObj->getCategoryPair(array(
+            'cat_type' => 4
         ));
         unset($pCatList['-1']);
         $form->addElement('pCatSelect', 'Parent Category', 'select', 'required', array(
@@ -1637,7 +1661,7 @@ class expenseController extends mvc
                     case 'parent':
 
                         $sCatList = $catModelObj->getCategoryPair(array(
-                            'cat_type' => 2,
+                            'cat_type' => 3,
                             'cat_parent' => $_POST['refId']
                         ));
 
@@ -1658,7 +1682,7 @@ class expenseController extends mvc
 
                     case 'sub':
                         $cCatList = $catModelObj->getCategoryPair(array(
-                            'cat_type' => 3,
+                            'cat_type' => 4,
                             'cat_parent' => $_POST['refId']
                         ));
 

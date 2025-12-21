@@ -59,9 +59,9 @@ class expense extends db_table {
 
 			from $this->_table
 			left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
-			left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 1 and pcat.deleted = 0
-			left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 2 and scat.deleted = 0
-			left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 3 and ccat.deleted = 0
+			left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
+			left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
+			left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 			left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
 			LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = ".DOC_TYPE_EXP." and files.deleted = 0
 			LEFT JOIN mis_cash_flow AS c_flow on c_flow.deleted = 0 and c_flow.cf_id  = $this->_table.exp_cash_flow
@@ -152,9 +152,9 @@ class expense extends db_table {
                 to_char(exp_billdt,'DD/MM/YYYY') as exp_disp_date
 				", "from $this->_table
 				left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
-				left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 1 and pcat.deleted = 0
-				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 2 and scat.deleted = 0
-				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 3 and ccat.deleted = 0
+				left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
+				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
+				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 				left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
 				LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = ".DOC_TYPE_EXP." and files.deleted = 0
 
@@ -400,9 +400,9 @@ class expense extends db_table {
 		    
 				from $this->_table
 				left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
-				left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 1 and pcat.deleted = 0
-				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 2 and scat.deleted = 0
-				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 3 and ccat.deleted = 0
+				left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
+				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
+				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 				left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
 		    
 				$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id
@@ -594,9 +594,9 @@ class expense extends db_table {
 			comp.comp_disp_name as label_name
 			from $this->_table
 			left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
-			left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 1 and pcat.deleted = 0
-			left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 2 and scat.deleted = 0
-			left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 3 and ccat.deleted = 0
+			left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
+			left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
+			left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 			left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
 
 			$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id 
@@ -632,9 +632,9 @@ class expense extends db_table {
 				end as label_name
 				from $this->_table
 				left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
-				left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 1 and pcat.deleted = 0
-				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 2 and scat.deleted = 0
-				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 3 and ccat.deleted = 0
+				left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
+				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
+				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 				left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
 
 				$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id 
@@ -666,9 +666,9 @@ class expense extends db_table {
 				pcat.cat_name || '<br>' || scat.cat_name || '<br>' || ccat.cat_name as label_name
 				from $this->_table
 				left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
-				left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 1 and pcat.deleted = 0
-				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 2 and scat.deleted = 0
-				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 3 and ccat.deleted = 0
+				left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
+				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
+				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 				left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
 
 				$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id 
@@ -700,9 +700,9 @@ class expense extends db_table {
 				pcat.cat_name as label_name
 				from $this->_table
 				left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
-				left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 1 and pcat.deleted = 0
-				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 2 and scat.deleted = 0
-				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 3 and ccat.deleted = 0
+				left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
+				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
+				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 				left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
 				
 				$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id
@@ -722,9 +722,9 @@ class expense extends db_table {
 				vendor.ven_disp_name as label_name
 				from $this->_table
 				left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
-				left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 1 and pcat.deleted = 0
-				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 2 and scat.deleted = 0
-				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 3 and ccat.deleted = 0
+				left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
+				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
+				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 				left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
 
 				$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id 
@@ -758,9 +758,9 @@ class expense extends db_table {
 				end as label_name
 				from $this->_table
 				left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
-				left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 1 and pcat.deleted = 0
-				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 2 and scat.deleted = 0
-				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 3 and ccat.deleted = 0
+				left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
+				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
+				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 				left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
 
 				$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id 
@@ -860,9 +860,9 @@ class expense extends db_table {
 			comp.comp_disp_name as label_name
 			from $this->_table
 			left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
-			left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 1 and pcat.deleted = 0
-			left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 2 and scat.deleted = 0
-			left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 3 and ccat.deleted = 0
+			left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
+			left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
+			left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 			left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
 			
 			$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id
@@ -886,9 +886,9 @@ class expense extends db_table {
 			end as label_name
 			from $this->_table
 			left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
-			left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 1 and pcat.deleted = 0
-			left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 2 and scat.deleted = 0
-			left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 3 and ccat.deleted = 0
+			left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
+			left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
+			left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 			left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
 			
 			$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id
@@ -908,9 +908,9 @@ class expense extends db_table {
 			pcat.cat_name as label_name
 			from $this->_table
 			left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
-			left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 1 and pcat.deleted = 0
-			left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 2 and scat.deleted = 0
-			left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 3 and ccat.deleted = 0
+			left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
+			left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
+			left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 			left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
 			
 			$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id
@@ -933,9 +933,9 @@ class expense extends db_table {
 			vendor.ven_disp_name as label_name
 			from $this->_table
 			left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
-			left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 1 and pcat.deleted = 0
-			left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 2 and scat.deleted = 0
-			left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 3 and ccat.deleted = 0
+			left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
+			left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
+			left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 			left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
 			
 			$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id
@@ -957,9 +957,9 @@ class expense extends db_table {
 			end as label_name
 			from $this->_table
 			left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
-			left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 1 and pcat.deleted = 0
-			left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 2 and scat.deleted = 0
-			left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 3 and ccat.deleted = 0
+			left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
+			left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
+			left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 			left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
 			
 			$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id
@@ -1045,9 +1045,9 @@ class expense extends db_table {
 					vendor.ven_disp_name as label_name
 					from $this->_table
 					left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
-					left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 1 and pcat.deleted = 0
-					left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 2 and scat.deleted = 0
-					left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 3 and ccat.deleted = 0
+					left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
+					left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
+					left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 					left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
 					
 					$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id
@@ -1069,9 +1069,9 @@ class expense extends db_table {
 					end as label_name
 					from $this->_table
 					left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
-					left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 1 and pcat.deleted = 0
-					left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 2 and scat.deleted = 0
-					left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 3 and ccat.deleted = 0
+					left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
+					left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
+					left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 					left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
 					
 					$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id
@@ -1178,9 +1178,9 @@ class expense extends db_table {
 
 				from $this->_table
 				left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
-				left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 1 and pcat.deleted = 0
-				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 2 and scat.deleted = 0
-				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 3 and ccat.deleted = 0
+				left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
+				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
+				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 				left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
 				
 				LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
@@ -1280,9 +1280,9 @@ class expense extends db_table {
 			concat(pcat.cat_id,scat.cat_id,ccat.cat_id,'_',files.file_id,'.',files.file_exten) as file_name
 			from $this->_table
 			left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
-			left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 1 and pcat.deleted = 0
-			left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 2 and scat.deleted = 0
-			left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 3 and ccat.deleted = 0
+			left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
+			left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
+			left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 			left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
 			
 			$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id
@@ -1361,15 +1361,15 @@ class expense extends db_table {
                         mis_expense exp
                     LEFT JOIN 
                         core_category AS pcat ON pcat.cat_id = exp.exp_pcat
-                        AND pcat.cat_type = 1
+                        AND pcat.cat_type = 2
                         AND pcat.deleted = 0
                     LEFT JOIN 
                         core_category AS scat ON scat.cat_id = exp.exp_scat
-                        AND scat.cat_type = 2
+                        AND scat.cat_type = 3
                         AND scat.deleted = 0
                     LEFT JOIN 
                         core_category AS ccat ON ccat.cat_id = exp.exp_ccat
-                        AND ccat.cat_type = 3
+                        AND ccat.cat_type = 4
                         AND ccat.deleted = 0
                     WHERE 
                         exp.exp_mainh = 3
@@ -1401,15 +1401,15 @@ class expense extends db_table {
                         AND exp.exp_app_status = '1'
                     LEFT JOIN 
                         core_category AS pcat ON pcat.cat_id = exp.exp_pcat
-                        AND pcat.cat_type = 1
+                        AND pcat.cat_type = 2
                         AND pcat.deleted = 0
                     LEFT JOIN 
                         core_category AS scat ON scat.cat_id = exp.exp_scat
-                        AND scat.cat_type = 2
+                        AND scat.cat_type = 3
                         AND scat.deleted = 0
                     LEFT JOIN 
                         core_category AS ccat ON ccat.cat_id = exp.exp_ccat
-                        AND ccat.cat_type = 3
+                        AND ccat.cat_type = 4
                         AND ccat.deleted = 0
                     WHERE 
                         paydet.pdet_status = 2
@@ -1475,15 +1475,15 @@ class expense extends db_table {
                         mis_expense exp
                     LEFT JOIN
                         core_category AS pcat ON pcat.cat_id = exp.exp_pcat
-                        AND pcat.cat_type = 1
+                        AND pcat.cat_type = 2
                         AND pcat.deleted = 0
                     LEFT JOIN
                         core_category AS scat ON scat.cat_id = exp.exp_scat
-                        AND scat.cat_type = 2
+                        AND scat.cat_type = 3
                         AND scat.deleted = 0
                     LEFT JOIN
                         core_category AS ccat ON ccat.cat_id = exp.exp_ccat
-                        AND ccat.cat_type = 3
+                        AND ccat.cat_type = 4
                         AND ccat.deleted = 0
                     WHERE
                         exp.exp_mainh = 2
@@ -1515,15 +1515,15 @@ class expense extends db_table {
                         AND exp.exp_app_status = '1'
                     LEFT JOIN
                         core_category AS pcat ON pcat.cat_id = exp.exp_pcat
-                        AND pcat.cat_type = 1
+                        AND pcat.cat_type = 2
                         AND pcat.deleted = 0
                     LEFT JOIN
                         core_category AS scat ON scat.cat_id = exp.exp_scat
-                        AND scat.cat_type = 2
+                        AND scat.cat_type = 3
                         AND scat.deleted = 0
                     LEFT JOIN
                         core_category AS ccat ON ccat.cat_id = exp.exp_ccat
-                        AND ccat.cat_type = 3
+                        AND ccat.cat_type = 4
                         AND ccat.deleted = 0
                     WHERE
                         paydet.pdet_status = 2
@@ -1589,15 +1589,15 @@ class expense extends db_table {
                         mis_expense exp
                     LEFT JOIN
                         core_category AS pcat ON pcat.cat_id = exp.exp_pcat
-                        AND pcat.cat_type = 1
+                        AND pcat.cat_type = 2
                         AND pcat.deleted = 0
                     LEFT JOIN
                         core_category AS scat ON scat.cat_id = exp.exp_scat
-                        AND scat.cat_type = 2
+                        AND scat.cat_type = 3
                         AND scat.deleted = 0
                     LEFT JOIN
                         core_category AS ccat ON ccat.cat_id = exp.exp_ccat
-                        AND ccat.cat_type = 3
+                        AND ccat.cat_type = 4
                         AND ccat.deleted = 0
                     WHERE
                         exp.exp_mainh NOT IN (2, 3)
@@ -1629,15 +1629,15 @@ class expense extends db_table {
                         AND exp.exp_app_status = '1'
                     LEFT JOIN
                         core_category AS pcat ON pcat.cat_id = exp.exp_pcat
-                        AND pcat.cat_type = 1
+                        AND pcat.cat_type = 2
                         AND pcat.deleted = 0
                     LEFT JOIN
                         core_category AS scat ON scat.cat_id = exp.exp_scat
-                        AND scat.cat_type = 2
+                        AND scat.cat_type = 3
                         AND scat.deleted = 0
                     LEFT JOIN
                         core_category AS ccat ON ccat.cat_id = exp.exp_ccat
-                        AND ccat.cat_type = 3
+                        AND ccat.cat_type = 4
                         AND ccat.deleted = 0
                     WHERE
                         paydet.pdet_status = 2
@@ -1668,19 +1668,63 @@ class expense extends db_table {
 	    
 	    $this->query("
 	        
-WITH expense_base AS (
+WITH RECURSIVE entity_tree AS (
+
     SELECT
-        TO_CHAR(d.expdt_date, 'DD/MM/YYYY') AS expdt_date,
+        e.expent_id AS child_id,
+        e.expent_id AS current_id,
+        e.parent_expent_id,
+        e.expent_type,
+        e.expent_name,
+        e.expent_ref_id
+    FROM mis_expense_entity e
+    WHERE e.expent_id IN (
+        SELECT DISTINCT exdtline_entity_id
+        FROM mis_expense_line
+        WHERE deleted = 0
+    )
+
+    UNION ALL
+
+    SELECT
+        et.child_id,
+        p.expent_id,
+        p.parent_expent_id,
+        p.expent_type,
+        p.expent_name,
+        p.expent_ref_id
+    FROM entity_tree et
+    JOIN mis_expense_entity p
+        ON p.expent_id = et.parent_expent_id
+),
+
+/* Resolve MAIN HEAD (type = 6) */
+entity_main_head AS (
+    SELECT
+        child_id,
+        MAX(current_id)    FILTER (WHERE expent_type = 6) AS main_head_id,
+        MAX(expent_name)   FILTER (WHERE expent_type = 6) AS main_head_name,
+        MAX(expent_ref_id) FILTER (WHERE expent_type = 6) AS main_head_ref_id
+    FROM entity_tree
+    GROUP BY child_id
+),
+
+expense_base AS (
+    SELECT
+        d.expdt_date,
         l.exdtline_amount,
+        l.source_exp_id,
+        e.expent_id,
         e.expent_type,
         e.expent_ref_id,
         e.expent_name,
         c.cat_name,
-        TRIM(BOTH ' ' FROM 
-                        COALESCE(emp_fname, '') || ' ' || 
-                        COALESCE(emp_mname, '') || ' ' || 
-                        COALESCE(emp_lname, '')
-                    ) AS full_name,
+        c.cat_type,
+        TRIM(
+            COALESCE(emp.emp_fname,'') || ' ' ||
+            COALESCE(emp.emp_mname,'') || ' ' ||
+            COALESCE(emp.emp_lname,'')
+        ) AS full_name,
         v.vhl_no
     FROM mis_expense_line l
     JOIN mis_expense_date d
@@ -1694,56 +1738,115 @@ WITH expense_base AS (
     LEFT JOIN mis_vehicle v
         ON v.vhl_id = e.expent_ref_id
     WHERE l.deleted = 0
+),
+
+expense_with_head AS (
+    SELECT
+        eb.*,
+        mh.main_head_name,
+        mh.main_head_ref_id
+    FROM expense_base eb
+    JOIN entity_main_head mh
+        ON mh.child_id = eb.expent_id
+),
+
+final_rows AS (
+
+    /* ================= HEAD (dedup ONLY here) ================= */
+    SELECT
+        TO_CHAR(expdt_date,'DD/MM/YYYY') AS date,
+        'HEAD' AS level,
+        'MAIN HEAD' AS ref_type,
+        main_head_name AS name,
+        SUM(source_amount) AS amount,
+        main_head_ref_id AS head_order,
+        0 AS level_order,
+        0 AS ref_order,
+        0 AS cat_order,
+        0 AS name_order
+    FROM (
+        SELECT
+            expdt_date,
+            main_head_name,
+            main_head_ref_id,
+            source_exp_id,
+            MAX(exdtline_amount) AS source_amount
+        FROM expense_with_head
+        GROUP BY
+            expdt_date,
+            main_head_name,
+            main_head_ref_id,
+            source_exp_id
+    ) s
+    GROUP BY
+        expdt_date,
+        main_head_name,
+        main_head_ref_id
+
+    UNION ALL
+
+    /* ================= DETAIL (NO dedup) ================= */
+    SELECT
+        TO_CHAR(expdt_date,'DD/MM/YYYY') AS date,
+        'DETAIL' AS level,
+
+        CASE
+            WHEN expent_type IN (3,4,5) THEN 'CATEGORY'
+            WHEN expent_type = 1 THEN 'EMPLOYEE'
+            WHEN expent_type = 2 THEN 'VEHICLE'
+            ELSE 'OTHER'
+        END AS ref_type,
+
+        CASE
+            WHEN expent_type IN (3,4,5) THEN cat_name
+            WHEN expent_type = 1 THEN full_name
+            WHEN expent_type = 2 THEN vhl_no
+            ELSE expent_name
+        END AS name,
+
+        MAX(exdtline_amount) AS amount,
+
+        main_head_ref_id AS head_order,
+        1 AS level_order,
+
+        CASE
+            WHEN expent_type IN (3,4,5) THEN 1
+            WHEN expent_type IN (1,2) THEN 2
+            ELSE 3
+        END AS ref_order,
+
+        COALESCE(cat_type,99) AS cat_order,
+        0 AS name_order
+    FROM expense_with_head
+    WHERE expent_type <> 6
+    GROUP BY
+        expdt_date,
+        expent_type,
+        cat_name,
+        cat_type,
+        full_name,
+        vhl_no,
+        expent_name,
+        main_head_ref_id,
+        source_exp_id
 )
 
-
 SELECT
-    expdt_date AS date,
-    'HEAD' AS level,
-    'MAIN HEAD' AS ref_type,
-    CASE expent_ref_id
-        WHEN 1 THEN 'EMPLOYEE-'
-        WHEN 2 THEN 'VEHICLE-'
-        ELSE 'OTHERS'
-    END AS name,
-    SUM(exdtline_amount) AS amount
-FROM expense_base
-WHERE expent_type = 6
-GROUP BY
-    expdt_date,
-    expent_ref_id
-
-UNION ALL
-
-
-SELECT
-    expdt_date AS date,
-    'DETAIL' AS level,
-    CASE
-        WHEN expent_type IN (3,4,5) THEN 'CATEGORY'
-        WHEN expent_type = 1 THEN 'EMPLOYEE-'
-        WHEN expent_type = 2 THEN 'VEHICLE-'
-        ELSE 'OTHER'
-    END AS ref_type,
-    CASE
-        WHEN expent_type IN (3,4,5) THEN cat_name
-        WHEN expent_type = 1 THEN full_name
-        WHEN expent_type = 2 THEN vhl_no
-        ELSE expent_name
-    END AS name,
-    SUM(exdtline_amount) AS amount
-FROM expense_base
-WHERE expent_type <> 6
-GROUP BY
-    expdt_date,
-    ref_type,
-    name
-
-ORDER BY
     date,
-    level DESC,
+    level,
     ref_type,
+    name,
+    amount
+FROM final_rows
+ORDER BY
+    TO_DATE(date,'DD/MM/YYYY'),
+    head_order,
+    level_order,
+    ref_order,
+    cat_order,
     name;
+
+
 	        
 	        
                 ");

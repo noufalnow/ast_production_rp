@@ -230,12 +230,15 @@ class defaultController extends mvc
         require_once __DIR__ . '/../admin/!model/expense.php';
         
         $expObj = new expense();
-        
         $pivotList = $expObj->expensePivotTable();
         
-        $columnGroups = [];   // [HEAD_NAME => [categories, particulars]]
+        /* ---------- COLLECT HEAD / CATEGORY / ATOMIC ---------- */
+        
+        $columnGroups = [];   // [HEAD => ['categories'=>[], 'particulars'=>[]]]
         $dates = [];
-        $columnMeta = [];     // HEAD | DETAIL
+        $columnMeta = [];     // key => HEAD | CATEGORY | ATOMIC
+        $columnHead = [];     // key => HEAD
+        $columnLabel = [];    // key => DISPLAY NAME
         $currentHead = null;
         
         foreach ($pivotList as $r) {
@@ -243,6 +246,7 @@ class defaultController extends mvc
             $dates[$r['date']] = true;
             
             if ($r['level'] === 'HEAD') {
+                
                 $currentHead = $r['name'];
                 
                 if (!isset($columnGroups[$currentHead])) {
@@ -254,15 +258,17 @@ class defaultController extends mvc
                 continue;
             }
             
-            // DETAIL rows
+            // DETAIL
             if ($r['ref_type'] === 'CATEGORY') {
-                $columnGroups[$currentHead]['categories'][$r['name']] = true;
+                $key = $currentHead . '||CAT||' . $r['name'];
+                $columnGroups[$currentHead]['categories'][$key] = $r['name'];
             } else {
-                $columnGroups[$currentHead]['particulars'][$r['name']] = true;
+                $key = $currentHead . '||ATOMIC||' . $r['name'];
+                $columnGroups[$currentHead]['particulars'][$key] = $r['name'];
             }
         }
         
-        /* ---------- ORDERED COLUMNS + META ---------- */
+        /* ---------- ORDERED COLUMNS ---------- */
         
         $orderedColumns = [];
         
@@ -270,25 +276,26 @@ class defaultController extends mvc
             
             // HEAD
             $orderedColumns[] = $head;
-            $columnMeta[$head] = 'HEAD';
-            $columnHead[$head] = $head;
+            $columnMeta[$head]  = 'HEAD';
+            $columnHead[$head]  = $head;
+            $columnLabel[$head] = $head;
             
             // CATEGORY
-            foreach (array_keys($grp['categories']) as $cat) {
-                $orderedColumns[] = $cat;
-                $columnMeta[$cat] = 'CATEGORY';
-                $columnHead[$cat] = $head;
+            foreach ($grp['categories'] as $key => $label) {
+                $orderedColumns[] = $key;
+                $columnMeta[$key]  = 'CATEGORY';
+                $columnHead[$key]  = $head;
+                $columnLabel[$key] = $label;
             }
             
-            // PARTICULARS
-            foreach (array_keys($grp['particulars']) as $p) {
-                $orderedColumns[] = $p;
-                $columnMeta[$p] = 'ATOMIC';
-                $columnHead[$p] = $head;
+            // ATOMIC
+            foreach ($grp['particulars'] as $key => $label) {
+                $orderedColumns[] = $key;
+                $columnMeta[$key]  = 'ATOMIC';
+                $columnHead[$key]  = $head;
+                $columnLabel[$key] = $label;
             }
         }
-        
-        
         
         /* ---------- INIT PIVOT ---------- */
         
@@ -301,35 +308,53 @@ class defaultController extends mvc
             }
         }
         
-        /* ---------- FILL VALUES ---------- */
+        /* ---------- FILL VALUES (CRITICAL FIX) ---------- */
+        
+        /* ---------- FILL VALUES (FIXED) ---------- */
+        
+        $currentHead = null;
         
         foreach ($pivotList as $r) {
-            $pivot[$r['date']][$r['name']] += (float)$r['amount'];
+            
+            if ($r['level'] === 'HEAD') {
+                $currentHead = $r['name'];
+                $key = $currentHead;
+                
+            } else {
+                
+                if ($r['ref_type'] === 'CATEGORY') {
+                    $key = $currentHead . '||CAT||' . $r['name'];
+                } else {
+                    $key = $currentHead . '||ATOMIC||' . $r['name'];
+                }
+            }
+            
+            // safety check (important during debugging)
+            if (isset($pivot[$r['date']][$key])) {
+                $pivot[$r['date']][$key] += (float)$r['amount'];
+            }
         }
+        
         
         /* ---------- TOTALS (NO DOUBLE COUNT) ---------- */
         
         $rowTotals    = [];
         $columnTotals = array_fill_keys($orderedColumns, 0);
-        $grandTotal   = 0;
         $rawColumnTotals = $columnTotals;
+        $grandTotal = 0;
         
         foreach ($pivot as $date => $cols) {
             
             $rowTotals[$date] = 0;
-            
-            // ✅ CORRECT PLACE
             $othersCounted = false;
             $hasAtomic = false;
             
-            // First pass: check if atomic exists
+            // detect atomic presence
             foreach ($cols as $col => $val) {
-                
                 $rawColumnTotals[$col] += $val;
                 
                 if ($columnMeta[$col] === 'ATOMIC' && $val > 0) {
                     $hasAtomic = true;
-                    break;
                 }
             }
             
@@ -343,34 +368,31 @@ class defaultController extends mvc
                     continue;
                 }
                 
-                // RULE 2: OTHERS → count ONCE
+                // RULE 2: [OTHERS] (only once if no atomic)
                 if (
                     !$hasAtomic &&
                     !$othersCounted &&
                     $columnMeta[$col] === 'HEAD' &&
-                    $col === 'OTHERS'
+                    $col === '[OTHERS]'
                     ) {
                         $rowTotals[$date] += $val;
-                        $columnTotals['OTHERS'] += $val;
+                        $columnTotals[$col] += $val;
                         $grandTotal += $val;
                         $othersCounted = true;
                     }
             }
         }
         
-        
-        
-        
-        
         /* ---------- SEND TO VIEW ---------- */
         
-        $this->view->columns       = $orderedColumns;
-        $this->view->pivot         = $pivot;
-        $this->view->rowTotals     = $rowTotals;
-        $this->view->columnTotals  = $columnTotals;
-        $this->view->columnMeta    = $columnMeta;
-        $this->view->grandTotal    = $grandTotal;
-        $this->view->rawColumnTotals = $rawColumnTotals;
+        $this->view->columns          = $orderedColumns;
+        $this->view->pivot            = $pivot;
+        $this->view->rowTotals        = $rowTotals;
+        $this->view->columnTotals     = $columnTotals;
+        $this->view->columnMeta       = $columnMeta;
+        $this->view->columnLabel      = $columnLabel;
+        $this->view->rawColumnTotals  = $rawColumnTotals;
+        $this->view->grandTotal       = $grandTotal;
         
         
 

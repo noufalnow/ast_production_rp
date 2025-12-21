@@ -96,9 +96,9 @@ class cashbook extends db_table {
 				from $this->_table
 				left join mis_expense as exp on exp.exp_id = cb_exp_id and exp.deleted = 0 and $this->_table.cb_exp_type = 1
 				left join mis_payment as pay on pay.pay_id = cb_exp_id and pay.deleted = 0 and $this->_table.cb_exp_type = 2
-				left join core_category as pcat on pcat.cat_id = exp.exp_pcat and pcat.cat_type = 1 and pcat.deleted = 0
-				left join core_category as scat on scat.cat_id = exp.exp_scat and scat.cat_type = 2 and scat.deleted = 0
-				left join core_category as ccat on ccat.cat_id = exp.exp_ccat and ccat.cat_type = 3 and ccat.deleted = 0
+				left join core_category as pcat on pcat.cat_id = exp.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
+				left join core_category as scat on scat.cat_id = exp.exp_scat and scat.cat_type = 3 and scat.deleted = 0
+				left join core_category as ccat on ccat.cat_id = exp.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 				left join core_users as users on users.user_id  = 
 								(case when cb_type_ref = 1999 then 19 else cb_type_ref end)  
 								and cb_type = 2 and users.deleted = 0
@@ -152,13 +152,13 @@ class cashbook extends db_table {
 				AND pay.deleted = 0
 				AND mis_cash_book.cb_exp_type = 2
 				LEFT JOIN core_category AS pcat ON pcat.cat_id = exp.exp_pcat
-				AND pcat.cat_type = 1
+				AND pcat.cat_type = 2
 				AND pcat.deleted = 0
 				LEFT JOIN core_category AS scat ON scat.cat_id = exp.exp_scat
-				AND scat.cat_type = 2
+				AND scat.cat_type = 3
 				AND scat.deleted = 0
 				LEFT JOIN core_category AS ccat ON ccat.cat_id = exp.exp_ccat
-				AND ccat.cat_type = 3
+				AND ccat.cat_type = 4
 				AND ccat.deleted = 0
 				INNER JOIN core_users AS users ON users.user_id = cb_type_ref
 				AND cb_type = 2
