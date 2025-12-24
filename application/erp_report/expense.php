@@ -12,6 +12,23 @@ class expenseController extends mvc
 
         $form->addElement('f_refno', 'Ref No', 'text', '');
         $form->addElement('f_particulers', 'Particulers', 'text', '');
+        
+        
+        require_once __DIR__ . '/../admin/!model/customer.php';
+        $customerObj = new customer();
+        $customerList = $customerObj->getCustomerPair();
+        $form->addElement('f_client', 'Clients', 'select', '', [
+            'options' => $customerList
+        ], array(
+            '' => 'onchange="handleClientChange(\'f_client\', \'f_project\');"'
+        ));
+        require_once __DIR__ . '/../admin/!model/property.php';
+        $propModelObj = new property();
+        $projectList = $propModelObj->getProjectsPair();
+        $form->addElement('f_project', 'Project', 'select', '', array(
+            'options' => $projectList
+        ));
+        $form->f_project->setOptions($projectList);
 
         require_once __DIR__ . '/../admin/!model/vendor.php';
         $vendorObj = new vendor();
@@ -58,9 +75,8 @@ class expenseController extends mvc
         $form->addElement('f_mainhead', 'Head', 'select', '', array(
             'options' => array(
                 1 => "Employee",
-                2 => "Property",
                 3 => "Vehicle",
-                4 => "Port Operation"
+                4 => "Others"
             )
         ));
         $form->addElement('f_amount', 'Total Amount', 'float', 'numeric', '', array(
@@ -79,13 +95,6 @@ class expenseController extends mvc
         $vehModelObj = new vehicle();
         $vehList = $vehModelObj->getVehiclePair();
 
-        require_once __DIR__ . '/../admin/!model/customer.php';
-        $customerObj = new customer();
-        $customerList = $customerObj->getCustomerPair();
-        $form->addElement('customer', 'Customer', 'select', 'required', array(
-            'options' => $customerList
-        ));
-
         $form->addElement('f_employee', 'Employee', 'multiselect', '', array(
             'options' => $empList
         ), array(
@@ -93,13 +102,7 @@ class expenseController extends mvc
             "class" => "form-control",
             "data-placeholder" => "Choose Employees"
         ));
-        $form->addElement('f_property', 'Property', 'multiselect', '', array(
-            'options' => $propList
-        ), array(
-            'multiple' => "multiple",
-            "class" => "form-control",
-            "data-placeholder" => "Choose Properties"
-        ));
+
         $form->addElement('f_vehicle', 'Vehicle', 'multiselect', '', array(
             'options' => $vehList
         ), array(
@@ -154,6 +157,8 @@ class expenseController extends mvc
                     'f_amount' => @$valid['f_amount'],
                     'f_building' => @$valid['f_building'],
                     'f_status' => @$valid['f_status'],
+                    'f_client' => @$valid['f_client'],
+                    'f_project' => @$valid['f_project']
                 );
 
                 if (! empty($valid['f_dtfrom']) && $valid['f_period'] == 2) {
@@ -168,7 +173,17 @@ class expenseController extends mvc
                 }
 
                 if (! empty($valid['f_monthpick']) && $valid['f_period'] == 1) {
-                    $where['f_monthpick'] = $valid['f_monthpick'];
+                    
+                        
+                    if (strpos($valid['f_monthpick'], '-') !== false) {
+                            // YYYY-MM → MM/YYYY
+                        list($year, $month) = explode('-', $valid['f_monthpick']);
+                            $where['f_monthpick'] = sprintf('%02d/%d', $month, $year);
+                        }
+                        
+                    
+                    
+                    //$where['f_monthpick'] = $valid['f_monthpick'];
                 }
 
                 if (! empty($valid['f_employee'])) {
@@ -214,6 +229,9 @@ class expenseController extends mvc
         $expObj = new expense();
         
         $expObj->_pagelimit  = 1000; 
+        
+        //s($where);
+        
         $expenseList = $expObj->geExpenseReport(@$where);
         $expenseSummery = $expObj->geExpenseReportSummary(@$where);
         $this->view->expObj= $expObj;
@@ -241,6 +259,30 @@ class expenseController extends mvc
         $form->addElement('f_selVendor', 'Vendor', 'select', '', array(
             'options' => $venderList
         ));
+        
+        $form->addElement('f_status', 'Status', 'select', '', array(
+            'options' => array(
+                "2" => "Pending",
+                1 => "Approved"
+            )
+        ));
+        
+        
+        require_once __DIR__ . '/../admin/!model/customer.php';
+        $customerObj = new customer();
+        $customerList = $customerObj->getCustomerPair();
+        $form->addElement('f_client', 'Clients', 'select', '', [
+            'options' => $customerList
+        ], array(
+            '' => 'onchange="handleClientChange(\'f_client\', \'f_project\');"'
+        ));
+        require_once __DIR__ . '/../admin/!model/property.php';
+        $propModelObj = new property();
+        $projectList = $propModelObj->getProjectsPair();
+        $form->addElement('f_project', 'Project', 'select', '', array(
+            'options' => $projectList
+        ));
+        $form->f_project->setOptions($projectList);
         
         require_once __DIR__ . '/../admin/!model/company.php';
         $compModelObj = new company();
@@ -275,7 +317,7 @@ class expenseController extends mvc
                 1 => "Employee",
                 2 => "Property",
                 3 => "Vehicle",
-                4 => "Port Operation"
+                4 => "Others"
             )
         ));
         $form->addElement('f_amount', 'Total Amount', 'float', 'numeric', '', array(
@@ -367,7 +409,9 @@ class expenseController extends mvc
                     'f_cCatSelect' => @$valid['f_cCatSelect'],
                     'f_mode' => @$valid['f_mode'],
                     'f_amount' => @$valid['f_amount'],
-                    'f_building' => @$valid['f_building']
+                    'f_building' => @$valid['f_building'],
+                    'f_client' => @$valid['f_client'],
+                    'f_project' => @$valid['f_project']
                 );
                 
                 if (! empty($valid['f_dtfrom']) && $valid['f_period'] == 2) {
@@ -466,7 +510,7 @@ class expenseController extends mvc
                 1 => "Employee",
                 2 => "Property",
                 3 => "Vehicle",
-                4 => "Port Operation"
+                4 => "Others"
             )
         ));
 

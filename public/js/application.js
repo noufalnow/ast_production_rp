@@ -554,12 +554,19 @@ function triggerSync() {
     }
 	
 	
-	function handleClientChange() {
+	function handleClientChange(client, project) {
+
+	    client  = client  || 'client';
+	    project = project || 'project';
+
+	    const clientVal = $('#' + client).val();
+
 	    getJaxData(
-	        $('#client').val(),
-	        'project',
+	        clientVal,
+	        project,
 	        baseurl + 'erp_expense/expense/getlive',
 	        'projects',
 	        true
 	    );
 	}
+

@@ -1209,6 +1209,24 @@ class expenseController extends mvc
         $editIDS = array(
             '47651'
         );
+        
+        
+        require_once __DIR__ . '/../admin/!model/customer.php';
+        $customerObj = new customer();
+        $customerList = $customerObj->getCustomerPair();
+        $form->addElement('f_client', 'Clients', 'select', '', [
+            'options' => $customerList
+        ], array(
+            '' => 'onchange="handleClientChange(\'f_client\', \'f_project\');"'
+        ));
+        require_once __DIR__ . '/../admin/!model/property.php';
+        $propModelObj = new property();
+        $projectList = $propModelObj->getProjectsPair();
+        $form->addElement('f_project', 'Project', 'select', '', array(
+            'options' => $projectList
+        ));
+        $form->f_project->setOptions($projectList);
+        
         require_once __DIR__ . '/../admin/!model/vendor.php';
         $vendorObj = new vendor();
         $venderList = $vendorObj->getVendorPairFilter();
@@ -1246,7 +1264,7 @@ class expenseController extends mvc
                 1 => "Employee",
                 2 => "Property",
                 3 => "Vehicle",
-                4 => "Port Operation"
+                4 => "Others"
             )
         ));
         $form->addElement('f_mode', 'Mode', 'select', '', array(
@@ -1282,7 +1300,9 @@ class expenseController extends mvc
                     'f_cCatSelect' => @$valid['f_cCatSelect'],
                     'f_mode' => @$valid['f_mode'],
                     'f_expid' => @$valid['f_expid'],
-                    'f_status' => @$valid['f_status']
+                    'f_status' => @$valid['f_status'],
+                    'f_client' => @$valid['f_client'],
+                    'f_project' => @$valid['f_project']
                 );
             }
             $filter_class = 'btn-info';

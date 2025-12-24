@@ -1,40 +1,45 @@
 <?php
-class expense extends db_table {
-	protected $_table = "mis_expense";
-	protected $_pkey = "exp_id";
-	
-	
-	public function add($data) {
-		return parent::insert ( $data );
-	}
-	
-	public function modify($data, $cond) {
-		return parent::update ( $data, $cond );
-	}
-	
-	public function getExpenseById($id) {
-		return parent::getById ($id);
-	}
-	
-	public function getExpenseByVendorAndRefNo($cond) {
-	    
-	    $this->query ( "select count(*) as ref_count from $this->_table" );
 
-	    $this->_where [] = "exp_vendor= :exp_vendor";
-	    $this->_where [] = "exp_refno= trim(:exp_refno)";
-	    
-	    if (! empty ( $cond ['exclude'] )){
-	        $this->_where[] = "exp_id NOT IN (".$cond ['exclude'].")";
-	        unset($cond ['exclude']);
-	    }
-	    	    
-	    return parent::fetchRow( $cond );
-	}
-	
-	
-	public function getExpenseDetailsById($cond = array()) {
-		$this->query ( 
-			"select $this->_table.*,
+class expense extends db_table
+{
+
+    protected $_table = "mis_expense";
+
+    protected $_pkey = "exp_id";
+
+    public function add($data)
+    {
+        return parent::insert($data);
+    }
+
+    public function modify($data, $cond)
+    {
+        return parent::update($data, $cond);
+    }
+
+    public function getExpenseById($id)
+    {
+        return parent::getById($id);
+    }
+
+    public function getExpenseByVendorAndRefNo($cond)
+    {
+        $this->query("select count(*) as ref_count from $this->_table");
+
+        $this->_where[] = "exp_vendor= :exp_vendor";
+        $this->_where[] = "exp_refno= trim(:exp_refno)";
+
+        if (! empty($cond['exclude'])) {
+            $this->_where[] = "exp_id NOT IN (" . $cond['exclude'] . ")";
+            unset($cond['exclude']);
+        }
+
+        return parent::fetchRow($cond);
+    }
+
+    public function getExpenseDetailsById($cond = array())
+    {
+        $this->query("select $this->_table.*,
 			comp.comp_disp_name,
 			pcat.cat_name as pcat,
 			scat.cat_name as scat,
@@ -46,7 +51,7 @@ class expense extends db_table {
 			case when exp_mainh = 1 then 'Employee'
 			when exp_mainh = 2 then 'Property'
 			when exp_mainh = 3 then 'Vehicle'
-			when exp_mainh = 4 then 'Port Operation'
+			when exp_mainh = 4 then 'Others'
 			end as main_head,
 			to_char(exp_app_date,'DD/MM/YYYY hh24:mi:ss') as app_dttime,
 			to_char(exp_billdt,'DD/MM/YYYY') as exp_billdt,
@@ -63,76 +68,76 @@ class expense extends db_table {
 			left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
 			left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 			left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
-			LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = ".DOC_TYPE_EXP." and files.deleted = 0
+			LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
 			LEFT JOIN mis_cash_flow AS c_flow on c_flow.deleted = 0 and c_flow.cf_id  = $this->_table.exp_cash_flow
 			LEFT JOIN mis_employee AS emp ON c_flow.cf_assigned = emp.emp_id	AND emp.deleted = 0
 			LEFT JOIN mis_cash_book AS cbook ON cbook.cb_id = c_flow.cf_cb_id AND cbook.deleted = 0
 
-			" );
-				
-		$this->_where [] = "exp_id = :exp_id";
-			
-		return parent::fetchRow( $cond );
-	}
-	
-	public function getExpenseVendorPair($cond = array()) {
-		$this->query ( "select exp_id,exp_id as selection from $this->_table" );
-		
-		if (! empty ( $cond ['exclude'] )){
-		    $this->_where[] = "exp_id NOT IN (".$cond ['exclude'].")";
-			unset($cond ['exclude']);
-		}
-		
-		$this->_where [] = "exp_vendor = :f_selVendor";
-		$this->_where [] = "exp_pay_mode = :f_mode";
-		$this->_order [] = 'exp_id ASC';
-		
-		if (! empty ( $cond ['exp_pstatus'] ))
-			$this->_where [] = "exp_pstatus = :exp_pstatus";
-			
-		return parent::fetchPair ( $cond );
-	}
-	
-	public function getExpenseAmountPair($cond = array()) {
-		$this->query ( "select exp_id,exp_credit_amt as selection from $this->_table" );
-		
-		if (! empty ( $cond ['exclude'] )){
-		    $this->_where[] = "exp_id NOT IN (" . $cond['exclude'] . ")";
-		    unset($cond ['exclude']);
-		}
-		
-		$this->_where [] = "exp_vendor = :f_selVendor";
-		$this->_where [] = "exp_pay_mode = :f_mode";
-		
-		if (! empty ( $cond ['exp_pstatus'] ))
-			$this->_where [] = "exp_pstatus = :exp_pstatus";
-		
-		$this->_order [] = 'exp_id ASC';
-		
-		return parent::fetchPair ( $cond );
-	}
-	
-	public function getExpenseBillPair($cond = array()) {
-	    $this->query ( "select exp_id, 'EXP/' || exp_id ||' # '||  exp_amount ||' # '|| LEFT(ven_name, 10)  || '..' as explabel from $this->_table
-                        left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
-                        " );
-	    	    
+			");
 
-        $this->_where [] = "exp_mainh = :exp_mainh";
-        
-        $cond['exp_pcat'] = 4; //maintanace
-        $this->_where [] = "exp_pcat = :exp_pcat";
-        
-        
-        
-        $this->_order [] = 'exp_id DESC';
-        
-        return parent::fetchPair ( $cond );
-	}
-	
-	
-	public function geExpensePaginate($cond = array()) {
-		$this->paginate ( "select $this->_table.*,
+        $this->_where[] = "exp_id = :exp_id";
+
+        return parent::fetchRow($cond);
+    }
+
+    public function getExpenseVendorPair($cond = array())
+    {
+        $this->query("select exp_id,exp_id as selection from $this->_table");
+
+        if (! empty($cond['exclude'])) {
+            $this->_where[] = "exp_id NOT IN (" . $cond['exclude'] . ")";
+            unset($cond['exclude']);
+        }
+
+        $this->_where[] = "exp_vendor = :f_selVendor";
+        $this->_where[] = "exp_pay_mode = :f_mode";
+        $this->_order[] = 'exp_id ASC';
+
+        if (! empty($cond['exp_pstatus']))
+            $this->_where[] = "exp_pstatus = :exp_pstatus";
+
+        return parent::fetchPair($cond);
+    }
+
+    public function getExpenseAmountPair($cond = array())
+    {
+        $this->query("select exp_id,exp_credit_amt as selection from $this->_table");
+
+        if (! empty($cond['exclude'])) {
+            $this->_where[] = "exp_id NOT IN (" . $cond['exclude'] . ")";
+            unset($cond['exclude']);
+        }
+
+        $this->_where[] = "exp_vendor = :f_selVendor";
+        $this->_where[] = "exp_pay_mode = :f_mode";
+
+        if (! empty($cond['exp_pstatus']))
+            $this->_where[] = "exp_pstatus = :exp_pstatus";
+
+        $this->_order[] = 'exp_id ASC';
+
+        return parent::fetchPair($cond);
+    }
+
+    public function getExpenseBillPair($cond = array())
+    {
+        $this->query("select exp_id, 'EXP/' || exp_id ||' # '||  exp_amount ||' # '|| LEFT(ven_name, 10)  || '..' as explabel from $this->_table
+                        left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
+                        ");
+
+        $this->_where[] = "exp_mainh = :exp_mainh";
+
+        $cond['exp_pcat'] = 4; // maintanace
+        $this->_where[] = "exp_pcat = :exp_pcat";
+
+        $this->_order[] = 'exp_id DESC';
+
+        return parent::fetchPair($cond);
+    }
+
+    public function geExpensePaginate($cond = array())
+    {
+        $this->paginate("select $this->_table.*,
 				comp.comp_disp_name,
 				pcat.cat_name as pcat,
 				scat.cat_name as scat,
@@ -146,7 +151,7 @@ class expense extends db_table {
 				case when exp_mainh = 1 then 'Employee'
 				when exp_mainh = 2 then 'Property'
 				when exp_mainh = 3 then 'Vehicle'
-				when exp_mainh = 4 then 'Port Operation'
+				when exp_mainh = 4 then 'Others'
 				end as main_head,
 				cb_id,
                 to_char(exp_billdt,'DD/MM/YYYY') as exp_disp_date
@@ -156,69 +161,74 @@ class expense extends db_table {
 				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
 				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 				left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
-				LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = ".DOC_TYPE_EXP." and files.deleted = 0
+				LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
 
-				left join mis_cash_book as cbook on cbook.cb_exp_id = exp_id and cbook.cb_type = ".CASH_BOOK_PER." and cbook.cb_type_ref = ".USER_ID." 
+				left join mis_cash_book as cbook on cbook.cb_exp_id = exp_id and cbook.cb_type = " . CASH_BOOK_PER . " and cbook.cb_type_ref = " . USER_ID . " 
 					and cbook.deleted= 0
 	
-				 " );
-		
-		
-		if (! empty ( $cond ['f_refno'] ))
-			$this->_where [] = "
+				 ");
+
+        if (! empty($cond['f_refno']))
+            $this->_where[] = "
 					(lower(exp_refno) like trim(lower(:f_refno)))";
-		
-		if (! empty ( $cond ['f_particulers'] ))
-			$this->_where [] = "
+
+        if (! empty($cond['f_particulers']))
+            $this->_where[] = "
 				(lower(exp_details) like '%' || lower(:f_particulers) || '%')";
-		
-		if (! empty ( $cond ['f_selVendor'] ))
-			$this->_where [] = "vendor.ven_id = :f_selVendor";
-		
-		if (! empty ( $cond ['f_company'] ))
-			$this->_where [] = "comp.comp_id = :f_company";
-		
-		if (! empty ( $cond ['f_pCatSelect'] ))
-			$this->_where [] = "pcat.cat_id = :f_pCatSelect";
-		
-		if (! empty ( $cond ['f_sCatSelect'] ))
-			$this->_where [] = "scat.cat_id = :f_sCatSelect";
-		
-		if (! empty ( $cond ['f_cCatSelect'] ))
-			$this->_where [] = "ccat.cat_id = :f_cCatSelect";
-		
-		if (! empty ( $cond ['f_mainhead'] ))
-			$this->_where [] = "exp_mainh = :f_mainhead";
-		
-		if (! empty ( $cond ['f_mode'] ))
-			$this->_where [] = "exp_pay_mode = :f_mode";
-		
-		if (! empty ( $cond ['f_expid'] ))
-			$this->_where [] = "exp_id = :f_expid";
-		
-		if (! empty ( $cond ['f_status'] )){
-			if($cond ['f_status'] == '2'){
-				$this->_where [] = "exp_app_status IS NULL";
-				unset($cond ['f_status']);
-			}
-			else		
-				$this->_where [] = "exp_app_status = :f_status";
-			
-		}
-		//debugging only 
-		//$this->_where [] = "files.file_id IS NULL and exp_app_status = 1";
-		
-		$this->_order [] = 'exp_id DESC';
-		
-		//$this->_order [] = 'emp_uname DESC';
-		//$db= new db_table();
-		//$$db->dbug($cond);
-		
-		return parent::fetchAll ( $cond );
-	}
-	
-	public function getExpenseDet($cond) {
-		$this->query ( "select $this->_table.*,
+
+        if (! empty($cond['f_selVendor']))
+            $this->_where[] = "vendor.ven_id = :f_selVendor";
+
+        if (! empty($cond['f_company']))
+            $this->_where[] = "comp.comp_id = :f_company";
+
+        if (! empty($cond['f_pCatSelect']))
+            $this->_where[] = "pcat.cat_id = :f_pCatSelect";
+
+        if (! empty($cond['f_sCatSelect']))
+            $this->_where[] = "scat.cat_id = :f_sCatSelect";
+
+        if (! empty($cond['f_cCatSelect']))
+            $this->_where[] = "ccat.cat_id = :f_cCatSelect";
+
+        if (! empty($cond['f_mainhead']))
+            $this->_where[] = "exp_mainh = :f_mainhead";
+
+        if (! empty($cond['f_mode']))
+            $this->_where[] = "exp_pay_mode = :f_mode";
+
+        if (! empty($cond['f_expid']))
+            $this->_where[] = "exp_id = :f_expid";
+
+        if (! empty($cond['f_client']))
+            $this->_where[] = "exp_client_id = :f_client";
+
+        if (! empty($cond['f_project']))
+            $this->_where[] = "exp_project_id = :f_project";
+
+        if (! empty($cond['f_status'])) {
+            if ($cond['f_status'] == '2') {
+                $this->_where[] = "exp_app_status IS NULL";
+                unset($cond['f_status']);
+            } else
+                $this->_where[] = "exp_app_status = :f_status";
+        }
+
+        // debugging only
+        // $this->_where [] = "files.file_id IS NULL and exp_app_status = 1";
+
+        $this->_order[] = 'exp_id DESC';
+
+        // $this->_order [] = 'emp_uname DESC';
+        // $db= new db_table();
+        // $$db->dbug($cond);
+
+        return parent::fetchAll($cond);
+    }
+
+    public function getExpenseDet($cond)
+    {
+        $this->query("select $this->_table.*,
 				files.file_id,
 				files.file_exten,
 				files.file_actual_name,
@@ -227,21 +237,21 @@ class expense extends db_table {
 				cb_type_ref,
 				cf_approve
 				from $this->_table
-				LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = ".DOC_TYPE_EXP." and files.deleted = 0
-				LEFT JOIN mis_cash_book as cbook on cbook.cb_exp_id = $this->_table.exp_id and cbook.cb_type = ".CASH_BOOK_PER." 
+				LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
+				LEFT JOIN mis_cash_book as cbook on cbook.cb_exp_id = $this->_table.exp_id and cbook.cb_type = " . CASH_BOOK_PER . " 
 				LEFT JOIN mis_cash_flow AS cf ON cf.cf_id = exp_cash_flow and cf.deleted= 1
-				-- and cbook.cb_type_ref = ".USER_ID."
+				-- and cbook.cb_type_ref = " . USER_ID . "
 				and cbook.deleted = 0
-			" );
-		if (! empty ( $cond ['exp_id'] ))
-			$this->_where [] = "exp_id= :exp_id";
-			
-			return parent::fetchRow ( $cond );
-	}
-	
-	public function getExpenseFileNo($cond) {
-		$this->query (
-				"SELECT sum(total_count) AS total_count,
+			");
+        if (! empty($cond['exp_id']))
+            $this->_where[] = "exp_id= :exp_id";
+
+        return parent::fetchRow($cond);
+    }
+
+    public function getExpenseFileNo($cond)
+    {
+        $this->query("SELECT sum(total_count) AS total_count,
 				    sum(type_count) AS type_count
 				FROM
 				  (SELECT count(*) total_count,
@@ -250,106 +260,95 @@ class expense extends db_table {
 				                   END AS type_count
 				   FROM mis_expense
 				   where exp_id <=:exp_id	
-				   GROUP BY exp_pay_mode) AS tcount"
-				);
-		
-		return parent::fetchQuery($cond);
-	}
-	
-	public function geExpenseReport($cond = array()) {
-		@$cond = array_filter ( $cond );
-		
-		
-		if (! empty ( $cond ['f_refno'] ))
-			$where [] = "
+				   GROUP BY exp_pay_mode) AS tcount");
+
+        return parent::fetchQuery($cond);
+    }
+
+    public function geExpenseReport($cond = array())
+    {
+
+        // a($cond);
+        @$cond = array_filter($cond);
+
+        if (! empty($cond['f_refno']))
+            $where[] = "
 					(lower(exp_refno) like trim(lower(:f_refno)))";
-		
-		if (! empty ( $cond ['f_particulers'] ))
-			$where [] = "
+
+        if (! empty($cond['f_particulers']))
+            $where[] = "
 				(lower(exp_details) like '%' || lower(:f_particulers) || '%')";
-		
-		if (! empty ( $cond ['f_selVendor'] ))
-			$where [] = "vendor.ven_id = :f_selVendor";
-				
-		if (! empty ( $cond ['f_company'] ))
-			$where [] = "comp.comp_id = :f_company";
-		
-		if (! empty ( $cond ['f_pCatSelect'] ))
-			$where [] = "pcat.cat_id = :f_pCatSelect";
-		
-		if (! empty ( $cond ['f_sCatSelect'] ))
-			$where [] = "scat.cat_id = :f_sCatSelect";
-		
-		if (! empty ( $cond ['f_cCatSelect'] ))
-			$where [] = "ccat.cat_id = :f_cCatSelect";
-		
-		if (! empty ( $cond ['f_amount'] ))
-			$where [] = "exp_amount = :f_amount";
-		
-		if (! empty ( $cond ['f_mainhead'] ))
-			$where [] = "exp_mainh = :f_mainhead";
-		
-		if(! empty ( $cond ['f_mode'])  && $cond ['f_mode'] ==3)
-		{
-			$cond ['f_mode'] = 2;
-			$cond ['exp_pstatus'] = 1;
-			$where [] = "exp_pstatus <> :exp_pstatus";
-		}
-		
-		if (! empty ( $cond ['f_mode'] ))
-			$where [] = "exp_pay_mode = :f_mode";
-		
-		if (! empty ( $cond ['exp_pstatus'] ))
-			$where [] = "exp_pstatus = :exp_pstatus";
-		
-		$joinType  = ' LEFT ';
-		if (! empty ( $cond ['f_mrefs'] ) && is_array($cond ['f_mrefs'])){
-			$mhRef = implode(",", $cond ['f_mrefs']);
-			unset( $cond ['f_mrefs']);
-			$joinType = ' INNER ';
-		}
-		else if (! empty ( $cond ['f_mrefs'] ) ){
-		    $mhRef =  $cond ['f_mrefs'];
-		    unset( $cond ['f_mrefs']);
-		    $joinType = ' INNER ';
-		}
-		else
-			$mhRef = 'NULL';	
-		
-		$p_joinType  = ' LEFT ';
-		if (! empty ( $cond ['f_building'] )){
-			$mhprop = $cond ['f_building'] ;
-			unset( $cond ['f_building']);
-			$p_joinType= ' INNER ';
-		}
-		else
-			$mhprop= 'NULL';
-			
-		
-		if (! empty ( $cond ['f_monthpick'] )) {
-			$monthYear = explode ( '/', $cond ['f_monthpick'] );
-			$where [] = "(EXTRACT(month FROM exp_billdt) = '$monthYear[0]' AND EXTRACT(year FROM exp_billdt) = '$monthYear[1]' )";
-			unset ( $cond ['f_monthpick'] );
-		}
-		
-		if (! empty ( $cond ['f_dtfrom'] ))
-			$where [] = "exp_billdt >= :f_dtfrom";
-		
-		if (! empty ( $cond ['f_dtto'] ))
-			$where [] = "exp_billdt <= :f_dtto";
-		
-		if (! empty ( $cond ['exclude'] )){
-			$where [] = "exp_id NOT IN (".$cond ['exclude'].")";
-			unset($cond ['exclude']);
-		}
-		
-		
-		if (! empty ( $cond ['f_export'] ))
-			$where [] = "(exp_export = :f_export OR exp_export = 3)";
-		
-		if (! empty ( $cond ['exp_vat_option'] ))
-		    $where [] = "(exp_vat_option = :exp_vat_option)";
-		
+
+        if (! empty($cond['f_selVendor']))
+            $where[] = "vendor.ven_id = :f_selVendor";
+
+        if (! empty($cond['f_company']))
+            $where[] = "comp.comp_id = :f_company";
+
+        if (! empty($cond['f_pCatSelect']))
+            $where[] = "pcat.cat_id = :f_pCatSelect";
+
+        if (! empty($cond['f_sCatSelect']))
+            $where[] = "scat.cat_id = :f_sCatSelect";
+
+        if (! empty($cond['f_cCatSelect']))
+            $where[] = "ccat.cat_id = :f_cCatSelect";
+
+        if (! empty($cond['f_amount']))
+            $where[] = "exp_amount = :f_amount";
+
+        if (! empty($cond['f_mainhead']))
+            $where[] = "exp_mainh = :f_mainhead";
+
+        if (! empty($cond['f_mode']) && $cond['f_mode'] == 3) {
+            $cond['f_mode'] = 2;
+            $cond['exp_pstatus'] = 1;
+            $where[] = "exp_pstatus <> :exp_pstatus";
+        }
+
+        if (! empty($cond['f_mode']))
+            $where[] = "exp_pay_mode = :f_mode";
+
+        if (! empty($cond['exp_pstatus']))
+            $where[] = "exp_pstatus = :exp_pstatus";
+
+        $joinType = ' LEFT ';
+        if (! empty($cond['f_mrefs']) && is_array($cond['f_mrefs'])) {
+            $mhRef = implode(",", $cond['f_mrefs']);
+            unset($cond['f_mrefs']);
+            $joinType = ' INNER ';
+        } else if (! empty($cond['f_mrefs'])) {
+            $mhRef = $cond['f_mrefs'];
+            unset($cond['f_mrefs']);
+            $joinType = ' INNER ';
+        } else
+            $mhRef = 'NULL';
+
+        // a($cond);
+
+        if (! empty($cond['f_monthpick'])) {
+            $monthYear = explode('/', $cond['f_monthpick']);
+            $where[] = "(EXTRACT(month FROM exp_billdt) = '$monthYear[0]' AND EXTRACT(year FROM exp_billdt) = '$monthYear[1]' )";
+            unset($cond['f_monthpick']);
+        }
+
+        if (! empty($cond['f_dtfrom']))
+            $where[] = "exp_billdt >= :f_dtfrom";
+
+        if (! empty($cond['f_dtto']))
+            $where[] = "exp_billdt <= :f_dtto";
+
+        if (! empty($cond['exclude'])) {
+            $where[] = "exp_id NOT IN (" . $cond['exclude'] . ")";
+            unset($cond['exclude']);
+        }
+
+        if (! empty($cond['f_export']))
+            $where[] = "(exp_export = :f_export OR exp_export = 3)";
+
+        if (! empty($cond['exp_vat_option']))
+            $where[] = "(exp_vat_option = :exp_vat_option)";
+
         if (! empty($cond['f_status'])) {
             if ($cond['f_status'] == '2') {
                 $where[] = "exp_app_status IS NULL";
@@ -357,27 +356,29 @@ class expense extends db_table {
             } else
                 $where[] = "exp_app_status = :f_status";
         }
-		
-			
-			
-		
-		$where [] = ' mis_expense.deleted = 0 ';
-		$where = ' WHERE ' . implode ( ' AND ', $where );
-		
-		if($sort=='date')
-		    $sortSql  = " ORDER BY $this->_table.exp_billdt ASC ";
-		else 
-		    $sortSql  = " ORDER BY concat(pcat.cat_name , scat.cat_name , ccat.cat_name) ASC,$this->_table.exp_billdt ASC, ven_disp_name ASC  ";
-		
-		//$this->query (  );
-		
-		//$this->_order [] = 'concat(pcat.cat_name , scat.cat_name , ccat.cat_name) ASC,ven_disp_name ASC, $this->_table.exp_billdt ASC ';
-		
-		 //$db= new db_table();
-		 //$$db->dbug($cond);
-		 
-		
-		$this->paginate("SELECT $this->_table.*,
+
+        if (! empty($cond['f_client']))
+            $where[] = "exp_client_id = :f_client";
+
+        if (! empty($cond['f_project']))
+            $where[] = "exp_project_id = :f_project";
+
+        $where[] = ' mis_expense.deleted = 0 ';
+        $where = ' WHERE ' . implode(' AND ', $where);
+
+        if ($sort == 'date')
+            $sortSql = " ORDER BY $this->_table.exp_billdt ASC ";
+        else
+            $sortSql = " ORDER BY concat(pcat.cat_name , scat.cat_name , ccat.cat_name) ASC,$this->_table.exp_billdt ASC, ven_disp_name ASC  ";
+
+        // $this->query ( );
+
+        // $this->_order [] = 'concat(pcat.cat_name , scat.cat_name , ccat.cat_name) ASC,ven_disp_name ASC, $this->_table.exp_billdt ASC ';
+
+         //$db= new db_table();
+         //$db->dbug($cond);
+
+        $this->paginate("SELECT $this->_table.*,
 				to_char(exp_billdt,'DD/MM/YYYY') as exp_billdt,
 				comp.comp_disp_name,
 				pcat.cat_name as pcat,
@@ -393,7 +394,7 @@ class expense extends db_table {
 				case when exp_mainh = 1 then 'Employee'
 				when exp_mainh = 2 then 'Property'
 				when exp_mainh = 3 then 'Vehicle'
-				when exp_mainh = 4 then 'Port Operation'
+				when exp_mainh = 4 then 'Others'
 				end as main_head,
 				mref.*,
 				concat(pcat.cat_id,scat.cat_id,ccat.cat_id,'_',files.file_id,'.',files.file_exten) as file_name", "
@@ -404,231 +405,188 @@ class expense extends db_table {
 				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
 				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 				left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
+				left join mis_customer as clients on clients.cust_id = $this->_table.exp_client_id and clients.deleted = 0
+				left join mis_projects as projects on projects.project_id = $this->_table.exp_project_id and projects.deleted = 0
 		    
 				$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id
 							from  mis_expense_href
-							where eref_main_head_ref IN(".$mhRef.") and deleted = 0 and eref_status = 1
+							where eref_main_head_ref IN(" . $mhRef . ") and deleted = 0 and eref_status = 1
 							group by eref_exp_id
 				)as mref on mref.eref_exp_id = $this->_table.exp_id
 		    
-				$p_joinType join (SELECT SUM (eref_amount) AS mref_sum,
-								           eref_exp_id
-								FROM mis_expense_href
-								JOIN mis_projects AS prop ON eref_main_head_ref = prop.project_id
-								AND eref_main_head = 2
-								AND prop.deleted = 0
-								AND prop.project_client_id = $mhprop
-								WHERE mis_expense_href.deleted = 0
-								  AND eref_status = 1
-								GROUP BY eref_exp_id
-				)as mref_prop on mref_prop.eref_exp_id = $this->_table.exp_id
 		    
 		    
 		    
 				JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
 				$where  ");
-		
-		return parent::fetchQueryPaginate ( $cond ,$sortSql);
-	}
-	
-	public function getPaymentExpDet($cond, $sort='') {
-		
-			$where [] = "exp_vendor= :f_selVendor";
-			
-			if (! empty ( $cond ['exp_pay_mode'] ))
-				$where [] = "exp_pay_mode= :exp_pay_mode";
-			
- 			//$this->_where [] = "pdet_pay_id= :pdet_pay_id";
- 			
-			if (! empty ( $cond ['f_mode'] ))
-				$where [] = "exp_pay_mode = :f_mode";
- 						 			
-			if (! empty ( $cond ['exp_pstatus'] ))
-				$where [] = "exp_pstatus = :exp_pstatus";
 
-			if (! empty ( $cond ['pdet_status'] ))
-				$where [] = "pdet_status = :pdet_status";
-						
-			if (! empty ( $cond ['exclude'] )){
-				$where [] = "exp_id NOT IN (".$cond ['exclude'].")";
-				unset($cond ['exclude']);
-			}
+        // s($cond);
+        // parent::dbug($cond);
 
- 			$where [] = ' mis_expense.deleted = 0 ';
- 			$where = ' WHERE ' . implode ( ' AND ', $where );
- 			
- 			
- 			if($sort=='date')
- 			    $sortSql  = " ORDER BY $this->_table.exp_billdt ASC ";
- 			else
- 			    $sortSql  = " ORDER BY exp_id ASC  ";
- 			        
- 			
- 			$this->query ( "select $this->_table.* ,
+        return parent::fetchQueryPaginate($cond, $sortSql);
+    }
+
+    public function getPaymentExpDet($cond, $sort = '')
+    {
+        $where[] = "exp_vendor= :f_selVendor";
+
+        if (! empty($cond['exp_pay_mode']))
+            $where[] = "exp_pay_mode= :exp_pay_mode";
+
+        // $this->_where [] = "pdet_pay_id= :pdet_pay_id";
+
+        if (! empty($cond['f_mode']))
+            $where[] = "exp_pay_mode = :f_mode";
+
+        if (! empty($cond['exp_pstatus']))
+            $where[] = "exp_pstatus = :exp_pstatus";
+
+        if (! empty($cond['pdet_status']))
+            $where[] = "pdet_status = :pdet_status";
+
+        if (! empty($cond['exclude'])) {
+            $where[] = "exp_id NOT IN (" . $cond['exclude'] . ")";
+            unset($cond['exclude']);
+        }
+
+        $where[] = ' mis_expense.deleted = 0 ';
+        $where = ' WHERE ' . implode(' AND ', $where);
+
+        if ($sort == 'date')
+            $sortSql = " ORDER BY $this->_table.exp_billdt ASC ";
+        else
+            $sortSql = " ORDER BY exp_id ASC  ";
+
+        $this->query("select $this->_table.* ,
  					paydet.*,
 					to_char(exp_billdt,'DD/MM/YYYY') as exp_billdt,
 					case when exp_mainh = 1 then 'Employee'
 					when exp_mainh = 2 then 'Property'
 					when exp_mainh = 3 then 'Vehicle'
-					when exp_mainh = 4 then 'Port Operation'
+					when exp_mainh = 4 then 'Others'
 					end as main_head,
 					comp.comp_disp_name,
 					files.file_id
  					from $this->_table
- 					JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = ".DOC_TYPE_EXP." and files.deleted = 0
+ 					JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
  					left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
  					left join mis_payment_det as paydet on paydet.pdet_exp_id = $this->_table.exp_id and paydet.deleted = 0
  					and pdet_pay_id= :pdet_pay_id $where $sortSql ");
-					
-			return parent::fetchQuery( $cond );
-	}
-	
 
-	
-	
-	public function geExpenseReportSummary($cond = array()) {
-		@$cond = array_filter ( $cond );
-		
-		if (! empty ( $cond ['f_refno'] ))
-			$where [] = "
+        return parent::fetchQuery($cond);
+    }
+
+    public function geExpenseReportSummary($cond = array())
+    {
+        @$cond = array_filter($cond);
+
+        if (! empty($cond['f_refno']))
+            $where[] = "
 				(lower(exp_refno) like trim(lower(:f_refno)))";
-		
-		if (! empty ( $cond ['f_particulers'] ))
-			$where [] = "
+
+        if (! empty($cond['f_particulers']))
+            $where[] = "
 				(lower(exp_details) like '%' || lower(:f_particulers) || '%')";
-		
-		if (! empty ( $cond ['f_selVendor'] ))
-			$where [] = "vendor.ven_id = :f_selVendor";
-		
-		if (! empty ( $cond ['f_company'] ))
-			$where [] = "comp.comp_id = :f_company";
-		
-		if (! empty ( $cond ['f_pCatSelect'] ))
-			$where [] = "pcat.cat_id = :f_pCatSelect";
-		
-		if (! empty ( $cond ['f_sCatSelect'] ))
-			$where [] = "scat.cat_id = :f_sCatSelect";
-		
-		if (! empty ( $cond ['f_cCatSelect'] ))
-			$where [] = "ccat.cat_id = :f_cCatSelect";
-		
-		if (! empty ( $cond ['f_mainhead'] ))
-			$where [] = "exp_mainh = :f_mainhead";
-		
-		if (! empty ( $cond ['f_amount'] ))
-			$where [] = "exp_amount = :f_amount";
-		
-		if(! empty ( $cond ['f_mode'])  && $cond ['f_mode'] ==3)
-		{
-			$cond ['f_mode'] = 2;
-			$cond ['exp_pstatus'] = 1;
-			$where [] = "exp_pstatus <> :exp_pstatus";
-			$sumSelect = "SUM(exp_credit_amt) as sum ";
-		}
-		else 
-			$sumSelect = "SUM(exp_amount) as sum ";
-			
-		if (! empty ( $cond ['f_mode'] ))
-			$where [] = "exp_pay_mode = :f_mode";
 
-		$joinType  = ' LEFT ';
-		
-		if (is_array($cond ['f_mrefs']) && ! empty ( $cond ['f_mrefs'] )){
-		    $mhRef = implode(",", $cond ['f_mrefs']);
-		    unset( $cond ['f_mrefs']);
-		    $joinType = ' INNER ';
-		    
-		    $sumSelect = "SUM(mref.mref_sum) as sum ";
-		}
-		else if (! empty ( $cond ['f_mrefs'] )){
-			$mhRef = $cond ['f_mrefs'];
-			unset( $cond ['f_mrefs']);
-			$joinType = ' INNER ';
-			
-			$sumSelect = "SUM(mref.mref_sum) as sum ";
-		}
-		else
-			$mhRef = 'NULL';
-		
-		$p_joinType  = ' LEFT ';
-		if (! empty ( $cond ['f_building'] )){
-			$mhprop = $cond ['f_building'] ;
-			unset( $cond ['f_building']);
-			$p_joinType= ' INNER ';
-			
-			$sumSelect = "SUM(mref_prop.mref_sum) as sum ";
-		}
-		else
-			$mhprop= 'NULL';
-		
-		if (! empty ( $cond ['f_monthpick'] )) {
-			$monthYear = explode ( '/', $cond ['f_monthpick'] );
-			$where [] = "(EXTRACT(month FROM exp_billdt) = '$monthYear[0]' AND EXTRACT(year FROM exp_billdt) = '$monthYear[1]' )";
-			unset ( $cond ['f_monthpick'] );
-		}
-		
-		if (! empty ( $cond ['f_dtfrom'] ))
-			$where [] = "exp_billdt >= :f_dtfrom";
-			
-		if (! empty ( $cond ['f_dtto'] ))
-			$where [] = "exp_billdt <= :f_dtto";
-		
-		if (! empty ( $cond ['f_export'] ))
-			$where [] = "(exp_export = :f_export OR exp_export = 3)";
-		
-			
-		if (! empty($cond['f_status'])) {
-		    if ($cond['f_status'] == '2') {
-		        $where[] = "exp_app_status IS NULL";
-		        unset($cond['f_status']);
-		    } else
-		        $where[] = "exp_app_status = :f_status";
-		}
-		
-		$where [] = ' mis_expense.deleted = 0 ';
-		$where = ' WHERE ' . implode ( ' AND ', $where );
-		
-		$this->query ( "
-			SELECT 			
-			$sumSelect,
-			comp.comp_disp_name as label_name
-			from $this->_table
-			left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
-			left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
-			left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
-			left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
-			left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
+        if (! empty($cond['f_selVendor']))
+            $where[] = "vendor.ven_id = :f_selVendor";
 
-			$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id 
-						from  mis_expense_href 
-						where eref_main_head_ref IN(".$mhRef.") and deleted = 0 and eref_status = 1
-						group by eref_exp_id
-			)as mref on mref.eref_exp_id = $this->_table.exp_id 
+        if (! empty($cond['f_company']))
+            $where[] = "comp.comp_id = :f_company";
 
-			$p_joinType join (SELECT SUM (eref_amount) AS mref_sum,
-							           eref_exp_id
-							FROM mis_expense_href
-							JOIN mis_projects AS prop ON eref_main_head_ref = prop.prop_id
-							AND eref_main_head = 2
-							AND prop.deleted = 0
-							AND prop.prop_building = $mhprop
-							WHERE mis_expense_href.deleted = 0
-							  AND eref_status = 1
-							GROUP BY eref_exp_id
-			)as mref_prop on mref_prop.eref_exp_id = $this->_table.exp_id 
+        if (! empty($cond['f_pCatSelect']))
+            $where[] = "pcat.cat_id = :f_pCatSelect";
 
-			LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
-			$where  group by comp.comp_disp_name" );
-				
-		$result['comp'] =  parent::fetchQuery ( $cond );
-		
-		$this->query ( "
+        if (! empty($cond['f_sCatSelect']))
+            $where[] = "scat.cat_id = :f_sCatSelect";
+
+        if (! empty($cond['f_cCatSelect']))
+            $where[] = "ccat.cat_id = :f_cCatSelect";
+
+        if (! empty($cond['f_mainhead']))
+            $where[] = "exp_mainh = :f_mainhead";
+
+        if (! empty($cond['f_amount']))
+            $where[] = "exp_amount = :f_amount";
+
+        if (! empty($cond['f_mode']) && $cond['f_mode'] == 3) {
+            $cond['f_mode'] = 2;
+            $cond['exp_pstatus'] = 1;
+            $where[] = "exp_pstatus <> :exp_pstatus";
+            $sumSelect = "SUM(exp_credit_amt) as sum ";
+        } else
+            $sumSelect = "SUM(exp_amount) as sum ";
+
+        if (! empty($cond['f_mode']))
+            $where[] = "exp_pay_mode = :f_mode";
+
+        $joinType = ' LEFT ';
+
+        if (is_array($cond['f_mrefs']) && ! empty($cond['f_mrefs'])) {
+            $mhRef = implode(",", $cond['f_mrefs']);
+            unset($cond['f_mrefs']);
+            $joinType = ' INNER ';
+
+            $sumSelect = "SUM(mref.mref_sum) as sum ";
+        } else if (! empty($cond['f_mrefs'])) {
+            $mhRef = $cond['f_mrefs'];
+            unset($cond['f_mrefs']);
+            $joinType = ' INNER ';
+
+            $sumSelect = "SUM(mref.mref_sum) as sum ";
+        } else
+            $mhRef = 'NULL';
+
+        $p_joinType = ' LEFT ';
+        if (! empty($cond['f_building'])) {
+            $mhprop = $cond['f_building'];
+            unset($cond['f_building']);
+            $p_joinType = ' INNER ';
+
+            $sumSelect = "SUM(mref_prop.mref_sum) as sum ";
+        } else
+            $mhprop = 'NULL';
+
+        if (! empty($cond['f_monthpick'])) {
+            $monthYear = explode('/', $cond['f_monthpick']);
+            $where[] = "(EXTRACT(month FROM exp_billdt) = '$monthYear[0]' AND EXTRACT(year FROM exp_billdt) = '$monthYear[1]' )";
+            unset($cond['f_monthpick']);
+        }
+
+        if (! empty($cond['f_dtfrom']))
+            $where[] = "exp_billdt >= :f_dtfrom";
+
+        if (! empty($cond['f_dtto']))
+            $where[] = "exp_billdt <= :f_dtto";
+        
+            
+        if (! empty($cond['f_client']))
+            $where[] = "exp_client_id = :f_client";
+                
+        if (! empty($cond['f_project']))
+            $where[] = "exp_project_id = :f_project";
+
+        if (! empty($cond['f_export']))
+            $where[] = "(exp_export = :f_export OR exp_export = 3)";
+
+        if (! empty($cond['f_status'])) {
+            if ($cond['f_status'] == '2') {
+                $where[] = "exp_app_status IS NULL";
+                unset($cond['f_status']);
+            } else
+                $where[] = "exp_app_status = :f_status";
+        }
+
+        $where[] = ' mis_expense.deleted = 0 ';
+        $where = ' WHERE ' . implode(' AND ', $where);
+
+        $this->query("
 				SELECT 			
 				$sumSelect,
 				case when exp_mainh = 1 then 'Employee'
 				when exp_mainh = 2 then 'Property'
 				when exp_mainh = 3 then 'Vehicle'
-				when exp_mainh = 4 then 'Port Operation'
+				when exp_mainh = 4 then 'Others'
 				end as label_name
 				from $this->_table
 				left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
@@ -636,31 +594,23 @@ class expense extends db_table {
 				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
 				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 				left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
+				left join mis_customer as clients on clients.cust_id = $this->_table.exp_client_id and clients.deleted = 0
+				left join mis_projects as projects on projects.project_id = $this->_table.exp_project_id and projects.deleted = 0
+	
 
 				$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id 
 							from  mis_expense_href 
-							where eref_main_head_ref IN(".$mhRef.") and deleted = 0 and eref_status = 1
+							where eref_main_head_ref IN(" . $mhRef . ") and deleted = 0 and eref_status = 1
 							group by eref_exp_id
 				)as mref on mref.eref_exp_id = $this->_table.exp_id 
 
-				$p_joinType join (SELECT SUM (eref_amount) AS mref_sum,
-								           eref_exp_id
-								FROM mis_expense_href
-								JOIN mis_projects AS prop ON eref_main_head_ref = prop.prop_id
-								AND eref_main_head = 2
-								AND prop.deleted = 0
-								AND prop.prop_building = $mhprop
-								WHERE mis_expense_href.deleted = 0
-								  AND eref_status = 1
-								GROUP BY eref_exp_id
-				)as mref_prop on mref_prop.eref_exp_id = $this->_table.exp_id 
 
 				LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
-				$where  group by exp_mainh" );
-		
-		$result['head'] =parent::fetchQuery ( $cond );
-		
-		$this->query ( "
+				$where  group by exp_mainh");
+
+        $result['head'] = parent::fetchQuery($cond);
+
+        $this->query("
 				SELECT 			
 				$sumSelect,
 				pcat.cat_name || '<br>' || scat.cat_name || '<br>' || ccat.cat_name as label_name
@@ -670,53 +620,47 @@ class expense extends db_table {
 				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
 				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 				left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
+				left join mis_customer as clients on clients.cust_id = $this->_table.exp_client_id and clients.deleted = 0
+				left join mis_projects as projects on projects.project_id = $this->_table.exp_project_id and projects.deleted = 0
+	
 
 				$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id 
 							from  mis_expense_href 
-							where eref_main_head_ref IN(".$mhRef.") and deleted = 0 and eref_status = 1
+							where eref_main_head_ref IN(" . $mhRef . ") and deleted = 0 and eref_status = 1
 							group by eref_exp_id
 				)as mref on mref.eref_exp_id = $this->_table.exp_id 
 
-				$p_joinType join (SELECT SUM (eref_amount) AS mref_sum,
-								           eref_exp_id
-								FROM mis_expense_href
-								JOIN mis_projects AS prop ON eref_main_head_ref = prop.prop_id
-								AND eref_main_head = 2
-								AND prop.deleted = 0
-								AND prop.prop_building = $mhprop
-								WHERE mis_expense_href.deleted = 0
-								  AND eref_status = 1
-								GROUP BY eref_exp_id
-				)as mref_prop on mref_prop.eref_exp_id = $this->_table.exp_id 
 
 				LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
-				$where  group by ccat.cat_name,scat.cat_name,pcat.cat_name order by pcat.cat_name || ' ' || scat.cat_name || ' ' || ccat.cat_name" );
-		
-		$result['cat'] =parent::fetchQuery ( $cond );
-		
-		/*$this->query ( "
-				SELECT
-				$sumSelect,
-				pcat.cat_name as label_name
-				from $this->_table
-				left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
-				left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
-				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
-				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
-				left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
-				
-				$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id
-				from  mis_expense_href
-				where eref_main_head_ref IN(".$mhRef.") and deleted = 0 and eref_status = 1
-				group by eref_exp_id
-				)as mref on mref.eref_exp_id = $this->_table.exp_id
-				
-				LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
-				$where  group by pcat.cat_name order by pcat.cat_name" );
-		
-		$result['cat'] =parent::fetchQuery ( $cond );*/
-		
-		$this->query ( "
+				$where  group by ccat.cat_name,scat.cat_name,pcat.cat_name order by pcat.cat_name || ' ' || scat.cat_name || ' ' || ccat.cat_name");
+
+        $result['cat'] = parent::fetchQuery($cond);
+
+        /*
+         * $this->query ( "
+         * SELECT
+         * $sumSelect,
+         * pcat.cat_name as label_name
+         * from $this->_table
+         * left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
+         * left join core_category as pcat on pcat.cat_id = $this->_table.exp_pcat and pcat.cat_type = 2 and pcat.deleted = 0
+         * left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
+         * left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
+         * left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
+         *
+         * $joinType join (select sum (eref_amount) as mref_sum, eref_exp_id
+         * from mis_expense_href
+         * where eref_main_head_ref IN(".$mhRef.") and deleted = 0 and eref_status = 1
+         * group by eref_exp_id
+         * )as mref on mref.eref_exp_id = $this->_table.exp_id
+         *
+         * LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
+         * $where group by pcat.cat_name order by pcat.cat_name" );
+         *
+         * $result['cat'] =parent::fetchQuery ( $cond );
+         */
+
+        $this->query("
 				SELECT 			
 				$sumSelect,
 				vendor.ven_disp_name as label_name
@@ -726,31 +670,23 @@ class expense extends db_table {
 				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
 				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 				left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
+				left join mis_customer as clients on clients.cust_id = $this->_table.exp_client_id and clients.deleted = 0
+				left join mis_projects as projects on projects.project_id = $this->_table.exp_project_id and projects.deleted = 0
+	
 
 				$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id 
 							from  mis_expense_href 
-							where eref_main_head_ref IN(".$mhRef.") and deleted = 0 and eref_status = 1
+							where eref_main_head_ref IN(" . $mhRef . ") and deleted = 0 and eref_status = 1
 							group by eref_exp_id
 				)as mref on mref.eref_exp_id = $this->_table.exp_id 
 
-				$p_joinType join (SELECT SUM (eref_amount) AS mref_sum,
-								           eref_exp_id
-								FROM mis_expense_href
-								JOIN mis_projects AS prop ON eref_main_head_ref = prop.prop_id
-								AND eref_main_head = 2
-								AND prop.deleted = 0
-								AND prop.prop_building = $mhprop
-								WHERE mis_expense_href.deleted = 0
-								  AND eref_status = 1
-								GROUP BY eref_exp_id
-				)as mref_prop on mref_prop.eref_exp_id = $this->_table.exp_id 
 
 				LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
-				$where  group by vendor.ven_disp_name order by vendor.ven_disp_name" );
-		
-		$result['ven'] =parent::fetchQuery ( $cond );
-		
-		$this->query ( "
+				$where  group by vendor.ven_disp_name order by vendor.ven_disp_name");
+
+        $result['ven'] = parent::fetchQuery($cond);
+
+        $this->query("
 				SELECT 			
 				$sumSelect,
 				case when exp_pay_mode = 1 then 'Cash'
@@ -762,99 +698,92 @@ class expense extends db_table {
 				left join core_category as scat on scat.cat_id = $this->_table.exp_scat and scat.cat_type = 3 and scat.deleted = 0
 				left join core_category as ccat on ccat.cat_id = $this->_table.exp_ccat and ccat.cat_type = 4 and ccat.deleted = 0
 				left join mis_vendor as vendor on vendor.ven_id = $this->_table.exp_vendor and vendor.deleted = 0
+				left join mis_customer as clients on clients.cust_id = $this->_table.exp_client_id and clients.deleted = 0
+				left join mis_projects as projects on projects.project_id = $this->_table.exp_project_id and projects.deleted = 0
+	
 
 				$joinType join (select sum (eref_amount) as mref_sum, eref_exp_id 
 							from  mis_expense_href 
-							where eref_main_head_ref IN(".$mhRef.") and deleted = 0 and eref_status = 1
+							where eref_main_head_ref IN(" . $mhRef . ") and deleted = 0 and eref_status = 1
 							group by eref_exp_id
 				)as mref on mref.eref_exp_id = $this->_table.exp_id 
 
-				$p_joinType join (SELECT SUM (eref_amount) AS mref_sum,
-								           eref_exp_id
-								FROM mis_expense_href
-								JOIN mis_projects AS prop ON eref_main_head_ref = prop.prop_id
-								AND eref_main_head = 2
-								AND prop.deleted = 0
-								AND prop.prop_building = $mhprop
-								WHERE mis_expense_href.deleted = 0
-								  AND eref_status = 1
-								GROUP BY eref_exp_id
-				)as mref_prop on mref_prop.eref_exp_id = $this->_table.exp_id 
 
 				LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
-				$where group by label_name" );
-		
-		$result['total'] =parent::fetchQuery ( $cond );
-		//s($result['total']);
-		return $result;
-	}
-	
-	public function geExpenseReportSummaryPlot($cond = array()) {
-		@$cond = array_filter ( $cond );
-		
-		if (! empty ( $cond ['f_refno'] ))
-			$where [] = "
+				$where group by label_name");
+
+        $result['total'] = parent::fetchQuery($cond);
+        // s($result['total']);
+        return $result;
+    }
+
+    public function geExpenseReportSummaryPlot($cond = array())
+    {
+        @$cond = array_filter($cond);
+
+        if (! empty($cond['f_refno']))
+            $where[] = "
 				(lower(exp_refno) like trim(lower(:f_refno)))";
-		
-		if (! empty ( $cond ['f_particulers'] ))
-			$where [] = "
+
+        if (! empty($cond['f_particulers']))
+            $where[] = "
 				(lower(exp_details) like '%' || lower(:f_particulers) || '%')";
-		
-		if (! empty ( $cond ['f_selVendor'] ))
-			$where [] = "vendor.ven_id = :f_selVendor";
-		
-		if (! empty ( $cond ['f_company'] ))
-			$where [] = "comp.comp_id = :f_company";
-		
-		if (! empty ( $cond ['f_pCatSelect'] ))
-			$where [] = "pcat.cat_id = :f_pCatSelect";
-		
-		if (! empty ( $cond ['f_sCatSelect'] ))
-			$where [] = "scat.cat_id = :f_sCatSelect";
-		
-		if (! empty ( $cond ['f_cCatSelect'] ))
-			$where [] = "ccat.cat_id = :f_cCatSelect";
-		
-		if (! empty ( $cond ['f_mainhead'] ))
-			$where [] = "exp_mainh = :f_mainhead";
-		
-		if (! empty ( $cond ['f_mode'] ) && $cond ['f_mode'] == 3) {
-			$cond ['f_mode'] = 2;
-			$cond ['exp_pstatus'] = 1;
-			$where [] = "exp_pstatus <> :exp_pstatus";
-			$sumSelect = "SUM(exp_credit_amt) as sum ";
-		} else
-			$sumSelect = "SUM(exp_amount) as sum ";
-		
-		if (! empty ( $cond ['f_mode'] ))
-			$where [] = "exp_pay_mode = :f_mode";
-		
-		$joinType = ' LEFT ';
-		if (! empty ( $cond ['f_mrefs'] )) {
-			$mhRef = implode ( ",", $cond ['f_mrefs'] );
-			unset ( $cond ['f_mrefs'] );
-			$joinType = ' INNER ';
-			
-			$sumSelect = "SUM(mref_sum) as sum ";
-		} else
-			$mhRef = 'NULL';
-		
-		if (! empty ( $cond ['f_monthpick'] )) {
-			$monthYear = explode ( '/', $cond ['f_monthpick'] );
-			$where [] = "(EXTRACT(month FROM exp_billdt) = '$monthYear[0]' AND EXTRACT(year FROM exp_billdt) = '$monthYear[1]' )";
-			unset ( $cond ['f_monthpick'] );
-		}
-		
-		if (! empty ( $cond ['f_dtfrom'] ))
-			$where [] = "exp_billdt >= :f_dtfrom";
-		
-		if (! empty ( $cond ['f_dtto'] ))
-			$where [] = "exp_billdt <= :f_dtto";
-		
-		$where [] = ' mis_expense.deleted = 0 ';
-		$where = ' WHERE ' . implode ( ' AND ', $where );
-		
-		$this->query ( "
+
+        if (! empty($cond['f_selVendor']))
+            $where[] = "vendor.ven_id = :f_selVendor";
+
+        if (! empty($cond['f_company']))
+            $where[] = "comp.comp_id = :f_company";
+
+        if (! empty($cond['f_pCatSelect']))
+            $where[] = "pcat.cat_id = :f_pCatSelect";
+
+        if (! empty($cond['f_sCatSelect']))
+            $where[] = "scat.cat_id = :f_sCatSelect";
+
+        if (! empty($cond['f_cCatSelect']))
+            $where[] = "ccat.cat_id = :f_cCatSelect";
+
+        if (! empty($cond['f_mainhead']))
+            $where[] = "exp_mainh = :f_mainhead";
+
+        if (! empty($cond['f_mode']) && $cond['f_mode'] == 3) {
+            $cond['f_mode'] = 2;
+            $cond['exp_pstatus'] = 1;
+            $where[] = "exp_pstatus <> :exp_pstatus";
+            $sumSelect = "SUM(exp_credit_amt) as sum ";
+        } else
+            $sumSelect = "SUM(exp_amount) as sum ";
+
+        if (! empty($cond['f_mode']))
+            $where[] = "exp_pay_mode = :f_mode";
+
+        $joinType = ' LEFT ';
+        if (! empty($cond['f_mrefs'])) {
+            $mhRef = implode(",", $cond['f_mrefs']);
+            unset($cond['f_mrefs']);
+            $joinType = ' INNER ';
+
+            $sumSelect = "SUM(mref_sum) as sum ";
+        } else
+            $mhRef = 'NULL';
+
+        if (! empty($cond['f_monthpick'])) {
+            $monthYear = explode('/', $cond['f_monthpick']);
+            $where[] = "(EXTRACT(month FROM exp_billdt) = '$monthYear[0]' AND EXTRACT(year FROM exp_billdt) = '$monthYear[1]' )";
+            unset($cond['f_monthpick']);
+        }
+
+        if (! empty($cond['f_dtfrom']))
+            $where[] = "exp_billdt >= :f_dtfrom";
+
+        if (! empty($cond['f_dtto']))
+            $where[] = "exp_billdt <= :f_dtto";
+
+        $where[] = ' mis_expense.deleted = 0 ';
+        $where = ' WHERE ' . implode(' AND ', $where);
+
+        $this->query("
 			SELECT
 			$sumSelect,
 			comp.comp_disp_name as label_name
@@ -872,17 +801,17 @@ class expense extends db_table {
 			)as mref on mref.eref_exp_id = $this->_table.exp_id
 			
 			LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
-			$where  group by comp.comp_disp_name" );
-		
-		$result ['comp'] = parent::fetchQuery ( $cond );
-		
-		$this->query ( "
+			$where  group by comp.comp_disp_name");
+
+        $result['comp'] = parent::fetchQuery($cond);
+
+        $this->query("
 			SELECT
 			$sumSelect,
 			case when exp_mainh = 1 then 'Employee'
 			when exp_mainh = 2 then 'Property'
 			when exp_mainh = 3 then 'Vehicle'
-			when exp_mainh = 4 then 'Port Operation'
+			when exp_mainh = 4 then 'Others'
 			end as label_name
 			from $this->_table
 			left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
@@ -898,11 +827,11 @@ class expense extends db_table {
 			)as mref on mref.eref_exp_id = $this->_table.exp_id
 			
 			LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
-			$where  group by exp_mainh" );
-		
-		$result ['head'] = parent::fetchQuery ( $cond );
-		
-		$this->query ( "
+			$where  group by exp_mainh");
+
+        $result['head'] = parent::fetchQuery($cond);
+
+        $this->query("
 			SELECT
 			$sumSelect,
 			pcat.cat_name as label_name
@@ -923,11 +852,11 @@ class expense extends db_table {
 			$where
 			group by pcat.cat_name
 			--	group by ccat.cat_name ,scat.cat_name,pcat.cat_name
-			order by pcat.cat_name -- || ' ' || scat.cat_name || ' ' || ccat.cat_name" );
-		
-	$result ['cat'] = parent::fetchQuery ( $cond );
-		
-		$this->query ( "
+			order by pcat.cat_name -- || ' ' || scat.cat_name || ' ' || ccat.cat_name");
+
+        $result['cat'] = parent::fetchQuery($cond);
+
+        $this->query("
 			SELECT
 			$sumSelect,
 			vendor.ven_disp_name as label_name
@@ -945,11 +874,11 @@ class expense extends db_table {
 			)as mref on mref.eref_exp_id = $this->_table.exp_id
 			
 			LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
-			$where  group by vendor.ven_disp_name order by sum ASC" );
+			$where  group by vendor.ven_disp_name order by sum ASC");
 
-		$result ['ven'] = parent::fetchQuery ( $cond );
-		
-		$this->query ( "
+        $result['ven'] = parent::fetchQuery($cond);
+
+        $this->query("
 			SELECT
 			$sumSelect,
 			case when exp_pay_mode = 1 then 'Cash'
@@ -969,77 +898,79 @@ class expense extends db_table {
 			)as mref on mref.eref_exp_id = $this->_table.exp_id
 			
 			LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
-			$where group by label_name" );
-		
-		$result ['total'] = parent::fetchQuery ( $cond );
-		// s($result['total']);
-		return $result;
-	}
-	public function geExpenseReportSummaryPlotCredit($cond = array()) {
-		@$cond = array_filter ( $cond );
-		
-		if (! empty ( $cond ['f_refno'] ))
-			$where [] = "
+			$where group by label_name");
+
+        $result['total'] = parent::fetchQuery($cond);
+        // s($result['total']);
+        return $result;
+    }
+
+    public function geExpenseReportSummaryPlotCredit($cond = array())
+    {
+        @$cond = array_filter($cond);
+
+        if (! empty($cond['f_refno']))
+            $where[] = "
                     (lower(exp_refno) like trim(lower(:f_refno)))";
-			
-			if (! empty ( $cond ['f_particulers'] ))
-				$where [] = "
+
+        if (! empty($cond['f_particulers']))
+            $where[] = "
         (lower(exp_details) like '%' || lower(:f_particulers) || '%')";
-		if (! empty ( $cond ['f_selVendor'] ))
-			$where [] = "vendor.ven_id = :f_selVendor";
-		
-		if (! empty ( $cond ['f_company'] ))
-			$where [] = "comp.comp_id = :f_company";
-		
-		if (! empty ( $cond ['f_pCatSelect'] ))
-			$where [] = "pcat.cat_id = :f_pCatSelect";
-		
-		if (! empty ( $cond ['f_sCatSelect'] ))
-			$where [] = "scat.cat_id = :f_sCatSelect";
-		
-		if (! empty ( $cond ['f_cCatSelect'] ))
-			$where [] = "ccat.cat_id = :f_cCatSelect";
-		
-		if (! empty ( $cond ['f_mainhead'] ))
-			$where [] = "exp_mainh = :f_mainhead";
-		
-		if (! empty ( $cond ['f_mode'] ) && $cond ['f_mode'] == 3) {
-			$cond ['f_mode'] = 2;
-			$cond ['exp_pstatus'] = 1;
-			$where [] = "exp_pstatus <> :exp_pstatus";
-			$sumSelect = "SUM(exp_credit_amt) as sum ";
-		} else
-			$sumSelect = "SUM(exp_amount) as sum ";
-		
-		if (! empty ( $cond ['f_mode'] ))
-			$where [] = "exp_pay_mode = :f_mode";
-		
-		$joinType = ' LEFT ';
-		if (! empty ( $cond ['f_mrefs'] )) {
-			$mhRef = implode ( ",", $cond ['f_mrefs'] );
-			unset ( $cond ['f_mrefs'] );
-			$joinType = ' INNER ';
-			
-			$sumSelect = "SUM(mref_sum) as sum ";
-		} else
-			$mhRef = 'NULL';
-		
-		if (! empty ( $cond ['f_monthpick'] )) {
-			$monthYear = explode ( '/', $cond ['f_monthpick'] );
-			$where [] = "(EXTRACT(month FROM exp_billdt) = '$monthYear[0]' AND EXTRACT(year FROM exp_billdt) = '$monthYear[1]' )";
-			unset ( $cond ['f_monthpick'] );
-		}
-		
-		if (! empty ( $cond ['f_dtfrom'] ))
-			$where [] = "exp_billdt >= :f_dtfrom";
-		
-		if (! empty ( $cond ['f_dtto'] ))
-			$where [] = "exp_billdt <= :f_dtto";
-		
-		$where [] = ' mis_expense.deleted = 0 ';
-		$where = ' WHERE ' . implode ( ' AND ', $where );
-															
-			$this->query ( "
+        if (! empty($cond['f_selVendor']))
+            $where[] = "vendor.ven_id = :f_selVendor";
+
+        if (! empty($cond['f_company']))
+            $where[] = "comp.comp_id = :f_company";
+
+        if (! empty($cond['f_pCatSelect']))
+            $where[] = "pcat.cat_id = :f_pCatSelect";
+
+        if (! empty($cond['f_sCatSelect']))
+            $where[] = "scat.cat_id = :f_sCatSelect";
+
+        if (! empty($cond['f_cCatSelect']))
+            $where[] = "ccat.cat_id = :f_cCatSelect";
+
+        if (! empty($cond['f_mainhead']))
+            $where[] = "exp_mainh = :f_mainhead";
+
+        if (! empty($cond['f_mode']) && $cond['f_mode'] == 3) {
+            $cond['f_mode'] = 2;
+            $cond['exp_pstatus'] = 1;
+            $where[] = "exp_pstatus <> :exp_pstatus";
+            $sumSelect = "SUM(exp_credit_amt) as sum ";
+        } else
+            $sumSelect = "SUM(exp_amount) as sum ";
+
+        if (! empty($cond['f_mode']))
+            $where[] = "exp_pay_mode = :f_mode";
+
+        $joinType = ' LEFT ';
+        if (! empty($cond['f_mrefs'])) {
+            $mhRef = implode(",", $cond['f_mrefs']);
+            unset($cond['f_mrefs']);
+            $joinType = ' INNER ';
+
+            $sumSelect = "SUM(mref_sum) as sum ";
+        } else
+            $mhRef = 'NULL';
+
+        if (! empty($cond['f_monthpick'])) {
+            $monthYear = explode('/', $cond['f_monthpick']);
+            $where[] = "(EXTRACT(month FROM exp_billdt) = '$monthYear[0]' AND EXTRACT(year FROM exp_billdt) = '$monthYear[1]' )";
+            unset($cond['f_monthpick']);
+        }
+
+        if (! empty($cond['f_dtfrom']))
+            $where[] = "exp_billdt >= :f_dtfrom";
+
+        if (! empty($cond['f_dtto']))
+            $where[] = "exp_billdt <= :f_dtto";
+
+        $where[] = ' mis_expense.deleted = 0 ';
+        $where = ' WHERE ' . implode(' AND ', $where);
+
+        $this->query("
 					SELECT
 					$sumSelect,
 					vendor.ven_disp_name as label_name
@@ -1057,11 +988,11 @@ class expense extends db_table {
 					)as mref on mref.eref_exp_id = $this->_table.exp_id
 					
 					LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
-					$where  group by vendor.ven_disp_name order by vendor.ven_disp_name" );
-			
-			$result ['ven'] = parent::fetchQuery ( $cond );
-			
-			$this->query ( "
+					$where  group by vendor.ven_disp_name order by vendor.ven_disp_name");
+
+        $result['ven'] = parent::fetchQuery($cond);
+
+        $this->query("
 					SELECT
 					$sumSelect,
 					case when exp_pay_mode = 1 then 'Cash'
@@ -1081,26 +1012,24 @@ class expense extends db_table {
 					)as mref on mref.eref_exp_id = $this->_table.exp_id
 					
 					LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
-					$where group by label_name" );
-			
-			$result ['total'] = parent::fetchQuery ( $cond );
-			// s($result['total']);
-			return $result;
-	}
-	
-	
-	public function getExpenseVendorReport($cond=array()){
-		
-		if (! empty ( $cond ['ven_id'] ))
-			$where [] = "exp_vendor = :ven_id";
-			
-			$where [] = ' mis_expense.exp_app_status = 1 ';
-			$where [] = ' mis_expense.exp_pstatus <>1 ';
-			$where [] = ' mis_expense.deleted = 0 ';
-			$where = ' WHERE ' . implode ( ' AND ', $where );
-			
-			$this->query (
-					"SELECT mis_expense.*,
+					$where group by label_name");
+
+        $result['total'] = parent::fetchQuery($cond);
+        // s($result['total']);
+        return $result;
+    }
+
+    public function getExpenseVendorReport($cond = array())
+    {
+        if (! empty($cond['ven_id']))
+            $where[] = "exp_vendor = :ven_id";
+
+        $where[] = ' mis_expense.exp_app_status = 1 ';
+        $where[] = ' mis_expense.exp_pstatus <>1 ';
+        $where[] = ' mis_expense.deleted = 0 ';
+        $where = ' WHERE ' . implode(' AND ', $where);
+
+        $this->query("SELECT mis_expense.*,
 					to_char(exp_billdt,'DD/MM/YYYY') as exp_disp_date,
 					vendor.ven_name,
 					comp.comp_disp_name
@@ -1109,56 +1038,54 @@ class expense extends db_table {
 					AND vendor.deleted = 0
 					left join core_company as comp on comp.comp_id = $this->_table.exp_company and comp.deleted = 0
 					$where
-					ORDER BY ven_name asc, exp_billdt ASC,exp_id DESC" );
-					
-					return parent::fetchQuery($cond);
-					
-	}
-	
-	
-	public function geExpenseCatWiseReportSummary($cond = array()) {
-		@$cond = array_filter ( $cond );
-		
-		if (! empty ( $cond ['f_mode'] ) && $cond ['f_mode'] == 3) {
-			$cond ['f_mode'] = 2;
-			$cond ['exp_pstatus'] = 1;
-			$where [] = "exp_pstatus <> :exp_pstatus";
-			$sumSelect = "SUM(exp_credit_amt) as sum ";
-		} else
-			$sumSelect = "SUM(exp_amount) as sum ";
-	
-		if (! empty ( $cond ['f_mode'] ))
-			$where [] = "exp_pay_mode = :f_mode";
-		
+					ORDER BY ven_name asc, exp_billdt ASC,exp_id DESC");
 
-		if (! empty ( $cond ['f_pCatSelect'] ))
-			$where [] = "pcat.cat_id = :f_pCatSelect";
-		
-		if (! empty ( $cond ['f_sCatSelect'] ))
-			$where [] = "scat.cat_id = :f_sCatSelect";
-		
-		if (! empty ( $cond ['f_cCatSelect'] ))
-			$where [] = "ccat.cat_id = :f_cCatSelect";
-		
-		if (! empty ( $cond ['f_mainhead'] ))
-			$where [] = "exp_mainh = :f_mainhead";
-		
-		if (! empty ( $cond ['f_monthpick'] )) {
-			$monthYear = explode ( '/', $cond ['f_monthpick'] );
-			$where [] = "(EXTRACT(month FROM exp_billdt) = '$monthYear[0]' AND EXTRACT(year FROM exp_billdt) = '$monthYear[1]' )";
-			unset ( $cond ['f_monthpick'] );
-		}
-		
-		if (! empty ( $cond ['f_dtfrom'] ))
-			$where [] = "exp_billdt >= :f_dtfrom";
-		
-		if (! empty ( $cond ['f_dtto'] ))
-			$where [] = "exp_billdt <= :f_dtto";
-		
-		$where [] = ' mis_expense.deleted = 0 ';
-		$where = ' WHERE ' . implode ( ' AND ', $where );
-																													
-		$this->query ( "
+        return parent::fetchQuery($cond);
+    }
+
+    public function geExpenseCatWiseReportSummary($cond = array())
+    {
+        @$cond = array_filter($cond);
+
+        if (! empty($cond['f_mode']) && $cond['f_mode'] == 3) {
+            $cond['f_mode'] = 2;
+            $cond['exp_pstatus'] = 1;
+            $where[] = "exp_pstatus <> :exp_pstatus";
+            $sumSelect = "SUM(exp_credit_amt) as sum ";
+        } else
+            $sumSelect = "SUM(exp_amount) as sum ";
+
+        if (! empty($cond['f_mode']))
+            $where[] = "exp_pay_mode = :f_mode";
+
+        if (! empty($cond['f_pCatSelect']))
+            $where[] = "pcat.cat_id = :f_pCatSelect";
+
+        if (! empty($cond['f_sCatSelect']))
+            $where[] = "scat.cat_id = :f_sCatSelect";
+
+        if (! empty($cond['f_cCatSelect']))
+            $where[] = "ccat.cat_id = :f_cCatSelect";
+
+        if (! empty($cond['f_mainhead']))
+            $where[] = "exp_mainh = :f_mainhead";
+
+        if (! empty($cond['f_monthpick'])) {
+            $monthYear = explode('/', $cond['f_monthpick']);
+            $where[] = "(EXTRACT(month FROM exp_billdt) = '$monthYear[0]' AND EXTRACT(year FROM exp_billdt) = '$monthYear[1]' )";
+            unset($cond['f_monthpick']);
+        }
+
+        if (! empty($cond['f_dtfrom']))
+            $where[] = "exp_billdt >= :f_dtfrom";
+
+        if (! empty($cond['f_dtto']))
+            $where[] = "exp_billdt <= :f_dtto";
+
+        $where[] = ' mis_expense.deleted = 0 ';
+        $where = ' WHERE ' . implode(' AND ', $where);
+
+        $this->query("
 				SELECT
 				$sumSelect,
 				pcat.cat_name as pcat,
@@ -1172,7 +1099,7 @@ class expense extends db_table {
 				case when exp_mainh = 1 then 'Employee'
 				when exp_mainh = 2 then 'Property'
 				when exp_mainh = 3 then 'Vehicle'
-				when exp_mainh = 4 then 'Port Operation'
+				when exp_mainh = 4 then 'Others'
 				end as main_head_txt,
                 exp_mainh       
 
@@ -1186,96 +1113,90 @@ class expense extends db_table {
 				LEFT JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
 				$where
 				group by exp_mainh, ccat.cat_name,ccat_id ,scat.cat_name,scat_id,pcat.cat_name,pcat_id
-				order by exp_mainh ASC, pcat.cat_name  ASC, scat.cat_name ASC, ccat.cat_name ASC" );
-				
-				return parent::fetchQuery ( $cond );
+				order by exp_mainh ASC, pcat.cat_name  ASC, scat.cat_name ASC, ccat.cat_name ASC");
 
-	}
-	
-	public function geExpenseExport($cond = array()) {
-		@$cond = array_filter ( $cond );
-		
-		if (! empty ( $cond ['f_refno'] ))
-			$where [] = "
+        return parent::fetchQuery($cond);
+    }
+
+    public function geExpenseExport($cond = array())
+    {
+        @$cond = array_filter($cond);
+
+        if (! empty($cond['f_refno']))
+            $where[] = "
 					(lower(exp_refno) like trim(lower(:f_refno)))";
-		
-		if (! empty ( $cond ['f_particulers'] ))
-			$where [] = "
+
+        if (! empty($cond['f_particulers']))
+            $where[] = "
 				(lower(exp_details) like '%' || lower(:f_particulers) || '%')";
-		
-		if (! empty ( $cond ['f_selVendor'] ))
-			$where [] = "vendor.ven_id = :f_selVendor";
-		
-		if (! empty ( $cond ['f_company'] ))
-			$where [] = "comp.comp_id = :f_company";
-		
-		if (! empty ( $cond ['f_pCatSelect'] ))
-			$where [] = "pcat.cat_id = :f_pCatSelect";
-		
-		if (! empty ( $cond ['f_sCatSelect'] ))
-			$where [] = "scat.cat_id = :f_sCatSelect";
-		
-		if (! empty ( $cond ['f_cCatSelect'] ))
-			$where [] = "ccat.cat_id = :f_cCatSelect";
-		
-		if (! empty ( $cond ['f_amount'] ))
-			$where [] = "exp_amount = :f_amount";
-		
-		if (! empty ( $cond ['f_mainhead'] ))
-			$where [] = "exp_mainh = :f_mainhead";
-		
-		if (! empty ( $cond ['f_mode'] ) && $cond ['f_mode'] == 3) {
-			$cond ['f_mode'] = 2;
-			$cond ['exp_pstatus'] = 1;
-			$where [] = "exp_pstatus <> :exp_pstatus";
-		}
-		
-		if (! empty ( $cond ['f_mode'] ))
-			$where [] = "exp_pay_mode = :f_mode";
-		
-		if (! empty ( $cond ['exp_pstatus'] ))
-			$where [] = "exp_pstatus = :exp_pstatus";
-		
-		$joinType = ' LEFT ';
-		if (! empty ( $cond ['f_mrefs'] )) {
-			$mhRef = implode ( ",", $cond ['f_mrefs'] );
-			unset ( $cond ['f_mrefs'] );
-			$joinType = ' INNER ';
-		} else
-			$mhRef = 'NULL';
-		
-		$p_joinType = ' LEFT ';
-		if (! empty ( $cond ['f_building'] )) {
-			$mhprop = $cond ['f_building'];
-			unset ( $cond ['f_building'] );
-			$p_joinType = ' INNER ';
-		} else
-			$mhprop = 'NULL';
-		
-		if (! empty ( $cond ['f_monthpick'] )) {
-			$monthYear = explode ( '/', $cond ['f_monthpick'] );
-			$where [] = "(EXTRACT(month FROM exp_billdt) = '$monthYear[0]' AND EXTRACT(year FROM exp_billdt) = '$monthYear[1]' )";
-			unset ( $cond ['f_monthpick'] );
-		}
-		
-		if (! empty ( $cond ['f_dtfrom'] ))
-			$where [] = "exp_billdt >= :f_dtfrom";
-		
-		if (! empty ( $cond ['f_dtto'] ))
-			$where [] = "exp_billdt <= :f_dtto";
-		
-		if (! empty ( $cond ['exclude'] )) {
-			$where [] = "exp_id NOT IN (" . $cond ['exclude'] . ")";
-			unset ( $cond ['exclude'] );
-		}
-		
-		if (! empty ( $cond ['exp_export'] ))
-			$where [] = "(exp_export = :exp_export OR exp_export = 3)";
-		
-		$where [] = ' mis_expense.deleted = 0 ';
-		$where = ' WHERE ' . implode ( ' AND ', $where );
-		
-		$this->query ( "
+
+        if (! empty($cond['f_selVendor']))
+            $where[] = "vendor.ven_id = :f_selVendor";
+
+        if (! empty($cond['f_company']))
+            $where[] = "comp.comp_id = :f_company";
+
+        if (! empty($cond['f_pCatSelect']))
+            $where[] = "pcat.cat_id = :f_pCatSelect";
+
+        if (! empty($cond['f_sCatSelect']))
+            $where[] = "scat.cat_id = :f_sCatSelect";
+
+        if (! empty($cond['f_cCatSelect']))
+            $where[] = "ccat.cat_id = :f_cCatSelect";
+
+        if (! empty($cond['f_amount']))
+            $where[] = "exp_amount = :f_amount";
+
+        if (! empty($cond['f_mainhead']))
+            $where[] = "exp_mainh = :f_mainhead";
+
+        if (! empty($cond['f_mode']) && $cond['f_mode'] == 3) {
+            $cond['f_mode'] = 2;
+            $cond['exp_pstatus'] = 1;
+            $where[] = "exp_pstatus <> :exp_pstatus";
+        }
+
+        if (! empty($cond['f_mode']))
+            $where[] = "exp_pay_mode = :f_mode";
+
+        if (! empty($cond['exp_pstatus']))
+            $where[] = "exp_pstatus = :exp_pstatus";
+
+        $joinType = ' LEFT ';
+        if (! empty($cond['f_mrefs'])) {
+            $mhRef = implode(",", $cond['f_mrefs']);
+            unset($cond['f_mrefs']);
+            $joinType = ' INNER ';
+        } else
+            $mhRef = 'NULL';
+
+        $p_joinType = ' LEFT ';
+
+        if (! empty($cond['f_monthpick'])) {
+            $monthYear = explode('/', $cond['f_monthpick']);
+            $where[] = "(EXTRACT(month FROM exp_billdt) = '$monthYear[0]' AND EXTRACT(year FROM exp_billdt) = '$monthYear[1]' )";
+            unset($cond['f_monthpick']);
+        }
+
+        if (! empty($cond['f_dtfrom']))
+            $where[] = "exp_billdt >= :f_dtfrom";
+
+        if (! empty($cond['f_dtto']))
+            $where[] = "exp_billdt <= :f_dtto";
+
+        if (! empty($cond['exclude'])) {
+            $where[] = "exp_id NOT IN (" . $cond['exclude'] . ")";
+            unset($cond['exclude']);
+        }
+
+        if (! empty($cond['exp_export']))
+            $where[] = "(exp_export = :exp_export OR exp_export = 3)";
+
+        $where[] = ' mis_expense.deleted = 0 ';
+        $where = ' WHERE ' . implode(' AND ', $where);
+
+        $this->query("
 			SELECT files.file_id,
 			concat(pcat.cat_id,scat.cat_id,ccat.cat_id,'_',files.file_id,'.',files.file_exten) as file_name
 			from $this->_table
@@ -1291,57 +1212,35 @@ class expense extends db_table {
 			group by eref_exp_id
 			)as mref on mref.eref_exp_id = $this->_table.exp_id
 			
-			$p_joinType join (SELECT SUM (eref_amount) AS mref_sum,
-			eref_exp_id
-			FROM mis_expense_href
-			JOIN mis_projects AS prop ON eref_main_head_ref = prop.prop_id
-			AND eref_main_head = 2
-			AND prop.deleted = 0
-			AND prop.prop_building = $mhprop
-			WHERE mis_expense_href.deleted = 0
-			AND eref_status = 1
-			GROUP BY eref_exp_id
-			)as mref_prop on mref_prop.eref_exp_id = $this->_table.exp_id
-			
-			
-			
 			JOIN core_files as files on files.file_ref_id = $this->_table.exp_id and files.file_type = " . DOC_TYPE_EXP . " and files.deleted = 0
-			$where  ORDER BY concat(pcat.cat_name , scat.cat_name , ccat.cat_name) ASC,$this->_table.exp_billdt ASC, ven_disp_name ASC " );
+			$where  ORDER BY concat(pcat.cat_name , scat.cat_name , ccat.cat_name) ASC,$this->_table.exp_billdt ASC, ven_disp_name ASC ");
 
+        // $db= new db_table();
+        // $$db->dbug($cond);
 
-		
-		//$db= new db_table();
-		//$$db->dbug($cond);
+        return parent::fetchQueryPair($cond);
+    }
 
-																		
-		
+    public function getVehicleExpenseByCompany($cond = [])
+    {
+        $cond = array_filter($cond);
 
-		
-		return parent::fetchQueryPair( $cond );
-	}
-	
-	
-	public function getVehicleExpenseByCompany($cond=[]){
-	    $cond=array_filter($cond);
-	    
-	    if ($cond['f_monthpick'] == '') {
-	        $expDate = " AND TO_CHAR(COALESCE( exp.exp_billdt, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
-	        $payDate = " AND TO_CHAR(COALESCE( pay.pay_paydate, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
-	        
-	    } else {
-	        $expDate = " AND TO_CHAR(TO_DATE('".$cond['f_monthpick']."', 'MM/YYYY'), 'YYYY-MM') = TO_CHAR(exp.exp_billdt, 'YYYY-MM')";
-	        $payDate = " AND TO_CHAR(TO_DATE('".$cond['f_monthpick']."', 'MM/YYYY'), 'YYYY-MM') = TO_CHAR(pay.pay_paydate, 'YYYY-MM')";
-	    }
-	    
-	    if ($cond['f_company'] != '') {
-	        $company = " WHERE combined.comp_id = ".$cond['f_company'] . " ";
-	    }
-	    
-	    unset($cond['f_company']);
-	    unset($cond['f_monthpick']);
-	    
-	    
-	    $this->query("
+        if ($cond['f_monthpick'] == '') {
+            $expDate = " AND TO_CHAR(COALESCE( exp.exp_billdt, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
+            $payDate = " AND TO_CHAR(COALESCE( pay.pay_paydate, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
+        } else {
+            $expDate = " AND TO_CHAR(TO_DATE('" . $cond['f_monthpick'] . "', 'MM/YYYY'), 'YYYY-MM') = TO_CHAR(exp.exp_billdt, 'YYYY-MM')";
+            $payDate = " AND TO_CHAR(TO_DATE('" . $cond['f_monthpick'] . "', 'MM/YYYY'), 'YYYY-MM') = TO_CHAR(pay.pay_paydate, 'YYYY-MM')";
+        }
+
+        if ($cond['f_company'] != '') {
+            $company = " WHERE combined.comp_id = " . $cond['f_company'] . " ";
+        }
+
+        unset($cond['f_company']);
+        unset($cond['f_monthpick']);
+
+        $this->query("
 
                 SELECT 
                     combined.ref_source,
@@ -1429,33 +1328,30 @@ class expense extends db_table {
 
 
                 ");
-                unset($cond['f_company']);
-                return parent::fetchQuery($cond);
-                
-	}
-	
-	
-	public function getPropertyExpenseByCompany($cond=[]){
-	    $cond=array_filter($cond);
-	    
-	    if ($cond['f_monthpick'] == '') {
-	        $expDate = " AND TO_CHAR(COALESCE( exp.exp_billdt, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
-	        $payDate = " AND TO_CHAR(COALESCE( pay.pay_paydate, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
-	        
-	    } else {
-	        $expDate = " AND TO_CHAR(TO_DATE('".$cond['f_monthpick']."', 'MM/YYYY'), 'YYYY-MM') = TO_CHAR(exp.exp_billdt, 'YYYY-MM')";
-	        $payDate = " AND TO_CHAR(TO_DATE('".$cond['f_monthpick']."', 'MM/YYYY'), 'YYYY-MM') = TO_CHAR(pay.pay_paydate, 'YYYY-MM')";
-	    }
-	    
-	    if ($cond['f_company'] != '') {
-	        $company = " WHERE combined.comp_id = ".$cond['f_company'] . " ";
-	    }
-	    
-	    unset($cond['f_company']);
-	    unset($cond['f_monthpick']);
-	    
-	    
-	    $this->query("
+        unset($cond['f_company']);
+        return parent::fetchQuery($cond);
+    }
+
+    public function getPropertyExpenseByCompany($cond = [])
+    {
+        $cond = array_filter($cond);
+
+        if ($cond['f_monthpick'] == '') {
+            $expDate = " AND TO_CHAR(COALESCE( exp.exp_billdt, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
+            $payDate = " AND TO_CHAR(COALESCE( pay.pay_paydate, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
+        } else {
+            $expDate = " AND TO_CHAR(TO_DATE('" . $cond['f_monthpick'] . "', 'MM/YYYY'), 'YYYY-MM') = TO_CHAR(exp.exp_billdt, 'YYYY-MM')";
+            $payDate = " AND TO_CHAR(TO_DATE('" . $cond['f_monthpick'] . "', 'MM/YYYY'), 'YYYY-MM') = TO_CHAR(pay.pay_paydate, 'YYYY-MM')";
+        }
+
+        if ($cond['f_company'] != '') {
+            $company = " WHERE combined.comp_id = " . $cond['f_company'] . " ";
+        }
+
+        unset($cond['f_company']);
+        unset($cond['f_monthpick']);
+
+        $this->query("
 	        
                 SELECT
                     combined.ref_source,
@@ -1543,33 +1439,30 @@ class expense extends db_table {
 	        
 	        
                 ");
-                unset($cond['f_company']);
-                return parent::fetchQuery($cond);
-                
-	}
-	
-	
-	public function getOtherExpenseByCompany($cond=[]){
-	    $cond=array_filter($cond);
-	    
-	    if ($cond['f_monthpick'] == '') {
-	        $expDate = " AND TO_CHAR(COALESCE( exp.exp_billdt, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
-	        $payDate = " AND TO_CHAR(COALESCE( pay.pay_paydate, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
-	        
-	    } else {
-	        $expDate = " AND TO_CHAR(TO_DATE('".$cond['f_monthpick']."', 'MM/YYYY'), 'YYYY-MM') = TO_CHAR(exp.exp_billdt, 'YYYY-MM')";
-	        $payDate = " AND TO_CHAR(TO_DATE('".$cond['f_monthpick']."', 'MM/YYYY'), 'YYYY-MM') = TO_CHAR(pay.pay_paydate, 'YYYY-MM')";
-	    }
-	    
-	    if ($cond['f_company'] != '') {
-	        $company = " WHERE combined.comp_id = ".$cond['f_company'] . " ";
-	    }
-	    
-	    unset($cond['f_company']);
-	    unset($cond['f_monthpick']);
-	    
-	    
-	    $this->query("
+        unset($cond['f_company']);
+        return parent::fetchQuery($cond);
+    }
+
+    public function getOtherExpenseByCompany($cond = [])
+    {
+        $cond = array_filter($cond);
+
+        if ($cond['f_monthpick'] == '') {
+            $expDate = " AND TO_CHAR(COALESCE( exp.exp_billdt, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
+            $payDate = " AND TO_CHAR(COALESCE( pay.pay_paydate, CURRENT_DATE), 'YYYY-MM') = TO_CHAR(CURRENT_DATE, 'YYYY-MM')";
+        } else {
+            $expDate = " AND TO_CHAR(TO_DATE('" . $cond['f_monthpick'] . "', 'MM/YYYY'), 'YYYY-MM') = TO_CHAR(exp.exp_billdt, 'YYYY-MM')";
+            $payDate = " AND TO_CHAR(TO_DATE('" . $cond['f_monthpick'] . "', 'MM/YYYY'), 'YYYY-MM') = TO_CHAR(pay.pay_paydate, 'YYYY-MM')";
+        }
+
+        if ($cond['f_company'] != '') {
+            $company = " WHERE combined.comp_id = " . $cond['f_company'] . " ";
+        }
+
+        unset($cond['f_company']);
+        unset($cond['f_monthpick']);
+
+        $this->query("
 	        
                 SELECT
                     combined.ref_source,
@@ -1657,210 +1550,126 @@ class expense extends db_table {
 	        
 	        
                 ");
-                unset($cond['f_company']);
-                return parent::fetchQuery($cond);
-                
-	}
-	
-	
-	public function expensePivotTable($cond=[]){
+        unset($cond['f_company']);
+        return parent::fetchQuery($cond);
+    }
 
-	    
-	    $this->query("
+    public function expensePivotTable($cond = [])
+    {
+        $this->query("
 	        
-WITH RECURSIVE entity_tree AS (
+WITH RECURSIVE entity_path AS (
 
+    /* Build full entity tree */
     SELECT
-        e.expent_id AS child_id,
-        e.expent_id AS current_id,
+        e.expent_id,
         e.parent_expent_id,
         e.expent_type,
+        e.expent_ref_id,
         e.expent_name,
-        e.expent_ref_id
+        LPAD(e.expent_id::text, 6, '0') AS path,
+        e.expent_id AS head_id
     FROM mis_expense_entity e
-    WHERE e.expent_id IN (
-        SELECT DISTINCT exdtline_entity_id
-        FROM mis_expense_line
-        WHERE deleted = 0
-    )
+    WHERE e.parent_expent_id IS NULL
 
     UNION ALL
 
     SELECT
-        et.child_id,
-        p.expent_id,
-        p.parent_expent_id,
-        p.expent_type,
-        p.expent_name,
-        p.expent_ref_id
-    FROM entity_tree et
-    JOIN mis_expense_entity p
-        ON p.expent_id = et.parent_expent_id
-),
-
-/* Resolve MAIN HEAD (type = 6) */
-entity_main_head AS (
-    SELECT
-        child_id,
-        MAX(current_id)    FILTER (WHERE expent_type = 6) AS main_head_id,
-        MAX(expent_name)   FILTER (WHERE expent_type = 6) AS main_head_name,
-        MAX(expent_ref_id) FILTER (WHERE expent_type = 6) AS main_head_ref_id
-    FROM entity_tree
-    GROUP BY child_id
+        c.expent_id,
+        c.parent_expent_id,
+        c.expent_type,
+        c.expent_ref_id,
+        c.expent_name,
+        p.path || '.' || LPAD(c.expent_id::text, 6, '0') AS path,
+        p.head_id
+    FROM entity_path p
+    JOIN mis_expense_entity c
+        ON c.parent_expent_id = p.expent_id
 ),
 
 expense_base AS (
     SELECT
         d.expdt_date,
         l.exdtline_amount,
-        l.source_exp_id,
-        e.expent_id,
-        e.expent_type,
-        e.expent_ref_id,
-        e.expent_name,
+        ep.expent_id,
+        ep.expent_type,
+        ep.expent_name,
+        ep.expent_ref_id,
+        ep.path,
+        ep.head_id,
+        mh.expent_name AS head_name,
+
         c.cat_name,
-        c.cat_type,
         TRIM(
             COALESCE(emp.emp_fname,'') || ' ' ||
             COALESCE(emp.emp_mname,'') || ' ' ||
             COALESCE(emp.emp_lname,'')
-        ) AS full_name,
+        ) AS employee_name,
         v.vhl_no
     FROM mis_expense_line l
     JOIN mis_expense_date d
         ON d.expdt_id = l.exdtline_date_id
-    JOIN mis_expense_entity e
-        ON e.expent_id = l.exdtline_entity_id
+    JOIN entity_path ep
+        ON ep.expent_id = l.exdtline_entity_id
+    JOIN mis_expense_entity mh
+        ON mh.expent_id = ep.head_id
     LEFT JOIN core_category c
-        ON c.cat_id = e.expent_ref_id
+        ON c.cat_id = ep.expent_ref_id
     LEFT JOIN mis_employee emp
-        ON emp.emp_id = e.expent_ref_id
+        ON emp.emp_id = ep.expent_ref_id
     LEFT JOIN mis_vehicle v
-        ON v.vhl_id = e.expent_ref_id
+        ON v.vhl_id = ep.expent_ref_id
     WHERE l.deleted = 0
-),
-
-expense_with_head AS (
-    SELECT
-        eb.*,
-        mh.main_head_name,
-        mh.main_head_ref_id
-    FROM expense_base eb
-    JOIN entity_main_head mh
-        ON mh.child_id = eb.expent_id
-),
-
-final_rows AS (
-
-    /* ================= HEAD (dedup ONLY here) ================= */
-    SELECT
-        TO_CHAR(expdt_date,'DD/MM/YYYY') AS date,
-        'HEAD' AS level,
-        'MAIN HEAD' AS ref_type,
-        main_head_name AS name,
-        SUM(source_amount) AS amount,
-        main_head_ref_id AS head_order,
-        0 AS level_order,
-        0 AS ref_order,
-        0 AS cat_order,
-        0 AS name_order
-    FROM (
-        SELECT
-            expdt_date,
-            main_head_name,
-            main_head_ref_id,
-            source_exp_id,
-            MAX(exdtline_amount) AS source_amount
-        FROM expense_with_head
-        GROUP BY
-            expdt_date,
-            main_head_name,
-            main_head_ref_id,
-            source_exp_id
-    ) s
-    GROUP BY
-        expdt_date,
-        main_head_name,
-        main_head_ref_id
-
-    UNION ALL
-
-    /* ================= DETAIL (NO dedup) ================= */
-    SELECT
-        TO_CHAR(expdt_date,'DD/MM/YYYY') AS date,
-        'DETAIL' AS level,
-
-        CASE
-            WHEN expent_type IN (3,4,5) THEN 'CATEGORY'
-            WHEN expent_type = 1 THEN 'EMPLOYEE'
-            WHEN expent_type = 2 THEN 'VEHICLE'
-            ELSE 'OTHER'
-        END AS ref_type,
-
-        CASE
-            WHEN expent_type IN (3,4,5) THEN cat_name
-            WHEN expent_type = 1 THEN full_name
-            WHEN expent_type = 2 THEN vhl_no
-            ELSE expent_name
-        END AS name,
-
-        MAX(exdtline_amount) AS amount,
-
-        main_head_ref_id AS head_order,
-        1 AS level_order,
-
-        CASE
-            WHEN expent_type IN (3,4,5) THEN 1
-            WHEN expent_type IN (1,2) THEN 2
-            ELSE 3
-        END AS ref_order,
-
-        COALESCE(cat_type,99) AS cat_order,
-        0 AS name_order
-    FROM expense_with_head
-    WHERE expent_type <> 6
-    GROUP BY
-        expdt_date,
-        expent_type,
-        cat_name,
-        cat_type,
-        full_name,
-        vhl_no,
-        expent_name,
-        main_head_ref_id,
-        source_exp_id
 )
 
 SELECT
-    date,
-    level,
-    ref_type,
-    name,
-    amount
-FROM final_rows
+    TO_CHAR(expdt_date,'DD/MM/YYYY') AS date,
+    'HEAD' AS level,
+    '[[' || head_name || ']]' AS head,
+
+    CASE
+        WHEN expent_type IN (3,4,5) THEN cat_name
+        WHEN expent_type = 1 THEN employee_name
+        WHEN expent_type = 2 THEN vhl_no
+        ELSE expent_name
+    END AS name,
+
+    SUM(exdtline_amount) AS amount,
+    expent_type 
+
+FROM expense_base
+GROUP BY
+    expdt_date,
+    head_id,
+    head_name,
+    expent_id,
+    expent_type,
+    path,
+    cat_name,
+    employee_name,
+    vhl_no,
+    expent_name
+
 ORDER BY
-    TO_DATE(date,'DD/MM/YYYY'),
-    head_order,
-    level_order,
-    ref_order,
-    cat_order,
-    name;
+    expdt_date,
+    head_id,
+
+    /* 1️⃣ HEAD always first */
+    CASE
+        WHEN expent_id = head_id THEN 0
+        WHEN expent_type IN (3,4,5) THEN 1
+        ELSE 2
+    END,
+
+    /* 2️⃣ tree order only */
+    path;
 
 
 	        
 	        
                 ");
-                return parent::fetchQuery($cond);
-                
-	}
-	
-	
-	
-	
-
-	
-	
-	
+        return parent::fetchQuery($cond);
+    }
 }
 
 

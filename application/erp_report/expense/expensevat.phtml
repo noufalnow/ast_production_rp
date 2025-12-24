@@ -8,77 +8,147 @@
 		<h5 class="title-margin">VAT : Statement of Expense</h5>
 	</div>
 	
-<table style="width:100%; table-layout:fixed; border-collapse:collapse;">
-	<tr style="font-size: 0.8em;">
-		<th width="15%">Vendor</th>
-		<th width="10%">Company</th>
-		<th width="15%">Main Head</th>
-		<th width="10%">Main Cat.</th>
-		<th width="15%">Sub Cat.</th>
-		<th width="15%">Cat.</th>
-	</tr>
-	<tr>
-		<td><div class="form-group"><?=$this->form->f_selVendor->show()?></div></td>
-		<td><div class="form-group"><?=$this->form->f_company->show()?></div></td>
-		<td><div class="form-group"><?=$this->form->f_mainhead->show()?></div></td>
-		<td><div class="form-group"><?=$this->form->f_pCatSelect->show()?></div></td>
-		<td><div class="form-group"><?=$this->form->f_sCatSelect->show()?></div></td>
-		<td><div class="form-group"><?=$this->form->f_cCatSelect->show()?></div></td>
-	</tr>
+<div class="row g-1">
 
-	<tr>
-		<td id="mh_emp" colspan="3" style="width:40%;">
-			<div class="form-group" style="width:100%;">
-				<label><small>Employee</small></label>
-				<?=$this->form->f_employee->show()?>
-			</div>
-		</td>
-		<td id="mh_prop" colspan="3" style="width:40%;">
-			<div class="form-group col-md-8" style="padding-left:0;">
-				<label><small>Projects</small></label>
-				<?=$this->form->f_property->show()?>
-			</div>
-			<div class="form-group col-md-4">
-				<label><small>Building</small></label>
-				<?=$this->form->customer->show()?>
-			</div>
-		</td>
-		<td id="mh_veh" style="width:20%;">
-			<div class="form-group">
-				<label><small>Vehicle</small></label>
-				<?=$this->form->f_vehicle->show()?>
-			</div>
-		</td>
-	</tr>
+    <div class="col-lg-3">
+        <label class="form-label">Clients</label>
+        <?=$this->form->f_client->show()?>
+    </div>
 
-	<tr style="font-size: 0.8em;">
-	    <th width="10%">Ref No.</th>
-		<th width="12%">Amount</th>
-		<th width="12%">Period</th>
-		<th width="12%" class="pr_month">Month</th>
-		<th width="12%" class="pr_fdt">From</th>
-		<th width="12%" class="pr_tdt">To</th>
-		<th width="12%">Mode</th>
-		<th width="28%">Actions</th>
-	</tr>
+    <div class="col-lg-3">
+        <label class="form-label">Projects</label>
+        <?=$this->form->f_project->show()?>
+    </div>
 
-	<tr>
-	    <td><div class="form-group"><?=$this->form->f_refno->show()?></div></td>
-		<td align="center"><div class="form-group"><?=$this->form->f_amount->show()?></div></td>
-		<td align="center"><div class="form-group"><?=$this->form->f_period->show()?></div></td>
-		<td class="pr_month"><div class="form-group"><?=$this->form->f_monthpick->show()?></div></td>
-		<td class="pr_fdt"><div class="form-group"><?=$this->form->f_dtfrom->show()?></div></td>
-		<td class="pr_tdt"><div class="form-group"><?=$this->form->f_dtto->show()?></div></td>
-		<td><div class="form-group"><?=$this->form->f_mode->show()?></div></td>
-		<td align="center" width="28%">
-			<div class="form-group">
-				<button class="btn <?=$this->filter_class?>" type="submit">Filter</button>
-				<input class="btn btn-secondary" name="clear" type="submit" value="All" />
-				<button class="btn btn-secondary-gradient" type="button" onClick="tableToExcelX();">Excel</button>
-			</div>
-		</td>
-	</tr>
-</table>
+    <div class="col-lg-3">
+        <label class="form-label">Ref No.</label>
+        <?=$this->form->f_refno->show()?>
+    </div>
+
+    <div class="col-lg-3">
+        <label class="form-label">Vendor</label>
+        <?=$this->form->f_selVendor->show()?>
+    </div>
+
+    <div class="col-lg-3">
+        <label class="form-label">Main Head</label>
+        <?=$this->form->f_mainhead->show()?>
+    </div>
+
+    <div class="col-lg-3">
+        <label class="form-label">Main Cat.</label>
+        <?=$this->form->f_pCatSelect->show()?>
+    </div>
+    
+        <div class="col-lg-3">
+        <label class="form-label">Sub Cat.</label>
+        <?=$this->form->f_sCatSelect->show()?>
+    </div>
+
+    <div class="col-lg-3">
+        <label class="form-label">Cat.</label>
+        <?=$this->form->f_cCatSelect->show()?>
+    </div>
+
+</div>
+
+<!-- TOGGLED -->
+<div class="row g-1 mt-1">
+
+    <div id="mh_emp" class="col-lg-6" style="display:none;">
+        <label class="form-label"><small>Employee</small></label>
+        <?=$this->form->f_employee->show()?>
+    </div>
+
+    <div id="mh_veh" class="col-lg-6" style="display:none;">
+        <label class="form-label"><small>Vehicle</small></label>
+        <?=$this->form->f_vehicle->show()?>
+    </div>
+    
+        <div class="col-lg-3">
+        <label class="form-label">Particulars</label>
+        <?=$this->form->f_particulers->show()?>
+    </div>
+
+    <div class="col-lg-3">
+        <label class="form-label">Mode</label>
+        <?=$this->form->f_mode->show()?>
+    </div>
+
+</div>
+
+<hr>
+
+<div class="row g-1">
+
+    <div class="col-lg-2">
+        <label class="form-label">Amount</label>
+        <?=$this->form->f_amount->show()?>
+    </div>
+
+    <div class="col-lg-2">
+        <label class="form-label">Period</label>
+        <?=$this->form->f_period->show()?>
+    </div>
+
+    <div class="col-lg-2 pr_month">
+        <label class="form-label">Month</label>
+        <?=$this->form->f_monthpick->show()?>
+    </div>
+
+    <div class="col-lg-2 pr_fdt">
+        <label class="form-label">From</label>
+        <?=$this->form->f_dtfrom->show()?>
+    </div>
+
+    <div class="col-lg-2 pr_tdt">
+        <label class="form-label">To</label>
+        <?=$this->form->f_dtto->show()?>
+    </div>
+
+    <div class="col-lg-2">
+        <label class="form-label">Approval</label>
+        <?=$this->form->f_status->show()?>
+    </div>
+    
+        <div class="col-lg-2 ">
+        <label class="form-label">Actions</label>
+        <button class="btn  <?=$this->filter_class?>" type="submit">Filter</button>
+        <input class="btn  btn-secondary" name="clear" type="submit" value="All">
+        <button class="btn  btn-secondary-gradient" type="button" onclick="tableToExcelX();">
+            Export Excel
+        </button>
+    </div>
+
+</div>
+
+<hr>
+
+
+<div class="row mt-2">
+
+</div>
+
+<style>
+
+.form-label {
+    margin-bottom: 2px;
+    font-size: 0.85rem;
+}
+
+.form-group,
+.form-control,
+.chosen-container {
+    margin-bottom: 0 !important;
+}
+
+hr {
+    margin: 6px 0;
+}
+
+</style>
+
+</div>
 
 		
 		</form>

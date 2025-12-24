@@ -99,13 +99,12 @@
                             <?php foreach ($orderedColumns as $col): ?>
                                 <td>
                                     <?php
-                                    if ($columnMeta[$col] === 'ATOMIC') {
+                                    if ($columnMeta[$col] === 'HEAD') {
                                         echo number_format($columnTotals[$col], 3);
-                                    } elseif ($col === '[OTHERS]') {
-                                        echo number_format($columnTotals[$col] ?? 0, 3);
                                     } else {
                                         echo '<span class="dash">-</span>';
                                     }
+                                    
                                     ?>
                                 </td>
                             <?php endforeach; ?>
@@ -119,6 +118,7 @@
             </div>
 
 
+<canvas id="expenseStackedChart" height="50"></canvas>
 
 
 
@@ -130,6 +130,7 @@
 
 
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
 
@@ -160,8 +161,61 @@ function tableToExcelX() {
 }
 
 
-
+const chartDates = <?= json_encode($this->dates) ?>;
+const chartHeads = <?= json_encode($this->heads) ?>;
+const chartData  = <?= json_encode($this->chartData) ?>;
 </script>
+
+
+<script>
+const colors = {
+    '[EMPLOYEE]': '#4e79a7',
+    '[VEHICLES]': '#59a14f',
+    '[OTHERS]'  : '#e15759'
+};
+
+const datasets = chartHeads.map(head => ({
+    label: head,
+    data: chartDates.map(d => chartData[d][head]),
+    backgroundColor: colors[head] || '#999',
+    stack: 'expense'
+}));
+
+const ctx = document.getElementById('expenseStackedChart').getContext('2d');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: chartDates,
+        datasets: datasets
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            tooltip: {
+                mode: 'index',
+                intersect: false
+            },
+            legend: {
+                position: 'top'
+            }
+        },
+        scales: {
+            x: {
+                stacked: true,
+                title: { display: true, text: 'Date' }
+            },
+            y: {
+                stacked: true,
+                title: { display: true, text: 'Amount' }
+            }
+        }
+    }
+});
+</script>
+
+
+
 
 
 <style>
@@ -175,12 +229,13 @@ function tableToExcelX() {
 
 /* Header */
 .pivot-table thead th {
-	background: #2f4050;
-	color: #fff;
+	/*background: #2f4050;*/
+	color: #370d0d;
 	/*text-align: center;*/
 	padding: 8px 6px;
 	border: 1px solid #d1d1d1;
 	white-space: nowrap;
+	font-weight: lighter;
 }
 
 /* Body cells */
@@ -297,6 +352,46 @@ function tableToExcelX() {
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 3;
 }
+
+/* HEAD */
+.pivot-table th[data-meta="HEAD"],
+.pivot-table td[data-meta="HEAD"] {
+    background-color: #e8f0ff;
+    font-weight: 700;
+}
+
+/* CATEGORY */
+.pivot-table th[data-meta="CATEGORY"],
+.pivot-table td[data-meta="CATEGORY"] {
+    background-color: #f3f7ed;
+}
+
+/* ATOMIC */
+.pivot-table th[data-meta="ATOMIC"],
+.pivot-table td[data-meta="ATOMIC"] {
+    background-color: #fffaf0;
+}
+/* left border at start of each HEAD block */
+.pivot-table th[data-meta="HEAD"],
+.pivot-table td[data-meta="HEAD"] {
+    border-left: 3px solid #5b8cff;
+}
+.pivot-table th[data-head="[EMPLOYEE]"],
+.pivot-table td[data-head="[EMPLOYEE]"] {
+    background-color: #f8fbff;
+}
+
+.pivot-table th[data-head="[VEHICLES]"],
+.pivot-table td[data-head="[VEHICLES]"] {
+    background-color: #f9fff6;
+}
+
+.pivot-table th[data-head="[OTHERS]"],
+.pivot-table td[data-head="[OTHERS]"] {
+    background-color: #fff7f7;
+}
+
+
 </style>
 <script>/*
 document.addEventListener("DOMContentLoaded", function () {

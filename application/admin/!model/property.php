@@ -275,7 +275,8 @@ class property extends db_table
     
     public function getProjectsPair($cond = array()) {
         $this->query ( "select project_id,project_name from $this->_table" );
-        $this->_where[]  = "project_client_id = :project_client_id";  
+        if(!empty($cond['project_client_id']))
+            $this->_where[]  = "project_client_id = :project_client_id";  
         $this->_order [] = 'project_name ASC';
         
         return parent::fetchPair ( $cond );

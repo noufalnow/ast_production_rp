@@ -229,170 +229,181 @@ class defaultController extends mvc
         
         require_once __DIR__ . '/../admin/!model/expense.php';
         
-        $expObj = new expense();
+        $expObj    = new expense();
         $pivotList = $expObj->expensePivotTable();
         
-        /* ---------- COLLECT HEAD / CATEGORY / ATOMIC ---------- */
+        /* =========================================================
+         * INIT
+         * =======================================================*/
         
-        $columnGroups = [];   // [HEAD => ['categories'=>[], 'particulars'=>[]]]
-        $dates = [];
-        $columnMeta = [];     // key => HEAD | CATEGORY | ATOMIC
-        $columnHead = [];     // key => HEAD
-        $columnLabel = [];    // key => DISPLAY NAME
-        $currentHead = null;
+        $columnGroups   = [];   // [HEAD => ['categories'=>[], 'particulars'=>[]]]
+        $columnMeta     = [];
+        $columnHead     = [];
+        $columnLabel    = [];
+        $orderedColumns = [];
+        
+        $dates      = [];
+        $pivot      = [];
+        $chartData  = [];
+        $heads      = [];
+        
+        /* =========================================================
+         * SINGLE PASS (QUERY ORDER IS ALREADY CORRECT)
+         * =======================================================*/
         
         foreach ($pivotList as $r) {
             
-            $dates[$r['date']] = true;
+            $date = $r['date'];
+            $dates[$date] = true;
             
-            if ($r['level'] === 'HEAD') {
+            $headName = trim($r['head'], '[]');   // EMPLOYEE / VEHICLES / OTHERS
+            $isHead   = ($r['name'] === '[' . $headName . ']');
+            
+            /* ================= HEAD ROW ================= */
+            if ($isHead) {
                 
-                $currentHead = $r['name'];
+                $heads[$headName] = true;
                 
-                if (!isset($columnGroups[$currentHead])) {
-                    $columnGroups[$currentHead] = [
+                if (!isset($columnMeta[$headName])) {
+                    
+                    $columnGroups[$headName] = [
                         'categories'  => [],
                         'particulars' => []
                     ];
+                    
+                    $columnMeta[$headName]  = 'HEAD';
+                    $columnHead[$headName]  = $headName;
+                    $columnLabel[$headName] = $headName;
                 }
+                
+                // SUM head values (safe)
+                $pivot[$date][$headName] = ($pivot[$date][$headName] ?? 0) + (float)$r['amount'];
+                $chartData[$date][$headName] = (float)$r['amount'];
+                
                 continue;
             }
             
-            // DETAIL
-            if ($r['ref_type'] === 'CATEGORY') {
-                $key = $currentHead . '||CAT||' . $r['name'];
-                $columnGroups[$currentHead]['categories'][$key] = $r['name'];
-            } else {
-                $key = $currentHead . '||ATOMIC||' . $r['name'];
-                $columnGroups[$currentHead]['particulars'][$key] = $r['name'];
-            }
-        }
-        
-        /* ---------- ORDERED COLUMNS ---------- */
-        
-        $orderedColumns = [];
-        
-        foreach ($columnGroups as $head => $grp) {
+            /* ================= DETAIL ROW ================= */
             
-            // HEAD
-            $orderedColumns[] = $head;
-            $columnMeta[$head]  = 'HEAD';
-            $columnHead[$head]  = $head;
-            $columnLabel[$head] = $head;
+            // TRUE classification from DB (NO GUESSING)
+            $type = in_array((int)$r['expent_type'], [3,4,5]) ? 'CATEGORY' : 'ATOMIC';
             
-            // CATEGORY
-            foreach ($grp['categories'] as $key => $label) {
-                $orderedColumns[] = $key;
-                $columnMeta[$key]  = 'CATEGORY';
-                $columnHead[$key]  = $head;
-                $columnLabel[$key] = $label;
-            }
+            $key = $headName . '||' . $type . '||' . $r['name'];
             
-            // ATOMIC
-            foreach ($grp['particulars'] as $key => $label) {
-                $orderedColumns[] = $key;
-                $columnMeta[$key]  = 'ATOMIC';
-                $columnHead[$key]  = $head;
-                $columnLabel[$key] = $label;
-            }
-        }
-        
-        /* ---------- INIT PIVOT ---------- */
-        
-        $dates = array_keys($dates);
-        $pivot = [];
-        
-        foreach ($dates as $date) {
-            foreach ($orderedColumns as $col) {
-                $pivot[$date][$col] = 0;
-            }
-        }
-        
-        /* ---------- FILL VALUES (CRITICAL FIX) ---------- */
-        
-        /* ---------- FILL VALUES (FIXED) ---------- */
-        
-        $currentHead = null;
-        
-        foreach ($pivotList as $r) {
-            
-            if ($r['level'] === 'HEAD') {
-                $currentHead = $r['name'];
-                $key = $currentHead;
+            if (!isset($columnMeta[$key])) {
                 
-            } else {
+                $columnMeta[$key]  = $type;
+                $columnHead[$key]  = $headName;
+                $columnLabel[$key] = $r['name'];
                 
-                if ($r['ref_type'] === 'CATEGORY') {
-                    $key = $currentHead . '||CAT||' . $r['name'];
+                if ($type === 'CATEGORY') {
+                    $columnGroups[$headName]['categories'][$key] = $r['name'];
                 } else {
-                    $key = $currentHead . '||ATOMIC||' . $r['name'];
+                    $columnGroups[$headName]['particulars'][$key] = $r['name'];
                 }
             }
             
-            // safety check (important during debugging)
-            if (isset($pivot[$r['date']][$key])) {
-                $pivot[$r['date']][$key] += (float)$r['amount'];
+            // value (no double count)
+            $pivot[$date][$key] = max(
+                $pivot[$date][$key] ?? 0,
+                (float)$r['amount']
+                );
+            
+        }
+        
+        /* =========================================================
+         * BUILD ORDERED COLUMNS (FIXED GROUPING)
+         * =======================================================*/
+        
+        $orderedColumns = [];
+        
+        foreach ($heads as $headName => $_) {
+            
+            // HEAD first
+            $orderedColumns[] = $headName;
+            
+            // CATEGORIES next (tree order preserved)
+            if (!empty($columnGroups[$headName]['categories'])) {
+                foreach ($columnGroups[$headName]['categories'] as $key => $_) {
+                    $orderedColumns[] = $key;
+                }
+            }
+            
+            // ATOMICS last
+            if (!empty($columnGroups[$headName]['particulars'])) {
+                foreach ($columnGroups[$headName]['particulars'] as $key => $_) {
+                    $orderedColumns[] = $key;
+                }
             }
         }
         
+        /* =========================================================
+         * NORMALIZE PIVOT
+         * =======================================================*/
         
-        /* ---------- TOTALS (NO DOUBLE COUNT) ---------- */
+        $dates = array_keys($dates);
         
-        $rowTotals    = [];
-        $columnTotals = array_fill_keys($orderedColumns, 0);
-        $rawColumnTotals = $columnTotals;
-        $grandTotal = 0;
+        foreach ($dates as $d) {
+            foreach ($orderedColumns as $c) {
+                $pivot[$d][$c] ??= 0;
+            }
+        }
+        
+        /* =========================================================
+         * TOTALS (HEAD ONLY)
+         * =======================================================*/
+        
+        $rowTotals        = [];
+        $columnTotals     = array_fill_keys($orderedColumns, 0);
+        $rawColumnTotals  = $columnTotals;
+        $grandTotal       = 0;
         
         foreach ($pivot as $date => $cols) {
             
             $rowTotals[$date] = 0;
-            $othersCounted = false;
-            $hasAtomic = false;
             
-            // detect atomic presence
             foreach ($cols as $col => $val) {
+                
                 $rawColumnTotals[$col] += $val;
                 
-                if ($columnMeta[$col] === 'ATOMIC' && $val > 0) {
-                    $hasAtomic = true;
-                }
-            }
-            
-            foreach ($cols as $col => $val) {
-                
-                // RULE 1: ATOMIC
-                if ($columnMeta[$col] === 'ATOMIC') {
+                if ($columnMeta[$col] === 'HEAD') {
                     $rowTotals[$date] += $val;
                     $columnTotals[$col] += $val;
                     $grandTotal += $val;
-                    continue;
                 }
-                
-                // RULE 2: [OTHERS] (only once if no atomic)
-                if (
-                    !$hasAtomic &&
-                    !$othersCounted &&
-                    $columnMeta[$col] === 'HEAD' &&
-                    $col === '[OTHERS]'
-                    ) {
-                        $rowTotals[$date] += $val;
-                        $columnTotals[$col] += $val;
-                        $grandTotal += $val;
-                        $othersCounted = true;
-                    }
             }
         }
         
-        /* ---------- SEND TO VIEW ---------- */
+        /* =========================================================
+         * NORMALIZE CHART DATA
+         * =======================================================*/
         
-        $this->view->columns          = $orderedColumns;
-        $this->view->pivot            = $pivot;
-        $this->view->rowTotals        = $rowTotals;
-        $this->view->columnTotals     = $columnTotals;
-        $this->view->columnMeta       = $columnMeta;
-        $this->view->columnLabel      = $columnLabel;
-        $this->view->rawColumnTotals  = $rawColumnTotals;
-        $this->view->grandTotal       = $grandTotal;
+        $heads = array_keys($heads);
+        
+        foreach ($dates as $d) {
+            foreach ($heads as $h) {
+                $chartData[$d][$h] ??= 0;
+            }
+        }
+        
+        /* =========================================================
+         * SEND TO VIEW
+         * =======================================================*/
+        
+        $this->view->columns         = $orderedColumns;
+        $this->view->pivot           = $pivot;
+        $this->view->rowTotals       = $rowTotals;
+        $this->view->columnTotals    = $columnTotals;
+        $this->view->columnMeta      = $columnMeta;
+        $this->view->columnLabel     = $columnLabel;
+        $this->view->rawColumnTotals = $rawColumnTotals;
+        $this->view->grandTotal      = $grandTotal;
+        
+        $this->view->dates     = $dates;
+        $this->view->heads     = $heads;
+        $this->view->chartData = $chartData;
+        
+        
         
         
 

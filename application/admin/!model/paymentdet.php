@@ -21,7 +21,7 @@ class paymentdet extends db_table {
 					case when exp_mainh = 1 then 'Employee'
 					when exp_mainh = 2 then 'Property'
 					when exp_mainh = 3 then 'Vehicle'
-					when exp_mainh = 4 then 'Port Operation'
+					when exp_mainh = 4 then 'Others'
 					end as main_head,
 					expens.*,
 					comp.comp_disp_name,
