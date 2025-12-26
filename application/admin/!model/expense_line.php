@@ -22,6 +22,11 @@ class expense_line extends db_table
     {
         return parent::getById($id);
     }
+    
+    
+    public function deleteLines($id) {
+        return parent::delete ( $id );
+    }
 
     /**
      * OLD METHOD (kept for backward compatibility)

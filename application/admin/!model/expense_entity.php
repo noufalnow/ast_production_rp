@@ -63,10 +63,11 @@ class expense_entity extends db_table
 
          $this->_where[] = "expent_type = :expent_type";
          $this->_where[] = "expent_ref_id = :expent_ref_id";
+         
+         if (! empty($cond['expent_parent_head']))
+            $this->_where[] = "expent_parent_head = :expent_parent_head";
             
-
-            
-            return parent::fetchRow($cond);
+         return parent::fetchRow($cond);
     }
 
     

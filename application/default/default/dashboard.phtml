@@ -43,9 +43,9 @@
 
             ?>
 
-            <div class="pivot-scroll">
-                <table class="pivot-table" id="report_table">
-                    <thead>
+<div class="pivot-wrapper">
+    <div class="pivot-scroll">
+        <table class="pivot-table" id="report_table">
                         <tr>
                             <th style="text-align: center; vertical-align: bottom; width: 40px !important;">
                                 DATE
@@ -116,9 +116,28 @@
                     </tbody>
                 </table>
             </div>
+            </div>
 
 
-<canvas id="expenseStackedChart" height="50"></canvas>
+<div class="container-fluid">
+    <div class="row chart-row">
+        <div class="col-md-12 col-12">
+            <div class="chart-box" style="top: 1%;">
+                <canvas id="expensePieChart"></canvas>
+            </div>
+        </div>
+
+
+    </div>
+    
+            <div class="col-md-12 col-12">
+            <div class="chart-box small"  style="margin-top: 1%;">
+                <canvas id="expenseStackedChart"></canvas>
+            </div>
+        </div>
+</div>
+
+
 
 
 
@@ -139,6 +158,8 @@
 <script>
 
 baseurl = '<?=APPURL;?>';
+//Chart.register(ChartDataLabels);
+
 
 
 <?php  if(USER_GROUP<>99):?>
@@ -169,230 +190,417 @@ const chartData  = <?= json_encode($this->chartData) ?>;
 
 <script>
 const colors = {
-    '[EMPLOYEE]': '#4e79a7',
-    '[VEHICLES]': '#59a14f',
-    '[OTHERS]'  : '#e15759'
+    'EMPLOYEE': '#4e79a7',
+    'VEHICLES': '#59a14f',
+    'OTHERS'  : '#e15759'
 };
 
-const datasets = chartHeads.map(head => ({
+const datasets1 = chartHeads.map(head => ({
     label: head,
     data: chartDates.map(d => chartData[d][head]),
     backgroundColor: colors[head] || '#999',
     stack: 'expense'
 }));
 
-const ctx = document.getElementById('expenseStackedChart').getContext('2d');
+const ctx1 = document.getElementById('expenseStackedChart').getContext('2d');
 
-new Chart(ctx, {
+new Chart(ctx1, {
     type: 'bar',
     data: {
         labels: chartDates,
-        datasets: datasets
+        datasets: datasets1
     },
-    options: {
+options: {
         responsive: true,
         plugins: {
-            tooltip: {
-                mode: 'index',
-                intersect: false
+            title: {
+                display: true,
+                text: 'Hover over segments to see details',
+                position: 'top',
+                font: { size: 14 }
             },
-            legend: {
-                position: 'top'
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        const label = context.label;
+                        const value = context.raw;
+                        const dataset = context.dataset;
+                        const total = dataset.data.reduce((a, b) => a + b, 0);
+                        const percentage = ((value / total) * 100).toFixed(1);
+                        
+                        return `${label}: ${value.toFixed(3)} (${percentage}%)`;
+                    },
+                    afterTitle: function(tooltipItems) {
+                        // Show which ring is being hovered
+                        return tooltipItems[0].datasetIndex === 0 ? 
+                            'Main Category' : 'Sub Category';
+                    }
+                }
             }
         },
-        scales: {
-            x: {
-                stacked: true,
-                title: { display: true, text: 'Date' }
-            },
-            y: {
-                stacked: true,
-                title: { display: true, text: 'Amount' }
+        // Update chart title on hover
+        onHover: function(event, elements) {
+            const chart = this;
+            if (elements && elements.length) {
+                const index = elements[0].index;
+                const label = chart.data.labels[index];
+                chart.options.plugins.title.text = `Selected: ${label}`;
+                chart.update();
+            } else {
+                chart.options.plugins.title.text = 'Hover over segments to see details';
+                chart.update();
             }
         }
     }
 });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+<script>
+const pieHeads = <?= json_encode($this->pieHeads, JSON_NUMERIC_CHECK) ?>;
+const pieCategories = <?= json_encode($this->pieCategories, JSON_NUMERIC_CHECK) ?>;
 
+const HEAD_COLORS = {
+    EMPLOYEE: '#4e79a7',
+    VEHICLE : '#59a14f',
+    OTHERS  : '#e15759'
+};
+
+function shade(hex, step) {
+    let c = parseInt(hex.slice(1), 16);
+    let r = Math.min(255, (c >> 16) + step);
+    let g = Math.min(255, (c >> 8 & 255) + step);
+    let b = Math.min(255, (c & 255) + step);
+    return `rgb(${r},${g},${b})`;
+}
+
+/* ---------- INNER (HEAD) ---------- */
+const innerLabels = Object.keys(pieHeads);
+const innerData   = Object.values(pieHeads);
+const innerColors = innerLabels.map(h => HEAD_COLORS[h] || '#999');
+const innerTotal  = innerData.reduce((a, b) => a + b, 0);
+
+/* ---------- OUTER (CATEGORY) ---------- */
+const outerLabels = [];
+const outerData   = [];
+const outerColors = [];
+const outerMeta   = [];
+
+innerLabels.forEach(head => {
+    const cats = pieCategories[head];
+    if (!cats) return;
+
+    let shadeStep = 30;
+    Object.entries(cats).forEach(([cat, val]) => {
+        outerLabels.push(cat);
+        outerData.push(val);
+        outerColors.push(shade(HEAD_COLORS[head], shadeStep));
+        outerMeta.push({ head, value: val });
+        shadeStep += 25;
+    });
+});
+
+/* ---------------- CHART ---------------- */
+new Chart(document.getElementById('expensePieChart'), {
+    type: 'doughnut',
+    data: {
+        // Don't combine labels - datasets will use their own labels
+        labels: [], // Leave empty, we'll handle labels in tooltip
+        datasets: [
+            {
+                label: 'Heads',
+                data: innerData,
+                backgroundColor: innerColors,
+                borderWidth: 1,
+                radius: outerData.length ? '45%' : '80%',
+                cutout: outerData.length ? '20%' : '40%'
+            },
+            ...(outerData.length ? [{
+                label: 'Categories',
+                data: outerData,
+                backgroundColor: outerColors,
+                borderWidth: 1,
+                radius: '80%',
+                cutout: '55%'
+            }] : [])
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false // We'll handle custom legend separately
+            },
+            tooltip: {
+                callbacks: {
+                    label: (context) => {
+                        const datasetIndex = context.datasetIndex;
+                        const dataIndex = context.dataIndex;
+                        const value = context.raw;
+                        
+                        if (datasetIndex === 0) {
+                            // Inner ring (Heads)
+                            const headLabel = innerLabels[dataIndex];
+                            const percentage = ((value / innerTotal) * 100).toFixed(1);
+                            return `${headLabel}: ${value} (${percentage}% of total)`;
+                        } else {
+                            // Outer ring (Categories)
+                            const categoryLabel = outerLabels[dataIndex];
+                            const meta = outerMeta[dataIndex];
+                            const headTotal = pieHeads[meta.head];
+                            const percentage = ((value / headTotal) * 100).toFixed(1);
+                            return `${categoryLabel}: ${value} (${percentage}% of ${meta.head})`;
+                        }
+                    },
+                    // Remove title since we don't need dataset labels in tooltip
+                    title: (tooltipItems) => {
+                        return '';
+                    }
+                }
+            },
+            datalabels: {
+                display: (context) => {
+                    if (context.datasetIndex === 0) {
+                        // Always show inner labels
+                        return true;
+                    }
+                    // Show outer labels only if large enough
+                    const maxOuter = Math.max(...outerData);
+                    return context.raw > (maxOuter * 0.08);
+                },
+                formatter: (value, context) => {
+                    if (context.datasetIndex === 0) {
+                        return innerLabels[context.dataIndex];
+                    } else {
+                        return outerLabels[context.dataIndex];
+                    }
+                },
+                anchor: (context) => context.datasetIndex === 0 ? 'center' : 'end',
+                align: (context) => context.datasetIndex === 0 ? 'center' : 'end',
+                offset: (context) => context.datasetIndex === 0 ? 0 : 10,
+                color: (context) => context.datasetIndex === 0 ? '#fff' : '#333',
+                font: (context) => ({
+                    weight: 'bold',
+                    size: context.datasetIndex === 0 ? 12 : 9
+                })
+            }
+        }
+    },
+    plugins: [ChartDataLabels]
+});
+
+</script>
 
 
 
 
 <style>
+
+/* =========================
+   CHART LAYOUT
+========================= */
+.chart-row {
+  height: 100vh;
+}
+
+.chart-box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.chart-box.small {
+  height: 30%;
+}
+
+/* =========================
+   PIVOT WRAPPER + SCROLL
+========================= */
+.pivot-wrapper {
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+  min-width: 0; /* REQUIRED for flex/grid */
+}
+
+.pivot-scroll {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border: 1px solid #ddd;
+  background: #fff;
+  position: relative;
+  scrollbar-gutter: stable;
+}
+
+/* Scrollbar styling */
+.pivot-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.pivot-scroll::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 4px;
+}
+
+.pivot-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* =========================
+   PIVOT TABLE BASE
+========================= */
 .pivot-table {
-	width: 100%;
-	border-collapse: collapse;
-	font-family: "Segoe UI", Arial, sans-serif;
-	font-size: 13px;
-	color: #333;
+  width: max-content;
+  min-width: 1200px; /* force horizontal scroll */
+  border-collapse: collapse;
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 13px;
+  color: #333;
 }
 
-/* Header */
+/* =========================
+   HEADER CELLS
+========================= */
 .pivot-table thead th {
-	/*background: #2f4050;*/
-	color: #370d0d;
-	/*text-align: center;*/
-	padding: 8px 6px;
-	border: 1px solid #d1d1d1;
-	white-space: nowrap;
-	font-weight: lighter;
+  padding: 8px 6px;
+  border: 1px solid #d1d1d1;
+  white-space: nowrap;
+  font-weight: 400;
+  color: #370d0d;
 }
 
-/* Body cells */
+/* =========================
+   BODY CELLS
+========================= */
 .pivot-table td {
-	border: 1px solid #dcdcdc;
-	padding: 6px 8px;
-	text-align: right;
+  padding: 6px 8px;
+  border: 1px solid #dcdcdc;
+  text-align: right;
 }
 
 /* Date column */
 .pivot-table td:first-child {
-	text-align: left;
-	font-weight: 600;
-	background: #fafafa;
+  text-align: left;
+  font-weight: 600;
+  background: #fafafa;
 }
 
 /* Zebra rows */
 .pivot-table tbody tr:nth-child(even) {
-	background: #f9f9f9;
+  background: #f9f9f9;
 }
 
-/* Row total */
-.pivot-table .row-total {
-	font-weight: 700;
-	background: #eef4ff;
-}
-
-/* RAW TOTAL row */
-.pivot-table .raw-total {
-	background: #fff3cd;
-	font-weight: 700;
-	border-top: 2px solid #e0b400;
-}
-
-/* FINAL TOTAL row */
-.pivot-table .final-total {
-	background: #f3f3f3;
-	font-weight: 800;
-	border-top: 2px solid #999;
-}
-
-/* Grand total cell */
-.pivot-table .grand-total {
-	background: #dff0d8;
-	font-weight: 800;
-}
-
-/* Dash cell */
-.pivot-table .dash {
-	color: #999;
-	/*text-align: center;*/
-}
-
-/* Hover effect */
+/* Hover */
 .pivot-table tbody tr:hover {
-	background: #eef6ff;
+  background: #eef6ff;
 }
 
-/* Horizontal scroll container */
-.pivot-scroll {
-	width: 100%;
-	overflow-x: auto;
-	overflow-y: visible;
-	border: 1px solid #ddd;
-	background: #fff;
+/* =========================
+   TOTAL ROWS
+========================= */
+.pivot-table .row-total {
+  background: #eef4ff;
+  font-weight: 700;
 }
 
-/* Keep table wider than viewport */
-.pivot-table {
-	min-width: 1200px; /* adjust based on column count */
+.pivot-table .raw-total {
+  background: #fff3cd;
+  font-weight: 700;
+  border-top: 2px solid #e0b400;
 }
 
-/* Smooth scrolling */
-.pivot-scroll::-webkit-scrollbar {
-	height: 8px;
+.pivot-table .final-total {
+  background: #f3f3f3;
+  font-weight: 800;
+  border-top: 2px solid #999;
 }
 
-.pivot-scroll::-webkit-scrollbar-thumb {
-	background: #bbb;
-	border-radius: 4px;
+.pivot-table .grand-total {
+  background: #dff0d8;
+  font-weight: 800;
 }
 
-.pivot-scroll::-webkit-scrollbar-track {
-	background: #f1f1f1;
+.pivot-table .dash {
+  color: #999;
 }
 
-/* Rotated column */
+/* =========================
+   ROTATED HEADERS
+========================= */
 .pivot-table th.rotate {
-	width: 40px;
-	min-width: 40px;
-	max-width: 40px;
-	height: 260px;
-	padding: 0;
-	position: relative;
-	vertical-align: bottom;
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  height: 260px;
+  padding: 0;
+  position: relative;
+  vertical-align: bottom;
 }
 
-/* Rotated text — TOP aligned */
-.pivot-table th.rotate>div {
-	position: absolute;
-	top: 257px; /* 👈 start from top */
-	left: 16px;
-	transform: rotate(-90deg);
-	transform-origin: top left;
-	white-space: nowrap;
+.pivot-table th.rotate > div {
+  position: absolute;
+  top: 257px;
+  left: 16px;
+  transform: rotate(-90deg);
+  transform-origin: top left;
+  white-space: nowrap;
 }
 
-/* Enable wrapping ONLY when long */
-.pivot-table th.rotate.wrap>div {
-	white-space: normal;
-	max-height: 260px;
-	overflow: hidden;
-	display: -webkit-box;
-	-webkit-box-orient: vertical;
-	-webkit-line-clamp: 3;
+/* Wrap long rotated labels */
+.pivot-table th.rotate.wrap > div {
+  white-space: normal;
+  max-height: 260px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
 
-/* HEAD */
+/* =========================
+   META GROUPING
+========================= */
 .pivot-table th[data-meta="HEAD"],
 .pivot-table td[data-meta="HEAD"] {
-    background-color: #e8f0ff;
-    font-weight: 700;
+  background: #e8f0ff;
+  font-weight: 700;
+  border-left: 3px solid #5b8cff;
 }
 
-/* CATEGORY */
 .pivot-table th[data-meta="CATEGORY"],
 .pivot-table td[data-meta="CATEGORY"] {
-    background-color: #f3f7ed;
+  background: #f3f7ed;
 }
 
-/* ATOMIC */
 .pivot-table th[data-meta="ATOMIC"],
 .pivot-table td[data-meta="ATOMIC"] {
-    background-color: #fffaf0;
+  background: #fffaf0;
 }
-/* left border at start of each HEAD block */
-.pivot-table th[data-meta="HEAD"],
-.pivot-table td[data-meta="HEAD"] {
-    border-left: 3px solid #5b8cff;
-}
+
+/* =========================
+   HEAD COLOR VARIANTS
+========================= */
 .pivot-table th[data-head="[EMPLOYEE]"],
 .pivot-table td[data-head="[EMPLOYEE]"] {
-    background-color: #f8fbff;
+  background: #f8fbff;
 }
 
 .pivot-table th[data-head="[VEHICLES]"],
 .pivot-table td[data-head="[VEHICLES]"] {
-    background-color: #f9fff6;
+  background: #f9fff6;
 }
 
 .pivot-table th[data-head="[OTHERS]"],
 .pivot-table td[data-head="[OTHERS]"] {
-    background-color: #fff7f7;
+  background: #fff7f7;
 }
 
 
 </style>
+
+
+
+
 <script>/*
 document.addEventListener("DOMContentLoaded", function () {
 

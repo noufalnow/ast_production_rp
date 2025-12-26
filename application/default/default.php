@@ -256,8 +256,11 @@ class defaultController extends mvc
             $date = $r['date'];
             $dates[$date] = true;
             
-            $headName = trim($r['head'], '[]');   // EMPLOYEE / VEHICLES / OTHERS
-            $isHead   = ($r['name'] === '[' . $headName . ']');
+            // normalize once
+            $headName = trim($r['head'], '[]');        // EMPLOYEE / VEHICLE / OTHERS
+            $name     = trim($r['name'], '[]');        // clean name always
+            
+            $isHead = ($name === $headName);
             
             /* ================= HEAD ROW ================= */
             if ($isHead) {
@@ -288,18 +291,23 @@ class defaultController extends mvc
             // TRUE classification from DB (NO GUESSING)
             $type = in_array((int)$r['expent_type'], [3,4,5]) ? 'CATEGORY' : 'ATOMIC';
             
-            $key = $headName . '||' . $type . '||' . $r['name'];
+            // clean key (no brackets, no prefixes)
+            $key = $headName . '||' . $type . '||' . $name;
             
             if (!isset($columnMeta[$key])) {
                 
                 $columnMeta[$key]  = $type;
                 $columnHead[$key]  = $headName;
-                $columnLabel[$key] = $r['name'];
+                $columnLabel[$key] = $name;   // 🔥 CLEAN LABEL
                 
                 if ($type === 'CATEGORY') {
-                    $columnGroups[$headName]['categories'][$key] = $r['name'];
-                } else {
-                    $columnGroups[$headName]['particulars'][$key] = $r['name'];
+                    // FORCE category to appear under this head
+                    if (!isset($columnGroups[$headName]['categories'][$key])) {
+                        $columnGroups[$headName]['categories'][$key] = $name;
+                    }
+                }
+                else {
+                    $columnGroups[$headName]['particulars'][$key] = $name;
                 }
             }
             
@@ -308,8 +316,8 @@ class defaultController extends mvc
                 $pivot[$date][$key] ?? 0,
                 (float)$r['amount']
                 );
-            
         }
+        
         
         /* =========================================================
          * BUILD ORDERED COLUMNS (FIXED GROUPING)
@@ -404,7 +412,44 @@ class defaultController extends mvc
         $this->view->chartData = $chartData;
         
         
+        $pieHeads = [];
+        $pieCategories = [];
         
+        /* =========================================================
+         * BUILD PIE DATA DIRECTLY FROM pivotList
+         * =======================================================*/
+        
+        foreach ($pivotList as $r) {
+            
+            $head   = trim($r['head'], '[]');
+            $name   = trim($r['name'], '[]');
+            $amount = (float)$r['amount'];
+            $type   = (int)$r['expent_type'];
+            
+            /* ================= INNER DONUT (HEAD) ================= */
+            if ($type === 6) {
+                $pieHeads[$head] = ($pieHeads[$head] ?? 0) + $amount;
+                continue;
+            }
+            
+            /* ================= OUTER DONUT (PRIMARY CATEGORY) ================= */
+            if ($type === 3) {
+                $pieCategories[$head][$name] =
+                ($pieCategories[$head][$name] ?? 0) + $amount;
+                continue;
+            }
+            
+            // all other types are ignored for pie
+        }
+        
+        $this->view->pieHeads      = $pieHeads;
+        $this->view->pieCategories = $pieCategories;
+        
+        
+        
+        
+        
+        //s($pieHeads); s($pieCategories);
         
 
 
@@ -648,6 +693,7 @@ class defaultController extends mvc
 
     public function logoutAction()
     {
+        session_name('CSOLAPP3030SESSID');
         session_start();
         unset($_SESSION['user_name']);
         session_destroy();

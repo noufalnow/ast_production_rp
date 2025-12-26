@@ -29,9 +29,15 @@ class expenseController extends mvc
         $form->addElement('project', 'Project', 'select', 'required', array(
             'options' => []
         ));
-        $form->addElement('pCategory', 'Add New Parent Category', 'text', 'alpha_space');
-        $form->addElement('sCategory', 'Add New Sub Category ', 'text', 'alpha_space');
-        $form->addElement('cCategory', 'Add New Child Category ', 'text', 'alpha_space');
+        $form->addElement('pCategory', 'Add New Parent Category', 'text', 'alpha_space', '', array(
+            'class' => 'force-upper'
+        )); //
+        $form->addElement('sCategory', 'Add New Sub Category ', 'text', 'alpha_space', '', array(
+            'class' => 'force-upper'
+        ));
+        $form->addElement('cCategory', 'Add New Child Category ', 'text', 'alpha_space', '', array(
+            'class' => 'force-upper'
+        ));
         $form->addElement('particulers', 'Particulers', 'textarea', 'required');
         $form->addElement('amount', 'Total Amount', 'float', 'required|numeric', '', array(
             'class' => 'fig'
@@ -380,17 +386,17 @@ class expenseController extends mvc
 
 
                         if ($cpId) {
-                            $eidPc = $this->resolveEntity(3, $cpId, 'PCAT #' . $cpId,'',$entityId);
+                            $eidPc = $this->resolveEntity(3, $cpId, 'PCAT #' . $cpId,'',$entityId,$entityId);
                             $this->addOrSumLine($expdt_id, $eidPc, $data['exp_amount'],$insert);
                         }
 
                         if ($csId) {
-                            $eidSc = $this->resolveEntity(4, $csId, 'SCAT #' . $csId,'',$eidPc);
+                            $eidSc = $this->resolveEntity(4, $csId, 'SCAT #' . $csId,'',$eidPc,$entityId);
                             $this->addOrSumLine($expdt_id, $eidSc, $data['exp_amount'],$insert);
                         }
 
                         if ($ccId) {
-                            $eidCc = $this->resolveEntity(5, $ccId, 'CCAT #' . $ccId,'',$eidSc);
+                            $eidCc = $this->resolveEntity(5, $ccId, 'CCAT #' . $ccId,'',$eidSc,$entityId);
                             $this->addOrSumLine($expdt_id, $eidCc, $data['exp_amount'],$insert);
                         }
 
@@ -428,7 +434,8 @@ class expenseController extends mvc
                                         $rData,
                                         'REF #' . $rData,
                                         '',
-                                        $eidCc
+                                        $eidCc,
+                                        $entityId
                                         );
 
                                 $this->addOrSumLine($expdt_id, $eid, $amount,$insert);
@@ -469,7 +476,7 @@ class expenseController extends mvc
         $this->view->form = $form;
     }
 
-    function resolveEntity($type, $refId, $name, $unit = 'OMR',$parentId=null)
+    function resolveEntity($type, $refId, $name, $unit = 'OMR',$parentId=null,$parentHead=null)
     {
         require_once __DIR__ . '/../admin/!model/expense_entity.php';
         $expEntObj = new expense_entity();
@@ -478,7 +485,8 @@ class expenseController extends mvc
 
         $row = $expEntObj->fetchEntityByTypeAndId([
             'expent_type' => $type,
-            'expent_ref_id' => $refId
+            'expent_ref_id' => $refId,
+            'expent_parent_head'=>$parentHead
         ]);
 
         if ($row)
@@ -489,7 +497,8 @@ class expenseController extends mvc
             'expent_ref_id' => $refId,
             'expent_name' => $name,
             'expent_unit' => $unit,
-            'parent_expent_id'=>$parentId
+            'parent_expent_id'=>$parentId,
+            'expent_parent_head'=>$parentHead,
         ]);
     }
 
@@ -580,14 +589,7 @@ class expenseController extends mvc
         ]);
         
         foreach ($oldLines as $line) {
-            
-            // mark old contribution as reversed (do NOT flip repeatedly)
-            $expLineObj->modify([
-                'exdtline_amount' => 0,
-                'deleted'         => 1,
-                't_deleted'       => date('Y-m-d H:i:s'),
-                'u_deleted'       => USER_ID
-            ], $line['exdtline_id']);
+            $expLineObj->deleteLines($line['exdtline_id']);
         }
     }
     
@@ -1039,17 +1041,17 @@ class expenseController extends mvc
                             
                             
                             if ($cpId) {
-                                $eidPc = $this->resolveEntity(3, $cpId, 'PCAT #' . $cpId,'',$entityId);
+                                $eidPc = $this->resolveEntity(3, $cpId, 'PCAT #' . $cpId,'',$entityId,$entityId);
                                 $this->addOrSumLine($expdt_id, $eidPc, $data['exp_amount'],$decExpId);
                             }
                             
                             if ($csId) {
-                                $eidSc = $this->resolveEntity(4, $csId, 'SCAT #' . $csId,'',$eidPc);
+                                $eidSc = $this->resolveEntity(4, $csId, 'SCAT #' . $csId,'',$eidPc,$entityId);
                                 $this->addOrSumLine($expdt_id, $eidSc, $data['exp_amount'],$decExpId);
                             }
                             
                             if ($ccId) {
-                                $eidCc = $this->resolveEntity(5, $ccId, 'CCAT #' . $ccId,'',$eidSc);
+                                $eidCc = $this->resolveEntity(5, $ccId, 'CCAT #' . $ccId,'',$eidSc,$entityId);
                                 $this->addOrSumLine($expdt_id, $eidCc, $data['exp_amount'],$decExpId);
                             }
                             
@@ -1089,7 +1091,8 @@ class expenseController extends mvc
                                                     $rData,
                                                     'REF #' . $rData,
                                                     '',
-                                                    $eidCc
+                                                    $eidCc,
+                                                    $entityId
                                                     );
                                                 
                                                 $this->addOrSumLine($expdt_id, $eid, $amount,$decExpId);

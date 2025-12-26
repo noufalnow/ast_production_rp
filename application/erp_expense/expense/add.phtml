@@ -436,6 +436,11 @@ $(document).ready(function($) {
 	$('.modal-dialog').css('width', '80%');
 })
 
+document.addEventListener('input', function (e) {
+    if (e.target.classList.contains('force-upper')) {
+        e.target.value = e.target.value.toUpperCase();
+    }
+});
 
 </script>
 
@@ -443,4 +448,11 @@ $(document).ready(function($) {
 label {
   margin-top: 6px;
 }
+
+.force-upper {
+    text-transform: uppercase;
+}
+
+
+
 </style>

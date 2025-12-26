@@ -7,12 +7,15 @@
 // ini_set('session.cookie_httponly', true);
 // ini_set('session.use_only_cookies', true);
 // ini_set('session.use_strict_mode', true);
+session_name('CSOLAPP3030SESSID');
 session_start();
 if (file_exists(__DIR__ . '/../../../formatter/init.php'))
     require_once __DIR__ . '/../../../formatter/init.php';
 
 if (isset($_SESSION['user_id']))
     define('USER_ID', $_SESSION['user_id']);
+//else 
+   // die(":)");
 
 if (isset($_SESSION['user_type']))
     define('USER_GROUP', $_SESSION['user_type']);

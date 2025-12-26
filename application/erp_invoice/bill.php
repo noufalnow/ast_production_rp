@@ -86,7 +86,7 @@ class billController extends mvc
             'doc_ref_type' => DOC_TYPE_COM
         ));
         $form->addElement('wolpo', 'Work Order/LPO', 'select', 'required', array(
-            'options' => $documentList
+            'options' => []
         ));
         $count = 1;
         if (isset($_POST) && count($_POST) > 0) {
@@ -295,7 +295,7 @@ class billController extends mvc
             'doc_ref_type' => DOC_TYPE_COM
         ));
         $form->addElement('wolpo', 'Work Order/LPO', 'select', 'required', array(
-            'options' => $documentList
+            'options' => []
         ));
         $billObj = new bill();
         $billDetObj = new billdet();

@@ -53,13 +53,6 @@ function mainMenu($encUserId)
         'label' => 'Dashboard'
     )) . '</li>';
 
-    $menuHtml .= '<li class="sub-slide-item">' . x(array(
-        'link' => 'default/default/dashboardgraph',
-        'label' => 'Dashboard - Graph',
-        array(
-            "param" => 'wide_opener'
-        )
-    )) . '</li>';
 
     $menuHtml .= '</ul>
       </li>';
@@ -74,11 +67,7 @@ function mainMenu($encUserId)
         'label' => 'Employees'
     )) . '</li>';
 
-    $menuHtml .= '<li class="sub-slide-item">' . x(array(
-        'link' => 'erp_employee/salary/list',
-        'label' => 'Salary'
-    )) . '</li>
-
+    $menuHtml .= '
             <li class="sub-slide">
             <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0);"><span class="sub-side-menu__label">Reports</span><i class="sub-angle fa fa-angle-right"></i></a>
             <ul class="sub-slide-menu">
@@ -89,31 +78,8 @@ function mainMenu($encUserId)
             "param" => 'wide_opener'
         )
     )) . '
-              </li>
-              <li class="sub-slide-item">' . x(array(
-        'link' => 'erp_report/employee/empdocument',
-        'label' => 'Documents',
-        array(
-            "param" => 'wide_opener'
-        )
-    )) . '
-              </li>
-              <li class="sub-slide-item">' . x(array(
-        'link' => 'erp_report/employee/empdocument',
-        'label' => 'Document Expiry',
-        array(
-            "param" => 'wide_opener'
-        )
-    )) . '
-              </li>
-              <li class="sub-slide-item">' . x(array(
-        'link' => 'erp_report/employee/empcontract',
-        'label' => 'Operator Status',
-        array(
-            "param" => 'wide_opener'
-        )
-    )) . '
-              </li>
+
+
             </ul>
             </li>
             ';
@@ -226,33 +192,7 @@ function mainMenu($encUserId)
         )
     )) . '
               </li>
-              <li class="sub-slide-item">' . x(array(
-        'link' => 'erp_report/vehicle/vhldocument',
-        'label' => 'Vehicle Document',
-        array(
-            "param" => 'wide_opener'
-        )
-    )) . '
-              </li>
-              <li class="sub-slide-item">' . x(array(
-        'link' => 'erp_report/vehicle/vhldocument',
-        'ref' => array(
-            'ref' => 'exp'
-        ),
-        'label' => 'Vehicle Expiry',
-        array(
-            "param" => 'wide_opener'
-        )
-    )) . '
-              </li>
-              <li class="sub-slide-item">' . x(array(
-        'link' => 'erp_report/vehicle/vhlexpense',
-        'label' => 'Vehicle Expense',
-        array(
-            "param" => 'wide_opener'
-        )
-    )) . '
-              </li>
+
               <li class="sub-slide-item">' . x(array(
         'link' => 'erp_report/vehicle/commveh',
         'label' => 'Commercial',
@@ -261,22 +201,7 @@ function mainMenu($encUserId)
         )
     )) . '
               </li>
-              <li class="sub-slide-item">' . x(array(
-        'link' => 'erp_report/vehicle/vehiclecontract',
-        'label' => 'Vehicle Contract',
-        array(
-            "param" => 'wide_opener'
-        )
-    )) . '
-              </li>
-              <li class="sub-slide-item">' . x(array(
-        'link' => 'erp_report/vehicle/vehicleservice',
-        'label' => 'Vehicle Service',
-        array(
-            "param" => 'wide_opener'
-        )
-    )) . '
-              </li>
+
             </ul>
             </li>
             ';
@@ -442,13 +367,7 @@ function mainMenu($encUserId)
         array()
     )) . '</li>';
 
-    $menuHtml .= '<li class="sub-slide-item">' . x(array(
-        'link' => 'erp_report/company/statement',
-        'label' => 'Monthly Statement',
-        array(
-            "param" => 'wide_opener'
-        )
-    )) . '</li>';
+
 
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
         'link' => 'erp_manage/calllog/list',
@@ -488,7 +407,7 @@ function mainMenu($encUserId)
         'label' => 'Permissions'
     )) . '</li>';
 
-    if ($_SESSION['user_type'] == 1)
+    /*if ($_SESSION['user_type'] == 1)
         $menuHtml .= '<li class="sub-slide-item"> <a href="javascript:void(0);" Onclick="triggerSync();"> Cloud Transfer</a> </li>';
 
     $menuHtml .= '<li class="sub-slide-item">' . x(array(
@@ -500,7 +419,7 @@ function mainMenu($encUserId)
         array(
             "param" => 'class="facebox"'
         )
-    )) . '</li>';
+    )) . '</li>';*/
 
     $menuHtml .= '</ul>
       </li>';
