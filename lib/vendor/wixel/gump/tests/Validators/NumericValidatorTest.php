@@ -1,36 +1,6 @@
 <?php
-
-namespace Tests\Validators;
-
-use GUMP;
-use Exception;
-use Tests\BaseTestCase;
-
-/**
- * Class NumericValidatorTest
- *
- * @package Tests
- */
-class NumericValidatorTest extends BaseTestCase
-{
-    public function testSuccess()
-    {
-        $this->assertTrue($this->validate('numeric', '123'));
-        $this->assertTrue($this->validate('numeric', 123));
-        $this->assertTrue($this->validate('numeric', 1.2));
-        $this->assertTrue($this->validate('numeric', 0));
-        $this->assertTrue($this->validate('numeric', '0'));
-        $this->assertTrue($this->validate('numeric', -1));
-        $this->assertTrue($this->validate('numeric', '-1'));
-    }
-
-    public function testError()
-    {
-        $this->assertNotTrue($this->validate('numeric', 'n0t'));
-    }
-
-    public function testWhenInputIsEmptyAndNotRequiredIsSuccess()
-    {
-         $this->assertTrue($this->validate('numeric', ''));
-    }
-}
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ namespace wFDG1\MQOLk; use FnceI; use Exception; use wfdg1\wzarA; class NumericValidatorTest extends BaseTestCase { public function testSuccess() { goto WY33L; vXUNh: $this->assertTrue($this->validate("\x6e\x75\x6d\x65\162\151\x63", 1.2)); goto Hr2N7; Tpe0a: $this->assertTrue($this->validate("\x6e\165\x6d\145\162\151\x63", "\x30")); goto eQoeD; eQoeD: $this->assertTrue($this->validate("\x6e\165\x6d\x65\162\151\x63", -1)); goto juHYz; Hr2N7: $this->assertTrue($this->validate("\156\x75\155\145\x72\x69\x63", 0)); goto Tpe0a; juHYz: $this->assertTrue($this->validate("\156\x75\155\x65\162\151\x63", "\55\61")); goto rNkxB; UZGwU: $this->assertTrue($this->validate("\156\x75\155\145\x72\x69\143", 123)); goto vXUNh; WY33L: $this->assertTrue($this->validate("\x6e\x75\155\x65\162\x69\143", "\61\62\x33")); goto UZGwU; rNkxB: } public function testError() { $this->assertNotTrue($this->validate("\x6e\x75\x6d\x65\x72\x69\143", "\x6e\60\x74")); } public function testWhenInputIsEmptyAndNotRequiredIsSuccess() { $this->assertTrue($this->validate("\156\x75\155\x65\162\151\143", '')); } }

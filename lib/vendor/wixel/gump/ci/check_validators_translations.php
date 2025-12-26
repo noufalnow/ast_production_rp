@@ -1,21 +1,6 @@
 <?php
-require_once 'ci/boot.php';
-
-$validators = array_keys(get_gump_validators());
-$translations = array_map(function($item) {
-    return str_replace('validate_', '', $item);
-}, array_keys(require 'lang/en.php'));
-
-
-$missingTranslations = array_diff($validators, $translations);
-
-if (count($missingTranslations) > 0) {
-    foreach ($missingTranslations as $missingTranslation) {
-        print(sprintf('⮕ %s error message is missing!', $missingTranslation).PHP_EOL);
-    }
-
-    print(PHP_EOL.'Please add missing translations to lang/en.php file.'.PHP_EOL);
-    exit(1);
-} else {
-    print('Translation checks successfully passed!'.PHP_EOL);
-}
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ goto hpuvC; onm4J: print PHP_EOL . "\x50\x6c\145\141\163\145\40\x61\x64\x64\40\x6d\x69\x73\x73\151\x6e\x67\40\x74\162\141\156\163\x6c\141\164\x69\x6f\156\163\40\164\x6f\40\x6c\x61\x6e\x67\x2f\x65\x6e\x2e\160\x68\160\x20\x66\x69\x6c\145\56" . PHP_EOL; goto z4sg7; CEy1D: $OkwWJ = array_diff($rOL0p, $gsQvG); goto vIhpx; FgEuK: TPgTf: goto y01DK; HXIZQ: EE9eL: goto onm4J; dOJoN: $gsQvG = array_map(function ($FrXcx) { return str_replace("\166\x61\154\x69\x64\141\164\145\137", '', $FrXcx); }, array_keys(require "\x6c\141\156\x67\x2f\145\156\56\x70\150\160")); goto CEy1D; z4sg7: exit(1); goto nKD3P; hpuvC: require_once "\143\151\x2f\142\x6f\x6f\x74\x2e\160\x68\160"; goto CaLtU; y01DK: foreach ($OkwWJ as $JXnEJ) { print sprintf("\xe2\256\225\x20\45\163\x20\145\x72\x72\157\162\x20\155\x65\163\x73\141\x67\x65\40\151\163\x20\155\151\x73\x73\151\x6e\x67\x21", $JXnEJ) . PHP_EOL; LMx8e: } goto HXIZQ; vIhpx: if (count($OkwWJ) > 0) { goto TPgTf; } goto nsyXU; nsyXU: print "\x54\x72\141\x6e\163\x6c\x61\x74\151\x6f\156\x20\143\150\x65\x63\x6b\x73\x20\x73\165\x63\x63\x65\x73\x73\x66\165\x6c\154\x79\x20\160\x61\x73\x73\x65\x64\x21" . PHP_EOL; goto ChX_M; CaLtU: $rOL0p = array_keys(get_gump_validators()); goto dOJoN; ChX_M: goto M9KPq; goto FgEuK; nKD3P: M9KPq:

@@ -1,64 +1,6 @@
 <?php
-
-namespace Tests;
-
-use GUMP;
-use Exception;
-
-/**
- * Class StaticSetErrorMessagesTest
- *
- * @package Tests
- */
-class StaticSetErrorMessagesTest extends BaseTestCase
-{
-    public function testSetErrorMessagesStaticCall()
-    {
-        $keysValues = [
-            'numeric' =>'Field should be numeric',
-            'min_len' => 'Field length must be higher than what it is now'
-        ];
-
-        $test = GUMP::set_error_messages($keysValues);
-
-        $this->assertEquals($keysValues, self::getPrivateField(GUMP::class, 'validation_methods_errors'));
-    }
-
-    public function testItOverwritesAddValidatorErrorMessage()
-    {
-        GUMP::add_validator('custom', function($field, $input, array $params = []) {
-            return $input[$field] === 'ok';
-        }, 'Error message');
-
-        GUMP::set_error_messages([
-            'custom' =>'Field {field} should be numeric'
-        ]);
-
-        $result = GUMP::is_valid([
-            'test' => 'notOk'
-        ], [
-            'test' => 'custom'
-        ]);
-
-        $this->assertEquals([
-            'Field <span class="gump-field">Test</span> should be numeric'
-        ], $result);
-    }
-
-    public function testItOverwritesLanguagefileErrorMessage()
-    {
-        GUMP::set_error_messages([
-            'numeric' =>'Field {field} should be numeric !!!!!!!!!'
-        ]);
-
-        $result = GUMP::is_valid([
-            'test' => 'notOk'
-        ], [
-            'test' => 'numeric'
-        ]);
-
-        $this->assertEquals([
-            'Field <span class="gump-field">Test</span> should be numeric !!!!!!!!!'
-        ], $result);
-    }
-}
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ namespace wFdG1; use fNCEi; use Exception; class StaticSetErrorMessagesTest extends BaseTestCase { public function testSetErrorMessagesStaticCall() { goto fTmWh; Tf0Ja: $YW5L2 = GUMP::set_error_messages($Rc6hS); goto Er0EO; Er0EO: $this->assertEquals($Rc6hS, self::getPrivateField(GUMP::class, "\x76\141\x6c\x69\x64\141\x74\151\x6f\x6e\x5f\155\145\164\x68\157\x64\163\137\145\x72\x72\x6f\162\163")); goto nVoW7; fTmWh: $Rc6hS = ["\156\x75\x6d\x65\162\x69\x63" => "\x46\x69\145\x6c\x64\x20\163\150\x6f\165\154\x64\x20\142\x65\x20\x6e\165\x6d\x65\x72\151\143", "\155\151\x6e\137\154\x65\156" => "\x46\x69\145\x6c\144\40\154\x65\x6e\147\164\x68\x20\x6d\165\x73\x74\x20\142\145\40\x68\151\x67\150\x65\x72\40\x74\150\x61\x6e\x20\x77\150\141\164\40\151\x74\x20\x69\163\40\x6e\157\167"]; goto Tf0Ja; nVoW7: } public function testItOverwritesAddValidatorErrorMessage() { goto zXJZ6; E6jXU: $this->assertEquals(["\106\151\145\154\x64\x20\74\x73\x70\x61\156\40\143\x6c\141\x73\163\x3d\x22\x67\x75\x6d\x70\x2d\x66\x69\145\154\144\x22\76\x54\x65\x73\x74\74\57\163\x70\141\x6e\x3e\40\x73\150\x6f\165\154\x64\x20\x62\145\40\156\x75\155\x65\x72\x69\x63"], $mncio); goto oTkbq; zXJZ6: GUMP::add_validator("\x63\165\163\x74\x6f\x6d", function ($XrxK4, $NGWVv, array $QTxIX = []) { return $NGWVv[$XrxK4] === "\x6f\153"; }, "\x45\x72\162\157\162\x20\155\145\163\x73\x61\147\145"); goto BT2IQ; sa1m1: $mncio = GUMP::is_valid(["\x74\145\163\x74" => "\156\157\x74\x4f\x6b"], ["\164\145\x73\x74" => "\x63\x75\163\x74\157\155"]); goto E6jXU; BT2IQ: GUMP::set_error_messages(["\x63\165\163\164\157\155" => "\106\x69\x65\x6c\x64\x20\x7b\146\151\145\x6c\x64\x7d\40\x73\x68\157\x75\x6c\x64\40\142\x65\x20\156\x75\155\145\162\x69\143"]); goto sa1m1; oTkbq: } public function testItOverwritesLanguagefileErrorMessage() { goto IfZuM; IfZuM: GUMP::set_error_messages(["\x6e\165\x6d\145\x72\x69\x63" => "\106\x69\145\x6c\144\x20\x7b\146\151\x65\x6c\x64\175\40\x73\x68\157\x75\154\x64\40\142\x65\x20\x6e\165\155\145\x72\151\x63\x20\x21\x21\x21\x21\41\x21\x21\41\41"]); goto UWvz6; UWvz6: $mncio = GUMP::is_valid(["\x74\x65\163\164" => "\156\x6f\164\117\153"], ["\164\145\163\x74" => "\156\x75\155\145\162\151\x63"]); goto p_v1N; p_v1N: $this->assertEquals(["\106\151\x65\x6c\x64\40\74\163\x70\x61\156\x20\143\154\x61\x73\x73\75\x22\147\165\155\x70\x2d\146\151\x65\154\144\42\76\124\145\163\164\x3c\x2f\163\x70\x61\x6e\x3e\40\163\150\157\165\154\144\40\x62\145\40\x6e\x75\x6d\145\162\x69\143\40\41\41\x21\x21\41\x21\41\41\41"], $mncio); goto Ut8Gc; Ut8Gc: } }

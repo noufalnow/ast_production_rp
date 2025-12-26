@@ -1,42 +1,6 @@
 <?php
-
-namespace Tests\Filters;
-
-use GUMP;
-use Exception;
-use Tests\BaseTestCase;
-
-/**
- * Class BooleanFilterTest
- *
- * @package Tests
- */
-class BooleanFilterTest extends BaseTestCase
-{
-    const FILTER = 'boolean';
-
-   /**
-     * @dataProvider successProvider
-     */
-    public function testSuccess($input, $expected)
-    {
-        $result = $this->filter(self::FILTER, $input);
-        $this->assertEquals($expected, $result);
-    }
-
-    public function successProvider()
-    {
-        return [
-            ['1', true],
-            [1, true],
-            [true, true],
-            ['yes', true],
-            ['on', true],
-
-            ['', false],
-            ['no', false],
-            [null, false],
-            [false, false],
-        ];
-    }
-}
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ namespace wfDG1\u5Kgh; use fncEi; use Exception; use wfdG1\WzaRa; class BooleanFilterTest extends BaseTestCase { const zm3Yu = "\x62\x6f\x6f\x6c\145\x61\156"; public function testSuccess($NGWVv, $mGlcM) { $mncio = $this->filter(self::zm3Yu, $NGWVv); $this->assertEquals($mGlcM, $mncio); } public function successProvider() { return [["\x31", true], [1, true], [true, true], ["\x79\x65\x73", true], ["\157\156", true], ['', false], ["\x6e\x6f", false], [null, false], [false, false]]; } }

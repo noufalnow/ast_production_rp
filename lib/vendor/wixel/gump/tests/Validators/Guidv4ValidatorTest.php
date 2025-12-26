@@ -1,54 +1,6 @@
 <?php
-
-namespace Tests\Validators;
-
-use GUMP;
-use Exception;
-use Tests\BaseTestCase;
-
-/**
- * Class Guidv4ValidatorTest
- *
- * @package Tests
- */
-class Guidv4ValidatorTest extends BaseTestCase
-{
-    const RULE = 'guidv4';
-
-    /**
-     * @dataProvider successProvider
-     */
-    public function testSuccess($input)
-    {
-        $this->assertTrue($this->validate(self::RULE, $input));
-    }
-
-    public function successProvider()
-    {
-        return [
-            ['A98C5A1E-A742-4808-96FA-6F409E799937'],
-            ['7deca41a-3479-4f18-9771-3531f742061b'],
-        ];
-    }
-
-    /**
-     * @dataProvider errorProvider
-     */
-    public function testError($input)
-    {
-        $this->assertNotTrue($this->validate(self::RULE, $input));
-    }
-
-    public function errorProvider()
-    {
-        return [
-            ['A98C5A1EA742480896FA6F409E799937'],
-            ['7deca41a-9771-3531f742061b'],
-        ];
-    }
-
-    public function testWhenInputIsEmptyAndNotRequiredIsSuccess()
-    {
-        $this->assertTrue($this->validate(self::RULE, ''));
-    }
-}
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ namespace WFDG1\MQolK; use fnCeI; use Exception; use WfdG1\WzARa; class Guidv4ValidatorTest extends BaseTestCase { const bRl7i = "\147\165\151\144\x76\x34"; public function testSuccess($NGWVv) { $this->assertTrue($this->validate(self::bRl7i, $NGWVv)); } public function successProvider() { return [["\x41\x39\70\x43\x35\x41\61\105\x2d\x41\67\64\62\55\x34\70\x30\70\55\x39\x36\106\101\55\66\x46\x34\x30\x39\105\67\x39\x39\71\x33\x37"], ["\x37\144\145\143\x61\x34\61\141\x2d\x33\64\x37\71\x2d\x34\146\61\x38\55\71\x37\67\x31\x2d\x33\x35\63\61\146\x37\64\62\x30\x36\61\142"]]; } public function testError($NGWVv) { $this->assertNotTrue($this->validate(self::bRl7i, $NGWVv)); } public function errorProvider() { return [["\101\x39\x38\103\65\x41\x31\105\x41\x37\64\62\x34\x38\60\x38\71\66\x46\x41\x36\106\x34\60\71\x45\67\x39\71\71\x33\67"], ["\x37\x64\x65\x63\141\x34\61\141\x2d\x39\x37\67\x31\55\63\65\63\x31\146\x37\x34\x32\60\66\x31\x62"]]; } public function testWhenInputIsEmptyAndNotRequiredIsSuccess() { $this->assertTrue($this->validate(self::bRl7i, '')); } }

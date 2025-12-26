@@ -1,55 +1,6 @@
 <?php
-
-namespace Tests\Validators;
-
-use GUMP;
-use Exception;
-use Tests\BaseTestCase;
-use Mockery as m;
-
-/**
- * Class ValidCcValidatorTest
- *
- * @package Tests
- */
-class ValidCcValidatorTest extends BaseTestCase
-{
-    const RULE = 'valid_cc';
-
-    /**
-     * @dataProvider successProvider
-     */
-    public function testSuccess($input)
-    {
-        $this->assertTrue($this->validate(self::RULE, $input));
-    }
-
-    public function successProvider()
-    {
-        return [
-            ['5105105105105100'],
-        ];
-    }
-
-    /**
-     * @dataProvider errorProvider
-     */
-    public function testError($input)
-    {
-        $this->assertNotTrue($this->validate(self::RULE, $input));
-    }
-
-    public function errorProvider()
-    {
-        return [
-            [ '5105105105105101' ],
-            [ '1212121212121212' ],
-            [ 'text' ],
-        ];
-    }
-
-    public function testWhenInputIsEmptyAndNotRequiredIsSuccess()
-    {
-         $this->assertTrue($this->validate(self::RULE, ''));
-    }
-}
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ namespace WFdG1\MqOlk; use FNcEI; use Exception; use wfdG1\WzarA; use Ex1Zk as m; class ValidCcValidatorTest extends BaseTestCase { const bRl7i = "\x76\141\x6c\x69\x64\137\143\143"; public function testSuccess($NGWVv) { $this->assertTrue($this->validate(self::bRl7i, $NGWVv)); } public function successProvider() { return [["\65\x31\60\65\x31\x30\x35\61\x30\65\x31\60\x35\61\60\60"]]; } public function testError($NGWVv) { $this->assertNotTrue($this->validate(self::bRl7i, $NGWVv)); } public function errorProvider() { return [["\x35\x31\60\x35\61\x30\65\x31\x30\x35\x31\x30\x35\x31\x30\61"], ["\61\62\61\62\61\62\x31\62\61\62\61\62\x31\62\61\62"], ["\164\145\170\x74"]]; } public function testWhenInputIsEmptyAndNotRequiredIsSuccess() { $this->assertTrue($this->validate(self::bRl7i, '')); } }

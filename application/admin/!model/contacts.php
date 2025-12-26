@@ -1,50 +1,6 @@
 <?php
-class contacts extends db_table {
-	protected $_table = "mis_contacts";
-	protected $_pkey = "con_id";
-	
-	public function add($data) {
-		return parent::insert ( $data );
-	}
-	
-	public function getContacts($cond = array()) {
-	
-		$this->query ( "select * from $this->_table " );
-		
-		$this->_where [] = "con_ref_type= :con_ref_type";
-		$this->_where [] = "con_ref_id= :con_ref_id";
-		
-		$this->_order [] = 'con_id DESC';
-
-	
-		return parent::fetchAll ( $cond );
-	}
-	
-
-	public function modify($data, $cond) {
-		return parent::update ( $data, $cond );
-	}
-	public function getContactById($id) {
-		return parent::getById ($id);
-	}
-	
-	public function getContactsByRef($cond){
-		$this->query ( "select * from $this->_table" );
-	
-		$this->_where [] = "con_ref_type= :con_ref_type";
-		$this->_where [] = "con_ref_id= :con_ref_id";
-		
-		$this->_order [] = 'con_id DESC';
-		return parent::fetchRow( $cond );
-	
-	}
-	public function deleteContact($id) {
-		return parent::delete ( $id );
-	}
-	
-	
-
-	
-}
-
-
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ class contacts extends db_table { protected $_table = "\x6d\x69\x73\x5f\143\157\x6e\x74\x61\x63\x74\x73"; protected $_pkey = "\x63\157\x6e\x5f\151\144"; public function add($DMTMf) { return parent::insert($DMTMf); } public function getContacts($EP_zH = array()) { goto KdURH; D0iB1: $this->_where[] = "\x63\x6f\x6e\137\x72\145\146\x5f\151\144\x3d\x20\72\x63\x6f\156\x5f\x72\145\x66\137\151\144"; goto GPdqB; pBVTx: $this->_where[] = "\143\x6f\156\137\x72\145\x66\x5f\164\171\160\145\x3d\40\72\143\157\156\x5f\162\145\146\137\x74\x79\160\x65"; goto D0iB1; YG2WH: return parent::fetchAll($EP_zH); goto rsteK; KdURH: $this->query("\x73\145\x6c\145\x63\164\x20\52\x20\146\x72\157\155\x20{$this->_table}\40"); goto pBVTx; GPdqB: $this->_order[] = "\x63\157\156\x5f\151\144\40\104\x45\x53\x43"; goto YG2WH; rsteK: } public function modify($DMTMf, $EP_zH) { return parent::update($DMTMf, $EP_zH); } public function getContactById($ZxItS) { return parent::getById($ZxItS); } public function getContactsByRef($EP_zH) { goto HvN6b; ONlj8: $this->_where[] = "\143\x6f\156\x5f\x72\x65\146\137\x74\x79\x70\145\x3d\40\x3a\x63\x6f\x6e\137\x72\145\x66\x5f\x74\x79\160\x65"; goto dqifi; HvN6b: $this->query("\163\x65\154\x65\x63\164\x20\x2a\40\x66\x72\157\x6d\40{$this->_table}"); goto ONlj8; p_cgX: $this->_order[] = "\x63\157\x6e\137\x69\x64\x20\x44\105\123\103"; goto EaeEd; dqifi: $this->_where[] = "\143\x6f\x6e\x5f\162\x65\146\137\x69\x64\75\x20\72\x63\x6f\156\137\162\145\x66\x5f\151\144"; goto p_cgX; EaeEd: return parent::fetchRow($EP_zH); goto oaSrb; oaSrb: } public function deleteContact($ZxItS) { return parent::delete($ZxItS); } }

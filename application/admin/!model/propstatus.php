@@ -1,43 +1,6 @@
 <?php
-class propstatus extends db_table {
-	protected $_table = "mis_property_status";
-	protected $_pkey = "psts_id";
-	
-	public function add($data) {
-		return parent::insert ( $data );
-	}
-	public function getStatusById($id) {
-		return parent::getById ($id);
-	}
-	
-	public function modify($data, $cond) {
-		return parent::update ( $data, $cond );
-	}	
-	
-	public function deleteDocument($id) {
-		return parent::delete ( $id );
-	}
-	
-	public function getPropertyStatusDet($cond) {
-		$this->query ( "select $this->_table.*,
-				building.bld_name,
-				atchprop.prop_no as atach_prop_no,
-				atchprop.prop_fileno as atach_file_no,
-				property.prop_no,
-				property.prop_fileno 
-				from $this->_table
-				left join mis_projects as property on property.prop_id = $this->_table.psts_prop_id and property.deleted = 0
-				left join mis_building as building on building.bld_id = property.prop_building and building.deleted = 0
-				left join mis_projects as atchprop on atchprop.prop_id = $this->_table.psts_attach_prop and atchprop.deleted = 0
-				" );
-		if (! empty ( $cond ['psts_prop_id'] ))
-			$this->_where [] = "psts_prop_id= :psts_prop_id";
-		
-		$this->_order [] = "psts_id DESC";
-		
-		return parent::fetchRow ( $cond );
-	}
-	
-}
-
-
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ class propstatus extends db_table { protected $_table = "\155\151\163\137\x70\162\x6f\160\145\x72\164\171\x5f\163\x74\141\x74\165\x73"; protected $_pkey = "\160\x73\x74\163\x5f\151\144"; public function add($DMTMf) { return parent::insert($DMTMf); } public function getStatusById($ZxItS) { return parent::getById($ZxItS); } public function modify($DMTMf, $EP_zH) { return parent::update($DMTMf, $EP_zH); } public function deleteDocument($ZxItS) { return parent::delete($ZxItS); } public function getPropertyStatusDet($EP_zH) { goto omqOc; vuMbf: $this->_where[] = "\160\163\x74\x73\137\x70\x72\157\160\x5f\x69\x64\75\40\72\x70\163\x74\x73\137\x70\162\157\x70\x5f\x69\x64"; goto lAIcM; x6dtg: $this->_order[] = "\160\x73\x74\163\137\151\x64\40\x44\x45\x53\103"; goto VfdZo; VfdZo: return parent::fetchRow($EP_zH); goto JpPJJ; Wkf4U: if (empty($EP_zH["\x70\163\164\163\x5f\x70\x72\157\x70\137\151\x64"])) { goto uyLKl; } goto vuMbf; lAIcM: uyLKl: goto x6dtg; omqOc: $this->query("\x73\x65\154\145\x63\164\x20{$this->_table}\x2e\52\54\12\x9\11\11\x9\142\165\151\x6c\x64\151\156\x67\x2e\142\154\144\x5f\156\141\x6d\145\x2c\xa\x9\x9\x9\11\141\164\143\x68\160\162\157\160\56\x70\x72\157\x70\x5f\156\x6f\x20\x61\x73\x20\x61\164\x61\143\x68\137\x70\162\157\160\x5f\x6e\x6f\54\12\11\x9\x9\x9\x61\164\x63\x68\160\162\157\160\56\x70\162\x6f\160\137\x66\151\154\145\156\x6f\x20\141\163\40\141\164\141\143\150\137\x66\x69\x6c\x65\137\x6e\x6f\x2c\12\11\x9\x9\11\160\x72\157\x70\145\x72\x74\x79\x2e\x70\x72\157\160\x5f\x6e\157\54\12\11\11\11\x9\x70\162\157\x70\x65\x72\164\171\56\160\162\x6f\160\x5f\146\151\154\x65\x6e\x6f\x20\12\11\11\11\11\x66\x72\x6f\x6d\40{$this->_table}\xa\x9\11\x9\x9\x6c\145\x66\164\40\x6a\157\151\x6e\40\155\151\163\137\160\x72\x6f\152\x65\x63\x74\163\40\141\x73\x20\160\162\157\x70\x65\162\x74\x79\x20\x6f\x6e\x20\x70\162\157\160\145\x72\164\171\x2e\x70\x72\157\160\x5f\151\x64\40\75\x20{$this->_table}\56\160\x73\x74\163\x5f\x70\162\157\x70\x5f\151\144\x20\x61\x6e\144\x20\160\x72\x6f\x70\x65\162\164\x79\56\x64\x65\154\145\x74\x65\144\x20\75\x20\x30\12\x9\x9\x9\x9\x6c\x65\146\x74\x20\x6a\157\151\x6e\x20\155\x69\163\137\x62\x75\x69\x6c\x64\151\x6e\147\x20\x61\163\40\x62\x75\151\154\144\151\x6e\147\40\x6f\x6e\40\x62\165\x69\x6c\144\151\x6e\x67\56\x62\154\x64\137\x69\144\40\x3d\40\x70\162\157\x70\x65\x72\164\x79\56\160\x72\157\160\137\x62\x75\x69\154\144\151\x6e\x67\40\141\x6e\144\x20\142\165\151\x6c\x64\x69\156\x67\x2e\144\x65\154\x65\164\x65\144\x20\75\x20\60\12\x9\11\11\x9\x6c\145\x66\x74\40\152\157\151\156\x20\155\151\x73\137\160\x72\x6f\152\145\x63\164\x73\x20\141\163\x20\x61\164\143\x68\x70\162\157\x70\40\x6f\156\x20\141\x74\143\150\x70\x72\157\160\x2e\160\x72\157\x70\137\151\x64\x20\75\40{$this->_table}\56\160\163\x74\163\137\141\164\x74\x61\143\x68\x5f\x70\x72\157\x70\40\x61\x6e\x64\40\141\164\x63\150\160\x72\157\160\x2e\x64\145\154\x65\x74\x65\144\40\75\x20\60\xa\x9\11\x9\11"); goto Wkf4U; JpPJJ: } }

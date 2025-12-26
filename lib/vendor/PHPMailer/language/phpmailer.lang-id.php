@@ -1,31 +1,6 @@
 <?php
-
-/**
- * Indonesian PHPMailer language file: refer to English translation for definitive list
- * @package PHPMailer
- * @author Cecep Prawiro <cecep.prawiro@gmail.com>
- * @author @januridp
- * @author Ian Mustafa <mail@ianmustafa.com>
- */
-
-$PHPMAILER_LANG['authenticate']         = 'Kesalahan SMTP: Tidak dapat mengotentikasi.';
-$PHPMAILER_LANG['connect_host']         = 'Kesalahan SMTP: Tidak dapat terhubung ke host SMTP.';
-$PHPMAILER_LANG['data_not_accepted']    = 'Kesalahan SMTP: Data tidak diterima.';
-$PHPMAILER_LANG['empty_message']        = 'Isi pesan kosong';
-$PHPMAILER_LANG['encoding']             = 'Pengkodean karakter tidak dikenali: ';
-$PHPMAILER_LANG['execute']              = 'Tidak dapat menjalankan proses: ';
-$PHPMAILER_LANG['file_access']          = 'Tidak dapat mengakses berkas: ';
-$PHPMAILER_LANG['file_open']            = 'Kesalahan Berkas: Berkas tidak dapat dibuka: ';
-$PHPMAILER_LANG['from_failed']          = 'Alamat pengirim berikut mengakibatkan kesalahan: ';
-$PHPMAILER_LANG['instantiate']          = 'Tidak dapat menginisialisasi fungsi surel.';
-$PHPMAILER_LANG['invalid_address']      = 'Gagal terkirim, alamat surel tidak sesuai: ';
-$PHPMAILER_LANG['invalid_hostentry']    = 'Gagal terkirim, entri host tidak sesuai: ';
-$PHPMAILER_LANG['invalid_host']         = 'Gagal terkirim, host tidak sesuai: ';
-$PHPMAILER_LANG['provide_address']      = 'Harus tersedia minimal satu alamat tujuan';
-$PHPMAILER_LANG['mailer_not_supported'] = ' mailer tidak didukung';
-$PHPMAILER_LANG['recipients_failed']    = 'Kesalahan SMTP: Alamat tujuan berikut menyebabkan kesalahan: ';
-$PHPMAILER_LANG['signing']              = 'Kesalahan dalam penandatangan SSL: ';
-$PHPMAILER_LANG['smtp_connect_failed']  = 'SMTP Connect() gagal.';
-$PHPMAILER_LANG['smtp_error']           = 'Kesalahan pada pelayan SMTP: ';
-$PHPMAILER_LANG['variable_set']         = 'Tidak dapat mengatur atau mengatur ulang variabel: ';
-$PHPMAILER_LANG['extension_missing']    = 'Ekstensi PHP tidak tersedia: ';
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ goto wgH5f; TzwQd: $E25eS["\145\x6e\143\157\x64\x69\x6e\147"] = "\x50\x65\156\147\153\157\144\x65\x61\156\40\x6b\x61\x72\141\x6b\x74\x65\x72\x20\164\x69\x64\x61\153\40\144\x69\153\145\x6e\141\154\151\x3a\x20"; goto SBLYj; jkJDs: $E25eS["\163\155\164\160\137\143\x6f\x6e\x6e\145\x63\x74\x5f\x66\x61\x69\x6c\145\144"] = "\123\x4d\x54\120\40\103\x6f\156\156\x65\143\x74\x28\x29\40\x67\x61\x67\x61\154\56"; goto EI1b6; VXXyz: $E25eS["\146\151\x6c\x65\x5f\x61\143\x63\x65\163\163"] = "\x54\151\144\141\153\x20\144\x61\x70\141\x74\x20\155\145\156\147\x61\x6b\163\145\x73\x20\x62\145\162\153\141\x73\x3a\40"; goto Ysv5i; G1YxK: $E25eS["\x69\156\x73\164\x61\156\x74\x69\x61\x74\145"] = "\124\151\144\141\153\40\x64\141\160\x61\164\40\x6d\145\156\147\151\156\151\x73\x69\x61\154\x69\163\141\x73\151\x20\x66\165\x6e\x67\x73\x69\x20\x73\165\162\145\x6c\56"; goto ccow9; vJ83V: $E25eS["\151\x6e\166\x61\x6c\151\144\137\x68\x6f\163\x74\145\x6e\x74\162\171"] = "\107\141\x67\141\154\x20\x74\x65\x72\153\151\162\151\155\x2c\x20\145\156\164\162\151\40\150\x6f\x73\x74\x20\x74\x69\144\141\153\x20\x73\x65\163\x75\x61\151\x3a\40"; goto V1e0V; V1e0V: $E25eS["\x69\156\166\x61\x6c\x69\144\x5f\150\157\163\x74"] = "\107\141\147\141\x6c\x20\x74\145\x72\x6b\x69\x72\151\155\x2c\40\150\157\163\x74\40\164\x69\144\141\153\x20\163\145\163\165\141\x69\72\40"; goto nse_I; qsG2W: $E25eS["\146\162\157\x6d\x5f\146\x61\151\154\145\x64"] = "\x41\154\141\155\x61\164\40\x70\x65\x6e\x67\x69\162\151\155\x20\142\x65\162\x69\153\x75\x74\x20\x6d\x65\156\147\x61\153\151\x62\x61\164\153\x61\156\x20\153\x65\x73\x61\x6c\141\150\x61\156\72\40"; goto G1YxK; EI1b6: $E25eS["\x73\155\164\160\137\145\x72\x72\x6f\162"] = "\x4b\145\x73\x61\154\x61\x68\x61\156\x20\x70\x61\144\141\40\x70\x65\x6c\x61\x79\141\x6e\x20\123\x4d\x54\x50\72\40"; goto K0Tew; wgH5f: $E25eS["\x61\x75\x74\x68\145\156\164\151\x63\141\x74\145"] = "\x4b\145\163\x61\154\141\x68\x61\156\x20\123\115\x54\120\72\x20\x54\x69\144\x61\x6b\x20\x64\x61\x70\141\x74\40\155\x65\x6e\147\157\164\x65\156\164\151\153\x61\163\151\x2e"; goto NW8WW; Q8fwI: $E25eS["\162\145\x63\x69\x70\x69\x65\x6e\164\x73\x5f\x66\141\x69\154\145\144"] = "\113\145\163\141\x6c\141\x68\x61\x6e\x20\x53\115\x54\x50\72\40\x41\x6c\141\155\141\164\x20\164\165\152\165\141\x6e\40\x62\145\162\151\153\165\x74\40\x6d\145\x6e\171\x65\x62\141\x62\153\x61\156\40\x6b\x65\x73\x61\x6c\141\150\x61\156\x3a\40"; goto MiOMV; MiOMV: $E25eS["\x73\151\147\x6e\151\x6e\x67"] = "\x4b\145\x73\x61\154\x61\x68\x61\x6e\40\x64\x61\154\141\x6d\40\x70\145\156\x61\x6e\144\x61\164\x61\x6e\x67\141\x6e\x20\123\x53\x4c\72\40"; goto jkJDs; K0Tew: $E25eS["\x76\141\x72\151\x61\x62\x6c\145\137\x73\x65\164"] = "\124\151\144\141\153\x20\144\141\160\x61\164\40\155\145\156\x67\141\164\x75\162\x20\141\x74\141\x75\40\155\145\x6e\147\141\x74\x75\x72\x20\165\154\141\156\147\x20\x76\x61\x72\x69\x61\x62\x65\154\72\40"; goto JqtGw; Ysv5i: $E25eS["\146\x69\x6c\145\x5f\x6f\160\x65\x6e"] = "\113\x65\163\x61\x6c\141\150\x61\x6e\x20\102\145\x72\153\141\x73\x3a\x20\102\145\x72\153\141\163\x20\x74\x69\x64\141\x6b\40\x64\x61\x70\141\164\x20\144\151\x62\165\x6b\141\72\40"; goto qsG2W; xkHxo: $E25eS["\x65\x6d\160\x74\x79\137\155\145\x73\x73\141\x67\x65"] = "\x49\163\x69\40\x70\145\x73\141\x6e\40\153\157\x73\157\156\x67"; goto TzwQd; NW8WW: $E25eS["\143\x6f\156\x6e\145\x63\164\x5f\150\157\x73\x74"] = "\x4b\145\163\x61\154\141\150\x61\x6e\x20\123\x4d\x54\120\72\40\x54\151\x64\141\153\40\144\141\160\x61\164\40\164\x65\x72\150\x75\142\x75\156\x67\40\153\145\x20\150\157\163\164\40\x53\115\x54\x50\56"; goto Vbsdh; Vbsdh: $E25eS["\144\141\164\141\137\156\x6f\x74\137\141\143\143\x65\x70\164\145\144"] = "\x4b\145\163\141\154\141\x68\141\x6e\40\123\115\124\120\72\40\104\141\x74\x61\40\164\151\x64\x61\x6b\x20\144\x69\x74\145\x72\x69\155\141\56"; goto xkHxo; ccow9: $E25eS["\x69\156\x76\x61\x6c\151\144\x5f\x61\144\144\x72\x65\x73\163"] = "\x47\x61\147\141\154\40\x74\x65\x72\153\151\162\x69\x6d\x2c\40\141\x6c\x61\x6d\141\x74\x20\163\x75\x72\x65\154\40\164\151\144\x61\x6b\40\163\145\163\165\141\151\x3a\x20"; goto vJ83V; Fiv6i: $E25eS["\155\141\151\154\145\162\137\156\157\x74\x5f\163\165\160\160\157\x72\x74\x65\144"] = "\x20\x6d\141\x69\154\x65\162\40\x74\151\x64\x61\153\x20\144\151\x64\x75\x6b\x75\156\x67"; goto Q8fwI; nse_I: $E25eS["\x70\x72\x6f\166\151\144\x65\x5f\x61\144\x64\162\x65\163\x73"] = "\110\x61\162\165\163\x20\164\x65\x72\163\x65\x64\x69\x61\40\155\151\156\x69\x6d\x61\154\40\x73\x61\x74\165\x20\141\x6c\x61\x6d\141\x74\40\164\165\152\x75\x61\156"; goto Fiv6i; SBLYj: $E25eS["\145\170\145\x63\165\164\x65"] = "\x54\151\144\x61\x6b\40\x64\141\160\141\164\x20\x6d\x65\x6e\x6a\141\x6c\141\x6e\153\141\156\40\160\x72\x6f\x73\145\163\x3a\x20"; goto VXXyz; JqtGw: $E25eS["\145\x78\x74\x65\156\x73\x69\x6f\156\x5f\x6d\x69\163\163\151\156\x67"] = "\x45\x6b\163\164\x65\156\163\151\x20\120\x48\x50\x20\164\151\x64\x61\x6b\40\164\x65\x72\163\145\144\x69\x61\72\40";

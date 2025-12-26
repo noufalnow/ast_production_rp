@@ -1,40 +1,6 @@
 <?php
-
-namespace Tests;
-
-use GUMP;
-use Exception;
-
-/**
- * Class StaticFieldTest
- *
- * @package Tests
- */
-class StaticFieldTest extends BaseTestCase
-{
-
-    public function testFieldStaticCallRetrievesValueIfKeyExists()
-    {
-        $keysValues = [
-            'numeric' => 'Field should be numeric',
-            'min_len' => 'Field length must be higher than what it is now'
-        ];
-
-        $result = GUMP::field('numeric', $keysValues);
-
-        $this->assertEquals('Field should be numeric', $result);
-    }
-
-    public function testFieldStaticCallRetrievesDefaultWhenKeyDoesntExist()
-    {
-        $keysValues = [
-            'numeric' => 'Field should be numeric',
-            'min_len' => 'Field length must be higher than what it is now'
-        ];
-
-        $result = GUMP::field('input_field', $keysValues, 'Default error message');
-
-        $this->assertEquals('Default error message', $result);
-    }
-
-}
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ namespace wFDg1; use fNCEi; use Exception; class StaticFieldTest extends BaseTestCase { public function testFieldStaticCallRetrievesValueIfKeyExists() { goto dM9_s; dM9_s: $Rc6hS = ["\x6e\x75\x6d\x65\x72\151\143" => "\x46\151\x65\x6c\x64\40\163\150\157\165\154\144\x20\142\145\40\x6e\x75\x6d\145\162\x69\x63", "\x6d\151\156\137\x6c\145\156" => "\x46\151\145\x6c\x64\40\154\145\156\147\164\x68\x20\x6d\x75\163\x74\40\x62\145\40\150\x69\147\150\145\162\40\x74\150\141\156\40\167\x68\x61\164\x20\151\164\40\x69\x73\x20\156\x6f\x77"]; goto eKrQG; QlDg0: $this->assertEquals("\x46\151\145\154\144\x20\163\150\157\x75\x6c\144\x20\x62\145\40\156\x75\155\145\x72\x69\x63", $mncio); goto DczdM; eKrQG: $mncio = GUMP::field("\x6e\165\x6d\145\162\x69\x63", $Rc6hS); goto QlDg0; DczdM: } public function testFieldStaticCallRetrievesDefaultWhenKeyDoesntExist() { goto gH_NC; gH_NC: $Rc6hS = ["\156\x75\x6d\x65\x72\151\143" => "\106\x69\145\154\144\40\163\x68\x6f\x75\154\144\40\142\145\x20\x6e\x75\155\145\162\151\x63", "\x6d\x69\x6e\x5f\x6c\145\156" => "\x46\x69\145\x6c\144\x20\154\145\x6e\x67\x74\150\x20\x6d\165\163\x74\40\x62\x65\x20\150\x69\x67\150\145\162\x20\x74\150\141\156\x20\167\x68\x61\164\x20\151\x74\x20\x69\163\40\x6e\157\x77"]; goto YooXJ; YooXJ: $mncio = GUMP::field("\151\x6e\160\x75\x74\137\x66\151\145\x6c\x64", $Rc6hS, "\x44\145\146\141\165\x6c\x74\40\x65\162\x72\x6f\x72\x20\x6d\x65\163\163\141\x67\145"); goto E9agk; E9agk: $this->assertEquals("\104\145\x66\x61\165\x6c\x74\40\145\162\162\157\162\x20\x6d\x65\x73\x73\x61\x67\145", $mncio); goto VO2Dp; VO2Dp: } }

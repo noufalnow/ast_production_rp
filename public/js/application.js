@@ -401,77 +401,96 @@ function setDatePicker(dateElement){
 	}
 }
 
-function getJaxData(refId, refElement,url,refParam,pType)
+function resetSelect(selectId, placeholder = 'Select Child Category') {
+    const el = $('#' + selectId);
+
+    if (el.hasClass('chosen-select')) {
+        el.chosen('destroy');
+    }
+
+    el.empty().append(
+        $('<option>', { value: '', text: placeholder })
+    );
+
+    el.val('');
+
+    el.chosen({
+        width: '100%'
+    });
+}
+
+
+
+let suppressAutoSubmit = false;
+
+function getJaxData(refId, refElement, url, refParam, pType)
 {
-	
-	if((refId!='')&&(refId!=null)&&(refId!=undefined))
-	{
-		$.ajax({
-			  type: 'POST',
-			  url: url,
-			  data: {refId:refId,refParam:refParam,pType:pType },
-			  beforeSend: function () { displayOverlay('Loading...'); },
-			  success: function(response)
-							  {
-				  				
-				  				fillJaxData(response, refElement);
-							  },
-			  dataType: 'json'
-		});
-	}
-	else{
+    suppressAutoSubmit = true;
 
-		var refElementObj = $('#' + refElement);
+    if (refId) {
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: { refId: refId, refParam: refParam, pType: pType },
+            beforeSend: function () {
+                displayOverlay('Loading...');
+            },
+            success: function (response) {
+                fillJaxData(response, refElement);
+            },
+            dataType: 'json',
+            complete: function () {
+                suppressAutoSubmit = false;
+                removeOverlay();
+            }
+        });
+    } else {
 
-		// Destroy chosen first (VERY IMPORTANT)
-		if (refElementObj.hasClass('chosen-select')) {
-		    refElementObj.chosen('destroy');
-		}
+        var refElementObj = $('#' + refElement);
 
-		// Clear options
-		refElementObj.empty();
+        if (refElementObj.hasClass('chosen-select')) {
+            refElementObj.chosen('destroy');
+        }
 
-		// Re-add placeholder option (MANDATORY)
-		refElementObj.append(
-		    $('<option>', {
-		        value: '',
-		        text: '-- Select --'
-		    })
-		);
+        refElementObj.empty().append(
+            $('<option>', { value: '', text: '-- Select --' })
+        );
 
-		// Re-initialize chosen
-		refElementObj.chosen({
-		    width: '100%'
-		});
-		
-	}
+        refElementObj.chosen({ width: '100%' });
+
+        suppressAutoSubmit = false;
+        removeOverlay();
+    }
 }
 function fillJaxData(options, refElement)
 {
-	var refElementObj = $('#'+refElement);
-	
-    var selectedElementValue = refElementObj.val();
+    var refElementObj = $('#' + refElement);
+    var prevValue = refElementObj.val();
+
     refElementObj.empty();
-    /*refElementObj.append($('<option>', { value : '' })
-				    .text('--Select--'));*/
-	$.each(options, function(key, value) {
-		refElementObj
-	          .append($('<option>', { value : value.key })
-	          .text(value.value))
-		});
-	if(selectedElementValue != null && selectedElementValue != undefined && selectedElementValue != '')
-		refElementObj.val(selectedElementValue);
-	
-	$('.chosen-select').chosen('destroy');  
-	
-	$(".chosen-select").chosen({
-		no_results_text : "Oops, nothing found!",
-	    search_contains: true,
-	    enable_split_word_search: true
-	});
-	
-	removeOverlay();
+
+    $.each(options, function (i, item) {
+        refElementObj.append(
+            $('<option>', { value: item.key, text: item.value })
+        );
+    });
+
+    if (prevValue) {
+        refElementObj.val(prevValue);
+    }
+
+    if (refElementObj.hasClass('chosen-select')) {
+        refElementObj.chosen('destroy');
+    }
+
+    refElementObj.chosen({
+        no_results_text: "Oops, nothing found!",
+        search_contains: true,
+        enable_split_word_search: true
+    });
 }
+
+
 
 
 function customPost(action,dataArray) {

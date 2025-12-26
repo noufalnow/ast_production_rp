@@ -1,60 +1,6 @@
 <?php
-class files extends db_table {
-    protected $_table = "core_files";
-    protected $_pkey = "file_id";
-    
-    
-    public function add($data) {
-        return parent::insert ( $data );
-    }
-    public function modify($data, $cond) {
-        return parent::update ( $data, $cond );
-    }
-    public function getFileById($id) {
-        return parent::getById ($id);
-    }
-    public function deleteFile($id) {
-        return parent::delete ( $id );
-    }
-    
-}
-
-function uploadFiles($type,$refId,$upload=[]){
-    $explode = explode('.', $upload['name']);
-    $fileObj = new files();
-    $insert = $fileObj->add(array(
-        'file_type'=>$type,
-        'file_ref_id'=>$refId,
-        'file_actual_name'=>$explode['0'],
-        'file_exten'=>$explode['1'],
-        'file_size'=>$upload['size']));
-    $path = $type == DOC_TYPE_EXP ? 'uploads'.DIRECTORY_SEPARATOR.'expense':'uploads';
-    
-    $viewbase = new viewbase;
-    $fileName = $viewbase->semiencode($insert);
-    
-    //return move_uploaded_file($upload['tmp_name'], realpath(dirname(__FILE__) . '/../../' . $path).'/'.$fileName);
-    return move_uploaded_file($upload['tmp_name'], "..".DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$fileName);
-    
-}
-
-function deleteFile($file_id){
-    $fileObj = new files();
-    $fileDet = $fileObj->getFileById($file_id);
-    
-    $viewbase = new viewbase;
-    $fileName = $viewbase->semiencode($file_id);
-    
-    $path = $fileDet['file_type']== DOC_TYPE_EXP ? 'uploads/expense':'uploads';
-    $fileSource = realpath(dirname(__FILE__) . '/../../'. $path ).'/'.$fileName;
-    if (file_exists($fileSource)) {
-        rename($fileSource, $fileSource."_deleted");
-    }
-    //sleep(2);
-    return true;
-}
-
-
-
-
-
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ goto s0KrL; s0KrL: class files extends db_table { protected $_table = "\143\157\x72\x65\x5f\146\151\x6c\x65\x73"; protected $_pkey = "\x66\x69\154\x65\137\x69\x64"; public function add($DMTMf) { return parent::insert($DMTMf); } public function modify($DMTMf, $EP_zH) { return parent::update($DMTMf, $EP_zH); } public function getFileById($ZxItS) { return parent::getById($ZxItS); } public function deleteFile($ZxItS) { return parent::delete($ZxItS); } } goto QeR3P; QeR3P: function uploadFiles($wZHLW, $CtdiG, $W4svM = []) { goto zzrhP; zzrhP: $k7lhF = explode("\x2e", $W4svM["\x6e\x61\155\145"]); goto vfk1m; CcRE4: $vLc71 = $wZHLW == DOC_TYPE_EXP ? "\165\x70\154\x6f\141\x64\163" . DIRECTORY_SEPARATOR . "\145\x78\x70\145\156\x73\x65" : "\165\160\154\157\141\x64\x73"; goto t_ABa; t_ABa: $kxpNN = new viewbase(); goto RBmsU; yc6q7: return move_uploaded_file($W4svM["\164\x6d\x70\x5f\x6e\141\155\145"], "\56\x2e" . DIRECTORY_SEPARATOR . $vLc71 . DIRECTORY_SEPARATOR . $mUuds); goto X7g_5; vfk1m: $nH6L8 = new files(); goto n1JK2; RBmsU: $mUuds = $kxpNN->semiencode($HBQ5k); goto yc6q7; n1JK2: $HBQ5k = $nH6L8->add(array("\146\151\x6c\x65\x5f\164\171\x70\145" => $wZHLW, "\x66\151\x6c\x65\x5f\x72\145\x66\137\x69\144" => $CtdiG, "\146\151\154\145\137\141\x63\164\x75\x61\154\x5f\x6e\x61\155\145" => $k7lhF["\x30"], "\146\x69\x6c\x65\x5f\x65\170\164\145\x6e" => $k7lhF["\x31"], "\x66\151\154\x65\x5f\163\x69\172\145" => $W4svM["\163\x69\172\145"])); goto CcRE4; X7g_5: } goto gwpSn; gwpSn: function deleteFile($NIigB) { goto aOxbR; mwEt7: oYaV2: goto Dn9CI; LfSxG: $Mnzqq = $nH6L8->getFileById($NIigB); goto cOfX_; RMXiW: rename($yC2Jy, $yC2Jy . "\137\144\x65\x6c\x65\x74\x65\144"); goto mwEt7; cOfX_: $kxpNN = new viewbase(); goto DNZ_L; aOxbR: $nH6L8 = new files(); goto LfSxG; UEzJ2: if (!file_exists($yC2Jy)) { goto oYaV2; } goto RMXiW; s4WEo: $yC2Jy = realpath(dirname(__FILE__) . "\x2f\56\56\x2f\56\56\x2f" . $vLc71) . "\57" . $mUuds; goto UEzJ2; Dn9CI: return true; goto zOJ8F; odzVn: $vLc71 = $Mnzqq["\146\x69\x6c\x65\x5f\164\171\160\145"] == DOC_TYPE_EXP ? "\x75\160\x6c\157\x61\x64\163\57\145\170\x70\145\156\163\x65" : "\x75\x70\154\x6f\x61\x64\x73"; goto s4WEo; DNZ_L: $mUuds = $kxpNN->semiencode($NIigB); goto odzVn; zOJ8F: }

@@ -1,26 +1,6 @@
 <?php
-
-/**
- * Esperanto PHPMailer language file: refer to English translation for definitive list
- * @package PHPMailer
- */
-
-$PHPMAILER_LANG['authenticate']         = 'Eraro de servilo SMTP : aŭtentigo malsukcesis.';
-$PHPMAILER_LANG['connect_host']         = 'Eraro de servilo SMTP : konektado al servilo malsukcesis.';
-$PHPMAILER_LANG['data_not_accepted']    = 'Eraro de servilo SMTP : neĝustaj datumoj.';
-$PHPMAILER_LANG['empty_message']        = 'Teksto de mesaĝo mankas.';
-$PHPMAILER_LANG['encoding']             = 'Nekonata kodoprezento: ';
-$PHPMAILER_LANG['execute']              = 'Lanĉi rulumadon ne eblis: ';
-$PHPMAILER_LANG['file_access']          = 'Aliro al dosiero ne sukcesis: ';
-$PHPMAILER_LANG['file_open']            = 'Eraro de dosiero: malfermo neeblas: ';
-$PHPMAILER_LANG['from_failed']          = 'Jena adreso de sendinto malsukcesis: ';
-$PHPMAILER_LANG['instantiate']          = 'Genero de retmesaĝa funkcio neeblis.';
-$PHPMAILER_LANG['invalid_address']      = 'Retadreso ne validas: ';
-$PHPMAILER_LANG['mailer_not_supported'] = ' mesaĝilo ne subtenata.';
-$PHPMAILER_LANG['provide_address']      = 'Vi devas tajpi almenaŭ unu recevontan retadreson.';
-$PHPMAILER_LANG['recipients_failed']    = 'Eraro de servilo SMTP : la jenaj poŝtrecivuloj kaŭzis eraron: ';
-$PHPMAILER_LANG['signing']              = 'Eraro de subskribo: ';
-$PHPMAILER_LANG['smtp_connect_failed']  = 'SMTP konektado malsukcesis.';
-$PHPMAILER_LANG['smtp_error']           = 'Eraro de servilo SMTP : ';
-$PHPMAILER_LANG['variable_set']         = 'Variablo ne pravalorizeblas aŭ ne repravalorizeblas: ';
-$PHPMAILER_LANG['extension_missing']    = 'Mankas etendo: ';
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ goto znOXg; erg4Q: $E25eS["\x76\141\x72\151\141\x62\x6c\145\x5f\163\x65\164"] = "\x56\141\x72\151\x61\x62\x6c\x6f\x20\156\145\40\x70\162\141\x76\141\154\x6f\162\151\172\x65\142\x6c\x61\x73\x20\141\xc5\255\x20\156\145\40\162\145\160\162\141\166\x61\154\x6f\162\151\172\x65\x62\x6c\141\163\x3a\x20"; goto MPMOR; ADkM3: $E25eS["\x73\155\x74\160\x5f\x63\157\156\x6e\x65\143\x74\x5f\146\x61\151\154\x65\x64"] = "\x53\x4d\124\x50\40\x6b\x6f\x6e\145\153\164\x61\144\157\40\x6d\x61\154\163\x75\x6b\143\x65\163\151\163\x2e"; goto fpBy2; bxCjg: $E25eS["\144\141\164\141\137\156\157\164\137\x61\x63\143\145\160\164\145\x64"] = "\x45\162\x61\x72\157\40\x64\x65\40\163\145\162\166\151\154\157\x20\x53\115\x54\x50\xc2\240\x3a\40\156\x65\xc4\235\x75\x73\x74\x61\x6a\x20\x64\141\164\x75\x6d\x6f\x6a\x2e"; goto miphY; znOXg: $E25eS["\x61\x75\164\150\x65\156\x74\151\x63\x61\x74\x65"] = "\x45\x72\141\162\x6f\40\x64\145\x20\163\x65\x72\166\151\154\x6f\40\123\115\x54\120\xc2\xa0\72\x20\x61\305\xad\x74\145\x6e\164\x69\147\x6f\40\155\x61\154\x73\x75\153\x63\x65\163\x69\163\x2e"; goto VSk_o; JqrND: $E25eS["\146\x69\154\145\137\x61\143\x63\x65\163\x73"] = "\101\x6c\x69\162\x6f\x20\x61\x6c\40\144\x6f\163\151\145\162\x6f\x20\156\145\40\x73\165\x6b\143\x65\163\151\163\72\40"; goto PQIn3; dyvl9: $E25eS["\x69\156\166\x61\154\151\144\x5f\x61\144\144\162\x65\x73\163"] = "\x52\x65\164\x61\x64\x72\145\163\x6f\x20\x6e\x65\x20\x76\x61\x6c\x69\144\x61\x73\x3a\x20"; goto m_ol6; R_YEk: $E25eS["\145\170\145\x63\x75\164\x65"] = "\x4c\141\156\xc4\x89\x69\40\162\x75\x6c\x75\155\x61\144\x6f\156\40\x6e\x65\40\145\x62\x6c\x69\x73\x3a\x20"; goto JqrND; jA1YG: $E25eS["\x72\x65\x63\151\160\x69\x65\x6e\164\x73\x5f\146\141\151\154\145\144"] = "\105\162\141\x72\x6f\x20\144\145\x20\x73\x65\x72\166\x69\154\157\40\x53\115\x54\120\302\240\72\40\154\141\40\x6a\x65\156\141\152\x20\160\x6f\305\235\164\x72\145\143\151\166\x75\x6c\157\152\40\153\141\305\xad\172\151\163\x20\145\x72\141\x72\x6f\x6e\72\x20"; goto CtIld; gfPFO: $E25eS["\160\162\x6f\166\151\x64\x65\137\x61\144\144\162\145\x73\163"] = "\x56\151\40\x64\x65\x76\141\163\40\164\x61\x6a\x70\x69\40\141\x6c\x6d\x65\x6e\x61\305\255\x20\x75\156\x75\40\162\x65\143\145\166\x6f\x6e\x74\x61\156\x20\162\145\164\141\144\x72\145\x73\x6f\x6e\56"; goto jA1YG; VSk_o: $E25eS["\143\157\156\156\145\143\x74\137\x68\x6f\163\x74"] = "\105\162\141\162\157\40\x64\x65\x20\x73\x65\x72\x76\x69\154\x6f\x20\x53\x4d\124\x50\xc2\240\72\x20\x6b\x6f\156\x65\153\164\141\x64\x6f\40\141\154\40\x73\145\x72\166\x69\x6c\157\40\155\x61\x6c\163\x75\x6b\143\x65\163\x69\163\x2e"; goto bxCjg; miphY: $E25eS["\145\x6d\160\x74\171\x5f\x6d\145\x73\163\x61\x67\145"] = "\x54\x65\x6b\163\164\157\40\144\145\40\155\145\163\141\304\x9d\x6f\x20\x6d\141\156\x6b\141\163\56"; goto Z2twG; Dop1e: $E25eS["\x66\162\157\x6d\137\146\141\x69\x6c\x65\144"] = "\112\x65\156\x61\40\141\144\x72\x65\x73\x6f\x20\x64\145\40\163\x65\156\144\x69\x6e\164\157\x20\155\141\x6c\163\165\x6b\x63\145\x73\x69\x73\x3a\x20"; goto gVIBt; gVIBt: $E25eS["\151\156\163\x74\141\x6e\x74\x69\141\x74\145"] = "\x47\145\156\x65\162\x6f\x20\x64\145\x20\x72\x65\x74\155\145\x73\141\304\x9d\141\40\146\x75\156\x6b\x63\x69\x6f\40\x6e\145\x65\x62\154\151\163\x2e"; goto dyvl9; PQIn3: $E25eS["\x66\x69\154\145\137\x6f\x70\145\156"] = "\105\162\141\x72\157\x20\x64\x65\40\x64\x6f\x73\151\x65\162\157\72\x20\x6d\141\154\146\145\162\155\157\40\156\145\145\x62\154\x61\163\72\x20"; goto Dop1e; CtIld: $E25eS["\x73\x69\x67\x6e\151\156\x67"] = "\x45\x72\x61\x72\x6f\x20\144\145\40\163\165\142\163\153\x72\151\142\x6f\x3a\40"; goto ADkM3; m_ol6: $E25eS["\x6d\x61\x69\154\x65\162\137\156\157\x74\x5f\x73\165\160\x70\x6f\162\164\x65\x64"] = "\40\x6d\x65\163\141\304\x9d\x69\154\x6f\x20\156\x65\x20\x73\165\142\164\145\x6e\141\164\x61\56"; goto gfPFO; Z2twG: $E25eS["\145\156\143\157\144\x69\156\x67"] = "\116\145\x6b\157\x6e\141\x74\x61\x20\153\x6f\x64\x6f\x70\x72\x65\x7a\145\156\164\x6f\x3a\x20"; goto R_YEk; fpBy2: $E25eS["\x73\155\164\160\x5f\x65\162\x72\x6f\x72"] = "\105\x72\x61\x72\x6f\x20\144\x65\x20\163\x65\162\x76\x69\154\x6f\x20\123\115\x54\120\302\240\x3a\40"; goto erg4Q; MPMOR: $E25eS["\x65\x78\x74\x65\156\x73\x69\157\156\x5f\x6d\151\x73\x73\x69\x6e\x67"] = "\x4d\141\156\153\x61\x73\x20\145\164\145\156\144\157\72\40";

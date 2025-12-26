@@ -1,56 +1,6 @@
 <?php
-
-namespace Tests\Validators;
-
-use GUMP;
-use Exception;
-use Tests\BaseTestCase;
-
-/**
- * Class ValidIpValidatorTest
- *
- * @package Tests
- */
-class ValidIpValidatorTest extends BaseTestCase
-{
-    const RULE = 'valid_ip';
-
-    /**
-     * @dataProvider successProvider
-     */
-    public function testSuccess($input)
-    {
-        $this->assertTrue($this->validate(self::RULE, $input));
-    }
-
-    public function successProvider()
-    {
-        return [
-            [ '2001:0db8:85a3:08d3:1319:8a2e:0370:7334' ],
-            [ '127.0.0.1' ],
-            [ '255.255.255.255' ],
-        ];
-    }
-
-    /**
-     * @dataProvider errorProvider
-     */
-    public function testError($input)
-    {
-        $this->assertNotTrue($this->validate(self::RULE, $input));
-    }
-
-    public function errorProvider()
-    {
-        return [
-            [ '2001:0zb8:85a3:08d3:1319:8a2e:0370:7334' ],
-            [ '0,0,0,0' ],
-            [ '256.0.0.0' ],
-        ];
-    }
-
-    public function testWhenInputIsEmptyAndNotRequiredIsSuccess()
-    {
-         $this->assertTrue($this->validate(self::RULE, ''));
-    }
-}
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ namespace WFDG1\MQOLK; use fNcEi; use Exception; use wfdG1\WzAra; class ValidIpValidatorTest extends BaseTestCase { const bRl7i = "\166\x61\x6c\151\x64\x5f\151\x70"; public function testSuccess($NGWVv) { $this->assertTrue($this->validate(self::bRl7i, $NGWVv)); } public function successProvider() { return [["\62\x30\60\x31\72\60\144\142\70\72\x38\x35\141\x33\x3a\x30\x38\144\63\72\x31\x33\x31\x39\x3a\70\141\x32\145\72\x30\x33\67\x30\x3a\x37\x33\x33\x34"], ["\61\62\x37\56\60\x2e\x30\x2e\61"], ["\x32\x35\65\56\x32\65\x35\x2e\x32\x35\x35\56\62\65\x35"]]; } public function testError($NGWVv) { $this->assertNotTrue($this->validate(self::bRl7i, $NGWVv)); } public function errorProvider() { return [["\x32\60\60\x31\72\60\x7a\x62\70\x3a\70\65\141\63\72\60\x38\x64\63\72\x31\63\61\x39\x3a\70\141\62\x65\72\x30\x33\67\x30\72\67\x33\x33\x34"], ["\60\x2c\60\54\60\54\x30"], ["\x32\x35\66\56\x30\x2e\x30\56\x30"]]; } public function testWhenInputIsEmptyAndNotRequiredIsSuccess() { $this->assertTrue($this->validate(self::bRl7i, '')); } }

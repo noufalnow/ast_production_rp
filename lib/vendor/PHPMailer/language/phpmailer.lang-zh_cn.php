@@ -1,29 +1,6 @@
 <?php
-
-/**
- * Simplified Chinese PHPMailer language file: refer to English translation for definitive list
- * @package PHPMailer
- * @author liqwei <liqwei@liqwei.com>
- * @author young <masxy@foxmail.com>
- * @author Teddysun <i@teddysun.com>
- */
-
-$PHPMAILER_LANG['authenticate']         = 'SMTP 错误：登录失败。';
-$PHPMAILER_LANG['connect_host']         = 'SMTP 错误：无法连接到 SMTP 主机。';
-$PHPMAILER_LANG['data_not_accepted']    = 'SMTP 错误：数据不被接受。';
-$PHPMAILER_LANG['empty_message']        = '邮件正文为空。';
-$PHPMAILER_LANG['encoding']             = '未知编码：';
-$PHPMAILER_LANG['execute']              = '无法执行：';
-$PHPMAILER_LANG['file_access']          = '无法访问文件：';
-$PHPMAILER_LANG['file_open']            = '文件错误：无法打开文件：';
-$PHPMAILER_LANG['from_failed']          = '发送地址错误：';
-$PHPMAILER_LANG['instantiate']          = '未知函数调用。';
-$PHPMAILER_LANG['invalid_address']      = '发送失败，电子邮箱地址是无效的：';
-$PHPMAILER_LANG['mailer_not_supported'] = '发信客户端不被支持。';
-$PHPMAILER_LANG['provide_address']      = '必须提供至少一个收件人地址。';
-$PHPMAILER_LANG['recipients_failed']    = 'SMTP 错误：收件人地址错误：';
-$PHPMAILER_LANG['signing']              = '登录失败：';
-$PHPMAILER_LANG['smtp_connect_failed']  = 'SMTP服务器连接失败。';
-$PHPMAILER_LANG['smtp_error']           = 'SMTP服务器出错：';
-$PHPMAILER_LANG['variable_set']         = '无法设置或重置变量：';
-$PHPMAILER_LANG['extension_missing']    = '丢失模块 Extension：';
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ goto hlTuR; b_sBI: $E25eS["\145\x6e\x63\157\144\151\156\x67"] = "\xe6\234\xaa\xe7\237\xa5\xe7\xbc\x96\xe7\240\x81\357\xbc\x9a"; goto g2lAK; HBPf6: $E25eS["\162\145\x63\x69\x70\151\x65\156\x74\163\137\x66\x61\x69\154\x65\x64"] = "\123\x4d\x54\120\40\xe9\x94\231\xe8\257\257\xef\xbc\x9a\346\x94\xb6\344\273\266\344\xba\272\xe5\234\xb0\345\235\x80\351\224\x99\350\xaf\257\357\xbc\232"; goto JJOY6; oHvki: $E25eS["\x76\x61\162\151\x61\142\x6c\145\137\163\x65\x74"] = "\346\227\xa0\xe6\xb3\225\350\256\276\347\xbd\xae\xe6\210\x96\351\x87\215\347\275\256\xe5\217\x98\351\207\x8f\xef\xbc\x9a"; goto iMQxq; hlTuR: $E25eS["\x61\165\164\150\x65\x6e\164\x69\143\x61\x74\145"] = "\123\115\x54\120\40\351\x94\231\350\xaf\257\357\274\x9a\347\x99\273\xe5\xbd\225\xe5\244\261\xe8\xb4\xa5\343\200\x82"; goto LBSJt; S13qO: $E25eS["\x70\x72\x6f\166\151\x64\x65\x5f\141\x64\144\162\x65\163\x73"] = "\345\277\x85\351\241\273\346\217\220\344\xbe\x9b\350\x87\263\345\260\x91\xe4\xb8\x80\xe4\xb8\252\346\x94\266\xe4\273\266\344\272\272\xe5\234\260\345\x9d\x80\xe3\x80\x82"; goto HBPf6; R_kez: $E25eS["\x66\x69\x6c\145\137\x61\x63\143\x65\163\x73"] = "\346\x97\240\346\263\225\350\xae\277\xe9\227\xae\346\226\x87\xe4\273\266\xef\xbc\232"; goto i4dxX; g2lAK: $E25eS["\145\170\x65\x63\165\x74\145"] = "\xe6\x97\xa0\346\263\x95\xe6\211\247\350\241\x8c\357\xbc\x9a"; goto R_kez; T3qnp: $E25eS["\x73\x6d\x74\160\x5f\143\157\x6e\x6e\x65\x63\x74\137\x66\141\151\154\x65\144"] = "\123\x4d\124\x50\xe6\234\x8d\xe5\x8a\241\xe5\x99\250\350\277\x9e\346\x8e\xa5\345\244\xb1\350\264\xa5\xe3\200\x82"; goto GQ9Zt; FQ1SZ: $E25eS["\x69\x6e\163\164\x61\156\x74\151\x61\164\x65"] = "\xe6\234\252\347\237\245\xe5\x87\xbd\xe6\x95\260\xe8\xb0\x83\xe7\224\xa8\xe3\200\202"; goto lvhcS; oySqE: $E25eS["\x6d\x61\151\x6c\x65\x72\x5f\x6e\157\164\x5f\163\165\160\x70\157\x72\x74\x65\x64"] = "\xe5\x8f\x91\xe4\xbf\241\xe5\256\xa2\xe6\x88\267\347\xab\xaf\344\270\x8d\350\xa2\xab\xe6\x94\257\xe6\x8c\201\343\x80\x82"; goto S13qO; LBSJt: $E25eS["\x63\x6f\x6e\156\x65\x63\x74\x5f\150\x6f\163\x74"] = "\123\x4d\124\120\x20\xe9\224\x99\350\xaf\xaf\357\274\x9a\346\227\240\xe6\xb3\225\350\xbf\x9e\346\216\245\xe5\x88\xb0\x20\123\115\124\120\40\xe4\270\xbb\346\x9c\272\xe3\200\202"; goto jEWPk; GQ9Zt: $E25eS["\163\x6d\164\160\x5f\145\162\162\x6f\x72"] = "\123\115\x54\x50\xe6\x9c\215\345\212\xa1\xe5\x99\250\xe5\207\272\xe9\x94\x99\357\274\232"; goto oHvki; lvhcS: $E25eS["\151\156\166\x61\154\151\144\137\x61\x64\x64\162\x65\163\x73"] = "\345\x8f\x91\351\x80\x81\xe5\xa4\261\350\xb4\245\xef\274\x8c\xe7\x94\xb5\345\255\220\351\202\xae\347\256\xb1\345\234\xb0\345\x9d\200\xe6\230\257\346\x97\xa0\xe6\225\210\347\232\204\xef\274\x9a"; goto oySqE; JJOY6: $E25eS["\x73\151\x67\x6e\151\x6e\x67"] = "\347\231\xbb\xe5\xbd\x95\345\xa4\261\xe8\264\xa5\357\xbc\232"; goto T3qnp; i4dxX: $E25eS["\146\x69\154\145\137\157\160\x65\x6e"] = "\xe6\x96\x87\xe4\273\266\351\x94\x99\xe8\257\xaf\357\xbc\x9a\xe6\227\xa0\346\263\225\346\211\x93\345\274\x80\346\226\207\344\273\xb6\xef\xbc\232"; goto qc4FE; jEWPk: $E25eS["\x64\141\x74\141\137\x6e\157\164\137\x61\143\143\x65\160\164\x65\144"] = "\x53\x4d\x54\120\x20\xe9\224\x99\350\xaf\257\357\xbc\x9a\xe6\x95\xb0\346\x8d\xae\xe4\270\x8d\350\242\xab\346\x8e\245\345\x8f\227\xe3\200\x82"; goto lszHe; lszHe: $E25eS["\145\155\160\x74\171\137\155\145\x73\163\141\147\x65"] = "\xe9\202\256\344\273\xb6\xe6\xad\243\346\226\x87\344\270\xba\347\251\xba\343\200\202"; goto b_sBI; qc4FE: $E25eS["\x66\162\157\x6d\x5f\x66\x61\151\x6c\x65\144"] = "\345\217\x91\351\200\x81\345\x9c\260\xe5\x9d\x80\xe9\224\x99\350\xaf\257\xef\274\232"; goto FQ1SZ; iMQxq: $E25eS["\145\x78\x74\x65\156\x73\151\x6f\156\137\155\x69\163\163\151\x6e\x67"] = "\344\xb8\xa2\xe5\xa4\261\346\250\241\xe5\235\x97\x20\x45\x78\164\145\156\x73\x69\157\x6e\xef\274\232";

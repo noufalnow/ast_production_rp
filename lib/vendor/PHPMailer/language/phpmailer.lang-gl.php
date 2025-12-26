@@ -1,27 +1,6 @@
 <?php
-
-/**
- * Galician PHPMailer language file: refer to English translation for definitive list
- * @package PHPMailer
- * @author by Donato Rouco <donatorouco@gmail.com>
- */
-
-$PHPMAILER_LANG['authenticate']         = 'Erro SMTP: Non puido ser autentificado.';
-$PHPMAILER_LANG['connect_host']         = 'Erro SMTP: Non puido conectar co servidor SMTP.';
-$PHPMAILER_LANG['data_not_accepted']    = 'Erro SMTP: Datos non aceptados.';
-$PHPMAILER_LANG['empty_message']        = 'Corpo da mensaxe vacía';
-$PHPMAILER_LANG['encoding']             = 'Codificación descoñecida: ';
-$PHPMAILER_LANG['execute']              = 'Non puido ser executado: ';
-$PHPMAILER_LANG['file_access']          = 'Nob puido acceder ó arquivo: ';
-$PHPMAILER_LANG['file_open']            = 'Erro de Arquivo: No puido abrir o arquivo: ';
-$PHPMAILER_LANG['from_failed']          = 'A(s) seguinte(s) dirección(s) de remitente(s) deron erro: ';
-$PHPMAILER_LANG['instantiate']          = 'Non puido crear unha instancia da función Mail.';
-$PHPMAILER_LANG['invalid_address']      = 'Non puido envia-lo correo: dirección de email inválida: ';
-$PHPMAILER_LANG['mailer_not_supported'] = ' mailer non está soportado.';
-$PHPMAILER_LANG['provide_address']      = 'Debe engadir polo menos unha dirección de email coma destino.';
-$PHPMAILER_LANG['recipients_failed']    = 'Erro SMTP: Os seguintes destinos fallaron: ';
-$PHPMAILER_LANG['signing']              = 'Erro ó firmar: ';
-$PHPMAILER_LANG['smtp_connect_failed']  = 'SMTP Connect() fallou.';
-$PHPMAILER_LANG['smtp_error']           = 'Erro do servidor SMTP: ';
-$PHPMAILER_LANG['variable_set']         = 'Non puidemos axustar ou reaxustar a variábel: ';
-//$PHPMAILER_LANG['extension_missing']    = 'Extension missing: ';
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ goto CWLZO; Rorq5: $E25eS["\145\x6d\160\164\x79\x5f\155\x65\163\x73\x61\147\x65"] = "\103\x6f\162\160\x6f\40\144\x61\x20\x6d\145\156\x73\141\x78\145\40\x76\x61\143\303\xad\x61"; goto hkD7p; hwqy9: $E25eS["\163\155\164\x70\137\x65\x72\162\x6f\x72"] = "\105\x72\162\x6f\x20\144\157\x20\163\145\162\166\x69\x64\x6f\162\40\x53\x4d\124\120\72\40"; goto VsBEl; QS34U: $E25eS["\x73\x6d\164\160\137\143\157\156\156\x65\x63\164\137\146\141\151\154\145\x64"] = "\x53\x4d\124\x50\40\103\x6f\x6e\156\145\143\164\x28\51\40\146\x61\x6c\154\157\x75\56"; goto hwqy9; lhVDG: $E25eS["\144\141\164\x61\137\156\x6f\x74\137\141\x63\143\145\160\164\145\144"] = "\105\162\x72\x6f\40\123\x4d\124\x50\x3a\40\104\x61\164\157\163\x20\x6e\157\156\40\x61\x63\x65\x70\164\x61\x64\157\x73\x2e"; goto Rorq5; hh405: $E25eS["\x6d\x61\151\154\145\162\x5f\156\x6f\164\x5f\163\x75\x70\160\157\x72\x74\x65\x64"] = "\x20\155\141\151\x6c\x65\x72\40\156\157\x6e\x20\145\163\164\xc3\xa1\x20\163\x6f\x70\x6f\162\x74\x61\x64\x6f\x2e"; goto eF_E0; HYwIg: $E25eS["\146\151\154\145\137\x6f\x70\145\x6e"] = "\105\x72\x72\x6f\x20\x64\x65\40\x41\x72\x71\165\x69\x76\157\x3a\40\x4e\157\40\160\165\151\x64\x6f\40\141\142\162\151\x72\40\157\x20\x61\162\161\x75\151\166\157\x3a\40"; goto AIuXa; zWy0K: $E25eS["\x63\x6f\x6e\x6e\145\x63\x74\137\x68\157\x73\x74"] = "\105\162\x72\157\40\123\115\x54\x50\x3a\40\116\157\x6e\x20\160\165\151\144\157\x20\143\x6f\156\145\x63\164\x61\x72\x20\143\157\x20\163\145\162\166\151\x64\157\162\40\123\x4d\124\x50\x2e"; goto lhVDG; TpaXi: $E25eS["\151\x6e\x73\164\x61\x6e\x74\151\141\x74\145"] = "\116\x6f\x6e\x20\160\x75\151\144\157\40\143\x72\x65\x61\162\x20\x75\x6e\x68\141\40\151\156\x73\x74\x61\156\x63\x69\141\40\x64\141\x20\146\165\x6e\x63\x69\303\263\156\40\115\x61\x69\154\56"; goto iUrxw; wwaEu: $E25eS["\x73\151\x67\156\x69\x6e\x67"] = "\105\162\x72\157\x20\xc3\xb3\40\146\151\162\x6d\x61\162\x3a\40"; goto QS34U; t07m2: $E25eS["\146\151\154\145\137\x61\x63\x63\x65\163\x73"] = "\x4e\x6f\142\40\160\165\x69\144\x6f\x20\x61\143\x63\145\x64\x65\162\40\303\263\40\141\x72\x71\x75\151\166\x6f\x3a\40"; goto HYwIg; iUrxw: $E25eS["\151\156\x76\x61\154\x69\144\x5f\x61\144\144\x72\x65\163\x73"] = "\x4e\157\156\x20\160\165\x69\x64\x6f\x20\145\x6e\166\151\141\55\x6c\x6f\x20\143\157\x72\162\x65\157\72\40\144\151\x72\x65\143\x63\151\xc3\263\156\40\x64\145\40\x65\x6d\141\x69\154\x20\x69\156\166\xc3\241\x6c\151\x64\x61\72\40"; goto hh405; VlkmD: $E25eS["\145\170\x65\143\x75\164\x65"] = "\x4e\157\156\40\160\x75\x69\144\x6f\40\x73\x65\162\x20\x65\170\145\143\x75\164\x61\144\x6f\x3a\40"; goto t07m2; hkD7p: $E25eS["\x65\x6e\x63\157\x64\x69\x6e\x67"] = "\x43\157\144\151\146\x69\143\x61\x63\151\303\xb3\x6e\40\144\145\x73\143\x6f\303\xb1\145\x63\151\x64\141\x3a\40"; goto VlkmD; TEL8o: $E25eS["\162\x65\143\151\x70\x69\145\x6e\164\x73\137\146\141\151\x6c\145\x64"] = "\105\162\x72\157\x20\123\x4d\x54\x50\72\40\117\x73\40\163\145\x67\165\151\156\x74\x65\x73\x20\144\x65\163\x74\x69\x6e\x6f\x73\40\146\141\x6c\x6c\x61\162\157\156\x3a\40"; goto wwaEu; AIuXa: $E25eS["\x66\162\157\x6d\137\146\x61\151\154\x65\144"] = "\x41\50\x73\x29\x20\163\145\x67\165\151\156\x74\x65\50\163\x29\40\144\x69\162\145\x63\x63\x69\303\263\x6e\50\x73\x29\x20\x64\145\x20\162\x65\x6d\x69\x74\x65\156\164\x65\50\x73\x29\40\x64\x65\162\157\x6e\x20\145\162\x72\157\x3a\40"; goto TpaXi; CWLZO: $E25eS["\141\165\164\150\x65\156\x74\151\x63\141\164\x65"] = "\x45\162\162\157\x20\123\115\124\x50\72\x20\116\157\156\40\x70\165\151\x64\x6f\x20\x73\145\x72\40\141\x75\x74\x65\x6e\164\151\x66\x69\143\x61\144\x6f\x2e"; goto zWy0K; eF_E0: $E25eS["\x70\162\x6f\166\151\144\145\137\141\x64\x64\x72\145\x73\x73"] = "\104\x65\x62\145\x20\x65\x6e\x67\141\144\151\x72\40\x70\x6f\x6c\x6f\40\x6d\145\x6e\157\163\x20\x75\x6e\x68\141\40\144\x69\162\x65\143\143\x69\303\xb3\156\40\144\x65\x20\145\x6d\x61\x69\x6c\40\x63\157\155\141\x20\144\145\163\164\151\156\157\x2e"; goto TEL8o; VsBEl: $E25eS["\x76\x61\x72\x69\x61\142\154\145\x5f\163\145\164"] = "\116\x6f\156\40\x70\x75\x69\144\x65\x6d\157\163\x20\x61\170\165\x73\x74\x61\162\40\x6f\165\x20\162\x65\141\x78\x75\163\164\141\x72\x20\141\40\x76\x61\162\x69\xc3\241\x62\145\154\72\40";

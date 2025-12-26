@@ -1,27 +1,6 @@
 <?php
-
-/**
- * Malaysian PHPMailer language file: refer to English translation for definitive list
- * @package PHPMailer
- * @author Nawawi Jamili <nawawi@rutweb.com>
- */
-
-$PHPMAILER_LANG['authenticate']         = 'Ralat SMTP: Tidak dapat pengesahan.';
-$PHPMAILER_LANG['connect_host']         = 'Ralat SMTP: Tidak dapat menghubungi hos pelayan SMTP.';
-$PHPMAILER_LANG['data_not_accepted']    = 'Ralat SMTP: Data tidak diterima oleh pelayan.';
-$PHPMAILER_LANG['empty_message']        = 'Tiada isi untuk mesej';
-$PHPMAILER_LANG['encoding']             = 'Pengekodan tidak diketahui: ';
-$PHPMAILER_LANG['execute']              = 'Tidak dapat melaksanakan: ';
-$PHPMAILER_LANG['file_access']          = 'Tidak dapat mengakses fail: ';
-$PHPMAILER_LANG['file_open']            = 'Ralat Fail: Tidak dapat membuka fail: ';
-$PHPMAILER_LANG['from_failed']          = 'Berikut merupakan ralat dari alamat e-mel: ';
-$PHPMAILER_LANG['instantiate']          = 'Tidak dapat memberi contoh fungsi e-mel.';
-$PHPMAILER_LANG['invalid_address']      = 'Alamat emel tidak sah: ';
-$PHPMAILER_LANG['mailer_not_supported'] = ' jenis penghantar emel tidak disokong.';
-$PHPMAILER_LANG['provide_address']      = 'Anda perlu menyediakan sekurang-kurangnya satu alamat e-mel penerima.';
-$PHPMAILER_LANG['recipients_failed']    = 'Ralat SMTP: Penerima e-mel berikut telah gagal: ';
-$PHPMAILER_LANG['signing']              = 'Ralat pada tanda tangan: ';
-$PHPMAILER_LANG['smtp_connect_failed']  = 'SMTP Connect() telah gagal.';
-$PHPMAILER_LANG['smtp_error']           = 'Ralat pada pelayan SMTP: ';
-$PHPMAILER_LANG['variable_set']         = 'Tidak boleh menetapkan atau menetapkan semula pembolehubah: ';
-$PHPMAILER_LANG['extension_missing']    = 'Sambungan hilang: ';
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ goto PkLRU; gGlQB: $E25eS["\163\155\164\x70\x5f\145\x72\x72\157\x72"] = "\122\x61\154\x61\164\40\160\141\x64\141\x20\x70\x65\x6c\141\x79\141\x6e\x20\x53\x4d\x54\120\x3a\x20"; goto D3zQ_; N3w1B: $E25eS["\x63\157\x6e\x6e\145\x63\164\137\x68\157\x73\x74"] = "\x52\141\x6c\x61\164\40\x53\x4d\x54\120\x3a\x20\124\151\144\x61\x6b\x20\144\141\x70\141\164\x20\x6d\145\156\147\x68\x75\x62\x75\x6e\x67\151\x20\150\157\163\40\x70\145\154\141\171\x61\x6e\40\123\115\124\x50\56"; goto QAB5o; Ip6WJ: $E25eS["\x66\x69\154\145\x5f\x61\x63\x63\x65\163\163"] = "\124\x69\144\x61\153\x20\144\141\160\x61\x74\x20\x6d\x65\156\147\x61\x6b\x73\x65\163\x20\x66\x61\151\x6c\x3a\x20"; goto Zwtqt; rtLZ9: $E25eS["\x6d\x61\x69\154\145\162\137\x6e\157\x74\x5f\x73\165\x70\160\x6f\162\x74\145\x64"] = "\x20\x6a\145\156\151\x73\x20\x70\x65\x6e\147\x68\x61\156\x74\x61\x72\40\x65\155\145\x6c\40\x74\x69\144\x61\153\40\x64\151\x73\x6f\x6b\157\156\x67\56"; goto V5eJX; yeKXS: $E25eS["\x66\x72\157\x6d\x5f\x66\x61\x69\x6c\x65\144"] = "\102\145\x72\x69\x6b\x75\x74\x20\155\x65\162\x75\x70\141\x6b\x61\x6e\40\x72\141\x6c\x61\164\x20\144\141\x72\151\x20\x61\154\141\x6d\x61\164\x20\x65\x2d\155\145\154\72\x20"; goto mAGqU; jFdEw: $E25eS["\x73\151\x67\156\x69\156\x67"] = "\122\x61\x6c\x61\x74\x20\x70\141\144\x61\40\164\x61\x6e\144\141\x20\x74\x61\156\x67\x61\x6e\72\40"; goto flIiu; cYpf4: $E25eS["\x65\155\x70\x74\x79\x5f\x6d\x65\x73\x73\x61\147\145"] = "\x54\151\141\144\x61\40\x69\163\x69\x20\165\x6e\164\165\x6b\x20\155\145\163\x65\152"; goto VFEEr; QAB5o: $E25eS["\x64\x61\x74\x61\x5f\x6e\x6f\x74\x5f\x61\x63\143\x65\160\164\x65\x64"] = "\x52\x61\x6c\141\164\x20\123\115\124\120\72\x20\x44\141\164\x61\x20\164\151\144\141\153\40\144\x69\164\x65\x72\151\x6d\x61\40\x6f\x6c\x65\x68\x20\x70\x65\154\x61\171\x61\156\56"; goto cYpf4; flIiu: $E25eS["\163\155\164\160\137\143\x6f\156\x6e\145\x63\x74\137\146\x61\151\x6c\x65\144"] = "\x53\x4d\124\x50\x20\x43\157\156\x6e\145\x63\164\50\51\40\x74\145\x6c\141\150\40\147\x61\147\141\x6c\x2e"; goto gGlQB; Zwtqt: $E25eS["\x66\x69\x6c\145\x5f\157\x70\145\156"] = "\x52\141\154\x61\x74\x20\x46\x61\x69\154\72\40\x54\151\x64\x61\153\40\144\141\x70\x61\x74\40\155\145\155\x62\x75\x6b\141\40\x66\141\x69\x6c\x3a\x20"; goto yeKXS; D3zQ_: $E25eS["\x76\141\x72\x69\141\x62\154\x65\137\x73\x65\x74"] = "\x54\151\x64\141\153\x20\x62\157\x6c\145\150\40\x6d\145\156\145\164\141\x70\x6b\x61\x6e\40\141\164\141\x75\x20\155\145\156\145\164\x61\160\x6b\x61\156\x20\x73\145\155\x75\154\141\40\160\145\x6d\142\157\154\x65\x68\x75\142\x61\x68\x3a\x20"; goto T3MZI; PkLRU: $E25eS["\x61\x75\x74\150\x65\x6e\164\x69\x63\x61\164\x65"] = "\122\141\x6c\141\x74\x20\123\115\x54\x50\x3a\x20\x54\151\x64\141\153\40\x64\141\160\141\x74\x20\x70\x65\x6e\147\x65\163\141\150\x61\156\x2e"; goto N3w1B; mAGqU: $E25eS["\x69\156\x73\x74\x61\156\x74\x69\141\164\145"] = "\x54\151\144\x61\x6b\x20\x64\x61\x70\x61\x74\x20\x6d\145\155\x62\145\162\x69\x20\143\157\x6e\x74\157\150\x20\x66\165\x6e\x67\x73\151\40\x65\x2d\x6d\x65\x6c\56"; goto tjQNy; EapOb: $E25eS["\x65\170\145\143\x75\164\x65"] = "\124\x69\144\141\153\40\x64\141\160\x61\164\40\x6d\145\154\141\153\x73\x61\x6e\x61\x6b\141\156\72\40"; goto Ip6WJ; xaiMd: $E25eS["\x72\x65\x63\x69\160\151\145\156\x74\x73\x5f\x66\141\x69\x6c\145\144"] = "\122\141\x6c\x61\164\40\x53\x4d\124\x50\72\x20\x50\145\x6e\145\x72\151\155\x61\x20\145\55\155\x65\x6c\40\x62\145\162\x69\x6b\165\164\x20\164\145\x6c\x61\150\40\x67\x61\147\141\154\72\40"; goto jFdEw; V5eJX: $E25eS["\x70\162\157\166\x69\x64\x65\137\141\x64\x64\x72\145\163\x73"] = "\x41\x6e\144\x61\40\160\145\162\x6c\165\40\x6d\145\156\x79\x65\x64\x69\x61\x6b\x61\x6e\x20\x73\145\x6b\x75\162\x61\x6e\147\55\x6b\165\x72\141\x6e\x67\x6e\171\141\x20\x73\x61\164\165\x20\x61\x6c\141\155\x61\x74\x20\145\55\155\x65\x6c\x20\x70\x65\x6e\145\x72\x69\155\141\x2e"; goto xaiMd; VFEEr: $E25eS["\145\156\143\x6f\x64\151\x6e\x67"] = "\120\x65\156\147\x65\153\x6f\x64\x61\x6e\40\x74\x69\x64\x61\153\40\x64\151\153\145\x74\x61\x68\x75\151\72\x20"; goto EapOb; tjQNy: $E25eS["\x69\x6e\x76\x61\154\151\x64\x5f\x61\x64\144\162\x65\163\163"] = "\x41\154\141\155\x61\164\x20\145\x6d\x65\x6c\x20\164\x69\144\x61\x6b\x20\x73\x61\x68\x3a\40"; goto rtLZ9; T3MZI: $E25eS["\145\x78\164\145\x6e\x73\151\x6f\x6e\x5f\x6d\151\163\163\151\x6e\147"] = "\123\x61\x6d\x62\x75\156\x67\x61\156\x20\150\x69\154\141\156\x67\x3a\40";

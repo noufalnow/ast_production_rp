@@ -1,53 +1,6 @@
 <?php
-class comp_department extends db_table {
-	protected $_table = "core_comp_department";
-	protected $_pkey = "cmpdept_id";
-	
-	public function add($data) {
-		return parent::insert ( $data );
-	}
-
-	public function getCompDeptPair($cond = array()) {
-		
-		$this->query ( "select cmpdept_id,dept_name from $this->_table
-			left join core_department as dept ON dept.dept_id = core_comp_department.cmpdept_dept_id and dept.deleted = 0"
-				 );
-		if (!empty ( $cond ['cmpdept_comp_id'] ))
-			$this->_where [] = "cmpdept_comp_id =:cmpdept_comp_id";
-		
-		
-		$this->_order [] = 'dept_name ASC';
-		
-		return parent::fetchPair ( $cond );
-	}
-	
-	public function getCompDeptList($cond = array()) {
-
-		$this->paginate ( 'select comp_name,dept_name ', "from $this->_table 
-				left join core_company as comp ON comp.comp_id = core_comp_department.cmpdept_comp_id and comp.deleted = 0
-				left join core_department as dept ON dept.dept_id = core_comp_department.cmpdept_dept_id and dept.deleted = 0
-				" );
-		
-		$this->_order [] = 'comp_name ASC';
-		$this->_order [] = 'dept_name ASC';
-		
-		return parent::fetchAll ( $cond );
-	}
-	
-	public function chekDept($post){
-		
-		$cond ['cmpdept_dept_id'] = $post['dept'];
-		$cond ['cmpdept_comp_id'] = $post['company'];
-		
-		
-		$this->query ( "select * from $this->_table" );
-		$this->_where [] = "cmpdept_dept_id= :cmpdept_dept_id";
-		$this->_where [] = "cmpdept_comp_id= :cmpdept_comp_id";
-		
-		return parent::fetchAll ( $cond );
-		
-	}
-
-}
-
-
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ class comp_department extends db_table { protected $_table = "\143\157\162\145\x5f\143\x6f\x6d\x70\137\144\x65\x70\141\x72\x74\155\x65\156\164"; protected $_pkey = "\x63\155\160\144\x65\160\164\137\x69\x64"; public function add($DMTMf) { return parent::insert($DMTMf); } public function getCompDeptPair($EP_zH = array()) { goto aZcsU; OqC48: if (empty($EP_zH["\x63\x6d\x70\144\x65\160\x74\137\x63\157\x6d\x70\x5f\151\144"])) { goto AM_Kz; } goto OniwM; SK6Lp: AM_Kz: goto vYnSp; vYnSp: $this->_order[] = "\x64\145\160\164\137\156\141\x6d\145\x20\x41\123\103"; goto NcdfL; NcdfL: return parent::fetchPair($EP_zH); goto myZ1u; aZcsU: $this->query("\163\145\154\x65\x63\164\x20\x63\155\160\144\x65\160\164\x5f\x69\144\x2c\144\145\160\164\137\156\141\x6d\145\x20\146\162\157\155\40{$this->_table}\xa\11\x9\x9\x6c\x65\146\x74\40\x6a\x6f\151\x6e\40\143\x6f\x72\x65\x5f\x64\x65\x70\141\x72\164\x6d\x65\x6e\164\x20\141\163\x20\x64\x65\x70\x74\40\x4f\116\40\144\x65\160\x74\x2e\x64\145\160\164\137\151\144\40\75\x20\143\x6f\162\145\x5f\x63\x6f\155\160\137\x64\145\160\141\162\164\155\x65\x6e\x74\56\x63\155\160\x64\x65\x70\x74\137\144\x65\x70\x74\x5f\151\144\40\141\156\x64\x20\144\145\160\164\x2e\x64\145\154\145\x74\x65\144\40\x3d\x20\x30"); goto OqC48; OniwM: $this->_where[] = "\143\155\x70\x64\145\x70\x74\137\x63\157\x6d\x70\137\151\x64\40\x3d\x3a\143\x6d\160\x64\x65\x70\164\137\x63\157\155\x70\x5f\151\x64"; goto SK6Lp; myZ1u: } public function getCompDeptList($EP_zH = array()) { goto W88P6; W88P6: $this->paginate("\163\145\154\x65\x63\x74\x20\x63\157\x6d\x70\x5f\156\141\155\145\54\144\x65\x70\x74\137\156\141\x6d\145\x20", "\146\x72\x6f\155\x20{$this->_table}\x20\xa\x9\11\11\x9\x6c\x65\x66\x74\x20\x6a\x6f\x69\156\40\143\157\x72\x65\x5f\x63\157\155\160\141\156\x79\40\141\163\x20\143\x6f\155\160\40\x4f\x4e\x20\143\157\x6d\160\x2e\x63\x6f\155\x70\137\151\x64\40\x3d\x20\143\157\x72\x65\137\x63\157\x6d\x70\x5f\x64\x65\160\141\x72\164\x6d\x65\x6e\x74\56\143\x6d\160\144\145\x70\x74\137\143\x6f\155\x70\x5f\151\x64\40\141\156\144\40\x63\157\155\x70\x2e\x64\x65\x6c\x65\x74\145\144\40\x3d\x20\x30\12\x9\x9\11\11\x6c\x65\x66\x74\x20\152\x6f\151\156\40\x63\157\162\145\x5f\x64\x65\160\x61\x72\x74\155\x65\x6e\x74\x20\x61\x73\40\x64\145\x70\x74\40\117\x4e\40\144\145\160\164\56\x64\145\160\164\x5f\x69\x64\40\x3d\40\143\x6f\x72\145\137\143\157\x6d\160\137\x64\x65\160\141\162\164\155\x65\x6e\164\56\143\x6d\x70\144\x65\160\164\x5f\144\x65\160\x74\x5f\x69\x64\x20\x61\x6e\x64\40\144\145\x70\x74\56\x64\145\154\x65\x74\x65\x64\40\75\x20\60\12\11\x9\x9\x9"); goto LB4qr; AAdTF: $this->_order[] = "\144\145\x70\164\x5f\156\x61\155\145\x20\x41\123\x43"; goto TrhPt; LB4qr: $this->_order[] = "\x63\157\155\160\x5f\x6e\141\x6d\145\40\x41\x53\x43"; goto AAdTF; TrhPt: return parent::fetchAll($EP_zH); goto GKzxA; GKzxA: } public function chekDept($YsZsB) { goto W2u08; UJrKz: $EP_zH["\x63\155\x70\x64\145\x70\x74\137\143\157\x6d\160\x5f\151\x64"] = $YsZsB["\x63\157\155\160\x61\156\x79"]; goto JviWl; JviWl: $this->query("\x73\145\154\145\143\164\x20\x2a\40\146\162\157\x6d\x20{$this->_table}"); goto IaJlV; IaJlV: $this->_where[] = "\143\155\160\x64\x65\x70\164\x5f\x64\145\x70\x74\x5f\x69\144\x3d\x20\72\143\155\x70\144\x65\x70\x74\x5f\x64\x65\160\164\x5f\x69\144"; goto k9APQ; W2u08: $EP_zH["\x63\x6d\x70\144\145\160\164\x5f\x64\x65\x70\x74\137\151\x64"] = $YsZsB["\x64\x65\x70\164"]; goto UJrKz; T0Y1j: return parent::fetchAll($EP_zH); goto EALFB; k9APQ: $this->_where[] = "\143\x6d\x70\144\145\160\x74\x5f\x63\x6f\155\x70\x5f\151\x64\x3d\40\x3a\143\155\160\144\x65\160\x74\x5f\143\157\x6d\x70\x5f\x69\144"; goto T0Y1j; EALFB: } }

@@ -1,27 +1,6 @@
 <?php
-
-/**
- * Faroese PHPMailer language file: refer to English translation for definitive list
- * @package PHPMailer
- * @author Dávur Sørensen <http://www.profo-webdesign.dk>
- */
-
-$PHPMAILER_LANG['authenticate']         = 'SMTP feilur: Kundi ikki góðkenna.';
-$PHPMAILER_LANG['connect_host']         = 'SMTP feilur: Kundi ikki knýta samband við SMTP vert.';
-$PHPMAILER_LANG['data_not_accepted']    = 'SMTP feilur: Data ikki góðkent.';
-//$PHPMAILER_LANG['empty_message']        = 'Message body empty';
-$PHPMAILER_LANG['encoding']             = 'Ókend encoding: ';
-$PHPMAILER_LANG['execute']              = 'Kundi ikki útføra: ';
-$PHPMAILER_LANG['file_access']          = 'Kundi ikki tilganga fílu: ';
-$PHPMAILER_LANG['file_open']            = 'Fílu feilur: Kundi ikki opna fílu: ';
-$PHPMAILER_LANG['from_failed']          = 'fylgjandi Frá/From adressa miseydnaðist: ';
-$PHPMAILER_LANG['instantiate']          = 'Kuni ikki instantiera mail funktión.';
-//$PHPMAILER_LANG['invalid_address']      = 'Invalid address: ';
-$PHPMAILER_LANG['mailer_not_supported'] = ' er ikki supporterað.';
-$PHPMAILER_LANG['provide_address']      = 'Tú skal uppgeva minst móttakara-emailadressu(r).';
-$PHPMAILER_LANG['recipients_failed']    = 'SMTP Feilur: Fylgjandi móttakarar miseydnaðust: ';
-//$PHPMAILER_LANG['signing']              = 'Signing Error: ';
-//$PHPMAILER_LANG['smtp_connect_failed']  = 'SMTP Connect() failed.';
-//$PHPMAILER_LANG['smtp_error']           = 'SMTP server error: ';
-//$PHPMAILER_LANG['variable_set']         = 'Cannot set or reset variable: ';
-//$PHPMAILER_LANG['extension_missing']    = 'Extension missing: ';
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ goto f4YLg; Pv7v9: $E25eS["\x65\156\143\157\144\x69\156\x67"] = "\303\x93\x6b\145\x6e\144\40\x65\x6e\143\x6f\144\151\x6e\x67\72\x20"; goto PH6xC; K9W_B: $E25eS["\160\162\x6f\166\x69\x64\145\137\141\144\144\x72\145\x73\163"] = "\124\303\xba\40\x73\x6b\x61\x6c\x20\x75\160\x70\147\x65\x76\141\40\155\151\156\x73\x74\40\x6d\xc3\xb3\x74\164\141\153\141\x72\x61\55\x65\155\x61\x69\154\141\144\162\x65\x73\x73\165\50\x72\51\x2e"; goto AYJTG; wdNS7: $E25eS["\x66\x69\154\x65\x5f\157\160\x65\156"] = "\106\xc3\xad\x6c\165\40\146\x65\151\x6c\165\162\x3a\x20\x4b\x75\x6e\x64\x69\40\x69\x6b\x6b\x69\40\x6f\160\x6e\141\x20\x66\xc3\xad\154\x75\72\40"; goto NHfu_; NHfu_: $E25eS["\146\162\x6f\x6d\x5f\146\x61\x69\x6c\x65\x64"] = "\x66\x79\x6c\147\152\x61\156\144\151\x20\x46\x72\303\241\x2f\106\162\157\155\x20\x61\144\162\x65\163\x73\141\40\155\x69\x73\x65\171\144\x6e\x61\303\xb0\x69\163\164\x3a\40"; goto OXGhE; Qdftw: $E25eS["\x64\141\x74\141\137\x6e\x6f\x74\137\141\x63\143\x65\x70\164\x65\x64"] = "\123\x4d\x54\120\x20\x66\x65\151\x6c\x75\x72\x3a\40\104\141\x74\x61\x20\151\x6b\x6b\x69\x20\147\303\263\xc3\260\153\x65\x6e\164\56"; goto Pv7v9; MmI9A: $E25eS["\x63\157\156\156\145\143\x74\137\x68\x6f\x73\164"] = "\x53\x4d\124\120\40\146\145\x69\154\x75\162\x3a\40\113\165\156\x64\x69\40\151\x6b\153\x69\40\153\x6e\303\xbd\164\141\40\x73\x61\x6d\142\141\156\x64\x20\166\151\xc3\xb0\40\x53\115\x54\x50\x20\166\145\x72\x74\x2e"; goto Qdftw; rpEt0: $E25eS["\155\x61\x69\154\145\x72\137\156\157\164\137\x73\165\160\x70\157\x72\x74\145\144"] = "\x20\145\162\x20\x69\153\153\151\x20\x73\x75\160\x70\157\x72\x74\x65\162\141\303\xb0\x2e"; goto K9W_B; E2MXF: $E25eS["\x66\151\x6c\x65\137\141\143\x63\145\163\163"] = "\113\165\156\x64\x69\x20\x69\153\x6b\151\40\x74\x69\154\147\141\x6e\x67\x61\x20\x66\xc3\255\x6c\165\x3a\x20"; goto wdNS7; f4YLg: $E25eS["\141\x75\164\x68\145\x6e\x74\x69\143\x61\164\x65"] = "\x53\x4d\x54\120\40\146\x65\x69\x6c\165\162\72\x20\x4b\x75\x6e\x64\151\x20\151\x6b\153\151\40\147\303\263\xc3\260\153\x65\156\x6e\x61\56"; goto MmI9A; PH6xC: $E25eS["\x65\x78\145\143\x75\164\145"] = "\x4b\165\x6e\x64\151\40\151\153\x6b\151\40\xc3\272\x74\x66\xc3\270\x72\141\x3a\40"; goto E2MXF; OXGhE: $E25eS["\151\x6e\163\x74\141\x6e\164\x69\x61\x74\x65"] = "\113\165\156\x69\40\151\153\x6b\151\x20\x69\156\163\164\141\156\x74\x69\145\x72\x61\40\x6d\x61\x69\154\40\x66\165\x6e\153\164\x69\xc3\263\x6e\x2e"; goto rpEt0; AYJTG: $E25eS["\162\x65\143\151\x70\151\x65\x6e\164\x73\137\146\141\151\x6c\145\144"] = "\x53\x4d\x54\120\x20\106\145\x69\x6c\165\162\x3a\40\x46\171\x6c\147\x6a\141\156\144\x69\40\155\xc3\xb3\x74\164\x61\x6b\141\x72\141\x72\x20\155\x69\x73\x65\171\144\156\x61\xc3\xb0\165\x73\x74\72\x20";

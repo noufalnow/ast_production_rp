@@ -219,16 +219,20 @@ $(document).ready(function() {
      
 	
 	var source = '<?=APPURL?>'+ 'erp_expense/expense/getlive';
-	$('#pCatSelect').on('change',function() {
-		getJaxData($('#pCatSelect').val(),'sCatSelect',source,'parent');
-		$('#cCatSelect').empty();
-	});
-	getJaxData($('#pCatSelect').val(),'sCatSelect',source,'parent');
-
-	$('#sCatSelect').on('change',function() {
-		getJaxData($('#sCatSelect').val(),'cCatSelect',source,'sub');
-	});
-	getJaxData($('#sCatSelect').val(),'cCatSelect',source,'sub');
+    $('#pCatSelect').on('change', function () {
+        const val = $(this).val();
+    
+        resetSelect('cCatSelect');               // HARD reset child
+        getJaxData(val, 'sCatSelect', source, 'parent', true);
+    });
+    
+    $('#sCatSelect').on('change', function () {
+        const val = $(this).val();
+    
+        getJaxData(val, 'cCatSelect', source, 'sub', true);
+    });
+    getJaxData($('#pCatSelect').val(), 'sCatSelect', source, 'parent', true);
+    getJaxData($('#sCatSelect').val(), 'cCatSelect', source, 'sub', true);
 
 	$('.mh_emp').hide();
 	$('.mh_prop').hide();

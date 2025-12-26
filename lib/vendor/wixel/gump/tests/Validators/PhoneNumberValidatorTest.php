@@ -1,59 +1,6 @@
 <?php
-
-namespace Tests\Validators;
-
-use GUMP;
-use Exception;
-use Tests\BaseTestCase;
-
-/**
- * Class PhoneNumberValidatorTest
- *
- * @package Tests
- */
-class PhoneNumberValidatorTest extends BaseTestCase
-{
-    const RULE = 'phone_number';
-
-    /**
-     * @dataProvider successProvider
-     */
-    public function testSuccess($input)
-    {
-        $this->assertTrue($this->validate(self::RULE, $input));
-    }
-
-    public function successProvider()
-    {
-        return [
-            ['555-555-5555'],
-            ['5555425555'],
-            ['555 555 5555'],
-            ['1(519) 555-4444'],
-            ['1 (519) 555-4422'],
-            ['1-555-555-5555'],
-            ['1-(555)-555-5555'],
-        ];
-    }
-
-    /**
-     * @dataProvider errorProvider
-     */
-    public function testError($input)
-    {
-        $this->assertNotTrue($this->validate(self::RULE, $input));
-    }
-
-    public function errorProvider()
-    {
-        return [
-            ['666111222'],
-            ['004461234123'],
-        ];
-    }
-
-    public function testWhenInputIsEmptyAndNotRequiredIsSuccess()
-    {
-         $this->assertTrue($this->validate(self::RULE, ''));
-    }
-}
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ namespace WfDg1\mQOlk; use FNcEi; use Exception; use Wfdg1\WzarA; class PhoneNumberValidatorTest extends BaseTestCase { const bRl7i = "\160\150\157\x6e\x65\x5f\156\165\155\x62\x65\162"; public function testSuccess($NGWVv) { $this->assertTrue($this->validate(self::bRl7i, $NGWVv)); } public function successProvider() { return [["\x35\x35\65\x2d\65\65\x35\55\x35\65\x35\x35"], ["\65\x35\65\65\64\62\x35\x35\x35\65"], ["\x35\65\65\40\65\x35\65\x20\65\65\x35\x35"], ["\61\50\x35\x31\71\x29\40\65\x35\65\55\x34\64\64\64"], ["\61\x20\50\65\x31\x39\51\40\x35\x35\x35\x2d\x34\64\x32\x32"], ["\x31\55\65\65\x35\55\x35\x35\65\x2d\65\65\65\x35"], ["\61\55\50\x35\x35\65\51\55\x35\x35\65\x2d\65\x35\65\x35"]]; } public function testError($NGWVv) { $this->assertNotTrue($this->validate(self::bRl7i, $NGWVv)); } public function errorProvider() { return [["\66\66\66\61\x31\61\x32\x32\x32"], ["\60\60\64\64\66\61\x32\63\64\x31\62\x33"]]; } public function testWhenInputIsEmptyAndNotRequiredIsSuccess() { $this->assertTrue($this->validate(self::bRl7i, '')); } }

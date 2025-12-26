@@ -1,31 +1,6 @@
 <?php
-
-/**
- * Turkish PHPMailer language file: refer to English translation for definitive list
- * @package PHPMailer
- * @author Elçin Özel
- * @author Can Yılmaz
- * @author Mehmet Benlioğlu
- * @author @yasinaydin
- * @author Ogün Karakuş
- */
-
-$PHPMAILER_LANG['authenticate']         = 'SMTP Hatası: Oturum açılamadı.';
-$PHPMAILER_LANG['connect_host']         = 'SMTP Hatası: SMTP sunucusuna bağlanılamadı.';
-$PHPMAILER_LANG['data_not_accepted']    = 'SMTP Hatası: Veri kabul edilmedi.';
-$PHPMAILER_LANG['empty_message']        = 'Mesajın içeriği boş';
-$PHPMAILER_LANG['encoding']             = 'Bilinmeyen karakter kodlama: ';
-$PHPMAILER_LANG['execute']              = 'Çalıştırılamadı: ';
-$PHPMAILER_LANG['file_access']          = 'Dosyaya erişilemedi: ';
-$PHPMAILER_LANG['file_open']            = 'Dosya Hatası: Dosya açılamadı: ';
-$PHPMAILER_LANG['from_failed']          = 'Belirtilen adreslere gönderme başarısız: ';
-$PHPMAILER_LANG['instantiate']          = 'Örnek e-posta fonksiyonu oluşturulamadı.';
-$PHPMAILER_LANG['invalid_address']      = 'Geçersiz e-posta adresi: ';
-$PHPMAILER_LANG['mailer_not_supported'] = ' e-posta kütüphanesi desteklenmiyor.';
-$PHPMAILER_LANG['provide_address']      = 'En az bir alıcı e-posta adresi belirtmelisiniz.';
-$PHPMAILER_LANG['recipients_failed']    = 'SMTP Hatası: Belirtilen alıcılara ulaşılamadı: ';
-$PHPMAILER_LANG['signing']              = 'İmzalama hatası: ';
-$PHPMAILER_LANG['smtp_connect_failed']  = 'SMTP connect() fonksiyonu başarısız.';
-$PHPMAILER_LANG['smtp_error']           = 'SMTP sunucu hatası: ';
-$PHPMAILER_LANG['variable_set']         = 'Değişken ayarlanamadı ya da sıfırlanamadı: ';
-$PHPMAILER_LANG['extension_missing']    = 'Eklenti bulunamadı: ';
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ goto pMrgc; w0R3J: $E25eS["\x65\156\143\157\144\x69\156\x67"] = "\x42\151\154\x69\x6e\x6d\x65\171\145\156\x20\x6b\141\162\141\x6b\x74\x65\162\40\153\157\x64\x6c\141\155\141\72\40"; goto oXQOd; QikAi: $E25eS["\155\141\x69\x6c\x65\x72\x5f\156\x6f\x74\137\x73\x75\160\x70\x6f\x72\x74\145\144"] = "\40\145\x2d\x70\x6f\163\164\x61\x20\153\xc3\274\164\xc3\xbc\160\150\141\156\x65\x73\x69\40\x64\x65\163\x74\x65\x6b\154\145\156\x6d\x69\171\x6f\162\56"; goto TtLdv; VBIoC: $E25eS["\146\162\157\x6d\x5f\146\x61\x69\154\x65\144"] = "\x42\145\154\151\x72\164\151\x6c\145\156\40\x61\x64\x72\145\163\154\145\162\145\x20\x67\303\266\x6e\x64\x65\162\x6d\x65\x20\x62\x61\xc5\x9f\141\x72\xc4\261\x73\304\261\x7a\72\x20"; goto r3FFr; vigNC: $E25eS["\x73\x6d\164\160\x5f\x63\x6f\x6e\x6e\x65\143\x74\137\146\141\x69\x6c\x65\x64"] = "\123\x4d\124\120\x20\143\x6f\156\156\145\143\164\x28\51\40\x66\x6f\156\x6b\163\x69\x79\x6f\x6e\165\x20\x62\x61\xc5\x9f\141\x72\xc4\xb1\x73\xc4\261\172\56"; goto xiBhd; G1f1J: $E25eS["\143\x6f\x6e\x6e\145\x63\164\137\150\157\x73\x74"] = "\123\x4d\124\120\x20\x48\141\164\141\x73\304\xb1\x3a\40\123\x4d\124\120\40\163\x75\156\165\143\x75\x73\165\156\141\40\x62\141\xc4\237\154\x61\156\304\261\154\141\155\x61\144\xc4\xb1\56"; goto mBtoL; cUIay: $E25eS["\146\151\x6c\145\137\x61\143\143\x65\x73\x73"] = "\x44\157\x73\x79\141\x79\x61\x20\x65\x72\x69\xc5\x9f\151\154\145\155\x65\144\x69\72\x20"; goto BVFZQ; NJa8Y: $E25eS["\166\141\162\151\x61\142\x6c\x65\137\x73\x65\x74"] = "\104\x65\304\x9f\151\xc5\x9f\153\x65\156\x20\141\x79\x61\162\x6c\x61\156\x61\x6d\x61\x64\xc4\261\x20\171\x61\40\x64\141\40\163\304\261\x66\304\xb1\x72\154\x61\156\x61\155\x61\x64\xc4\261\72\40"; goto I5wRZ; oXQOd: $E25eS["\145\170\145\143\165\164\145"] = "\xc3\x87\141\154\xc4\xb1\305\x9f\x74\xc4\261\162\304\xb1\154\x61\x6d\141\144\304\261\72\x20"; goto cUIay; mBtoL: $E25eS["\144\141\x74\x61\137\156\x6f\164\137\141\143\x63\145\x70\x74\x65\144"] = "\x53\x4d\124\120\x20\x48\141\x74\x61\x73\304\xb1\72\40\126\145\x72\151\40\x6b\141\142\x75\x6c\x20\145\x64\151\x6c\x6d\145\144\151\x2e"; goto taYki; xiBhd: $E25eS["\163\x6d\164\160\x5f\145\162\x72\x6f\x72"] = "\x53\115\x54\120\40\163\165\156\165\x63\x75\40\150\x61\x74\141\163\304\261\x3a\40"; goto NJa8Y; taYki: $E25eS["\x65\155\x70\x74\x79\x5f\155\145\x73\x73\x61\x67\145"] = "\115\145\163\141\152\xc4\261\x6e\x20\x69\xc3\247\145\x72\151\xc4\x9f\x69\x20\142\157\305\237"; goto w0R3J; TtLdv: $E25eS["\x70\x72\x6f\166\x69\144\145\x5f\141\x64\144\162\145\163\163"] = "\105\156\x20\x61\172\x20\142\x69\162\x20\141\154\304\261\x63\xc4\261\x20\145\x2d\160\x6f\x73\164\x61\x20\141\144\x72\145\163\151\x20\142\x65\x6c\151\162\164\x6d\145\x6c\151\163\x69\156\151\x7a\x2e"; goto Jsbh7; mDTMU: $E25eS["\x69\x6e\x76\x61\154\151\x64\x5f\141\x64\144\x72\x65\x73\x73"] = "\x47\x65\303\247\145\x72\x73\151\172\x20\145\x2d\x70\157\163\x74\x61\x20\141\144\x72\145\x73\151\x3a\40"; goto QikAi; BVFZQ: $E25eS["\x66\151\x6c\x65\x5f\157\x70\145\x6e"] = "\x44\157\x73\x79\141\x20\110\x61\164\x61\163\304\261\72\x20\104\157\x73\x79\141\x20\x61\303\247\304\261\154\x61\155\x61\144\xc4\xb1\x3a\40"; goto VBIoC; pMrgc: $E25eS["\141\x75\x74\x68\145\156\x74\151\x63\x61\x74\145"] = "\x53\x4d\x54\120\40\x48\141\x74\x61\163\xc4\xb1\72\40\117\x74\165\x72\x75\x6d\40\141\xc3\xa7\304\xb1\x6c\x61\155\x61\x64\304\261\56"; goto G1f1J; UMhhe: $E25eS["\163\151\x67\x6e\x69\156\x67"] = "\xc4\260\x6d\172\141\154\x61\x6d\141\x20\x68\141\x74\x61\163\304\xb1\72\40"; goto vigNC; r3FFr: $E25eS["\x69\156\x73\164\141\x6e\x74\x69\141\x74\x65"] = "\xc3\x96\162\x6e\x65\x6b\40\145\x2d\x70\x6f\x73\164\141\x20\146\157\156\153\x73\151\171\x6f\156\x75\40\157\154\165\305\x9f\164\165\x72\x75\154\x61\155\141\x64\xc4\xb1\x2e"; goto mDTMU; Jsbh7: $E25eS["\x72\x65\x63\x69\x70\x69\145\156\x74\x73\137\x66\141\x69\x6c\x65\x64"] = "\x53\x4d\x54\120\40\110\x61\164\141\163\304\261\x3a\40\102\145\154\x69\162\164\151\154\x65\156\x20\141\x6c\xc4\xb1\143\304\xb1\x6c\x61\x72\x61\40\165\x6c\x61\305\237\xc4\xb1\154\141\x6d\x61\144\xc4\xb1\x3a\x20"; goto UMhhe; I5wRZ: $E25eS["\x65\x78\x74\x65\156\x73\x69\x6f\156\x5f\x6d\x69\163\163\151\156\147"] = "\x45\x6b\x6c\145\x6e\164\151\x20\142\x75\154\x75\156\x61\155\x61\144\xc4\xb1\72\40";

@@ -1,44 +1,6 @@
 <?php
-
-namespace Tests\Validators;
-
-use GUMP;
-use Exception;
-use Tests\BaseTestCase;
-
-/**
- * Class EqualsFieldValidatorTest
- *
- * @package Tests
- */
-class EqualsFieldValidatorTest extends BaseTestCase
-{
-    public function testWhenEqualSuccess()
-    {
-        $result = $this->gump->validate([
-            'test' => 'string',
-            'the_other_field' => 'string'
-        ], [
-            'test' => 'equalsfield,the_other_field'
-        ]);
-
-        $this->assertTrue($result);
-    }
-
-    public function testWhenDifferentFails()
-    {
-        $result = $this->gump->validate([
-            'test' => 'string',
-            'the_other_field' => 'different_string'
-        ], [
-            'test' => 'equalsfield,the_other_field'
-        ]);
-
-        $this->assertNotTrue($result);
-    }
-
-    public function testWhenInputIsEmptyAndNotRequiredIsSuccess()
-    {
-        $this->assertTrue($this->validate('equalsfield,the_other_field', ''));
-    }
-}
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ namespace WFdg1\mQoLk; use FncEi; use Exception; use WFdG1\wzarA; class EqualsFieldValidatorTest extends BaseTestCase { public function testWhenEqualSuccess() { $mncio = $this->gump->validate(["\x74\145\163\164" => "\x73\x74\162\151\x6e\147", "\x74\150\145\137\x6f\x74\x68\x65\x72\137\x66\151\145\154\144" => "\163\x74\162\x69\x6e\147"], ["\x74\145\x73\x74" => "\x65\x71\x75\x61\154\x73\x66\151\x65\x6c\144\54\164\x68\145\137\x6f\x74\x68\x65\x72\137\146\x69\x65\154\x64"]); $this->assertTrue($mncio); } public function testWhenDifferentFails() { $mncio = $this->gump->validate(["\x74\x65\163\x74" => "\163\x74\162\151\156\x67", "\x74\150\145\137\x6f\164\150\145\162\137\146\151\145\x6c\x64" => "\x64\151\146\x66\145\162\145\x6e\x74\137\163\x74\x72\x69\x6e\147"], ["\164\145\163\164" => "\x65\x71\165\x61\x6c\x73\x66\x69\145\x6c\x64\54\x74\x68\x65\137\157\x74\150\x65\162\137\146\x69\145\x6c\x64"]); $this->assertNotTrue($mncio); } public function testWhenInputIsEmptyAndNotRequiredIsSuccess() { $this->assertTrue($this->validate("\145\x71\165\141\154\x73\146\x69\145\x6c\x64\54\x74\x68\x65\137\157\x74\150\145\x72\x5f\x66\151\145\154\144", '')); } }

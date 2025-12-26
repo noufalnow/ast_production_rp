@@ -1,33 +1,6 @@
 <?php
-require_once 'ci/boot.php';
-
-$docs = get_docs_filters(README_FILE);
-$gump = get_gump_filters();
-
-$errors = [];
-
-foreach ($gump as $key => $value) {
-    if (!isset($docs[$key])) {
-        $errors[] = sprintf('"%s" filter exists in GUMP but not in docs!', $key);
-        continue;
-    }
-
-    if ($value['rule'] !== $docs[$key]['rule']) {
-        $errors[] = sprintf('Docs "%s" filter rule value is "%s" but it should be "%s"', $key, $docs[$key]['rule'], $value['rule']);
-    }
-
-    if ($value['description'] !== $docs[$key]['description']) {
-        $errors[] = sprintf('Docs "%s" filter description is "%s" but it should be "%s"', $key, $docs[$key]['description'], $value['description']);
-    }
-}
-
-if (count($errors) > 0) {
-    foreach ($errors as $error) {
-        print(sprintf('⮕ %s', $error).PHP_EOL);
-    }
-
-    print(PHP_EOL.'Run "php ci/dump_filters_docs.php" to fix this!'.PHP_EOL);
-    exit(1);
-} else {
-    print('Docs checks successfully passed for filters!'.PHP_EOL);
-}
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ goto AnDmu; AnDmu: require_once "\143\x69\x2f\x62\x6f\x6f\164\56\x70\x68\x70"; goto EKoeX; WCPtN: if (count($WZIOx) > 0) { goto M5jqR; } goto q3Qz2; joR9f: UyEak: goto WCPtN; hW61r: goto ztSxS; goto XWPqf; y8ZT2: foreach ($WZIOx as $Hn41u) { print sprintf("\342\xae\x95\40\x25\x73", $Hn41u) . PHP_EOL; GYPsj: } goto YeRed; nMpGH: foreach ($KBWiO as $DV4a3 => $VHpfx) { goto UO31a; UIyPX: $WZIOx[] = sprintf("\42\x25\x73\42\40\x66\151\x6c\x74\145\x72\40\145\x78\151\163\x74\x73\x20\x69\156\x20\107\x55\x4d\120\40\x62\165\x74\x20\156\x6f\164\x20\x69\156\x20\144\x6f\143\x73\41", $DV4a3); goto Mm6MW; v64ps: $WZIOx[] = sprintf("\104\x6f\x63\x73\40\42\45\163\x22\40\x66\x69\x6c\164\x65\x72\x20\x64\145\x73\143\x72\x69\x70\x74\151\157\156\x20\151\163\x20\x22\x25\163\42\x20\142\x75\164\40\151\x74\x20\163\150\157\x75\154\144\x20\x62\x65\40\42\45\x73\42", $DV4a3, $Kvmsa[$DV4a3]["\x64\145\163\143\x72\151\x70\x74\x69\157\156"], $VHpfx["\144\145\x73\x63\x72\x69\160\x74\151\x6f\156"]); goto ncqxU; Mm6MW: goto pGhjd; goto DtHY1; Dhmcc: if (!($VHpfx["\162\165\x6c\x65"] !== $Kvmsa[$DV4a3]["\x72\x75\x6c\x65"])) { goto R97lV; } goto nwYe_; DtHY1: hXA1l: goto Dhmcc; nwYe_: $WZIOx[] = sprintf("\104\x6f\x63\x73\40\42\45\163\42\40\x66\151\154\164\145\162\40\x72\165\154\x65\40\x76\141\154\x75\145\40\x69\x73\40\x22\45\163\x22\40\x62\165\x74\x20\151\x74\x20\163\150\x6f\x75\x6c\144\40\x62\145\x20\x22\x25\163\x22", $DV4a3, $Kvmsa[$DV4a3]["\x72\165\154\145"], $VHpfx["\162\x75\x6c\x65"]); goto qXL1R; zr8Wt: if (!($VHpfx["\144\145\163\143\162\151\160\x74\x69\x6f\x6e"] !== $Kvmsa[$DV4a3]["\x64\145\x73\x63\x72\151\160\x74\151\157\x6e"])) { goto JFjkM; } goto v64ps; ncqxU: JFjkM: goto p4Lar; qXL1R: R97lV: goto zr8Wt; p4Lar: pGhjd: goto X1WNI; UO31a: if (isset($Kvmsa[$DV4a3])) { goto hXA1l; } goto UIyPX; X1WNI: } goto joR9f; YeRed: qxbnR: goto KJkX8; BqTfo: $KBWiO = get_gump_filters(); goto R3zYq; R3zYq: $WZIOx = []; goto nMpGH; KJkX8: print PHP_EOL . "\x52\x75\x6e\40\x22\x70\x68\x70\40\x63\x69\57\x64\165\x6d\160\137\x66\x69\154\164\145\162\163\x5f\x64\157\x63\x73\56\x70\x68\x70\42\x20\x74\157\40\x66\151\x78\x20\164\x68\151\x73\x21" . PHP_EOL; goto HROsb; XWPqf: M5jqR: goto y8ZT2; HROsb: exit(1); goto lz_AP; EKoeX: $Kvmsa = get_docs_filters(README_FILE); goto BqTfo; q3Qz2: print "\104\x6f\143\x73\x20\x63\150\x65\x63\153\x73\40\x73\x75\x63\x63\x65\x73\163\x66\165\154\154\x79\40\x70\141\x73\x73\x65\x64\x20\146\157\162\x20\x66\x69\x6c\164\145\x72\x73\41" . PHP_EOL; goto hW61r; lz_AP: ztSxS:

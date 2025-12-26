@@ -1,27 +1,6 @@
 <?php
-
-/**
- * Azerbaijani PHPMailer language file: refer to English translation for definitive list
- * @package PHPMailer
- * @author @mirjalal
- */
-
-$PHPMAILER_LANG['authenticate']         = 'SMTP xətası: Giriş uğursuz oldu.';
-$PHPMAILER_LANG['connect_host']         = 'SMTP xətası: SMTP serverinə qoşulma uğursuz oldu.';
-$PHPMAILER_LANG['data_not_accepted']    = 'SMTP xətası: Verilənlər qəbul edilməyib.';
-$PHPMAILER_LANG['empty_message']        = 'Boş mesaj göndərilə bilməz.';
-$PHPMAILER_LANG['encoding']             = 'Qeyri-müəyyən kodlaşdırma: ';
-$PHPMAILER_LANG['execute']              = 'Əmr yerinə yetirilmədi: ';
-$PHPMAILER_LANG['file_access']          = 'Fayla giriş yoxdur: ';
-$PHPMAILER_LANG['file_open']            = 'Fayl xətası: Fayl açıla bilmədi: ';
-$PHPMAILER_LANG['from_failed']          = 'Göstərilən poçtlara göndərmə uğursuz oldu: ';
-$PHPMAILER_LANG['instantiate']          = 'Mail funksiyası işə salına bilmədi.';
-$PHPMAILER_LANG['invalid_address']      = 'Düzgün olmayan e-mail adresi: ';
-$PHPMAILER_LANG['mailer_not_supported'] = ' - e-mail kitabxanası dəstəklənmir.';
-$PHPMAILER_LANG['provide_address']      = 'Ən azı bir e-mail adresi daxil edilməlidir.';
-$PHPMAILER_LANG['recipients_failed']    = 'SMTP xətası: Aşağıdakı ünvanlar üzrə alıcılara göndərmə uğursuzdur: ';
-$PHPMAILER_LANG['signing']              = 'İmzalama xətası: ';
-$PHPMAILER_LANG['smtp_connect_failed']  = 'SMTP serverinə qoşulma uğursuz oldu.';
-$PHPMAILER_LANG['smtp_error']           = 'SMTP serveri xətası: ';
-$PHPMAILER_LANG['variable_set']         = 'Dəyişənin quraşdırılması uğursuz oldu: ';
-//$PHPMAILER_LANG['extension_missing']    = 'Extension missing: ';
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ goto joI6P; ojZo9: $E25eS["\x65\x78\x65\x63\165\x74\x65"] = "\xc6\217\x6d\x72\x20\x79\145\162\151\x6e\xc9\x99\x20\171\145\164\x69\x72\151\x6c\155\311\231\144\x69\x3a\x20"; goto FX2BK; IXMTj: $E25eS["\x73\x69\x67\156\151\156\x67"] = "\304\xb0\x6d\x7a\141\154\x61\x6d\141\x20\170\311\x99\164\141\163\xc4\261\x3a\40"; goto SD1NP; QiKWX: $E25eS["\x70\x72\x6f\x76\151\144\x65\x5f\141\x64\144\162\x65\x73\x73"] = "\xc6\217\156\40\x61\172\304\261\x20\142\x69\x72\x20\x65\55\x6d\x61\x69\x6c\x20\141\x64\x72\x65\163\x69\x20\144\141\170\151\x6c\x20\x65\x64\151\154\155\311\x99\x6c\x69\144\x69\162\x2e"; goto inwxe; SD1NP: $E25eS["\x73\x6d\164\160\x5f\143\x6f\x6e\x6e\x65\143\x74\x5f\146\141\151\154\x65\x64"] = "\123\115\x54\x50\40\163\145\x72\x76\x65\x72\151\156\xc9\x99\40\161\x6f\305\x9f\165\154\x6d\x61\40\x75\304\x9f\165\162\x73\x75\172\x20\157\x6c\144\165\56"; goto IrN96; Y5cy8: $E25eS["\146\x69\154\x65\x5f\157\160\145\156"] = "\106\141\171\154\40\x78\311\231\164\141\x73\304\xb1\72\x20\106\x61\171\154\40\x61\xc3\247\xc4\261\x6c\x61\40\x62\x69\154\x6d\xc9\231\x64\x69\x3a\x20"; goto bShoC; aE2gU: $E25eS["\x69\x6e\163\164\x61\x6e\x74\151\141\164\x65"] = "\115\141\151\x6c\x20\x66\165\x6e\153\x73\x69\171\141\163\xc4\xb1\x20\151\305\237\311\x99\x20\163\141\x6c\xc4\xb1\x6e\141\40\x62\x69\x6c\x6d\311\x99\x64\151\x2e"; goto tmMGq; inwxe: $E25eS["\x72\145\x63\x69\160\x69\145\156\164\x73\x5f\x66\x61\151\x6c\x65\144"] = "\x53\x4d\124\120\40\170\311\231\x74\141\163\xc4\261\72\40\101\305\237\x61\304\x9f\304\261\144\x61\x6b\304\xb1\40\xc3\274\x6e\x76\x61\156\154\x61\x72\x20\xc3\274\x7a\x72\xc9\x99\x20\141\x6c\304\261\143\xc4\261\154\x61\x72\141\40\147\303\266\156\144\xc9\231\162\155\311\x99\x20\x75\xc4\237\165\x72\163\165\172\x64\165\162\72\40"; goto IXMTj; m4UzM: $E25eS["\145\155\x70\x74\x79\x5f\x6d\145\163\x73\x61\147\x65"] = "\102\157\xc5\x9f\x20\x6d\x65\x73\x61\152\40\x67\xc3\xb6\x6e\x64\xc9\231\162\x69\x6c\xc9\231\40\x62\151\154\155\311\231\172\56"; goto kLhzS; bShoC: $E25eS["\146\x72\157\155\137\x66\141\x69\x6c\145\x64"] = "\107\xc3\266\163\164\311\231\162\151\154\xc9\x99\x6e\40\160\x6f\xc3\xa7\164\x6c\x61\162\x61\40\x67\xc3\266\156\x64\311\x99\162\155\xc9\x99\x20\165\xc4\237\165\162\163\165\x7a\x20\157\x6c\144\x75\x3a\40"; goto aE2gU; FX2BK: $E25eS["\x66\151\x6c\x65\x5f\141\x63\x63\145\163\163"] = "\x46\141\171\154\141\x20\147\151\x72\x69\305\x9f\40\171\x6f\x78\144\x75\162\x3a\x20"; goto Y5cy8; zCKrR: $E25eS["\144\x61\164\x61\137\x6e\x6f\x74\137\141\143\143\x65\160\164\x65\144"] = "\123\115\x54\x50\x20\x78\311\x99\x74\141\163\304\xb1\72\x20\x56\x65\x72\x69\154\xc9\x99\x6e\x6c\xc9\231\162\40\161\311\x99\x62\x75\154\x20\x65\144\x69\154\x6d\311\x99\x79\151\x62\56"; goto m4UzM; IrN96: $E25eS["\163\155\164\x70\x5f\145\x72\162\x6f\162"] = "\x53\115\124\x50\40\163\145\x72\166\x65\x72\x69\x20\x78\311\x99\164\141\x73\xc4\261\x3a\40"; goto xwuZN; jj4jY: $E25eS["\x6d\x61\151\154\x65\162\x5f\156\x6f\x74\x5f\163\165\x70\160\157\162\x74\145\144"] = "\x20\55\40\x65\55\x6d\x61\151\x6c\40\x6b\x69\164\141\142\170\x61\x6e\141\x73\xc4\xb1\x20\x64\xc9\x99\163\x74\311\231\153\154\xc9\231\x6e\x6d\151\x72\56"; goto QiKWX; joI6P: $E25eS["\141\x75\164\x68\x65\156\x74\x69\143\141\x74\x65"] = "\x53\x4d\124\x50\x20\170\xc9\x99\164\141\163\304\261\72\40\107\x69\x72\151\xc5\x9f\x20\x75\304\x9f\165\x72\163\x75\172\40\157\x6c\x64\x75\x2e"; goto sSaT6; tmMGq: $E25eS["\x69\156\166\x61\154\151\x64\137\141\144\144\162\x65\x73\x73"] = "\x44\xc3\274\x7a\147\303\274\156\40\x6f\x6c\155\x61\x79\141\x6e\x20\145\x2d\155\x61\x69\x6c\x20\141\144\x72\145\x73\151\72\x20"; goto jj4jY; kLhzS: $E25eS["\145\x6e\143\157\144\x69\156\147"] = "\x51\x65\x79\x72\151\x2d\155\xc3\274\xc9\231\x79\x79\xc9\x99\156\40\x6b\157\x64\154\x61\xc5\237\x64\xc4\xb1\x72\x6d\x61\x3a\x20"; goto ojZo9; sSaT6: $E25eS["\x63\157\156\x6e\145\x63\164\x5f\x68\157\x73\164"] = "\x53\115\x54\120\x20\170\311\231\164\141\163\304\261\72\40\x53\x4d\124\120\x20\163\x65\x72\166\145\x72\151\156\xc9\231\x20\x71\x6f\xc5\237\x75\154\x6d\x61\40\165\304\x9f\165\x72\163\x75\172\x20\x6f\154\x64\165\56"; goto zCKrR; xwuZN: $E25eS["\166\x61\x72\151\141\142\x6c\145\137\163\x65\x74"] = "\104\xc9\231\x79\151\305\x9f\xc9\x99\x6e\151\156\40\x71\x75\x72\141\305\237\x64\xc4\xb1\x72\304\xb1\x6c\155\x61\x73\xc4\261\40\x75\304\237\x75\x72\163\165\x7a\x20\x6f\154\144\165\x3a\40";

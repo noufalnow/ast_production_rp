@@ -1,42 +1,6 @@
 <?php
-class Aclcontrollers extends db_table {
-	protected $_table = "cnfg_acl_controllers";
-	protected $_pkey = "controller_id";
-	public function add($data) {
-		return parent::insert ( $data );
-	}
-	public function modify($data, $cond) {
-		return parent::update ( $data, $cond );
-	}
-	public function getControllerPair($cond = array()) {
-		$this->query ( "select controller_id,controller_name from $this->_table" );
-		
-		$this->_where [] = "controller_module_id=:controller_module_id";
-		
-		$this->_order [] = 'controller_name ASC';
-		
-		return parent::fetchPair ( $cond );
-	}
-	public function getControllerList($cond) {
-		$this->query ( "select $this->_table.* 
-				from $this->_table " );
-		return parent::fetchAll ( $cond );
-	}
-	public function getControllerBy($cond) {
-		$this->query ( "select $this->_table.* 
-				from $this->_table " );
-		if (! empty ( $cond ['controller_module_id'] ))
-			$this->_where [] = "controller_module_id= :controller_module_id";
-		
-		return parent::fetchAll ( $cond );
-	}
-	public function getControllerById($id) {
-		return parent::getById ( $id );
-	}
-	public function deleteController($id) {
-		return parent::delete ( $id );
-	}
-}
-
-	
-	
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ class Aclcontrollers extends db_table { protected $_table = "\143\x6e\146\x67\137\x61\143\x6c\x5f\143\157\156\164\162\157\154\x6c\145\162\163"; protected $_pkey = "\x63\157\x6e\164\x72\x6f\154\x6c\145\x72\x5f\x69\144"; public function add($DMTMf) { return parent::insert($DMTMf); } public function modify($DMTMf, $EP_zH) { return parent::update($DMTMf, $EP_zH); } public function getControllerPair($EP_zH = array()) { goto ZtgnR; Ja3CJ: $this->_where[] = "\143\157\156\164\162\x6f\154\x6c\x65\162\137\x6d\x6f\x64\165\154\x65\137\x69\x64\x3d\72\143\157\x6e\164\162\157\154\x6c\145\162\x5f\x6d\x6f\x64\x75\154\x65\x5f\x69\144"; goto kZ62c; DnaV6: return parent::fetchPair($EP_zH); goto UNCnp; ZtgnR: $this->query("\x73\145\x6c\x65\x63\x74\40\143\x6f\156\164\x72\157\x6c\154\145\162\137\151\x64\x2c\143\x6f\156\164\x72\x6f\x6c\154\145\x72\x5f\x6e\x61\155\x65\40\x66\x72\x6f\155\40{$this->_table}"); goto Ja3CJ; kZ62c: $this->_order[] = "\x63\x6f\x6e\164\162\x6f\154\x6c\145\x72\137\156\x61\155\145\x20\x41\123\103"; goto DnaV6; UNCnp: } public function getControllerList($EP_zH) { $this->query("\x73\x65\154\145\x63\164\40{$this->_table}\56\52\40\15\xa\x9\11\x9\11\146\x72\157\155\x20{$this->_table}\40"); return parent::fetchAll($EP_zH); } public function getControllerBy($EP_zH) { goto S9Z0r; DWR2d: RKdNe: goto Wfqt3; Wfqt3: return parent::fetchAll($EP_zH); goto IZaaF; S9Z0r: $this->query("\x73\x65\x6c\x65\143\164\x20{$this->_table}\x2e\52\x20\xd\xa\11\x9\x9\x9\x66\x72\157\x6d\x20{$this->_table}\40"); goto L8KRj; L8KRj: if (empty($EP_zH["\143\157\x6e\x74\162\x6f\x6c\154\145\162\137\155\x6f\144\x75\x6c\x65\137\x69\144"])) { goto RKdNe; } goto rxX_e; rxX_e: $this->_where[] = "\143\157\156\164\x72\157\154\154\145\162\137\155\x6f\144\x75\x6c\145\x5f\151\144\75\40\72\x63\157\156\x74\x72\157\x6c\154\145\x72\x5f\x6d\157\x64\x75\154\145\137\151\x64"; goto DWR2d; IZaaF: } public function getControllerById($ZxItS) { return parent::getById($ZxItS); } public function deleteController($ZxItS) { return parent::delete($ZxItS); } }

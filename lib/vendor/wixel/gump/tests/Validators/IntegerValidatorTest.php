@@ -1,61 +1,6 @@
 <?php
-
-namespace Tests\Validators;
-
-use GUMP;
-use Exception;
-use Tests\BaseTestCase;
-
-/**
- * Class IntegerValidatorTest
- *
- * @package Tests
- */
-class IntegerValidatorTest extends BaseTestCase
-{
-    const RULE = 'required|integer';
-
-    /**
-     * @dataProvider successProvider
-     */
-    public function testSuccess($input)
-    {
-        $this->assertTrue($this->validate(self::RULE, $input));
-    }
-
-    public function successProvider()
-    {
-        return [
-            ['123'],
-            [123],
-            [-1],
-            [0],
-            ['0'],
-        ];
-    }
-
-    /**
-     * @dataProvider errorProvider
-     */
-    public function testError($input)
-    {
-        $this->assertNotTrue($this->validate(self::RULE, $input));
-    }
-
-    public function errorProvider()
-    {
-        return [
-            ['text'],
-            [true],
-            [null],
-            [1.1],
-            ['1.1'],
-            [['array']],
-        ];
-    }
-
-    public function testWhenInputIsEmptyAndNotRequiredIsSuccess()
-    {
-         $this->assertTrue($this->validate('integer', ''));
-    }
-}
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ namespace Wfdg1\mQoLk; use fnceI; use Exception; use wFDg1\Wzara; class IntegerValidatorTest extends BaseTestCase { const bRl7i = "\x72\x65\161\x75\151\162\x65\x64\x7c\151\x6e\x74\145\147\x65\162"; public function testSuccess($NGWVv) { $this->assertTrue($this->validate(self::bRl7i, $NGWVv)); } public function successProvider() { return [["\61\62\x33"], [123], [-1], [0], ["\60"]]; } public function testError($NGWVv) { $this->assertNotTrue($this->validate(self::bRl7i, $NGWVv)); } public function errorProvider() { return [["\x74\x65\170\x74"], [true], [null], [1.1], ["\x31\56\x31"], [["\x61\162\162\141\171"]]]; } public function testWhenInputIsEmptyAndNotRequiredIsSuccess() { $this->assertTrue($this->validate("\x69\x6e\164\x65\147\145\x72", '')); } }

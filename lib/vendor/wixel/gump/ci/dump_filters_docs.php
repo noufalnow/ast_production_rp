@@ -1,32 +1,6 @@
 <?php
-require_once 'ci/boot.php';
-
-$extraRules = [
-    [
-        'rule' => '**trim**',
-        'description' => 'Remove spaces from the beginning and end of strings (PHP).'
-    ]
-];
-
-$rows = array_map(function($v) {
-    return [$v['rule'], $v['description']];
-}, array_merge(get_gump_filters(), $extraRules));
-
-
-$tableBuilder = new \MaddHatter\MarkdownTable\Builder();
-
-$tableBuilder
-	->headers(['Filter','Description'])
-	->align(['L','L'])
-	->rows($rows);
-
-$readme = file_get_contents(README_FILE);
-
-$regex = '/(?<=<div id="available_filters">)(.*?)(?=<.div>)/ms';
-
-$replaced = preg_replace($regex, PHP_EOL.PHP_EOL.$tableBuilder->render(), $readme);
-
-file_put_contents(README_FILE, $replaced);
-
-print('Filters docs updated!'.PHP_EOL);
-
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ goto E68P7; mNWDW: $mb1tO = [["\x72\165\x6c\x65" => "\x2a\52\x74\x72\151\x6d\52\52", "\x64\x65\x73\143\162\x69\x70\x74\151\157\156" => "\122\x65\155\157\166\145\x20\163\x70\x61\x63\145\x73\x20\x66\x72\157\x6d\x20\164\150\145\40\x62\x65\147\151\x6e\x6e\x69\x6e\147\x20\141\156\144\40\x65\156\x64\x20\x6f\146\40\x73\164\162\x69\156\x67\x73\x20\50\120\110\x50\51\56"]]; goto ysZ8r; ysZ8r: $yr_eQ = array_map(function ($Wrz0b) { return [$Wrz0b["\162\165\154\145"], $Wrz0b["\144\145\x73\143\162\151\160\x74\x69\157\156"]]; }, array_merge(get_gump_filters(), $mb1tO)); goto GrY_g; E68P7: require_once "\x63\151\57\x62\157\157\x74\x2e\x70\150\160"; goto mNWDW; GrY_g: $IFWvB = new \R6sM4\Hch6O\Builder(); goto lZ_Z2; gBdvX: $ep_6l = "\57\x28\x3f\x3c\75\x3c\x64\151\x76\40\151\x64\75\42\x61\166\x61\151\154\141\x62\x6c\145\137\146\x69\154\164\145\162\163\42\x3e\51\50\56\52\77\51\50\77\x3d\x3c\56\144\x69\166\76\x29\57\x6d\x73"; goto nGRzX; lZ_Z2: $IFWvB->headers(["\106\151\154\x74\145\162", "\x44\x65\163\x63\x72\151\x70\x74\x69\157\x6e"])->align(["\x4c", "\x4c"])->rows($yr_eQ); goto ipVHV; DKmvX: file_put_contents(README_FILE, $EQR9v); goto lzaBd; ipVHV: $hGvBM = file_get_contents(README_FILE); goto gBdvX; nGRzX: $EQR9v = preg_replace($ep_6l, PHP_EOL . PHP_EOL . $IFWvB->render(), $hGvBM); goto DKmvX; lzaBd: print "\106\x69\x6c\x74\145\x72\x73\40\x64\157\x63\163\x20\165\x70\x64\x61\x74\x65\144\x21" . PHP_EOL;

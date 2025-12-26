@@ -1,44 +1,6 @@
 <?php
-class category extends db_table {
-	protected $_table = "core_category";
-	protected $_pkey = "cat_id";
-	
-
-	public function getCategoryPair($cond = array()) {
-		$this->query ( "select cat_id,cat_name from $this->_table" );
-		
-		if (! empty ( $cond ['cat_type'] ))
-			$this->_where [] = "cat_type = :cat_type";
-		
-		if (! empty ( $cond ['cat_parent'] ))
-			$this->_where [] = "cat_parent = :cat_parent";
-			
-		
-		$this->_order [] = 'cat_name ASC';
-		
-		return parent::fetchPair ( $cond );
-	}
-	
-	public function add($data) {
-		return parent::insert ( $data );
-	}
-	
-	public function getCategoryByName($cond = array()){
-		
-		$this->query ( "select * from $this->_table" );
-		
-		if (! empty ( $cond ['cat_name'] ))
-			$this->_where [] = "cat_name= :cat_name";
-		
-		if (! empty ( $cond ['cat_type'] ))
-			$this->_where [] = "cat_type = :cat_type";
-		
-		if (! empty ( $cond ['cat_parent'] ))
-			$this->_where [] = "cat_parent = :cat_parent";
-			
-			return parent::fetchRow ( $cond );
-	}
-
-}
-
-
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ class category extends db_table { protected $_table = "\143\157\x72\x65\x5f\143\x61\164\145\147\157\x72\171"; protected $_pkey = "\x63\141\x74\x5f\x69\144"; public function getCategoryPair($EP_zH = array()) { goto RqoBb; RqoBb: $this->query("\x73\145\x6c\145\143\164\40\x63\141\x74\137\x69\144\54\x63\x61\164\x5f\156\x61\155\x65\x20\146\x72\157\x6d\x20{$this->_table}"); goto An0T8; VbrgW: $this->_where[] = "\x63\141\x74\137\x74\x79\160\x65\40\75\x20\x3a\143\x61\164\137\164\x79\160\x65"; goto Md510; Yxd9r: if (empty($EP_zH["\143\141\x74\x5f\x70\141\162\145\156\x74"])) { goto skqnI; } goto mm1EV; mm1EV: $this->_where[] = "\143\x61\164\x5f\160\x61\x72\x65\x6e\164\x20\x3d\40\x3a\143\x61\x74\137\160\141\162\145\156\164"; goto BWJQq; An0T8: if (empty($EP_zH["\x63\141\164\137\x74\171\x70\145"])) { goto ToG2n; } goto VbrgW; Md510: ToG2n: goto Yxd9r; vBNal: return parent::fetchPair($EP_zH); goto MY3US; BWJQq: skqnI: goto dKdka; dKdka: $this->_order[] = "\x63\141\164\137\156\x61\x6d\145\40\x41\123\x43"; goto vBNal; MY3US: } public function add($DMTMf) { return parent::insert($DMTMf); } public function getCategoryByName($EP_zH = array()) { goto pvFNQ; mWw1J: RT2p1: goto zg6Ed; P60Mr: $this->_where[] = "\143\x61\x74\x5f\x74\171\160\145\x20\x3d\40\72\x63\141\164\x5f\x74\x79\160\x65"; goto mWw1J; pvFNQ: $this->query("\163\x65\154\145\x63\x74\x20\52\x20\x66\x72\x6f\155\40{$this->_table}"); goto ACe2B; ACe2B: if (empty($EP_zH["\x63\141\164\137\156\x61\155\x65"])) { goto aF4jS; } goto rcDyg; TZqaa: aF4jS: goto JPBP5; JPBP5: if (empty($EP_zH["\x63\141\x74\137\x74\171\x70\145"])) { goto RT2p1; } goto P60Mr; SALrN: $this->_where[] = "\143\141\164\x5f\160\141\x72\x65\156\x74\x20\75\40\72\143\x61\164\x5f\x70\141\162\x65\x6e\164"; goto DiMqz; rcDyg: $this->_where[] = "\143\141\164\137\x6e\141\x6d\x65\x3d\x20\x3a\143\x61\164\137\x6e\x61\x6d\x65"; goto TZqaa; zg6Ed: if (empty($EP_zH["\143\x61\164\137\x70\x61\x72\x65\156\x74"])) { goto n0o2v; } goto SALrN; AlMJQ: return parent::fetchRow($EP_zH); goto S4ehH; DiMqz: n0o2v: goto AlMJQ; S4ehH: } }

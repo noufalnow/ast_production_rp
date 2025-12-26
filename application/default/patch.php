@@ -1,42 +1,6 @@
 <?php
-class patchController extends mvc {
-	public function patchAction() {
-		/*
-		 * if (USER_ID != 8) {
-		 * $this->view->NoViewRender = true;
-		 * exit ( 0 );
-		 * }
-		 */
-		if (!empty(USER_ID)) {
-			
-			$host = "localhost";
-			$dbname = "creath6g_csol_asmh";
-			
-			$username = "dbadmin";
-			$password = "dbadmin";
-			$port = 3306;
-			
-			try {
-				$thisb = new PDO ( 'mysql:host=' . $host . ';port=' . $port . '; dbname=' . $dbname . ';charset=utf8', $username, $password, array () );
-				$thisb->setAttribute ( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-			} catch ( PDOException $e ) {
-				print "Error!: " . $e->getMessage () . "<br/>";
-				die ();
-			}
-			
-			$qry = "update mis_bill set bill_month = concat (EXTRACT(year FROM bill_date),'-' , EXTRACT(month FROM bill_date) ,'-1');";
-			
-			$stmt = $thisb->prepare ( $qry );
-			$stmt->execute ( $cond );
-			
-			echo $stmt->execute ( $cond ) == 1 ? 'success' : 'error';
-		}
-	}
-}
-
-		
-	
-	
-	
-
-
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ class patchController extends mvc { public function patchAction() { goto duYoK; SOLrD: $oBIO6 = "\x6c\157\x63\141\154\150\x6f\x73\x74"; goto PqIrM; FDPLZ: $ZniV5 = 3306; goto wuRyr; j6d9G: FDZJq: goto OzM4c; SzhkL: echo $eyC24->execute($EP_zH) == 1 ? "\163\x75\x63\143\x65\x73\163" : "\x65\x72\162\x6f\162"; goto j6d9G; jN4zr: $eyC24->execute($EP_zH); goto SzhkL; PqIrM: $eyd4N = "\x63\x72\145\141\x74\x68\66\x67\x5f\143\163\x6f\x6c\137\x61\x73\155\150"; goto gYSA2; gYSA2: $ar_hp = "\x64\142\x61\x64\x6d\151\156"; goto V943T; DueBU: $k2Sd_ = "\x75\160\144\141\x74\x65\40\155\x69\x73\x5f\142\x69\154\x6c\x20\x73\145\x74\x20\x62\151\x6c\154\137\155\x6f\x6e\164\x68\x20\x3d\x20\143\x6f\156\143\x61\164\x20\50\105\130\x54\x52\101\x43\124\x28\171\145\x61\162\x20\106\122\x4f\115\x20\x62\x69\154\x6c\137\x64\141\x74\x65\x29\x2c\x27\x2d\x27\x20\x2c\x20\x45\130\x54\122\101\x43\x54\50\155\157\x6e\x74\x68\x20\106\122\x4f\x4d\40\x62\151\154\154\137\x64\x61\164\x65\x29\x20\54\47\55\61\x27\x29\73"; goto rpgro; rpgro: $eyC24 = $An1dR->prepare($k2Sd_); goto jN4zr; wuRyr: try { $An1dR = new PDO("\155\x79\163\161\x6c\72\150\x6f\163\164\75" . $oBIO6 . "\73\x70\157\x72\x74\x3d" . $ZniV5 . "\73\x20\144\142\x6e\x61\x6d\x65\x3d" . $eyd4N . "\x3b\143\x68\x61\x72\x73\x65\x74\75\165\x74\x66\70", $ar_hp, $fW11Z, array()); $An1dR->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); } catch (PDOException $LY8we) { print "\105\x72\x72\x6f\x72\41\72\40" . $LY8we->getMessage() . "\x3c\142\162\57\x3e"; die; } goto DueBU; duYoK: if (empty(USER_ID)) { goto FDZJq; } goto SOLrD; V943T: $fW11Z = "\x64\142\x61\x64\x6d\x69\x6e"; goto FDPLZ; OzM4c: } }

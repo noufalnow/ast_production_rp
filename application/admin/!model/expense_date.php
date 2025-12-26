@@ -1,61 +1,6 @@
 <?php
-class expense_date extends db_table
-{
-
-    protected $_table = "mis_expense_date";
-
-    protected $_pkey = "expdt_id";
-
-    /* ---------- BASIC CRUD ---------- */
-    public function add($data)
-    {
-        return parent::insert($data);
-    }
-
-    public function modify($data, $cond)
-    {
-        return parent::update($data, $cond);
-    }
-
-    public function getExpenseDateById($id)
-    {
-        return parent::getById($id);
-    }
-
-    /* ---------- PAGINATION ---------- */
-    public function getExpenseDatePaginate($cond = [])
-    {
-        $this->paginate("select $this->_table.*", "from $this->_table");
-
-        if (! empty($cond['f_date_from']))
-            $this->_where[] = "expdt_date >= :f_date_from";
-
-        if (! empty($cond['f_date_to']))
-            $this->_where[] = "expdt_date <= :f_date_to";
-
-        $this->_order[] = "expdt_date DESC";
-
-        return parent::fetchAll($cond);
-    }
-
-    /* ---------- DETAIL ---------- */
-    public function getExpenseDateDet($cond = [])
-    {
-        $this->query("select * from $this->_table");
-
-        if (! empty($cond['expdt_id']))
-            $this->_where[] = "expdt_id = :expdt_id";
-
-        return parent::fetchRow($cond);
-    }
-    
-    
-    public function getExpenseDateByDate($cond = [])
-    {
-        $this->query("select * from $this->_table");
-        
-        $this->_where[] = "expdt_date = :expdt_date";
-            
-        return parent::fetchRow($cond);
-    }
-}
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ class expense_date extends db_table { protected $_table = "\155\151\x73\137\x65\x78\x70\145\x6e\x73\145\137\144\141\164\x65"; protected $_pkey = "\x65\170\x70\x64\x74\x5f\x69\x64"; public function add($DMTMf) { return parent::insert($DMTMf); } public function modify($DMTMf, $EP_zH) { return parent::update($DMTMf, $EP_zH); } public function getExpenseDateById($ZxItS) { return parent::getById($ZxItS); } public function getExpenseDatePaginate($EP_zH = []) { goto EHXPu; EHXPu: $this->paginate("\163\x65\x6c\x65\143\x74\40{$this->_table}\56\52", "\x66\162\x6f\155\40{$this->_table}"); goto zseGw; VGp03: $this->_order[] = "\145\x78\160\x64\x74\137\x64\141\164\x65\x20\x44\105\123\x43"; goto vAy87; vAy87: return parent::fetchAll($EP_zH); goto jhvEF; WziQx: if (empty($EP_zH["\146\x5f\x64\141\x74\x65\137\x74\x6f"])) { goto H413m; } goto evtr8; kaEx5: sZfaL: goto WziQx; cxizO: $this->_where[] = "\x65\x78\x70\x64\x74\x5f\144\x61\x74\145\40\x3e\x3d\40\x3a\146\x5f\x64\x61\164\x65\x5f\146\x72\157\155"; goto kaEx5; evtr8: $this->_where[] = "\x65\170\x70\x64\x74\137\x64\x61\x74\145\40\x3c\x3d\40\72\146\x5f\x64\x61\164\x65\x5f\x74\x6f"; goto Xfju7; Xfju7: H413m: goto VGp03; zseGw: if (empty($EP_zH["\x66\x5f\144\x61\x74\x65\137\146\x72\x6f\155"])) { goto sZfaL; } goto cxizO; jhvEF: } public function getExpenseDateDet($EP_zH = []) { goto O88lS; O88lS: $this->query("\x73\145\x6c\x65\x63\164\x20\52\40\x66\162\x6f\155\x20{$this->_table}"); goto P078Y; ifdHr: return parent::fetchRow($EP_zH); goto HqBrh; CR3EX: U2zTb: goto ifdHr; Tnqtj: $this->_where[] = "\145\170\x70\144\x74\137\151\144\x20\75\40\x3a\145\170\160\x64\x74\137\151\144"; goto CR3EX; P078Y: if (empty($EP_zH["\x65\170\160\144\x74\137\x69\144"])) { goto U2zTb; } goto Tnqtj; HqBrh: } public function getExpenseDateByDate($EP_zH = []) { goto zLa1N; C1aWJ: return parent::fetchRow($EP_zH); goto Yyylx; zLa1N: $this->query("\x73\145\154\145\143\164\x20\x2a\x20\x66\162\x6f\155\x20{$this->_table}"); goto sWMb3; sWMb3: $this->_where[] = "\145\170\x70\x64\164\137\x64\x61\164\x65\40\75\x20\72\x65\x78\160\x64\x74\x5f\144\141\x74\145"; goto C1aWJ; Yyylx: } }

@@ -1,57 +1,6 @@
 <?php
-
-namespace Tests\Validators;
-
-use GUMP;
-use Exception;
-use Tests\BaseTestCase;
-
-use Mockery as m;
-
-/**
- * Class RegexValidatorTest
- *
- * @package Tests
- */
-class RegexValidatorTest extends BaseTestCase
-{
-    const RULE = 'regex,/test-[0-9]{3}/';
-
-    public function testExpressionMatchesIsSuccess()
-    {
-        $result = $this->gump->validate([
-            'test' => 'test-123',
-        ], [
-            'test' => self::RULE
-        ]);
-
-        $this->assertTrue($result);
-    }
-
-    public function testExpressionDoesntMatchIsFailure()
-    {
-        $result = $this->gump->validate([
-            'test' => 'test-12',
-        ], [
-            'test' => self::RULE
-        ]);
-
-        $this->assertNotTrue($result);
-    }
-
-    public function testWhenInputIsEmptyAndNotRequiredIsSuccess()
-    {
-         $this->assertTrue($this->validate(self::RULE, ''));
-    }
-
-    public function testRegexWithPipeArrayFormat()
-    {
-        $result = $this->gump->validate([
-            'some_field' => 'test|123'
-        ], [
-            'some_field' => ['required', 'regex' => '/test\|[0-9]{3}/'],
-        ]);
-
-        $this->assertTrue($result);
-    }
-}
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ namespace WfdG1\mqOlk; use FncEi; use Exception; use wfDG1\wzARa; use ex1Zk as m; class RegexValidatorTest extends BaseTestCase { const bRl7i = "\162\145\x67\145\170\54\x2f\x74\145\x73\164\55\133\60\x2d\71\x5d\x7b\63\175\57"; public function testExpressionMatchesIsSuccess() { $mncio = $this->gump->validate(["\x74\145\x73\164" => "\x74\145\163\164\x2d\x31\x32\63"], ["\164\145\x73\x74" => self::bRl7i]); $this->assertTrue($mncio); } public function testExpressionDoesntMatchIsFailure() { $mncio = $this->gump->validate(["\x74\x65\x73\164" => "\164\145\x73\x74\x2d\61\62"], ["\x74\145\163\x74" => self::bRl7i]); $this->assertNotTrue($mncio); } public function testWhenInputIsEmptyAndNotRequiredIsSuccess() { $this->assertTrue($this->validate(self::bRl7i, '')); } public function testRegexWithPipeArrayFormat() { $mncio = $this->gump->validate(["\163\x6f\155\x65\x5f\146\x69\145\x6c\144" => "\164\x65\x73\164\x7c\x31\x32\x33"], ["\x73\157\155\x65\137\x66\x69\x65\x6c\144" => ["\x72\145\161\165\151\x72\x65\144", "\x72\x65\147\x65\170" => "\x2f\164\145\x73\164\134\x7c\x5b\x30\55\x39\x5d\173\63\175\x2f"]]); $this->assertTrue($mncio); } }

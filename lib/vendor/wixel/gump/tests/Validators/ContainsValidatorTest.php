@@ -1,49 +1,6 @@
 <?php
-
-namespace Tests\Validators;
-
-use GUMP;
-use Exception;
-use Tests\BaseTestCase;
-
-/**
- * Class ContainsValidatorTest
- *
- * @package Tests
- */
-class ContainsValidatorTest extends BaseTestCase
-{
-    /**
-     * @dataProvider successProvider
-     */
-    public function testSuccess($rule, $input)
-    {
-        $this->assertTrue($this->validate($rule, $input));
-    }
-
-    public function successProvider()
-    {
-        return [
-            ['contains,one', 'one'],
-            ['contains,one;two;with space', 'with space'],
-            [['contains' => ['one']], 'one'],
-            [['contains' => ['one', 'two']], 'two'],
-        ];
-    }
-
-    /**
-     * @dataProvider errorProvider
-     */
-    public function testError($rule, $input)
-    {
-        $this->assertNotTrue($this->validate($rule, $input));
-    }
-
-    public function errorProvider()
-    {
-        return [
-            ['contains,one', 'two'],
-            ['contains,one;two;with space', 'with spac'],
-        ];
-    }
-}
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ namespace WfdG1\mqOlk; use FNcei; use Exception; use WFdG1\WZARa; class ContainsValidatorTest extends BaseTestCase { public function testSuccess($vRCPF, $NGWVv) { $this->assertTrue($this->validate($vRCPF, $NGWVv)); } public function successProvider() { return [["\143\157\x6e\x74\x61\x69\156\x73\54\x6f\x6e\x65", "\157\x6e\x65"], ["\x63\x6f\156\164\x61\151\156\x73\54\x6f\x6e\x65\x3b\164\x77\157\73\167\151\x74\150\40\163\160\x61\x63\145", "\167\151\x74\x68\40\x73\160\141\x63\x65"], [["\x63\x6f\x6e\164\141\151\156\163" => ["\157\156\145"]], "\157\x6e\x65"], [["\143\x6f\x6e\164\141\x69\156\x73" => ["\157\156\x65", "\164\x77\x6f"]], "\164\167\157"]]; } public function testError($vRCPF, $NGWVv) { $this->assertNotTrue($this->validate($vRCPF, $NGWVv)); } public function errorProvider() { return [["\143\x6f\156\164\x61\x69\156\163\54\157\156\145", "\164\167\x6f"], ["\x63\157\156\164\x61\151\x6e\x73\x2c\x6f\x6e\x65\73\x74\x77\157\x3b\x77\151\164\150\x20\x73\x70\141\x63\x65", "\167\151\x74\x68\x20\x73\x70\x61\143"]]; } }

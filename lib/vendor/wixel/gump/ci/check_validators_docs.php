@@ -1,33 +1,6 @@
 <?php
-require_once 'ci/boot.php';
-
-$docs = get_docs_validators(README_FILE);
-$gump = get_gump_validators();
-
-$errors = [];
-
-foreach ($gump as $key => $value) {
-    if (!isset($docs[$key])) {
-        $errors[] = sprintf('"%s" validator exists in GUMP but not in docs!', $key);
-        continue;
-    }
-
-    if ($value['rule'] !== $docs[$key]['rule']) {
-        $errors[] = sprintf('Docs "%s" validator value is "%s" but it should be "%s"', $key, $docs[$key]['rule'], $value['rule']);
-    }
-
-    if ($value['description'] !== $docs[$key]['description']) {
-        $errors[] = sprintf('Docs "%s" validator description is "%s" but it should be "%s"', $key, $docs[$key]['description'], $value['description']);
-    }
-}
-
-if (count($errors) > 0) {
-    foreach ($errors as $error) {
-        print(sprintf('⮕ %s', $error).PHP_EOL);
-    }
-
-    print(PHP_EOL.'Run "php ci/dump_validators_docs.php" to fix this!'.PHP_EOL);
-    exit(1);
-} else {
-    print('Docs checks successfully passed for validators!'.PHP_EOL);
-}
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ goto aH_Rl; jScCQ: KRX2D: goto TPoz2; yFrUs: print "\104\x6f\x63\x73\40\143\x68\145\x63\x6b\163\40\x73\165\x63\143\x65\x73\x73\146\165\x6c\x6c\171\40\160\141\x73\x73\145\x64\x20\x66\157\162\x20\166\x61\154\x69\x64\x61\164\x6f\x72\163\41" . PHP_EOL; goto mMcsF; aH_Rl: require_once "\143\x69\57\x62\157\157\164\x2e\160\150\160"; goto ni6ya; r5cXU: $WZIOx = []; goto x2e__; RCaMo: HnUhf: goto y2o3g; gZhF4: exit(1); goto SmJ6I; aKNcM: $KBWiO = get_gump_validators(); goto r5cXU; x2e__: foreach ($KBWiO as $DV4a3 => $VHpfx) { goto T92_m; p3YIb: if (!($VHpfx["\x72\x75\154\145"] !== $Kvmsa[$DV4a3]["\x72\x75\154\145"])) { goto cC9Ov; } goto eTOeg; ClKtF: $WZIOx[] = sprintf("\104\157\x63\x73\40\42\45\163\42\40\166\141\x6c\151\144\x61\x74\157\162\x20\144\145\163\x63\162\x69\160\164\151\157\156\40\151\163\40\42\x25\x73\x22\x20\x62\165\164\x20\x69\x74\40\163\150\x6f\165\x6c\x64\x20\x62\x65\40\42\45\x73\42", $DV4a3, $Kvmsa[$DV4a3]["\x64\x65\x73\143\x72\x69\x70\164\151\x6f\156"], $VHpfx["\144\145\163\143\162\x69\x70\164\x69\x6f\156"]); goto Mt5zy; T92_m: if (isset($Kvmsa[$DV4a3])) { goto o38DP; } goto H8CSK; jM7me: cC9Ov: goto Lt0GD; Mt5zy: Hmstr: goto jjeZc; Lt0GD: if (!($VHpfx["\144\145\163\x63\162\151\x70\x74\x69\157\156"] !== $Kvmsa[$DV4a3]["\x64\145\163\143\x72\x69\x70\x74\151\157\156"])) { goto Hmstr; } goto ClKtF; H8CSK: $WZIOx[] = sprintf("\42\45\x73\42\40\166\141\154\x69\x64\x61\x74\x6f\x72\40\x65\170\x69\x73\x74\x73\x20\x69\156\40\x47\x55\115\x50\x20\142\x75\x74\40\x6e\x6f\x74\x20\x69\156\40\x64\x6f\x63\163\x21", $DV4a3); goto lapB3; lapB3: goto J14Lq; goto supXk; eTOeg: $WZIOx[] = sprintf("\104\x6f\143\163\x20\42\x25\163\x22\x20\166\x61\154\151\x64\141\164\x6f\162\40\166\x61\x6c\165\145\40\151\163\40\42\45\x73\42\x20\142\165\x74\40\x69\x74\40\x73\x68\x6f\165\x6c\x64\x20\142\145\40\x22\x25\163\x22", $DV4a3, $Kvmsa[$DV4a3]["\x72\x75\154\145"], $VHpfx["\162\165\x6c\x65"]); goto jM7me; supXk: o38DP: goto p3YIb; jjeZc: J14Lq: goto Dl7v1; Dl7v1: } goto RCaMo; ni6ya: $Kvmsa = get_docs_validators(README_FILE); goto aKNcM; mMcsF: goto W8fHW; goto Hu8sQ; TPoz2: print PHP_EOL . "\122\165\156\40\42\x70\x68\x70\40\143\x69\57\x64\165\155\160\137\x76\141\x6c\x69\144\141\x74\157\x72\163\x5f\144\157\x63\163\56\x70\150\160\42\40\164\157\40\146\x69\170\40\x74\x68\x69\163\x21" . PHP_EOL; goto gZhF4; y2o3g: if (count($WZIOx) > 0) { goto SwlW2; } goto yFrUs; x2tni: foreach ($WZIOx as $Hn41u) { print sprintf("\342\xae\x95\40\45\x73", $Hn41u) . PHP_EOL; EBu2z: } goto jScCQ; Hu8sQ: SwlW2: goto x2tni; SmJ6I: W8fHW:

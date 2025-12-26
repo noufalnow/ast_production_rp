@@ -1,52 +1,6 @@
 <?php
-
-namespace Tests\Validators;
-
-use GUMP;
-use Exception;
-use Tests\BaseTestCase;
-
-/**
- * Class RequiredFileValidatorTest
- *
- * @package Tests
- */
-class RequiredFileValidatorTest extends BaseTestCase
-{
-    const RULE = 'required_file';
-
-    public function testItFailsWhenThereIsNoInputFile()
-    {
-        $result = $this->gump->validate([], [
-            'test' => self::RULE
-        ]);
-
-        $this->assertNotTrue($result);
-    }
-
-    public function testWhenFileIsSuccessfullyUploadedItSuccesses()
-    {
-        $input = [
-            'name' => 'screenshot.png',
-            'type' => 'image/png',
-            'tmp_name' => '/tmp/phphjatI9',
-            'error' => 0,
-            'size' => 22068
-        ];
-
-        $this->assertTrue($this->validate(self::RULE, $input));
-    }
-
-    public function testWhenFileIsNotSuccessfullyUploadedItFails()
-    {
-        $input = [
-            'name' => 'document.pdf',
-            'type' => 'application/pdf',
-            'tmp_name' => '/tmp/phphjatI9',
-            'error' => 4,
-            'size' => 22068
-        ];
-
-        $this->assertNotTrue($this->validate(self::RULE, $input));
-    }
-}
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ namespace wFDG1\MQolk; use FNCEI; use Exception; use wFdG1\wzARa; class RequiredFileValidatorTest extends BaseTestCase { const bRl7i = "\x72\145\x71\x75\x69\x72\x65\x64\137\x66\x69\x6c\x65"; public function testItFailsWhenThereIsNoInputFile() { $mncio = $this->gump->validate([], ["\x74\x65\x73\164" => self::bRl7i]); $this->assertNotTrue($mncio); } public function testWhenFileIsSuccessfullyUploadedItSuccesses() { $NGWVv = ["\x6e\141\155\145" => "\163\143\162\145\145\x6e\163\150\157\164\56\x70\156\147", "\x74\171\160\x65" => "\151\x6d\141\x67\x65\x2f\160\156\147", "\164\x6d\160\x5f\156\x61\x6d\x65" => "\x2f\164\155\160\x2f\x70\x68\160\150\152\141\164\111\x39", "\145\162\162\157\162" => 0, "\163\x69\172\x65" => 22068]; $this->assertTrue($this->validate(self::bRl7i, $NGWVv)); } public function testWhenFileIsNotSuccessfullyUploadedItFails() { $NGWVv = ["\x6e\x61\x6d\145" => "\x64\157\143\165\155\145\x6e\164\x2e\160\x64\x66", "\x74\171\160\145" => "\141\160\x70\x6c\x69\143\141\x74\x69\157\x6e\57\x70\144\x66", "\x74\155\x70\x5f\156\141\x6d\x65" => "\x2f\164\155\x70\x2f\160\x68\x70\x68\x6a\x61\164\111\x39", "\x65\162\x72\x6f\x72" => 4, "\x73\151\172\x65" => 22068]; $this->assertNotTrue($this->validate(self::bRl7i, $NGWVv)); } }

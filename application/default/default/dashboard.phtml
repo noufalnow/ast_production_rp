@@ -7,7 +7,7 @@
 		<!-- CONTAINER -->
 		<div class="main-container container-fluid">
 			<!-- PAGE-HEADER -->
-			<div class="page-header">
+			<div class="page-header" style="margin: 1.5rem 0rem 0rem;">
 				<div>
 					<h1 class="page-title">Dashboard</h1>
 					<ol class="breadcrumb">
@@ -44,6 +44,34 @@
             ?>
 
 <div class="pivot-wrapper">
+
+<form name="form" method="post" id="pivot_filter">
+    <div class="row g-2 align-items-end" style="margin-bottom: 5px;">
+
+        <div class="col-lg-3">
+            <label class="form-label">CLIENT</label>
+            <?=$this->form->f_client->show()?>
+        </div>
+
+        <div class="col-lg-3">
+            <label class="form-label">PROJECT</label>
+            <?=$this->form->f_project->show()?>
+        </div>
+
+        <!-- <div class="col-lg-auto">
+            <button type="submit" title="Select Project"
+                    class="btn border px-2"
+                    style="padding-top:5px;padding-bottom:5px;margin-bottom:0;color:#296f16;border:1px solid #28538c;">
+                <i class="fa fa-folder-open"></i>
+            </button>
+
+        </div> -->
+
+
+    </div>
+</form>
+
+<?php if($this->projectId):?>
     <div class="pivot-scroll">
         <table class="pivot-table" id="report_table">
                         <tr>
@@ -116,6 +144,9 @@
                     </tbody>
                 </table>
             </div>
+            
+            <?php endif;?>
+            
             </div>
 
 
@@ -388,6 +419,20 @@ new Chart(document.getElementById('expensePieChart'), {
     },
     plugins: [ChartDataLabels]
 });
+
+
+
+function projectSubmit()
+{
+    if (suppressAutoSubmit) return;
+
+    var el = document.getElementById('f_project');
+    if (!el || !el.form) return;
+
+    el.form.submit();
+}
+
+
 
 </script>
 

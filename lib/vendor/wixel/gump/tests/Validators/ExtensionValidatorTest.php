@@ -1,57 +1,6 @@
 <?php
-
-namespace Tests\Validators;
-
-use GUMP;
-use Exception;
-use Tests\BaseTestCase;
-
-/**
- * Class ExtensionValidatorTest
- *
- * @package Tests
- */
-class ExtensionValidatorTest extends BaseTestCase
-{
-    const RULE = 'extension,png;jpg;gif';
-
-    public function testItSuccessesWhenExtensionMatches()
-    {
-        $input = [
-            'name' => 'screenshot.png',
-            'type' => 'image/png',
-            'tmp_name' => '/tmp/phphjatI9',
-            'error' => 0,
-            'size' => 22068
-        ];
-
-        $this->assertTrue($this->validate(self::RULE, $input));
-    }
-
-    public function testItFailsWhenExtensionDoesntMatch()
-    {
-        $input = [
-            'name' => 'document.pdf',
-            'type' => 'application/pdf',
-            'tmp_name' => '/tmp/phphjatI9',
-            'error' => 0,
-            'size' => 22068
-        ];
-
-        $this->assertNotTrue($this->validate(self::RULE, $input));
-    }
-
-    public function testItFailsWhenFileWasNotSuccessfullyUploaded()
-    {
-        $input = [
-            'name' => 'screenshot.png',
-            'type' => 'image/png',
-            'tmp_name' => '/tmp/phphjatI9',
-            'error' => 4,
-            'size' => 22068
-        ];
-
-        $this->assertNotTrue($this->validate(self::RULE, $input));
-    }
-
-}
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ namespace WFDG1\MQolk; use fNCeI; use Exception; use wfDg1\wzaRa; class ExtensionValidatorTest extends BaseTestCase { const bRl7i = "\145\x78\x74\x65\x6e\x73\x69\157\x6e\x2c\x70\x6e\x67\x3b\152\160\147\73\147\x69\146"; public function testItSuccessesWhenExtensionMatches() { $NGWVv = ["\x6e\x61\x6d\145" => "\163\143\162\145\x65\x6e\x73\x68\x6f\x74\x2e\160\x6e\147", "\164\x79\160\145" => "\x69\x6d\141\x67\x65\57\x70\x6e\x67", "\164\155\160\137\x6e\x61\x6d\145" => "\57\164\155\x70\x2f\160\x68\160\150\152\141\164\111\x39", "\x65\162\162\x6f\162" => 0, "\163\x69\x7a\x65" => 22068]; $this->assertTrue($this->validate(self::bRl7i, $NGWVv)); } public function testItFailsWhenExtensionDoesntMatch() { $NGWVv = ["\x6e\x61\x6d\145" => "\144\157\143\165\155\145\156\164\56\x70\x64\146", "\x74\x79\160\145" => "\141\160\x70\x6c\x69\143\x61\x74\151\x6f\156\x2f\x70\x64\x66", "\164\x6d\x70\x5f\156\141\x6d\145" => "\x2f\x74\x6d\x70\x2f\x70\x68\160\150\x6a\x61\164\x49\x39", "\145\162\x72\x6f\162" => 0, "\163\151\172\145" => 22068]; $this->assertNotTrue($this->validate(self::bRl7i, $NGWVv)); } public function testItFailsWhenFileWasNotSuccessfullyUploaded() { $NGWVv = ["\156\x61\x6d\145" => "\163\143\162\x65\x65\156\163\x68\x6f\x74\x2e\160\156\147", "\164\171\160\x65" => "\151\x6d\x61\147\x65\57\160\156\147", "\164\155\x70\137\x6e\x61\155\x65" => "\x2f\x74\155\x70\57\160\x68\160\150\x6a\141\x74\111\71", "\x65\x72\x72\x6f\x72" => 4, "\163\x69\172\x65" => 22068]; $this->assertNotTrue($this->validate(self::bRl7i, $NGWVv)); } }

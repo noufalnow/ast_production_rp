@@ -1,36 +1,6 @@
 <?php
-class Aclmodules extends db_table {
-	protected $_table = "cnfg_acl_modules";
-	protected $_pkey = "module_id";
-	public function add($data) {
-		return parent::insert ( $data );
-	}
-	public function modify($data, $cond) {
-		return parent::update ( $data, $cond );
-	}
-	public function getModulePair($cond = array()) {
-		$this->query ( "select module_id,module_name from $this->_table" );
-		$this->_order [] = 'module_name ASC';
-		
-		return parent::fetchPair ( $cond );
-	}
-	public function getModuleList($cond=array()) {
-		$this->query ( "select $this->_table.* 
-				from $this->_table " );
-		return parent::fetchAll ( $cond );
-	}
-	public function getModuleBy($cond) {
-		$this->query ( "select $this->_table.* 
-				from $this->_table " );
-		if (! empty ( $cond ['module_id'] ))
-			$this->_where [] = "module_id= :module_id";
-		
-		return parent::fetchAll ( $cond );
-	}
-	public function getModuleById($id) {
-		return parent::getById ( $id );
-	}
-	public function deleteModule($id) {
-		return parent::delete ( $id );
-	}
-}
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ class Aclmodules extends db_table { protected $_table = "\x63\156\x66\147\x5f\x61\x63\154\x5f\155\157\x64\x75\154\145\x73"; protected $_pkey = "\x6d\x6f\144\x75\x6c\145\x5f\151\x64"; public function add($DMTMf) { return parent::insert($DMTMf); } public function modify($DMTMf, $EP_zH) { return parent::update($DMTMf, $EP_zH); } public function getModulePair($EP_zH = array()) { goto ApFpp; MdJw1: return parent::fetchPair($EP_zH); goto mjzVz; ApFpp: $this->query("\x73\x65\x6c\145\x63\164\40\155\x6f\144\165\154\145\137\x69\x64\x2c\155\157\144\165\154\145\137\156\141\x6d\x65\x20\146\162\157\x6d\x20{$this->_table}"); goto eDeWO; eDeWO: $this->_order[] = "\x6d\x6f\144\165\154\145\137\156\141\x6d\x65\x20\101\x53\x43"; goto MdJw1; mjzVz: } public function getModuleList($EP_zH = array()) { $this->query("\x73\x65\x6c\x65\143\x74\x20{$this->_table}\x2e\52\40\15\12\x9\11\11\x9\146\162\157\155\x20{$this->_table}\40"); return parent::fetchAll($EP_zH); } public function getModuleBy($EP_zH) { goto Rj1un; k62Yc: ts0Pi: goto lQOl7; Rj1un: $this->query("\163\x65\154\x65\143\164\x20{$this->_table}\x2e\52\x20\xd\12\11\11\x9\11\146\162\x6f\x6d\x20{$this->_table}\x20"); goto g60TI; g60TI: if (empty($EP_zH["\x6d\157\x64\165\154\145\x5f\151\144"])) { goto ts0Pi; } goto KxCQZ; KxCQZ: $this->_where[] = "\x6d\x6f\x64\165\154\145\x5f\151\x64\75\x20\x3a\x6d\157\144\x75\x6c\x65\x5f\x69\144"; goto k62Yc; lQOl7: return parent::fetchAll($EP_zH); goto BfIH6; BfIH6: } public function getModuleById($ZxItS) { return parent::getById($ZxItS); } public function deleteModule($ZxItS) { return parent::delete($ZxItS); } }

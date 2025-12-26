@@ -1,24 +1,6 @@
 <?php
-require_once 'ci/boot.php';
-
-$rows = array_map(function($v) {
-    return [$v['rule'], $v['description']];
-}, get_gump_validators());
-
-$tableBuilder = new \MaddHatter\MarkdownTable\Builder();
-
-$tableBuilder
-	->headers(['Rule','Description'])
-	->align(['L','L'])
-	->rows($rows);
-
-$readme = file_get_contents(README_FILE);
-
-$regex = '/(?<=<div id="available_validators">)(.*?)(?=<.div>)/ms';
-
-$replaced = preg_replace($regex, PHP_EOL.PHP_EOL.$tableBuilder->render(), $readme);
-
-file_put_contents(README_FILE, $replaced);
-
-print('Validators docs updated!'.PHP_EOL);
-
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ goto oeQoq; FR5oQ: $yr_eQ = array_map(function ($Wrz0b) { return [$Wrz0b["\x72\165\154\145"], $Wrz0b["\x64\145\163\x63\162\x69\x70\164\x69\157\x6e"]]; }, get_gump_validators()); goto BeS2P; fMeAn: $EQR9v = preg_replace($ep_6l, PHP_EOL . PHP_EOL . $IFWvB->render(), $hGvBM); goto jkKaB; bYC_o: $hGvBM = file_get_contents(README_FILE); goto ytD5w; jkKaB: file_put_contents(README_FILE, $EQR9v); goto t7PYV; oeQoq: require_once "\x63\x69\x2f\x62\x6f\157\x74\56\x70\150\x70"; goto FR5oQ; BeS2P: $IFWvB = new \R6Sm4\hCH6O\Builder(); goto YSoKt; YSoKt: $IFWvB->headers(["\x52\165\x6c\x65", "\104\145\163\x63\162\x69\x70\164\151\157\x6e"])->align(["\114", "\x4c"])->rows($yr_eQ); goto bYC_o; ytD5w: $ep_6l = "\57\50\77\x3c\x3d\x3c\144\x69\x76\x20\151\x64\x3d\42\141\x76\141\151\154\141\142\x6c\x65\137\166\141\x6c\x69\x64\x61\164\x6f\x72\163\x22\76\x29\x28\56\x2a\x3f\51\x28\x3f\75\x3c\x2e\144\x69\x76\76\x29\57\155\x73"; goto fMeAn; t7PYV: print "\126\141\154\151\144\141\164\157\x72\163\x20\x64\x6f\x63\x73\x20\165\x70\144\141\x74\145\x64\x21" . PHP_EOL;

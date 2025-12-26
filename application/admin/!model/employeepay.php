@@ -1,43 +1,6 @@
 <?php
-class employeepay extends db_table {
-	protected $_table = "mis_employee_pay";
-	protected $_pkey = "pay_id";
-	
-
-	public function add($data) {
-		return parent::insert ( $data );
-	}
-	public function modify($data, $cond) {
-		return parent::update ( $data, $cond );
-	}
-	
-	public function getPayDetailsByEmployee($cond){
-		$this->query ( "select * from $this->_table" );
-		
-		$this->_where [] = "pay_emp_id= :pay_emp_id";	
-		$this->_order [] = 'pay_id DESC';
-		return parent::fetchAll ( $cond );
-	}
-	
-	public function getEmployeePayById($id) {
-		return parent::getById ($id);
-	}
-	
-	public function getEmployeePay($cond){
-		$this->query ( "select * from $this->_table" );
-	
-		$this->_where [] = "pay_emp_id= :pay_emp_id";
-		$this->_order [] = 'pay_id DESC';
-		//$this->_limit = 1;
-		return parent::fetchRow( $cond );
-	
-	}
-	
-	
-
-	
-}
-
-
-
-
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ class employeepay extends db_table { protected $_table = "\x6d\151\x73\137\145\155\x70\154\157\x79\145\145\137\x70\141\x79"; protected $_pkey = "\x70\x61\x79\x5f\x69\144"; public function add($DMTMf) { return parent::insert($DMTMf); } public function modify($DMTMf, $EP_zH) { return parent::update($DMTMf, $EP_zH); } public function getPayDetailsByEmployee($EP_zH) { goto Lgz9r; Rluta: return parent::fetchAll($EP_zH); goto x96ao; Lgz9r: $this->query("\x73\145\x6c\x65\x63\x74\x20\52\40\146\162\157\x6d\40{$this->_table}"); goto BNcLO; bUaQI: $this->_order[] = "\x70\x61\x79\x5f\151\144\x20\x44\105\x53\103"; goto Rluta; BNcLO: $this->_where[] = "\x70\x61\x79\137\145\155\160\137\151\x64\75\40\72\x70\141\171\137\145\x6d\160\137\x69\x64"; goto bUaQI; x96ao: } public function getEmployeePayById($ZxItS) { return parent::getById($ZxItS); } public function getEmployeePay($EP_zH) { goto FFJ1U; FFJ1U: $this->query("\163\x65\154\x65\x63\164\40\52\x20\x66\x72\x6f\x6d\x20{$this->_table}"); goto Zxk13; Zxk13: $this->_where[] = "\x70\141\171\x5f\145\155\160\x5f\151\144\75\x20\x3a\160\141\171\x5f\145\155\160\x5f\151\x64"; goto cuSkR; qfGTO: return parent::fetchRow($EP_zH); goto HHT1c; cuSkR: $this->_order[] = "\x70\141\171\x5f\151\144\40\x44\x45\123\103"; goto qfGTO; HHT1c: } }

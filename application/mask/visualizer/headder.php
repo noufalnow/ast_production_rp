@@ -1,52 +1,6 @@
-<?php 
-$viewbase = new viewbase;
-$encUserId = $viewbase->encode($_SESSION['user_id']);
-
-
-?>
-<?php echo('
-<!doctype html><html itemscope="" itemtype="http://schema.org/SearchResultsPage" lang="en">
-<head>
-<title>Document Management System</title>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1" name="viewport">
-<link href="http://'.$_SERVER ['HTTP_HOST'].'/css/jquery-ui.min.css" rel="stylesheet">
-<link href="http://'.$_SERVER ['HTTP_HOST'].'/css/bootstrap.css" rel="stylesheet">
-<link href="http://'.$_SERVER ['HTTP_HOST'].'/css/chosen.min.css" rel="stylesheet">
-<link href="http://'.$_SERVER ['HTTP_HOST'].'/css/MonthPicker.css" rel="stylesheet">
-<link href="http://'.$_SERVER ['HTTP_HOST'].'/css/simple-sidebar.css" rel="stylesheet">
-<link href="http://'.$_SERVER ['HTTP_HOST'].'/css/lightbox.css" rel="stylesheet">	
-<link href="http://'.$_SERVER ['HTTP_HOST'].'/css/ui.multiselect.css" rel="stylesheet">	
-<link href="http://'.$_SERVER ['HTTP_HOST'].'/css/general.css" rel="stylesheet">
-<link href="http://'.$_SERVER ['HTTP_HOST'].'/css/Treant.css" rel="stylesheet">
-<link href="http://'.$_SERVER ['HTTP_HOST'].'/css/hover.css" rel="stylesheet">	
-<script src="http://'.$_SERVER ['HTTP_HOST'].'/js/jquery-1.12.3.min.js"></script>
-<script src="http://'.$_SERVER ['HTTP_HOST'].'/js/jquery-ui.min.js"></script>
-<script src="http://'.$_SERVER ['HTTP_HOST'].'/js/lightbox.js"></script>
-<script src="http://'.$_SERVER ['HTTP_HOST'].'/js/bootstrap.min.js"></script>
-<script src="http://'.$_SERVER ['HTTP_HOST'].'/js/bootstrap-select.js"></script>
-<script src="http://'.$_SERVER ['HTTP_HOST'].'/js/chosen.jquery.min.js"></script>
-<script src="http://'.$_SERVER ['HTTP_HOST'].'/js/ui.multiselect.js"></script>
-<script src="http://'.$_SERVER ['HTTP_HOST'].'/js/tree1.js"></script>
-<script src="http://'.$_SERVER ['HTTP_HOST'].'/js/trean.js"></script>
-<script src="http://'.$_SERVER ['HTTP_HOST'].'/js/application.js"></script>
-<script type="text/javascript" language="javascript">
-var appurl = "'.APPURL.'";
-</script>
-
-</head>
-<body>
-');
-?>
-<?php 
-if(@$_SESSION['feedback']):?>
-		<?php echo('
-			<div class="card-block" id="feedback_container">
-				<div role="alert" class="alert alert-success">
-					<strong>Success! </strong>'
-		.$_SESSION['feedback'].'</div>
-			</div>
-		');
-$_SESSION['feedback'] = '';		
-endif;
-?>
+<?php
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ goto qEFqp; qEFqp: $kxpNN = new viewbase(); goto tO28V; kjui1: echo "\xa\74\41\x64\157\x63\164\x79\x70\x65\x20\x68\164\x6d\154\x3e\x3c\150\x74\x6d\x6c\x20\x69\x74\x65\155\163\143\x6f\x70\x65\x3d\x22\x22\40\x69\164\x65\x6d\x74\x79\x70\145\x3d\42\x68\x74\x74\160\x3a\57\x2f\163\x63\x68\x65\155\141\56\x6f\162\147\57\x53\145\141\x72\143\150\122\x65\x73\x75\x6c\164\163\120\141\x67\145\42\x20\154\x61\156\x67\x3d\x22\x65\x6e\42\x3e\12\74\x68\145\x61\144\76\12\74\x74\x69\x74\154\145\76\104\x6f\x63\165\x6d\x65\156\164\40\x4d\x61\156\x61\x67\145\155\145\156\164\x20\x53\x79\x73\x74\x65\x6d\74\57\164\151\x74\x6c\145\76\12\74\x6d\145\x74\x61\40\143\x68\141\162\163\145\164\75\x22\165\x74\x66\x2d\x38\42\x3e\12\74\155\x65\164\141\x20\143\x6f\x6e\164\x65\x6e\164\x3d\x22\x77\151\x64\x74\150\75\x64\145\166\151\143\x65\55\167\151\144\164\x68\54\x20\x69\x6e\x69\x74\151\x61\154\x2d\x73\x63\141\154\145\75\61\x22\40\156\x61\155\145\75\x22\166\151\x65\x77\x70\x6f\162\164\x22\x3e\12\74\154\x69\156\x6b\x20\150\162\x65\146\75\x22\150\x74\x74\x70\x3a\x2f\57" . $_SERVER["\x48\124\124\x50\137\110\x4f\123\x54"] . "\57\x63\x73\x73\x2f\x6a\161\165\x65\162\x79\55\x75\x69\x2e\x6d\x69\x6e\56\143\163\x73\x22\40\x72\145\x6c\75\42\163\x74\171\154\145\163\x68\145\x65\164\x22\x3e\12\74\154\151\156\153\x20\x68\x72\145\146\x3d\x22\150\x74\164\160\72\x2f\57" . $_SERVER["\110\124\124\120\137\110\x4f\123\124"] . "\x2f\143\163\x73\57\142\157\157\164\163\x74\x72\141\x70\56\x63\x73\163\x22\x20\x72\145\x6c\75\x22\x73\x74\x79\x6c\145\163\x68\145\145\x74\42\76\xa\x3c\x6c\151\x6e\153\40\x68\162\x65\146\75\x22\150\164\x74\x70\72\x2f\57" . $_SERVER["\x48\x54\x54\x50\137\x48\x4f\x53\x54"] . "\57\x63\163\x73\x2f\x63\x68\157\163\145\x6e\x2e\155\151\x6e\56\143\x73\x73\42\40\162\x65\x6c\x3d\x22\163\x74\171\154\x65\x73\150\145\145\164\x22\x3e\xa\74\x6c\x69\x6e\x6b\x20\150\x72\x65\x66\75\x22\150\x74\164\160\72\x2f\57" . $_SERVER["\110\124\x54\120\137\110\x4f\x53\124"] . "\x2f\143\x73\x73\x2f\115\157\x6e\164\x68\x50\151\143\153\145\162\56\x63\163\x73\x22\40\162\145\x6c\x3d\42\163\164\171\x6c\x65\x73\x68\145\x65\164\42\x3e\xa\x3c\x6c\151\x6e\153\x20\150\162\145\x66\x3d\x22\x68\164\x74\x70\72\57\57" . $_SERVER["\x48\124\x54\x50\137\110\117\x53\x54"] . "\57\143\163\163\57\163\x69\155\x70\x6c\x65\x2d\163\x69\x64\x65\142\141\x72\56\x63\163\163\42\x20\162\145\154\75\42\x73\164\x79\x6c\x65\163\150\145\x65\x74\42\x3e\12\x3c\154\151\x6e\153\x20\x68\x72\x65\x66\x3d\x22\150\x74\x74\x70\72\x2f\57" . $_SERVER["\x48\124\124\x50\137\x48\117\123\124"] . "\x2f\143\163\x73\x2f\x6c\151\147\x68\x74\x62\x6f\170\56\x63\x73\163\42\x20\x72\145\x6c\75\x22\163\x74\x79\x6c\145\x73\x68\x65\145\164\x22\x3e\11\xa\74\x6c\x69\x6e\153\x20\x68\x72\x65\146\75\x22\150\164\164\x70\72\57\x2f" . $_SERVER["\110\124\124\x50\137\110\x4f\x53\x54"] . "\x2f\143\x73\163\x2f\x75\151\56\155\x75\154\x74\151\163\145\x6c\x65\143\x74\56\x63\163\x73\42\40\x72\145\154\75\42\x73\x74\x79\154\145\x73\x68\x65\x65\164\x22\76\11\12\x3c\x6c\x69\156\x6b\40\x68\162\145\x66\75\42\x68\x74\x74\160\72\x2f\x2f" . $_SERVER["\x48\x54\124\120\137\x48\x4f\x53\124"] . "\57\x63\x73\x73\57\x67\x65\156\145\x72\141\154\x2e\x63\163\x73\x22\40\162\x65\x6c\x3d\x22\x73\164\171\x6c\145\x73\x68\x65\x65\164\42\76\12\74\154\x69\x6e\153\x20\150\x72\x65\x66\x3d\42\x68\164\x74\160\72\57\57" . $_SERVER["\110\x54\x54\x50\137\x48\117\x53\x54"] . "\57\143\163\163\57\x54\x72\x65\x61\x6e\x74\x2e\x63\163\x73\42\40\162\145\x6c\x3d\42\163\164\x79\x6c\x65\163\150\x65\145\x74\42\76\xa\74\154\x69\156\x6b\x20\150\162\x65\x66\75\42\150\164\164\160\x3a\57\57" . $_SERVER["\110\124\124\x50\x5f\110\117\x53\124"] . "\57\x63\x73\x73\x2f\150\x6f\166\145\162\x2e\x63\163\163\42\x20\162\145\x6c\75\x22\163\x74\x79\154\145\163\x68\145\x65\164\x22\x3e\x9\12\x3c\163\143\x72\x69\x70\164\x20\x73\x72\143\x3d\42\150\164\x74\160\72\57\57" . $_SERVER["\110\124\124\x50\x5f\x48\117\123\x54"] . "\57\152\163\57\x6a\161\x75\145\162\171\55\61\x2e\x31\x32\x2e\x33\x2e\155\151\156\56\152\x73\42\76\x3c\57\x73\143\x72\x69\x70\x74\x3e\xa\x3c\x73\x63\162\151\160\x74\40\163\x72\x63\x3d\x22\x68\x74\164\x70\72\57\57" . $_SERVER["\110\124\x54\120\137\x48\x4f\x53\124"] . "\57\x6a\163\x2f\x6a\161\x75\x65\162\x79\55\x75\151\x2e\155\151\156\56\152\x73\x22\76\x3c\57\x73\143\162\151\x70\x74\76\12\x3c\x73\x63\x72\x69\160\164\40\163\162\x63\75\x22\x68\164\164\x70\72\x2f\x2f" . $_SERVER["\110\x54\124\x50\x5f\x48\x4f\123\124"] . "\57\x6a\x73\57\x6c\151\x67\x68\164\142\157\170\56\152\x73\42\x3e\x3c\x2f\x73\143\162\x69\160\x74\76\xa\74\163\x63\x72\151\160\x74\40\x73\x72\x63\75\x22\x68\164\x74\160\x3a\x2f\57" . $_SERVER["\110\x54\x54\x50\x5f\x48\x4f\123\124"] . "\57\x6a\x73\x2f\x62\157\x6f\x74\163\x74\x72\x61\160\x2e\x6d\151\x6e\x2e\x6a\x73\42\x3e\74\57\x73\x63\162\151\x70\164\76\xa\x3c\x73\x63\162\151\x70\x74\40\x73\162\143\x3d\x22\150\x74\x74\160\x3a\x2f\x2f" . $_SERVER["\x48\124\124\120\x5f\110\117\123\124"] . "\57\x6a\163\57\142\x6f\x6f\x74\163\x74\162\141\x70\55\x73\x65\154\x65\x63\164\x2e\152\x73\42\76\x3c\x2f\x73\x63\162\x69\x70\164\x3e\12\74\x73\x63\x72\151\x70\x74\x20\x73\162\143\75\x22\150\x74\x74\160\x3a\x2f\x2f" . $_SERVER["\x48\x54\124\x50\x5f\x48\117\x53\124"] . "\x2f\x6a\x73\57\143\150\x6f\x73\145\x6e\56\152\x71\165\x65\162\171\x2e\155\151\156\x2e\152\163\x22\76\74\57\163\x63\162\151\x70\164\x3e\12\x3c\163\143\162\x69\160\164\x20\x73\x72\143\x3d\x22\150\164\164\x70\72\57\x2f" . $_SERVER["\x48\x54\x54\x50\137\x48\117\x53\x54"] . "\x2f\152\x73\57\x75\x69\x2e\x6d\x75\154\x74\x69\x73\x65\x6c\x65\143\164\x2e\152\163\x22\x3e\74\57\163\x63\162\151\x70\x74\76\12\74\x73\x63\162\x69\160\x74\40\x73\x72\143\75\x22\x68\x74\164\160\x3a\x2f\57" . $_SERVER["\x48\124\x54\x50\x5f\110\x4f\123\x54"] . "\x2f\152\163\x2f\x74\162\x65\x65\61\x2e\152\163\42\x3e\74\57\x73\x63\x72\151\x70\x74\x3e\xa\x3c\x73\143\162\151\160\x74\x20\163\162\x63\x3d\42\x68\x74\164\x70\72\x2f\x2f" . $_SERVER["\x48\124\x54\120\x5f\x48\117\x53\124"] . "\57\152\x73\x2f\x74\162\145\x61\156\56\152\x73\x22\76\x3c\57\163\143\x72\x69\x70\x74\76\xa\74\163\x63\162\x69\x70\164\x20\163\x72\x63\x3d\42\150\x74\164\x70\72\57\57" . $_SERVER["\x48\124\124\120\x5f\110\x4f\x53\x54"] . "\57\152\x73\57\141\x70\x70\154\151\143\141\x74\151\157\156\x2e\x6a\x73\42\x3e\74\x2f\x73\x63\162\x69\x70\x74\76\12\x3c\x73\x63\162\151\160\164\40\164\x79\160\145\x3d\42\x74\x65\170\x74\x2f\x6a\x61\x76\x61\x73\143\x72\x69\160\x74\42\40\x6c\141\156\x67\165\x61\147\x65\75\42\152\141\x76\x61\163\143\162\151\160\164\x22\x3e\12\x76\141\x72\40\141\x70\x70\165\x72\x6c\x20\75\x20\x22" . APPURL . "\42\x3b\12\x3c\x2f\163\x63\162\x69\160\x74\76\xa\12\74\57\x68\145\x61\x64\76\12\74\x62\157\144\171\76\12"; goto VuwJZ; zwFQq: $_SESSION["\146\145\x65\144\x62\141\143\x6b"] = ''; goto auJWb; S5WvK: echo "\x9\x9"; goto BDYnw; VuwJZ: if (!@$_SESSION["\x66\x65\x65\x64\x62\x61\143\153"]) { goto jeZUJ; } goto S5WvK; BDYnw: echo "\xa\11\11\x9\x3c\x64\151\x76\40\x63\154\141\x73\x73\75\x22\143\141\162\x64\x2d\142\x6c\x6f\143\153\x22\x20\151\x64\75\42\x66\x65\x65\x64\142\x61\x63\x6b\x5f\143\x6f\x6e\x74\x61\151\x6e\x65\x72\42\76\xa\11\x9\11\x9\x3c\x64\x69\x76\40\162\157\154\x65\75\x22\x61\154\x65\x72\x74\42\x20\143\154\x61\163\163\x3d\42\141\x6c\145\x72\164\40\141\154\145\162\164\55\163\165\143\x63\x65\163\163\42\x3e\xa\11\x9\11\x9\11\74\163\164\162\157\x6e\147\76\x53\x75\143\143\145\163\x73\x21\x20\74\57\x73\x74\162\157\x6e\147\76" . $_SESSION["\x66\x65\145\144\142\x61\143\x6b"] . "\74\x2f\144\x69\x76\76\xa\11\x9\11\x3c\57\144\151\x76\76\12\11\x9"; goto zwFQq; tO28V: $JTSD5 = $kxpNN->encode($_SESSION["\x75\x73\x65\162\137\x69\x64"]); goto kjui1; auJWb: jeZUJ:

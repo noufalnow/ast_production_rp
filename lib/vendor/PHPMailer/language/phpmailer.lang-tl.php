@@ -1,28 +1,6 @@
 <?php
-
-/**
- * Tagalog PHPMailer language file: refer to English translation for definitive list
- *
- *   @package PHPMailer
- *   @author Adriane Justine Tan <eidoriantan@gmail.com>
- */
-
-$PHPMAILER_LANG['authenticate']         = 'SMTP Error: Hindi mapatotohanan.';
-$PHPMAILER_LANG['connect_host']         = 'SMTP Error: Hindi makakonekta sa SMTP host.';
-$PHPMAILER_LANG['data_not_accepted']    = 'SMTP Error: Ang datos ay hindi naitanggap.';
-$PHPMAILER_LANG['empty_message']        = 'Walang laman ang mensahe';
-$PHPMAILER_LANG['encoding']             = 'Hindi alam ang encoding: ';
-$PHPMAILER_LANG['execute']              = 'Hindi maisasagawa: ';
-$PHPMAILER_LANG['file_access']          = 'Hindi ma-access ang file: ';
-$PHPMAILER_LANG['file_open']            = 'File Error: Hindi mabuksan ang file: ';
-$PHPMAILER_LANG['from_failed']          = 'Ang sumusunod na address ay nabigo: ';
-$PHPMAILER_LANG['instantiate']          = 'Hindi maisimulan ang instance ng mail function.';
-$PHPMAILER_LANG['invalid_address']      = 'Hindi wasto ang address na naibigay: ';
-$PHPMAILER_LANG['mailer_not_supported'] = 'Ang mailer ay hindi suportado.';
-$PHPMAILER_LANG['provide_address']      = 'Kailangan mong magbigay ng kahit isang email address na tatanggap.';
-$PHPMAILER_LANG['recipients_failed']    = 'SMTP Error: Ang mga sumusunod na tatanggap ay nabigo: ';
-$PHPMAILER_LANG['signing']              = 'Hindi ma-sign: ';
-$PHPMAILER_LANG['smtp_connect_failed']  = 'Ang SMTP connect() ay nabigo.';
-$PHPMAILER_LANG['smtp_error']           = 'Ang server ng SMTP ay nabigo: ';
-$PHPMAILER_LANG['variable_set']         = 'Hindi matatakda o ma-reset ang mga variables: ';
-$PHPMAILER_LANG['extension_missing']    = 'Nawawala ang extension: ';
+/*   __________________________________________________
+    |  ##CreativeSol Management Information System##   |
+    |__________________________________________________|
+*/
+ goto TIjcc; TLpqq: $E25eS["\x66\x69\154\145\137\141\143\x63\x65\x73\163"] = "\x48\x69\x6e\x64\151\40\x6d\x61\x2d\x61\x63\x63\145\x73\x73\x20\141\156\147\40\146\x69\x6c\x65\72\x20"; goto Wz8qn; CFJM1: $E25eS["\163\151\147\x6e\151\x6e\x67"] = "\x48\151\x6e\x64\x69\40\x6d\x61\x2d\163\x69\147\156\72\x20"; goto k0cz6; tdFUA: $E25eS["\151\x6e\x76\141\x6c\x69\x64\137\141\144\144\162\x65\x73\163"] = "\110\151\x6e\144\x69\40\x77\x61\163\x74\x6f\x20\141\x6e\147\40\x61\144\x64\x72\145\x73\x73\x20\x6e\141\x20\x6e\x61\x69\x62\151\x67\141\x79\x3a\40"; goto e0U5t; k0cz6: $E25eS["\x73\x6d\164\160\x5f\143\157\x6e\x6e\145\x63\x74\137\x66\x61\151\154\x65\144"] = "\x41\156\x67\40\x53\115\124\x50\40\143\x6f\156\156\x65\143\164\50\x29\40\x61\x79\40\x6e\141\x62\151\x67\157\56"; goto Els8y; Wz8qn: $E25eS["\146\x69\154\x65\x5f\x6f\160\145\x6e"] = "\106\151\x6c\x65\x20\105\x72\162\157\162\72\x20\110\151\156\144\151\x20\155\x61\142\165\153\x73\x61\156\40\141\156\x67\x20\x66\x69\154\x65\x3a\x20"; goto MwJtB; vOTo8: $E25eS["\143\x6f\156\156\x65\x63\164\x5f\x68\157\163\x74"] = "\123\115\124\120\40\x45\162\x72\x6f\x72\x3a\x20\x48\x69\156\144\x69\40\155\x61\153\141\x6b\x6f\156\145\x6b\x74\x61\x20\x73\141\40\x53\115\x54\x50\x20\x68\x6f\163\164\x2e"; goto f5Bx4; ku0SI: $E25eS["\x65\156\x63\x6f\x64\151\x6e\147"] = "\x48\151\x6e\x64\x69\x20\x61\154\x61\155\40\141\x6e\147\x20\x65\156\x63\x6f\x64\151\x6e\147\x3a\x20"; goto bwAHI; TIjcc: $E25eS["\x61\x75\164\150\x65\156\164\x69\x63\x61\164\145"] = "\x53\x4d\124\120\40\105\162\x72\157\x72\72\x20\110\x69\x6e\144\x69\40\x6d\141\x70\x61\164\157\164\x6f\x68\x61\x6e\x61\156\x2e"; goto vOTo8; e0U5t: $E25eS["\155\x61\151\154\145\162\137\156\157\x74\137\x73\x75\x70\x70\157\x72\164\145\x64"] = "\x41\156\147\x20\x6d\141\x69\154\145\162\40\141\171\40\150\151\156\x64\x69\40\163\x75\x70\x6f\162\164\141\144\157\56"; goto yPyN7; MwJtB: $E25eS["\x66\162\x6f\x6d\x5f\x66\x61\x69\x6c\145\x64"] = "\101\156\x67\x20\x73\x75\155\x75\163\165\156\157\144\x20\x6e\x61\x20\141\x64\x64\162\145\x73\163\40\141\x79\x20\x6e\141\x62\151\x67\x6f\x3a\40"; goto OieP8; bwAHI: $E25eS["\145\x78\145\143\165\x74\145"] = "\x48\151\156\x64\x69\40\x6d\141\151\x73\x61\163\x61\147\x61\167\141\x3a\x20"; goto TLpqq; f5Bx4: $E25eS["\144\x61\x74\141\137\156\x6f\164\x5f\141\x63\143\x65\x70\x74\145\144"] = "\123\x4d\x54\x50\40\105\162\x72\157\x72\72\40\x41\x6e\x67\x20\144\x61\164\x6f\x73\40\x61\171\x20\x68\x69\156\144\151\x20\156\141\x69\x74\x61\x6e\147\147\x61\160\x2e"; goto ZtGnH; y5VUV: $E25eS["\x76\141\162\151\x61\x62\154\145\137\x73\x65\x74"] = "\x48\151\x6e\x64\x69\x20\x6d\141\x74\x61\164\x61\153\144\x61\x20\157\40\x6d\x61\x2d\162\145\163\145\x74\40\141\x6e\x67\40\x6d\147\x61\40\166\141\162\x69\x61\142\x6c\x65\x73\x3a\40"; goto obCtq; yPyN7: $E25eS["\x70\x72\157\166\x69\144\145\x5f\141\x64\144\162\x65\163\163"] = "\x4b\x61\x69\x6c\x61\156\x67\x61\x6e\40\x6d\x6f\156\147\40\155\x61\x67\x62\151\147\141\x79\x20\156\x67\x20\x6b\x61\x68\151\x74\40\x69\163\141\156\147\40\145\155\x61\151\154\x20\141\x64\144\162\145\163\163\x20\x6e\x61\40\164\141\164\x61\x6e\x67\147\x61\x70\56"; goto MHRgF; ZtGnH: $E25eS["\x65\155\x70\x74\x79\x5f\155\x65\x73\x73\x61\x67\145"] = "\x57\141\154\x61\x6e\x67\x20\154\141\155\141\x6e\40\141\x6e\x67\x20\155\145\x6e\x73\141\150\145"; goto ku0SI; Els8y: $E25eS["\163\x6d\164\x70\137\145\x72\x72\x6f\x72"] = "\x41\x6e\147\x20\163\145\x72\166\x65\x72\40\x6e\147\40\x53\115\x54\x50\40\x61\171\x20\x6e\141\x62\151\147\157\72\40"; goto y5VUV; MHRgF: $E25eS["\162\145\143\x69\160\x69\x65\x6e\164\x73\x5f\146\141\x69\154\145\x64"] = "\x53\115\124\x50\x20\105\162\162\157\162\72\40\101\x6e\x67\x20\155\147\141\40\x73\x75\x6d\165\x73\165\156\157\x64\40\x6e\141\40\x74\141\164\x61\x6e\x67\147\x61\160\40\141\x79\40\156\141\x62\x69\147\x6f\x3a\x20"; goto CFJM1; OieP8: $E25eS["\x69\x6e\x73\x74\x61\156\164\151\x61\164\x65"] = "\110\x69\156\x64\151\40\x6d\141\x69\x73\151\x6d\165\154\141\x6e\40\x61\156\x67\x20\151\x6e\163\164\x61\x6e\143\x65\40\x6e\147\x20\x6d\141\151\154\x20\x66\x75\156\x63\164\x69\157\x6e\56"; goto tdFUA; obCtq: $E25eS["\145\170\164\145\x6e\163\151\157\156\x5f\155\151\163\163\x69\156\x67"] = "\116\x61\167\141\167\141\154\141\40\141\x6e\147\x20\145\170\164\x65\x6e\x73\x69\157\156\72\x20";
