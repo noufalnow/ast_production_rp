@@ -421,7 +421,7 @@ function resetSelect(selectId, placeholder = 'Select Child Category') {
 
 
 
-let suppressAutoSubmit = false;
+let suppressAutoSubmit = false; //
 
 function getJaxData(refId, refElement, url, refParam, pType)
 {
