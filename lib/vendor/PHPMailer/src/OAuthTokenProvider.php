@@ -3,4 +3,4 @@
     |  ##CreativeSol Management Information System##   |
     |__________________________________________________|
 */
- namespace PHPMailer\PHPMailer; interface bOWCB { public function getOauth64(); }
+ namespace PHPMailer\PHPMailer; interface kt8N3 { public function getOauth64(); }

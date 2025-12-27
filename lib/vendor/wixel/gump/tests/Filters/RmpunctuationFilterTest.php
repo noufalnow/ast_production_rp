@@ -3,4 +3,4 @@
     |  ##CreativeSol Management Information System##   |
     |__________________________________________________|
 */
- namespace WFdg1\u5KgH; use fncei; use Exception; use WFdG1\WzARa; class RmpunctuationFilterTest extends BaseTestCase { const zm3Yu = "\162\x6d\x70\x75\x6e\x63\x74\165\x61\164\151\157\156"; public function testSuccess($NGWVv, $mGlcM) { $mncio = $this->filter(self::zm3Yu, $NGWVv); $this->assertEquals($mGlcM, $mncio); } public function successProvider() { return [["\x68\145\x6c\154\x6f\77\41\72\x3b", "\150\145\154\154\157"]]; } }
+ namespace Us2xW\urBq3; use zM6Fh; use Exception; use uS2xw\hMYHv; class RmpunctuationFilterTest extends BaseTestCase { const bw_cL = "\x72\155\160\x75\x6e\x63\164\165\141\x74\x69\x6f\x6e"; public function testSuccess($ZAc7f, $fEwIA) { $AyT6U = $this->filter(self::bw_cL, $ZAc7f); $this->assertEquals($fEwIA, $AyT6U); } public function successProvider() { return [["\150\x65\154\154\157\x3f\41\x3a\73", "\x68\x65\x6c\154\x6f"]]; } }

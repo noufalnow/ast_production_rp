@@ -3,4 +3,4 @@
     |  ##CreativeSol Management Information System##   |
     |__________________________________________________|
 */
- namespace WFdg1; use FnCeI; use Exception; class StaticFilterInputTest extends BaseTestCase { public function testStaticFilterInputCall() { $mncio = GUMP::filter_input(["\x6f\x74\150\x65\x72" => "\164\145\x78\x74"], ["\x6f\x74\150\145\x72" => "\165\160\x70\x65\x72\137\x63\x61\x73\x65"]); $this->assertEquals(["\x6f\164\x68\x65\162" => "\124\105\x58\124"], $mncio); } }
+ namespace Us2xw; use zm6fh; use Exception; class StaticFilterInputTest extends BaseTestCase { public function testStaticFilterInputCall() { $AyT6U = GUMP::filter_input(["\x6f\164\150\145\x72" => "\x74\x65\170\164"], ["\157\x74\x68\x65\162" => "\165\x70\x70\x65\162\137\143\141\163\145"]); $this->assertEquals(["\x6f\x74\150\145\x72" => "\x54\105\130\x54"], $AyT6U); } }

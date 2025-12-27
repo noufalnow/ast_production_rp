@@ -3,4 +3,4 @@
     |  ##CreativeSol Management Information System##   |
     |__________________________________________________|
 */
- namespace Wfdg1\U5KgH; use fnCEI; use Exception; use wfdg1\WZaRa; class SanitizeNumbersFilterTest extends BaseTestCase { const zm3Yu = "\x73\x61\156\x69\164\x69\x7a\145\x5f\156\165\x6d\x62\145\x72\163"; public function testSuccess($NGWVv, $mGlcM) { $mncio = $this->filter(self::zm3Yu, $NGWVv); $this->assertEquals($mGlcM, $mncio); } public function successProvider() { return [[1, 1], ["\x31\x2e\62\141", 12], ["\x2d\61", "\55\x31"], [4.2, 42]]; } }
+ namespace US2XW\uRbq3; use zM6Fh; use Exception; use uS2xw\hMyHv; class SanitizeNumbersFilterTest extends BaseTestCase { const bw_cL = "\x73\141\x6e\151\164\151\172\145\137\x6e\165\x6d\x62\145\162\x73"; public function testSuccess($ZAc7f, $fEwIA) { $AyT6U = $this->filter(self::bw_cL, $ZAc7f); $this->assertEquals($fEwIA, $AyT6U); } public function successProvider() { return [[1, 1], ["\61\x2e\x32\141", 12], ["\x2d\61", "\x2d\61"], [4.2, 42]]; } }
